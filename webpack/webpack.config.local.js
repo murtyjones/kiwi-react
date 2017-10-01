@@ -1,0 +1,49 @@
+'use strict'
+
+const path = require('path')
+const webpack = require('webpack')
+const localConfig = require('../config/default.json')
+
+process.env.BABEL_ENV = 'local-webpack'
+module.exports = {
+  devtool: 'cheap-module-source-map',
+  context: path.join(__dirname, '../'),
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client',
+    './src/Main.js'
+  ],
+  output: {
+    path: path.join(__dirname, '../build/js'),
+    filename: 'bundle.js',
+    publicPath: '/build/js/'
+  },
+  module: {
+    rules: [{
+      test: /\.js$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: 'babel-loader'
+    }, {
+      test: /\.json$/,
+      loader: 'json-loader'
+    }]
+  },
+  plugins: [
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    })
+  ],
+  externals: {
+    config: JSON.stringify(localConfig)
+  },
+  node: {
+    fs: "empty"
+  },
+  resolve: {
+    alias: {
+      'handlebars' : 'handlebars/dist/handlebars.js'
+    }
+  }
+}

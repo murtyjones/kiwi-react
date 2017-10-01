@@ -1,0 +1,11 @@
+{
+  "firebase": {
+    "apiKey": "AIzaSyCCThKIWFYoTgcYHInMtHN0k5J_jv27S0Y",
+    "authDomain": "kiwi-react.firebaseapp.com",
+    "databaseURL": "https://kiwi-react.firebaseio.com",
+    "projectId": "kiwi-react",
+    "storageBucket": "kiwi-react.appspot.com",
+    "messagingSenderId": "630075552174"
+  },
+  "api" : "http://localhost:8080"
+}

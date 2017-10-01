@@ -1,0 +1,29 @@
+{
+  "plugins": [
+    "esformatter-jsx",
+    "esformatter-quotes",
+    "esformatter-dot-notation",
+    "esformatter-ignore"
+  ],
+  "quotes": {
+    "type": "single",
+    "avoidEscape": true
+  },
+  "jsx": {
+    "formatJSX": true,
+    "attrsOnSameLineAsTag": false,
+    "maxAttrsOnTag": 3,
+    "firstAttributeOnSameLine": true,
+    "alignWithFirstAttribute": false,
+    "spaceInJSXExpressionContainers": " ",
+    "htmlOptions": {}
+  },
+  "indent": {
+    "value": "  "
+  },
+  "whiteSpace": {
+    "before": {
+      "IfStatementConditionalOpening": 0
+    }
+  }
+}
