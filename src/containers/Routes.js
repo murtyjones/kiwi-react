@@ -8,11 +8,20 @@ import { isEmpty }  from 'lodash'
 import { Promise as BluebirdPromise } from 'bluebird'
 import Config from 'config'
 
+import LoginOrRegister from '../LoginOrRegister/LoginOrRegister'
+
+
+/**
+ * Routing Components
+ */
+import AuthenticatedRoute from './AuthenticatedRoute'
+
 
 /**
  * Route Components/Containers
  */
 import Home from './Home'
+import Dashboard from './Dashboard'
 
 class App extends Component {
   constructor(props) {
@@ -20,6 +29,7 @@ class App extends Component {
   }
 
   render() {
+    const { isLoggedIn } = this.props
     const mainClassName = cns('activePage')
 
     return (
@@ -31,6 +41,9 @@ class App extends Component {
         <div className={ mainClassName }>
           <Switch>
             <Route path='/' exact component={ Home } />
+            <Route path='/login' exact component={ LoginOrRegister } />
+            <Route path='/register' exact component={ LoginOrRegister } />
+            <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
           </Switch>
         </div>
 
@@ -40,4 +53,13 @@ class App extends Component {
 }
 
 export const AppComponent = App
-export default withRouter(connect(null, null)(App))
+
+const mapStateToProps = (state) => {
+  const { auth: { isLoggedIn } } = state;
+
+  return {
+    isLoggedIn
+  }
+}
+
+export default withRouter(connect(mapStateToProps, null)(App))
