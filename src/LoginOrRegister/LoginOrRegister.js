@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter, Redirect, Route } from 'react-router-dom'
-import { get } from 'lodash'
+import { get, find } from 'lodash'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 
@@ -16,6 +16,9 @@ import RegisterForm from './RegisterForm'
 class Home extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      switchText: ''
+    }
   }
 
   static propTypes = {
@@ -23,6 +26,12 @@ class Home extends Component {
     signInWithEmailAndPassword: T.func,
     createUserWithEmailAndPassword: T.func,
     signout: T.func
+  }
+
+  componentWillMount() {
+    const { match } = this.props
+    const switchText = match.path === '/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
+    this.setState({ switchText })
   }
 
   handleLoginSubmit = async(v) => {
@@ -71,35 +80,42 @@ class Home extends Component {
     )
   }
 
+  renderRegisterForm = () => {
+    return (
+      <RegisterForm onSubmit={ this.handleRegisterSubmit } />
+    )
+  }
+
+  switchTabs = () => {
+    const { match } = this.props
+    const to = match.path === '/login' ? '/register' : '/login'
+    this.props.history.push(to)
+  }
+
   render() {
     const { isLoggedIn, match } = this.props
-    console.log(match)
-
+    const { switchText } = this.state
 
     const availableRoutes = [
       {
         path: '/login',
         component: this.renderLoginForm
+      },
+      {
+        path: '/register',
+        component: this.renderRegisterForm
       }
     ]
 
-    const currentRoute = get(availableRoutes, { path: match.path })
+    const currentRoute = find(availableRoutes, { path: match.path })
+
+    const ComponentToRender = () => { return currentRoute.component() }
 
     return (
       <div>
+        <span onClick={ this.switchTabs }>{ switchText }</span>
+        <ComponentToRender />
 
-        { currentRoute.component() }
-
-        {/*<LoginForm onSubmit={ this.handleLoginSubmit } />*/}
-        {/*<br />*/}
-        {/*<br />*/}
-        {/*<div onClick={ this.pingServer }>PING SERVER</div>*/}
-        {/*<br />*/}
-        {/*<br />*/}
-        {/*<RegisterForm onSubmit={ this.handleRegisterSubmit } />*/}
-        {/*<br />*/}
-        {/*<br />*/}
-        {/*{ isLoggedIn && <div onClick={ this.handleSignout }>SIGNOUT</div> }*/}
       </div>
     )
   }
