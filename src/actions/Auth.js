@@ -29,8 +29,7 @@ export const createUserWithEmailAndPassword = (params) => {
         method: 'POST',
         body: {
           firebaseUID: success.uid,
-          email,
-          password
+          email
         }
       }
       ApiFetch(`${config.api}/api/register`, params)
