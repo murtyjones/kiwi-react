@@ -1,10 +1,4 @@
-/*
- *
- * OutputArea
- *
- */
-
-import React from 'react';
+import React, { Component } from 'react';
 import { Card, CardText } from 'material-ui/Card';
 
 import ErrorMessage from './ErrorMessage';
@@ -16,28 +10,49 @@ const styles = {
   },
 }
 
-function OutputArea(props) {
-  const { editorOutput, errorMsg } = props;
-  return (
-    !errorMsg ? (
-      <Card
-        style={styles.base}
-        data-intro={introEditorOutput}
-        data-step={3}
-        data-position={'auto'}
-      >
-        <CardText>
+export default class OutputArea extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: this.props.value || ''
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ value: nextProps.value })
+  }
+
+  handleChange = (e) => {
+    this.setState({ value: e.target.value })
+  }
+
+  render() {
+    const { editorOutput, errorMsg, refInput, prompt = '' } = this.props
+    const { value } = this.state
+    return (
+      !errorMsg ? (
+        <Card
+          style={styles.base}
+          data-intro={introEditorOutput}
+          data-step={3}
+          data-position={'auto'}
+        >
+          <CardText>
           <pre>
             { editorOutput }
           </pre>
-        </CardText>
-      </Card>
-    ) : (
-      <ErrorMessage
-        style={styles.base}
-        errorMsg={errorMsg}
-      />
+            { prompt  }
+            <textarea className='rawInput' ref={ refInput } onChange={ this.handleChange } value={ value } />
+          </CardText>
+        </Card>
+      ) : (
+        <ErrorMessage
+          style={styles.base}
+          errorMsg={errorMsg}
+        />
+      )
     )
-  )
+  }
+
 }
-export default OutputArea;
+//export default OutputArea;
