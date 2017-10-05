@@ -5,6 +5,8 @@ import { Row, Col } from 'react-grid-system';
 import { introJs } from 'intro.js';
 import 'intro.js/introjs.css';
 import 'intro.js/themes/introjs-flattener.css';
+import BluebirdPromise from 'bluebird'
+
 
 import EditorControls from './EditorControls';
 import InputArea from './InputArea';
@@ -12,13 +14,6 @@ import OutputArea from './OutputArea';
 import Resources from './Resources';
 import renderIf from 'render-if';
 import { Tabs, Tab } from 'material-ui/Tabs';
-
-
-class Field extends Component {
-  render() {
-    return <input className='fug' type='text' ref={ this.props.inputRef }>{ this.props.text }</input>
-  }
-}
 
 
 let codeOutput = ''
@@ -102,7 +97,7 @@ class CodeEditor extends Component {
       console.log('huh')
       let answer = e.target.value.split("\n")[0]
       this.setState({ prompt: '', rawInputValue: '', rawResolve: null })
-      rawResolve(prompt + answer)
+      rawResolve(answer)
     }
   }
 
@@ -112,10 +107,16 @@ class CodeEditor extends Component {
     skulpt.pre = "output";
     skulpt.configure({
       inputfun: (prompt) => {
+        if(prompt) codeOutput += prompt
         return new Promise((resolve,reject) => {
           this.setState({ prompt, rawResolve: resolve })
           const elem = this.inputText
           this.inputText.focus()
+          // When adding the event listener, to prevent multiple
+          // firings, the callback argument below should be done
+          // without including any args, which is why we
+          // pass the resolve function to state.
+          // reference:  https://stackoverflow.com/questions/26146108/addeventlistener-firing-multiple-times-for-the-same-handle-when-passing-in-argum
           elem.addEventListener('keyup', this._listener, true)
         })
       },

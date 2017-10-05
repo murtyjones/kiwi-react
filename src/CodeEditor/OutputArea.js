@@ -10,6 +10,26 @@ const styles = {
   },
 }
 
+const promptStyle = {
+  height: '16px',
+  fontSize:  '14px',
+  float: 'left'
+}
+
+const textareaStyle = {
+  padding: '0px',
+  border: '0px',
+  fontSize: '14px',
+  color: 'rgb(253, 220, 255)',
+  margin: '0px',
+  height: '16px',
+  fontFamily: 'Roboto, sans-serif',
+  width: '179px',
+  background: 'transparent',
+  resize: 'none',
+  outline: 'none'
+}
+
 export default class OutputArea extends Component {
   constructor(props) {
     super(props)
@@ -32,17 +52,19 @@ export default class OutputArea extends Component {
     return (
       !errorMsg ? (
         <Card
-          style={styles.base}
-          data-intro={introEditorOutput}
-          data-step={3}
-          data-position={'auto'}
+          style={ styles.base }
+          data-intro={ introEditorOutput }
+          data-step={ 3 }
+          data-position={ 'auto' }
         >
           <CardText>
-          <pre>
-            { editorOutput }
-          </pre>
-            { prompt  }
-            <textarea className='rawInput' ref={ refInput } onChange={ this.handleChange } value={ value } />
+            <pre>
+              { editorOutput }
+            </pre>
+            <div className="input">
+              <span className="prompt" style={ promptStyle }>{ prompt }</span>
+              <textarea style={ textareaStyle } className='rawInput' ref={ refInput } onChange={ this.handleChange } value={ value } />
+            </div>
           </CardText>
         </Card>
       ) : (
