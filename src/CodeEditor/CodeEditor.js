@@ -30,7 +30,6 @@ class CodeEditor extends Component {
       isResourcesShowing: false,
       changeInput: false,
       tabFocus: 'input',
-      weOnRaw: false,
       answer: '',
       prompt: '',
       rawResolve: null
@@ -94,7 +93,6 @@ class CodeEditor extends Component {
   _listener = (e) => {
     const { prompt, rawResolve } = this.state
     if ((e.keyCode || e.which) === 13) {
-      console.log('huh')
       let answer = e.target.value.split("\n")[0]
       this.setState({ prompt: '', rawInputValue: '', rawResolve: null })
       rawResolve(answer)
@@ -108,6 +106,7 @@ class CodeEditor extends Component {
     skulpt.configure({
       inputfun: (prompt) => {
         if(prompt) codeOutput += prompt
+        this.setState({ editorOutput: codeOutput })
         return new Promise((resolve,reject) => {
           this.setState({ prompt, rawResolve: resolve })
           const elem = this.inputText

@@ -1,19 +1,13 @@
-import React, { Component } from 'react';
-import { Card, CardText } from 'material-ui/Card';
+import React, { Component } from 'react'
+import { Card, CardText } from 'material-ui/Card'
 
-import ErrorMessage from './ErrorMessage';
-import { introEditorOutput } from './introduction';
+import ErrorMessage from './ErrorMessage'
+import { introEditorOutput } from './introduction'
 
 const styles = {
   base: {
     minHeight: '600px',
   },
-}
-
-const promptStyle = {
-  height: '16px',
-  fontSize:  '14px',
-  float: 'left'
 }
 
 const textareaStyle = {
@@ -60,21 +54,23 @@ export default class OutputArea extends Component {
           <CardText>
             <pre>
               { editorOutput }
+              <textarea
+                style={ textareaStyle }
+                className='rawInput'
+                ref={ refInput }
+                onChange={ this.handleChange }
+                value={ value }
+              />
             </pre>
-            <div className="input">
-              <span className="prompt" style={ promptStyle }>{ prompt }</span>
-              <textarea style={ textareaStyle } className='rawInput' ref={ refInput } onChange={ this.handleChange } value={ value } />
-            </div>
           </CardText>
         </Card>
       ) : (
         <ErrorMessage
-          style={styles.base}
-          errorMsg={errorMsg}
+          style={ styles.base }
+          errorMsg={ errorMsg }
         />
       )
     )
   }
 
 }
-//export default OutputArea;
