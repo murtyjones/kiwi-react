@@ -19,7 +19,7 @@ const styles = {
   },
 };
 
-function Resources(props) {
+const Resources = props => {
   const { show, hide } = props;
   const actions = [
     <RaisedButton
@@ -72,14 +72,14 @@ function Resources(props) {
         <Col md={ 6 }>
           { rightCol.map((resource, index) => {
             return (
-              <Card key={resource.title} style={styles.cards}>
+              <Card key={ resource.title } style={ styles.cards }>
                 <CardHeader
-                  title={resource.title}
-                  subtitle={resource.description}
+                  title={ resource.title }
+                  subtitle={ resource.description }
                 />
                 <CardText>
                   <pre>
-                    {getResourceCodeOrURL(resource)}
+                    { getResourceCodeOrURL(resource) }
                   </pre>
                 </CardText>
               </Card>
@@ -90,4 +90,5 @@ function Resources(props) {
     </Dialog>
   )
 }
+
 export default Resources;
