@@ -12,7 +12,7 @@ import pythonKeywords from './Helpers'
 import { introEditorInput } from './introduction'
 
 
-export default class InputArea extends Component {
+export default class EditorInput extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.errorLine) {
       this.refs.editor.codeMirror.removeLineClass((this.props.errorLine - 1), 'wrap', 'error-highlight')

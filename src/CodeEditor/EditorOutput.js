@@ -24,7 +24,7 @@ const textareaStyle = {
   outline: 'none'
 }
 
-export default class OutputArea extends Component {
+export default class EditorOutput extends Component {
   constructor(props) {
     super(props)
     this.state = {
