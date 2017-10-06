@@ -95,6 +95,7 @@ class CodeEditor extends Component {
     if ((e.keyCode || e.which) === 13) {
       let answer = e.target.value.split("\n")[0]
       this.setState({ prompt: '', rawInputValue: '', rawResolve: null })
+      this.inputText.blur()
       rawResolve(answer)
     }
   }

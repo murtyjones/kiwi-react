@@ -17,7 +17,7 @@ const textareaStyle = {
   color: 'rgb(253, 220, 255)',
   margin: '0px',
   height: '16px',
-  fontFamily: 'Roboto, sans-serif',
+  fontFamily: 'monospace',
   width: '179px',
   background: 'transparent',
   resize: 'none',
