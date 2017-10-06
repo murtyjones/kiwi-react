@@ -96,6 +96,7 @@ class CodeEditor extends Component {
       let answer = e.target.value.split("\n")[0]
       this.setState({ prompt: '', rawInputValue: '', rawResolve: null })
       this.inputText.blur()
+      codeOutput += answer + "\n"
       rawResolve(answer)
     }
   }
@@ -106,7 +107,7 @@ class CodeEditor extends Component {
     skulpt.pre = "output";
     skulpt.configure({
       inputfun: (prompt) => {
-        if(prompt) codeOutput += prompt
+        if(prompt) codeOutput += `${prompt} `
         this.setState({ editorOutput: codeOutput })
         return new Promise((resolve,reject) => {
           this.setState({ prompt, rawResolve: resolve })
