@@ -36,8 +36,8 @@ export const createUserWithEmailAndPassword = (params) => {
       dispatch({ type: ACTIONS.REGISTER_SUCCESS, payload: success })
       return success
     } catch (error) {
-      dispatch({ type: ACTIONS.REGISTER_FAILURE, payload: e })
-      throw new Error(e)
+      dispatch({ type: ACTIONS.REGISTER_FAILURE, payload: error })
+      throw new Error(error)
     }
   }
 }
@@ -51,8 +51,8 @@ export const signout = () => {
       dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: success })
       return success
     } catch (error) {
-      dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: e })
-      throw new Error(e)
+      dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: error })
+      throw new Error(error)
     }
   }
 }

@@ -10,17 +10,14 @@ class UserProject extends Component {
   constructor(props) {
     super(props)
   }
-
-  componentWillMount() {
-    const { getUserProject, userProject, match: { params: { id } } } = this.props
-    if(isEmpty(userProject)) {
-      getUserProject({ id })
-    }
-  }
-
   static propTypes = {
     userProject: T.object.isRequired
     , getUserProject: T.func.isRequired
+  }
+
+  componentWillMount() {
+    const { getUserProject, userProject, match: { params: { id } } } = this.props
+    if(isEmpty(userProject)) getUserProject({ id })
   }
 
   render() {

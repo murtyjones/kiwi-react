@@ -87,7 +87,7 @@ export default class AuthService {
   }
 
   static getFirebaseUID() {
-    return window.localStorage.getItem('setFirebaseUID')
+    return window.localStorage.getItem('firebaseUID')
   }
 
   static isAuthenticated() {
