@@ -8,7 +8,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } f
 
 import { ApiFetch } from '../utils/ApiFetch'
 
-import CodeEditor from '../CodeEditor/CodeEditor'
+import Dashboard from '../Dashboard/Dashboard'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Container } from 'react-grid-system';
@@ -58,16 +58,16 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      themeValue: 1,
-      theme: main_theme
+      themeValue: 1
+      , theme: main_theme
     };
   }
 
   static propTypes = {
-    greeting: T.string,
-    signInWithEmailAndPassword: T.func,
-    createUserWithEmailAndPassword: T.func,
-    signout: T.func
+    greeting: T.string
+    , signInWithEmailAndPassword: T.func
+    , createUserWithEmailAndPassword: T.func
+    , signout: T.func
   }
 
   render() {
@@ -77,7 +77,7 @@ class Home extends Component {
         <MuiThemeProvider muiTheme={this.state.theme}>
           <div>
             <Container fluid>
-              <CodeEditor />
+              <Dashboard />
             </Container>
           </div>
         </MuiThemeProvider>
@@ -100,9 +100,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signInWithEmailAndPassword: (params) => dispatch(signInWithEmailAndPassword(params)),
-    createUserWithEmailAndPassword: (params) => dispatch(createUserWithEmailAndPassword(params)),
-    signout: () => dispatch(signout())
+    signInWithEmailAndPassword: (params) => dispatch(signInWithEmailAndPassword(params))
+    , createUserWithEmailAndPassword: (params) => dispatch(createUserWithEmailAndPassword(params))
+    , signout: () => dispatch(signout())
   }
 }
 
