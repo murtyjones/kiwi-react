@@ -8,112 +8,59 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } f
 
 import { ApiFetch } from '../utils/ApiFetch'
 
-const textField = ({ input, label, type, meta: { touched, error } }) =>
-  <div>
-    <label>
-      { label }
-    </label>
-    <div>
-      <input { ...input } placeholder={ label } type={ type } />
-      {/*{ touched && error && <span>{ error }</span> }*/}
-    </div>
-  </div>
+import CodeEditor from '../CodeEditor/CodeEditor'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { Container } from 'react-grid-system';
 
-let LoginForm = props => {
-  const { error, handleSubmit, pristine, reset, submitting } = props
-  return (
-    <form onSubmit={ handleSubmit }>
-      <Field
-        name="email"
-        type="text"
-        component={ textField }
-        label="email"
-      />
-      <Field
-        name="password"
-        type="password"
-        component={ textField }
-        label="password"
-      />
-      { error && <strong>{ error }</strong> }
-      <div>
-        <button type="submit" onClick={ handleSubmit } disabled={ submitting }>
-          Login
-        </button>
-        <button type="button" onClick={ reset } disabled={ pristine || submitting }>
-          Clear Values
-        </button>
-      </div>
-    </form>
-  )
-}
+import { kiwiGreen, kiwiLightGreen, kiwiPurple, kiwiLightPurple,
+  kiwiDarkBlue, kiwiLightRed, kiwiWhite, kiwiYellow, kiwiTurq,
+  kiwiOrange, kiwiLightBlue, kiwiDarkGreen } from './colors';
 
-let RegisterForm = props => {
-  const { error, handleSubmit, pristine, reset, submitting } = props
-  return (
-    <form onSubmit={ handleSubmit }>
-      <Field
-        name="email"
-        type="text"
-        component={ textField }
-        label="email"
-      />
-      <Field
-        name="password"
-        type="password"
-        component={ textField }
-        label="password"
-      />
-      { error && <strong>{ error }</strong> }
-      <div>
-        <button type="submit" onClick={ handleSubmit } disabled={ submitting }>
-          Register
-        </button>
-        <button type="button" onClick={ reset } disabled={ pristine || submitting }>
-          Clear Values
-        </button>
-      </div>
-    </form>
-  )
-}
 
-LoginForm = reduxForm({
-  // a unique name for the form
-  form: 'login',
-  validate: values => {
-    const errors = {}
-    if(!values.email) {
-      errors.email = 'Required!'
-    }
-    if(!values.password) {
-      errors.password = 'Required!'
-    }
-
-    return errors
+const main_theme = getMuiTheme({
+  palette: {
+    primary1Color: kiwiGreen,
+    primary2Color: kiwiLightPurple,
+    accent1Color: kiwiPurple,
+    accent2Color: kiwiLightGreen,
+    textColor: kiwiLightPurple,
+    alternateTextColor: kiwiLightPurple,
+    canvasColor: kiwiPurple
   }
-})(LoginForm)
+});
 
-
-RegisterForm = reduxForm({
-  // a unique name for the form
-  form: 'register',
-  validate: values => {
-    const errors = {}
-    if(!values.email) {
-      errors.email = 'Required!'
-    }
-    if(!values.password) {
-      errors.password = 'Required!'
-    }
-
-    return errors
+const alt_theme1 = getMuiTheme({
+  palette: {
+    primary1Color: kiwiDarkBlue,
+    primary2Color: kiwiWhite,
+    accent1Color: kiwiYellow,
+    accent2Color: kiwiYellow,
+    textColor: "white",
+    alternateTextColor: "white",
+    canvasColor: kiwiYellow
   }
-})(RegisterForm)
+});
 
+const alt_theme2 = getMuiTheme({
+  palette: {
+    primary1Color: kiwiTurq,
+    primary2Color: kiwiOrange,
+    accent1Color: kiwiOrange,
+    accent2Color: kiwiDarkGreen,
+    textColor: kiwiLightBlue,
+    alternateTextColor: kiwiLightBlue,
+    canvasColor:  kiwiOrange
+  }
+});
 
 class Home extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      themeValue: 1,
+      theme: main_theme
+    };
   }
 
   static propTypes = {
@@ -123,60 +70,17 @@ class Home extends Component {
     signout: T.func
   }
 
-  handleLoginSubmit = async(v) => {
-    const { signInWithEmailAndPassword } = this.props
-    const { email, password } = v
-    try {
-      const success = await signInWithEmailAndPassword({ email, password })
-      return success
-    } catch (e) {
-      return e
-    }
-  }
-
-  handleRegisterSubmit = async(v) => {
-    const { createUserWithEmailAndPassword } = this.props
-    const { email, password } = v
-    try {
-      const success = await createUserWithEmailAndPassword({ email, password })
-      return success
-    } catch (e) {
-      return e
-    }
-  }
-
-  handleSignout = async(_) => {
-    const { signout } = this.props
-    try {
-      const success = await signout()
-      return success
-    } catch (e) {
-      return e
-    }
-  }
-
-  pingServer = (v) => {
-    return ApiFetch('http://localhost:8080/api/login', { method: 'POST' }).then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.log(JSON.stringify(err))
-    })
-  }
-
   render() {
     const { isLoggedIn } = this.props
     return (
       <div>
-        <LoginForm onSubmit={ this.handleLoginSubmit } />
-        <br />
-        <br />
-        <div onClick={ this.pingServer }>PING SERVER</div>
-        <br />
-        <br />
-        <RegisterForm onSubmit={ this.handleRegisterSubmit } />
-        <br />
-        <br />
-        { isLoggedIn && <div onClick={ this.handleSignout }>SIGNOUT</div> }
+        <MuiThemeProvider muiTheme={this.state.theme}>
+          <div>
+            <Container fluid>
+              <CodeEditor />
+            </Container>
+          </div>
+        </MuiThemeProvider>
       </div>
     )
   }
