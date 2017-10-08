@@ -8,7 +8,7 @@ import { isEmpty }  from 'lodash'
 import { Promise as BluebirdPromise } from 'bluebird'
 import Config from 'config'
 
-import LoginOrRegister from '../LoginOrRegister/LoginOrRegister'
+import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 
 
 /**
@@ -21,7 +21,7 @@ import AuthenticatedRoute from './AuthenticatedRoute'
  * Route Components/Containers
  */
 import Home from './Home'
-import Dashboard from './Dashboard'
+import Dashboard from './Dashboard/Dashboard'
 
 class App extends Component {
   constructor(props) {

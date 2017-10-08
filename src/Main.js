@@ -5,7 +5,7 @@ import { AppContainer } from 'react-hot-loader'
 import { applyMiddleware, createStore, compose } from 'redux'
 
 import './Polyfills'
-import App from './containers/App'
+import App from './App'
 import reducer from './reducers/index'
 import { setStoreForFetch } from './utils/ApiFetch'
 
@@ -31,8 +31,8 @@ if(module.hot) {
     store.replaceReducer(nextReducer)
   })
 
-  module.hot.accept('./containers/App', () => {
-    const NextApp = require('./containers/App').default
+  module.hot.accept('./App', () => {
+    const NextApp = require('./App').default
     ReactDOM.render(
       <AppContainer>
         <NextApp store={ store } />

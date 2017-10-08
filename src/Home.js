@@ -4,11 +4,11 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from '../actions'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from './actions/index'
 
-import { ApiFetch } from '../utils/ApiFetch'
+import { ApiFetch } from './utils/ApiFetch'
 
-import Dashboard from '../Dashboard/Dashboard'
+import Dashboard from './Dashboard/Dashboard'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Container } from 'react-grid-system';

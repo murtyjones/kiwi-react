@@ -1,29 +1,26 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as T from 'prop-types'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 import Routes from './Routes'
-import ScrollRestoration from '../components/ScrollRestoration'
 
 class App extends Component {
 
   static propTypes = {
-    store: PropTypes.object.isRequired,
+    store: T.object.isRequired
   };
 
-  constructor(props, context) {
-    super(props, context)
+  constructor(props) {
+    super(props)
   }
 
   render() {
     const { store } = this.props;
     return (
       <Provider store={ store }>
-        <Router>
-          <ScrollRestoration>
-            <Routes store={ store } />
-          </ScrollRestoration>
+        <Router onUpdate={ () => window.scrollTo(0, 0) }>
+          <Routes store={ store } />
         </Router>
       </Provider>
     );
