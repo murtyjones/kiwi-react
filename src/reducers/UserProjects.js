@@ -6,6 +6,15 @@ const initialState = {
 
 function userProjects(state = initialState, action) {
   switch (action.type) {
+    case ACTIONS.GET_USER_PROJECT_SUCCESS: {
+      const projectsById = Object.assign({}, state.projectsById, {
+        [action.payload._id]: action.payload
+      })
+      const newState = Object.assign({}, state, {
+        projectsById
+      })
+      return newState
+    }
     case ACTIONS.GET_MANY_USER_PROJECTS_SUCCESS: {
       const projectsById = action.payload.reduce((acc, each) => {
         acc[each._id] = each

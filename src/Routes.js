@@ -22,6 +22,7 @@ import AuthenticatedRoute from './AuthenticatedRoute'
  */
 import Home from './Home'
 import Dashboard from './Dashboard/Dashboard'
+import UserProject from './UserProject/UserProject'
 
 class App extends Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class App extends Component {
             <Route path='/login' exact component={ LoginOrRegister } />
             <Route path='/register' exact component={ LoginOrRegister } />
             <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
+            <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
           </Switch>
         </div>
 

@@ -6,6 +6,8 @@ import { isEmpty } from 'lodash'
 
 import { getManyUserProjects } from '../actions'
 
+import UserProjectWidget from './UserProjectWidget'
+
 class Dashboard extends Component {
   constructor(props) {
     super(props)
@@ -29,7 +31,11 @@ class Dashboard extends Component {
     const { userProjects } = this.props
     return (
       <div>
-        { !isEmpty(userProjects) && Object.values(userProjects).map(each => { return <div>{ each.code }</div> }) }
+        { !isEmpty(userProjects) && Object.values(userProjects)
+          .map(each =>
+            <UserProjectWidget project={ each }/>
+          )
+        }
       </div>
     )
   }
