@@ -44,6 +44,13 @@ class CodeEditor extends Component {
     if (window.location.pathname === '/tutorial') {
       this.runIntro()
     }
+
+    //new code coming from UserProject --Peter
+    if (this.props.CodeInput!=null){
+      this.setState({
+        editorInput: this.props.CodeInput
+      })
+    }
   }
 
   forceUpdate(){

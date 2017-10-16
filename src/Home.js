@@ -35,8 +35,8 @@ const alt_theme1 = getMuiTheme({
     primary2Color: kiwiWhite,
     accent1Color: kiwiYellow,
     accent2Color: kiwiYellow,
-    textColor: "white",
-    alternateTextColor: "white",
+    textColor: "#ffffff",
+    alternateTextColor: "#ffffff",
     canvasColor: kiwiYellow
   }
 });

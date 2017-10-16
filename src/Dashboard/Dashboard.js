@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
-
+import { Link } from 'react-router-dom'
 import { getManyUserProjects } from '../actions'
 
 import UserProjectWidget from './UserProjectWidget'
@@ -27,15 +27,38 @@ class Dashboard extends Component {
     getManyUserProjects()
   }
 
+  newProjectHandler(){
+    console.log('inside newProjectHandler in Dashboard');
+  }
+
   render() {
     const { userProjects } = this.props
+
     return (
       <div>
-        { !isEmpty(userProjects) && Object.values(userProjects)
-          .map(each =>
-            <UserProjectWidget project={ each }/>
-          )
-        }
+        <div>
+          <p>
+            Previous saved projects...
+          </p>
+        </div>
+        <div>
+          { !isEmpty(userProjects) && Object.values(userProjects)
+            .map(each =>
+              <UserProjectWidget project={ each }/>
+            )
+          }
+        </div>
+        <br/>
+        <div>
+          <p>
+            ...or create a new project...
+          </p>
+        </div>
+        <br/>
+        <Link to={ `/project/new` }>New Project</Link>
+        <br/>
+          {/*Lesson stucture will go here*/}
+        <br/>
       </div>
     )
   }

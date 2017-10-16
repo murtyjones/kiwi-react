@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import textField from '../textField'
+import { connect } from 'react-redux'
 
 let LoginForm = props => {
   const { error, handleSubmit, pristine, reset, submitting } = props
@@ -30,6 +31,7 @@ let LoginForm = props => {
     </form>
   )
 }
+
 
 LoginForm = reduxForm({
   // a unique name for the form
