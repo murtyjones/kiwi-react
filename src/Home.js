@@ -8,7 +8,6 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } f
 
 import { ApiFetch } from './utils/ApiFetch'
 
-import Dashboard from './Dashboard/Dashboard'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Container } from 'react-grid-system';
@@ -77,7 +76,7 @@ class Home extends Component {
         <MuiThemeProvider muiTheme={this.state.theme}>
           <div>
             <Container fluid>
-              <Dashboard />
+              Welcome to Kiwi!
             </Container>
           </div>
         </MuiThemeProvider>
