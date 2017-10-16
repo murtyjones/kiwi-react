@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 
@@ -77,6 +77,8 @@ class Home extends Component {
           <div>
             <Container fluid>
               Welcome to Kiwi!
+              <br />
+              <Link to={ "/login" }>Login</Link> or <Link to={ "/register" }>register</Link> to get started!
             </Container>
           </div>
         </MuiThemeProvider>
