@@ -21,8 +21,16 @@ let codeOutput = ''
 class CodeEditor extends Component {
   constructor(props) {
     super(props)
+    //setting editor input from the props hook to UserProject --Peter
+    let editorInputSet
+    if (this.props.CodeInput.code!=null){
+      console.log('value of this.props.CodeInput.code: ', this.props.CodeInput.code);
+      editorInputSet = this.props.CodeInput.code
+    }else{
+      editorInputSet =  '# "Write Your Code Here"'
+    }
     this.state = {
-      editorInput: '# "Write Your Code Here"',
+      editorInput: editorInputSet,
       editorOutput: '',
       errorMsg: '',
       errorLine: null,
@@ -44,16 +52,10 @@ class CodeEditor extends Component {
     if (window.location.pathname === '/tutorial') {
       this.runIntro()
     }
-
-    //new code coming from UserProject --Peter
-    if (this.props.CodeInput!=null){
-      this.setState({
-        editorInput: this.props.CodeInput
-      })
-    }
   }
 
-  forceUpdate(){
+
+  forceUpdateHandler(){
     console.log('inside forceUpdate in the codeEditor')
     let savetext = localStorage.getItem('retrievedText')
     if (savetext){
@@ -181,7 +183,7 @@ class CodeEditor extends Component {
           <Col md={ 12 }>
             <EditorControls
               runCode={ this.runCode }
-              forceUpdate = { this.forceUpdate.bind(this) }
+              forceUpdate = { this.forceUpdateHandler.bind(this) }
               editorInput={ editorInput }
               runIntro={ this.runIntro }
               showResources={ this.toggleResources }

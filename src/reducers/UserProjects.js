@@ -13,6 +13,7 @@ function userProjects(state = initialState, action) {
       const newState = Object.assign({}, state, {
         projectsById
       })
+      console.log('value of userProjects in reducers: ', newState);
       return newState
     }
     case ACTIONS.GET_MANY_USER_PROJECTS_SUCCESS: {
