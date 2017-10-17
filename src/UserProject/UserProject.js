@@ -123,11 +123,11 @@ class UserProject extends Component {
         {renderIf(this.state.userprojectstatus==="full")(
           <div>
           {renderIf(this.state.newproject===false)(
-            <CodeEditor CodeInput={this.props.userProject}
+            <CodeEditor codeInput={this.props.userProject}
               newproject={this.state.newproject} saveHandler={this.saveHandler.bind(this)}/>
           )}
           {renderIf(this.state.newproject===true)(
-            <CodeEditor CodeInput={{code: null}}
+            <CodeEditor codeInput={{code: null}}
               newproject = {this.state.newproject} saveHandler={this.saveHandler.bind(this)}/>
           )}
           </div>

@@ -25,9 +25,9 @@ class CodeEditor extends Component {
     super(props)
     //setting editor input from the props hook to UserProject --Peter
     let editorInputSet
-    if (this.props.CodeInput.code!=null){
-      console.log('value of this.props.CodeInput.code: ', this.props.CodeInput.code);
-      editorInputSet = this.props.CodeInput.code
+    if (props.codeInput.code!==null){
+      console.log('value of props.codeInput.code: ', props.codeInput.code);
+      editorInputSet = props.codeInput.code
     }else{
       editorInputSet =  '# "Write Your Code Here"'
     }
@@ -61,7 +61,7 @@ class CodeEditor extends Component {
   //callback hook to saveHandler in UserProject --Peter
   handleSave(e){
     e.preventDefault()
-    if (this.props.newproject != true){
+    if (this.props.newproject !== true){
       this.props.saveHandler(this.state.editorInput, '')
     }else{
       this.setState({
@@ -216,7 +216,6 @@ class CodeEditor extends Component {
                 actions={modalActions}
                 modal={false}
                 open={this.state.modalOpen}
-                onRequestClose={this.handleClose}
               >
               <TextField
                 hintText="mYcOdEnAmE ~ cHaNgE mE"

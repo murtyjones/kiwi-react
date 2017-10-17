@@ -6,6 +6,8 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from './actions/index'
 
+import { Container } from 'react-grid-system';
+
 import { ApiFetch } from './utils/ApiFetch'
 
 
