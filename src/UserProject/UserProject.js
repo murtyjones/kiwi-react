@@ -15,7 +15,6 @@ import CodeEditor from '../CodeEditor/CodeEditor'
 class UserProject extends Component {
   constructor(props) {
     super(props)
-    console.log(get(props, 'userProject.title', ''))
     this.state = {
       newProject: (props.location.pathname === "/project/new"),
       projectTitle: get(props, 'userProject.title', ''),
