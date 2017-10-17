@@ -19,9 +19,36 @@ const setFetchOptions = (options, body, headers) => {
   }
 }
 
+// I don't know how to use this
+// Suppose I want to send a put request to the backend
+// then I would think I would need based on let { body, headers, data } = options
+
+// const options = {
+//   method:"PUT",
+//   data:{
+//     code: code,
+//     id: id
+//   }
+// }
+
+//However this doesnt work.
+
+//It does work if we have body:{...} instead and I think it has something to do with
+// if (data) {
+//   delete headers['Content-Type']
+//   body = data
+// }
+
+//--Peter
+
+
+
 
 const ApiFetch = (url, options = {}) => {
   let { body, headers, data } = options
+  console.log('inside ApiFetch and body is: ', body);
+  console.log('inside ApiFetch and headers is: ', headers);
+  console.log('inside ApiFetch and data is: ', data);
   return BluebirdPromise.resolve().then(() => {
     if (!is.string(url)) {
       throw new Error("ApiFetch needs a url")
@@ -42,7 +69,7 @@ const ApiFetch = (url, options = {}) => {
 
     let exp = AuthService.getTokenExp() // static method
     const needsRefresh = isTokenNearExpiration(exp)
-    
+
     if (needsRefresh) { // need a new token before sending request
       return AuthService.refreshToken().then(idToken => {
         finalHeaders.Authorization = idToken

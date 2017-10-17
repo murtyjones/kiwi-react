@@ -7,7 +7,9 @@ import 'intro.js/introjs.css'
 import 'intro.js/themes/introjs-flattener.css'
 import BluebirdPromise from 'bluebird'
 
-
+import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/Dialog'
+import TextField from 'material-ui/TextField'
 import EditorControls from './EditorControls'
 import EditorInput from './EditorInput'
 import EditorOutput from './EditorOutput'
@@ -40,7 +42,9 @@ class CodeEditor extends Component {
       answer: '',
       prompt: '',
       rawInputValue: '',
-      rawInputResolve: null
+      rawInputResolve: null,
+      modalOpen: false,
+      codeName: ''
     }
   }
 
@@ -54,6 +58,28 @@ class CodeEditor extends Component {
     }
   }
 
+  //callback hook to saveHandler in UserProject --Peter
+  handleSave(e){
+    e.preventDefault()
+    if (this.props.newproject != true){
+      this.props.saveHandler(this.state.editorInput, '')
+    }else{
+      this.setState({
+        modalOpen: true
+      })
+    }
+  }
+
+  //modal handler being added to deal with code name modal
+
+  handleModalOpen = () => {
+    this.setState({modalOpen: true});
+  };
+
+  handleModalClose = () => {
+    this.setState({modalOpen: false});
+    this.props.saveHandler(this.state.editorInput, this.state.codeName)
+  };
 
   forceUpdateHandler(){
     console.log('inside forceUpdate in the codeEditor')
@@ -173,15 +199,41 @@ class CodeEditor extends Component {
     const inputLabel = tabFocus === 'input' ? "Enter your Python code on here, then click 'START'" : ''
     const outputLabel = tabFocus === 'output' ? 'Check out the results of your Python code here.' : ''
 
+    const modalActions = [
+          <FlatButton
+            label="Ok"
+            primary={true}
+            keyboardFocused={true}
+            onClick={this.handleModalClose}
+          />,
+        ];
+
     return (
       <div>
+
+      <Dialog
+                title="Choose Project Name"
+                actions={modalActions}
+                modal={false}
+                open={this.state.modalOpen}
+                onRequestClose={this.handleClose}
+              >
+              <TextField
+                hintText="mYcOdEnAmE ~ cHaNgE mE"
+                onChange={(e)=>{this.setState({codeName: e.target.value})}}
+              />
+      </Dialog>
+
+
         <Resources
           show={ isResourcesShowing }
           hide={ this.toggleResources }
         />
         <Row>
           <Col md={ 12 }>
+            {/*handleSave hooks to saveHandler in userProjects --Peter*/}
             <EditorControls
+              handleSave={(e)=>{this.handleSave(e)}}
               runCode={ this.runCode }
               forceUpdate = { this.forceUpdateHandler.bind(this) }
               editorInput={ editorInput }

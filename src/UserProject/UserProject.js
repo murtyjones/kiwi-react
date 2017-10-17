@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
 
-import { getUserProject } from '../actions'
+import { getUserProject, putUserProject, postUserProject } from '../actions'
 
 import renderIf from 'render-if'
 
@@ -63,6 +63,7 @@ class UserProject extends Component {
       newproject: null,
       themeValue: 1,
       theme: main_theme,
+      id: null,
       userprojectstatus: "empty"
     }
   }
@@ -85,7 +86,7 @@ class UserProject extends Component {
       })
     }
 
-    if(isEmpty(userProject)){
+    if(isEmpty(userProject) && this.props.location.pathname!="/project/new"){
       this.props.getUserProject({ id })
       console.log('value of this.props: ', this.props);
       console.log('value of userProject: ', this.props.userProject);
@@ -99,17 +100,59 @@ class UserProject extends Component {
     }
   }
 
-  //the reason that this is necessary is that if you hit enter with the projectId in the
-  //url bar it will attempt to render the page before the props are passed back from the redux
-  //controller. It *should* flow through to the state, but then you still have the problem
-  //of the "type here to start coding" boilerplate flashing in with your previous code When
-  //redux finally pops in. Instead, I caused the page to take longer to load. --Peter
+  //the reason that this is necessary is that if you hit enter with the projectId in the url bar it will attempt to render the page before the props are passed back from the redux controller. It *should* flow through to the state, but then you still have the problem of the "type here to start coding" boilerplate flashing in with your previous code When redux finally pops in. Instead, I caused the page to take longer to load. --Peter
   componentWillUpdate(nextProps, nextState) {
-    if (this.state.userprojectstatus==="empty" && !isEmpty(nextProps.userProject)){
+    if (this.state.userprojectstatus==="empty" && this.state.newproject===false && !isEmpty(nextProps.userProject)){
       this.setState({
         userprojectstatus: "full"
       })
     }
+  }
+
+  //Here are the handlers for the code. These are callback hooks into CodeEditor but all the primary logic should remain here. Comment any changes you make in CodeEditor and make them minimal (hooks only!). Consider abstracting the handlers to their own files in this folder if they get too big. --Peter
+
+  //Save issue:
+
+  //We need to decide on what are the exact model objects we pass around
+  //There are inconsistencies
+  //For example,compare
+
+  // value of results from getUserProject in UserProjectController:  [ { _id: '59e505d3e7edfa0205542c09',
+  //   userId: '59d65fda4926671d474a9ea4',
+  //   code: 'print \'hello world\'',
+  //   title: 'hello peter' } ]
+
+  //vs whitelist in models/UserProject.js
+  // let whitelist = {
+  //   code: true
+  //   , title: true
+  //   , description: true
+  //   , updatedAt: true
+  // }
+
+  //ive included code and title so that the basic functionality will work. It asks the user what they want to name their project if it is not a new project, but currently there is no functonality for changing the name of a project that already exists. This is somewhat dependent on how we design the UI.
+
+  saveHandler(code, title){
+    //put for altering previous project, post for creating a new project
+    if (this.state.newproject === true){
+      this.props.postUserProject({code, title})
+    }else{
+      console.log('inside saveHandler for putUserProject');
+      console.log('value of code: ', code);
+      let id = this.props.location.pathname.slice(9,this.props.location.pathname.length)
+      console.log('value of id: ', id);
+      this.props.putUserProject({code, id})
+    }
+    //may want a popup or something that notifies user that the project was saved
+  }
+
+  logOutHandler(){
+
+  }
+
+  //Here we may want to let them navigate back to other pages, but we should consider what logic allows the user to remain on the same page but just load a different project for example (do we navigate back to the dashboard for all of those or not?)
+  navigationHandler(){
+
   }
 
   render() {
@@ -120,12 +163,14 @@ class UserProject extends Component {
           <div>
           {renderIf(this.state.newproject===false)(
             <MuiThemeProvider muiTheme={this.state.theme}>
-              <CodeEditor CodeInput={this.props.userProject}/>
+              <CodeEditor CodeInput={this.props.userProject}
+              newproject={this.state.newproject} saveHandler={this.saveHandler.bind(this)}/>
             </MuiThemeProvider>
           )}
           {renderIf(this.state.newproject===true)(
             <MuiThemeProvider muiTheme={this.state.theme}>
-              <CodeEditor CodeInput={null}/>
+              <CodeEditor CodeInput={{code: null}}
+              newproject = {this.state.newproject} saveHandler={this.saveHandler.bind(this)}/>
             </MuiThemeProvider>
           )}
           </div>
@@ -146,7 +191,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUserProject: (params) => dispatch(getUserProject(params))
+    getUserProject: (params) => dispatch(getUserProject(params)),
+    putUserProject: (params) =>
+    dispatch(putUserProject(params)),
+    postUserProject: (params) =>
+    dispatch(postUserProject(params)),
   }
 }
 
