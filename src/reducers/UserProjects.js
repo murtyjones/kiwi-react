@@ -6,6 +6,7 @@ const initialState = {
 
 function userProjects(state = initialState, action) {
   switch (action.type) {
+    case ACTIONS.POST_USER_PROJECT_SUCCESS:
     case ACTIONS.GET_USER_PROJECT_SUCCESS: {
       const projectsById = Object.assign({}, state.projectsById, {
         [action.payload._id]: action.payload
@@ -13,7 +14,6 @@ function userProjects(state = initialState, action) {
       const newState = Object.assign({}, state, {
         projectsById
       })
-      console.log('value of userProjects in reducers: ', newState);
       return newState
     }
     case ACTIONS.GET_MANY_USER_PROJECTS_SUCCESS: {

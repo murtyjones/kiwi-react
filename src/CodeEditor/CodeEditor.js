@@ -23,28 +23,19 @@ let codeOutput = ''
 class CodeEditor extends Component {
   constructor(props) {
     super(props)
-    //setting editor input from the props hook to UserProject --Peter
-    let editorInputSet
-    if (props.codeInput.code!==null){
-      console.log('value of props.codeInput.code: ', props.codeInput.code);
-      editorInputSet = props.codeInput.code
-    }else{
-      editorInputSet =  '# "Write Your Code Here"'
-    }
     this.state = {
-      editorInput: editorInputSet,
-      editorOutput: '',
-      errorMsg: '',
-      errorLine: null,
-      isResourcesShowing: false,
-      changeInput: false,
-      tabFocus: 'input',
-      answer: '',
-      prompt: '',
-      rawInputValue: '',
-      rawInputResolve: null,
-      modalOpen: false,
-      codeName: ''
+      editorInput: props.codeInput.code || '# Write Your Code Here'
+      , editorOutput: ''
+      , errorMsg: ''
+      , errorLine: null
+      , isResourcesShowing: false
+      , changeInput: false
+      , tabFocus: 'input'
+      , answer: ''
+      , prompt: ''
+      , rawInputValue: ''
+      , rawInputResolve: null
+      , modalOpen: false
     }
   }
 
@@ -58,18 +49,6 @@ class CodeEditor extends Component {
     }
   }
 
-  //callback hook to saveHandler in UserProject --Peter
-  handleSave(e){
-    e.preventDefault()
-    if (this.props.newproject !== true){
-      this.props.saveHandler(this.state.editorInput, '')
-    }else{
-      this.setState({
-        modalOpen: true
-      })
-    }
-  }
-
   //modal handler being added to deal with code name modal
 
   handleModalOpen = () => {
@@ -78,7 +57,7 @@ class CodeEditor extends Component {
 
   handleModalClose = () => {
     this.setState({modalOpen: false});
-    this.props.saveHandler(this.state.editorInput, this.state.codeName)
+    this.props.saveHandler(this.state.editorInput)
   };
 
   forceUpdateHandler(){
@@ -199,31 +178,8 @@ class CodeEditor extends Component {
     const inputLabel = tabFocus === 'input' ? "Enter your Python code on here, then click 'START'" : ''
     const outputLabel = tabFocus === 'output' ? 'Check out the results of your Python code here.' : ''
 
-    const modalActions = [
-          <FlatButton
-            label="Ok"
-            primary={true}
-            keyboardFocused={true}
-            onClick={this.handleModalClose}
-          />,
-        ];
-
     return (
       <div>
-
-      <Dialog
-                title="Choose Project Name"
-                actions={modalActions}
-                modal={false}
-                open={this.state.modalOpen}
-              >
-              <TextField
-                hintText="mYcOdEnAmE ~ cHaNgE mE"
-                onChange={(e)=>{this.setState({codeName: e.target.value})}}
-              />
-      </Dialog>
-
-
         <Resources
           show={ isResourcesShowing }
           hide={ this.toggleResources }
@@ -232,7 +188,7 @@ class CodeEditor extends Component {
           <Col md={ 12 }>
             {/*handleSave hooks to saveHandler in userProjects --Peter*/}
             <EditorControls
-              handleSave={(e)=>{this.handleSave(e)}}
+              handleSave={ e => { this.props.saveHandler(this.state.editorInput) } }
               runCode={ this.runCode }
               forceUpdate = { this.forceUpdateHandler.bind(this) }
               editorInput={ editorInput }
@@ -246,7 +202,7 @@ class CodeEditor extends Component {
               onChange={ this.handleChange }
             >
               <Tab label={ inputLabel } value="input"  />
-              <Tab label={ outputLabel } value="output" />
+              <Tab label={ outputLabel } xvalue="output" />
             </Tabs>
             <Col md={ 6 }>
               <EditorInput

@@ -53,7 +53,7 @@ class EditorControls extends Component {
               style={ styles.button }
               dataIntro={ introSave }
               dataStep={ 4 }
-              onClick={e=>{this.props.handleSave(e)}}
+              onClick={ this.props.handleSave }
             />
           </span>
         ) }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 
 import { getUserProject, putUserProject, postUserProject } from '../actions'
 
@@ -15,10 +15,10 @@ import CodeEditor from '../CodeEditor/CodeEditor'
 class UserProject extends Component {
   constructor(props) {
     super(props)
-    this.state={
-      newproject: null,
-      id: null,
-      userprojectstatus: "empty"
+    this.state = {
+      newProject: (props.location.pathname === "/project/new"),
+      projectTitle: '',
+      projectId: (props.location.pathname === "/project/new") ? null : props.match.params.id
     }
   }
 
@@ -28,42 +28,40 @@ class UserProject extends Component {
   }
 
   componentWillMount() {
-    const { getUserProject, userProject, match: { params: { id } } } = this.props
-    if (this.props.location.pathname==="/project/new"){
-      console.log('value of this.props: ', this.props);
-      this.setState({
-        newproject: true
-      })
-    }else{
-      this.setState({
-        newproject: false
-      })
-    }
+    const { getUserProject, userProject, location: { pathname }, match: { params: { id } } } = this.props
+    const { newProject } = this.state
 
-    if(isEmpty(userProject) && this.props.location.pathname!="/project/new"){
-      this.props.getUserProject({ id })
-      console.log('value of this.props: ', this.props);
-      console.log('value of userProject: ', this.props.userProject);
+    if(!newProject && isEmpty(userProject)) {
+      getUserProject({ id })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(!isEqual(this.props.userProject, nextProps.userProject)) {
       this.setState({
-        userprojectstatus: "empty"
-      })
-    }else{
-      this.setState({
-        userprojectstatus: "full"
+        projectId: nextProps.userProject._id
+        , newProject: false
+        , projectTitle: nextProps.userProject.title
       })
     }
   }
 
-  //the reason that this is necessary is that if you hit enter with the projectId in the url bar it will attempt to render the page before the props are passed back from the redux controller. It *should* flow through to the state, but then you still have the problem of the "type here to start coding" boilerplate flashing in with your previous code When redux finally pops in. Instead, I caused the page to take longer to load. --Peter
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.userprojectstatus==="empty" && this.state.newproject===false && !isEmpty(nextProps.userProject)){
-      this.setState({
-        userprojectstatus: "full"
-      })
-    }
-  }
+  //the reason that this is necessary is that if you hit enter with the projectId
+  // in the url bar it will attempt to render the page before the props are passed
+  // back from the redux controller. It *should* flow through to the state, but then
+  // you still have the problem of the "type here to start coding" boilerplate flashing
+  // in with your previous code When redux finally pops in. Instead, I caused the page to take longer to load. --Peter
+  // componentWillUpdate(nextProps, nextState) {
+  //   const { userProjectStatus, newProject } = this.state
+  //   if (userProjectStatus === "empty" && !newProject && !isEmpty(nextProps.userProject)) {
+  //     this.setState({ userProjectStatus: "full" })
+  //   }
+  // }
 
-  //Here are the handlers for the code. These are callback hooks into CodeEditor but all the primary logic should remain here. Comment any changes you make in CodeEditor and make them minimal (hooks only!). Consider abstracting the handlers to their own files in this folder if they get too big. --Peter
+  //Here are the handlers for the code. These are callback hooks
+  // into CodeEditor but all the primary logic should remain here.
+  // Comment any changes you make in CodeEditor and make them minimal (hooks only!).
+  // Consider abstracting the handlers to their own files in this folder if they get too big. --Peter
 
   //Save issue:
 
@@ -84,21 +82,22 @@ class UserProject extends Component {
   //   , updatedAt: true
   // }
 
-  //ive included code and title so that the basic functionality will work. It asks the user what they want to name their project if it is not a new project, but currently there is no functonality for changing the name of a project that already exists. This is somewhat dependent on how we design the UI. --Peter
+  //ive included code and title so that the basic functionality will work.
+  // It asks the user what they want to name their project if it is not a new project,
+  // but currently there is no functonality for changing the name of a project that already exists.
+  // This is somewhat dependent on how we design the UI. --Peter
 
-  saveHandler(code, title){
-    //put for altering previous project, post for creating a new project --peter
-    let description = "placeholder for now"
-    let updatedAt = Date.now() //How do we want this formatted? --peter
-    if (this.state.newproject === true){
-      this.props.postUserProject({code, title, description, updatedAt})
-    }else{
-      let title = localStorage.getItem("projectTitle")
-      localStorage.removeItem('projectTitle')
-       //find better way latter --peter
-      this.props.putUserProject({code, title, description, updatedAt})
+  saveHandler(code) {
+    console.log()
+    const { newProject, projectTitle } = this.state
+    const id = newProject ? null : this.state.projectId
+    if(newProject) {
+      this.props.postUserProject({ code, title: projectTitle }).then(res => {
+        this.props.history.push(`/project/${res._id}`)
+      })
+    } else {
+      this.props.putUserProject({ id, code, title: projectTitle })
     }
-    //may want a popup or something that notifies user that the project was saved --peter
   }
 
 
@@ -111,27 +110,31 @@ class UserProject extends Component {
 
   }
 
-  //Here we may want to let them navigate back to other pages, but we should consider what logic allows the user to remain on the same page but just load a different project for example (do we navigate back to the dashboard for all of those or not?)
+  //Here we may want to let them navigate back to other pages, but we should
+  // consider what logic allows the user to remain on the same page but just
+  // load a different project for example (do we navigate back to the dashboard for all of those or not?)
   navigationHandler(){
 
   }
 
   render() {
-    const { userProject: { _id } } = this.props
+    const { userProject, userProject: { _id } } = this.props
+    const { newProject } = this.state
+    const isNewOrHasCode = newProject || (!newProject && !!userProject.code)
     return (
       <div>
-        {renderIf(this.state.userprojectstatus==="full")(
-          <div>
-          {renderIf(this.state.newproject===false)(
-            <CodeEditor codeInput={this.props.userProject}
-              newproject={this.state.newproject} saveHandler={this.saveHandler.bind(this)}/>
-          )}
-          {renderIf(this.state.newproject===true)(
-            <CodeEditor codeInput={{code: null}}
-              newproject = {this.state.newproject} saveHandler={this.saveHandler.bind(this)}/>
-          )}
-          </div>
-        )}
+        <input
+          type="text"
+          placeholder="pick your title!"
+          onChange={ (e) => this.setState({ projectTitle: e.target.value }) }
+        />
+        { renderIf(isNewOrHasCode)(
+          <CodeEditor
+            codeInput={ newProject ? { code: null } : userProject }
+            newProject = { newProject }
+            saveHandler={ this.saveHandler.bind(this) }
+          />
+        ) }
       </div>
     )
   }
@@ -148,11 +151,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUserProject: (params) => dispatch(getUserProject(params)),
-    putUserProject: (params) =>
-    dispatch(putUserProject(params)),
-    postUserProject: (params) =>
-    dispatch(postUserProject(params)),
+    getUserProject: (params) => dispatch(getUserProject(params))
+    , putUserProject: (params) => dispatch(putUserProject(params))
+    , postUserProject: (params) => dispatch(postUserProject(params))
   }
 }
 
