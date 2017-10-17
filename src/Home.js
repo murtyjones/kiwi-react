@@ -8,58 +8,11 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } f
 
 import { ApiFetch } from './utils/ApiFetch'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { Container } from 'react-grid-system';
 
-import { kiwiGreen, kiwiLightGreen, kiwiPurple, kiwiLightPurple,
-  kiwiDarkBlue, kiwiLightRed, kiwiWhite, kiwiYellow, kiwiTurq,
-  kiwiOrange, kiwiLightBlue, kiwiDarkGreen } from './colors';
-
-
-const main_theme = getMuiTheme({
-  palette: {
-    primary1Color: kiwiGreen,
-    primary2Color: kiwiLightPurple,
-    accent1Color: kiwiPurple,
-    accent2Color: kiwiLightGreen,
-    textColor: kiwiLightPurple,
-    alternateTextColor: kiwiLightPurple,
-    canvasColor: kiwiPurple
-  }
-});
-
-const alt_theme1 = getMuiTheme({
-  palette: {
-    primary1Color: kiwiDarkBlue,
-    primary2Color: kiwiWhite,
-    accent1Color: kiwiYellow,
-    accent2Color: kiwiYellow,
-    textColor: "#ffffff",
-    alternateTextColor: "#ffffff",
-    canvasColor: kiwiYellow
-  }
-});
-
-const alt_theme2 = getMuiTheme({
-  palette: {
-    primary1Color: kiwiTurq,
-    primary2Color: kiwiOrange,
-    accent1Color: kiwiOrange,
-    accent2Color: kiwiDarkGreen,
-    textColor: kiwiLightBlue,
-    alternateTextColor: kiwiLightBlue,
-    canvasColor:  kiwiOrange
-  }
-});
 
 class Home extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      themeValue: 1
-      , theme: main_theme
-    };
   }
 
   static propTypes = {
@@ -73,15 +26,11 @@ class Home extends Component {
     const { isLoggedIn } = this.props
     return (
       <div>
-        <MuiThemeProvider muiTheme={this.state.theme}>
-          <div>
-            <Container fluid>
-              Welcome to Kiwi!
-              <br />
-              <Link to={ "/login" }>Login</Link> or <Link to={ "/register" }>register</Link> to get started!
-            </Container>
-          </div>
-        </MuiThemeProvider>
+        <Container fluid>
+          Welcome to Kiwi!
+          <br />
+          <Link to={ "/login" }>Login</Link> or <Link to={ "/register" }>register</Link> to get started!
+        </Container>
       </div>
     )
   }

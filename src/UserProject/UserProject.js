@@ -11,58 +11,12 @@ import renderIf from 'render-if'
 import CodeEditor from '../CodeEditor/CodeEditor'
 
 
-//Somehow MuiThemeProvider is getting lost on the way to rendering the components for routes - this is strange, however I *think* its due to Link {Router} from the Dashboard stripping it. Not sure how to resolve other than to redeclare --Peter
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { kiwiGreen, kiwiLightGreen, kiwiPurple, kiwiLightPurple,
-  kiwiDarkBlue, kiwiLightRed, kiwiWhite, kiwiYellow, kiwiTurq,
-  kiwiOrange, kiwiLightBlue, kiwiDarkGreen } from '../colors';
-
-
-const main_theme = getMuiTheme({
-  palette: {
-    primary1Color: kiwiGreen,
-    primary2Color: kiwiLightPurple,
-    accent1Color: kiwiPurple,
-    accent2Color: kiwiLightGreen,
-    textColor: kiwiLightPurple,
-    alternateTextColor: kiwiLightPurple,
-    canvasColor: kiwiPurple
-  }
-});
-
-const alt_theme1 = getMuiTheme({
-  palette: {
-    primary1Color: kiwiDarkBlue,
-    primary2Color: kiwiWhite,
-    accent1Color: kiwiYellow,
-    accent2Color: kiwiYellow,
-    textColor: "#ffffff",
-    alternateTextColor: "#ffffff",
-    canvasColor: kiwiYellow
-  }
-});
-
-const alt_theme2 = getMuiTheme({
-  palette: {
-    primary1Color: kiwiTurq,
-    primary2Color: kiwiOrange,
-    accent1Color: kiwiOrange,
-    accent2Color: kiwiDarkGreen,
-    textColor: kiwiLightBlue,
-    alternateTextColor: kiwiLightBlue,
-    canvasColor:  kiwiOrange
-  }
-});
 
 class UserProject extends Component {
   constructor(props) {
     super(props)
     this.state={
       newproject: null,
-      themeValue: 1,
-      theme: main_theme,
       id: null,
       userprojectstatus: "empty"
     }
@@ -169,16 +123,12 @@ class UserProject extends Component {
         {renderIf(this.state.userprojectstatus==="full")(
           <div>
           {renderIf(this.state.newproject===false)(
-            <MuiThemeProvider muiTheme={this.state.theme}>
-              <CodeEditor CodeInput={this.props.userProject}
+            <CodeEditor CodeInput={this.props.userProject}
               newproject={this.state.newproject} saveHandler={this.saveHandler.bind(this)}/>
-            </MuiThemeProvider>
           )}
           {renderIf(this.state.newproject===true)(
-            <MuiThemeProvider muiTheme={this.state.theme}>
-              <CodeEditor CodeInput={{code: null}}
+            <CodeEditor CodeInput={{code: null}}
               newproject = {this.state.newproject} saveHandler={this.saveHandler.bind(this)}/>
-            </MuiThemeProvider>
           )}
           </div>
         )}
