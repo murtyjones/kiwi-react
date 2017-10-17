@@ -130,23 +130,30 @@ class UserProject extends Component {
   //   , updatedAt: true
   // }
 
-  //ive included code and title so that the basic functionality will work. It asks the user what they want to name their project if it is not a new project, but currently there is no functonality for changing the name of a project that already exists. This is somewhat dependent on how we design the UI.
+  //ive included code and title so that the basic functionality will work. It asks the user what they want to name their project if it is not a new project, but currently there is no functonality for changing the name of a project that already exists. This is somewhat dependent on how we design the UI. --Peter
 
   saveHandler(code, title){
-    //put for altering previous project, post for creating a new project
+    //put for altering previous project, post for creating a new project --peter
+    let description = "placeholder for now"
+    let updatedAt = Date.now() //How do we want this formatted? --peter
     if (this.state.newproject === true){
-      this.props.postUserProject({code, title})
+      this.props.postUserProject({code, title, description, updatedAt})
     }else{
-      console.log('inside saveHandler for putUserProject');
-      console.log('value of code: ', code);
-      let id = this.props.location.pathname.slice(9,this.props.location.pathname.length)
-      console.log('value of id: ', id);
-      this.props.putUserProject({code, id})
+      let title = localStorage.getItem("projectTitle")
+      localStorage.removeItem('projectTitle')
+       //find better way latter --peter
+      this.props.putUserProject({code, title, description, updatedAt})
     }
-    //may want a popup or something that notifies user that the project was saved
+    //may want a popup or something that notifies user that the project was saved --peter
   }
 
+
+  //these are some functions that require a better formatted editor. UI/UX will inform logic handling.--peter
   logOutHandler(){
+
+  }
+
+  deleteProjectHandler(){
 
   }
 

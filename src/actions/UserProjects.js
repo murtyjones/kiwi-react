@@ -37,15 +37,17 @@ export const getUserProject = (params) => {
 }
 
 export const putUserProject = (params) => {
-  const { code, id } = params
+  const { code, title, description, updatedAt } = params
+  let id = localStorage.getItem("projectId")
+  localStorage.removeItem("projectId")
   console.log('value of params in putUserProject in actions: ', params);
-  console.log('inside putUserProject in actions and value of id: ', id);
-  console.log('inside putUserProject in actions and value of code: ', code);
   const options = {
     method:"PUT",
     body:{
       code: code,
-      id: id
+      title: title,
+      description: description,
+      updatedAt: updatedAt
     }
   }
   return dispatch => {
@@ -61,12 +63,14 @@ export const putUserProject = (params) => {
 }
 
 export const postUserProject = (params) => {
-  const { code, title } = params
+  const { code, title, description, updatedAt } = params
   const options = {
     method:"POST",
     body:{
       code: code,
-      title: title
+      title: title,
+      description: description,
+      updatedAt: updatedAt
     }
   }
   return dispatch => {
