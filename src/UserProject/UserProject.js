@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { isEmpty, isEqual } from 'lodash'
+import { isEmpty, isEqual, get } from 'lodash'
 
 import { getUserProject, putUserProject, postUserProject } from '../actions'
 
@@ -15,9 +15,10 @@ import CodeEditor from '../CodeEditor/CodeEditor'
 class UserProject extends Component {
   constructor(props) {
     super(props)
+    console.log(get(props, 'userProject.title', ''))
     this.state = {
       newProject: (props.location.pathname === "/project/new"),
-      projectTitle: '',
+      projectTitle: get(props, 'userProject.title', ''),
       projectId: (props.location.pathname === "/project/new") ? null : props.match.params.id
     }
   }
@@ -119,13 +120,14 @@ class UserProject extends Component {
 
   render() {
     const { userProject, userProject: { _id } } = this.props
-    const { newProject } = this.state
+    const { newProject, projectTitle } = this.state
     const isNewOrHasCode = newProject || (!newProject && !!userProject.code)
     return (
       <div>
         <input
           type="text"
           placeholder="pick your title!"
+          value={ projectTitle }
           onChange={ (e) => this.setState({ projectTitle: e.target.value }) }
         />
         { renderIf(isNewOrHasCode)(
