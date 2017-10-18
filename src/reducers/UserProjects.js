@@ -8,7 +8,7 @@ function userProjects(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.PUT_USER_PROJECT_SUCCESS:
       //Shadowing issue
-      //So if navigate through the dashboard and save a previous project this should work fine.
+      //So if we navigate through the dashboard and save a previous project this should work fine.
       //However
       //If we hard load the projects page (ctrl+r on projects page/:id) then the projectsById is empty, so when we update the put in the way below (what I believe is the way we're going for) we only add one item to a blank projectsById object.
       //If that's not an issue that's fine, but then we can't access all the projectsById data after a hard reload+save. --peter
