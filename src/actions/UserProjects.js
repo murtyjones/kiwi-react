@@ -50,7 +50,7 @@ export const putUserProject = (params) => {
     dispatch({ type: ACTIONS.PUT_USER_PROJECT_REQUEST })
     return ApiFetch(`${config.api}/api/userproject/${id}`, options)
     .then(res => {
-      dispatch({ type: ACTIONS.PUT_USER_PROJECT_SUCCESS, payload: res })
+      dispatch({ type: ACTIONS.PUT_USER_PROJECT_SUCCESS, payload: res})
     })
     .catch(e => {
       dispatch({ type: ACTIONS.PUT_USER_PROJECT_FAILURE, payload: e })
