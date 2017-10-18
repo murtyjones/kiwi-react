@@ -7,7 +7,9 @@ const initialState = {
 function userProjects(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.PUT_USER_PROJECT_SUCCESS:
-      const projectsById = Object.assign({}, state.projectsById, {[action.payload.after["_id"]]: action.payload.after})
+      const projectsById = Object.assign({}, state.projectsById, {
+        [action.payload.after["_id"]]: action.payload.after
+      })
       const newState = Object.assign({}, state, {
         projectsById
       })
