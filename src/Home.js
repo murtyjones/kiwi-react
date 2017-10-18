@@ -6,8 +6,6 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from './actions/index'
 
-import { ApiFetch } from './utils/ApiFetch'
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Container } from 'react-grid-system';

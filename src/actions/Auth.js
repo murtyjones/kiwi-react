@@ -1,5 +1,5 @@
 import AuthService from '../utils/AuthService'
-import { ApiFetch } from '../utils/ApiFetch'
+import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
 import config from 'config'
 
