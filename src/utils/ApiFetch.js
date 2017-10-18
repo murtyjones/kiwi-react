@@ -1,15 +1,9 @@
 import BluebirdPromise from 'bluebird'
-import is from 'is_js'
-import validate from 'validate.js'
-
 import { isTokenNearExpiration } from './timeUtils'
 import { refreshToken } from '../actions/Auth'
+import store from '../Store'
 import AuthService from './AuthService'
 
-let store
-const setStoreForFetch = (newStore) => {
-  store = newStore
-}
 
 const setFetchOptions = (options, body, headers) => {
   return {
@@ -19,29 +13,18 @@ const setFetchOptions = (options, body, headers) => {
   }
 }
 
-
-
 const ApiFetch = (url, options = {}) => {
-  let { body, headers, data } = options
-  console.log('inside ApiFetch and body is: ', body);
-  console.log('inside ApiFetch and headers is: ', headers);
-  console.log('inside ApiFetch and data is: ', data);
+  let { body, headers } = options
   return BluebirdPromise.resolve().then(() => {
-    if (!is.string(url)) {
-      throw new Error("ApiFetch needs a url")
+    if (!url) {
+      throw new Error("need a url")
     }
-    if (is.json(body)) {
-      body = JSON.stringify(body)
-    }
+    body = JSON.stringify(body)
 
-    let finalHeaders = {
+    let _headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       ...headers
-    }
-    if (data) {
-      delete headers['Content-Type']
-      body = data
     }
 
     let exp = AuthService.getTokenExp() // static method
@@ -49,12 +32,12 @@ const ApiFetch = (url, options = {}) => {
 
     if (needsRefresh) { // need a new token before sending request
       return AuthService.refreshToken().then(idToken => {
-        finalHeaders.Authorization = idToken
+        _headers.Authorization = idToken
         const tokenExp = AuthService.decodeTokenExp(idToken)
         AuthService.setToken(idToken)
         AuthService.setTokenExp(tokenExp)
         store.dispatch(refreshToken()) // store the new token in global state
-        return setFetchOptions(options, body, finalHeaders)
+        return setFetchOptions(options, body, _headers)
       }).then(options => {
         return fetch(url, options)
       })
@@ -62,10 +45,10 @@ const ApiFetch = (url, options = {}) => {
       if(store) {
         let state = store.getState()
         if(state.auth && state.auth.token) {
-          finalHeaders.Authorization = state.auth.token
+          _headers.Authorization = state.auth.token
         }
       }
-      options = setFetchOptions(options, body, finalHeaders)
+      options = setFetchOptions(options, body, _headers)
       return fetch(url, options)
     }
 
@@ -75,4 +58,4 @@ const ApiFetch = (url, options = {}) => {
   })
 }
 
-export { setStoreForFetch, ApiFetch }
+export default ApiFetch
