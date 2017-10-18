@@ -7,8 +7,11 @@ const initialState = {
 function userProjects(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.PUT_USER_PROJECT_SUCCESS:
-      const projectsById = Object.assign({}, state.projectsById, {[action.payload.updatedproject[0]["_id"]]: action.payload.updatedproject[0]})
-      return projectsById
+      const projectsById = Object.assign({}, state.projectsById, {[action.payload.after["_id"]]: action.payload.after})
+      const newState = Object.assign({}, state, {
+        projectsById
+      })
+      return newState
     case ACTIONS.POST_USER_PROJECT_SUCCESS:
     case ACTIONS.GET_USER_PROJECT_SUCCESS: {
       const projectsById = Object.assign({}, state.projectsById, {
