@@ -7,7 +7,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from '../actions'
 
-import { ApiFetch } from '../utils/ApiFetch'
+import ApiFetch from '../utils/ApiFetch'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
