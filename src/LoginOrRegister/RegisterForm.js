@@ -44,7 +44,24 @@ RegisterForm = reduxForm({
     }
 
     return errors
-  }
+  },
+  onSubmitSuccess: (result, dispatch, props) => {
+    props.handleSubmitError()
+    props.handleSubmitRedirect()
+  },
+ //  https://github.com/erikras/redux-form/pull/2396
+ // onSubmitFail handler exists, is poorly documented
+ onSubmitFail: (result, dispatch, props) => {
+   console.log('onSubmitFail called (yes, yes I do get called)');
+   console.log('fail props: ', props);
+   //issue! apparently onSubmitFail does not have access to props although the documentation: https://github.com/erikras/redux-form/releases/tag/v6.5.0
+   //says that it should
+   //I've opened a bug report here: https://github.com/erikras/redux-form/issues/3543--peter
+   console.log('fail result: ', result);
+   console.log('fail dispatch: ', dispatch);
+   // props.handleSubmitError()
+   //if props worked we should throw a handleSubmitError()
+ }
 })(RegisterForm)
 
 export default RegisterForm
