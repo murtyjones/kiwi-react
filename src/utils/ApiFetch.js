@@ -19,29 +19,6 @@ const setFetchOptions = (options, body, headers) => {
   }
 }
 
-// I don't know how to use this
-// Suppose I want to send a put request to the backend
-// then I would think I would need based on let { body, headers, data } = options
-
-// const options = {
-//   method:"PUT",
-//   data:{
-//     code: code,
-//     id: id
-//   }
-// }
-
-//However this doesnt work.
-
-//It does work if we have body:{...} instead and I think it has something to do with
-// if (data) {
-//   delete headers['Content-Type']
-//   body = data
-// }
-
-//--Peter
-
-
 
 
 const ApiFetch = (url, options = {}) => {
