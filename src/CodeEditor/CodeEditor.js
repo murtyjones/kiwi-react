@@ -7,7 +7,9 @@ import 'intro.js/introjs.css'
 import 'intro.js/themes/introjs-flattener.css'
 import BluebirdPromise from 'bluebird'
 
-
+import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/Dialog'
+import TextField from 'material-ui/TextField'
 import EditorControls from './EditorControls'
 import EditorInput from './EditorInput'
 import EditorOutput from './EditorOutput'
@@ -22,17 +24,18 @@ class CodeEditor extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      editorInput: '# "Write Your Code Here"',
-      editorOutput: '',
-      errorMsg: '',
-      errorLine: null,
-      isResourcesShowing: false,
-      changeInput: false,
-      tabFocus: 'input',
-      answer: '',
-      prompt: '',
-      rawInputValue: '',
-      rawInputResolve: null
+      editorInput: props.codeInput.code || '# Write Your Code Here'
+      , editorOutput: ''
+      , errorMsg: ''
+      , errorLine: null
+      , isResourcesShowing: false
+      , changeInput: false
+      , tabFocus: 'input'
+      , answer: ''
+      , prompt: ''
+      , rawInputValue: ''
+      , rawInputResolve: null
+      , modalOpen: false
     }
   }
 
@@ -46,7 +49,18 @@ class CodeEditor extends Component {
     }
   }
 
-  forceUpdate(){
+  //modal handler being added to deal with code name modal
+
+  handleModalOpen = () => {
+    this.setState({modalOpen: true});
+  };
+
+  handleModalClose = () => {
+    this.setState({modalOpen: false});
+    this.props.saveHandler(this.state.editorInput)
+  };
+
+  forceUpdateHandler(){
     console.log('inside forceUpdate in the codeEditor')
     let savetext = localStorage.getItem('retrievedText')
     if (savetext){
@@ -172,9 +186,11 @@ class CodeEditor extends Component {
         />
         <Row>
           <Col md={ 12 }>
+            {/*handleSave hooks to saveHandler in userProjects --Peter*/}
             <EditorControls
+              handleSave={ e => { this.props.saveHandler(this.state.editorInput) } }
               runCode={ this.runCode }
-              forceUpdate = { this.forceUpdate.bind(this) }
+              forceUpdate = { this.forceUpdateHandler.bind(this) }
               editorInput={ editorInput }
               runIntro={ this.runIntro }
               showResources={ this.toggleResources }
@@ -186,7 +202,7 @@ class CodeEditor extends Component {
               onChange={ this.handleChange }
             >
               <Tab label={ inputLabel } value="input"  />
-              <Tab label={ outputLabel } value="output" />
+              <Tab label={ outputLabel } xvalue="output" />
             </Tabs>
             <Col md={ 6 }>
               <EditorInput

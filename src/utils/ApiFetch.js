@@ -29,7 +29,7 @@ const ApiFetch = (url, options = {}) => {
 
     let exp = AuthService.getTokenExp() // static method
     const needsRefresh = isTokenNearExpiration(exp)
-    
+
     if (needsRefresh) { // need a new token before sending request
       return AuthService.refreshToken().then(idToken => {
         _headers.Authorization = idToken
