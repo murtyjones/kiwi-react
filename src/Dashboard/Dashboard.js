@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
 import { Link } from 'react-router-dom'
+import { KiwiLink } from '../KiwiLinks'
 import { getManyUserProjects } from '../actions'
 
 import UserProjectWidget from './UserProjectWidget'
@@ -37,9 +38,7 @@ class Dashboard extends Component {
     return (
       <div>
         <div>
-          <p>
-            Previous saved projects...
-          </p>
+          Previous saved projects...
         </div>
         <div>
           { !isEmpty(userProjects) && Object.values(userProjects)
@@ -50,12 +49,10 @@ class Dashboard extends Component {
         </div>
         <br/>
         <div>
-          <p>
             ...or create a new project...
-          </p>
         </div>
         <br/>
-        <Link to={ `/project/new` }>New Project</Link>
+        <KiwiLink to={ `/project/new` }>New Project</KiwiLink>
         <br/>
           {/*Lesson stucture will go here*/}
         <br/>

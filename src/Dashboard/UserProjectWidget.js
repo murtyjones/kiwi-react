@@ -1,12 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { KiwiLink } from '../KiwiLinks'
 
 let UserProjectWidget = props => {
   const { project: { title, _id } } = props
 
   return (
     <div>
-      <Link to={ `/project/${_id}` }>{ title }</Link>
+      <KiwiLink to={ `/project/${_id}` }>{ title }</KiwiLink>
     </div>
   )
 }

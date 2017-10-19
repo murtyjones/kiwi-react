@@ -10,6 +10,7 @@ import Config from 'config'
 import { Card } from 'material-ui'
 
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
+import { teal500 } from 'material-ui/styles/colors';
 
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 
@@ -39,8 +40,8 @@ import { kiwiGreen, kiwiLightGreen, kiwiPurple, kiwiLightPurple,
 
 
 const main_theme = getMuiTheme({
-  fontFamily: 'Roboto, sans-serif',
-  palette: {
+  fontFamily: 'Roboto, sans-serif'
+  , palette: {
     primary1Color: kiwiGreen,
     primary2Color: kiwiLightPurple,
     accent1Color: kiwiPurple,
@@ -52,31 +53,7 @@ const main_theme = getMuiTheme({
 });
 
 
-const alt_theme1 = getMuiTheme({
-  palette: {
-    primary1Color: kiwiDarkBlue,
-    primary2Color: kiwiWhite,
-    accent1Color: kiwiYellow,
-    accent2Color: kiwiYellow,
-    textColor: "#ffffff",
-    alternateTextColor: "#ffffff",
-    canvasColor: kiwiYellow
-  }
-});
-
-const alt_theme2 = getMuiTheme({
-  palette: {
-    primary1Color: kiwiTurq,
-    primary2Color: kiwiOrange,
-    accent1Color: kiwiOrange,
-    accent2Color: kiwiDarkGreen,
-    textColor: kiwiLightBlue,
-    alternateTextColor: kiwiLightBlue,
-    canvasColor:  kiwiOrange
-  }
-});
-
-const containerStyle = {
+const baseAppStyle = {
   "border-radius": 0
   , "margin": 0
   , "position": "absolute"
@@ -85,6 +62,12 @@ const containerStyle = {
   , "height": "100vw"
   , "right": 0
   , "bottom": 0
+  , "backgroundColor": "#ededed"
+  , "fontFamily": "Roboto, sans-serif"
+  , "a": {
+    "color": teal500
+    , "fontSize": "30px"
+  }
 }
 
 class App extends Component {
@@ -98,29 +81,21 @@ class App extends Component {
 
   render() {
     const { isLoggedIn } = this.props
-    const mainClassName = cns('activePage')
-
     return (
       <MuiThemeProvider muiTheme={ this.state.theme }>
-      <Card className={ cns('mainApp') } style={ containerStyle } >
         <Helmet>
           <title>Kiwi Compute</title>
         </Helmet>
-
-        <div className={ mainClassName }>
-            <div>
-              <Switch>
-                <Route path='/' exact component={ Home } />
-                <Route path='/login' exact component={ LoginOrRegister } />
-                <Route path='/register' exact component={ LoginOrRegister } />
-                <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-              </Switch>
-            </div>
+        <div className={ cns('baseAppStyles') } style={ baseAppStyle } >
+          <Switch>
+            <Route path='/' exact component={ Home } />
+            <Route path='/login' exact component={ LoginOrRegister } />
+            <Route path='/register' exact component={ LoginOrRegister } />
+            <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
+            <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+            <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+          </Switch>
         </div>
-
-      </Card>
       </MuiThemeProvider>
     )
   }

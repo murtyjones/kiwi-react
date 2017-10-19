@@ -115,7 +115,6 @@ class Home extends Component {
       <div>
         <span onClick={ this.switchTabs }>{ switchText }</span>
         <ComponentToRender />
-
       </div>
     )
   }

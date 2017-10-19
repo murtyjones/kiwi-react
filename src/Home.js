@@ -9,7 +9,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } f
 import { Container } from 'react-grid-system';
 
 import { ApiFetch } from './utils/ApiFetch'
-
+import { KiwiLink } from './KiwiLinks'
 
 
 class Home extends Component {
@@ -31,7 +31,7 @@ class Home extends Component {
         <Container fluid>
           Welcome to Kiwi!
           <br />
-          <Link to={ "/login" }>Login</Link> or <Link to={ "/register" }>register</Link> to get started!
+          <KiwiLink to={ "/login" }>Login</KiwiLink> or <KiwiLink to={ "/register" }>register</KiwiLink> to get started!
         </Container>
       </div>
     )
