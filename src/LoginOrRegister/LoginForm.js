@@ -2,11 +2,6 @@ import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import KiwiTextField from '../common/KiwiTextField'
 import { FlatButton, RaisedButton } from 'material-ui'
-import { connect } from 'react-redux'
-
-import {withRouter} from "react-router-dom";
-
-
 
 
 let LoginForm = props => {
@@ -52,14 +47,6 @@ LoginForm = reduxForm({
     }
 
     return errors
-  },
-  onSubmitSuccess: (result, dispatch, props) => {
-    console.log('onSubmitSuccess called (yes, yes I do get called)');
-      props.handleSubmitError()
-      props.handleSubmitRedirect()
-   },
-  onSubmitFail: (result, dispatch, props) => {
-    props.handleSubmitError()
   }
 })(LoginForm)
 

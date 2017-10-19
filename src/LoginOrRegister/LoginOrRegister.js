@@ -3,12 +3,9 @@ import * as T from 'prop-types'
 import { withRouter, Redirect, Route } from 'react-router-dom'
 import { get, find } from 'lodash'
 import { connect } from 'react-redux'
-import { Field, reduxForm, SubmissionError } from 'redux-form'
-import PropTypes from "prop-types";
+import { SubmissionError } from 'redux-form'
 
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from '../actions'
-
-import ApiFetch from '../utils/ApiFetch'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from '../actions'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
@@ -20,10 +17,7 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      switchText: '',
-      testprop: 'hellotheresailor',
-      loginerror: false,
-      evaluateOnce: false
+      switchText: ''
     }
   }
 
@@ -45,9 +39,14 @@ class Home extends Component {
     const { email, password } = v
     try {
       const success = await signInWithEmailAndPassword({ email, password })
+      this.props.history.push("/dashboard")
       return success
     } catch (e) {
-      return e
+      if(e.message.includes('The password is invalid')) {
+        throw new SubmissionError({ password: '', _error: 'Login failed! Wrong password.' })
+      } else if (e.message.includes('There is no user record corresponding to this identifier')) {
+        throw new SubmissionError({ email: '', _error: 'Login failed! User not found.' })
+      }
     }
   }
 
@@ -56,57 +55,13 @@ class Home extends Component {
     const { email, password } = v
     try {
       const success = await createUserWithEmailAndPassword({ email, password })
+      this.props.history.push("/dashboard")
       return success
     } catch (e) {
-      return e
-    }
-  }
-
-  handleSignout = async(_) => {
-    const { signout } = this.props
-    try {
-      const success = await signout()
-      return success
-    } catch (e) {
-      return e
-    }
-  }
-
-  pingServer = (v) => {
-    return ApiFetch('http://localhost:8080/api/login', { method: 'POST' }).then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.log(JSON.stringify(err))
-    })
-  }
-
-  handleSubmitError(){
-    if (this.props.isLoggedIn===false){
-      console.log("You did not log in correctly, oh noes!");
-      this.setState({
-        loginerror: true
-      })
-    }
-  }
-
-  handleSubmitRedirect(LoginOrRegister){
-    if (this.props.isLoggedIn===true){
-      console.log('inside handleSubmitRedirect');
-      this.setState({
-        loginerror: false
-      }, ()=>{
-        console.log('LoginOrRegister: ', LoginOrRegister);
-        this.props.history.push("/dashboard");
-      })
-    }
-  }
-
-  evaluateOnceRedirect(){
-    console.log('inside evaluateOnceRedirect');
-    if (this.state.evaluateOnce===false){
-      this.setState({evaluateOnce: true})
-      if (this.props.isLoggedIn===true){
-        this.props.history.push("/dashboard");
+      if(e.message.includes('The email address is already in use by another account.')) {
+        throw new SubmissionError({ email: 'Email address is already in use!', _error: 'Registration failed!' })
+      } else if (e.message.includes('Password should be at least 6 characters')) {
+        throw new SubmissionError({ password: 'Password should be at least 6 characters', _error: 'Registration failed!' })
       }
     }
   }
@@ -114,20 +69,16 @@ class Home extends Component {
 
   renderLoginForm = () => {
     return (
-      <LoginForm onSubmit={ this.handleLoginSubmit }
-      handleSubmitError={()=>{this.handleSubmitError()}}
-      handleSubmitRedirect={(value)=>{this.handleSubmitRedirect(value)}}
-      evaluateOnceRedirect={this.evaluateOnceRedirect()}
-       />
+      <LoginForm
+        onSubmit={ this.handleLoginSubmit }
+      />
     )
   }
 
   renderRegisterForm = () => {
     return (
-      <RegisterForm onSubmit={ this.handleRegisterSubmit }
-      isLoggedIn={this.props.isLoggedIn}
-      handleSubmitError={()=>{this.handleSubmitError()}}
-      handleSubmitRedirect = {(value)=>{this.handleSubmitRedirect(value)}}
+      <RegisterForm
+        onSubmit={ this.handleRegisterSubmit }
       />
     )
   }
@@ -161,13 +112,6 @@ class Home extends Component {
       <div>
         <span onClick={ this.switchTabs }>{ switchText }</span>
         <ComponentToRender />
-        { renderIf(this.state.loginerror === true)(
-          <div>
-            <p>
-              You put in the wrong log in or pass you silly 🦆
-            </p>
-          </div>
-        ) }
       </div>
     )
   }
@@ -187,9 +131,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signInWithEmailAndPassword: (params) => dispatch(signInWithEmailAndPassword(params)),
-    createUserWithEmailAndPassword: (params) => dispatch(createUserWithEmailAndPassword(params)),
-    signout: () => dispatch(signout())
+    signInWithEmailAndPassword: (params) => dispatch(signInWithEmailAndPassword(params))
+    , createUserWithEmailAndPassword: (params) => dispatch(createUserWithEmailAndPassword(params))
   }
 }
 

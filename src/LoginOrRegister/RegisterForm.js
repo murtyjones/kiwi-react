@@ -45,14 +45,7 @@ RegisterForm = reduxForm({
     }
 
     return errors
-  },
-  onSubmitSuccess: (result, dispatch, props) => {
-    props.handleSubmitError()
-    props.handleSubmitRedirect()
-  },
- onSubmitFail: (errors, dispatch, submitError, props) => {
-   props.handleSubmitError()
- }
+  }
 })(RegisterForm)
 
 export default RegisterForm
