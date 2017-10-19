@@ -50,7 +50,7 @@ class UserProject extends Component {
 
 
   saveHandler(code) {
-    const { postUserProject, putUserProject } = this.state
+    const { postUserProject, putUserProject } = this.props
     const { newProject, projectTitle } = this.state
     const id = newProject ? null : this.state.projectId
     if(newProject) {

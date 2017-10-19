@@ -7,6 +7,9 @@ import { Helmet } from 'react-helmet'
 import { isEmpty }  from 'lodash'
 import { Promise as BluebirdPromise } from 'bluebird'
 import Config from 'config'
+import { Card } from 'material-ui'
+
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
 
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 
@@ -36,16 +39,18 @@ import { kiwiGreen, kiwiLightGreen, kiwiPurple, kiwiLightPurple,
 
 
 const main_theme = getMuiTheme({
+  fontFamily: 'Roboto, sans-serif',
   palette: {
     primary1Color: kiwiGreen,
     primary2Color: kiwiLightPurple,
     accent1Color: kiwiPurple,
     accent2Color: kiwiLightGreen,
-    textColor: kiwiLightPurple,
+    textColor: '#333',
     alternateTextColor: kiwiLightPurple,
-    canvasColor: kiwiPurple
+    canvasColor: '#ededed'
   }
 });
+
 
 const alt_theme1 = getMuiTheme({
   palette: {
@@ -71,6 +76,16 @@ const alt_theme2 = getMuiTheme({
   }
 });
 
+const containerStyle = {
+  "border-radius": 0
+  , "margin": 0
+  , "position": "absolute"
+  , "left": 0
+  , "top": 0
+  , "height": "100vw"
+  , "right": 0
+  , "bottom": 0
+}
 
 class App extends Component {
   constructor(props) {
@@ -86,13 +101,13 @@ class App extends Component {
     const mainClassName = cns('activePage')
 
     return (
-      <div className={ cns('mainApp') }>
+      <MuiThemeProvider muiTheme={ this.state.theme }>
+      <Card className={ cns('mainApp') } style={ containerStyle } >
         <Helmet>
           <title>Kiwi Compute</title>
         </Helmet>
 
         <div className={ mainClassName }>
-          <MuiThemeProvider muiTheme={this.state.theme}>
             <div>
               <Switch>
                 <Route path='/' exact component={ Home } />
@@ -103,10 +118,10 @@ class App extends Component {
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
               </Switch>
             </div>
-          </MuiThemeProvider>
         </div>
 
-      </div>
+      </Card>
+      </MuiThemeProvider>
     )
   }
 }
