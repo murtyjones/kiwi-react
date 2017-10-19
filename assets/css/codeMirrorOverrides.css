@@ -1,11 +1,11 @@
 .CodeMirror {
-  min-height: 600px;
+  min-height: 600px
 }
 
 .error-highlight {
-  background: #ff816e;
+  background: #ff816e
 }
 
 .error-fixed {
-  background: inherit;
+  background: inherit
 }

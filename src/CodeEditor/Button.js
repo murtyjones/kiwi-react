@@ -4,11 +4,11 @@
  *
  */
 
-import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import React from 'react'
+import RaisedButton from 'material-ui/RaisedButton'
 
 function Button(props) {
-  const { onClick, label, icon, dataIntro, dataStep, style } = props;
+  const { onClick, label, icon, dataIntro, dataStep, style } = props
   return (
     <RaisedButton
       onClick={ onClick }
@@ -23,4 +23,4 @@ function Button(props) {
   )
 }
 
-export default Button;
+export default Button

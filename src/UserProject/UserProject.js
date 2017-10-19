@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { isEmpty, isEqual, get } from 'lodash'
 
 import { getUserProject, putUserProject, postUserProject } from '../actions'
+import { TextField } from 'material-ui'
 
 import renderIf from 'render-if'
 
@@ -50,7 +51,7 @@ class UserProject extends Component {
 
 
   saveHandler(code) {
-    const { postUserProject, putUserProject } = this.state
+    const { postUserProject, putUserProject } = this.props
     const { newProject, projectTitle } = this.state
     const id = newProject ? null : this.state.projectId
     if(newProject) {
@@ -69,8 +70,7 @@ class UserProject extends Component {
     const isNewOrHasCode = newProject || (!newProject && !!userProject.code)
     return (
       <div>
-        <input
-          type="text"
+        <TextField
           placeholder="pick your title!"
           value={ projectTitle }
           onChange={ (e) => this.setState({ projectTitle: e.target.value }) }

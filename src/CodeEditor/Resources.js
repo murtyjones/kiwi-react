@@ -1,37 +1,37 @@
-import React from 'react';
-import { Row, Col } from 'react-grid-system';
-import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
+import React from 'react'
+import { Row, Col } from 'react-grid-system'
+import Dialog from 'material-ui/Dialog'
+import RaisedButton from 'material-ui/RaisedButton'
+import { Card, CardHeader, CardText } from 'material-ui/Card'
 
-import { resources } from './resourcesText';
+import { resources } from './resourcesText'
 
 const styles = {
   base: {
-    width: '95%',
-    maxWidth: 'none',
-  },
-  cards: {
-    marginTop: '10px',
-  },
-  aTag: {
-    color: 'white',
-  },
-};
+    width: '95%'
+  ,  maxWidth: 'none'
+  }
+  , cards: {
+    marginTop: '10px'
+  }
+  , aTag: {
+    color: 'white'
+  }
+}
 
 const Resources = props => {
-  const { show, hide } = props;
+  const { show, hide } = props
   const actions = [
     <RaisedButton
       label="Close"
       primary={ true }
       onTouchTap={ hide }
-    />,
-  ];
-  const len = resources.length;
-  const mid = resources.length / 2;
-  const leftCol = resources.slice(0, mid);
-  const rightCol = resources.slice(mid, len);
+    />
+  ]
+  const len = resources.length
+  const mid = resources.length / 2
+  const leftCol = resources.slice(0, mid)
+  const rightCol = resources.slice(mid, len)
 
   const getResourceCodeOrURL = (resource) => {
     if(resource.code){
@@ -91,4 +91,4 @@ const Resources = props => {
   )
 }
 
-export default Resources;
+export default Resources

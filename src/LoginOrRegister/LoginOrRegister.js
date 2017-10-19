@@ -28,10 +28,10 @@ class Home extends Component {
   }
 
   static propTypes = {
-    greeting: T.string,
-    signInWithEmailAndPassword: T.func,
-    createUserWithEmailAndPassword: T.func,
-    signout: T.func
+    greeting: T.string
+    , signInWithEmailAndPassword: T.func
+    , createUserWithEmailAndPassword: T.func
+    , signout: T.func
   }
 
   componentWillMount() {
@@ -161,14 +161,13 @@ class Home extends Component {
       <div>
         <span onClick={ this.switchTabs }>{ switchText }</span>
         <ComponentToRender />
-        {renderIf(this.state.loginerror === true)(
+        { renderIf(this.state.loginerror === true)(
           <div>
             <p>
               You put in the wrong log in or pass you silly 🦆
             </p>
           </div>
-        )}
-
+        ) }
       </div>
     )
   }
@@ -179,7 +178,7 @@ export const HomeComponent = Home
 
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn } } = state;
+  const { auth: { isLoggedIn } } = state
 
   return {
     isLoggedIn

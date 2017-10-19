@@ -6,10 +6,10 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from './actions/index'
 
-import { Container } from 'react-grid-system';
+import { Container } from 'react-grid-system'
 
 import { ApiFetch } from './utils/ApiFetch'
-
+import { KiwiLink } from './common/KiwiLinks'
 
 
 class Home extends Component {
@@ -31,7 +31,7 @@ class Home extends Component {
         <Container fluid>
           Welcome to Kiwi!
           <br />
-          <Link to={ "/login" }>Login</Link> or <Link to={ "/register" }>register</Link> to get started!
+          <KiwiLink to={ "/login" }>Login</KiwiLink> or <KiwiLink to={ "/register" }>register</KiwiLink> to get started!
         </Container>
       </div>
     )
@@ -43,7 +43,7 @@ export const HomeComponent = Home
 
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn } } = state;
+  const { auth: { isLoggedIn } } = state
 
   return {
     isLoggedIn

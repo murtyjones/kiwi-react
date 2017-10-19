@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import Button from './Button';
-import renderIf from 'render-if';
+import React, { Component } from 'react'
+import Button from './Button'
+import renderIf from 'render-if'
 
-import { introStart, introSave, introDemo, introResources } from './introduction';
+import { introStart, introSave, introDemo, introResources } from './introduction'
 
 const styles = {
   base: {
@@ -21,11 +21,11 @@ const styles = {
   textInputInput: {
     color: 'black',
   },
-};
+}
 
 class EditorControls extends Component {
   constructor(props){
-    super(props);
+    super(props)
     this.state = {
 
     }
@@ -77,4 +77,4 @@ class EditorControls extends Component {
   }
 }
 
-export default EditorControls;
+export default EditorControls

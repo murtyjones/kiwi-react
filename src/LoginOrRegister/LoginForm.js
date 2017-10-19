@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
-import textField from '../textField'
+import KiwiTextField from '../common/KiwiTextField'
+import { FlatButton, RaisedButton } from 'material-ui'
 import { connect } from 'react-redux'
 
 import {withRouter} from "react-router-dom";
@@ -15,23 +16,23 @@ let LoginForm = props => {
       <Field
         name="email"
         type="text"
-        component={ textField }
+        component={ KiwiTextField }
         label="email"
       />
       <Field
         name="password"
         type="password"
-        component={ textField }
+        component={ KiwiTextField }
         label="password"
       />
       { error && <strong>{ error }</strong> }
       <div>
-        <button type="submit" onClick={ handleSubmit } disabled={ submitting }>
+        <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
           Login
-        </button>
-        <button type="button" onClick={ reset } disabled={ pristine || submitting }>
+        </RaisedButton>
+        <FlatButton onClick={ reset } disabled={ pristine || submitting }>
           Clear Values
-        </button>
+        </FlatButton>
       </div>
     </form>
   )

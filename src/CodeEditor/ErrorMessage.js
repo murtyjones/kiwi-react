@@ -4,18 +4,18 @@
  *
  */
 
-import React from 'react';
-import { Card, CardHeader } from 'material-ui/Card';
+import React from 'react'
+import { Card, CardHeader } from 'material-ui/Card'
 
 const styles = {
   base: {
     backgroundColor: '#ff816e',
     minHeight: '600px',
   },
-};
+}
 
 function ErrorMessage (props) {
-  const { errorMsg } = props;
+  const { errorMsg } = props
   return (
     <Card style={ styles.base }>
       <CardHeader
@@ -29,4 +29,4 @@ function ErrorMessage (props) {
   )
 }
 
-export default ErrorMessage;
+export default ErrorMessage
