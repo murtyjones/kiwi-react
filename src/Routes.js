@@ -4,13 +4,7 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
-import { isEmpty }  from 'lodash'
-import { Promise as BluebirdPromise } from 'bluebird'
-import Config from 'config'
-import { Card } from 'material-ui'
 
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
-import { teal500 } from 'material-ui/styles/colors';
 
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 
@@ -59,15 +53,10 @@ const baseAppStyle = {
   , "position": "absolute"
   , "left": 0
   , "top": 0
-  , "height": "100vw"
   , "right": 0
   , "bottom": 0
   , "backgroundColor": "#ededed"
   , "fontFamily": "Roboto, sans-serif"
-  , "a": {
-    "color": teal500
-    , "fontSize": "30px"
-  }
 }
 
 class App extends Component {
@@ -82,7 +71,7 @@ class App extends Component {
   render() {
     const { isLoggedIn } = this.props
     return (
-      <MuiThemeProvider muiTheme={ this.state.theme }>
+      <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <Helmet>
           <title>Kiwi Compute</title>
         </Helmet>

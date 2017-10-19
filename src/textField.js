@@ -1,4 +1,5 @@
 import React from 'react'
+import { TextField } from 'material-ui'
 
 const textField = ({ input, label, type, meta: { touched, error } }) =>
   <div>
@@ -6,7 +7,7 @@ const textField = ({ input, label, type, meta: { touched, error } }) =>
       { label }
     </label>
     <div>
-      <input { ...input } placeholder={ label } type={ type } />
+      <TextField { ...input } placeholder={ label } type={ type } />
       { touched && error && <span>{ error }</span> }
     </div>
   </div>

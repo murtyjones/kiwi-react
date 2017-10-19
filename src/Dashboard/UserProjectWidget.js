@@ -1,5 +1,5 @@
 import React from 'react'
-import { KiwiLink } from '../KiwiLinks'
+import { KiwiLink } from '../common/KiwiLinks'
 
 let UserProjectWidget = props => {
   const { project: { title, _id } } = props
