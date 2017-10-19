@@ -22,10 +22,10 @@ class Home extends Component {
   }
 
   static propTypes = {
-    greeting: T.string,
-    signInWithEmailAndPassword: T.func,
-    createUserWithEmailAndPassword: T.func,
-    signout: T.func
+    greeting: T.string
+    , signInWithEmailAndPassword: T.func
+    , createUserWithEmailAndPassword: T.func
+    , signout: T.func
   }
 
   componentWillMount() {
