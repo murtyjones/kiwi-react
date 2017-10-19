@@ -11,7 +11,7 @@ module.exports = {
     './src/Main.js'
   ],
   output: {
-    path: path.join(__dirname, '../build/js'),
+    path: path.join(__dirname, '../build/build/js'),
     filename: 'bundle.js',
     publicPath: '/build/js/'
   },

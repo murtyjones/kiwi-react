@@ -98,7 +98,7 @@ gulp.task('lint', () => {
 
 
 // Production build
-gulp.task("build", ["clean", "webpack:build"]);
+gulp.task("build", ["clean", "todist", "webpack:build"]);
 
 gulp.task("todist", function() {
   return gulp
@@ -108,7 +108,8 @@ gulp.task("todist", function() {
 
 gulp.task("clean", function() {
   return del([
-    './build/js/*'
+    './build/build/js/*'
+    , './build/*html'
   ])
 })
 

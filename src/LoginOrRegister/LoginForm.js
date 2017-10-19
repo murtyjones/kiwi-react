@@ -12,13 +12,13 @@ let LoginForm = props => {
         name="email"
         type="text"
         component={ KiwiTextField }
-        label="email"
+        label="Email"
       />
       <Field
         name="password"
         type="password"
         component={ KiwiTextField }
-        label="password"
+        label="Password"
       />
       { error && <strong>{ error }</strong> }
       <div>
