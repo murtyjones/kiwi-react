@@ -4,11 +4,11 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 
-// import UserProject from './UserProject'
 
 /**
  * Routing Components
@@ -23,28 +23,6 @@ import Home from './Home'
 import Dashboard from './Dashboard/Dashboard'
 import UserProject from './UserProject/UserProject'
 
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { Container } from 'react-grid-system';
-
-import { kiwiGreen, kiwiLightGreen, kiwiPurple, kiwiLightPurple,
-  kiwiDarkBlue, kiwiLightRed, kiwiWhite, kiwiYellow, kiwiTurq,
-  kiwiOrange, kiwiLightBlue, kiwiDarkGreen } from './colors';
-
-
-const main_theme = getMuiTheme({
-  fontFamily: 'Roboto, sans-serif'
-  , palette: {
-    primary1Color: kiwiGreen,
-    primary2Color: kiwiLightPurple,
-    accent1Color: kiwiPurple,
-    accent2Color: kiwiLightGreen,
-    textColor: '#333',
-    alternateTextColor: kiwiLightPurple,
-    canvasColor: '#ededed'
-  }
-});
 
 
 const baseAppStyle = {
@@ -62,10 +40,6 @@ const baseAppStyle = {
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      themeValue: 1
-      , theme: main_theme
-    };
   }
 
   render() {

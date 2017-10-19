@@ -9,21 +9,21 @@ class App extends Component {
 
   static propTypes = {
     store: T.object.isRequired
-  };
+  }
 
   constructor(props) {
     super(props)
   }
 
   render() {
-    const { store } = this.props;
+    const { store } = this.props
     return (
       <Provider store={ store }>
         <Router onUpdate={ () => window.scrollTo(0, 0) }>
           <Routes store={ store } />
         </Router>
       </Provider>
-    );
+    )
   }
 }
 
