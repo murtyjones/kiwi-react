@@ -7,9 +7,9 @@ import AuthService from './AuthService'
 
 const setFetchOptions = (options, body, headers) => {
   return {
-    ...options,
-    body,
-    headers
+    ...options
+    , body
+    , headers
   }
 }
 
@@ -22,9 +22,9 @@ const ApiFetch = (url, options = {}) => {
     body = JSON.stringify(body)
 
     let _headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      ...headers
+      'Accept': 'application/json'
+      , 'Content-Type': 'application/json'
+      , ...headers
     }
 
     let exp = AuthService.getTokenExp() // static method

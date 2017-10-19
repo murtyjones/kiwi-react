@@ -8,15 +8,15 @@ import { resources } from './resourcesText'
 
 const styles = {
   base: {
-    width: '95%',
-    maxWidth: 'none',
-  },
-  cards: {
-    marginTop: '10px',
-  },
-  aTag: {
-    color: 'white',
-  },
+    width: '95%'
+  ,  maxWidth: 'none'
+  }
+  , cards: {
+    marginTop: '10px'
+  }
+  , aTag: {
+    color: 'white'
+  }
 }
 
 const Resources = props => {
@@ -26,7 +26,7 @@ const Resources = props => {
       label="Close"
       primary={ true }
       onTouchTap={ hide }
-    />,
+    />
   ]
   const len = resources.length
   const mid = resources.length / 2
