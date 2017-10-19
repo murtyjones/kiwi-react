@@ -10,6 +10,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 
 
+import Header from './Header/Header'
+
 /**
  * Routing Components
  */
@@ -54,6 +56,7 @@ class App extends Component {
           <title>Kiwi Compute</title>
         </Helmet>
         <div className={ cns('baseAppStyles') } style={ baseAppStyle } >
+          <Header isLoggedIn={ isLoggedIn } />
           <Switch>
             <Route path='/' exact component={ Home } />
             <Route path='/login' exact component={ LoginOrRegister } />

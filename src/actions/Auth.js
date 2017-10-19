@@ -12,8 +12,8 @@ export const signInWithEmailAndPassword = (params) => {
       dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
       return success
     } catch (error) {
-      dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: e })
-      throw new Error(e)
+      dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: error })
+      throw new Error(error)
     }
   }
 }

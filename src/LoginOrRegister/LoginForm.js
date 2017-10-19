@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import KiwiTextField from '../common/KiwiTextField'
 import { FlatButton, RaisedButton } from 'material-ui'
-import { connect } from 'react-redux'
+
 
 let LoginForm = props => {
   const { error, handleSubmit, pristine, reset, submitting } = props
