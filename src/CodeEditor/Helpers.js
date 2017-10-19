@@ -106,4 +106,4 @@ const pythonKeywords = [
   "zip"
 ]
 
-export default pythonKeywords;
+export default pythonKeywords

@@ -4,8 +4,8 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 
@@ -42,6 +42,10 @@ class App extends Component {
     super(props)
   }
 
+  static propTypes = {
+    isLoggedIn: T.bool.isRequired
+  }
+
   render() {
     const { isLoggedIn } = this.props
     return (
@@ -67,7 +71,7 @@ class App extends Component {
 export const AppComponent = App
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn } } = state;
+  const { auth: { isLoggedIn } } = state
 
   return {
     isLoggedIn

@@ -6,7 +6,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from './actions/index'
 
-import { Container } from 'react-grid-system';
+import { Container } from 'react-grid-system'
 
 import { ApiFetch } from './utils/ApiFetch'
 import { KiwiLink } from './common/KiwiLinks'
@@ -43,7 +43,7 @@ export const HomeComponent = Home
 
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn } } = state;
+  const { auth: { isLoggedIn } } = state
 
   return {
     isLoggedIn

@@ -28,9 +28,6 @@ class Dashboard extends Component {
     getManyUserProjects()
   }
 
-  newProjectHandler(){
-    console.log('inside newProjectHandler in Dashboard');
-  }
 
   render() {
     const { userProjects } = this.props
