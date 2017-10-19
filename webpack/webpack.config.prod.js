@@ -2,15 +2,12 @@
 
 const path = require('path')
 const webpack = require('webpack')
-const localConfig = require('../config/default.json')
+const prodConfig = require('../config/prod.json')
 
-process.env.BABEL_ENV = 'local-webpack'
 module.exports = {
   devtool: 'cheap-module-source-map',
   context: path.join(__dirname, '../'),
   entry: [
-    'react-hot-loader/patch',
-    'webpack-hot-middleware/client',
     './src/Main.js'
   ],
   output: {
@@ -33,13 +30,15 @@ module.exports = {
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    })
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin()
   ],
   externals: {
-    config: JSON.stringify(localConfig)
+    config: JSON.stringify(prodConfig)
   },
   node: {
     fs: "empty"
@@ -48,3 +47,4 @@ module.exports = {
 
   }
 }
+

@@ -6,6 +6,6 @@
     , "projectId": "kiwi-react"
     , "storageBucket": "kiwi-react.appspot.com"
     , "messagingSenderId": "630075552174"
-    }
-, "api" : "http://localhost:8080"
+  }
+  , "api" : "http://kiwi-node-stage-2059943816.us-east-1.elb.amazonaws.com"
 }

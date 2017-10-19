@@ -1,9 +1,9 @@
 import firebase from 'firebase'
-import Config from 'config'
+import config from 'config'
 
 let fire = null
 try {
-  fire = firebase.initializeApp(Config.firebase)
+  fire = firebase.initializeApp(config.firebase)
 } catch (err) {
 
 }

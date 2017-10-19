@@ -9,9 +9,11 @@ const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const historyApiFallback = require('connect-history-api-fallback')
+const del = require('del')
 
 
 const webpackConfig = require('./webpack/webpack.config.local.js')
+const webpackProdConfig = require('./webpack/webpack.config.prod.js')
 
 const browserSync = require('browser-sync').create()
 
@@ -92,3 +94,34 @@ gulp.task('lint', () => {
       }
     }))
 })
+
+
+
+// Production build
+gulp.task("build", ["clean", "webpack:build"]);
+
+gulp.task("todist", function() {
+  return gulp
+    .src('./index.html')
+    .pipe(gulp.dest('build'))
+})
+
+gulp.task("clean", function() {
+  return del([
+    './build/js/*'
+  ])
+})
+
+gulp.task("webpack:build", function(callback) {
+  // modify some webpack config options
+  const myConfig = Object.create(webpackProdConfig);
+
+  // run webpack
+  webpack(myConfig, function(err, stats) {
+    if(err) throw new gutil.PluginError("webpack:build", err);
+    gutil.log("[webpack:build]", stats.toString({
+      colors: true
+    }));
+    callback();
+  });
+});
