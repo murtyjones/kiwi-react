@@ -5,7 +5,6 @@ import 'codemirror/mode/python/python'
 import 'codemirror/addon/hint/show-hint'
 import 'codemirror/addon/hint/javascript-hint'
 import 'codemirror/addon/hint/show-hint.css'
-import '../../assets/css/codeMirrorOverrides.css'
 import { Card } from 'material-ui'
 
 import pythonKeywords from './Helpers'
