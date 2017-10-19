@@ -84,4 +84,4 @@ exports.resources = [
     description: 'Shows you key words and functions on one page.',
     url: 'https://lifehacker.com/keep-this-python-cheat-sheet-on-hand-when-learning-to-c-1655521825'
   }
-];
+]

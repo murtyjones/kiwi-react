@@ -125,7 +125,7 @@ export const HomeComponent = Home
 
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn } } = state;
+  const { auth: { isLoggedIn } } = state
 
   return {
     isLoggedIn

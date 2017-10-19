@@ -52,13 +52,13 @@ class CodeEditor extends Component {
   //modal handler being added to deal with code name modal
 
   handleModalOpen = () => {
-    this.setState({modalOpen: true});
-  };
+    this.setState({modalOpen: true})
+  }
 
   handleModalClose = () => {
-    this.setState({modalOpen: false});
+    this.setState({modalOpen: false})
     this.props.saveHandler(this.state.editorInput)
-  };
+  }
 
   forceUpdateHandler(){
     console.log('inside forceUpdate in the codeEditor')
