@@ -8,3 +8,5 @@ This is the front-end for the Kiwi app.
 3. Install yarn (`brew install yarn --without-node`)
 4. run `yarn`
 5. run `yarn start`
+
+NOTE: npm works instead of yarn as well.
