@@ -126,3 +126,7 @@ gulp.task("webpack:build", function(callback) {
     callback();
   });
 });
+
+gulp.task('run-win', function(){
+  gulp.watch('/src/Main.js');
+})
