@@ -9,4 +9,4 @@ This is the front-end for the Kiwi app.
 4. run `yarn`
 5. run `yarn start`
 
-NOTE: npm works instead of yarn as well.
+NOTE: npm works instead of yarn if you prefer it.
