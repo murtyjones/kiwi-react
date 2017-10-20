@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/gulp",
-    "start-win": "node node_modules/.bin/gulp run-win",
+    "start-win": "webpack-dev-server --port 3000 --config webpack/webpack.config.local.js",
     "lint": "./node_modules/.bin/gulp lint",
     "deploy": "./node_modules/.bin/gulp deploy --env local",
     "build": "./node_modules/.bin/gulp build",
