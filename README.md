@@ -21,4 +21,6 @@ NOTE: `npm` works instead of `yarn` if you prefer it. Just run `npm install` and
 3. Clone the repository using `git clone https://github.com/murtyjones/kiwi-react.git`
 4. Navigate to the `kiwi-react` repo folder
 5. run `npm install`
-6. run `npm run start-win`
+6. run `npm install -g webpack`
+7. run `npm install -g webpack-dev-server`
+8. run `npm run start-win`
