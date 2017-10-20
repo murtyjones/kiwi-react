@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/gulp",
+    "start-win": "node node_modules/.bin/gulp",
     "lint": "./node_modules/.bin/gulp lint",
     "deploy": "./node_modules/.bin/gulp deploy --env local",
     "build": "./node_modules/.bin/gulp build",
