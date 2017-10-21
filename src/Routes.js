@@ -28,7 +28,7 @@ import UserProject from './UserProject/UserProject'
 
 
 const baseAppStyle = {
-  "border-radius": 0
+  "borderRadius": 0
   , "margin": 0
   , "position": "absolute"
   , "left": 0
@@ -52,19 +52,21 @@ class App extends Component {
     const { isLoggedIn } = this.props
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
-        <Helmet>
-          <title>Kiwi Compute</title>
-        </Helmet>
-        <div className={ cns('baseAppStyles') } style={ baseAppStyle } >
-          <Header isLoggedIn={ isLoggedIn } />
-          <Switch>
-            <Route path='/' exact component={ Home } />
-            <Route path='/login' exact component={ LoginOrRegister } />
-            <Route path='/register' exact component={ LoginOrRegister } />
-            <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
-            <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-            <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-          </Switch>
+        <div>
+          <Helmet>
+            <title>Kiwi Compute</title>
+          </Helmet>
+          <div className={ cns('baseAppStyles') } style={ baseAppStyle } >
+            <Header isLoggedIn={ isLoggedIn } />
+            <Switch>
+              <Route path='/' exact component={ Home } />
+              <Route path='/login' exact component={ LoginOrRegister } />
+              <Route path='/register' exact component={ LoginOrRegister } />
+              <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
+              <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+              <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+            </Switch>
+          </div>
         </div>
       </MuiThemeProvider>
     )
