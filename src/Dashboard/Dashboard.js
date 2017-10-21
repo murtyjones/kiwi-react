@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { KiwiLink } from '../common/KiwiLinks'
 import { getManyUserProjects } from '../actions'
 import UserProjectWidget from './UserProjectWidget'
+import LessonCard from './LessonCard'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -58,7 +59,8 @@ class Dashboard extends Component {
         <br/>
           {/*Lesson stucture will go here*/}
             <div id='canvas' width={500} height={500}>
-              <h1>Canvas Here</h1>
+              <h1>Lessons</h1>
+              <LessonCard lessonCardData={this.props.lessonCardData}/>
             </div>
 
         <br/>
