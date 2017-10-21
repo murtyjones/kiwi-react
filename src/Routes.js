@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { Route, Switch, Redirect, withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-
+import AppBar from 'material-ui/AppBar'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 
 
@@ -28,7 +28,7 @@ import UserProject from './UserProject/UserProject'
 
 
 const baseAppStyle = {
-  "borderRadius": 0
+  "border-radius": 0
   , "margin": 0
   , "position": "absolute"
   , "left": 0
@@ -53,20 +53,30 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
-          <Helmet>
-            <title>Kiwi Compute</title>
-          </Helmet>
-          <div className={ cns('baseAppStyles') } style={ baseAppStyle } >
-            <Header isLoggedIn={ isLoggedIn } />
-            <Switch>
-              <Route path='/' exact component={ Home } />
-              <Route path='/login' exact component={ LoginOrRegister } />
-              <Route path='/register' exact component={ LoginOrRegister } />
-              <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
-              <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-              <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-            </Switch>
+          <AppBar
+        showMenuIconButton={false}
+        title="Kiwi Compute"
+        zDepth={1}
+        iconElementRight={
+          <div>
+              <Link to='/'>
+                Home
+              </Link>
+              <Link to='/login'>
+                Login
+              </Link>
+              <Link to='/dashboard'>
+                dashboard
+              </Link>
           </div>
+        }
+       />
+            <Route path='/' exact component={ Home } />
+            <Route path='/login' exact component={ LoginOrRegister } />
+            <Route path='/register' exact component={ LoginOrRegister } />
+            <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
+            <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+            <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
         </div>
       </MuiThemeProvider>
     )
