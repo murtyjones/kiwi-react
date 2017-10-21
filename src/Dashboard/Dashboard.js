@@ -8,6 +8,7 @@ import { KiwiLink } from '../common/KiwiLinks'
 import { getManyUserProjects } from '../actions'
 import UserProjectWidget from './UserProjectWidget'
 import LessonCard from './LessonCard'
+import { LessonService } from '../utils/LessonService'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class Dashboard extends Component {
 
   componentWillMount() {
     this.getUserProjectData()
-    this.updateCanvas;
+    LessonService.getLessons().then(resp => console.log('lessons:', resp))
+    // this.updateCanvas
   }
 
   getUserProjectData = () => {
