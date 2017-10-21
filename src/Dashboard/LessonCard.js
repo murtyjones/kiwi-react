@@ -39,7 +39,7 @@ export default class LessonCard extends React.Component {
           actAsExpander={true}
           showExpandableButton={true}
         />
-        
+
         <CardMedia
           expandable={true}
           overlay={<CardTitle title="Variables" subtitle="Creating web apps, games, and search engines all involve storing and working with different types of data. They do so using variables. A variable stores a piece of data, and gives it a specific name" />}
@@ -51,10 +51,7 @@ export default class LessonCard extends React.Component {
           This lesson will introduce you to Python, a general-purpose, object-oriented interpreted language you can use for countless standalone projects or scripting applications.
 
         </CardText>
-        <CardActions>
-          <FlatButton label="Expand" onClick={this.handleExpand} />
-          <FlatButton label="Reduce" onClick={this.handleReduce} />
-        </CardActions>
+
       </Card>
     );
   }
