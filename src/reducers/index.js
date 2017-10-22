@@ -5,6 +5,7 @@ import { reducer as formReducer } from 'redux-form'
 import home from './home'
 import auth from './Auth'
 import userProjects from './UserProjects'
+import lessons from './Lessons'
 
 // Export combined reducers
 export default combineReducers({
@@ -12,4 +13,5 @@ export default combineReducers({
   , home
   , auth
   , userProjects
+  , lessons
 })
