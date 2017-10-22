@@ -10,6 +10,7 @@ import UserProjectWidget from './UserProjectWidget'
 import LessonCard from './LessonCard'
 import { LessonService } from '../utils/LessonService'
 
+
 class Dashboard extends Component {
   constructor(props) {
     super(props)
@@ -59,12 +60,6 @@ class Dashboard extends Component {
         <br/>
         <KiwiLink to={ `/project/new` }>New Project</KiwiLink>
         <br/>
-          {/*Lesson stucture will go here*/}
-            <div id='canvas' width={500} height={500}>
-              <h1>Lessons</h1>
-              <LessonCard lessonCardData={this.props.lessonCardData}/>
-            </div>
-
         <br/>
       </div>
     )

@@ -6,39 +6,12 @@ import { signout } from '../actions'
 
 //Material ui stuf
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-import Toggle from 'material-ui/Toggle';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
 
-class HeaderMenu extends Component {
-
-  render() {
-    return (
-      <IconMenu
-        iconButtonElement={
-          <IconButton><MoreVertIcon style={{backgroundColor: "#000000"}}/></IconButton>
-        }
-        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-      >
-        <MenuItem
-          primaryText="New Lesson"
-          onClick={this.props.showNewLessonModal}
-        />
-        <MenuItem
-          primaryText="Sign out"
-          onClick={this.props.logout}
-        />
-      </IconMenu>
-    )
-  }
-}
+// Internal 
+import HeaderMenu from './HeaderMenu'
+import CreateLessonModal from './CreateLessonModal'
 
 class Login extends Component {
   static muiName = 'FlatButton';
@@ -84,7 +57,6 @@ class Header extends Component {
 
   render() {
     const { isLoggedIn } = this.props
-    const renderLogout = isLoggedIn ? ({"title": "Logout", "path": "/logout"}) : ({"title": "Login", "path": "/login"})
 
     const actions = [
       <FlatButton
@@ -108,22 +80,17 @@ class Header extends Component {
     )
     return (
       <div>
-      <AppBar
-        style={{backgroundColor: "#3f3061"}}
-        title="Kiwi Compute"
-        showMenuIconButton={false}
-        iconElementRight={isLoggedIn ? headerMenuInstance : <Login/>}
-      />
-
-      <Dialog
-        title="Dialog With Actions"
-        actions={actions}
-        modal={false}
-        open={this.state.open}
-        onRequestClose={this.handleClose}
-      >
-        The actions in this window were passed in as an array of React objects.
-      </Dialog>
+        <AppBar
+          style={{backgroundColor: "#3f3061"}}
+          title="Kiwi Compute"
+          showMenuIconButton={false}
+          iconElementRight={isLoggedIn ? headerMenuInstance : <Login/>}
+        />
+        <CreateLessonModal
+            modal={false}
+            open={this.state.open}
+            close={this.handleClose}
+        />
       </div>
     )
   }
