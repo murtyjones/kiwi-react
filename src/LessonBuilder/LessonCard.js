@@ -18,7 +18,7 @@ class LessonCard extends Component {
 
   handleToggle = (event, toggle) => {
     this.setState({expanded: toggle});
-    console.log('the event toggled')
+    // console.log('the event toggled')
   };
 
   handleExpand = () => {

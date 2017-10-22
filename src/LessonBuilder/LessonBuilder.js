@@ -28,7 +28,7 @@ class LessonBuilder extends Component {
       lessonName: null,
       lessonDescription: null,
       openAlert: false,
-      alertText: "Submit",
+      alertText: "Please fill out lesson name and description.",
       alerted: false,
       lessonsById: null
     }
@@ -36,27 +36,20 @@ class LessonBuilder extends Component {
 
   componentDidMount(){
     this.props.getManyLessons()
-    // setTimeout(()=>{console.log("this.props.lessonsById ", this.props.lessonsById)},5000)
   }
 
   componentWillReceiveProps(nextProps){
     if(nextProps.lessonsById!=this.props.lessonsById){
-      // console.log('this.props.lessonsById', this.props.lessonsById);
-      console.log('inside componentWillReceiveProps if statement');
-      console.log('value of nextProps.lessonsById: ', nextProps.lessonsById);
 
       let temparray = [];
 
       Object.keys(nextProps.lessonsById).forEach(lesson=>{
-        console.log('value of lesson in objec.keys for loop ', lesson);
         temparray.push(nextProps.lessonsById[lesson])
       })
 
       console.log("temparray: ", temparray)
       this.setState({
         lessonsById: temparray
-      }, ()=>{
-        console.log('value of this.state.lessonsById after setting: ', this.state.lessonsById);
       })
     }
   }
@@ -82,37 +75,41 @@ class LessonBuilder extends Component {
 
   handleTextChange(lessonName, lessonDescription){
     this.setState({
-      lessonName: lessonName||this.state.lessonName,
-      lessonDescription: lessonDescription||this.state.lessonDescription
+      lessonName: lessonName,
+      lessonDescription: lessonDescription
     }, ()=>{
-      if (this.state.alerted===true){
-        if (this.state.alertText==="Both Lesson Name and Lesson Description are Blank! OH NOES!" && this.state.lessonName!=null & this.state.lessonDescription!=null){
-          // console.log('inside 1)');
-          this.setState({
-            alerted: false,
-            alertText: "Submit"
-          })
-        }
-        if (this.state.alertText==="Lesson Name is Blank! OH NOES!"&&this.state.lessonName!=null){
-          // console.log('inside 2)');
-          this.setState({
-            alerted: false,
-            alertText: "Submit"
-          })
-        }
-        if(this.state.alertText==="Lesson Description is Blank! OH NOES!"&&this.state.lessonDescription!=null){
-          // console.log('inside 3)');
-          this.setState({
-            alerted: false,
-            alertText: "Submit"
-          })
-        }
+
+      console.log('value of this.state.lessonName: ', this.state.lessonName);
+      console.log('value of this.state.lessonDescription: ', this.state.lessonDescription);
+
+      if(!isEmpty(this.state.lessonName)&&!isEmpty(this.state.lessonDescription)){
+        this.setState({
+          alertText: "Submit"
+        })
+      }
+      if(this.state.lessonName===null||this.state.lessonName===""&&this.state.lessonDescription===null||this.state.lessonDescription===""){
+        this.setState({
+          alertText: "Please fill out lesson name and description."
+        })
+      }
+
+      if((this.state.lessonName===null||this.state.lessonName==="")&&(this.state.lessonDescription!=null&&this.state.lessonDescription!="")){
+        this.setState({
+          alertText: "Please fill out lesson name."
+        })
+      }
+
+      if((this.state.lessonDescription===null||this.state.lessonDescription==="")&&(this.state.lessonName!=null&&this.state.lessonName!="")){
+        this.setState({
+          alertText: "Please fill out description."
+        })
       }
     })
   }
 
   handleModalClose(){
-    if(this.state.lessonName!=null && this.state.lessonDescription!=null){
+    console.log('this.state.alerted: ', this.state.alerted);
+    if(this.state.alertText==="Submit"){
       let lessonName = this.state.lessonName
       this.setState({
         lessonName: null
@@ -122,36 +119,12 @@ class LessonBuilder extends Component {
       this.setState({
         newModalOpen: false
       })
-    }else{
-      if(this.state.lessonName===null && this.state.lessonDescription===null){
-        this.setState({
-          alertText: "Both Lesson Name and Lesson Description are Blank! OH NOES!",
-          alerted: true
-        })
-      }else if(this.state.lessonName===null){
-        this.setState({
-          alertText: "Lesson Name is Blank! OH NOES!",
-          alerted: true
-        })
-      }else if(this.state.lessonDescription===null){
-        this.setState({
-          alertText: "Lesson Description is Blank! OH NOES!",
-          alerted: true
-        })
-      }
     }
   }
 
-  //need to make a map of all lessons after pulling from redux on componentDidMount
-
-  // <LessonCard lessonCardData={this.props.lessonCardData} handleLessonClick={()=>{this.handleLessonClick()}}/>
-
   render() {
-    // console.log('this.props.lessonsById', this.props.lessonsById);
     let LessonList;
     if (!isEmpty(this.state.lessonsById)===true){
-      console.log('inside isEmpty if statement');
-      console.log("this.state.lessonsById in render: ", this.state.lessonsById)
       LessonList = this.state.lessonsById.map((lesson,i)=>{
         return(
           <LessonCard key={i} lesson={lesson}/>
@@ -189,11 +162,11 @@ class LessonBuilder extends Component {
          Creat a New Lesson. Make sure to give it a title and description!<br/><br/>
          <TextField
               hintText="Lesson Title"
-              onChange={(e)=>{this.handleTextChange(e.target.value, null)}}
+              onChange={(e)=>{this.handleTextChange(e.target.value, this.state.lessonDescription)}}
           /><br/>
           <TextField
-               hintText="Lesson Description"
-               onChange={(e)=>{this.handleTextChange(null, e.target.value)}}
+              hintText="Lesson Description"
+              onChange={(e)=>{this.handleTextChange(this.state.lessonName, e.target.value)}}
           /><br/>
        </Dialog>
         <div id='canvas' width={500} height={500}>
