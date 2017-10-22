@@ -30,6 +30,15 @@ class LessonCard extends Component {
   };
 
 
+  componentDidMount(){
+    // console.log('value of this.props.lesson (INSIDE LESSONCARD): ', this.props.lesson);
+  }
+
+  componentWillReceiveProps(nextProps){
+    // console.log('value of this.props.lesson (INSIDE LESSONCARD): ', nextProps);
+  }
+
+
   //This is the card list item
 
   handleLessonClick(){
@@ -41,15 +50,14 @@ class LessonCard extends Component {
       <div>
         <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
           <CardHeader
-            title="Author"
-            subtitle="Lesson 1"
+            title={this.props.lesson.title}
             avatar="https://avatars0.githubusercontent.com/u/8691910?s=460&v=4"
             actAsExpander={true}
             showExpandableButton={true}
           />
 
           <CardText expandable={true}>
-            hello there sailor - this is where meta information about the project
+            Description: {this.props.lesson.description}
             <br/><br/>
             <FlatButton primary={true} onClick={()=>{this.handleLessonClick()}}>Edit Lesson</FlatButton>
           </CardText>

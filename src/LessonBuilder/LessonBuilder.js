@@ -12,6 +12,7 @@ import LessonCard from './LessonCard'
 import TextField from 'material-ui/TextField'
 import Header from './Header'
 import renderIf from 'render-if'
+import { isEmpty } from 'lodash'
 import { getManyLessons, postLesson } from '../actions'
 
 
@@ -28,19 +29,36 @@ class LessonBuilder extends Component {
       lessonDescription: null,
       openAlert: false,
       alertText: "Submit",
-      alerted: false
+      alerted: false,
+      lessonsById: null
     }
   }
 
   componentDidMount(){
     this.props.getManyLessons()
-    setTimeout(()=>{console.log("this.props.lessonsById ", this.props.lessonsById)},5000)
+    // setTimeout(()=>{console.log("this.props.lessonsById ", this.props.lessonsById)},5000)
   }
 
   componentWillReceiveProps(nextProps){
-    // if(nextProps.lessonsById!=this.props.lessonsById){
-      console.log('this.props.lessonsById', this.props.lessonsById);
-    // }
+    if(nextProps.lessonsById!=this.props.lessonsById){
+      // console.log('this.props.lessonsById', this.props.lessonsById);
+      console.log('inside componentWillReceiveProps if statement');
+      console.log('value of nextProps.lessonsById: ', nextProps.lessonsById);
+
+      let temparray = [];
+
+      Object.keys(nextProps.lessonsById).forEach(lesson=>{
+        console.log('value of lesson in objec.keys for loop ', lesson);
+        temparray.push(nextProps.lessonsById[lesson])
+      })
+
+      console.log("temparray: ", temparray)
+      this.setState({
+        lessonsById: temparray
+      }, ()=>{
+        console.log('value of this.state.lessonsById after setting: ', this.state.lessonsById);
+      })
+    }
   }
 
   handleLessonClick(lessonId){
@@ -63,18 +81,10 @@ class LessonBuilder extends Component {
   }
 
   handleTextChange(lessonName, lessonDescription){
-    // console.log("Inside handleTextChange before setState");
-    // console.log('value of lessonName ', lessonName);
-    // console.log('value of lessonDescription ', lessonDescription);
     this.setState({
       lessonName: lessonName||this.state.lessonName,
       lessonDescription: lessonDescription||this.state.lessonDescription
     }, ()=>{
-      // console.log("Inside handleTextChange after setState");
-      // console.log('value of lessonName ', this.state.lessonName);
-      // console.log('value of lessonDescription ', this.state.lessonDescription);
-      // console.log('value of alertText ', this.state.alertText);
-      // console.log('value of alerted ', this.state.alerted);
       if (this.state.alerted===true){
         if (this.state.alertText==="Both Lesson Name and Lesson Description are Blank! OH NOES!" && this.state.lessonName!=null & this.state.lessonDescription!=null){
           // console.log('inside 1)');
@@ -134,8 +144,22 @@ class LessonBuilder extends Component {
 
   //need to make a map of all lessons after pulling from redux on componentDidMount
 
+  // <LessonCard lessonCardData={this.props.lessonCardData} handleLessonClick={()=>{this.handleLessonClick()}}/>
+
   render() {
     // console.log('this.props.lessonsById', this.props.lessonsById);
+    let LessonList;
+    if (!isEmpty(this.state.lessonsById)===true){
+      console.log('inside isEmpty if statement');
+      console.log("this.state.lessonsById in render: ", this.state.lessonsById)
+      LessonList = this.state.lessonsById.map((lesson,i)=>{
+        return(
+          <LessonCard key={i} lesson={lesson}/>
+        )
+      })
+    }
+
+
     const actions = [
      <FlatButton
        label="Cancel"
@@ -174,7 +198,7 @@ class LessonBuilder extends Component {
        </Dialog>
         <div id='canvas' width={500} height={500}>
           <h1>Lessons</h1>
-          <LessonCard lessonCardData={this.props.lessonCardData} handleLessonClick={()=>{this.handleLessonClick()}}/>
+          {LessonList}
         </div>
       </div>
     )
