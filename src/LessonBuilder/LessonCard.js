@@ -42,7 +42,8 @@ class LessonCard extends Component {
   //This is the card list item
 
   handleLessonClick(){
-    this.props.handleLessonClick()
+    console.log('inside card and value of this.props.lesson: ', this.props.lesson);
+    this.props.handleLessonClick(this.props.lesson)
   }
 
   render() {

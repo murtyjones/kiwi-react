@@ -14,6 +14,7 @@ import Header from './Header'
 import renderIf from 'render-if'
 import { isEmpty } from 'lodash'
 import { getManyLessons, postLesson } from '../actions'
+import LessonPlanner from "./LessonPlanner"
 
 
 class LessonBuilder extends Component {
@@ -30,7 +31,8 @@ class LessonBuilder extends Component {
       openAlert: false,
       alertText: "Please fill out lesson name and description.",
       alerted: false,
-      lessonsById: null
+      lessonsById: null,
+      lessonprops: null
     }
   }
 
@@ -54,10 +56,19 @@ class LessonBuilder extends Component {
     }
   }
 
-  handleLessonClick(lessonId){
-    console.log('inside handleLessonClick!');
+  handleLessonBack(){
     this.setState({
-      lessonclicked: true
+      lessonclicked: false,
+      lessonprops: null
+    })
+  }
+
+  handleLessonClick(lessonprops){
+    console.log('inside handleLessonClick!');
+    console.log('value of lessonprops: ', lessonprops);
+    this.setState({
+      lessonclicked: true,
+      lessonprops: lessonprops
     })
   }
 
@@ -127,7 +138,7 @@ class LessonBuilder extends Component {
     if (!isEmpty(this.state.lessonsById)===true){
       LessonList = this.state.lessonsById.map((lesson,i)=>{
         return(
-          <LessonCard key={i} lesson={lesson}/>
+          <LessonCard key={i} lesson={lesson} handleLessonClick={(e)=>this.handleLessonClick(e)}/>
         )
       })
     }
@@ -150,29 +161,36 @@ class LessonBuilder extends Component {
     return (
       <div>
         <Header isLoggedIn={this.props.isLoggedIn}/>
-        <FlatButton primary={true} onClick={()=>{this.openNewModal()}}>Create New Lessson</FlatButton>
-        <br/><br/>
-        <Dialog
-         title="Create New Lesson!"
-         actions={actions}
-         modal={false}
-         open={this.state.newModalOpen}
-         onRequestClose={()=>this.handleModalClose()}
-       >
-         Creat a New Lesson. Make sure to give it a title and description!<br/><br/>
-         <TextField
-              hintText="Lesson Title"
-              onChange={(e)=>{this.handleTextChange(e.target.value, this.state.lessonDescription)}}
-          /><br/>
-          <TextField
-              hintText="Lesson Description"
-              onChange={(e)=>{this.handleTextChange(this.state.lessonName, e.target.value)}}
-          /><br/>
-       </Dialog>
-        <div id='canvas' width={500} height={500}>
-          <h1>Lessons</h1>
-          {LessonList}
-        </div>
+        {renderIf(this.state.lessonclicked===false)(
+          <div>
+            <FlatButton primary={true} onClick={()=>{this.openNewModal()}}>Create New Lessson</FlatButton>
+            <br/><br/>
+            <Dialog
+             title="Create New Lesson!"
+             actions={actions}
+             modal={false}
+             open={this.state.newModalOpen}
+             onRequestClose={()=>this.handleModalClose()}
+           >
+             Creat a New Lesson. Make sure to give it a title and description!<br/><br/>
+             <TextField
+                  hintText="Lesson Title"
+                  onChange={(e)=>{this.handleTextChange(e.target.value, this.state.lessonDescription)}}
+              /><br/>
+              <TextField
+                  hintText="Lesson Description"
+                  onChange={(e)=>{this.handleTextChange(this.state.lessonName, e.target.value)}}
+              /><br/>
+           </Dialog>
+            <div id='canvas' width={500} height={500}>
+              <h1>Lessons</h1>
+              {LessonList}
+            </div>
+          </div>
+        )}
+        {renderIf(this.state.lessonclicked===true)(
+          <LessonPlanner lesson={this.state.lessonprops} handleLessonBack={this.state.handleLessonBack()}/>
+        )}
       </div>
     )
   }
