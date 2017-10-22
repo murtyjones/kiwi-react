@@ -7,6 +7,9 @@ const localConfig = require('../config/default.json')
 process.env.BABEL_ENV = 'local-webpack'
 module.exports = {
   devtool: 'cheap-module-source-map',
+  devServer: {
+    historyApiFallback: true,
+  },
   context: path.join(__dirname, '../'),
   entry: [
     'react-hot-loader/patch',
