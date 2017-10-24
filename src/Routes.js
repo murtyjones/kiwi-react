@@ -8,6 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import AppBar from 'material-ui/AppBar'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
+import { signout } from './actions'
 
 
 import Header from './Header/Header'
@@ -48,29 +49,36 @@ class App extends Component {
     isLoggedIn: T.bool.isRequired
   }
 
+  logout = () => {
+    this.props.signout().then(() => {
+      this.props.history.push("/login")
+    })
+  }
+
   render() {
     const { isLoggedIn } = this.props
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
           <AppBar
-        showMenuIconButton={false}
-        title="Kiwi Compute"
-        zDepth={1}
-        iconElementRight={
-          <div>
-              <Link to='/'>
-                Home
-              </Link>
-              <Link to='/login'>
-                Login
-              </Link>
-              <Link to='/dashboard'>
-                dashboard
-              </Link>
-          </div>
-        }
-       />
+            showMenuIconButton={ false }
+            title="Kiwi Compute"
+            zDepth={ 1 }
+            iconElementRight={
+              <div>
+                <Link to='/'>
+                  Home
+                </Link>
+                <Link to='/login'>
+                  Login
+                </Link>
+                <Link to='/dashboard'>
+                  dashboard
+                </Link>
+                { isLoggedIn && <div onClick={ this.logout }>Log out</div> }
+              </div>
+            }
+          />
             <Route path='/' exact component={ Home } />
             <Route path='/login' exact component={ LoginOrRegister } />
             <Route path='/register' exact component={ LoginOrRegister } />
@@ -93,4 +101,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, null)(App))
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signout: () => dispatch(signout())
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
