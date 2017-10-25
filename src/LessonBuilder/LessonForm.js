@@ -3,8 +3,9 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { signout } from '../actions'
-import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form'
-
+import { Field, FieldArray, reduxForm, SubmissionError, initialize } from 'redux-form'
+// import { reducer as formReducer } from 'redux-form/immutable'
+import { getLesson } from '../actions'
 //Material ui stuf
 import {Card, CardActions, CardHeader} from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
@@ -29,7 +30,7 @@ import styled from 'styled-components';
 import glamorous from 'glamorous';
 import { css } from 'glamor';
 
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import { connect } from 'react-redux'
 
 import {
@@ -322,7 +323,9 @@ class LessonForm extends Component {
       radioIndex: 0,
       modifyattributes: [],
       removefield: null,
-      showExtended: false
+      setRadioArray: false,
+      showExtended: false,
+      canSetInsert: false
     }
   }
 
@@ -363,11 +366,37 @@ class LessonForm extends Component {
 
   componentDidMount(){
     this.props.change(`Radio0button`, 'allcode');
-    console.log('value of this.props.lesson: ', this.props.lessons);
+    console.log('value of this.props.initialValues: ', this.props.initialValues);
+    console.log('value of this.props.currentValues: ', this.props.currentValues);
+    // console.log('value of this.props.lesson: ', this.props.lessons);
+    // this.props.getLesson({id: this.props.lessons._id});
+    // setTimeout(()=>{
+    //   console.log('value of initialValues: ', this.props.initialValues);
+    // }, 3000)
+  }
+
+  componentWillReceiveProps(nextProps){
+    console.log('value of nextProps', nextProps);
+    console.log('value of nextProps.initialValues', nextProps.initialValues);
+    console.log('value of this.props.initialValues', this.props.initialValues);
+    console.log('trigggere')
+    if(!isEqual(this.props.initialValues, nextProps.initialValues)) {
+
+      dispatch(initialize('fieldArray', nextProps.initialValues))
+    }
+
+    if (this.state.setRadioArray===false){
+      this.setState({
+        radioArray: this.props.initialValues.pageTypes,
+        setRadioArray: true
+      }, ()=>{
+        console.log('after setstate in componentWillReceiveProps and radioArray is ', this.state.radioArray);
+      })
+    }
   }
 
   componentWillUpdate(){
-    console.log('value of this.state: ', this.state);
+    // console.log('value of this.state: ', this.state);
   }
 
   handleRemoveField(pagenum){
@@ -444,6 +473,8 @@ class LessonForm extends Component {
     }
 
     const pagesButtons = ({fields})=>{
+      console.log('pagesButtons got called!!!');
+      console.log('value of this.state.canSetInsert', this.setState.canSetInsert);
       if (this.state.canSetInsert===true){
         let radiostr = `Radio${this.state.radioArray.length}button`
         console.log('radiostr: ', radiostr);
@@ -463,6 +494,7 @@ class LessonForm extends Component {
     }
 
     const renderPages = ({ fields }) => {
+      console.log('VALUE OF FIELDS ', fields);
       console.log('value of addbuttonclick::: ', this.state.addbuttonclicked);
       if (this.state.addbuttonclicked===true){
         fields.push({})
@@ -479,6 +511,7 @@ class LessonForm extends Component {
       return(
         <div style={{width: "100%", height: "100%", backgroundColor: "gray"}}>
           <FieldArray name="pagesButtons" component={pagesButtons}/>
+          //STATE FOR INITIALIZE IS BROKEN HERE!!!!
           {fields.map((renderPages, pagenum) =>
             <div key={pagenum} style={{width: "100%", height: "100%", backgroundColor: "skyblue", position: 'relative'}}>
               <ModifyAttributesToolbar pagenum={pagenum}/>
@@ -558,6 +591,9 @@ class LessonForm extends Component {
     // onSubmit={handleSubmit}
 
     const { error, handleSubmit, pristine, reset, submitting } = this.props
+    console.log("IN RENDER THIS.STATE.radioArray: ", this.state.radioArray);
+    console.log("IN RENDER THIS.STATE.radioArray.length: ", this.state.radioArray.length);
+
     return (
       <form onSubmit={handleSubmit} style={{width: "100%", height: "100%"}}>
         <GridBigContainer>
@@ -596,19 +632,69 @@ class LessonForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'fieldArrays',
-  // validate
-  //  initialValues:initialValuesObject,
-  //  enableReinitialize: true
-})(LessonForm)
+// reduxForm({
+//   form: 'fieldArrays',
+//   // validate
+//   //  initialValues:initialValuesObject,
+//    enableReinitialize: true
+// })(LessonForm)
 
-
-// InitializeFromStateForm = connect(
+// LessonFormConnected = connect(
 //   state => ({
-//     initialValues: state.account.data // pull initial values from account reducer
+//     initialValues: state.lessons
 //   }),
-//   { load: loadAccount } // bind account loading action creator
-// )(InitializeFromStateForm)
+//   {getLesson}
+// )(LessonFormConnected);
+
+
+// const mapStateToProps = (state, ownProps) => {
+//   // const { id } = ownProps.lessons["_id"]
+//   const { lessons: { lessonsById = {} } } = state
+//   // console.log('value of ownProps.lessons._id', ownProps.lessons._id);
+//   // console.log('value of lessonsById: ', lessonsById);
+//   // console.log('ownProps.lessons._id: ', ownProps.lessons["_id"]);
+//   // console.log('value of id: ', id);
+//   // console.log('value of lessonsById[id]: ', lessonsById[ownProps.lessons["_id"]]);
+//   return {
+//     initialValues: lessonsById[ownProps.lessons["_id"]]
+//   }
+// }
 //
-// export default InitializeFromStateForm
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getLesson: (params) => dispatch(getLesson(params))
+//   }
+// }
+
+LessonForm = reduxForm({
+  form: 'fieldArrays', // a unique name for this form
+  enableReinitialize: true
+})(LessonForm);
+
+
+// LessonForm = connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )(LessonForm);
+
+export default LessonForm
+
+// export default reduxForm({
+//     form: 'fieldArrays', // a unique name for this form
+//     enableReinitialize: true
+// })(LessonForm);
+// const mapStateToProps = (state) => {
+//     return {
+//         // (data you want to get from your store)
+//     };
+// };
+//
+// // simple version of mapDispatchToProps - more advanced usage in the docs:
+// // https://github.com/reactjs/react-redux/blob/master/docs/api.md
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getLesson: (params) => dispatch(getLesson(params))
+//   }
+// }
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(SigninForm);

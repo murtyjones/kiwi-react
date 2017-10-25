@@ -12,7 +12,7 @@ import TextField from 'material-ui/TextField'
 import Header from './Header'
 import renderIf from 'render-if'
 import { isEmpty } from 'lodash'
-import { getManyLessons, postLesson, deleteLesson, putLesson } from '../actions'
+import { getManyLessons, postLesson, deleteLesson, putLesson, getLesson} from '../actions'
 import LessonPlanner from "./LessonPlanner"
 import LessonForm from './LessonForm'
 import Checkbox from 'material-ui/Checkbox'
@@ -41,7 +41,7 @@ class LessonBuilder extends Component {
       alertText: "Please fill out lesson name and description.",
       alerted: false,
       lessonsById: null,
-      lessonprops: null,
+      lessonprops: 0,
       checked: false
     }
   }
@@ -51,7 +51,7 @@ class LessonBuilder extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.lessonsById!=this.props.lessonsById){
+    if(nextProps.lessonsById!==this.props.lessonsById){
 
       let temparray = [];
 
@@ -85,6 +85,10 @@ class LessonBuilder extends Component {
     this.setState({
       lessonclicked: true,
       lessonprops: lessonprops
+    }, ()=>{
+      // console.log('value of this.props.lessonsById', this.props.lessonsById);
+      // this.props.getLesson({id: this.props.lessonsById})
+      // this.props.getLesson({id: this.state.lessons._id})
     })
   }
 
@@ -178,6 +182,15 @@ class LessonBuilder extends Component {
       })
     }
 
+
+    const FetchSingleLessonGoToPlanner = () => {
+      this.props.getLesson()
+      return(<LessonFormConnected
+      lessons={this.state.lessonprops}
+      onSubmit={this.handleLessonFormSubmit}
+      handleLessonBack={()=>this.handleLessonBack()}/>)
+    }
+
     const actions = [
      <FlatButton
        label="Cancel"
@@ -222,9 +235,11 @@ class LessonBuilder extends Component {
             </div>
           </div>
         )}
-        {renderIf(this.state.lessonclicked===true)(
+        {renderIf(!isEmpty(this.props.lessonsById[this.state.lessonprops._id]) && this.state.lessonclicked===true&&this.state.lessonprops!==0)(
           <div>
             <LessonForm
+            initialValues={this.props.lessonsById[this.state.lessonprops._id]}
+            currentValues={this.props.lessonsById[this.state.lessonprops._id]}
             lessons={this.state.lessonprops}
             onSubmit={this.handleLessonFormSubmit}
             handleLessonBack={()=>this.handleLessonBack()}/>
@@ -238,7 +253,7 @@ class LessonBuilder extends Component {
 
 const mapStateToProps = (state) => {
   const { auth: { isLoggedIn } } = state
-  const { lessons: { lessonsById } } = state
+  const { lessons: { lessonsById = {} } } = state
   return {
     isLoggedIn,
     lessonsById,
@@ -251,7 +266,8 @@ const mapDispatchToProps = (dispatch) => {
     getManyLessons: () => dispatch(getManyLessons()),
     deleteLesson: (params) => dispatch(deleteLesson(params)),
     postLesson: (params) => dispatch(postLesson(params)),
-    putLesson: (params) => dispatch(putLesson(params))
+    putLesson: (params) => dispatch(putLesson(params)),
+    getLesson: (params) => dispatch(getLesson(params))
   }
 }
 

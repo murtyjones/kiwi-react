@@ -6,7 +6,6 @@ const initialState = {
 
 //currently missing getLesson success
 
-
 function lessons(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.PUT_LESSON_SUCCESS:
@@ -17,8 +16,10 @@ function lessons(state = initialState, action) {
         lessonsById
       })
       return newState
-    case ACTIONS.POST_LESSON_SUCCESS:
-    case ACTIONS.GET_USER_PROJECT_SUCCESS: {
+    case ACTIONS.GET_LESSON_SUCCESS:
+      return state
+    case ACTIONS.POST_LESSON_SUCCESS:{
+    // case ACTIONS.GET_USER_PROJECT_SUCCESS: {
       console.log('inside postLesson success in lessons reducer');
       console.log('value of action.payload: ', action.payload);
       const lessonsById = Object.assign({}, state.lessonsById, {

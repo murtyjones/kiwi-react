@@ -44,17 +44,23 @@ export const deleteLesson = (params) => {
 
 export const getLesson = (params) => {
   const { id } = params
+  console.log('value of params in getlesson: ', params);
+  console.log('value of id in getlesson: ', id);
   const options = {
     method: 'GET',
   }
   return dispatch => {
+    console.log('inside dispatch of getLesson');
     dispatch({ type: ACTIONS.GET_LESSON_REQUEST })
+    console.log('value of request');
+    console.log(`${config.api}/api/lesson/${id}`);
     return ApiFetch(`${config.api}/api/lesson/${id}`, options)
     .then(res => {
-      console.log("value of res in getUserProject Actions", res)
+      console.log("value of res in getLesson Actions", res)
       dispatch({ type: ACTIONS.GET_LESSON_SUCCESS, payload: res })
     })
     .catch(e => {
+      console.log('inside catch of getLesson and error: ', e);
       dispatch({ type: ACTIONS.GET_LESON_FAILURE, payload: e })
     })
   }
