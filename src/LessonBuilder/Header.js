@@ -9,7 +9,7 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 
-// Internal 
+// Internal
 import HeaderMenu from './HeaderMenu'
 import CreateLessonModal from './CreateLessonModal'
 
@@ -81,7 +81,8 @@ class Header extends Component {
     return (
       <div>
         <AppBar
-          style={{backgroundColor: "#3f3061"}}
+          style={{backgroundColor: "#3f3061", height: "10vh",
+          fontSize: "5vh"}}
           title="Kiwi Compute"
           showMenuIconButton={false}
           iconElementRight={isLoggedIn ? headerMenuInstance : <Login/>}

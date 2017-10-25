@@ -21,6 +21,27 @@ export const getManyLessons = (params) => {
   }
 }
 
+export const deleteLesson = (params) => {
+  console.log('inside deleteLesson in Lessons Actions');
+  console.log('value of params in Lessons Actions: ', params);
+  const { id } = params
+  const options = {
+    method : "DELETE"
+  }
+  return dispatch => {
+    dispatch({ type: ACTIONS.DELETE_LESSON_REQUEST })
+    return ApiFetch(`${config.api}/api/lesson/${id}`, options)
+    .then(res => {
+      console.log('inside res for deleteLesson');
+      console.log('response in Lessons Actions, success: ', res);
+      dispatch({ type: ACTIONS.DELETE_LESSON_SUCCESS, payload: res})
+    })
+    .catch(e => {
+      dispatch({ type: ACTIONS.DELETE_LESSON_FAILURE, payload: e})
+    })
+  }
+}
+
 export const getLesson = (params) => {
   const { id } = params
   const options = {
@@ -40,12 +61,20 @@ export const getLesson = (params) => {
 }
 
 export const putLesson = (params) => {
-  const { id, title, description } = params
+  const { id, title, description, pages, pageTypes } = params
+  console.log('inside putlesson and ...');
+  console.log('value of id: ', id);
+  console.log('value of title: ', title);
+  console.log('value of description ', description);
+  console.log('value of pages ', pages);
+  console.log('value of pageTypes ', pageTypes);
   const options = {
     method: "PUT",
     body: {
       title: title
       , description: description
+      , pages: pages
+      , pageTypes: pageTypes
     }
   }
   return dispatch => {
@@ -70,8 +99,7 @@ export const postLesson = (params) => {
   const options = {
     method: "POST",
     body: {
-      code: code
-      , title: title
+       title: title
       , description: description
     }
   }

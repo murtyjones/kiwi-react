@@ -3,7 +3,6 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signout } from '../actions'
-
 //Material ui stuf
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
@@ -13,9 +12,19 @@ import TextField from 'material-ui/TextField'
 import Header from './Header'
 import renderIf from 'render-if'
 import { isEmpty } from 'lodash'
-import { getManyLessons, postLesson } from '../actions'
+import { getManyLessons, postLesson, deleteLesson, putLesson } from '../actions'
 import LessonPlanner from "./LessonPlanner"
+import LessonForm from './LessonForm'
+import Checkbox from 'material-ui/Checkbox'
+// import { Values } from 'redux-form-website-template';
 
+
+const styles ={
+  container: {
+    width: "100%",
+    height: "100%",
+  }
+}
 
 class LessonBuilder extends Component {
   constructor(props) {
@@ -32,7 +41,8 @@ class LessonBuilder extends Component {
       alertText: "Please fill out lesson name and description.",
       alerted: false,
       lessonsById: null,
-      lessonprops: null
+      lessonprops: null,
+      checked: false
     }
   }
 
@@ -49,7 +59,7 @@ class LessonBuilder extends Component {
         temparray.push(nextProps.lessonsById[lesson])
       })
 
-      console.log("temparray: ", temparray)
+      console.log("temparray in componentWillReceiveProps lessonsbyid: ", temparray)
       this.setState({
         lessonsById: temparray
       })
@@ -61,6 +71,12 @@ class LessonBuilder extends Component {
       lessonclicked: false,
       lessonprops: null
     })
+  }
+
+  handleLessonDelete(lessonId){
+    console.log('inside handleLessonDelete!');
+    console.log('value of lesson id: ', lessonId);
+    this.props.deleteLesson({ id: lessonId })
   }
 
   handleLessonClick(lessonprops){
@@ -126,23 +142,41 @@ class LessonBuilder extends Component {
         lessonName: null
       })
       //on
-      this.props.postLesson({code: null, title: this.state.lessonName, description: this.state.lessonDescription})
+      this.props.postLesson({title: this.state.lessonName, description: this.state.lessonDescription, pages: null, pageTypes: null})
       this.setState({
         newModalOpen: false
       })
     }
   }
 
+  handleLessonFormSubmit = async(v) => {
+    console.log('inside handleLessonFormSubmit');
+    console.log('value of v: ', v);
+    if (!isEmpty(v.renderPages)&&!isEmpty(v.pagesButtons)){
+      console.log('value of renderPages: ', v.renderPages);
+      console.log('value of renderButtons: ', v.pagesButtons);
+      try {
+        const success = await this.props.putLesson({id:this.state.lessonprops._id, title: this.state.lessonprops.title, description: this.state.lessonDescription, pages: v.renderPages, pageTypes: v.pagesButtons})
+        this.props.getManyLessons()
+        console.log('in handlesubmit try');
+      } catch(e) {
+        console.log('in handlesubmit catch');
+        console.log('value of e:', e);
+      }
+    }
+  }
+
   render() {
+    console.log("inside render and value of this.state.lessonsById is: ", this.state.lessonsById)
     let LessonList;
     if (!isEmpty(this.state.lessonsById)===true){
       LessonList = this.state.lessonsById.map((lesson,i)=>{
         return(
-          <LessonCard key={i} lesson={lesson} handleLessonClick={(e)=>this.handleLessonClick(e)}/>
+          <LessonCard key={i} lesson={lesson}
+          handleLessonDelete={(e)=>this.handleLessonDelete(e)} handleLessonClick={(e)=>this.handleLessonClick(e)}/>
         )
       })
     }
-
 
     const actions = [
      <FlatButton
@@ -159,7 +193,7 @@ class LessonBuilder extends Component {
    ];
 
     return (
-      <div>
+      <div style={styles.container}>
         <Header isLoggedIn={this.props.isLoggedIn}/>
         {renderIf(this.state.lessonclicked===false)(
           <div>
@@ -189,12 +223,18 @@ class LessonBuilder extends Component {
           </div>
         )}
         {renderIf(this.state.lessonclicked===true)(
-          <LessonPlanner lesson={this.state.lessonprops} handleLessonBack={this.state.handleLessonBack()}/>
+          <div>
+            <LessonForm
+            lessons={this.state.lessonprops}
+            onSubmit={this.handleLessonFormSubmit}
+            handleLessonBack={()=>this.handleLessonBack()}/>
+          </div>
         )}
       </div>
     )
   }
 }
+
 
 const mapStateToProps = (state) => {
   const { auth: { isLoggedIn } } = state
@@ -209,7 +249,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout()),
     getManyLessons: () => dispatch(getManyLessons()),
-    postLesson: (params) => dispatch(postLesson(params))
+    deleteLesson: (params) => dispatch(deleteLesson(params)),
+    postLesson: (params) => dispatch(postLesson(params)),
+    putLesson: (params) => dispatch(putLesson(params))
   }
 }
 

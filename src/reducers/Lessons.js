@@ -4,6 +4,9 @@ const initialState = {
   lessonsById: {}
 }
 
+//currently missing getLesson success
+
+
 function lessons(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.PUT_LESSON_SUCCESS:
@@ -28,6 +31,17 @@ function lessons(state = initialState, action) {
     }
     case ACTIONS.GET_MANY_LESSONS_SUCCESS: {
       console.log('inside GET_MANY_LESSON_SUCCESS and value of action.payload is: ', action.payload);
+      const lessonsById = action.payload.reduce((acc, each) => {
+        acc[each._id] = each
+        return acc
+      }, {})
+      const newState = Object.assign({}, state, {
+        lessonsById
+      })
+      return newState
+    }
+    case ACTIONS.DELETE_LESSON_SUCCESS: {
+      console.log('inside DELETE_LESSON_SUCCESS and value of action.payload is: ', action.payload);
       const lessonsById = action.payload.reduce((acc, each) => {
         acc[each._id] = each
         return acc

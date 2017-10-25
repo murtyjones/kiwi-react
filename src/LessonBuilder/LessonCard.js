@@ -40,6 +40,10 @@ class LessonCard extends Component {
 
 
   //This is the card list item
+  handleLessonDelete(){
+    console.log('inside card and value of this.props.lesson: ', this.props.lesson);
+    this.props.handleLessonDelete(this.props.lesson['_id'])
+  }
 
   handleLessonClick(){
     console.log('inside card and value of this.props.lesson: ', this.props.lesson);
@@ -61,6 +65,7 @@ class LessonCard extends Component {
             Description: {this.props.lesson.description}
             <br/><br/>
             <FlatButton primary={true} onClick={()=>{this.handleLessonClick()}}>Edit Lesson</FlatButton>
+            <FlatButton primary={true} onClick={()=>{this.handleLessonDelete()}}>Delete Lesson</FlatButton>
           </CardText>
         </Card>
       </div>

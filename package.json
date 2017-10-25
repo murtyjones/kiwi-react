@@ -35,6 +35,8 @@
     "es6-promise": "^4.1.1",
     "es6-symbol": "^3.1.1",
     "firebase": "^4.3.1",
+    "glamor": "^2.20.40",
+    "glamorous": "^4.10.0",
     "intro.js": "^2.8.0-alpha.1",
     "is_js": "^0.9.0",
     "jwt-decode": "^2.2.0",
@@ -51,10 +53,13 @@
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
     "redux": "^3.7.2",
-    "redux-form": "^7.0.4",
+    "redux-form": "^7.1.1",
+    "redux-form-material-ui": "^4.3.0",
+    "redux-form-website-template": "0.0.80",
     "redux-thunk": "^2.2.0",
     "render-if": "^0.1.1",
     "skulpt": "^0.11.1",
+    "styled-components": "^2.2.1",
     "validate.js": "^0.11.1"
   },
   "devDependencies": {
