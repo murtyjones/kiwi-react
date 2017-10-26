@@ -1,93 +1,15 @@
 import React, { Component } from 'react'
-import update from 'immutability-helper';
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, formValues } from 'redux-form'
-import { postLesson, putLesson, getLesson } from '../../actions/index'
+import { Field, FieldArray, reduxForm, SubmissionError, initialize, change } from 'redux-form'
 
-//import { RaisedButton } from 'material-ui'
-import { List, ListItem, RaisedButton, MenuItem } from 'material-ui'
-import { isEqual, isEmpty, find } from 'lodash'
-
-import { slideTypes } from './slideTypes'
+import { RaisedButton } from 'material-ui'
 
 import KiwiTextField from '../../common/KiwiTextField'
-import KiwiSelectField from '../../common/KiwiSelectField'
 import KiwiSliderField from '../../common/KiwiSliderField'
+import Slides from './Slides'
 
-class Slides extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedSlideTypes: []
-    }
-  }
-
-  setSelectedSlideType = (slideIndex, value) => {
-    const { selectedSlideTypes } = this.state
-    this.setState({
-      selectedSlideTypes: update(selectedSlideTypes, { $splice: [[slideIndex, 1, value]] })
-    })
-  }
-
-  deleteSelectedSlideType = (slideIndex) => {
-    const { selectedSlideTypes } = this.state
-    this.setState({
-      selectedSlideTypes: update(selectedSlideTypes, { $splice: [[slideIndex, 1]] })
-    })
-  }
-
-  renderSlideConfigure = (value) => {
-    const SlideConfigComponent = find(slideTypes, { value }).component
-    return <SlideConfigComponent />
-  }
-
-  render() {
-    const { fields } = this.props
-    const { selectedSlideTypes } = this.state
-    return (
-      <List>
-        <ListItem>
-          <RaisedButton onClick={ () => fields.push({}) }>
-            Add Slide
-          </RaisedButton>
-        </ListItem>
-        { fields.map((eachSlide, i) =>
-          <ListItem key={ i }>
-            <RaisedButton onClick={ () => {
-              this.deleteSelectedSlideType(i)
-              fields.remove(i)
-            } } >
-              Delete slide
-            </RaisedButton>
-            <h4>Slide #{i + 1}</h4>
-            <Field
-              name={`${eachSlide}.type`}
-              label="Slide Type"
-              component={ KiwiSelectField }
-              onSelectCustom={ (v) => this.setSelectedSlideType(i, v) }
-              options={ slideTypes }
-            >
-              { slideTypes.map((eachType, i) => {
-                return (
-                  <MenuItem
-                    key={ i }
-                    primaryText={eachType.label}
-                    value={eachType.value}
-                  />
-                )
-              }) }
-            </Field>
-            { selectedSlideTypes[i] &&
-              this.renderSlideConfigure(selectedSlideTypes[i])
-            }
-          </ListItem>
-        ) }
-      </List>
-    )
-  }
-}
+let formName = 'lesson'
 
 class LessonForm extends Component {
   constructor(props) {
@@ -140,7 +62,7 @@ class LessonForm extends Component {
 }
 
 LessonForm = reduxForm({
-  form: 'lesson'
+  form: formName
   , enableReinitialize: true
   //, destroyOnUnmount: !module.hot
 })(LessonForm)

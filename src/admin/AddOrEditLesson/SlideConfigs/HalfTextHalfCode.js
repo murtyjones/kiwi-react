@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
+import KiwiTextField from '../../../common/KiwiTextField'
 
 class HalfCodeHalfText extends Component {
   constructor(props) {
@@ -7,9 +8,13 @@ class HalfCodeHalfText extends Component {
   }
 
   render() {
+    const { fieldRef } = this.props
     return (
       <div>
-        Half and half!
+        <Field
+          name={ `${fieldRef}.title` }
+          component={ KiwiTextField }
+        />
       </div>
     )
   }

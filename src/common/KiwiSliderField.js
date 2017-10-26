@@ -1,26 +1,6 @@
 import React, { Component } from 'react'
 import { Slider } from 'material-ui'
 
-// const KiwiSelectField = ({ min, max, defaultValue, onDragStop, input, label, type, meta: { touched, error } }) =>
-//   <div>
-//     <label>
-//       { label }
-//     </label>
-//     <div>
-//       <Slider
-//         defaultValue={ defaultValue }
-//         min={ min }
-//         max={ max }
-//         // onDragStop={ onDragStop }
-//         onChange={(event, value) => onDragStop(event, value)}
-//       />
-//       { touched && error && <span>{ error }</span> }
-//     </div>
-//   </div>
-//
-// export default KiwiSelectField
-
-
 
 class KiwiSelectField extends Component {
   constructor(props) {
