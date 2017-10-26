@@ -7,5 +7,6 @@
     , "storageBucket": "kiwi-react.appspot.com"
     , "messagingSenderId": "630075552174"
     }
-, "api" : "http://localhost:8080"
+  , "api" : "http://localhost:8080"
+  , "host" : "http://localhost:3000"
 }

@@ -5,7 +5,7 @@ import { get, find } from 'lodash'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from '../actions'
+import { signInWithEmailAndPassword, login, createUserWithEmailAndPassword } from '../actions'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
@@ -35,10 +35,10 @@ class Home extends Component {
   }
 
   handleLoginSubmit = async(v) => {
-    const { signInWithEmailAndPassword } = this.props
+    const { signInWithEmailAndPassword, login } = this.props
     const { email, password } = v
     try {
-      const success = await signInWithEmailAndPassword({ email, password })
+      const success = await login({ email, password })
       this.props.history.push("/dashboard")
       return success
     } catch (e) {
@@ -54,9 +54,11 @@ class Home extends Component {
     const { createUserWithEmailAndPassword } = this.props
     const { email, password } = v
     try {
-      const success = await createUserWithEmailAndPassword({ email, password })
-      this.props.history.push("/dashboard")
-      return success
+      return createUserWithEmailAndPassword({ email, password })
+      .then(res => {
+        this.props.history.push("/dashboard")
+        return success
+      })
     } catch (e) {
       if(e.message.includes('The email address is already in use by another account.')) {
         throw new SubmissionError({ email: 'Email address is already in use!', _error: 'Registration failed!' })
@@ -133,6 +135,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signInWithEmailAndPassword: (params) => dispatch(signInWithEmailAndPassword(params))
     , createUserWithEmailAndPassword: (params) => dispatch(createUserWithEmailAndPassword(params))
+    , login: (params) => dispatch(login(params))
   }
 }
 
