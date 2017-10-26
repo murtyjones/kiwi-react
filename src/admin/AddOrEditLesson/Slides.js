@@ -11,6 +11,7 @@ import KiwiSelectField from '../../common/KiwiSelectField'
 class Slides extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       selectedSlideTypes: []
     }
@@ -73,8 +74,8 @@ class Slides extends Component {
                 return (
                   <MenuItem
                     key={ i }
-                    primaryText={eachType.label}
-                    value={eachType.value}
+                    primaryText={ eachType.label }
+                    value={ eachType.value }
                   />
                 )
               }) }

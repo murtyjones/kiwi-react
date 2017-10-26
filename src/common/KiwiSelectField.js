@@ -1,25 +1,28 @@
 import React from 'react'
 import { SelectField, MenuItem } from 'material-ui'
 
-const KiwiSelectField = ({ children, input, label, type, meta: { touched, error }, onSelectCustom, ...custom }) =>
-  <div>
-    <label>
-      { label }
-    </label>
+const KiwiSelectField = ({ children, input, label, type, meta: { touched, error }, onSelectCustom, ...custom }) => {
+  return (
     <div>
-      <SelectField
-        { ...input }
-        onChange={
-          (event, index, value) => {
-            input.onChange(value)
-            if(onSelectCustom) onSelectCustom(value)
+      <label>
+        {label}
+      </label>
+      <div>
+        <SelectField
+          {...input}
+          onChange={
+            (event, index, value) => {
+              input.onChange(value)
+              if (onSelectCustom) onSelectCustom(value)
+            }
           }
-        }
-        errorText={ touched && error }
-        children={ children }
-        { ...custom }
-      />
+          errorText={touched && error}
+          children={children}
+          {...custom}
+        />
+      </div>
     </div>
-  </div>
+  )
+}
 
 export default KiwiSelectField
