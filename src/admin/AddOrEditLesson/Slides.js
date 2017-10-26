@@ -3,7 +3,7 @@ import update from 'immutability-helper'
 import * as T from 'prop-types'
 import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, formValues } from 'redux-form'
 import { List, ListItem, RaisedButton, MenuItem } from 'material-ui'
-import { find } from 'lodash'
+import { find, isEmpty } from 'lodash'
 
 import { slideTypes } from './slideTypes'
 import KiwiSelectField from '../../common/KiwiSelectField'
@@ -18,7 +18,17 @@ class Slides extends Component {
   }
 
   static propTypes = {
+    getAllCurrentSlideTypes: T.func
+  }
 
+  componentWillReceiveProps(nextProps) {
+    const noSlidesSetYet = !this.props.slideTypes && isEmpty(this.state.selectedSlideTypes)
+    const hasSlideToSet = !isEmpty(nextProps.slideTypes)
+    if(noSlidesSetYet && hasSlideToSet) {
+      this.setState({
+        selectedSlideTypes: nextProps.slideTypes.map(e => e.type)
+      })
+    }
   }
 
   setSelectedSlideType = (slideIndex, value) => {

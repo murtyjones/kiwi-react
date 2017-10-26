@@ -75,7 +75,6 @@ class Lesson extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { lessons: { lessonsById } } = state
   const { match: { params: { id } } } = ownProps
-
   return {
     initialValues: lessonsById[id] || {}
   }
