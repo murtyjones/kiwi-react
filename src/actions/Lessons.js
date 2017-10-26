@@ -44,41 +44,29 @@ export const deleteLesson = (params) => {
 
 export const getLesson = (params) => {
   const { id } = params
-  console.log('value of params in getlesson: ', params);
-  console.log('value of id in getlesson: ', id);
   const options = {
     method: 'GET',
   }
   return dispatch => {
-    console.log('inside dispatch of getLesson');
     dispatch({ type: ACTIONS.GET_LESSON_REQUEST })
-    console.log('value of request');
-    console.log(`${config.api}/api/lesson/${id}`);
     return ApiFetch(`${config.api}/api/lesson/${id}`, options)
     .then(res => {
-      console.log("value of res in getLesson Actions", res)
       dispatch({ type: ACTIONS.GET_LESSON_SUCCESS, payload: res })
     })
     .catch(e => {
-      console.log('inside catch of getLesson and error: ', e);
-      dispatch({ type: ACTIONS.GET_LESON_FAILURE, payload: e })
+      dispatch({ type: ACTIONS.GET_LESSON_FAILURE, payload: e })
     })
   }
 }
 
 export const putLesson = (params) => {
-  const { id, title, description, renderPages, pagesButtons } = params
-  console.log('inside putlesson and ...');
-  console.log('value of id: ', id);
-  console.log('value of title: ', title);
-  console.log('value of description ', description);
+  console.log(params)
+  const { id, title, description, pages, pageTypes } = params
   const options = {
     method: "PUT",
     body: {
       title: title
       , description: description
-      , renderPages: renderPages
-      , pagesButtons: pagesButtons
     }
   }
   return dispatch => {
@@ -94,12 +82,7 @@ export const putLesson = (params) => {
 }
 
 export const postLesson = (params) => {
-  console.log('inside postLesson in Lessons Actions');
-  console.log('value of params: ', params);
-  const { code, title, description } = params
-  console.log("value of code ", code);
-  console.log('value of title ', title);
-  console.log('value of description ', description);
+  const { title, description } = params
   const options = {
     method: "POST",
     body: {
@@ -112,12 +95,10 @@ export const postLesson = (params) => {
     return ApiFetch(`${config.api}/api/lesson/`, options)
     .then(res => {
       dispatch({ type: ACTIONS.POST_LESSON_SUCCESS, payload: res })
-      console.log('value of res in postLesson in Lesson Actions: ', res);
       return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.POST_LESSON_FAILURE, payload: e })
-      console.log('value of error in postLesson in Lesson Actions: ', e);
     })
   }
 }

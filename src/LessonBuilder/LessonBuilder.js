@@ -14,7 +14,7 @@ import renderIf from 'render-if'
 import { isEmpty } from 'lodash'
 import { getManyLessons, postLesson, deleteLesson, putLesson, getLesson} from '../actions'
 import LessonPlanner from "./LessonPlanner"
-import LessonForm from './LessonForm'
+import LessonForm from '../admin/AddOrEditLesson/LessonFormV2'
 import Checkbox from 'material-ui/Checkbox'
 // import { Values } from 'redux-form-website-template';
 
@@ -32,7 +32,7 @@ class LessonBuilder extends Component {
 
     this.state={
       open: false,
-      lessonclicked: false,
+      lessonClicked: false,
       clickedId: null,
       newModalOpen: false,
       lessonName: null,
@@ -41,38 +41,23 @@ class LessonBuilder extends Component {
       alertText: "Please fill out lesson name and description.",
       alerted: false,
       lessonsById: null,
-      lessonprops: 0,
-      checked: false,
-      pagesButtons: null,
-      renderPages: null,
-      gotoLessonForm: false
+      selectedLesson: 0,
+      checked: false
     }
+  }
+
+  static propTypes = {
+    lessonsById: T.object
   }
 
   componentDidMount(){
     this.props.getManyLessons()
   }
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.lessonsById!==this.props.lessonsById){
-
-      let temparray = [];
-
-      Object.keys(nextProps.lessonsById).forEach(lesson=>{
-        temparray.push(nextProps.lessonsById[lesson])
-      })
-
-      console.log("temparray in componentWillReceiveProps lessonsbyid: ", temparray)
-      this.setState({
-        lessonsById: temparray
-      })
-    }
-  }
-
   handleLessonBack(){
     this.setState({
-      lessonclicked: false,
-      lessonprops: null
+      lessonClicked: false,
+      selectedLesson: null
     })
   }
 
@@ -82,31 +67,8 @@ class LessonBuilder extends Component {
     this.props.deleteLesson({ id: lessonId })
   }
 
-  handleLessonClick(lessonprops){
-    console.log('inside handleLessonClick!');
-    console.log('value of lessonprops: ', lessonprops);
-    this.setState({
-      lessonclicked: true,
-      lessonprops: lessonprops
-    }, ()=>{
-      // console.log('value of this.props.lessonsById', this.props.lessonsById);
-      // this.props.getLesson({id: this.props.lessonsById})
-      // this.props.getLesson({id: this.state.lessons._id})
-      let lesson = this.props.lessonsById[this.state.lessonprops._id]
-      console.log('value of lesson: ', lesson);
-      console.log("********");
-      console.log('vaoue of lesson[renderPages]: ', lesson['renderPages'] );
-      console.log('vaoue of lesson[pagesButtons]: ', lesson['pagesButtons'] );
-      console.log("(((((())))))");
-      this.setState({
-        renderPages: lesson['renderPages'],
-        pagesButtons: lesson['pagesButtons'],
-      }, ()=>{
-        this.setState({
-          gotoLessonForm: true
-        })
-      })
-    })
+  handleLessonClick(selectedLesson) {
+    this.props.history.push(`/admin/lesson/${selectedLesson._id}`)
   }
 
   openNewModal(){
@@ -126,9 +88,6 @@ class LessonBuilder extends Component {
       lessonName: lessonName,
       lessonDescription: lessonDescription
     }, ()=>{
-
-      console.log('value of this.state.lessonName: ', this.state.lessonName);
-      console.log('value of this.state.lessonDescription: ', this.state.lessonDescription);
 
       if(!isEmpty(this.state.lessonName)&&!isEmpty(this.state.lessonDescription)){
         this.setState({
@@ -173,11 +132,11 @@ class LessonBuilder extends Component {
   handleLessonFormSubmit = async(v) => {
     console.log('inside handleLessonFormSubmit');
     console.log('value of v: ', v);
-    if (!isEmpty(v.renderPages)&&!isEmpty(v.pagesButtons)){
+    if (!isEmpty(v.renderPages) && !isEmpty(v.pagesButtons)) {
       console.log('value of renderPages: ', v.renderPages);
       console.log('value of renderButtons: ', v.pagesButtons);
       try {
-        const success = await this.props.putLesson({id:this.state.lessonprops._id, title: this.state.lessonprops.title, description: this.state.lessonDescription, renderPages: v.renderPages, pagesButtons: v.pagesButtons})
+        const success = await this.props.putLesson({id:this.state.selectedLesson._id, title: this.state.selectedLesson.title, description: this.state.lessonDescription, pages: v.renderPages, pageTypes: v.pagesButtons})
         this.props.getManyLessons()
         console.log('in handlesubmit try');
       } catch(e) {
@@ -188,25 +147,9 @@ class LessonBuilder extends Component {
   }
 
   render() {
-    console.log("inside render and value of this.state.lessonsById is: ", this.state.lessonsById)
-    let LessonList;
-    if (!isEmpty(this.state.lessonsById)===true){
-      LessonList = this.state.lessonsById.map((lesson,i)=>{
-        return(
-          <LessonCard key={i} lesson={lesson}
-          handleLessonDelete={(e)=>this.handleLessonDelete(e)} handleLessonClick={(e)=>this.handleLessonClick(e)}/>
-        )
-      })
-    }
-
-
-    // const FetchSingleLessonGoToPlanner = () => {
-    //   this.props.getLesson()
-    //   return(<LessonFormConnected
-    //   lessons={this.state.lessonprops}
-    //   onSubmit={this.handleLessonFormSubmit}
-    //   handleLessonBack={()=>this.handleLessonBack()}/>)
-    // }
+    const lessonsArray = Object.values(this.props.lessonsById)
+    const selectedLessonId = (this.state.selectedLesson) ? this.state.selectedLesson._id : null
+    const { lessonClicked, selectedLesson } = this.state
 
     const actions = [
      <FlatButton
@@ -225,47 +168,50 @@ class LessonBuilder extends Component {
     return (
       <div style={styles.container}>
         <Header isLoggedIn={this.props.isLoggedIn}/>
-        {renderIf(this.state.lessonclicked===false)(
+        { renderIf(this.state.lessonClicked===false)(
           <div>
             <FlatButton primary={true} onClick={()=>{this.openNewModal()}}>Create New Lessson</FlatButton>
             <br/><br/>
             <Dialog
-             title="Create New Lesson!"
-             actions={actions}
-             modal={false}
-             open={this.state.newModalOpen}
-             onRequestClose={()=>this.handleModalClose()}
-           >
-             Creat a New Lesson. Make sure to give it a title and description!<br/><br/>
-             <TextField
-                  hintText="Lesson Title"
-                  onChange={(e)=>{this.handleTextChange(e.target.value, this.state.lessonDescription)}}
-              /><br/>
+              title="Create New Lesson!"
+              actions={actions}
+              modal={false}
+              open={this.state.newModalOpen}
+              onRequestClose={()=>this.handleModalClose()}
+            >
+              Create a New Lesson. Make sure to give it a title and description!<br/><br/>
               <TextField
-                  hintText="Lesson Description"
-                  onChange={(e)=>{this.handleTextChange(this.state.lessonName, e.target.value)}}
-              /><br/>
+                hintText="Lesson Title"
+                onChange={ (e)=>{ this.handleTextChange(e.target.value, this.state.lessonDescription) } }
+              />
+              <br/>
+              <TextField
+                hintText="Lesson Description"
+                onChange={ (e)=>{ this.handleTextChange(this.state.lessonName, e.target.value) } }
+              />
+              <br/>
            </Dialog>
             <div id='canvas' width={500} height={500}>
               <h1>Lessons</h1>
-              {LessonList}
+              { lessonsArray.map((lesson, i) =>
+                <LessonCard
+                  key={ i }
+                  lesson={ lesson }
+                  handleLessonDelete={ (e) => this.handleLessonDelete(e) }
+                  handleLessonClick={ (e) => this.handleLessonClick(e) }
+                />
+              ) }
             </div>
           </div>
-        )}
-        {renderIf(!isEmpty(this.props.lessonsById[this.state.lessonprops._id]) && (this.state.gotoLessonForm) && this.state.lessonclicked===true&&this.state.lessonprops!==0)(
+        ) }
+        { renderIf(!isEmpty(this.props.lessonsById[selectedLessonId]) && lessonClicked && selectedLesson !== 0)(
           <div>
             <LessonForm
-            initialValues={
-              {
-                renderPages: this.state.renderPages,
-                pagesButtons: this.state.pagesButtons
-              }
-            }
-            lessons={this.state.lessonprops}
-            onSubmit={this.handleLessonFormSubmit}
-            handleLessonBack={()=>this.handleLessonBack()}/>
+              initialValues={ this.props.lessonsById[selectedLessonId] }
+              onSubmit={ this.handleLessonFormSubmit }
+              handleLessonBack={ ()=>this.handleLessonBack() } />
           </div>
-        )}
+        ) }
       </div>
     )
   }

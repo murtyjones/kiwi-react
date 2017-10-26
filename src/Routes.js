@@ -9,6 +9,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import LessonBuilder from './LessonBuilder/LessonBuilder'
+import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
 
 
 /**
@@ -64,6 +65,8 @@ class App extends Component {
               <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
               <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
               <AuthenticatedRoute path='/lessonbuilder' exact component={ LessonBuilder } isLoggedIn={ isLoggedIn } />
+              <AuthenticatedRoute path='/admin/lesson/new' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } />
+              <AuthenticatedRoute path='/admin/lesson/:id' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } />
             </Switch>
           </div>
         </div>

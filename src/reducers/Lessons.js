@@ -17,11 +17,7 @@ function lessons(state = initialState, action) {
       })
       return newState
     case ACTIONS.GET_LESSON_SUCCESS:
-      return state
     case ACTIONS.POST_LESSON_SUCCESS:{
-    // case ACTIONS.GET_USER_PROJECT_SUCCESS: {
-      console.log('inside postLesson success in lessons reducer');
-      console.log('value of action.payload: ', action.payload);
       const lessonsById = Object.assign({}, state.lessonsById, {
         [action.payload._id]: action.payload
       })
