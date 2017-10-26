@@ -67,20 +67,18 @@ export const getLesson = (params) => {
 }
 
 export const putLesson = (params) => {
-  const { id, title, description, pages, pageTypes } = params
+  const { id, title, description, renderPages, pagesButtons } = params
   console.log('inside putlesson and ...');
   console.log('value of id: ', id);
   console.log('value of title: ', title);
   console.log('value of description ', description);
-  console.log('value of pages ', pages);
-  console.log('value of pageTypes ', pageTypes);
   const options = {
     method: "PUT",
     body: {
       title: title
       , description: description
-      , pages: pages
-      , pageTypes: pageTypes
+      , renderPages: renderPages
+      , pagesButtons: pagesButtons
     }
   }
   return dispatch => {

@@ -42,7 +42,10 @@ class LessonBuilder extends Component {
       alerted: false,
       lessonsById: null,
       lessonprops: 0,
-      checked: false
+      checked: false,
+      pagesButtons: null,
+      renderPages: null,
+      gotoLessonForm: false
     }
   }
 
@@ -89,6 +92,20 @@ class LessonBuilder extends Component {
       // console.log('value of this.props.lessonsById', this.props.lessonsById);
       // this.props.getLesson({id: this.props.lessonsById})
       // this.props.getLesson({id: this.state.lessons._id})
+      let lesson = this.props.lessonsById[this.state.lessonprops._id]
+      console.log('value of lesson: ', lesson);
+      console.log("********");
+      console.log('vaoue of lesson[renderPages]: ', lesson['renderPages'] );
+      console.log('vaoue of lesson[pagesButtons]: ', lesson['pagesButtons'] );
+      console.log("(((((())))))");
+      this.setState({
+        renderPages: lesson['renderPages'],
+        pagesButtons: lesson['pagesButtons'],
+      }, ()=>{
+        this.setState({
+          gotoLessonForm: true
+        })
+      })
     })
   }
 
@@ -160,7 +177,7 @@ class LessonBuilder extends Component {
       console.log('value of renderPages: ', v.renderPages);
       console.log('value of renderButtons: ', v.pagesButtons);
       try {
-        const success = await this.props.putLesson({id:this.state.lessonprops._id, title: this.state.lessonprops.title, description: this.state.lessonDescription, pages: v.renderPages, pageTypes: v.pagesButtons})
+        const success = await this.props.putLesson({id:this.state.lessonprops._id, title: this.state.lessonprops.title, description: this.state.lessonDescription, renderPages: v.renderPages, pagesButtons: v.pagesButtons})
         this.props.getManyLessons()
         console.log('in handlesubmit try');
       } catch(e) {
@@ -183,13 +200,13 @@ class LessonBuilder extends Component {
     }
 
 
-    const FetchSingleLessonGoToPlanner = () => {
-      this.props.getLesson()
-      return(<LessonFormConnected
-      lessons={this.state.lessonprops}
-      onSubmit={this.handleLessonFormSubmit}
-      handleLessonBack={()=>this.handleLessonBack()}/>)
-    }
+    // const FetchSingleLessonGoToPlanner = () => {
+    //   this.props.getLesson()
+    //   return(<LessonFormConnected
+    //   lessons={this.state.lessonprops}
+    //   onSubmit={this.handleLessonFormSubmit}
+    //   handleLessonBack={()=>this.handleLessonBack()}/>)
+    // }
 
     const actions = [
      <FlatButton
@@ -235,11 +252,15 @@ class LessonBuilder extends Component {
             </div>
           </div>
         )}
-        {renderIf(!isEmpty(this.props.lessonsById[this.state.lessonprops._id]) && this.state.lessonclicked===true&&this.state.lessonprops!==0)(
+        {renderIf(!isEmpty(this.props.lessonsById[this.state.lessonprops._id]) && (this.state.gotoLessonForm) && this.state.lessonclicked===true&&this.state.lessonprops!==0)(
           <div>
             <LessonForm
-            initialValues={this.props.lessonsById[this.state.lessonprops._id]}
-            currentValues={this.props.lessonsById[this.state.lessonprops._id]}
+            initialValues={
+              {
+                renderPages: this.state.renderPages,
+                pagesButtons: this.state.pagesButtons
+              }
+            }
             lessons={this.state.lessonprops}
             onSubmit={this.handleLessonFormSubmit}
             handleLessonBack={()=>this.handleLessonBack()}/>
