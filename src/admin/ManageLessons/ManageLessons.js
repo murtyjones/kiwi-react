@@ -31,7 +31,7 @@ class ManageLessons extends Component {
         { !isEmpty(lessonsById) &&
           Object.values(lessonsById)
           .map((lesson, i) =>
-            <LessonWidget lesson={ lesson } />
+            <LessonWidget key={ i } lesson={ lesson } />
           )
         }
       </div>

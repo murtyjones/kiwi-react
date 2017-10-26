@@ -31,6 +31,7 @@ const ApiFetch = (url, options = {}) => {
     const needsRefresh = isTokenNearExpiration(exp)
 
     if (needsRefresh) { // need a new token before sending request
+
       return AuthService.refreshToken().then(idToken => {
         _headers.Authorization = idToken
         const tokenExp = AuthService.decodeTokenExp(idToken)

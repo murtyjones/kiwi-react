@@ -52,6 +52,7 @@ export default class AuthService {
 
   static refreshToken() {
     try {
+      console.log('hi')
       return fire.auth().currentUser.getIdToken(/* forceRefresh */ true)
     } catch (e) {
       throw (e)

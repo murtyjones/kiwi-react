@@ -21,7 +21,7 @@ class Dashboard extends Component {
 
   componentWillMount() {
     this.getUserProjectData()
-    this.updateCanvas;
+    this.updateCanvas
   }
 
   getUserProjectData = () => {
@@ -30,8 +30,8 @@ class Dashboard extends Component {
   }
 
   updateCanvas() {
-    const ctx = this.refs.canvas.getContext('2d');
-    ctx.fillRect(0,0,0,0);
+    const ctx = this.refs.canvas.getContext('2d')
+    ctx.fillRect(0,0,0,0)
   }
 
 

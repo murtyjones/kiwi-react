@@ -19,8 +19,6 @@ export const getManyLessons = (params) => {
 }
 
 export const deleteLesson = (params) => {
-  console.log('inside deleteLesson in Lessons Actions');
-  console.log('value of params in Lessons Actions: ', params);
   const { id } = params
   const options = {
     method : "DELETE"
@@ -29,8 +27,6 @@ export const deleteLesson = (params) => {
     dispatch({ type: ACTIONS.DELETE_LESSON_REQUEST })
     return ApiFetch(`${config.api}/api/lessons/${id}`, options)
     .then(res => {
-      console.log('inside res for deleteLesson');
-      console.log('response in Lessons Actions, success: ', res);
       dispatch({ type: ACTIONS.DELETE_LESSON_SUCCESS, payload: res})
     })
     .catch(e => {
