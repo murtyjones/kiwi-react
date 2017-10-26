@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { postLesson, putLesson, getLesson } from '../../actions/index'
+import { postLesson, putLesson, getLesson } from '../../actions'
 import { has, isEmpty, isEqual } from 'lodash'
 import LessonForm from './LessonFormV2'
 

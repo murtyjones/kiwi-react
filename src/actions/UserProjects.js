@@ -8,7 +8,7 @@ export const getManyUserProjects = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_MANY_USER_PROJECTS_REQUEST })
-    return ApiFetch(`${config.api}/api/userproject`, options)
+    return ApiFetch(`${config.api}/api/userprojects`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_MANY_USER_PROJECTS_SUCCESS, payload: res })
     })
@@ -25,7 +25,7 @@ export const getUserProject = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_USER_PROJECT_REQUEST })
-    return ApiFetch(`${config.api}/api/userproject/${id}`, options)
+    return ApiFetch(`${config.api}/api/userprojects/${id}`, options)
     .then(res => {
       console.log("value of res in getUserProject Actions", res)
       dispatch({ type: ACTIONS.GET_USER_PROJECT_SUCCESS, payload: res })
@@ -48,7 +48,7 @@ export const putUserProject = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.PUT_USER_PROJECT_REQUEST })
-    return ApiFetch(`${config.api}/api/userproject/${id}`, options)
+    return ApiFetch(`${config.api}/api/userprojects/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.PUT_USER_PROJECT_SUCCESS, payload: res})
     })
@@ -70,7 +70,7 @@ export const postUserProject = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.POST_USER_PROJECT_REQUEST })
-    return ApiFetch(`${config.api}/api/userproject/`, options)
+    return ApiFetch(`${config.api}/api/userprojects/`, options)
     .then(res => {
       dispatch({ type: ACTIONS.POST_USER_PROJECT_SUCCESS, payload: res })
       return res

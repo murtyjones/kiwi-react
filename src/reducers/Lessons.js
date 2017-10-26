@@ -27,7 +27,6 @@ function lessons(state = initialState, action) {
       return newState
     }
     case ACTIONS.GET_MANY_LESSONS_SUCCESS: {
-      console.log('inside GET_MANY_LESSON_SUCCESS and value of action.payload is: ', action.payload);
       const lessonsById = action.payload.reduce((acc, each) => {
         acc[each._id] = each
         return acc
@@ -38,7 +37,6 @@ function lessons(state = initialState, action) {
       return newState
     }
     case ACTIONS.DELETE_LESSON_SUCCESS: {
-      console.log('inside DELETE_LESSON_SUCCESS and value of action.payload is: ', action.payload);
       const lessonsById = action.payload.reduce((acc, each) => {
         acc[each._id] = each
         return acc

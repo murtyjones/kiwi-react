@@ -25,8 +25,8 @@ class KiwiSelectField extends Component {
             min={ min }
             max={ max }
             step={ step }
-            onChange={(event, v) => { this.setState({ value: v }) }}
-            onDragStop={ () => onDragStop(value) }
+            onChange={ (e, v) => this.setState({ value: v }) }
+            onDragStop={ () => input.onChange(value) }
           />
           { touched && error && <span>{ error }</span> }
         </div>

@@ -23,10 +23,6 @@ class LessonForm extends Component {
     initialValues: T.object
   }
 
-  onDragStop = (v) => {
-    this.props.dispatch(change('lesson', 'minutesRequired', v));
-  }
-
   render() {
     const { handleSubmit, submitting } = this.props
 
@@ -43,14 +39,13 @@ class LessonForm extends Component {
           component={ KiwiTextField }
         />
         <Field
-          name={ 'minutesRequired' }
+          name={ 'minutesToComplete' }
           label={ 'Minutes to Complete' }
           component={ KiwiSliderField }
           defaultValue={ 1 }
           min={ 1 }
           step={ 1 }
           max={ 100 }
-          onDragStop={ this.onDragStop }
         />
         <FieldArray name="slides" component={ Slides } />
         <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
