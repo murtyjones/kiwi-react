@@ -8,10 +8,10 @@
     , "messagingSenderId": "630075552174"
   }
   , "auth0": {
-    "domain": "kiwi-prod.auth0.com"
-    , "clientID": "qNZS0jbIQwLus56P2h2T2PbzuwIf6EaF"
+    "domain": "kiwi-stage.auth0.com"
+    , "clientID": "O9T0UDFJVxqFgOouZyVfrfbBzoq-XP3g"
     , "redirectUri": "http://localhost:3000/auth/callback"
-    , "audience": "https://kiwi-prod.auth0.com/userinfo"
+    , "audience": "https://kiwi-stage.auth0.com/userinfo"
     , "responseType": "token id_token"
     , "scope": "openid"
   }

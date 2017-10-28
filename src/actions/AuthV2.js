@@ -18,3 +18,23 @@ export const login = (params) => {
     })
   }
 }
+
+export const register = (params) => {
+  const { email, password } = params
+  return dispatch => {
+    dispatch({ type: ACTIONS.REGISTER_REQUEST })
+    const params = {
+      method: 'POST',
+      body: { email, password }
+    }
+    return ApiFetch(`${config.api}/api/register`, params)
+    .then(success => {
+      dispatch({ type: ACTIONS.REGISTER_SUCCESS, payload: success })
+      return success
+    }).catch(err => {
+      dispatch({ type: ACTIONS.REGISTER_FAILURE, payload: err })
+      throw err
+    })
+
+  }
+}

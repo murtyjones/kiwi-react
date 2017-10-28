@@ -5,7 +5,7 @@ import { get, find } from 'lodash'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
-import { signInWithEmailAndPassword, login, createUserWithEmailAndPassword } from '../actions'
+import { signInWithEmailAndPassword, login, register, createUserWithEmailAndPassword } from '../actions'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
@@ -27,6 +27,7 @@ class Home extends Component {
     , login: T.func
     , createUserWithEmailAndPassword: T.func
     , signout: T.func
+    , register: T.func
   }
 
   componentWillMount() {
@@ -49,10 +50,10 @@ class Home extends Component {
   }
 
   handleRegisterSubmit = async(v) => {
-    const { createUserWithEmailAndPassword } = this.props
+    const { createUserWithEmailAndPassword, register } = this.props
     const { email, password } = v
     try {
-      return createUserWithEmailAndPassword({ email, password })
+      return register({ email, password })
       .then(res => {
         this.props.history.push("/dashboard")
         return success
@@ -134,6 +135,7 @@ const mapDispatchToProps = (dispatch) => {
     signInWithEmailAndPassword: (params) => dispatch(signInWithEmailAndPassword(params))
     , createUserWithEmailAndPassword: (params) => dispatch(createUserWithEmailAndPassword(params))
     , login: (params) => dispatch(login(params))
+    , register: (params) => dispatch(register(params))
   }
 }
 
