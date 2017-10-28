@@ -1,53 +1,60 @@
-import history from '../history'
 import auth0 from 'auth0-js'
 import config from 'config'
+import BluebirdPromise from 'bluebird'
+import { get } from 'lodash'
 
 
 export default class AuthServiceV2 {
-  auth0 = new auth0.WebAuth({
-    domain: 'kiwi-prod.auth0.com',
-    clientID: 'qNZS0jbIQwLus56P2h2T2PbzuwIf6EaF',
-    redirectUri: `${config.host}/auth/callback`,
-    audience: `https://kiwi-prod.auth0.com/userinfo`,
-    responseType: 'token id_token',
-    scope: 'openid'
-  })
-
-
-  login() {
-    this.auth0.authorize()
-  }
-
-  handleAuthentication() {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult)
-        history.replace('/home')
-      } else if (err) {
-        history.replace('/home')
-        console.log(err)
-        alert(`Error: ${err.error}. Check the console for further details.`)
-      }
+  constructor() {
+    this.auth0 = new auth0.WebAuth({
+      domain: 'kiwi-prod.auth0.com'
+      , clientID: 'qNZS0jbIQwLus56P2h2T2PbzuwIf6EaF'
+      , redirectUri: 'http://localhost:3000/auth/callback'
+      , audience: `https://kiwi-prod.auth0.com/userinfo`
+      , responseType: 'token id_token'
+      , scope: 'openid'
+      , leeway: 60
     })
   }
 
-  setSession(authResult) {
-    // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime())
-    localStorage.setItem('access_token', authResult.accessToken)
-    localStorage.setItem('id_token', authResult.idToken)
-    localStorage.setItem('expires_at', expiresAt)
-    // navigate to the home route
-    history.replace('/home')
+  login({ email, password }) {
+    return new Promise((resolve, reject) => {
+      return this.auth0.redirect.loginWithCredentials({
+        connection: 'Username-Password-Authentication'
+        , username: email
+        , password: password
+        , scope: 'openid'
+      }, (err, result) => {
+        console.log(err)
+        if (err) return reject(err)
+        resolve(result)
+      })
+    })
   }
 
-  logout() {
-    // Clear access token and ID token from local storage
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('id_token')
-    localStorage.removeItem('expires_at')
-    // navigate to the home route
-    history.replace('/home')
+  handleAuthentication() {
+    return new BluebirdPromise((resolve, reject) => {
+      return this.auth0.parseHash((err, authResult) => {
+        if (authResult && authResult.accessToken && authResult.idToken) {
+          resolve({ idToken: authResult.idToken })
+        } else if (err) {
+          reject({ err: err })
+        }
+      })
+    })
+
+  }
+
+  static setSession(authResult){
+    // Set the time that the access token will expire at
+    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime())
+    this.setToken(authResult.idToken)
+    this.setTokenExp(expiresAt)
+  }
+
+  static logout() {
+    window.localStorage.removeItem('token')
+    window.localStorage.removeItem('exp')
   }
 
   isAuthenticated() {
@@ -56,5 +63,37 @@ export default class AuthServiceV2 {
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'))
     return new Date().getTime() < expiresAt
 
+  }
+
+  static decodeToken(idToken) {
+    return jwt_decode(idToken)
+  }
+
+  static decodeTokenExp(idToken) {
+    return get(this.decodeToken(idToken), 'exp', '')
+  }
+
+  static setToken(token) {
+    window.localStorage.setItem('token', token)
+  }
+
+  static setTokenExp(tokenExpTimestamp) {
+    window.localStorage.setItem('tokenExp', tokenExpTimestamp)
+  }
+
+  static setFirebaseUID(firebaseUID) {
+    window.localStorage.setItem('firebaseUID', firebaseUID)
+  }
+
+  static getToken() {
+    return window.localStorage.getItem('token')
+  }
+
+  static getTokenExp() {
+    return window.localStorage.getItem('tokenExp')
+  }
+
+  static getFirebaseUID() {
+    return window.localStorage.getItem('firebaseUID')
   }
 }

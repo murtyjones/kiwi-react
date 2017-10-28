@@ -55,12 +55,20 @@ class App extends Component {
     isLoggedIn: T.bool.isRequired
   }
 
+  logout = () => {
+    authServiceV2.logout()
+    history.replace('/login')
+  }
+
   render() {
     const { isLoggedIn } = this.props
 
     const handleAuthentication = (nextState, replace) => {
       if (/access_token|id_token|error/.test(nextState.location.hash)) {
-        authServiceV2.handleAuthentication()
+        return authServiceV2.handleAuthentication().then(result => {
+          AuthServiceV2.setSession(result)
+          history.replace('/dashboard')
+        })
       }
     }
 
@@ -74,8 +82,8 @@ class App extends Component {
             <Router history={ history }>
               <Switch>
                 <Route path='/' exact component={ Home } />
-                <Route path='/login' exact component={ LoginOrRegister } />
-                <Route path='/register' exact component={ LoginOrRegister } />
+                <Route path='/login' exact auth={ authServiceV2 } component={ LoginOrRegister } />
+                <Route path='/register' exact auth={ authServiceV2 } component={ LoginOrRegister } />
                 <Route path="/auth/callback" render={
                   (props) => {
                     handleAuthentication(props)

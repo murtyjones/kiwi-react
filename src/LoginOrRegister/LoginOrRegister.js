@@ -24,6 +24,7 @@ class Home extends Component {
   static propTypes = {
     greeting: T.string
     , signInWithEmailAndPassword: T.func
+    , login: T.func
     , createUserWithEmailAndPassword: T.func
     , signout: T.func
   }
@@ -35,19 +36,16 @@ class Home extends Component {
   }
 
   handleLoginSubmit = async(v) => {
-    const { signInWithEmailAndPassword, login } = this.props
+    const { login } = this.props
     const { email, password } = v
-    try {
-      const success = await login({ email, password })
-      this.props.history.push("/dashboard")
-      return success
-    } catch (e) {
-      if(e.message.includes('The password is invalid')) {
-        throw new SubmissionError({ password: '', _error: 'Login failed! Wrong password.' })
-      } else if (e.message.includes('There is no user record corresponding to this identifier')) {
-        throw new SubmissionError({ email: '', _error: 'Login failed! User not found.' })
+    return login({ email, password })
+    .then(result => {
+      console.log(result)
+    }).catch(e => {
+      if(e.description.includes('Wrong email or password.')) {
+        throw new SubmissionError({ password: '', _error: 'Wrong email or password.' })
       }
-    }
+    })
   }
 
   handleRegisterSubmit = async(v) => {

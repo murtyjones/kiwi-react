@@ -7,5 +7,13 @@
     , "storageBucket": "kiwi-react.appspot.com"
     , "messagingSenderId": "630075552174"
   }
+  , "auth0": {
+    "domain": "kiwi-prod.auth0.com"
+    , "clientID": "qNZS0jbIQwLus56P2h2T2PbzuwIf6EaF"
+    , "redirectUri": "http://localhost:3000/auth/callback"
+    , "audience": "https://kiwi-prod.auth0.com/userinfo"
+    , "responseType": "token id_token"
+    , "scope": "openid"
+  }
   , "api" : "https://kiwi-node-stage-184517156.us-east-1.elb.amazonaws.com"
 }

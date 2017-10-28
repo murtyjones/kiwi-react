@@ -7,15 +7,14 @@ const authServiceV2 = new AuthServiceV2()
 
 export const login = (params) => {
   const { email, password } = params
-  return async dispatch => {
+  return dispatch => {
     dispatch({ type: ACTIONS.LOGIN_REQUEST })
-    try {
-      const success = await authServiceV2.login(email, password)
+    return authServiceV2.login({ email, password })
+    .then(success => {
       dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
-      return success
-    } catch (error) {
-      dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: error })
-      throw new Error(error)
-    }
+    }).catch(err => {
+      dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: err })
+      throw err
+    })
   }
 }
