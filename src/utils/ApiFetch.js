@@ -54,8 +54,12 @@ const ApiFetch = (url, options = {}) => {
     }
 
   }).then(response => {
-    if(response.status >= 200 && response.status < 300) return response.json()
-    else throw new Error(response)
+    return response.json().then(body => {
+      console.log(body)
+      if(response.status >= 200 && response.status < 300) return body
+      else throw body
+    })
+
   })
 }
 

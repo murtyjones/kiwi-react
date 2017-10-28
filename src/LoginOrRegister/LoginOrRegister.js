@@ -50,20 +50,21 @@ class Home extends Component {
   }
 
   handleRegisterSubmit = async(v) => {
-    const { createUserWithEmailAndPassword, register } = this.props
+    const { register } = this.props
     const { email, password } = v
     try {
       return register({ email, password })
       .then(res => {
         this.props.history.push("/dashboard")
-        return success
+        return res
+      }).catch(e => {
+        console.log(JSON.stringify(e))
+        if(e.message.includes('User already exists')) {
+          throw new SubmissionError({ email: 'Email address is already in use!', _error: 'Registration failed!' })
+        }
       })
     } catch (e) {
-      if(e.message.includes('The email address is already in use by another account.')) {
-        throw new SubmissionError({ email: 'Email address is already in use!', _error: 'Registration failed!' })
-      } else if (e.message.includes('Password should be at least 6 characters')) {
-        throw new SubmissionError({ password: 'Password should be at least 6 characters', _error: 'Registration failed!' })
-      }
+      console.error(e)
     }
   }
 
