@@ -55,12 +55,6 @@ class App extends Component {
     isLoggedIn: T.bool.isRequired
   }
 
-  logout = () => {
-    console.log('hi')
-    AuthServiceV2.signout()
-    history.replace('/login')
-  }
-
   render() {
     const { isLoggedIn } = this.props
 
@@ -80,7 +74,6 @@ class App extends Component {
             <title>Kiwi Compute</title>
           </Helmet>
           <div className={ cns('baseAppStyles') } style={ baseAppStyle } >
-            { isLoggedIn && <div onClick={ this.logout() }>Signout</div> }
             <Router history={ history }>
               <Switch>
                 <Route path='/' exact component={ Home } />

@@ -1,3 +1,3 @@
-export * from './AuthV2'
+export * from './Auth'
 export * from './UserProjects'
 export * from './Lessons'

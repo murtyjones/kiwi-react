@@ -1,11 +1,12 @@
 import { ACTIONS } from '../constants'
-import AuthService from '../utils/AuthService'
+import AuthServiceV2 from '../utils/AuthServiceV2'
 
 const initialState = {
-  isLoggedIn: AuthService.isAuthenticated()
-  , token: AuthService.getToken()
-  , exp: AuthService.getTokenExp()
-  , firebaseUID: AuthService.getFirebaseUID()
+  isLoggedIn: AuthServiceV2.isAuthenticated()
+  , token: AuthServiceV2.getToken()
+  , exp: AuthServiceV2.getTokenExp()
+  , isAdmin: AuthServiceV2.getIsAdmin()
+  , refreshToken: AuthServiceV2.getRefreshToken()
 }
 
 function auth(state = initialState, action) {
@@ -13,13 +14,18 @@ function auth(state = initialState, action) {
     case ACTIONS.TOKEN_REFRESH:
     case ACTIONS.LOGIN_SUCCESS: {
       const idToken = action.payload.idToken
-      const decodedExp = AuthService.decodeTokenExp(idToken)
-      AuthService.setToken(`Bearer ${idToken}`)
-      AuthService.setTokenExp(decodedExp)
+      const decoded = AuthServiceV2.decodeToken(idToken)
+      const decodedExp = AuthServiceV2.decodeTokenExp(idToken)
+      AuthServiceV2.setToken(idToken)
+      AuthServiceV2.setTokenExp(decodedExp)
+      AuthServiceV2.setIsAdmin(decoded)
+      AuthServiceV2.setRefreshToken(action.payload.refreshToken)
       const newState = Object.assign({}, state, {
         isLoggedIn: true
-        , token: `Bearer ${idToken}`
-        , exp: decodedExp
+        , token: AuthServiceV2.getToken()
+        , exp: AuthServiceV2.getTokenExp()
+        , isAdmin: AuthServiceV2.getIsAdmin()
+        , refreshToken: AuthServiceV2.getRefreshToken()
       })
       return newState
     }
@@ -28,10 +34,12 @@ function auth(state = initialState, action) {
         isLoggedIn: false
         , token: null
         , exp: null
+        , isAdmin: false
+        , refreshToken: null
       })
       return newState
     }
-    case ACTIONS.REGISTER_SUCCESS:
+    //case ACTIONS.REGISTER_SUCCESS:
     default:
       return state
   }

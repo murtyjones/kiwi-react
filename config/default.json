@@ -7,14 +7,15 @@
     , "storageBucket": "kiwi-react.appspot.com"
     , "messagingSenderId": "630075552174"
   }
-  , "auth0": {
+  , "auth": {
     "domain": "kiwi-stage.auth0.com"
     , "clientID": "O9T0UDFJVxqFgOouZyVfrfbBzoq-XP3g"
     , "redirectUri": "http://localhost:3000/auth/callback"
     , "audience": "https://kiwi-stage.auth0.com/userinfo"
     , "responseType": "token id_token"
-    , "scope": "openid"
-    , "namespace": "https://stage.kiwicompute.com/"
+    , "scope": "openid profile offline_access"
+    , "namespace": "https://stage.kiwicompute.com"
+    , "realm": "Username-Password-Authentication"
   }
   , "api" : "http://localhost:8080"
   , "host" : "http://localhost:3000"

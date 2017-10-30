@@ -1,65 +1,57 @@
-import AuthService from '../utils/AuthService'
+import AuthServiceV2 from '../utils/AuthServiceV2'
 import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
 import config from 'config'
 
+const authServiceV2 = new AuthServiceV2()
 
-export const signInWithEmailAndPassword = (params) => {
+export const login = (params) => {
   const { email, password } = params
-  return async dispatch => {
+  return dispatch => {
     dispatch({ type: ACTIONS.LOGIN_REQUEST })
-    try {
-      const success = await AuthService.signInWithEmailAndPassword(email, password)
+    return authServiceV2.login({ email, password })
+    .then(success => {
       dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
-      return success
-    } catch (error) {
-      dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: error })
-      throw new Error(error)
-    }
+    }).catch(err => {
+      dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: err })
+      throw err
+    })
   }
 }
 
-
-export const createUserWithEmailAndPassword = (params) => {
+export const register = (params) => {
   const { email, password } = params
-  return async dispatch => {
+  return dispatch => {
     dispatch({ type: ACTIONS.REGISTER_REQUEST })
-    try {
-      const success = await AuthService.createUserWithEmailAndPassword(email, password)
-      const params = {
-        method: 'POST',
-        body: {
-          firebaseUID: success.uid,
-          email
-        }
-      }
-      ApiFetch(`${config.api}/api/register`, params)
+    const params = {
+      method: 'POST',
+      body: { email, password }
+    }
+    return ApiFetch(`${config.api}/api/register`, params)
+    .then(success => {
       dispatch({ type: ACTIONS.REGISTER_SUCCESS, payload: success })
       return success
-    } catch (error) {
-      dispatch({ type: ACTIONS.REGISTER_FAILURE, payload: error })
-      throw new Error(error)
-    }
+    }).catch(err => {
+      dispatch({ type: ACTIONS.REGISTER_FAILURE, payload: err })
+      throw err
+    })
+
   }
 }
-
 
 export const signout = () => {
   return async dispatch => {
     dispatch({ type: ACTIONS.SIGNOUT_REQUEST })
-    try {
-      const success = await AuthService.signout()
+    return AuthServiceV2.signout()
+    .then(res => {
       dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: success })
-      return success
-    } catch (error) {
-      dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: error })
-      throw new Error(error)
-    }
+    }).catch(err => {
+      dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: err })
+    })
   }
 }
 
-
-export const refreshToken = (params) => {
+export const refreshToken = () => {
   return async dispatch => {
     dispatch({ type: ACTIONS.TOKEN_REFRESH, payload: {} })
   }

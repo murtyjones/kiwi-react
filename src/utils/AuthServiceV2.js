@@ -1,18 +1,20 @@
 import auth0 from 'auth0-js'
 import config from 'config'
+import jwt_decode from 'jwt-decode'
 import BluebirdPromise from 'bluebird'
 import { get } from 'lodash'
 
+import { isTokenNearExpiration } from './timeUtils'
 
 export default class AuthServiceV2 {
   constructor() {
     this.auth0 = new auth0.WebAuth({
-      domain: 'kiwi-stage.auth0.com'
-      , clientID: 'O9T0UDFJVxqFgOouZyVfrfbBzoq-XP3g'
-      , redirectUri: 'http://localhost:3000/auth/callback'
-      , audience: `https://kiwi-stage.auth0.com/userinfo`
-      , responseType: 'token id_token'
-      , scope: 'app_metadata'
+      domain:  config.auth.domain
+      , clientID: config.auth.clientID
+      , redirectUri: config.auth.redirectUri
+      , audience: config.auth.audience
+      , responseType: config.auth.responseType
+      , scope: config.auth.scope
       , leeway: 60
     })
   }
@@ -21,13 +23,32 @@ export default class AuthServiceV2 {
   login({ email, password }) {
     return new Promise((resolve, reject) => {
       return this.auth0.client.login({
-        realm: 'Username-Password-Authentication'
+        realm: config.auth.realm
         , username: email
         , password: password
-        , scope: 'openid profile'
+        , scope: config.auth.scope
       }, (err, result) => {
-        console.log(err)
         if (err) return reject(err)
+        resolve(result)
+      })
+    })
+  }
+
+  refreshToken(refreshToken) {
+    console.log('called')
+    return new Promise((resolve, reject) => {
+      return this.auth0.client.oauthToken({
+        grantType: 'refresh_token'
+        , refreshToken: refreshToken
+        , clientID:config.auth.clientID
+        , scope: config.auth.scope
+        , audience: config.auth.audience
+
+      }, (err, result) => {
+        if (err) {
+          console.log(err)
+          return reject(err) }
+        console.log(result)
         resolve(result)
       })
     })
@@ -53,14 +74,6 @@ export default class AuthServiceV2 {
     window.localStorage.removeItem('exp')
   }
 
-  static setSession(authResult){
-    // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime())
-    console.log(authResult)
-    this.setToken(authResult.idToken)
-    this.setTokenExp(expiresAt)
-  }
-
   static logout() {
     window.localStorage.removeItem('token')
     window.localStorage.removeItem('exp')
@@ -83,26 +96,49 @@ export default class AuthServiceV2 {
   }
 
   static setToken(token) {
-    window.localStorage.setItem('token', token)
+    window.localStorage.setItem('token', `Bearer ${token}`)
   }
 
   static setTokenExp(tokenExpTimestamp) {
     window.localStorage.setItem('tokenExp', tokenExpTimestamp)
   }
 
-  static setFirebaseUID(firebaseUID) {
-    window.localStorage.setItem('firebaseUID', firebaseUID)
-  }
-
   static getToken() {
     return window.localStorage.getItem('token')
+  }
+
+  static setIsAdmin(decodedToken) {
+    const app_metadata = get(decodedToken, `${config.auth.namespace}/app_metadata`)
+    const isAdmin = get(app_metadata, 'roles', []).reduce((acc, role) => {
+      if(role.isAdmin) {
+        acc = true
+      }
+      return acc
+    }, false)
+    return window.localStorage.setItem('isAdmin', isAdmin)
+  }
+
+  static setRefreshToken(refreshToken) {
+    return window.localStorage.setItem('refreshToken', refreshToken)
+  }
+
+  static getRefreshToken() {
+    return window.localStorage.getItem('refreshToken')
+  }
+
+  static getIsAdmin() {
+    let isAdmin = window.localStorage.getItem('isAdmin')
+    isAdmin = JSON.parse(isAdmin) === true
+    return isAdmin
   }
 
   static getTokenExp() {
     return window.localStorage.getItem('tokenExp')
   }
 
-  static getFirebaseUID() {
-    return window.localStorage.getItem('firebaseUID')
+  static isAuthenticated() {
+    const token = this.getToken()
+    const isTokenExpiredOrNear = isTokenNearExpiration(token)
+    return !!token && !isTokenExpiredOrNear
   }
 }
