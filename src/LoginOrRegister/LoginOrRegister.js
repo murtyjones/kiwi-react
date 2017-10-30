@@ -5,7 +5,7 @@ import { get, find } from 'lodash'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
-import { signInWithEmailAndPassword, login, register, createUserWithEmailAndPassword } from '../actions'
+import { login, register } from '../actions'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
@@ -41,7 +41,7 @@ class Home extends Component {
     const { email, password } = v
     return login({ email, password })
     .then(result => {
-      console.log(result)
+      this.props.history.push("/dashboard")
     }).catch(e => {
       if(e.description.includes('Wrong email or password.')) {
         throw new SubmissionError({ password: '', _error: 'Wrong email or password.' })
@@ -50,13 +50,14 @@ class Home extends Component {
   }
 
   handleRegisterSubmit = async(v) => {
-    const { register } = this.props
+    const { register, login } = this.props
     const { email, password } = v
     try {
       return register({ email, password })
       .then(res => {
+        return login({ email, password })
+      }).then(res => {
         this.props.history.push("/dashboard")
-        return res
       }).catch(e => {
         console.log(JSON.stringify(e))
         if(e.message.includes('User already exists')) {
@@ -133,9 +134,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signInWithEmailAndPassword: (params) => dispatch(signInWithEmailAndPassword(params))
-    , createUserWithEmailAndPassword: (params) => dispatch(createUserWithEmailAndPassword(params))
-    , login: (params) => dispatch(login(params))
+    login: (params) => dispatch(login(params))
     , register: (params) => dispatch(register(params))
   }
 }

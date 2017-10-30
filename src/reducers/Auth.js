@@ -11,13 +11,15 @@ const initialState = {
 function auth(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.TOKEN_REFRESH:
-    case ACTIONS.REGISTER_SUCCESS:
     case ACTIONS.LOGIN_SUCCESS: {
+      const idToken = action.payload.idToken
+      const decodedExp = AuthService.decodeTokenExp(idToken)
+      AuthService.setToken(`Bearer ${idToken}`)
+      AuthService.setTokenExp(decodedExp)
       const newState = Object.assign({}, state, {
         isLoggedIn: true
-        , token: AuthService.getToken()
-        , exp: AuthService.getTokenExp()
-        , firebaseUID: AuthService.getFirebaseUID()
+        , token: `Bearer ${idToken}`
+        , exp: decodedExp
       })
       return newState
     }
@@ -26,10 +28,10 @@ function auth(state = initialState, action) {
         isLoggedIn: false
         , token: null
         , exp: null
-        , firebaseUID: null
       })
       return newState
     }
+    case ACTIONS.REGISTER_SUCCESS:
     default:
       return state
   }

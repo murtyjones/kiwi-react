@@ -7,23 +7,24 @@ import { get } from 'lodash'
 export default class AuthServiceV2 {
   constructor() {
     this.auth0 = new auth0.WebAuth({
-      domain: 'kiwi-prod.auth0.com'
-      , clientID: 'qNZS0jbIQwLus56P2h2T2PbzuwIf6EaF'
+      domain: 'kiwi-stage.auth0.com'
+      , clientID: 'O9T0UDFJVxqFgOouZyVfrfbBzoq-XP3g'
       , redirectUri: 'http://localhost:3000/auth/callback'
-      , audience: `https://kiwi-prod.auth0.com/userinfo`
+      , audience: `https://kiwi-stage.auth0.com/userinfo`
       , responseType: 'token id_token'
-      , scope: 'openid'
+      , scope: 'app_metadata'
       , leeway: 60
     })
   }
 
+
   login({ email, password }) {
     return new Promise((resolve, reject) => {
-      return this.auth0.redirect.loginWithCredentials({
-        connection: 'Username-Password-Authentication'
+      return this.auth0.client.login({
+        realm: 'Username-Password-Authentication'
         , username: email
         , password: password
-        , scope: 'openid'
+        , scope: 'openid profile'
       }, (err, result) => {
         console.log(err)
         if (err) return reject(err)
@@ -32,11 +33,13 @@ export default class AuthServiceV2 {
     })
   }
 
+
   handleAuthentication() {
     return new BluebirdPromise((resolve, reject) => {
       return this.auth0.parseHash((err, authResult) => {
         if (authResult && authResult.accessToken && authResult.idToken) {
-          resolve({ idToken: authResult.idToken })
+          console.log(authResult)
+          resolve(authResult)
         } else if (err) {
           reject({ err: err })
         }
@@ -45,9 +48,15 @@ export default class AuthServiceV2 {
 
   }
 
+  static signout() {
+    window.localStorage.removeItem('token')
+    window.localStorage.removeItem('exp')
+  }
+
   static setSession(authResult){
     // Set the time that the access token will expire at
     let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime())
+    console.log(authResult)
     this.setToken(authResult.idToken)
     this.setTokenExp(expiresAt)
   }

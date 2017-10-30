@@ -56,7 +56,8 @@ class App extends Component {
   }
 
   logout = () => {
-    authServiceV2.logout()
+    console.log('hi')
+    AuthServiceV2.signout()
     history.replace('/login')
   }
 
@@ -79,6 +80,7 @@ class App extends Component {
             <title>Kiwi Compute</title>
           </Helmet>
           <div className={ cns('baseAppStyles') } style={ baseAppStyle } >
+            { isLoggedIn && <div onClick={ this.logout() }>Signout</div> }
             <Router history={ history }>
               <Switch>
                 <Route path='/' exact component={ Home } />
@@ -90,7 +92,7 @@ class App extends Component {
                     return <Callback {...props} />
                   }
                 } />
-                  <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/admin/lessons' exact component={ ManageLessons } isLoggedIn={ isLoggedIn } />

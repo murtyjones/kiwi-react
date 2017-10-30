@@ -38,3 +38,15 @@ export const register = (params) => {
 
   }
 }
+
+export const signout = () => {
+  return async dispatch => {
+    dispatch({ type: ACTIONS.SIGNOUT_REQUEST })
+    return AuthServiceV2.signout()
+    .then(res => {
+      dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: success })
+    }).catch(err => {
+      dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: err })
+    })
+  }
+}
