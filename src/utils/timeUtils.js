@@ -5,3 +5,10 @@ export const isTokenNearExpiration = (tokenExpTimestamp) => {
 
   return tokenExpTimestamp - currentTimestampInSeconds < leewaySeconds
 }
+
+
+export const hasTokenExpired = (tokenExpTimestamp) => {
+  const currentTimestampInSeconds = Math.floor(Date.now() / 1000)
+
+  return tokenExpTimestamp - currentTimestampInSeconds < 0
+}

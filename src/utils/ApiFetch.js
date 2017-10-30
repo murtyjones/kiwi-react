@@ -32,10 +32,12 @@ const ApiFetch = (url, options = {}) => {
     let exp = AuthServiceV2.getTokenExp() // static method
     const needsRefresh = isTokenNearExpiration(exp)
     if(needsRefresh) { // need a new token before sending request
+      console.log('Refreshing user token.')
       return authServiceV2.refreshToken(AuthServiceV2.getRefreshToken()).then(response => {
         const idToken = response.idToken
-        _headers.Authorization = idToken
+        _headers.Authorization = `Bearer ${idToken}`
         const tokenExp = AuthServiceV2.decodeTokenExp(idToken)
+        console.log(tokenExp)
         AuthServiceV2.setToken(idToken)
         AuthServiceV2.setTokenExp(tokenExp)
         store.dispatch(refreshToken()) // store the new token in global state

@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode'
 import BluebirdPromise from 'bluebird'
 import { get } from 'lodash'
 
-import { isTokenNearExpiration } from './timeUtils'
+import { hasTokenExpired } from './timeUtils'
 
 export default class AuthServiceV2 {
   constructor() {
@@ -100,6 +100,7 @@ export default class AuthServiceV2 {
   }
 
   static setTokenExp(tokenExpTimestamp) {
+    console.log(tokenExpTimestamp)
     window.localStorage.setItem('tokenExp', tokenExpTimestamp)
   }
 
@@ -138,7 +139,8 @@ export default class AuthServiceV2 {
 
   static isAuthenticated() {
     const token = this.getToken()
-    const isTokenExpiredOrNear = isTokenNearExpiration(token)
+    const tokenExp = this.getTokenExp()
+    const isTokenExpiredOrNear = hasTokenExpired(tokenExp)
     return !!token && !isTokenExpiredOrNear
   }
 }
