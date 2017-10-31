@@ -99,13 +99,16 @@ export default class AuthService {
     window.localStorage.setItem('token', `Bearer ${token}`)
   }
 
-  static setTokenExp(tokenExpTimestamp) {
-    console.log(tokenExpTimestamp)
-    window.localStorage.setItem('tokenExp', tokenExpTimestamp)
-  }
-
   static getToken() {
     return window.localStorage.getItem('token')
+  }
+
+  static setRefreshToken(refreshToken) {
+    return window.localStorage.setItem('refreshToken', refreshToken)
+  }
+
+  static getRefreshToken() {
+    return window.localStorage.getItem('refreshToken')
   }
 
   static setIsAdmin(decodedToken) {
@@ -119,18 +122,15 @@ export default class AuthService {
     return window.localStorage.setItem('isAdmin', isAdmin)
   }
 
-  static setRefreshToken(refreshToken) {
-    return window.localStorage.setItem('refreshToken', refreshToken)
-  }
-
-  static getRefreshToken() {
-    return window.localStorage.getItem('refreshToken')
-  }
-
   static getIsAdmin() {
     let isAdmin = window.localStorage.getItem('isAdmin')
     isAdmin = JSON.parse(isAdmin) === true
     return isAdmin
+  }
+
+  static setTokenExp(tokenExpTimestamp) {
+    console.log(tokenExpTimestamp)
+    window.localStorage.setItem('tokenExp', tokenExpTimestamp)
   }
 
   static getTokenExp() {

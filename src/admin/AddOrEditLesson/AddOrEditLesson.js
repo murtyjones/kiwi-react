@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { postLesson, putLesson, getLesson } from '../../actions'
 import { has, isEmpty, isEqual } from 'lodash'
-import LessonForm from './LessonFormV2'
+import LessonForm from './LessonForm'
 
 class Lesson extends Component {
   constructor(props) {

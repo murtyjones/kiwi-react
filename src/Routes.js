@@ -23,7 +23,8 @@ const authService = new AuthService()
 /**
  * Routing Components
  */
-import AuthenticatedRoute from './AuthenticatedRoute'
+import AuthenticatedRoute from './Routes/AuthenticatedRoute'
+import AuthorizedRoute from './Routes/AuthorizedRoute'
 
 
 /**
@@ -54,6 +55,7 @@ class App extends Component {
 
   static propTypes = {
     isLoggedIn: T.bool.isRequired
+    , isAdmin: T.bool.isRequired
   }
 
   logout = () => {
@@ -63,7 +65,7 @@ class App extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props
+    const { isLoggedIn, isAdmin } = this.props
 
     const handleAuthentication = (nextState, replace) => {
       if (/access_token|id_token|error/.test(nextState.location.hash)) {
@@ -89,9 +91,9 @@ class App extends Component {
                 <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/admin/lessons' exact component={ ManageLessons } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/admin/lesson/new' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/admin/lesson/:id' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } />
+                <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
+                <AuthorizedRoute path='/admin/lesson/new' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
+                <AuthorizedRoute path='/admin/lesson/:id' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
               </Switch>
             </Router>
           </div>
@@ -104,10 +106,11 @@ class App extends Component {
 export const AppComponent = App
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn } } = state
+  const { auth: { isLoggedIn, isAdmin } } = state
 
   return {
     isLoggedIn
+    , isAdmin
   }
 }
 
