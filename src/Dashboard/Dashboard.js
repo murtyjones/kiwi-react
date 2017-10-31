@@ -6,8 +6,8 @@ import { isEmpty } from 'lodash'
 import { Link } from 'react-router-dom'
 import { KiwiLink } from '../common/KiwiLinks'
 import { getManyUserProjects } from '../actions'
-
 import UserProjectWidget from './UserProjectWidget'
+
 
 class Dashboard extends Component {
   constructor(props) {
@@ -21,11 +21,17 @@ class Dashboard extends Component {
 
   componentWillMount() {
     this.getUserProjectData()
+    this.updateCanvas
   }
 
   getUserProjectData = () => {
     const { getManyUserProjects } = this.props
     getManyUserProjects()
+  }
+
+  updateCanvas() {
+    const ctx = this.refs.canvas.getContext('2d')
+    ctx.fillRect(0,0,0,0)
   }
 
 
@@ -51,7 +57,6 @@ class Dashboard extends Component {
         <br/>
         <KiwiLink to={ `/project/new` }>New Project</KiwiLink>
         <br/>
-          {/*Lesson stucture will go here*/}
         <br/>
       </div>
     )

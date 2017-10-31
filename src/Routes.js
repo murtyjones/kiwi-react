@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Route, Switch, Redirect, withRouter, Link } from 'react-router-dom'
+import { Router, Route, Switch, Redirect, withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
@@ -8,10 +8,17 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import AppBar from 'material-ui/AppBar'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
-import { signout } from './actions'
+import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
+import ManageLessons from './admin/ManageLessons/ManageLessons'
+import history from './history'
+
+import AuthService from './utils/AuthService'
 
 
-import Header from './Header/Header'
+
+const authService = new AuthService()
+
+
 
 /**
  * Routing Components
@@ -57,34 +64,37 @@ class App extends Component {
 
   render() {
     const { isLoggedIn } = this.props
+
+    const handleAuthentication = (nextState, replace) => {
+      if (/access_token|id_token|error/.test(nextState.location.hash)) {
+        return authService.handleAuthentication().then(result => {
+          AuthService.setSession(result)
+          history.replace('/dashboard')
+        })
+      }
+    }
+
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
-          <AppBar
-            showMenuIconButton={ false }
-            title="Kiwi Compute"
-            zDepth={ 1 }
-            iconElementRight={
-              <div>
-                <Link to='/'>
-                  Home
-                </Link>
-                <Link to='/login'>
-                  Login
-                </Link>
-                <Link to='/dashboard'>
-                  dashboard
-                </Link>
-                { isLoggedIn && <div onClick={ this.logout }>Log out</div> }
-              </div>
-            }
-          />
-            <Route path='/' exact component={ Home } />
-            <Route path='/login' exact component={ LoginOrRegister } />
-            <Route path='/register' exact component={ LoginOrRegister } />
-            <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
-            <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-            <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+          <Helmet>
+            <title>Kiwi Compute</title>
+          </Helmet>
+          <div className={ cns('baseAppStyles') } style={ baseAppStyle } >
+            <Router history={ history }>
+              <Switch>
+                <Route path='/' exact component={ Home } />
+                <Route path='/login' exact auth={ authService } component={ LoginOrRegister } />
+                <Route path='/register' exact auth={ authService } component={ LoginOrRegister } />
+                <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/admin/lessons' exact component={ ManageLessons } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/admin/lesson/new' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/admin/lesson/:id' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } />
+              </Switch>
+            </Router>
+          </div>
         </div>
       </MuiThemeProvider>
     )

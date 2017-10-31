@@ -4,6 +4,8 @@ import { refreshToken } from '../actions/Auth'
 import store from '../Store'
 import AuthService from './AuthService'
 
+const authService = new AuthService()
+
 
 const setFetchOptions = (options, body, headers) => {
   return {
@@ -29,11 +31,13 @@ const ApiFetch = (url, options = {}) => {
 
     let exp = AuthService.getTokenExp() // static method
     const needsRefresh = isTokenNearExpiration(exp)
-
-    if (needsRefresh) { // need a new token before sending request
-      return AuthService.refreshToken().then(idToken => {
-        _headers.Authorization = idToken
+    if(needsRefresh) { // need a new token before sending request
+      console.log('Refreshing user token.')
+      return authService.refreshToken(AuthService.getRefreshToken()).then(response => {
+        const idToken = response.idToken
+        _headers.Authorization = `Bearer ${idToken}`
         const tokenExp = AuthService.decodeTokenExp(idToken)
+        console.log(tokenExp)
         AuthService.setToken(idToken)
         AuthService.setTokenExp(tokenExp)
         store.dispatch(refreshToken()) // store the new token in global state
@@ -53,8 +57,11 @@ const ApiFetch = (url, options = {}) => {
     }
 
   }).then(response => {
-    if(response.status >= 200 && response.status < 300) return response.json()
-    else throw new Error(response)
+    return response.json().then(body => {
+      if(response.status >= 200 && response.status < 300) return body
+      else throw body
+    })
+
   })
 }
 

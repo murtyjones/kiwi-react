@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from './actions/index'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from './actions'
 
 import { Container } from 'react-grid-system'
 

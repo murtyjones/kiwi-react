@@ -5,7 +5,7 @@ import { get, find } from 'lodash'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from '../actions'
+import { login, register } from '../actions'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
@@ -24,8 +24,10 @@ class Home extends Component {
   static propTypes = {
     greeting: T.string
     , signInWithEmailAndPassword: T.func
+    , login: T.func
     , createUserWithEmailAndPassword: T.func
     , signout: T.func
+    , register: T.func
   }
 
   componentWillMount() {
@@ -35,34 +37,35 @@ class Home extends Component {
   }
 
   handleLoginSubmit = async(v) => {
-    const { signInWithEmailAndPassword } = this.props
+    const { login } = this.props
     const { email, password } = v
-    try {
-      const success = await signInWithEmailAndPassword({ email, password })
+    return login({ email, password })
+    .then(result => {
       this.props.history.push("/dashboard")
-      return success
-    } catch (e) {
-      if(e.message.includes('The password is invalid')) {
-        throw new SubmissionError({ password: '', _error: 'Login failed! Wrong password.' })
-      } else if (e.message.includes('There is no user record corresponding to this identifier')) {
-        throw new SubmissionError({ email: '', _error: 'Login failed! User not found.' })
+    }).catch(e => {
+      if(e.description.includes('Wrong email or password.')) {
+        throw new SubmissionError({ password: '', _error: 'Wrong email or password.' })
       }
-    }
+    })
   }
 
   handleRegisterSubmit = async(v) => {
-    const { createUserWithEmailAndPassword } = this.props
+    const { register, login } = this.props
     const { email, password } = v
     try {
-      const success = await createUserWithEmailAndPassword({ email, password })
-      this.props.history.push("/dashboard")
-      return success
+      return register({ email, password })
+      .then(res => {
+        return login({ email, password })
+      }).then(res => {
+        this.props.history.push("/dashboard")
+      }).catch(e => {
+        console.log(JSON.stringify(e))
+        if(e.message.includes('User already exists')) {
+          throw new SubmissionError({ email: 'Email address is already in use!', _error: 'Registration failed!' })
+        }
+      })
     } catch (e) {
-      if(e.message.includes('The email address is already in use by another account.')) {
-        throw new SubmissionError({ email: 'Email address is already in use!', _error: 'Registration failed!' })
-      } else if (e.message.includes('Password should be at least 6 characters')) {
-        throw new SubmissionError({ password: 'Password should be at least 6 characters', _error: 'Registration failed!' })
-      }
+      console.error(e)
     }
   }
 
@@ -131,8 +134,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signInWithEmailAndPassword: (params) => dispatch(signInWithEmailAndPassword(params))
-    , createUserWithEmailAndPassword: (params) => dispatch(createUserWithEmailAndPassword(params))
+    login: (params) => dispatch(login(params))
+    , register: (params) => dispatch(register(params))
   }
 }
 
