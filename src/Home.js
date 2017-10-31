@@ -9,7 +9,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } f
 import { Container } from 'react-grid-system'
 
 import { ApiFetch } from './utils/ApiFetch'
-import { KiwiLink } from './common/KiwiLinks'
+import { KiwiLink } from './common/KiwiLink'
 
 
 class Home extends Component {

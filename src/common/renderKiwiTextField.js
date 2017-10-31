@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField } from 'material-ui'
 
-const KiwiTextField = ({ input, label, type, meta: { touched, error } }) =>
+const renderKiwiTextField = ({ input, label, type, meta: { touched, error } }) =>
   <div>
     <label>
       { label }
@@ -12,4 +12,4 @@ const KiwiTextField = ({ input, label, type, meta: { touched, error } }) =>
     </div>
   </div>
 
-export default KiwiTextField
+export default renderKiwiTextField

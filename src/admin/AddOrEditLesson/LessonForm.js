@@ -6,7 +6,7 @@ import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, form
 
 import { RaisedButton } from 'material-ui'
 
-import KiwiTextField from '../../common/KiwiTextField'
+import renderKiwiTextField from '../../common/renderKiwiTextField'
 import KiwiSliderField from '../../common/KiwiSliderField'
 import Slides from './Slides'
 
@@ -38,12 +38,12 @@ class LessonForm extends Component {
         <Field
           name={ 'title' }
           label={ 'Title' }
-          component={ KiwiTextField }
+          component={ renderKiwiTextField }
         />
         <Field
           name={ 'subtitle' }
           label={ 'Subtitle' }
-          component={ KiwiTextField }
+          component={ renderKiwiTextField }
         />
         <Field
           name={ 'minutesToComplete' }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
-import KiwiTextField from '../common/KiwiTextField'
+import renderKiwiTextField from '../common/renderKiwiTextField'
 import { FlatButton, RaisedButton } from 'material-ui'
 
 let RegisterForm = props => {
@@ -10,13 +10,13 @@ let RegisterForm = props => {
       <Field
         name="email"
         type="text"
-        component={ KiwiTextField }
+        component={ renderKiwiTextField }
         label="email"
       />
       <Field
         name="password"
         type="password"
-        component={ KiwiTextField }
+        component={ renderKiwiTextField }
         label="password"
       />
       { error && <strong>{error}</strong> }

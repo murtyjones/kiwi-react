@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import update from 'immutability-helper'
 import * as T from 'prop-types'
 import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, formValues } from 'redux-form'
-import { List, ListItem, RaisedButton, MenuItem } from 'material-ui'
+import { List, ListItem, RaisedButton, MenuItem, Tabs, Tab } from 'material-ui'
 import { find, isEmpty } from 'lodash'
 
 import { slideTypes } from './slideTypes'
-import KiwiSelectField from '../../common/KiwiSelectField'
+import renderKiwiSelectField from '../../common/renderKiwiSelectField'
+import renderKiwiTextField from "../../common/renderKiwiTextField"
 
 class Slides extends Component {
   constructor(props) {
@@ -14,6 +15,8 @@ class Slides extends Component {
 
     this.state = {
       selectedSlideTypes: []
+      , selectedSlideTitle: ''
+      , canAddNewSlide: true
     }
   }
 
@@ -34,7 +37,8 @@ class Slides extends Component {
   setSelectedSlideType = (slideIndex, value) => {
     const { selectedSlideTypes } = this.state
     this.setState({
-      selectedSlideTypes: update(selectedSlideTypes, { $splice: [[slideIndex, 1, value]] })
+      selectedSlideTypes: update(selectedSlideTypes, { $splice: [[slideIndex, 1, value]] }),
+      canAddNewSlide: true
     })
   }
 
@@ -45,54 +49,67 @@ class Slides extends Component {
     })
   }
 
-  renderSlideConfigure = (slideIndex, value) => {
+  renderSlideConfigure = (slideRef, value) => {
     const SlideConfigComponent = find(slideTypes, { value }).component
     return (
       <SlideConfigComponent
-        fieldRef={ `slides.${slideIndex}` }
+        slideRef={ slideRef }
       />
+    )
+  }
+
+  renderSlideLabel = (i) => {
+    return (
+      <div>Slide #{i + 1}<i className="material-icons md-36">face</i></div>
     )
   }
 
   render() {
     const { fields } = this.props
-    const { selectedSlideTypes } = this.state
+    const { selectedSlideTypes, canAddNewSlide } = this.state
     return (
       <List>
         <ListItem>
-          <RaisedButton onClick={ () => fields.push({}) }>
+          <RaisedButton
+            onClick={ () => fields.push({}) && this.setState({ canAddNewSlide: false }) }
+            disabled={ !canAddNewSlide }
+          >
             Add Slide
           </RaisedButton>
         </ListItem>
-        { fields.map((eachSlide, i) =>
-          <ListItem key={ i }>
-            <RaisedButton onClick={ () => {
-              this.deleteSelectedSlideType(i)
-              fields.remove(i)
-            } } >
-              Delete slide
-            </RaisedButton>
-            <h4>Slide #{i + 1}</h4>
-            <Field
-              name={`${eachSlide}.type`}
-              label="Slide Type"
-              component={ KiwiSelectField }
-              onSelectCustom={ (v) => this.setSelectedSlideType(i, v) }
-              options={ slideTypes }
-            >
-              { slideTypes.map((eachType, i) => {
-                return (
+        <Tabs>
+          { fields.map((eachSlideRef, i) =>
+            <Tab key={ i } label={ this.renderSlideLabel(i) }>
+              <RaisedButton onClick={ () => {
+                this.deleteSelectedSlideType(i)
+                fields.remove(i)
+              } } >
+                Delete slide #{i + 1}
+              </RaisedButton>
+              <h4>Slide #{i + 1}</h4>
+              <Field
+                name={ `${eachSlideRef}.type` }
+                label='Type'
+                component={ renderKiwiSelectField }
+                onSelectCustom={ (v) => this.setSelectedSlideType(i, v) }
+              >
+                { slideTypes.map((eachType, i) =>
                   <MenuItem
                     key={ i }
                     primaryText={ eachType.label }
                     value={ eachType.value }
                   />
-                )
-              }) }
-            </Field>
-            { selectedSlideTypes[i] && this.renderSlideConfigure(i, selectedSlideTypes[i]) }
-          </ListItem>
-        ) }
+                ) }
+              </Field>
+              <Field
+                name={ `${eachSlideRef}.title` }
+                label='Title'
+                component={ renderKiwiTextField }
+              />
+              { selectedSlideTypes[i] && this.renderSlideConfigure(eachSlideRef, selectedSlideTypes[i]) }
+            </Tab>
+          ) }
+        </Tabs>
       </List>
     )
   }

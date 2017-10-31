@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
-import KiwiTextField from '../../../common/KiwiTextField'
+import renderKiwiTextField from '../../../common/renderKiwiTextField'
 
 class FullPageCode extends Component {
   constructor(props) {
@@ -8,13 +8,10 @@ class FullPageCode extends Component {
   }
 
   render() {
-    const { fieldRef } = this.props
+    const { slideRef } = this.props
     return (
       <div>
-        <Field
-          name={ `${fieldRef}.title` }
-          component={ KiwiTextField }
-        />
+
       </div>
     )
   }

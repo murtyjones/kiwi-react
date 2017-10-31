@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash'
 import { getManyLessons } from '../../actions/index'
 import LessonWidget from './LessonWidget'
 
-import { KiwiLink } from '../../common/KiwiLinks'
+import { KiwiLink } from '../../common/KiwiLink'
 
 
 class ManageLessons extends Component {

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
 import { Link } from 'react-router-dom'
-import { KiwiLink } from '../common/KiwiLinks'
+import { KiwiLink } from '../common/KiwiLink'
 import { getManyUserProjects } from '../actions'
 import UserProjectWidget from './UserProjectWidget'
 
