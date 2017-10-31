@@ -57,7 +57,7 @@ class LessonForm extends Component {
         <FieldArray
           name="slides"
           component={ Slides }
-          slideTypes={ slideTypes }
+          selectedSlideTypes={ slideTypes }
         />
         <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
           Save

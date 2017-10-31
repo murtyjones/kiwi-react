@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import update from 'immutability-helper'
 import * as T from 'prop-types'
-import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, formValues } from 'redux-form'
+import { Field } from 'redux-form'
 import { List, ListItem, RaisedButton, MenuItem, Tabs, Tab } from 'material-ui'
 import { find, isEmpty } from 'lodash'
 
-import { slideTypes } from './slideTypes'
+import { slideTypes as allSlideTypes } from './slideTypes'
 import renderKiwiSelectField from '../../common/renderKiwiSelectField'
 import renderKiwiTextField from "../../common/renderKiwiTextField"
 
@@ -14,7 +14,7 @@ class Slides extends Component {
     super(props)
 
     this.state = {
-      selectedSlideTypes: []
+      localSlideTypes: []
       , selectedSlideTitle: ''
       , canAddNewSlide: true
     }
@@ -22,35 +22,33 @@ class Slides extends Component {
 
   static propTypes = {
     getAllCurrentSlideTypes: T.func
+    , selectedSlideTypes: T.array
+    , fields: T.object
   }
 
   componentWillReceiveProps(nextProps) {
-    const noSlidesSetYet = !this.props.slideTypes && isEmpty(this.state.selectedSlideTypes)
-    const hasSlideToSet = !isEmpty(nextProps.slideTypes)
+    const noSlidesSetYet = !this.props.selectedSlideTypes && isEmpty(this.state.localSlideTypes)
+    const hasSlideToSet = !isEmpty(nextProps.selectedSlideTypes)
     if(noSlidesSetYet && hasSlideToSet) {
-      this.setState({
-        selectedSlideTypes: nextProps.slideTypes.map(e => e.type)
-      })
+      this.setState({ localSlideTypes: nextProps.selectedSlideTypes.map(e => e.type) })
     }
   }
 
   setSelectedSlideType = (slideIndex, value) => {
-    const { selectedSlideTypes } = this.state
+    const { localSlideTypes } = this.state
     this.setState({
-      selectedSlideTypes: update(selectedSlideTypes, { $splice: [[slideIndex, 1, value]] }),
+      localSlideTypes: update(localSlideTypes, { $splice: [[slideIndex, 1, value]] }),
       canAddNewSlide: true
     })
   }
 
   deleteSelectedSlideType = (slideIndex) => {
-    const { selectedSlideTypes } = this.state
-    this.setState({
-      selectedSlideTypes: update(selectedSlideTypes, { $splice: [[slideIndex, 1]] })
-    })
+    const { localSlideTypes } = this.state
+    this.setState({ localSlideTypes: update(localSlideTypes, { $splice: [[slideIndex, 1]] }) })
   }
 
   renderSlideConfigure = (slideRef, value) => {
-    const SlideConfigComponent = find(slideTypes, { value }).component
+    const SlideConfigComponent = find(allSlideTypes, { value }).component
     return (
       <SlideConfigComponent
         slideRef={ slideRef }
@@ -59,14 +57,15 @@ class Slides extends Component {
   }
 
   renderSlideLabel = (i) => {
+    const { fields } = this.props
     return (
-      <div>Slide #{i + 1}<i className="material-icons md-36">face</i></div>
+      <div>Slide #{i + 1}<i className="material-icons md-36" onClick={ () => fields.remove(i) }> (X)</i></div>
     )
   }
 
   render() {
     const { fields } = this.props
-    const { selectedSlideTypes, canAddNewSlide } = this.state
+    const { localSlideTypes, canAddNewSlide } = this.state
     return (
       <List>
         <ListItem>
@@ -93,7 +92,7 @@ class Slides extends Component {
                 component={ renderKiwiSelectField }
                 onSelectCustom={ (v) => this.setSelectedSlideType(i, v) }
               >
-                { slideTypes.map((eachType, i) =>
+                { allSlideTypes.map((eachType, i) =>
                   <MenuItem
                     key={ i }
                     primaryText={ eachType.label }
@@ -106,7 +105,7 @@ class Slides extends Component {
                 label='Title'
                 component={ renderKiwiTextField }
               />
-              { selectedSlideTypes[i] && this.renderSlideConfigure(eachSlideRef, selectedSlideTypes[i]) }
+              { localSlideTypes[i] && this.renderSlideConfigure(eachSlideRef, localSlideTypes[i]) }
             </Tab>
           ) }
         </Tabs>
