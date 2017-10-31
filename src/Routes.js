@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Router, Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { Router, Route, Switch, Redirect, withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-
+import AppBar from 'material-ui/AppBar'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
 import ManageLessons from './admin/ManageLessons/ManageLessons'
 import history from './history'
 
 import AuthService from './utils/AuthService'
+
+
 
 const authService = new AuthService()
 
@@ -34,7 +36,7 @@ import UserProject from './UserProject/UserProject'
 
 
 const baseAppStyle = {
-  "borderRadius": 0
+  "border-radius": 0
   , "margin": 0
   , "position": "absolute"
   , "left": 0
@@ -52,6 +54,12 @@ class App extends Component {
 
   static propTypes = {
     isLoggedIn: T.bool.isRequired
+  }
+
+  logout = () => {
+    this.props.signout().then(() => {
+      this.props.history.push("/login")
+    })
   }
 
   render() {
@@ -103,4 +111,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, null)(App))
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signout: () => dispatch(signout())
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))

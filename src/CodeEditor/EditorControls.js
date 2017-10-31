@@ -15,7 +15,7 @@ const styles = {
     marginBottom: '6px',
   },
   textInput: {
-    marginRight: '10px',
+    marginRight: '1px',
     color: 'black',
   },
   textInputInput: {

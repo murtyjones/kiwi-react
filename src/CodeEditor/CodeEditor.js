@@ -202,7 +202,7 @@ class CodeEditor extends Component {
               onChange={ this.handleChange }
             >
               <Tab label={ inputLabel } value="input"  />
-              <Tab label={ outputLabel } xvalue="output" />
+              <Tab label={ outputLabel } value="output" />
             </Tabs>
             <Col md={ 6 }>
               <EditorInput
