@@ -6,7 +6,7 @@ import { get } from 'lodash'
 
 import { hasTokenExpired } from './timeUtils'
 
-export default class AuthServiceV2 {
+export default class AuthService {
   constructor() {
     this.auth0 = new auth0.WebAuth({
       domain:  config.auth.domain

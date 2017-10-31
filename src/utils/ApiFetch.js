@@ -2,9 +2,9 @@ import BluebirdPromise from 'bluebird'
 import { isTokenNearExpiration } from './timeUtils'
 import { refreshToken } from '../actions/Auth'
 import store from '../Store'
-import AuthServiceV2 from './AuthServiceV2'
+import AuthService from './AuthService'
 
-const authServiceV2 = new AuthServiceV2()
+const authService = new AuthService()
 
 
 const setFetchOptions = (options, body, headers) => {
@@ -29,17 +29,17 @@ const ApiFetch = (url, options = {}) => {
       , ...headers
     }
 
-    let exp = AuthServiceV2.getTokenExp() // static method
+    let exp = AuthService.getTokenExp() // static method
     const needsRefresh = isTokenNearExpiration(exp)
     if(needsRefresh) { // need a new token before sending request
       console.log('Refreshing user token.')
-      return authServiceV2.refreshToken(AuthServiceV2.getRefreshToken()).then(response => {
+      return authService.refreshToken(AuthService.getRefreshToken()).then(response => {
         const idToken = response.idToken
         _headers.Authorization = `Bearer ${idToken}`
-        const tokenExp = AuthServiceV2.decodeTokenExp(idToken)
+        const tokenExp = AuthService.decodeTokenExp(idToken)
         console.log(tokenExp)
-        AuthServiceV2.setToken(idToken)
-        AuthServiceV2.setTokenExp(tokenExp)
+        AuthService.setToken(idToken)
+        AuthService.setTokenExp(tokenExp)
         store.dispatch(refreshToken()) // store the new token in global state
         return setFetchOptions(options, body, _headers)
       }).then(options => {

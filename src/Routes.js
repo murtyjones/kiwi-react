@@ -10,12 +10,11 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
 import ManageLessons from './admin/ManageLessons/ManageLessons'
-import Callback from './Callback/Callback'
 import history from './history'
 
-import AuthServiceV2 from './utils/AuthServiceV2'
+import AuthService from './utils/AuthService'
 
-const authServiceV2 = new AuthServiceV2()
+const authService = new AuthService()
 
 
 
@@ -60,8 +59,8 @@ class App extends Component {
 
     const handleAuthentication = (nextState, replace) => {
       if (/access_token|id_token|error/.test(nextState.location.hash)) {
-        return authServiceV2.handleAuthentication().then(result => {
-          AuthServiceV2.setSession(result)
+        return authService.handleAuthentication().then(result => {
+          AuthService.setSession(result)
           history.replace('/dashboard')
         })
       }
@@ -77,14 +76,8 @@ class App extends Component {
             <Router history={ history }>
               <Switch>
                 <Route path='/' exact component={ Home } />
-                <Route path='/login' exact auth={ authServiceV2 } component={ LoginOrRegister } />
-                <Route path='/register' exact auth={ authServiceV2 } component={ LoginOrRegister } />
-                <Route path="/auth/callback" render={
-                  (props) => {
-                    handleAuthentication(props)
-                    return <Callback {...props} />
-                  }
-                } />
+                <Route path='/login' exact auth={ authService } component={ LoginOrRegister } />
+                <Route path='/register' exact auth={ authService } component={ LoginOrRegister } />
                 <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />

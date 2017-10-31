@@ -1,13 +1,5 @@
 {
-  "firebase": {
-    "apiKey": "AIzaSyCCThKIWFYoTgcYHInMtHN0k5J_jv27S0Y"
-    , "authDomain": "kiwi-react.firebaseapp.com"
-    , "databaseURL": "https://kiwi-react.firebaseio.com"
-    , "projectId": "kiwi-react"
-    , "storageBucket": "kiwi-react.appspot.com"
-    , "messagingSenderId": "630075552174"
-  }
-  , "auth": {
+  "auth": {
     "domain": "kiwi-stage.auth0.com"
     , "clientID": "O9T0UDFJVxqFgOouZyVfrfbBzoq-XP3g"
     , "redirectUri": "http://localhost:3000/auth/callback"

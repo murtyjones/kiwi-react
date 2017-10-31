@@ -1,15 +1,15 @@
-import AuthServiceV2 from '../utils/AuthServiceV2'
+import AuthService from '../utils/AuthService'
 import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
 import config from 'config'
 
-const authServiceV2 = new AuthServiceV2()
+const authService = new AuthService()
 
 export const login = (params) => {
   const { email, password } = params
   return dispatch => {
     dispatch({ type: ACTIONS.LOGIN_REQUEST })
-    return authServiceV2.login({ email, password })
+    return authService.login({ email, password })
     .then(success => {
       dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
     }).catch(err => {
@@ -42,7 +42,7 @@ export const register = (params) => {
 export const signout = () => {
   return async dispatch => {
     dispatch({ type: ACTIONS.SIGNOUT_REQUEST })
-    return AuthServiceV2.signout()
+    return AuthService.signout()
     .then(res => {
       dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: success })
     }).catch(err => {
