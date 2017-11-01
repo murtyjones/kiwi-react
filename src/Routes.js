@@ -37,7 +37,7 @@ import UserProject from './UserProject/UserProject'
 
 
 const baseAppStyle = {
-  "border-radius": 0
+  "borderRadius": 0
   , "margin": 0
   , "position": "absolute"
   , "left": 0

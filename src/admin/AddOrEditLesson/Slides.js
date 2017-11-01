@@ -2,12 +2,21 @@ import React, { Component } from 'react'
 import update from 'immutability-helper'
 import * as T from 'prop-types'
 import { Field } from 'redux-form'
-import { List, ListItem, RaisedButton, MenuItem, Tabs, Tab } from 'material-ui'
+import { List, ListItem, RaisedButton, FlatButton, MenuItem, Tabs, Tab, Dialog } from 'material-ui'
+import { Clear } from 'material-ui-icons';
 import { find, isEmpty } from 'lodash'
 
 import { slideTypes as allSlideTypes } from './slideTypes'
 import renderKiwiSelectField from '../../common/renderKiwiSelectField'
 import renderKiwiTextField from "../../common/renderKiwiTextField"
+
+const deleteStyle = {
+  color: 'white'
+  , height: '22px'
+  , width: '22px'
+  , position: 'absolute'
+  , right: '0px'
+}
 
 class Slides extends Component {
   constructor(props) {
@@ -17,6 +26,7 @@ class Slides extends Component {
       localSlideTypes: []
       , selectedSlideTitle: ''
       , canAddNewSlide: true
+      , deleteDialogOpen: false
     }
   }
 
@@ -56,16 +66,42 @@ class Slides extends Component {
     )
   }
 
-  renderSlideLabel = (i) => {
+  deleteSlide = (i) => {
     const { fields } = this.props
+    this.deleteSelectedSlideType(i)
+    fields.remove(i)
+    this.setState({ deleteDialogOpen: false })
+  }
+
+  renderSlideLabel = (i) => {
     return (
-      <div>Slide #{i + 1}<i className="material-icons md-36" onClick={ () => fields.remove(i) }> (X)</i></div>
+      <div>
+        Slide #{i + 1}
+        <Clear
+          style={ deleteStyle }
+          onClick={ () => { this.setState({ deleteDialogOpen: true }) } }
+        />
+      </div>
     )
   }
 
+  renderDeleteDialogActions = (i) => {
+    return [
+      <FlatButton onClick={ () => { this.deleteSlide(i) } }>
+        Confirm
+      </FlatButton>,
+      <FlatButton onClick={ () => { this.setState({ deleteDialogOpen: false }) } }>
+        Cancel
+      </FlatButton>
+    ]
+  }
+
+
+
   render() {
     const { fields } = this.props
-    const { localSlideTypes, canAddNewSlide } = this.state
+    const { localSlideTypes, canAddNewSlide, deleteDialogOpen } = this.state
+    
     return (
       <List>
         <ListItem>
@@ -79,12 +115,12 @@ class Slides extends Component {
         <Tabs>
           { fields.map((eachSlideRef, i) =>
             <Tab key={ i } label={ this.renderSlideLabel(i) }>
-              <RaisedButton onClick={ () => {
-                this.deleteSelectedSlideType(i)
-                fields.remove(i)
-              } } >
-                Delete slide #{i + 1}
-              </RaisedButton>
+              <Dialog
+                open={ deleteDialogOpen }
+                actions={ this.renderDeleteDialogActions(i) }
+              >
+                Are you sure you want to delete this lesson?
+              </Dialog>
               <h4>Slide #{i + 1}</h4>
               <Field
                 name={ `${eachSlideRef}.type` }
