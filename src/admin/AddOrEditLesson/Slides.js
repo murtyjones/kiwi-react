@@ -12,8 +12,8 @@ import renderKiwiTextField from "../../common/renderKiwiTextField"
 
 const deleteStyle = {
   color: 'white'
-  , height: '22px'
-  , width: '22px'
+  , height: '19px'
+  , width: '19px'
   , position: 'absolute'
   , right: '0px'
 }
@@ -101,7 +101,7 @@ class Slides extends Component {
   render() {
     const { fields } = this.props
     const { localSlideTypes, canAddNewSlide, deleteDialogOpen } = this.state
-    
+
     return (
       <List>
         <ListItem>
