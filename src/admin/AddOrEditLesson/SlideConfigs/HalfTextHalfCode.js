@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
-import renderKiwiTextField from '../../../common/renderKiwiTextField'
+import renderRichTextEditor from '../../../common/renderRichTextEditor'
 
 class HalfCodeHalfText extends Component {
   constructor(props) {
@@ -11,7 +11,10 @@ class HalfCodeHalfText extends Component {
     const { slideRef } = this.props
     return (
       <div>
-
+        <Field
+          name={ `${slideRef}.slideContent` }
+          component={ renderRichTextEditor }
+        />
       </div>
     )
   }

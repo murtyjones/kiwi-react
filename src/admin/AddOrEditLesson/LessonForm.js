@@ -70,7 +70,7 @@ class LessonForm extends Component {
 LessonForm = reduxForm({
   form: formName
   , enableReinitialize: true
-  // , destroyOnUnmount: !module.hot
+  //, destroyOnUnmount: !module.hot
 })(LessonForm)
 
 const selector = formValueSelector(formName) // <-- same as form name
