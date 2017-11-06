@@ -12,7 +12,7 @@ class FullPageText extends Component {
     return (
       <div>
         <Field
-          name={ `${slideRef}.slideContent` }
+          name={ `${slideRef}.instructions` }
           component={ renderRichTextEditor }
         />
       </div>

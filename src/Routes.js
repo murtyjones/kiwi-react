@@ -43,7 +43,6 @@ const baseAppStyle = {
   , "top": 0
   , "right": 0
   , "bottom": 0
-  , "backgroundColor": "#ededed"
   , "fontFamily": "Roboto, sans-serif"
 }
 

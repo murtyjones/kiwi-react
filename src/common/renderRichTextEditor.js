@@ -25,8 +25,9 @@ const renderRichTextEditor = (props) => {
   return (
     <ReactQuill
       value={ props.input.value }
-      modules={modules}
-      formats={formats}
+      modules={ modules }
+      formats={ formats }
+      style={ props.style }
       onChange={ props.input.onChange }
     />
   )
