@@ -3,7 +3,10 @@ export const isTokenNearExpiration = (tokenExpTimestamp) => {
         leewayMinutes = 60,
         leewaySeconds = leewayMinutes * 60
 
-  return tokenExpTimestamp - currentTimestampInSeconds < leewaySeconds
+  const isNearExpiration = tokenExpTimestamp - currentTimestampInSeconds < leewaySeconds
+  const hasExpired = hasTokenExpired(tokenExpTimestamp)
+
+  return isNearExpiration && !hasExpired
 }
 
 
