@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Router, Route, Switch, Redirect, withRouter, Link } from 'react-router-dom'
+import { Route, Switch, Redirect, withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
@@ -10,7 +10,6 @@ import AppBar from 'material-ui/AppBar'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
 import ManageLessons from './admin/ManageLessons/ManageLessons'
-import history from './history'
 
 import AuthService from './utils/AuthService'
 
@@ -67,15 +66,6 @@ class App extends Component {
   render() {
     const { isLoggedIn, isAdmin } = this.props
 
-    const handleAuthentication = (nextState, replace) => {
-      if (/access_token|id_token|error/.test(nextState.location.hash)) {
-        return authService.handleAuthentication().then(result => {
-          AuthService.setSession(result)
-          history.replace('/dashboard')
-        })
-      }
-    }
-
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
@@ -83,19 +73,17 @@ class App extends Component {
             <title>Kiwi Compute</title>
           </Helmet>
           <div className={ cns('baseAppStyles') } style={ baseAppStyle } >
-            <Router history={ history }>
-              <Switch>
-                <Route path='/' exact component={ Home } />
-                <Route path='/login' exact auth={ authService } component={ LoginOrRegister } />
-                <Route path='/register' exact auth={ authService } component={ LoginOrRegister } />
-                <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-                <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
-                <AuthorizedRoute path='/admin/lesson/new' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
-                <AuthorizedRoute path='/admin/lesson/:id' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
-              </Switch>
-            </Router>
+            <Switch>
+              <Route path='/' exact component={ Home } />
+              <Route path='/login' exact auth={ authService } component={ LoginOrRegister } />
+              <Route path='/register' exact auth={ authService } component={ LoginOrRegister } />
+              <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
+              <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+              <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
+              <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
+              <AuthorizedRoute path='/admin/lesson/new' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
+              <AuthorizedRoute path='/admin/lesson/:id' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
+            </Switch>
           </div>
         </div>
       </MuiThemeProvider>
