@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
-import renderKiwiTextField from '../../../common/renderKiwiTextField'
+import renderTextField from '../../../common/renderTextField'
 
 class FullPageCode extends Component {
   constructor(props) {

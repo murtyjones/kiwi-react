@@ -7,8 +7,8 @@ import { Clear } from 'material-ui-icons';
 import { find, isEmpty } from 'lodash'
 
 import { slideTypes as allSlideTypes } from './slideTypes'
-import renderKiwiSelectField from '../../common/renderKiwiSelectField'
-import renderKiwiTextField from "../../common/renderKiwiTextField"
+import renderSelectField from '../../common/renderSelectField'
+import renderTextField from "../../common/renderTextField"
 
 const deleteStyle = {
   color: 'white'
@@ -125,7 +125,7 @@ class Slides extends Component {
               <Field
                 name={ `${eachSlideRef}.type` }
                 label='Type'
-                component={ renderKiwiSelectField }
+                component={ renderSelectField }
                 onSelectCustom={ (v) => this.setSelectedSlideType(i, v) }
               >
                 { allSlideTypes.map((eachType, i) =>
@@ -139,7 +139,7 @@ class Slides extends Component {
               <Field
                 name={ `${eachSlideRef}.title` }
                 label='Title'
-                component={ renderKiwiTextField }
+                component={ renderTextField }
               />
               { localSlideTypes[i] && this.renderSlideConfigure(eachSlideRef, localSlideTypes[i]) }
             </Tab>

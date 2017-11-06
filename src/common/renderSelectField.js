@@ -1,7 +1,7 @@
 import React from 'react'
 import { SelectField, MenuItem } from 'material-ui'
 
-const renderKiwiSelectField = ({ children, input, label, type, meta: { touched, error }, onSelectCustom, ...custom }) => {
+const renderSelectField = ({ children, input, label, type, meta: { touched, error }, onSelectCustom, ...custom }) => {
   return (
     <div>
       <label>
@@ -9,20 +9,20 @@ const renderKiwiSelectField = ({ children, input, label, type, meta: { touched, 
       </label>
       <div>
         <SelectField
-          {...input}
+          { ...input }
           onChange={
             (event, index, value) => {
               input.onChange(value)
               if (onSelectCustom) onSelectCustom(value)
             }
           }
-          errorText={touched && error}
-          children={children}
-          {...custom}
+          errorText={ touched && error }
+          children={ children }
+          { ...custom }
         />
       </div>
     </div>
   )
 }
 
-export default renderKiwiSelectField
+export default renderSelectField

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Slider } from 'material-ui'
 
 
-class renderKiwiSelectField extends Component {
+class renderSliderField extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -43,4 +43,4 @@ class renderKiwiSelectField extends Component {
 }
 
 
-export default renderKiwiSelectField
+export default renderSliderField
