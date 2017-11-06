@@ -9,5 +9,5 @@
     , "namespace": "https://app.kiwicompute.com"
     , "realm": "Username-Password-Authentication"
   },
-  "api" : "https://kiwi-node-stage-184517156.us-east-1.elb.amazonaws.com"
+  "api" : "https://api.app.kiwicompute.com"
 }
