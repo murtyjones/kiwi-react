@@ -35,7 +35,6 @@
     "depcheck": "^0.6.8",
     "es6-promise": "^4.1.1",
     "es6-symbol": "^3.1.1",
-    "history": "^4.7.2",
     "immutability-helper": "^2.4.0",
     "intro.js": "^2.8.0-alpha.1",
     "jwt-decode": "^2.2.0",
