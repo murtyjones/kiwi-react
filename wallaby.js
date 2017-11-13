@@ -1,9 +1,9 @@
 module.exports = function (wallaby) {
 
   return {
-    files: ['src/**/*.js', 'test/__mocks__/*.js', '!test/**/*.test.js'],
+    files: ['src/**/*.js', 'test/__mocks__/*.js', '!test/__tests__/*.test.js'],
 
-    tests: ['test/**/*.test.js'],
+    tests: ['test/__tests__/*.test.js'],
 
     env: {
       type: 'node',
