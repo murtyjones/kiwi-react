@@ -1,23 +1,16 @@
 import React from 'react'
-jest.mock('react-router-dom', () => {
-  return {
-    Link: (props) => <a>{props.children}</a>
-  }
-})
-
-
-
 import PropTypes from 'prop-types'
 import { mount } from 'enzyme'
 import localStorageMock from '../__mocks__/localstorage'
 import '../__mocks__/reduxForm'
+import '../__mocks__/reactRouterDom'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import LoginFormComponent from '../../src/LoginOrRegister/LoginForm'
 
 window.localStorage = localStorageMock
 
 
-test('UserProjectCard should render', () => {
+test('LoginFormComponent should render', () => {
   const wrapper = mount(
     <LoginFormComponent
       project={{}}
