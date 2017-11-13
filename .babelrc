@@ -24,6 +24,9 @@
         , "react-hot-loader/babel"
         , "lodash"
       ]
+    },
+    "test": {
+      "presets": ["react", "es2015"]
     }
   }
 }
