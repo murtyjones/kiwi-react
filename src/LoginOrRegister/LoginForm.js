@@ -33,6 +33,7 @@ let LoginForm = props => {
   )
 }
 
+export const LoginFormComponent = LoginForm
 
 LoginForm = reduxForm({
   // a unique name for the form

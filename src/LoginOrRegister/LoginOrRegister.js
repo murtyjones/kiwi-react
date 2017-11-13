@@ -13,7 +13,7 @@ import RegisterForm from './RegisterForm'
 import renderIf from 'render-if'
 
 
-class Home extends Component {
+class LoginOrRegister extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -120,8 +120,7 @@ class Home extends Component {
   }
 }
 
-export const HomeComponent = Home
-
+export const LoginOrRegisterComponent = LoginOrRegister
 
 
 const mapStateToProps = (state) => {
@@ -139,4 +138,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginOrRegister))
