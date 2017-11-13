@@ -2,9 +2,8 @@
   "presets": ["react", "es2015"],
   "plugins": [
     "transform-object-rest-spread"
-    , "transform-async-to-generator"
-    , "transform-class-properties"
     , "syntax-dynamic-import"
+    , "transform-class-properties"
     , "lodash"
   ],
   "env": {
@@ -12,13 +11,12 @@
       "presets": [
         "react",  [
           "es2015", {
-          "modules": false
+            "modules": false
           }
         ]
       ],
       "plugins": [
         "transform-object-rest-spread"
-        , "transform-async-to-generator"
         , "transform-class-properties"
         , "syntax-dynamic-import"
         , "react-hot-loader/babel"
