@@ -1,10 +1,13 @@
 {
   "presets": ["react", "es2015"],
   "plugins": [
-    "transform-object-rest-spread"
+    "transform-es2015-modules-commonjs"
+    , "transform-decorators-legacy"
+    , "transform-object-rest-spread"
     , "transform-async-to-generator"
-    , "syntax-dynamic-import"
     , "transform-class-properties"
+    , "syntax-dynamic-import"
+    , "react-hot-loader/babel"
     , "lodash"
   ],
   "env": {
@@ -28,7 +31,9 @@
     "test": {
       "presets": ["react", "es2015"],
       "plugins": [
-        "transform-object-rest-spread"
+        "transform-es2015-modules-commonjs"
+        , "transform-decorators-legacy"
+        , "transform-object-rest-spread"
         , "transform-async-to-generator"
         , "transform-class-properties"
         , "syntax-dynamic-import"
