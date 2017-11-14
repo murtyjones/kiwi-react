@@ -5,13 +5,17 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 
 import { KiwiLink } from '../common/KiwiLink'
 
+const mediaColor = '#808080'
+const textColor = '#A9A9A9'
+const timeSectionColor = '#808080'
+
 const styles = {
   container: {
     height:'100%'
   },
   media: {
     height: '50%'
-    , backgroundColor: '#808080'
+    , backgroundColor: mediaColor
   },
   body: {
     height: '50%'
@@ -22,7 +26,7 @@ const styles = {
   },
   text: {
     fontSize: '16px'
-    , color: '#A9A9A9'
+    , color: textColor
   },
   timeToComplete: {
     padding: '16px'
@@ -30,12 +34,12 @@ const styles = {
     , display: 'block'
   },
   alarm: {
-    color: '#808080'
+    color: timeSectionColor
     , verticalAlign: 'middle'
   },
   minutes: {
     paddingLeft: '5px'
-    , color: '#808080'
+    , color: timeSectionColor
     , verticalAlign: 'middle'
   }
 }
@@ -51,7 +55,7 @@ const TimeToComplete = () => {
   )
 }
 
-const renderLessonCard = ({ style }) => {
+const LessonCard = ({ style }) => {
   return (
     <KiwiLink to={'/#'}>
       <Card style={ style } containerStyle={ styles.container }>
@@ -68,12 +72,11 @@ const renderLessonCard = ({ style }) => {
           >
             This is my lesson. There are many like it, but this one is mine. My lesson is my best friend. It is my life.
           </CardText>
-          <TimeToComplete
-          />
+          <TimeToComplete />
         </div>
       </Card>
     </KiwiLink>
   )
 }
 
-export default renderLessonCard
+export default LessonCard

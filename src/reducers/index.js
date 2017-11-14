@@ -6,6 +6,7 @@ import home from './home'
 import auth from './Auth'
 import userProjects from './UserProjects'
 import lessons from './Lessons'
+import userLessons from './UserLessons'
 import sideNav from './SideNav'
 
 // Export combined reducers
@@ -15,5 +16,6 @@ export default combineReducers({
   , auth
   , userProjects
   , lessons
+  , userLessons
   , sideNav
 })
