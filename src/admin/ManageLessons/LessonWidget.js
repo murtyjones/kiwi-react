@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
-
+import Reorder from 'material-ui-icons/Reorder'
 
 import { KiwiLink } from '../../common/KiwiLink'
 
@@ -11,13 +11,14 @@ class LessonWidget extends Component {
   }
 
   render() {
-    const { lesson } = this.props
+    const { item, draggable = true } = this.props
     return (
-      <KiwiLink to={ `/admin/lesson/${lesson._id}` }>
-        <Card key={ lesson.title }>
+      <KiwiLink to={ `/admin/lesson/${item._id}` }>
+        <Card key={ item.title }>
+          { draggable && <Reorder /> }
           <CardHeader
-            title={ lesson.title }
-            subtitle={ lesson.subtitle }
+            title={ item.title }
+            subtitle={ item.subtitle }
           />
         </Card>
       </KiwiLink>

@@ -119,7 +119,7 @@ class Slides extends Component {
                 open={ deleteDialogOpen }
                 actions={ this.renderDeleteDialogActions(i) }
               >
-                Are you sure you want to delete this lesson?
+                Are you sure you want to delete this slide?
               </Dialog>
               <h4>Slide #{i + 1}</h4>
               <Field

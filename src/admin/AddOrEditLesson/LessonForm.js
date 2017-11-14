@@ -8,6 +8,8 @@ import { RaisedButton } from 'material-ui'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
+import KiwiToggleField from '../../common/KiwiToggleField'
+
 import Slides from './Slides'
 
 let formName = 'lesson'
@@ -54,6 +56,11 @@ class LessonForm extends Component {
           step={ 1 }
           max={ 100 }
         />
+        <Field
+          name={ 'isPublished' }
+          label={ 'Is live?' }
+          component={ KiwiToggleField }
+        />
         <FieldArray
           name="slides"
           component={ Slides }
@@ -62,6 +69,7 @@ class LessonForm extends Component {
         <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
           Save
         </RaisedButton>
+        { submitting && <span>Saving...</span> }
       </form>
     )
   }
@@ -73,11 +81,15 @@ LessonForm = reduxForm({
   //, destroyOnUnmount: !module.hot
 })(LessonForm)
 
-const selector = formValueSelector(formName) // <-- same as form name
-const mapStateToProps = (state) => {
+const selector = formValueSelector(formName)
+const mapStateToProps = (state, ownProps) => {
   const slideTypes = selector(state, 'slides')
+  const initialValues = ownProps.initialValues
+  if(!initialValues.isPublished)
+    initialValues.isPublished = false
+
   return {
-    slideTypes
+    slideTypes,
   }
 }
 

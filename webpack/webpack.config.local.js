@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const localConfig = require('../config/default.json')
+//const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 process.env.BABEL_ENV = 'local-webpack'
 module.exports = {
