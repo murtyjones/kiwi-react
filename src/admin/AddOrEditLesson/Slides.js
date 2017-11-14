@@ -3,7 +3,7 @@ import update from 'immutability-helper'
 import * as T from 'prop-types'
 import { Field } from 'redux-form'
 import { List, ListItem, RaisedButton, FlatButton, MenuItem, Tabs, Tab, Dialog } from 'material-ui'
-import { Clear } from 'material-ui-icons';
+import Clear  from 'material-ui-icons/Clear'
 import { find, isEmpty } from 'lodash'
 
 import { slideTypes as allSlideTypes } from './slideTypes'

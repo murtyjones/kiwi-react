@@ -19,9 +19,11 @@ const styles = {
     height: '400px',
   },
   card: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0
+    position: 'fixed'
+    , right: '20px'
+    , bottom: '20px'
+    , width: '350px'
+    , height: '400px'
   }
 }
 
