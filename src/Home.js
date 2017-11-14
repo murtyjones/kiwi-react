@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signout } from './actions'
+import { openSidebar, closeSidebar, signout } from './actions'
 
 import { Container } from 'react-grid-system'
 
@@ -18,14 +18,24 @@ class Home extends Component {
   }
 
   static propTypes = {
-    greeting: T.string
-    , signInWithEmailAndPassword: T.func
-    , createUserWithEmailAndPassword: T.func
+    openSidebar: T.func
+    , closeSidebar: T.func
     , signout: T.func
   }
 
+  componentWillReceiveProps() {
+    this.props.closeSidebar()
+  }
+
+  componentWillMount() {
+    this.props.closeSidebar()
+  }
+
+  componentWillUnmount() {
+    this.props.openSidebar()
+  }
+
   render() {
-    const { isLoggedIn } = this.props
     return (
       <div>
         <Container fluid>
@@ -41,21 +51,12 @@ class Home extends Component {
 export const HomeComponent = Home
 
 
-
-const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn } } = state
-
-  return {
-    isLoggedIn
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    signInWithEmailAndPassword: (params) => dispatch(signInWithEmailAndPassword(params))
-    , createUserWithEmailAndPassword: (params) => dispatch(createUserWithEmailAndPassword(params))
-    , signout: () => dispatch(signout())
+    signout: () => dispatch(signout())
+    , openSidebar: () => dispatch(openSidebar())
+    , closeSidebar: () => dispatch(closeSidebar())
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home))
+export default withRouter(connect(null, mapDispatchToProps)(Home))

@@ -5,7 +5,7 @@ import { get, find } from 'lodash'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
-import { login, register } from '../actions'
+import { openSidebar, closeSidebar, login, register } from '../actions'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
@@ -23,17 +23,26 @@ class LoginOrRegister extends Component {
 
   static propTypes = {
     greeting: T.string
-    , signInWithEmailAndPassword: T.func
     , login: T.func
-    , createUserWithEmailAndPassword: T.func
     , signout: T.func
     , register: T.func
+    , closeSidebar: T.func
+    , openSidebar: T.func
   }
 
   componentWillMount() {
+    this.props.closeSidebar()
     const { match } = this.props
     const switchText = match.path === '/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
     this.setState({ switchText })
+  }
+
+  componentWillReceiveProps() {
+    this.props.closeSidebar()
+  }
+
+  componentWillUnmount() {
+    this.props.openSidebar()
   }
 
   handleLoginSubmit = async(v) => {
@@ -135,6 +144,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login: (params) => dispatch(login(params))
     , register: (params) => dispatch(register(params))
+    , openSidebar: () => dispatch(openSidebar())
+    , closeSidebar: () => dispatch(closeSidebar())
   }
 }
 
