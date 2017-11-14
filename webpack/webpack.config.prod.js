@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const prodConfig = require('../config/prod.json')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -35,7 +36,7 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin()
+    new UglifyJSPlugin()
   ],
   externals: {
     config: JSON.stringify(prodConfig)
