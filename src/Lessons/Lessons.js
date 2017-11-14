@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getManyLessons } from '../actions'
-import { Stage, Circle, Layer, Line } from 'react-konva'
+import { Stage, Circle, Layer, Line, Text } from 'react-konva'
 
 const styles = {
   container: {
@@ -18,6 +18,8 @@ const styles = {
     height: '400px',
   }
 }
+
+const strokeColor = '#696969'
 
 class Lessons extends Component {
   constructor(props) {
@@ -40,11 +42,11 @@ class Lessons extends Component {
       //stage: this.refs.stage.getStage(),
       width: this.refs.parental.clientWidth
     })
-    window.addEventListener("resize", this.updateDimensions);
+    window.addEventListener("resize", this.updateDimensions)
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions);
+    window.removeEventListener("resize", this.updateDimensions)
   }
 
   updateDimensions = () => {
@@ -58,7 +60,7 @@ class Lessons extends Component {
     // window.Konva is a global variable for Konva framework namespace
     this.setState({
       color: window.Konva.Util.getRandomColor()
-    });
+    })
   }
 
   render() {
@@ -74,11 +76,12 @@ class Lessons extends Component {
         <Stage ref="stage" width={ width } height={ height }>
           <Layer style={  styles.layer1  }>
             <Line
-              points={ [circle1x, circle1y, circle2x, circle2y] }
-              stroke={ 'red' }
-              strokeWidth={ 15 }
+              points={ [circle1x, circle1y, width / 1.5, height / 3 , circle2x, circle2y] }
+              stroke={ strokeColor }
+              strokeWidth={ 13 }
               lineCap={ 'round' }
               lineJoin={ 'round' }
+              tension={ 0.5 }
             />
             <Circle
               ref={ 'circle1' }
@@ -86,7 +89,19 @@ class Lessons extends Component {
               y={ circle1y }
               width={ 100 }
               height={ 100 }
-              fill={ color }
+              fill={ 'white' }
+              onClick={ this.handleClick }
+            />
+            <Text
+              x={ circle1x-23 }
+              y={ circle1y-20 }
+              width={ 50 }
+              height={ 50 }
+              fontSize={ 40 }
+              text={ '1' }
+              fontFamily={ 'arial' }
+              fill={ 'black' }
+              align="center"
               onClick={ this.handleClick }
             />
             <Circle
@@ -94,7 +109,9 @@ class Lessons extends Component {
               y={ circle2y }
               width={ 100 }
               height={ 100 }
-              fill={ color }
+              fill={ 'white' }
+              stroke={ strokeColor }
+              strokeWidth={ 8 }
               onClick={ this.handleClick }
             />
           </Layer>
