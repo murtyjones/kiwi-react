@@ -67,16 +67,15 @@ class LessonMap extends Component {
     const { width, cursor } = this.state
 
     const mockActiveLessons = [
-
-    ]
-
-    const mockInactiveLessons = [
       {
         isCompleted: true
       },
       {
         isCompleted: false
-      },
+      }
+    ]
+
+    const mockInactiveLessons = [
       {
 
       }
