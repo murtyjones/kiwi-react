@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Stage, Circle, Layer, Line, Text } from 'react-konva'
+import { Stage, Layer } from 'react-konva'
 import MapLines from './MapLines'
 import MapBubbles from './MapBubbles'
 
@@ -33,7 +33,7 @@ class LessonMap extends Component {
   }
 
   componentDidMount() {
-    const clientWidth = this.refs.parental.clientWidth
+    const clientWidth = this.parentalNode.clientWidth
     this.setState({
       startingWidth: clientWidth,
       width: clientWidth
@@ -46,11 +46,11 @@ class LessonMap extends Component {
   }
 
   updateDimensions = () => {
-    console.log(this.refs.parental.clientWidth / this.state.startingWidth)
+    console.log(this.parentalNode.clientWidth / this.state.startingWidth)
     this.setState({
-      width: this.refs.parental.clientWidth,
-      scaleX: this.refs.parental.clientWidth / this.state.startingWidth,
-      scaleY: this.refs.parental.clientWidth / this.state.startingWidth
+      width: this.parentalNode.clientWidth,
+      scaleX: this.parentalNode.clientWidth / this.state.startingWidth,
+      scaleY: this.parentalNode.clientWidth / this.state.startingWidth
     })
   }
 
@@ -95,9 +95,9 @@ class LessonMap extends Component {
     ]
 
     return (
-      <div ref="parental" style={ { ...styles.container, cursor } }>
-        <Stage ref="stage" width={ width } height={ 1000 } scaleX={scaleX} scaleY={scaleY}>
-          <Layer ref="layer" style={  styles.layer1  }>
+      <div ref={ (c) => { this.parentalNode = c } } style={ { ...styles.container, cursor } }>
+        <Stage width={ width } height={ 1000 } scaleX={scaleX} scaleY={scaleY}>
+          <Layer style={  styles.layer1  }>
             <MapLines
               activeLessons={ mockActiveLessons }
               inactiveLessons={ mockInactiveLessons }
