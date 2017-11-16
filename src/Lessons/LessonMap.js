@@ -19,8 +19,11 @@ class LessonMap extends Component {
     super(props)
     this.state = {
       stage: null,
-      width: window.innerWidth,
-      cursor: 'auto'
+      width: window.innerWidth, // this is temporary
+      startingWidth: window.innerWidth,
+      cursor: 'auto',
+      scaleX: 1,
+      scaleY: 1
     }
   }
 
@@ -30,9 +33,10 @@ class LessonMap extends Component {
   }
 
   componentDidMount() {
+    const clientWidth = this.refs.parental.clientWidth
     this.setState({
-      //stage: this.refs.stage.getStage(),
-      width: this.refs.parental.clientWidth
+      startingWidth: clientWidth,
+      width: clientWidth
     })
     window.addEventListener("resize", this.updateDimensions)
   }
@@ -42,13 +46,15 @@ class LessonMap extends Component {
   }
 
   updateDimensions = () => {
+    console.log(this.refs.parental.clientWidth / this.state.startingWidth)
     this.setState({
-      width: this.refs.parental.clientWidth
+      width: this.refs.parental.clientWidth,
+      scaleX: this.refs.parental.clientWidth / this.state.startingWidth,
+      scaleY: this.refs.parental.clientWidth / this.state.startingWidth
     })
   }
 
   handleClick = () => {
-    console.log('clicked')
   }
 
   handleMouseOver = () => {
@@ -64,18 +70,25 @@ class LessonMap extends Component {
   }
 
   render() {
-    const { width, cursor } = this.state
+    const { width, cursor, scaleX, scaleY } = this.state
 
     const mockActiveLessons = [
       {
         isCompleted: true
       },
       {
-        isCompleted: false
+        isCompleted: false,
+        completenessPercentage: 34
       }
     ]
 
     const mockInactiveLessons = [
+      {
+
+      },
+      {
+
+      },
       {
 
       }
@@ -83,7 +96,7 @@ class LessonMap extends Component {
 
     return (
       <div ref="parental" style={ { ...styles.container, cursor } }>
-        <Stage ref="stage" width={ width } height={ 1000 }>
+        <Stage ref="stage" width={ width } height={ 1000 } scaleX={scaleX} scaleY={scaleY}>
           <Layer ref="layer" style={  styles.layer1  }>
             <MapLines
               activeLessons={ mockActiveLessons }

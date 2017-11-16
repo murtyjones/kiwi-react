@@ -1,7 +1,7 @@
 import ACTIONS from './ACTIONS'
-import LESSON_MAP from './LESSON_MAP'
+import LESSON_MAP_POINTS from './LESSON_MAP_POINTS'
 
 export {
   ACTIONS,
-  LESSON_MAP
+  LESSON_MAP_POINTS
 }

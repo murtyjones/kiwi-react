@@ -1,7 +1,7 @@
 import React from 'react'
 import { Line } from 'react-konva'
 
-import { LESSON_MAP } from '../constants'
+import { LESSON_MAP_POINTS } from '../constants'
 
 const activeLineColor = '#696969'
 const inactiveColor = '#D3D3D3'
@@ -11,7 +11,7 @@ const styles = {
     strokeWidth: 13
     , lineCap: 'round'
     , lineJoin: 'round'
-    , tension: 0.5
+    , tension: 0.1
   }
 }
 
@@ -23,8 +23,7 @@ const generateActiveLinePoints = (activeLessons, MAP) => {
     list.push(MAP[`CIRCLE_${map_index}_X`])
     list.push(MAP[`CIRCLE_${map_index}_Y`])
     if(map_index !== activeLessons.length) {
-      list.push(MAP[`LINE_POINT_${map_index}_X`])
-      list.push(MAP[`LINE_POINT_${map_index}_Y`])
+      list.push(...MAP[`LINE_POINT_${map_index}`])
     }
     return list
   })
@@ -51,7 +50,7 @@ const generateInactiveLinePoints = (inactiveLessons, MAP, startsAfter) => {
 }
 
 const MapLines = ({ activeLessons, inactiveLessons, width }) => {
-  const MAP = LESSON_MAP(width)
+  const MAP = LESSON_MAP_POINTS(width)
 
   const linePointsActive = generateActiveLinePoints(activeLessons, MAP)
   const _linePointsInactive = generateInactiveLinePoints(inactiveLessons, MAP, activeLessons.length)

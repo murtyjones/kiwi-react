@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Circle, Text, Path } from 'react-konva'
-//import Done from 'material-ui-icons/Done'
 
-import { LESSON_MAP } from '../constants'
+import { LESSON_MAP_POINTS } from '../constants'
 
 const activeLineColor = '#696969'
 const inactiveColor = '#D3D3D3'
@@ -32,11 +31,11 @@ class MapBubbles extends PureComponent {
 
     let checkmark = []
     if(isActive) {
+      rest.stroke = activeLineColor
+      rest.strokeWidth = 8
       if(!lesson.isCompleted) {
-        rest.stroke = activeLineColor
-        rest.strokeWidth = 8
-      } else {
 
+      } if(lesson.isCompleted) {
         checkmark = [
           <Circle
             key={ `checkmark-circle-${index}` }
@@ -54,7 +53,7 @@ class MapBubbles extends PureComponent {
             y={ MAP[`CIRCLE_${index}_Y`] - CHECKMARK_Y_OFFSET }
             data={ checkmarkSVGData }
             fill={ checkmarkColor }
-            scale={ { x : 1, y : 1 } }
+            scale={ { x : 1.1, y : 1.1 } }
           />
         ]
       }
@@ -71,6 +70,9 @@ class MapBubbles extends PureComponent {
         onMouseOver={ handleMouseOver }
         onMouseOut={ handleMouseOut }
         { ...rest }
+        fillLinearGradientStartPoint={{ x : -50, y : -50}}
+        fillLinearGradientEndPoint={{ x : 50, y : 50}}
+        fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
       />,
       <Text
         key={ `text-${index}` }
@@ -94,7 +96,7 @@ class MapBubbles extends PureComponent {
 
   render() {
     const { activeLessons, inactiveLessons, width, ...rest } = this.props
-    const MAP = LESSON_MAP(width)
+    const MAP = LESSON_MAP_POINTS(width)
 
     const bubbleElements = []
 
