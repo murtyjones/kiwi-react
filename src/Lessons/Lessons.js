@@ -7,6 +7,8 @@ import { getManyLessons, getManyUserLessons } from '../actions'
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
 
+const minWidth = 1024 - 256 // minimum screen of 1024 (minus sidebar width)
+
 const styles = {
   lessonCard: {
     position: 'fixed'
@@ -20,6 +22,12 @@ const styles = {
 class Lessons extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      width: minWidth, // this is temporary
+      startingWidth: minWidth, // this is temporary
+      scaleX: 1,
+      scaleY: 1,
+    }
   }
 
   static propTypes = {
@@ -29,18 +37,76 @@ class Lessons extends Component {
     , userLessons: T.object
   }
 
+  componentDidMount() {
+    const clientWidth = this.lessonsContainerNode.clientWidth
+    const width = Math.max(clientWidth, minWidth)
+    this.setState({
+      startingWidth: width
+      , width: width
+      , scaleX: width / minWidth
+      , scaleY: width / minWidth
+
+    })
+    window.addEventListener("resize", this.updateDimensions)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions)
+  }
+
+  updateDimensions = () => {
+    const clientWidth = this.lessonsContainerNode.clientWidth
+    const newWidth = Math.max(clientWidth, minWidth)
+    console.log(newWidth)
+    console.log(this.state.startingWidth)
+    this.setState({
+      width: newWidth
+      , scaleX: newWidth / minWidth
+      , scaleY: newWidth / minWidth
+    })
+  }
+
 
   render() {
+    const { width, scaleX, scaleY } = this.state
     const { lessonsById } = this.props
+    console.log(scaleX)
 
+    const mockActiveLessons = [
+      {
+        isCompleted: true
+      },
+      {
+        isCompleted: false,
+        completenessPercentage: 34
+      }
+    ]
+
+    const mockInactiveLessons = [
+      {
+
+      },
+      {
+
+      },
+      {
+
+      }
+    ]
+
+    const stageProportion = 0.70
     return (
-      <div>
+      <div ref={ (c) => { this.lessonsContainerNode = c } }>
         <LessonMap
-          lessons={ Object.values(lessonsById) }
+          width={ width * stageProportion }
+          scaleX={ scaleX }
+          scaleY={ scaleY }
+          activeLessons={ mockActiveLessons }
+          inactiveLessons={ mockInactiveLessons }
         />
-        <LessonCard
-          style={ styles.lessonCard }
-        />
+        {/*<LessonCard*/}
+          {/*style={ styles.lessonCard }*/}
+        {/*/>*/}
       </div>
     )
   }

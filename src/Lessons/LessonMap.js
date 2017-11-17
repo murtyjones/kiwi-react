@@ -4,6 +4,9 @@ import { Stage, Layer } from 'react-konva'
 import MapLines from './MapLines'
 import MapBubbles from './MapBubbles'
 
+const heightPerLessonBubble = 250
+const minHeight = 768
+
 const styles = {
   container: {
     width: '100%'
@@ -17,44 +20,32 @@ const styles = {
 class LessonMap extends Component {
   constructor(props) {
     super(props)
+    const allLessons = props.activeLessons.length + props.inactiveLessons.length
+    const startingHeight = Math.max(minHeight, allLessons * heightPerLessonBubble)
     this.state = {
       stage: null,
-      width: window.innerWidth, // this is temporary
-      startingWidth: window.innerWidth,
       cursor: 'auto',
+      height: startingHeight,
+      heightWidthRatio: startingHeight / props.width,
       scaleX: 1,
       scaleY: 1
     }
   }
 
   static propTypes = {
-    lessons: T.array
-    , userLessons: T.array
+    activeLessons: T.array.isRequired
+    , inactiveLessons: T.array.isRequired
+    , width: T.number.isRequired
   }
 
-  componentDidMount() {
-    const clientWidth = this.parentalNode.clientWidth
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      startingWidth: clientWidth,
-      width: clientWidth
-    })
-    window.addEventListener("resize", this.updateDimensions)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions)
-  }
-
-  updateDimensions = () => {
-    console.log(this.parentalNode.clientWidth / this.state.startingWidth)
-    this.setState({
-      width: this.parentalNode.clientWidth,
-      scaleX: this.parentalNode.clientWidth / this.state.startingWidth,
-      scaleY: this.parentalNode.clientWidth / this.state.startingWidth
+      height: nextProps.width * this.state.heightWidthRatio
     })
   }
 
   handleClick = () => {
+
   }
 
   handleMouseOver = () => {
@@ -70,42 +61,21 @@ class LessonMap extends Component {
   }
 
   render() {
-    const { width, cursor, scaleX, scaleY } = this.state
-
-    const mockActiveLessons = [
-      {
-        isCompleted: true
-      },
-      {
-        isCompleted: false,
-        completenessPercentage: 34
-      }
-    ]
-
-    const mockInactiveLessons = [
-      {
-
-      },
-      {
-
-      },
-      {
-
-      }
-    ]
+    const { width, activeLessons, inactiveLessons, scaleX, scaleY } = this.props
+    const { height, cursor } = this.state
 
     return (
-      <div ref={ (c) => { this.parentalNode = c } } style={ { ...styles.container, cursor } }>
-        <Stage width={ width } height={ 1000 } scaleX={scaleX} scaleY={scaleY}>
-          <Layer style={  styles.layer1  }>
+      <div style={ { ...styles.container, cursor } }>
+        <Stage width={ width } height={ height } scaleX={ scaleX } scaleY={ scaleY }>
+          <Layer style={ styles.layer1  }>
             <MapLines
-              activeLessons={ mockActiveLessons }
-              inactiveLessons={ mockInactiveLessons }
+              activeLessons={ activeLessons }
+              inactiveLessons={ inactiveLessons }
               width={ width }
             />
             <MapBubbles
-              activeLessons={ mockActiveLessons }
-              inactiveLessons={ mockInactiveLessons }
+              activeLessons={ activeLessons }
+              inactiveLessons={ inactiveLessons }
               width={ width }
               handleClick={ this.handleClick }
               handleMouseOver={ this.handleMouseOver }
