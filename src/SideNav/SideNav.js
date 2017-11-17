@@ -15,7 +15,7 @@ const styles = {
     , position: 'relative'
   },
   logo: {
-    backgroundColor: '#FFF'
+    backgroundColor: '#FFFFFF'
     , height: '70px'
     , width: `${256 - (p*2)}px`
     , margin: 'auto'
@@ -34,11 +34,6 @@ const styles = {
   menuItemBottom: {
     position: 'absolute'
     , bottom: 0
-  },
-  menuItemInner: {
-    padding: '0'
-    , height: '50px'
-    , contentAlign: 'center'
   },
   circle: {
     width: '45px'
@@ -65,7 +60,7 @@ class SideNav extends Component {
           <div style={ styles.header }>
             <div style={ styles.logo } />
             <MenuItem
-              style={ {... styles.menuItem, ...styles.menuItemBottom } }
+              style={ { color: '#FFFFFF', ...styles.menuItem, ...styles.menuItemBottom } }
               leftIcon={
                 <Circle style={ styles.circle } color={ 'white' } viewBox={ '4 4 16 16' } />
               }
@@ -89,6 +84,15 @@ class SideNav extends Component {
                   <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
                 }
                 primaryText={ 'Projects' }
+              />
+            </KiwiLink>
+            <KiwiLink to='/projects'>
+              <MenuItem
+                style={ { color: '#000000', ...styles.menuItem, ...styles.menuItemBottom } }
+                leftIcon={
+                  <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                }
+                primaryText={ 'Legal' }
               />
             </KiwiLink>
           </div>
