@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react'
 import { Circle, Text, Path } from 'react-konva'
+import { has } from 'lodash'
 
 import { LESSON_MAP_POINTS } from '../constants'
 
 const activeLineColor = '#696969'
-const inactiveColor = '#D3D3D3'
-const checkmarkCircleColor = '#a7a7a7'
+const activeFillColor = '#FFFFFF'
+const inactiveFillColor = '#C6C6C6'
+const activeTextColor = '#000000'
+const inactiveTextColor = '#808080'
+const checkmarkCircleColor = '#808080'
 const checkmarkSVGData = 'M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z' // copied from material ui
 const checkmarkColor = 'white'
 
@@ -19,28 +23,42 @@ const CHECKMARK_Y_OFFSET = 50
 class MapBubbles extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      mapDimensions: LESSON_MAP_POINTS(props.width)
+    }
   }
 
-  generateCircleAndText = ({ isActive, lesson, i, MAP }) => {
+  generateCircleAndText = ({ lesson, i }) => {
     const { handleClick, handleMouseOver, handleMouseOut } = this.props
+    const { mapDimensions } = this.state
+
+    const hasBeenStartedByStudent = has(lesson, 'isCompleted')
+
     const index = i + 1
 
-    const rest = {
-      fill: 'white'
+    const circleProps = { // defaults to inactive
+      fill: inactiveFillColor
+    }
+
+    const textProps = { // defaults to inactive
+      fill: inactiveTextColor
     }
 
     let checkmark = []
-    if(isActive) {
-      rest.stroke = activeLineColor
-      rest.strokeWidth = 8
+    if(hasBeenStartedByStudent) {
+      circleProps.stroke = activeLineColor
+      circleProps.strokeWidth = 8
+      circleProps.fill = activeFillColor
+
+      textProps.fill = activeTextColor
       if(!lesson.isCompleted) {
 
       } if(lesson.isCompleted) {
         checkmark = [
           <Circle
             key={ `checkmark-circle-${index}` }
-            x={ MAP[`CIRCLE_${index}_X`] + CHECKMARK_CIRCLE_X_OFFSET }
-            y={ MAP[`CIRCLE_${index}_Y`] - CHECKMARK_CIRCLE_Y_OFFSET }
+            x={ mapDimensions[`CIRCLE_${index}_X`] + CHECKMARK_CIRCLE_X_OFFSET }
+            y={ mapDimensions[`CIRCLE_${index}_Y`] - CHECKMARK_CIRCLE_Y_OFFSET }
             width={ 25 }
             height={ 25 }
             onClick={ handleClick }
@@ -49,8 +67,8 @@ class MapBubbles extends PureComponent {
             fill={ checkmarkCircleColor }
           />,
           <Path
-            x={ MAP[`CIRCLE_${index}_X`] + CHECKMARK_X_OFFSET }
-            y={ MAP[`CIRCLE_${index}_Y`] - CHECKMARK_Y_OFFSET }
+            x={ mapDimensions[`CIRCLE_${index}_X`] + CHECKMARK_X_OFFSET }
+            y={ mapDimensions[`CIRCLE_${index}_Y`] - CHECKMARK_Y_OFFSET }
             data={ checkmarkSVGData }
             fill={ checkmarkColor }
             scale={ { x : 1.1, y : 1.1 } }
@@ -62,33 +80,33 @@ class MapBubbles extends PureComponent {
     return [
       <Circle
         key={ `circle-${index}` }
-        x={ MAP[`CIRCLE_${index}_X`] }
-        y={ MAP[`CIRCLE_${index}_Y`] }
-        width={ 100 }
-        height={ 100 }
+        x={ mapDimensions[`CIRCLE_${index}_X`] }
+        y={ mapDimensions[`CIRCLE_${index}_Y`] }
+        width={ 70 }
+        height={ 70 }
         onClick={ handleClick }
         onMouseOver={ handleMouseOver }
         onMouseOut={ handleMouseOut }
-        { ...rest }
-        fillLinearGradientStartPoint={{ x : -50, y : -50}}
-        fillLinearGradientEndPoint={{ x : 50, y : 50}}
-        fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
+        { ...circleProps }
+        // fillLinearGradientStartPoint={ { x : -50, y : -50 } }
+        // fillLinearGradientEndPoint={ { x : 50, y : 50 } }
+        // fillLinearGradientColorStops={ [0, 'red', 1, 'yellow'] }
       />,
       <Text
         key={ `text-${index}` }
-        x={ MAP[`CIRCLE_${index}_X`] - TEXT_X_OFFSET }
-        y={ MAP[`CIRCLE_${index}_Y`] - TEXT_Y_OFFSET }
+        x={ mapDimensions[`CIRCLE_${index}_X`] - TEXT_X_OFFSET }
+        y={ mapDimensions[`CIRCLE_${index}_Y`] - TEXT_Y_OFFSET }
         width={ 50 }
         height={ 50 }
         fontSize={ 40 }
         text={ index }
         fontStyle={ 'bold' }
         fontFamily={ 'arial' }
-        fill={ 'black' }
         align={ 'center' }
         onClick={ handleClick }
         onMouseOver={ handleMouseOver }
         onMouseOut={ handleMouseOut }
+        { ...textProps }
       />,
       ...checkmark
     ]
@@ -96,26 +114,15 @@ class MapBubbles extends PureComponent {
 
   render() {
     const { activeLessons, inactiveLessons, width, ...rest } = this.props
-    const MAP = LESSON_MAP_POINTS(width)
 
     const bubbleElements = []
 
     activeLessons.forEach((lesson, i) => {
-      bubbleElements.push(...this.generateCircleAndText({
-        isActive: true,
-        lesson,
-        i,
-        MAP
-      }))
+      bubbleElements.push(...this.generateCircleAndText({ lesson, i }))
     })
 
     inactiveLessons.forEach((lesson, i) => {
-      bubbleElements.push(...this.generateCircleAndText({
-        isActive: false,
-        lesson,
-        i: i + activeLessons.length,
-        MAP
-      }))
+      bubbleElements.push(...this.generateCircleAndText({lesson, i: i + activeLessons.length }))
     })
 
     return bubbleElements

@@ -4,7 +4,7 @@ import { Line } from 'react-konva'
 import { LESSON_MAP_POINTS } from '../constants'
 
 const activeLineColor = '#696969'
-const inactiveColor = '#D3D3D3'
+const inactiveColor = '#BDBDBD'
 
 const styles = {
   lineStyle: {
