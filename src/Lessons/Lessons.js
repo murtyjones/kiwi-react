@@ -102,9 +102,9 @@ class Lessons extends Component {
           activeLessons={ mockActiveLessons }
           inactiveLessons={ mockInactiveLessons }
         />
-        {/*<LessonCard*/}
-          {/*style={ styles.lessonCard }*/}
-        {/*/>*/}
+        <LessonCard
+          style={ { ...styles.lessonCard, width: width * (1 - stageProportion) - 20  } }
+        />
       </div>
     )
   }
