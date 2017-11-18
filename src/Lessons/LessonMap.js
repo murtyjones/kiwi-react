@@ -4,7 +4,7 @@ import { Stage, Layer } from 'react-konva'
 import MapLines from './MapLines'
 import MapBubbles from './MapBubbles'
 
-const heightPerLessonBubble = 250
+const heightPerLessonBubble = 150
 const minHeight = 768
 
 const styles = {
