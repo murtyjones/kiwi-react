@@ -52,7 +52,7 @@ class MapBubbles extends PureComponent {
 
     let checkMark = []
 
-    let TEXT_X_OFFSET = 25
+    let TEXT_X_OFFSET = 18
     let TEXT_Y_OFFSET = 13
 
     if(isSelected) {
@@ -108,8 +108,8 @@ class MapBubbles extends PureComponent {
         key={ `text-${index}` }
         x={ mapDimensions[`CIRCLE_${index}_X`] - TEXT_X_OFFSET }
         y={ mapDimensions[`CIRCLE_${index}_Y`] - TEXT_Y_OFFSET }
-        width={ 50 }
-        height={ 50 }
+        width={ 35 }
+        height={ 35 }
         text={ index }
         fontStyle={ 'bold' }
         fontFamily={ 'arial' }
