@@ -57,8 +57,6 @@ class Lessons extends Component {
   updateDimensions = () => {
     const clientWidth = this.lessonsContainerNode.clientWidth
     const newWidth = Math.max(clientWidth, minWidth)
-    console.log(newWidth)
-    console.log(this.state.startingWidth)
     this.setState({
       width: newWidth
       , scaleX: newWidth / minWidth
@@ -70,13 +68,13 @@ class Lessons extends Component {
   render() {
     const { width, scaleX, scaleY } = this.state
     const { lessonsById } = this.props
-    console.log(scaleX)
 
     const mockActiveLessons = [
       {
         isCompleted: true
       },
       {
+        _id: '123',
         isCompleted: false,
         completenessPercentage: 34
       }

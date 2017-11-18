@@ -25,7 +25,6 @@ class LessonForm extends Component {
 
   getAllCurrentSlideTypes = () => {
     const { initialValues } = this.props
-    console.log(initialValues)
   }
 
   static propTypes = {

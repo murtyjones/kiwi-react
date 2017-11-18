@@ -27,7 +27,6 @@ export const getUserProject = (params) => {
     dispatch({ type: ACTIONS.GET_USER_PROJECT_REQUEST })
     return ApiFetch(`${config.api}/api/userprojects/${id}`, options)
     .then(res => {
-      console.log("value of res in getUserProject Actions", res)
       dispatch({ type: ACTIONS.GET_USER_PROJECT_SUCCESS, payload: res })
     })
     .catch(e => {

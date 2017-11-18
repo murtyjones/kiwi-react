@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Circle, Text, Path } from 'react-konva'
-import { has } from 'lodash'
+import { has, get } from 'lodash'
 
 import { LESSON_MAP_POINTS } from '../constants'
 
@@ -16,12 +16,14 @@ const styles = {
 
 const checkMarkSVGData = 'M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z' // copied from material ui
 
-const TEXT_X_OFFSET = 23
-const TEXT_Y_OFFSET = 20
-const CHECK_MARK_CIRCLE_X_OFFSET = 35
-const CHECK_MARK_CIRCLE_Y_OFFSET = 35
-const CHECK_MARK_X_OFFSET = 25
-const CHECK_MARK_Y_OFFSET = 50
+const CHECK_MARK_CIRCLE_X_OFFSET = 20
+const CHECK_MARK_CIRCLE_Y_OFFSET = 20
+const CHECK_MARK_X_OFFSET = 10
+const CHECK_MARK_Y_OFFSET = 35
+
+const isLessonSelected = (lessonOrUserLesson, selectedLessonId) => {
+  return get(lessonOrUserLesson, '_id') === selectedLessonId || get(lessonOrUserLesson, 'lessonId') === selectedLessonId
+}
 
 class MapBubbles extends PureComponent {
   constructor(props) {
@@ -31,7 +33,7 @@ class MapBubbles extends PureComponent {
     }
   }
 
-  generateCircleAndText = (lesson, index) => {
+  renderCircleAndText = (lesson, index, isSelected) => {
     const { handleClick, handleMouseOver, handleMouseOut } = this.props
     const { mapDimensions } = this.state
 
@@ -39,29 +41,42 @@ class MapBubbles extends PureComponent {
 
     const circleProps = { // defaults to inactive
       fill: styles.inactiveFillColor
+      , width: 50
+      , height: 50
     }
 
     const textProps = { // defaults to inactive
       fill: styles.inactiveTextColor
+      , fontSize: 28
     }
 
     let checkMark = []
+
+    let TEXT_X_OFFSET = 25
+    let TEXT_Y_OFFSET = 13
+
+    if(isSelected) {
+      circleProps.width = 80
+      circleProps.height = 80
+
+      textProps.fontSize = 45
+
+      TEXT_Y_OFFSET = TEXT_Y_OFFSET + 10
+    }
+
     if(hasBeenStartedByStudent) {
       circleProps.stroke = styles.activeStrokeColor
-      circleProps.strokeWidth = 8
+      circleProps.strokeWidth = 5
       circleProps.fill = styles.activeFillColor
-
       textProps.fill = styles.activeTextColor
-      if(!lesson.isCompleted) {
-
-      } if(lesson.isCompleted) {
+      if(lesson.isCompleted) {
         checkMark = [
           <Circle
             key={ `checkMark-circle-${index}` }
             x={ mapDimensions[`CIRCLE_${index}_X`] + CHECK_MARK_CIRCLE_X_OFFSET }
             y={ mapDimensions[`CIRCLE_${index}_Y`] - CHECK_MARK_CIRCLE_Y_OFFSET }
-            width={ 25 }
-            height={ 25 }
+            width={ 20 }
+            height={ 20 }
             onClick={ handleClick }
             onMouseOver={ handleMouseOver }
             onMouseOut={ handleMouseOut }
@@ -83,8 +98,6 @@ class MapBubbles extends PureComponent {
         key={ `circle-${index}` }
         x={ mapDimensions[`CIRCLE_${index}_X`] }
         y={ mapDimensions[`CIRCLE_${index}_Y`] }
-        width={ 70 }
-        height={ 70 }
         onClick={ handleClick }
         onMouseOver={ handleMouseOver }
         onMouseOut={ handleMouseOut }
@@ -97,7 +110,6 @@ class MapBubbles extends PureComponent {
         y={ mapDimensions[`CIRCLE_${index}_Y`] - TEXT_Y_OFFSET }
         width={ 50 }
         height={ 50 }
-        fontSize={ 40 }
         text={ index }
         fontStyle={ 'bold' }
         fontFamily={ 'arial' }
@@ -113,18 +125,20 @@ class MapBubbles extends PureComponent {
   }
 
   render() {
-    const { activeLessons, inactiveLessons, ...rest } = this.props
+    const { activeLessons, inactiveLessons, selectedLessonId = null } = this.props
 
     const bubbleElements = []
 
     activeLessons.forEach((lesson, i) => {
       const overallLessonIndex = i + 1
-      bubbleElements.push(...this.generateCircleAndText(lesson, overallLessonIndex))
+      const isSelected = isLessonSelected(lesson, selectedLessonId)
+      bubbleElements.push(...this.renderCircleAndText(lesson, overallLessonIndex, isSelected))
     })
 
     inactiveLessons.forEach((lesson, i) => {
       const overallLessonIndex = i + 1 + activeLessons.length
-      bubbleElements.push(...this.generateCircleAndText(lesson, overallLessonIndex))
+      const isSelected = isLessonSelected(lesson, selectedLessonId)
+      bubbleElements.push(...this.renderCircleAndText(lesson, overallLessonIndex, isSelected))
     })
 
     return bubbleElements

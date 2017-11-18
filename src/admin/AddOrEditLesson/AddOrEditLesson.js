@@ -48,7 +48,6 @@ class Lesson extends Component {
       return putLesson(params)
     }
     return postLesson(params).then(res => {
-      console.log(res)
       this.props.history.push(`/admin/lesson/${res._id}`)
     })
   }

@@ -35,7 +35,6 @@ export default class AuthService {
   }
 
   refreshToken(refreshToken) {
-    console.log('called')
     return new Promise((resolve, reject) => {
       return this.auth0.client.oauthToken({
         grantType: 'refresh_token'
@@ -47,8 +46,8 @@ export default class AuthService {
       }, (err, result) => {
         if (err) {
           console.log(err)
-          return reject(err) }
-        console.log(result)
+          return reject(err)
+        }
         resolve(result)
       })
     })
@@ -59,7 +58,6 @@ export default class AuthService {
     return new BluebirdPromise((resolve, reject) => {
       return this.auth0.parseHash((err, authResult) => {
         if (authResult && authResult.accessToken && authResult.idToken) {
-          console.log(authResult)
           resolve(authResult)
         } else if (err) {
           reject({ err: err })
@@ -129,7 +127,6 @@ export default class AuthService {
   }
 
   static setTokenExp(tokenExpTimestamp) {
-    console.log(tokenExpTimestamp)
     window.localStorage.setItem('tokenExp', tokenExpTimestamp)
   }
 

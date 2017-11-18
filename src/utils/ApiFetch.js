@@ -37,7 +37,6 @@ const ApiFetch = (url, options = {}) => {
         const idToken = response.idToken
         _headers.Authorization = `Bearer ${idToken}`
         const tokenExp = AuthService.decodeTokenExp(idToken)
-        console.log(tokenExp)
         AuthService.setToken(idToken)
         AuthService.setTokenExp(tokenExp)
         store.dispatch(refreshToken()) // store the new token in global state

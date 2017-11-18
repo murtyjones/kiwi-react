@@ -22,7 +22,6 @@ class ManageLessons extends Component {
 
   getLessonsByType = (lessonsById) => {
     const lessonsByType = Object.values(lessonsById).reduce((acc, lesson) => {
-      console.log(lesson)
       if(lesson.isPublished) {
         acc.published[lesson.order] = lesson
       } else {
@@ -34,7 +33,7 @@ class ManageLessons extends Component {
   }
 
   onSortEnd = () => {
-    console.log('hi')
+
   }
 
   render() {

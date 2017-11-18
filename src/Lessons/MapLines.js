@@ -8,10 +8,10 @@ const inactiveColor = '#BDBDBD'
 
 const styles = {
   lineStyle: {
-    strokeWidth: 13
+    strokeWidth: 5
     , lineCap: 'round'
     , lineJoin: 'round'
-    , tension: 0.1
+    , tension: 0.5
   }
 }
 
@@ -39,8 +39,7 @@ const generateInactiveLinePoints = (inactiveLessons, MAP, startsAfter) => {
   const lessonCoordinates = inactiveLessons.map((each, i) => {
     const map_index = i + 1 + startsAfter // needed because we start from 1 in the map
     const list = []
-    list.push(MAP[`LINE_POINT_${map_index - 1}_X`])
-    list.push(MAP[`LINE_POINT_${map_index - 1}_Y`])
+    list.push(...MAP[`LINE_POINT_${map_index - 1}`])
     list.push(MAP[`CIRCLE_${map_index}_X`])
     list.push(MAP[`CIRCLE_${map_index}_Y`])
     return list

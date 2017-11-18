@@ -61,7 +61,6 @@ class CodeEditor extends Component {
   }
 
   forceUpdateHandler(){
-    console.log('inside forceUpdate in the codeEditor')
     let savetext = localStorage.getItem('retrievedText')
     if (savetext){
       this.setState({

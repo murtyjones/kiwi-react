@@ -76,6 +76,7 @@ class LessonMap extends Component {
             <MapBubbles
               activeLessons={ activeLessons }
               inactiveLessons={ inactiveLessons }
+              selectedLessonId={ activeLessons[1]._id }
               width={ width }
               handleClick={ this.handleClick }
               handleMouseOver={ this.handleMouseOver }
