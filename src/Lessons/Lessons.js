@@ -10,7 +10,7 @@ import LessonMap from './LessonMap'
 const minWidth = 1024 - 256 // minimum screen of 1024 (minus sidebar width)
 
 const styles = {
-  lessonCard: {
+  lessonCardContainer: {
     position: 'fixed'
     , right: '20px'
     , bottom: '20px'
@@ -93,6 +93,7 @@ class Lessons extends Component {
     ]
 
     const stageProportion = 0.70
+    console.log(width * (1 - stageProportion))
     return (
       <div ref={ (c) => { this.lessonsContainerNode = c } }>
         <LessonMap
@@ -103,7 +104,11 @@ class Lessons extends Component {
           inactiveLessons={ mockInactiveLessons }
         />
         <LessonCard
-          style={ { ...styles.lessonCard, width: width * (1 - stageProportion) - 20  } }
+          style={ {
+            ...styles.lessonCardContainer,
+            width: width * (1 - stageProportion) - 20,
+            height: Math.max(width * (1 - stageProportion), 400),
+          } }
         />
       </div>
     )
