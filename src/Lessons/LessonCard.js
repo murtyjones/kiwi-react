@@ -64,7 +64,7 @@ const LessonCard = ({ style }) => {
         />
         <div style={ styles.body }>
           <CardHeader
-            title={ '2. Lesson' }
+            title={ '2. Lesson Title' }
             titleStyle={ styles.titleStyle }
           />
           <CardText
