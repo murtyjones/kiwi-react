@@ -1,3 +1,5 @@
+[![Build Status](https://semaphoreci.com/api/v1/projects/c3817f5d-f7a8-4bd7-b7da-4e4f8b0982d2/1579463/badge.svg)](https://semaphoreci.com/kiwi-compute/kiwi-react)
+
 # kiwi-react
 
 This is the front-end server for the Kiwi app.
