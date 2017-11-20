@@ -103,6 +103,7 @@ gulp.task("build", ["clean", "todist", "webpack:build"]);
 gulp.task("todist", function() {
   return gulp
     .src('./index.html')
+    .src('./style.css')
     .pipe(gulp.dest('build'))
 })
 
