@@ -43,7 +43,7 @@ class LessonWizard extends Component {
   componentWillReceiveProps(nextProps) {
     const lessonHasChanged = !isEqual(this.props.lesson, nextProps.lesson)
     const userLessonHasChanged = !isEqual(this.props.userLesson, nextProps.userLesson)
-    if(lessonHasChanged && userLessonHasChanged) {
+    if(lessonHasChanged || userLessonHasChanged) {
       this.setState({ isNew: false, needsLesson: false })
     }
   }
@@ -72,6 +72,7 @@ class LessonWizard extends Component {
   render() {
     const { lesson, userLesson } = this.props
     const { activeSlideIndex, needsLesson } = this.state
+    
     return !needsLesson ?
       <LessonWizardForm
         onSubmit={ this.handleSubmit }
@@ -89,11 +90,11 @@ export const LessonWizardComponent = LessonWizard
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsById } } = state
+  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId } } = state
   const { match: { params: { id } } } = ownProps
 
   const lesson = lessonsById[id] || {}
-  const userLesson = userLessonsById[id] || {}
+  const userLesson = userLessonsByLessonId[id] || {}
 
   return {
     lesson

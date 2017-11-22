@@ -23,7 +23,7 @@ class LessonWizardForm extends Component {
     const { handleSubmit, activeSlideIndex, lesson, goToNextSlide, goToPrevSlide } = this.props
     return (
       <form onSubmit={ handleSubmit }>
-        { lesson.slides[activeSlideIndex].text }
+        { lesson.slides[activeSlideIndex].title }
         <div>
           <button type="button" className="previous" onClick={ goToPrevSlide }>Previous</button>
           <button type="submit" className="next" onClick={ goToNextSlide }>Next</button>

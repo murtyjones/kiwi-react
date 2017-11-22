@@ -2,6 +2,7 @@ import { ACTIONS } from '../constants'
 
 const initialState = {
   userLessonsById: {}
+  , userLessonsByLessonId: {}
 }
 
 //currently missing getLesson success
@@ -12,8 +13,12 @@ function userLessons(state = initialState, action) {
       const userLessonsById = Object.assign({}, state.userLessonsById, {
         [action.payload.after["_id"]]: action.payload.after
       })
+      const userLessonsByLessonId = Object.assign({}, state.userLessonsByLessonId, {
+        [action.payload.after["userId"]]: action.payload.after
+      })
       const newState = Object.assign({}, state, {
         userLessonsById
+        , userLessonsByLessonId
       })
       return newState
     case ACTIONS.GET_USER_LESSON_SUCCESS:
@@ -21,8 +26,12 @@ function userLessons(state = initialState, action) {
       const userLessonsById = Object.assign({}, state.userLessonsById, {
         [action.payload._id]: action.payload
       })
+      const userLessonsByLessonId = Object.assign({}, state.userLessonsByLessonId, {
+        [action.payload.userId]: action.payload
+      })
       const newState = Object.assign({}, state, {
         userLessonsById
+        , userLessonsByLessonId
       })
       return newState
     }
@@ -31,8 +40,13 @@ function userLessons(state = initialState, action) {
         acc[each._id] = each
         return acc
       }, {})
+      const userLessonsByLessonId = action.payload.reduce((acc, each) => {
+        acc[each.lessonId] = each
+        return acc
+      }, {})
       const newState = Object.assign({}, state, {
         userLessonsById
+        , userLessonsByLessonId
       })
       return newState
     }
