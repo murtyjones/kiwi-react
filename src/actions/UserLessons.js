@@ -13,6 +13,7 @@ export const getManyUserLessons = (params) => {
     return ApiFetch(`${config.api}/api/userlessons?${query}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_MANY_USER_LESSONS_SUCCESS, payload: res })
+        return res
       })
       .catch(e => {
         dispatch({ type: ACTIONS.GET_MANY_USER_LESSONS_FAILURE, payload: e })
@@ -30,6 +31,7 @@ export const getUserLesson = (params) => {
     return ApiFetch(`${config.api}/api/userlessons/${id}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_USER_LESSON_SUCCESS, payload: res })
+        return res
       })
       .catch(e => {
         dispatch({ type: ACTIONS.GET_USER_LESSON_FAILURE, payload: e })
@@ -49,6 +51,7 @@ export const putUserLesson = (params) => {
     return ApiFetch(`${config.api}/api/userlessons/${id}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.PUT_USER_LESSON_SUCCESS, payload: res})
+        return res
       })
       .catch(e => {
         dispatch({ type: ACTIONS.PUT_USER_LESSON_FAILURE, payload: e })
@@ -66,7 +69,7 @@ export const postUserLesson = (params) => {
     return ApiFetch(`${config.api}/api/userlessons/`, options)
       .then(res => {
         dispatch({ type: ACTIONS.POST_USER_LESSON_SUCCESS, payload: res })
-        return res // needed so that component can know about the _id
+        return res
       })
       .catch(e => {
         dispatch({ type: ACTIONS.POST_USER_LESSON_FAILURE, payload: e })

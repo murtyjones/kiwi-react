@@ -6,6 +6,7 @@ const initialState = {
   , token: AuthService.getToken()
   , exp: AuthService.getTokenExp()
   , isAdmin: AuthService.getIsAdmin()
+  , userId: AuthService.getUserId()
   , refreshToken: AuthService.getRefreshToken()
 }
 
@@ -19,12 +20,14 @@ function auth(state = initialState, action) {
       AuthService.setToken(idToken)
       AuthService.setTokenExp(decodedExp)
       AuthService.setIsAdmin(decoded)
+      AuthService.setUserId(decoded)
       AuthService.setRefreshToken(action.payload.refreshToken)
       const newState = Object.assign({}, state, {
         isLoggedIn: true
         , token: AuthService.getToken()
         , exp: AuthService.getTokenExp()
         , isAdmin: AuthService.getIsAdmin()
+        , userId: AuthService.getUserId()
         , refreshToken: AuthService.getRefreshToken()
       })
       return newState
@@ -35,6 +38,7 @@ function auth(state = initialState, action) {
         , token: null
         , exp: null
         , isAdmin: false
+        , userId: null
         , refreshToken: null
       })
       return newState

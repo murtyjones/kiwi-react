@@ -27,17 +27,16 @@ class LessonWizard extends Component {
     , getManyUserLessons: T.func.isRequired
     , getLesson: T.func.isRequired
     , lesson: T.object.isRequired
+    , userId: T.string.isRequired
     , userLesson: T.object.isRequired
   }
 
   componentWillMount() {
-    const { getManyUserLessons, getLesson, match: { params: { id } } } = this.props
+    const { getManyUserLessons, getLesson, userId, match: { params: { id } } } = this.props
     const { needsLesson } = this.state
     if(needsLesson) {
       getLesson({ id })
-      getManyUserLessons({ lessonId: id }).then(results => {
-
-      })
+      getManyUserLessons({ lessonId: id, userId })
     }
   }
 
@@ -90,7 +89,7 @@ export const LessonWizardComponent = LessonWizard
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { lessons: { lessonsById }, userLessons: { userLessonsById } } = state
+  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsById } } = state
   const { match: { params: { id } } } = ownProps
 
   const lesson = lessonsById[id] || {}
@@ -99,6 +98,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     lesson
     , userLesson
+    , userId
   }
 }
 
