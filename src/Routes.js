@@ -32,6 +32,7 @@ import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
 import ManageLessons from './admin/ManageLessons/ManageLessons'
 import Lessons from './Lessons/Lessons'
+import LessonWizard from './LessonWizard/LessonWizard'
 import SideNav from './SideNav/SideNav'
 
 
@@ -93,7 +94,9 @@ class App extends Component {
                 <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/lessons' exact component={ Lessons } isLoggedIn={ isLoggedIn }/>
+                <AuthenticatedRoute path='/lessons' exact component={ Lessons } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/lessons/new' exact component={ LessonWizard } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/lessons/:id' exact component={ LessonWizard } isLoggedIn={ isLoggedIn } />
                 {/* ----------------- */}
                 {/* Admin-only routes */}
                 {/* ----------------- */}

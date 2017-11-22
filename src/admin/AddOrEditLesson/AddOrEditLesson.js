@@ -13,7 +13,7 @@ class Lesson extends Component {
     const lessonIsLoaded = !isEmpty(props.initialValues)
     this.state = {
       isNewLesson
-      , isLoadingLesson: !isNewLesson && !lessonIsLoaded
+      , needsLesson: !isNewLesson && !lessonIsLoaded
     }
   }
 
@@ -27,15 +27,15 @@ class Lesson extends Component {
 
   componentWillMount() {
     const { getLesson, match: { params: { id } } } = this.props
-    const { isLoadingLesson } = this.state
-    if(isLoadingLesson) {
+    const { needsLesson } = this.state
+    if(needsLesson) {
       getLesson({ id })
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if(!isEqual(this.props.initialValues, nextProps.initialValues)) {
-      this.setState({ isNewLesson: false, isLoadingLesson: false })
+      this.setState({ isNewLesson: false, needsLesson: false })
     }
   }
 
@@ -54,10 +54,10 @@ class Lesson extends Component {
 
   render() {
     const { initialValues } = this.props
-    const { isLoadingLesson, isNewLesson } = this.state
+    const { needsLesson, isNewLesson } = this.state
     return (
       <div>
-        { isLoadingLesson && isNewLesson
+        { needsLesson && isNewLesson
           ? 'loading...'
           :
             <LessonForm
