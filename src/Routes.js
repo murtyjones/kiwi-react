@@ -78,7 +78,7 @@ class App extends Component {
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
-          { isOpen && <SideNav/> }
+          { isOpen && <SideNav isAdmin={ isAdmin } /> }
           <div className={ cns('baseAppStyles') } style={ {...baseAppStyle, left } } >
             <div style={ nonMenu }>
               <Switch>

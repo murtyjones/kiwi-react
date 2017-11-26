@@ -73,15 +73,17 @@ class LessonWizard extends Component {
     const { lesson, userLesson } = this.props
     const { activeSlideIndex, needsLesson } = this.state
     
-    return !needsLesson ?
-      <LessonWizardForm
-        onSubmit={ this.handleSubmit }
-        lesson={ lesson }
-        initialValues={ userLesson }
-        activeSlideIndex={ activeSlideIndex }
-        goToNextSlide={ this.goToNextSlide }
-        goToPrevSlide={ this.goToPrevSlide }
-      />
+    return !needsLesson
+      ? (
+        <LessonWizardForm
+          onSubmit={ this.handleSubmit }
+          lesson={ lesson }
+          initialValues={ userLesson }
+          activeSlideIndex={ activeSlideIndex }
+          goToNextSlide={ this.goToNextSlide }
+          goToPrevSlide={ this.goToPrevSlide }
+        />
+      )
       : 'loading'
 
   }

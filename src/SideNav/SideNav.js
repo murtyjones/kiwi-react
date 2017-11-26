@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Drawer, Menu, MenuItem } from 'material-ui'
+import { Drawer, Menu, MenuItem, Subheader, Divider } from 'material-ui'
 import Circle from 'material-ui-icons/FiberManualRecord'
 import { KiwiLink } from "../common/KiwiLink"
 
@@ -45,6 +45,10 @@ const styles = {
   menuText: {
     height: '50xp'
     , display: 'inline-block'
+  },
+  subheader: {
+    fontWeight: 'bold'
+    , paddingLeft: '20px'
   }
 }
 
@@ -53,13 +57,19 @@ class SideNav extends Component {
     super(props)
   }
 
+  static propTypes = {
+    isAdmin: T.bool.isRequired
+  }
+
   render() {
+    const { isAdmin } = this.props
     return (
       <Drawer>
         <Menu style={ styles.menu } listStyle={ styles.menu } autoWidth={ false }>
           <div style={ styles.header }>
             <div style={ styles.logo } />
             <MenuItem
+              key={ 'name' }
               style={ { color: '#FFFFFF', ...styles.menuItem, ...styles.menuItemBottom } }
               leftIcon={
                 <Circle style={ styles.circle } color={ 'white' } viewBox={ '4 4 16 16' } />
@@ -70,6 +80,7 @@ class SideNav extends Component {
           <div style={ styles.body }>
             <KiwiLink to='/lessons'>
               <MenuItem
+                key={ 'lessons' }
                 style={ styles.menuItem }
                 leftIcon={
                   <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
@@ -79,6 +90,7 @@ class SideNav extends Component {
             </KiwiLink>
             <KiwiLink to='/projects'>
               <MenuItem
+                key={ 'projects' }
                 style={ styles.menuItem }
                 leftIcon={
                   <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
@@ -86,8 +98,35 @@ class SideNav extends Component {
                 primaryText={ 'Projects' }
               />
             </KiwiLink>
-            <KiwiLink to='/projects'>
+            { isAdmin &&
+              [
+                <Divider key={ 0 } />
+                ,
+                <Subheader
+                  key={ 1 }
+                  style={ styles.subheader }
+                >
+                  Admin
+                </Subheader>
+                ,
+                <KiwiLink
+                  key={ 2 }
+                  to='/admin/lessons'
+                >
+                  <MenuItem
+                    key={ 'admin/lessons' }
+                    style={ styles.menuItem }
+                    leftIcon={
+                      <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                    }
+                    primaryText={ 'Add/Edit Lessons' }
+                  />
+                </KiwiLink>
+              ]
+            }
+            <KiwiLink to='/legal'>
               <MenuItem
+                key={ 'legal' }
                 style={ { color: '#000000', ...styles.menuItem, ...styles.menuItemBottom } }
                 leftIcon={
                   <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />

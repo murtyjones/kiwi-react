@@ -93,7 +93,6 @@ class Lessons extends Component {
     ]
 
     const stageProportion = 0.70
-    console.log(width * (1 - stageProportion))
     return (
       <div ref={ (c) => { this.lessonsContainerNode = c } }>
         <LessonMap
