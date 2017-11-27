@@ -4,7 +4,25 @@ import { withRouter, Redirect, Route } from 'react-router-dom'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { get, find, isEqual } from 'lodash'
 import { connect } from 'react-redux'
+import { isPrevDisabled, isNextDisabled } from "../utils/lessonWizardUtils"
+import { LESSON_SLIDE_TYPES } from '../constants'
 
+// import slides
+import FullPageText from './Slides/FullPageText'
+import HalfHalf from './Slides/HalfHalf'
+import FullPageCodeEditor from './Slides/FullPageCodeEditor'
+
+const availableSlideTypes = {
+  [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
+    component: FullPageText
+  },
+  [LESSON_SLIDE_TYPES.HALF_HALF]: {
+    component: HalfHalf
+  },
+  [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR]: {
+    component: FullPageCodeEditor
+  }
+}
 
 class LessonWizardForm extends Component {
   constructor(props) {
@@ -21,12 +39,31 @@ class LessonWizardForm extends Component {
 
   render() {
     const { handleSubmit, activeSlideIndex, lesson, goToNextSlide, goToPrevSlide } = this.props
+    const activeSlideObject = lesson.slides[activeSlideIndex]
+    const ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
     return (
       <form onSubmit={ handleSubmit }>
-        { lesson.slides[activeSlideIndex].title }
+        { activeSlideObject.title }
+        <ActiveSlideComponent
+          slideData={ activeSlideObject }
+        />
         <div>
-          <button type="button" className="previous" onClick={ goToPrevSlide }>Previous</button>
-          <button type="submit" className="next" onClick={ goToNextSlide }>Next</button>
+          <button
+            type="button"
+            className="previous"
+            onClick={ goToPrevSlide }
+            disabled={ isPrevDisabled(activeSlideIndex, lesson) }
+          >
+            Previous
+          </button>
+          <button
+            type="submit"
+            className="next"
+            onClick={ goToNextSlide }
+            disabled={ isNextDisabled(activeSlideIndex, lesson) }
+          >
+            Next
+          </button>
         </div>
       </form>
     )

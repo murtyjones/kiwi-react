@@ -43,7 +43,7 @@ class LessonWizard extends Component {
   componentWillReceiveProps(nextProps) {
     const lessonHasChanged = !isEqual(this.props.lesson, nextProps.lesson)
     const userLessonHasChanged = !isEqual(this.props.userLesson, nextProps.userLesson)
-    if(lessonHasChanged || userLessonHasChanged) {
+    if((lessonHasChanged || userLessonHasChanged) && !isEmpty(nextProps.lesson)) {
       this.setState({ isNew: false, needsLesson: false })
     }
   }
@@ -72,7 +72,7 @@ class LessonWizard extends Component {
   render() {
     const { lesson, userLesson } = this.props
     const { activeSlideIndex, needsLesson } = this.state
-    
+
     return !needsLesson
       ? (
         <LessonWizardForm
