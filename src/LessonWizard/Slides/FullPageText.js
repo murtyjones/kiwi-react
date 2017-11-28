@@ -6,9 +6,14 @@ class FullPageText extends Component {
     super(props)
   }
 
+  static propTypes = {
+    slideData: T.object
+  }
+
   render() {
+    const { slideData } = this.props
     return (
-      <div>Hi!</div>
+      <div dangerouslySetInnerHTML={ { __html: slideData.instructions } } />
     )
   }
 }

@@ -1,3 +1,11 @@
 body {
     background: #B3B3B3;
 }
+
+.CodeMirror {
+    height: 100% !important;
+}
+
+.ReactCodeMirror {
+    height: 100% !important;
+}
