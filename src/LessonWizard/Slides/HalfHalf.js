@@ -12,7 +12,10 @@ const styles = {
   right: {
     width: '50%'
     , display: 'inline-block'
-  },
+  }
+}
+
+const codeEditorStyles = {
   editorInputContainerStyle: {
     width: '100%'
     , display: 'block'
@@ -20,6 +23,13 @@ const styles = {
   editorOutputContainerStyle: {
     width: '100%'
     , display: 'block'
+  },
+  editorContainerStyle: {
+    minHeight: '600px'
+  },
+  editorOutputStyle: {
+    borderBottomRightRadius: '10px'
+    , borderBottomLeftRadius: '10px'
   }
 }
 
@@ -42,8 +52,7 @@ class HalfHalf extends Component {
       <div style={ styles.left }>
         <CodeEditor
           layoutType={ LESSON_SLIDE_TYPES.HALF_HALF }
-          editorInputContainerStyle={ styles.editorInputContainerStyle }
-          editorOutputContainerStyle={ styles.editorOutputContainerStyle }
+          editorStyle={ codeEditorStyles }
           editorInput={ slideData.editorInput }
         />
       </div>

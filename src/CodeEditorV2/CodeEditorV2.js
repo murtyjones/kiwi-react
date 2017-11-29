@@ -7,13 +7,23 @@ import EditorOutput from './EditorOutput'
 
 import { LESSON_SLIDE_TYPES } from '../constants'
 
-require('./halfhalf.css')
-require('./fullpage.css')
+require('./editorOverrides.css')
 
 const defaultOptions = {
   lineNumbers: true
   , lineWrapping: true
   , mode: 'text/x-python'
+}
+
+const styles = {
+  editor: {
+    height: '100%'
+  },
+  baseEditorStyle: {
+    backgroundColor: '#e6e6e6'
+    , boxShadow: 'none'
+    , borderRadius: 0
+  }
 }
 
 const defaultInput = '# Write some code!'
@@ -35,7 +45,9 @@ class CodeEditor extends Component {
 
   static propTypes = {
     editorInput: T.string.isRequired
-    , options : T.object
+    , editorStyle: T.object
+    , options: T.object
+    , layoutType: T.string.isRequired
   }
 
   getChildRef = (input) => {
@@ -118,7 +130,7 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { options, editorInputContainerStyle, editorOutputContainerStyle, editorContainerStyle, editorOutputStyle, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
+    const { options, editorStyle, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
     const { editorInput, editorOutput, errorMsg, prompt, rawInputValue } = this.state
 
     return (
@@ -126,19 +138,19 @@ class CodeEditor extends Component {
         <button style={ { display: 'block' } } onClick={ this.runCode }>
           Run code
         </button>
-        <div style={ editorContainerStyle }>
-          <div style={ editorInputContainerStyle }>
+        <div style={ editorStyle.editorContainerStyle }>
+          <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
               className={ layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
-              style={{height: '100%'}}
+              style={ styles.editor }
               value={ editorInput }
               onChange={ this.updateInput }
               options={ options || defaultOptions }
             />
           </div>
-          <div style={ editorOutputContainerStyle }>
+          <div style={ editorStyle.editorOutputContainerStyle }>
             <EditorOutput
-              style={ editorOutputStyle }
+              style={ { ...styles.baseEditorStyle, ...editorStyle.editorOutputStyle } }
               editorOutput={ editorOutput }
               errorMsg={ errorMsg }
               prompt={ prompt }

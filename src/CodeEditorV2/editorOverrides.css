@@ -1,0 +1,7 @@
+.CodeMirrorFull > .CodeMirror {
+    border-radius: 10px 0 0 10px
+}
+
+.CodeMirrorHalf > .CodeMirror {
+    border-radius: 10px 10px 0 0
+}

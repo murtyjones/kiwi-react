@@ -4,7 +4,13 @@ import * as T from 'prop-types'
 import CodeEditor from '../../CodeEditorV2/CodeEditorV2'
 import { LESSON_SLIDE_TYPES } from '../../constants'
 
-const styles = {
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/mode/python/python'
+import 'codemirror/addon/hint/show-hint'
+import 'codemirror/addon/hint/javascript-hint'
+import 'codemirror/addon/hint/show-hint.css'
+
+const codeEditorStyles = {
   editorInputContainerStyle: {
     width: '50%'
     , display: 'inline-block'
@@ -33,16 +39,13 @@ class FullPageCodeEditor extends Component {
   }
 
   render() {
-    const { style, slideData } = this.props
+    const { slideData } = this.props
     return [
       <div dangerouslySetInnerHTML={ { __html: slideData.instructions } } />
       ,
       <CodeEditor
         layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
-        editorContainerStyle={ styles.editorContainerStyle }
-        editorInputContainerStyle={ styles.editorInputContainerStyle }
-        editorOutputContainerStyle={ styles.editorOutputContainerStyle }
-        editorOutputStyle={ styles.editorOutputStyle }
+        editorStyle={ codeEditorStyles }
         editorInput={ slideData.editorInput }
       />
     ]
