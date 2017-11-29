@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import AuthService from './utils/AuthService'
-
+import { closeSidebar, openSidebar } from './actions'
 
 
 const authService = new AuthService()
@@ -34,6 +34,7 @@ import ManageLessons from './admin/ManageLessons/ManageLessons'
 import Lessons from './Lessons/Lessons'
 import LessonWizard from './LessonWizard/LessonWizard'
 import SideNav from './SideNav/SideNav'
+import TopBar from './TopBar/TopBar'
 
 
 
@@ -41,7 +42,7 @@ let baseAppStyle = {
   borderRadius: 0
   , margin: 0
   , position: "absolute"
-  , top: 0
+  , top: '60px'
   , right: 0
   , bottom: 0
   , fontFamily: "Roboto, sans-serif"
@@ -62,6 +63,7 @@ class App extends Component {
     isLoggedIn: T.bool.isRequired
     , isAdmin: T.bool.isRequired
     , isOpen: T.bool.isRequired
+    , sidebarWidth: T.number.isRequired
   }
 
   logout = () => {
@@ -70,8 +72,17 @@ class App extends Component {
     })
   }
 
+  toggleSidebar = () => {
+    if(this.props.isOpen) {
+      this.props.closeSidebar()
+    } else {
+      this.props.openSidebar()
+    }
+
+  }
+
   render() {
-    const { isLoggedIn, isAdmin, isOpen } = this.props
+    const { isLoggedIn, isAdmin, isOpen, sidebarWidth } = this.props
     const left = isOpen ? `${256}px` : 0
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
@@ -79,7 +90,8 @@ class App extends Component {
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
-          { isOpen && <SideNav isAdmin={ isAdmin } /> }
+          <SideNav isOpen={ isOpen } isAdmin={ isAdmin } />
+          <TopBar sidebarWidth={ sidebarWidth } toggleSidebar={ this.toggleSidebar } />
           <div className={ cns('baseAppStyles') } style={ {...baseAppStyle, left } } >
             <div style={ nonMenu }>
               <Switch>
@@ -116,18 +128,21 @@ class App extends Component {
 export const AppComponent = App
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn, isAdmin }, sideNav: { isOpen } } = state
+  const { auth: { isLoggedIn, isAdmin }, sideNav: { isOpen, sidebarWidth } } = state
 
   return {
     isLoggedIn
     , isAdmin
     , isOpen
+    , sidebarWidth
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout())
+    , closeSidebar: () => dispatch(closeSidebar())
+    , openSidebar: () => dispatch(openSidebar())
   }
 }
 

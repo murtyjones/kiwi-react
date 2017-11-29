@@ -59,12 +59,14 @@ class SideNav extends Component {
 
   static propTypes = {
     isAdmin: T.bool.isRequired
+    , isOpen: T.bool.isRequired
   }
 
   render() {
-    const { isAdmin } = this.props
+    const { isOpen, isAdmin } = this.props
+
     return (
-      <Drawer>
+      <Drawer open={ isOpen }>
         <Menu style={ styles.menu } listStyle={ styles.menu } autoWidth={ false }>
           <div style={ styles.header }>
             <div style={ styles.logo } />

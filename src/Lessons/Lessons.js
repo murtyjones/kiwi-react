@@ -7,7 +7,9 @@ import { getManyLessons, getManyUserLessons } from '../actions'
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
 
-const minWidth = 1024 - 256 // minimum screen of 1024 (minus sidebar width)
+const genereateMinWidth = (sidebarWidth) => {
+  return 1024 - sidebarWidth
+}
 
 const styles = {
   lessonCardContainer: {
@@ -22,11 +24,13 @@ const styles = {
 class Lessons extends Component {
   constructor(props) {
     super(props)
+    let _minWidth = genereateMinWidth(props.sidebarWidth)
     this.state = {
-      width: minWidth, // this is temporary
-      startingWidth: minWidth, // this is temporary
-      scaleX: 1,
-      scaleY: 1,
+      width: _minWidth // this is temporary
+      , startingWidth: _minWidth // this is temporary
+      , scaleX: 1
+      , scaleY: 1
+      , minWidth: _minWidth
     }
   }
 
@@ -35,19 +39,27 @@ class Lessons extends Component {
     , getManyUserLessons: T.func
     , lessonsById: T.object
     , userLessons: T.object
+    , sidebarWidth: T.number.isRequired
   }
 
   componentDidMount() {
     const clientWidth = this.lessonsContainerNode.clientWidth
-    const width = Math.max(clientWidth, minWidth)
+    const width = Math.max(clientWidth, this.state.minWidth)
     this.setState({
       startingWidth: width
       , width: width
-      , scaleX: width / minWidth
-      , scaleY: width / minWidth
+      , scaleX: width / this.state.minWidth
+      , scaleY: width / this.state.minWidth
 
     })
     window.addEventListener("resize", this.updateDimensions)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.sidebarWidth !== nextProps.sidebarWidth) {
+      this.setState({ minWidth: genereateMinWidth(nextProps.sidebarWidth) })
+      this.updateDimensions()
+    }
   }
 
   componentWillUnmount() {
@@ -56,12 +68,10 @@ class Lessons extends Component {
 
   updateDimensions = () => {
     const clientWidth = this.lessonsContainerNode.clientWidth
-    const newWidth = Math.max(clientWidth, minWidth)
-    this.setState({
-      width: newWidth
-      , scaleX: newWidth / minWidth
-      , scaleY: newWidth / minWidth
-    })
+    const width = Math.max(clientWidth, this.state.minWidth)
+    const scaleX = width / this.state.minWidth
+    const scaleY = scaleX
+    this.setState({ width, scaleX, scaleY })
   }
 
 
@@ -116,10 +126,11 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { lessons: { lessonsById } } = state
+  const { lessons: { lessonsById }, sideNav: { sidebarWidth } } = state
 
   return {
     lessonsById
+    , sidebarWidth
   }
 }
 

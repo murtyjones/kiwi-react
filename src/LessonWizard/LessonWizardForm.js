@@ -49,9 +49,6 @@ class LessonWizardForm extends Component {
     const ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
     return (
       <form style={{height:'100%'}}  onSubmit={ handleSubmit }>
-        <div style={ styles.header }>
-          { activeSlideObject.title }
-        </div>
         <ActiveSlideComponent
           slideData={ activeSlideObject }
         />
