@@ -40,12 +40,16 @@ class HalfHalf extends Component {
 
   static propTypes = {
     slideData: T.object
+    , className: T.string
   }
 
   render() {
-    const { slideData } = this.props
+    const { slideData, className } = this.props
     return [
-      <div style={ styles.left }>
+      <div
+        className={ className }
+        style={ styles.left }
+      >
         <div dangerouslySetInnerHTML={ { __html: slideData.instructions } } />
       </div>
       ,

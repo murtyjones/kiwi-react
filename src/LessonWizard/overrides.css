@@ -1,0 +1,29 @@
+
+
+@media screen and (min-width: 1024px) {
+    .lessonBackground {
+        width: 100%;
+        left: 0;
+    }
+    .lessonWizardForm {
+        width: 100%;
+        left: 0;
+    }
+}
+
+@media screen and (min-width: 1306px /* 1050 + 256px SideNav */) {
+    .lessonBackground {
+        width: 1000px;
+        margin-left: -500px;
+        left: 50%;
+    }
+    .lessonWizardForm {
+        width: 1050px;
+        margin-left: -525px;
+        left: 50%;
+    }
+    .lessonWizardFormContent {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+}

@@ -1,7 +1,11 @@
 .CodeMirrorFull > .CodeMirror {
-    border-radius: 10px 0 0 10px
+    height: 598px;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid #CCC;
 }
 
 .CodeMirrorHalf > .CodeMirror {
-    border-radius: 10px 10px 0 0
+    height: 598px;
+    border-radius: 10px 10px 0 0;
+    border: 1px solid #CCC;
 }

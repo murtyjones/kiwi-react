@@ -12,6 +12,8 @@ import FullPageText from './Slides/FullPageText'
 import HalfHalf from './Slides/HalfHalf'
 import FullPageCodeEditor from './Slides/FullPageCodeEditor'
 
+import './overrides.css'
+
 const availableSlideTypes = {
   [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
     component: FullPageText
@@ -28,18 +30,17 @@ const styles = {
   header: {
     width: '100%'
   },
-  form: {
+  lessonWizardForm: {
     height:'100%'
     , overflow: 'auto'
-  },
-  whiteness: {
-    backgroundColor: 'white'
-    , height:'100%'
-    , width: '900px'
     , position: 'absolute'
     , top: 0
-    , left:'50%'
-    , marginLeft: '-450px'
+  },
+  lessonBackground: {
+    backgroundColor: 'white'
+    , height:'100%'
+    , position: 'absolute'
+    , top: 0
     , zIndex: '-1'
   }
 }
@@ -62,8 +63,9 @@ class LessonWizardForm extends Component {
     const activeSlideObject = lesson.slides[activeSlideIndex]
     const ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
     return [
-      <form style={ styles.form }  onSubmit={ handleSubmit }>
+      <form className='lessonWizardForm' style={ styles.lessonWizardForm }  onSubmit={ handleSubmit }>
         <ActiveSlideComponent
+          className={ 'lessonWizardFormContent' }
           slideData={ activeSlideObject }
         />
         <div>
@@ -86,7 +88,7 @@ class LessonWizardForm extends Component {
         </div>
       </form>
       ,
-      <div style={ styles.whiteness } />
+      <div className='lessonBackground' style={ styles.lessonBackground } />
     ]
   }
 }

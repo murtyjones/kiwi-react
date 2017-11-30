@@ -3,9 +3,5 @@ body {
 }
 
 .CodeMirror {
-    height: 100% !important;
-}
-
-.ReactCodeMirror {
-    height: 100% !important;
+    cursor: text;
 }

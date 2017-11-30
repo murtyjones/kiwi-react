@@ -10,6 +10,7 @@ const styles = {
     , top: 0
     , left: 0
     , right: 0
+    , width: 'auto'
     , height: '60px'
     , backgroundColor: 'white'
     , borderBottom: '1px solid #E6E6E6'

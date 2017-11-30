@@ -38,12 +38,16 @@ class FullPageCodeEditor extends Component {
 
   static propTypes = {
     slideData: T.object
+    , className: T.string
   }
 
   render() {
-    const { slideData } = this.props
+    const { slideData, className } = this.props
     return [
-      <div dangerouslySetInnerHTML={ { __html: slideData.instructions } } />
+      <div
+        className={ className }
+        dangerouslySetInnerHTML={ { __html: slideData.instructions } }
+      />
       ,
       <CodeEditor
         layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
