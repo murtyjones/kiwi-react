@@ -24,7 +24,9 @@ const codeEditorStyles = {
     , minHeight: '600px'
   },
   editorOutputStyle: {
-    borderTopRightRadius: '10px'
+    border: '1px solid #CCC'
+    , borderLeft: 0
+    , borderTopRightRadius: '10px'
     , borderBottomRightRadius: '10px'
   }
 }

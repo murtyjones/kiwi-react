@@ -27,6 +27,20 @@ const availableSlideTypes = {
 const styles = {
   header: {
     width: '100%'
+  },
+  form: {
+    height:'100%'
+    , overflow: 'auto'
+  },
+  whiteness: {
+    backgroundColor: 'white'
+    , height:'100%'
+    , width: '900px'
+    , position: 'absolute'
+    , top: 0
+    , left:'50%'
+    , marginLeft: '-450px'
+    , zIndex: '-1'
   }
 }
 
@@ -47,8 +61,8 @@ class LessonWizardForm extends Component {
     const { handleSubmit, activeSlideIndex, lesson, goToNextSlide, goToPrevSlide } = this.props
     const activeSlideObject = lesson.slides[activeSlideIndex]
     const ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
-    return (
-      <form style={{height:'100%'}}  onSubmit={ handleSubmit }>
+    return [
+      <form style={ styles.form }  onSubmit={ handleSubmit }>
         <ActiveSlideComponent
           slideData={ activeSlideObject }
         />
@@ -71,7 +85,9 @@ class LessonWizardForm extends Component {
           </button>
         </div>
       </form>
-    )
+      ,
+      <div style={ styles.whiteness } />
+    ]
   }
 }
 

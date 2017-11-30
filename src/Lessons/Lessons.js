@@ -7,8 +7,8 @@ import { getManyLessons, getManyUserLessons } from '../actions'
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
 
-const genereateMinWidth = (sidebarWidth) => {
-  return 1024 - sidebarWidth
+const genereateMinWidth = (sideNavWidth) => {
+  return 1024 - sideNavWidth
 }
 
 const styles = {
@@ -24,7 +24,7 @@ const styles = {
 class Lessons extends Component {
   constructor(props) {
     super(props)
-    let _minWidth = genereateMinWidth(props.sidebarWidth)
+    let _minWidth = genereateMinWidth(props.sideNavWidth)
     this.state = {
       width: _minWidth // this is temporary
       , startingWidth: _minWidth // this is temporary
@@ -39,7 +39,7 @@ class Lessons extends Component {
     , getManyUserLessons: T.func
     , lessonsById: T.object
     , userLessons: T.object
-    , sidebarWidth: T.number.isRequired
+    , sideNavWidth: T.number.isRequired
   }
 
   componentDidMount() {
@@ -56,8 +56,8 @@ class Lessons extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.sidebarWidth !== nextProps.sidebarWidth) {
-      this.setState({ minWidth: genereateMinWidth(nextProps.sidebarWidth) })
+    if(this.props.sideNavWidth !== nextProps.sideNavWidth) {
+      this.setState({ minWidth: genereateMinWidth(nextProps.sideNavWidth) })
       this.updateDimensions()
     }
   }
@@ -126,11 +126,11 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { lessons: { lessonsById }, sideNav: { sidebarWidth } } = state
+  const { lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
 
   return {
     lessonsById
-    , sidebarWidth
+    , sideNavWidth
   }
 }
 

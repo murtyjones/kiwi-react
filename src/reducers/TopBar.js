@@ -2,23 +2,23 @@ import { ACTIONS } from '../constants'
 
 const getInitialState = () => {
   return {
-    isSideNavOpen: true
-    , sideNavWidth: 256
+    isTopBarOpen: true
+    , topBarHeight: 60
   }
 }
 
 export default (state = getInitialState(), action) => {
   let sideNav
   switch (action.type) {
-    case ACTIONS.OPEN_SIDENAV:
+    case ACTIONS.OPEN_TOPBAR:
       return {
-        isSideNavOpen: true
-        , sideNavWidth: 256
+        isTopBarOpen: true
+        , topBarHeight: 60
       }
-    case ACTIONS.CLOSE_SIDENAV:
+    case ACTIONS.CLOSE_TOPBAR:
       return {
-        isSideNavOpen: false
-        , sideNavWidth: 0
+        isTopBarOpen: false
+        , topBarHeight: 0
       }
     default:
       return state

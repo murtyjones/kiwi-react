@@ -64,7 +64,6 @@ class SideNav extends Component {
 
   render() {
     const { isOpen, isAdmin } = this.props
-
     return (
       <Drawer open={ isOpen }>
         <Menu style={ styles.menu } listStyle={ styles.menu } autoWidth={ false }>

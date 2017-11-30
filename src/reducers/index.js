@@ -8,6 +8,7 @@ import userProjects from './UserProjects'
 import lessons from './Lessons'
 import userLessons from './UserLessons'
 import sideNav from './SideNav'
+import topBar from './TopBar'
 
 // Export combined reducers
 export default combineReducers({
@@ -18,4 +19,5 @@ export default combineReducers({
   , lessons
   , userLessons
   , sideNav
+  , topBar
 })

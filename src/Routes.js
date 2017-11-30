@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import AuthService from './utils/AuthService'
-import { closeSidebar, openSidebar } from './actions'
+import { closeSideNav, openSideNav } from './actions'
 
 
 const authService = new AuthService()
@@ -62,37 +62,39 @@ class App extends Component {
   static propTypes = {
     isLoggedIn: T.bool.isRequired
     , isAdmin: T.bool.isRequired
-    , isOpen: T.bool.isRequired
-    , sidebarWidth: T.number.isRequired
+    , isSideNavOpen: T.bool.isRequired
+    , sideNavWidth: T.number.isRequired
+    , isTopBarOpen: T.bool.isRequired
+    , topBarHeight: T.number.isRequired
   }
 
-  logout = () => {
-    this.props.signout().then(() => {
-      this.props.history.push("/login")
-    })
-  }
-
-  toggleSidebar = () => {
-    if(this.props.isOpen) {
-      this.props.closeSidebar()
+  toggleSideNav = () => {
+    if(this.props.isSideNavOpen) {
+      this.props.closeSideNav()
     } else {
-      this.props.openSidebar()
+      this.props.openSideNav()
     }
 
   }
 
   render() {
-    const { isLoggedIn, isAdmin, isOpen, sidebarWidth } = this.props
-    const left = isOpen ? `${256}px` : 0
+    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight } = this.props
+    const sideNavWidthString = `${sideNavWidth}px`
+    const topBarWidthString = `${topBarHeight}px`
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
-          <SideNav isOpen={ isOpen } isAdmin={ isAdmin } />
-          <TopBar sidebarWidth={ sidebarWidth } toggleSidebar={ this.toggleSidebar } />
-          <div className={ cns('baseAppStyles') } style={ {...baseAppStyle, left } } >
+          <SideNav isOpen={ isSideNavOpen } isAdmin={ isAdmin } />
+          <TopBar isOpen={ isTopBarOpen } sideNavWidth={ sideNavWidth } toggleSideNav={ this.toggleSideNav } />
+          <div className={ cns('baseAppStyles') } style={{
+            ...baseAppStyle
+            , left: sideNavWidthString
+            , top: topBarWidthString
+            }
+          }>
             <div style={ nonMenu }>
               <Switch>
                 {/* ----------------- */}
@@ -128,21 +130,23 @@ class App extends Component {
 export const AppComponent = App
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn, isAdmin }, sideNav: { isOpen, sidebarWidth } } = state
+  const { auth: { isLoggedIn, isAdmin }, sideNav: { sideNavWidth, isSideNavOpen }, topBar: { topBarHeight, isTopBarOpen } } = state
 
   return {
     isLoggedIn
     , isAdmin
-    , isOpen
-    , sidebarWidth
+    , isSideNavOpen
+    , sideNavWidth
+    , isTopBarOpen
+    , topBarHeight
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout())
-    , closeSidebar: () => dispatch(closeSidebar())
-    , openSidebar: () => dispatch(openSidebar())
+    , closeSideNav: () => dispatch(closeSideNav())
+    , openSideNav: () => dispatch(openSideNav())
   }
 }
 

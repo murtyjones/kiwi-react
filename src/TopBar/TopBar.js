@@ -1,46 +1,58 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
+import { AppBar } from 'material-ui'
 
 import Menu from 'material-ui-icons/Menu'
 
 const styles = {
-  container: {
+  menu: {
     position: 'absolute'
     , top: 0
     , left: 0
     , right: 0
     , height: '60px'
     , backgroundColor: 'white'
+    , borderBottom: '1px solid #E6E6E6'
+    , margin: 0
   },
-  deleteStyle: {
+  title: {
     color: 'black'
-    , height: '50px'
-    , width: '50px'
-    , position: 'absolute'
-    , left: '10px'
+  },
+  leftIcon: {
+    color: 'black'
+    , height: '30px'
+    , width: '30px'
+    , fill: 'black'
+    , position: 'relative'
+    , top: '50%'
+    , marginTop: '-30px'
   }
 }
 
-class SideNav extends Component {
+class TopBar extends Component {
   constructor(props) {
     super(props)
   }
 
   static propTypes = {
-    toggleSidebar: T.func.isRequired
-    , sidebarWidth: T.number.isRequired
+    toggleSideNav: T.func.isRequired
+    , sideNavWidth: T.number.isRequired
+    , isOpen: T.bool.isRequired
   }
 
   render() {
+    const { isOpen } = this.props
+    if(!isOpen) return null
     return (
-      <div style={ { ...styles.container, left: this.props.sidebarWidth } }>
-        <Menu
-          onClick={ this.props.toggleSidebar }
-          style={ styles.deleteStyle }
-        />
-      </div>
+      <AppBar
+        style={ { ...styles.menu, left: this.props.sideNavWidth } }
+        iconElementLeft={ <Menu onClick={ this.props.toggleSideNav } style={ styles.leftIcon } /> }
+        onLeftIconButtonTouchTap={ this.props.toggleSideNav }
+        title={ 'hi' }
+        titleStyle={ styles.title }
+      />
     )
   }
 }
 
-export default SideNav
+export default TopBar

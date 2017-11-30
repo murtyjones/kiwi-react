@@ -5,7 +5,7 @@ import { get, find } from 'lodash'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
-import { openSidebar, closeSidebar, login, register } from '../actions'
+import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } from '../actions'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
@@ -26,23 +26,28 @@ class LoginOrRegister extends Component {
     , login: T.func
     , signout: T.func
     , register: T.func
-    , closeSidebar: T.func
-    , openSidebar: T.func
+    , closeSideNav: T.func
+    , openSideNav: T.func
+    , openTopBar: T.func
+    , closeTopBar: T.func
   }
 
   componentWillMount() {
-    this.props.closeSidebar()
+    this.props.closeSideNav()
+    this.props.closeTopBar()
     const { match } = this.props
     const switchText = match.path === '/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
     this.setState({ switchText })
   }
 
   componentWillReceiveProps() {
-    this.props.closeSidebar()
+    this.props.closeSideNav()
+    this.props.closeTopBar()
   }
 
   componentWillUnmount() {
-    this.props.openSidebar()
+    this.props.openSideNav()
+    this.props.openTopBar()
   }
 
   handleLoginSubmit = async(v) => {
@@ -144,8 +149,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login: (params) => dispatch(login(params))
     , register: (params) => dispatch(register(params))
-    , openSidebar: () => dispatch(openSidebar())
-    , closeSidebar: () => dispatch(closeSidebar())
+    , openSideNav: () => dispatch(openSideNav())
+    , closeSideNav: () => dispatch(closeSideNav())
+    , openTopBar: () => dispatch(openTopBar())
+    , closeTopBar: () => dispatch(closeTopBar())
   }
 }
 

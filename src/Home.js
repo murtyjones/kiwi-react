@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 
-import { openSidebar, closeSidebar, signout } from './actions'
+import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout } from './actions'
 
 import { Container } from 'react-grid-system'
 
@@ -18,21 +18,26 @@ class Home extends Component {
   }
 
   static propTypes = {
-    openSidebar: T.func
-    , closeSidebar: T.func
+    openSideNav: T.func
+    , closeSideNav: T.func
+    , openTopBar: T.func
+    , closeTopBar: T.func
     , signout: T.func
   }
 
   componentWillReceiveProps() {
-    this.props.closeSidebar()
+    this.props.closeSideNav()
+    this.props.closeTopBar()
   }
 
   componentWillMount() {
-    this.props.closeSidebar()
+    this.props.closeSideNav()
+    this.props.closeTopBar()
   }
 
   componentWillUnmount() {
-    this.props.openSidebar()
+    this.props.openSideNav()
+    this.props.openTopBar()
   }
 
   render() {
@@ -54,8 +59,10 @@ export const HomeComponent = Home
 const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout())
-    , openSidebar: () => dispatch(openSidebar())
-    , closeSidebar: () => dispatch(closeSidebar())
+    , openSideNav: () => dispatch(openSideNav())
+    , closeSideNav: () => dispatch(closeSideNav())
+    , openTopBar: () => dispatch(openTopBar())
+    , closeTopBar: () => dispatch(closeTopBar())
   }
 }
 
