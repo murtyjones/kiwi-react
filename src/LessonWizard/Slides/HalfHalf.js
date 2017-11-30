@@ -25,11 +25,14 @@ const codeEditorStyles = {
     , display: 'block'
   },
   editorContainerStyle: {
-    minHeight: '600px'
+    minHeight: '300px'
   },
   editorOutputStyle: {
     borderBottomRightRadius: '10px'
     , borderBottomLeftRadius: '10px'
+    , border: '1px solid #CCC'
+    , borderTop: 0
+    , minHeight: '300px'
   }
 }
 
@@ -45,14 +48,11 @@ class HalfHalf extends Component {
 
   render() {
     const { slideData, className } = this.props
-    return [
-      <div
-        className={ className }
-        style={ styles.left }
-      >
+    return (
+      <div >
+      <div className={ className } style={ styles.left }>
         <div dangerouslySetInnerHTML={ { __html: slideData.instructions } } />
       </div>
-      ,
       <div style={ styles.left }>
         <CodeEditor
           layoutType={ LESSON_SLIDE_TYPES.HALF_HALF }
@@ -60,7 +60,8 @@ class HalfHalf extends Component {
           editorInput={ slideData.editorInput }
         />
       </div>
-    ]
+    </div>
+    )
   }
 }
 
