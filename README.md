@@ -12,6 +12,7 @@ This is the front-end server for the Kiwi app.
 5. Navigate to the `kiwi-react` repo folder
 6. run `yarn` to install dependencies
 7. run `yarn start` to start the app
+8. Navigate to `localhost:3000` in your browser and you should see the app.
 
 NOTE: `npm` works instead of `yarn` if you prefer it. Just run `npm install` and `npm start`.
 
@@ -26,3 +27,4 @@ NOTE: `npm` works instead of `yarn` if you prefer it. Just run `npm install` and
 6. run `npm install -g webpack`
 7. run `npm install -g webpack-dev-server`
 8. run `npm run start-win`
+9. Navigate to `localhost:3000` in your browser and you should see the app.
