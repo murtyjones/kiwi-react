@@ -54,7 +54,6 @@ export const getLesson = (params) => {
 
 export const putLesson = (params) => {
   const { id } = params
-  delete params.id
   const options = {
     method: "PUT",
     body: params

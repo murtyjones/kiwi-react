@@ -22,7 +22,7 @@ function userLessons(state = initialState, action) {
       })
       return newState
     case ACTIONS.GET_USER_LESSON_SUCCESS:
-    case ACTIONS.POST_USER_LESSON_SUCCESS:{
+    case ACTIONS.POST_USER_LESSON_SUCCESS: {
       const userLessonsById = Object.assign({}, state.userLessonsById, {
         [action.payload._id]: action.payload
       })

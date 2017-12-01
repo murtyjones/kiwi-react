@@ -2,17 +2,22 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { isEmpty } from 'lodash'
+import { isEmpty, find } from 'lodash'
 
 import LessonWidget from './LessonWidget'
 import { KiwiLink } from '../../common/KiwiLink'
-import { getManyLessons } from '../../actions/index'
+import { getManyLessons, putLesson } from '../../actions/index'
 import { SortableList } from '../../common/SortableComponents'
 
 
 class ManageLessons extends Component {
   constructor(props) {
     super(props)
+  }
+
+  static propTypes = {
+    putLesson: T.func.isRequired
+    , getManyLessons: T.func.isRequired
   }
 
   componentWillMount() {
@@ -32,8 +37,19 @@ class ManageLessons extends Component {
     return lessonsByType
   }
 
-  onSortEnd = () => {
-
+  onSortEnd = (pos) => {
+    const { lessonsById } = this.props
+    const oldOrder = pos.oldIndex, newWorldOrder = pos.newIndex
+    const lesson = find(Object.values(lessonsById), { order: oldOrder})
+    const _id = lesson._id
+    if(_id) {
+      delete lesson._id
+      lesson.id = _id
+    }
+    this.props.putLesson({
+      ...lesson,
+      order: newWorldOrder
+    })
   }
 
   render() {
@@ -71,6 +87,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getManyLessons: (params) => dispatch(getManyLessons(params))
+    , putLesson: (params) => dispatch(putLesson(params))
   }
 }
 

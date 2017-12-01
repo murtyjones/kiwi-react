@@ -3,6 +3,19 @@ import * as T from 'prop-types'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import Reorder from 'material-ui-icons/Reorder'
 
+const styles = {
+  reorder: {
+    cursor: 'row-resize'
+    , marginTop: '25px'
+    , marginLeft: '15px'
+    , display: 'inline-block'
+  },
+  card: {
+    width: '100px'
+    , display: 'inline-block'
+  }
+}
+
 import { KiwiLink } from '../../common/KiwiLink'
 
 class LessonWidget extends Component {
@@ -15,10 +28,11 @@ class LessonWidget extends Component {
     return (
       <KiwiLink to={ `/admin/lesson/${item._id}` }>
         <Card key={ item.title }>
-          { draggable && <Reorder /> }
+          { draggable && <Reorder style={ styles.reorder } /> }
           <CardHeader
             title={ item.title }
             subtitle={ item.subtitle }
+            style={ styles.card }
           />
         </Card>
       </KiwiLink>

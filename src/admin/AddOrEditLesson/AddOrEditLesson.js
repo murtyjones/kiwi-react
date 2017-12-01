@@ -42,9 +42,12 @@ class Lesson extends Component {
   handleSubmit = (params) => {
     const { postLesson, putLesson } = this.props
     const _id = params._id
+    const id = params.id
     if(_id) {
       delete params._id
       params.id = _id
+      return putLesson(params)
+    } else if(id) {
       return putLesson(params)
     }
     return postLesson(params).then(res => {

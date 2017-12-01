@@ -1,14 +1,10 @@
-
-
-@media screen and (min-width: 1024px) {
-    .lessonBackground {
-        width: 100%;
-        left: 0;
-    }
-    .lessonWizardForm {
-        width: 100%;
-        left: 0;
-    }
+.lessonBackground {
+    width: 100%;
+    left: 0;
+}
+.lessonWizardForm {
+    width: 100%;
+    left: 0;
 }
 
 @media screen and (min-width: 1306px /* 1050 + 256px SideNav */) {

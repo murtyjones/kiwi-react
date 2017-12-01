@@ -1,6 +1,6 @@
 const getInitialState = () => {
   return {
-    home:{}
+    home: {}
   }
 }
 
