@@ -47,7 +47,9 @@ class LessonMap extends Component {
   }
 
   handleClick = (e) => {
-    const lessonPosition = parseInt(e.target.textArr[0].text)
+    const lessonPosition = (e.target.className === 'Text')
+      ? parseInt(e.target.textArr[0].text)
+      : e.target.index / 2
     this.props.setSelectedLessonId(lessonPosition)
   }
 
