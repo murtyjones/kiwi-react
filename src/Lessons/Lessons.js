@@ -7,7 +7,7 @@ import { getManyLessons, getManyUserLessons } from '../actions'
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
 
-const genereateMinWidth = (sideNavWidth) => {
+const generateMinWidth = (sideNavWidth) => {
   return 1024 - sideNavWidth
 }
 
@@ -24,7 +24,7 @@ const styles = {
 class Lessons extends Component {
   constructor(props) {
     super(props)
-    let _minWidth = genereateMinWidth(props.sideNavWidth)
+    let _minWidth = generateMinWidth(props.sideNavWidth)
     this.state = {
       width: _minWidth // this is temporary
       , startingWidth: _minWidth // this is temporary
@@ -57,7 +57,7 @@ class Lessons extends Component {
 
   componentWillReceiveProps(nextProps) {
     if(this.props.sideNavWidth !== nextProps.sideNavWidth) {
-      this.setState({ minWidth: genereateMinWidth(nextProps.sideNavWidth) })
+      this.setState({ minWidth: generateMinWidth(nextProps.sideNavWidth) })
       this.updateDimensions()
     }
   }
