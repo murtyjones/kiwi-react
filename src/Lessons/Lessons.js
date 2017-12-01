@@ -34,6 +34,7 @@ class Lessons extends Component {
       , scaleY: 1
       , minWidth: _minWidth
       , selectedLessonId: null
+      , selectedLessonPosition: null
     }
   }
 
@@ -82,14 +83,13 @@ class Lessons extends Component {
     this.setState({ width, scaleX, scaleY })
   }
 
-  setSelectedLessonId = (selectedLessonPosition) => {
-    const selectedLessonId = get(find(this.props.lessons, { order: selectedLessonPosition }), '_id')
+  setSelectedLessonId = (selectedLessonId) => {
     this.setState({ selectedLessonId })
   }
 
 
   render() {
-    const { width, scaleX, scaleY, selectedLessonId } = this.state
+    const { width, scaleX, scaleY, selectedLessonId, selectedLessonPosition } = this.state
     const { userLessons, lessons } = this.props
     const activeLessons = lessons.reduce((acc, lesson) => {
       const userLesson = find(userLessons, { lessonId: lesson._id })
@@ -134,7 +134,7 @@ const mapStateToProps = (state) => {
   const { userLessons: { userLessonsById }, lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
 
   const userLessons = Object.values(userLessonsById)
-  const lessons = Object.values(lessonsById)
+  const lessons = Object.values(lessonsById).filter(each => each.isPublished)
 
   return {
     lessons: orderBy(lessons, ['order'], ['asc'])

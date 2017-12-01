@@ -35,7 +35,10 @@ class LessonMap extends Component {
   static propTypes = {
     activeLessons: T.array.isRequired
     , inactiveLessons: T.array.isRequired
-    , selectedLessonId: T.string.isRequired
+    , selectedLessonId: T.string
+    , selectedLessonPosition: T.number
+    , scaleX: T.any
+    , scaleY: T.any
     , setSelectedLessonId: T.func.isRequired
     , width: T.number.isRequired
   }
@@ -46,11 +49,8 @@ class LessonMap extends Component {
     })
   }
 
-  handleClick = (e) => {
-    const lessonPosition = (e.target.className === 'Text')
-      ? parseInt(e.target.textArr[0].text)
-      : e.target.index / 2
-    this.props.setSelectedLessonId(lessonPosition)
+  handleClick = (e, selectedLessonId) => {
+    this.props.setSelectedLessonId(selectedLessonId)
   }
 
   handleMouseOver = () => {
@@ -62,7 +62,7 @@ class LessonMap extends Component {
   }
 
   render() {
-    const { width, activeLessons, inactiveLessons, selectedLessonId, scaleX, scaleY } = this.props
+    const { width, activeLessons, inactiveLessons, selectedLessonId, selectedLessonPosition, scaleX, scaleY } = this.props
     const { height, cursor } = this.state
 
     return (
@@ -78,6 +78,7 @@ class LessonMap extends Component {
               activeLessons={ activeLessons }
               inactiveLessons={ inactiveLessons }
               selectedLessonId={ selectedLessonId }
+              selectedLessonPosition={ selectedLessonPosition }
               width={ width }
               handleClick={ this.handleClick }
               handleMouseOver={ this.handleMouseOver }

@@ -77,7 +77,7 @@ class MapBubbles extends PureComponent {
             y={ mapDimensions[`CIRCLE_${index}_Y`] - CHECK_MARK_CIRCLE_Y_OFFSET }
             width={ 20 }
             height={ 20 }
-            onClick={ handleClick }
+            onClick={ (e) => handleClick(e, lesson._id) }
             onMouseOver={ handleMouseOver }
             onMouseOut={ handleMouseOut }
             fill={ styles.checkMarkCircleColor }
@@ -98,7 +98,7 @@ class MapBubbles extends PureComponent {
         key={ `circle-${index}` }
         x={ mapDimensions[`CIRCLE_${index}_X`] }
         y={ mapDimensions[`CIRCLE_${index}_Y`] }
-        onClick={ handleClick }
+        onClick={ (e) => handleClick(e, lesson._id) }
         onMouseOver={ handleMouseOver }
         onMouseOut={ handleMouseOut }
         { ...circleProps }
@@ -114,7 +114,7 @@ class MapBubbles extends PureComponent {
         fontStyle={ 'bold' }
         fontFamily={ 'arial' }
         align={ 'center' }
-        onClick={ handleClick }
+        onClick={ (e) => handleClick(e, lesson._id) }
         onMouseOver={ handleMouseOver }
         onMouseOut={ handleMouseOut }
         { ...textProps }
