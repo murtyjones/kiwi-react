@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import Alarm  from 'material-ui-icons/Alarm'
+import ArrowForward  from 'material-ui-icons/ArrowForward'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui'
 
 import { KiwiLink } from '../common/KiwiLink'
 
 const mediaColor = '#808080'
 const textColor = '#A9A9A9'
-const timeSectionColor = '#808080'
+const timeSectionColor = '#000000'
+const goButtonBackgroundColor = '#CCCCCC'
 
 const styles = {
   container: {
@@ -30,12 +32,36 @@ const styles = {
   },
   timeToComplete: {
     padding: '16px'
+    , position: 'absolute'
+    , bottom: '0'
+    , left: '0'
     , paddingRight: '16px'
     , display: 'block'
   },
   alarm: {
     color: timeSectionColor
     , verticalAlign: 'middle'
+  },
+  circle: {
+    borderRadius: '50%'
+    , position: 'absolute'
+    , top: '50%'
+    , marginTop: '-33px'
+    , right: '20px'
+    , width: '66px'
+    , height: '66px'
+    , backgroundColor: goButtonBackgroundColor
+},
+  goButton: {
+    color: 'white'
+    , verticalAlign: 'middle'
+    , position: 'absolute'
+    , top: '50%'
+    , marginTop: '-25px'
+    , left: '50%'
+    , marginLeft: '-25px'
+    , width: '50px'
+    , height: '50px'
   },
   minutes: {
     paddingLeft: '5px'
@@ -50,14 +76,24 @@ const TimeToComplete = ({ minutes }) => {
       <Alarm
         style={ styles.alarm }
       />
-      <span style={ styles.minutes }>{ minutes } minutes</span>
+      <span style={ styles.minutes }>{ minutes } MIN</span>
+    </div>
+  )
+}
+
+const GoButton = () => {
+  return (
+    <div style={ styles.circle }>
+      <ArrowForward
+        style={ styles.goButton }
+      />
     </div>
   )
 }
 
 const LessonCard = ({ style, lesson }) => {
   return (
-    <KiwiLink to={ `/lesson/${ lesson._id }` }>
+    <KiwiLink to={ `/lessons/${ lesson._id }` }>
       <Card style={ style } containerStyle={ styles.container }>
         <CardMedia
           style={ styles.media }
@@ -74,6 +110,7 @@ const LessonCard = ({ style, lesson }) => {
           </CardText>
           <TimeToComplete minutes={ lesson.minutesToComplete } />
         </div>
+        <GoButton />
       </Card>
     </KiwiLink>
   )
