@@ -89,7 +89,7 @@ class Lessons extends Component {
 
 
   render() {
-    const { width, scaleX, scaleY, selectedLessonId, selectedLessonPosition } = this.state
+    const { width, scaleX, scaleY, selectedLessonId } = this.state
     const { userLessons, lessons } = this.props
     const activeLessons = lessons.reduce((acc, lesson) => {
       const userLesson = find(userLessons, { lessonId: lesson._id })
