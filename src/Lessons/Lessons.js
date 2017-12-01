@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { orderBy, find, get } from 'lodash'
+
 import { getManyLessons, getManyUserLessons } from '../actions'
 
 import LessonCard from './LessonCard'
@@ -31,15 +33,21 @@ class Lessons extends Component {
       , scaleX: 1
       , scaleY: 1
       , minWidth: _minWidth
+      , selectedLessonId: null
     }
   }
 
   static propTypes = {
     getManyLessons: T.func
     , getManyUserLessons: T.func
-    , lessonsById: T.object
-    , userLessons: T.object
+    , userLessons: T.array
+    , lessons: T.array
     , sideNavWidth: T.number.isRequired
+  }
+
+  componentWillMount() {
+    this.props.getManyLessons()
+    this.props.getManyUserLessons()
   }
 
   componentDidMount() {
@@ -74,33 +82,26 @@ class Lessons extends Component {
     this.setState({ width, scaleX, scaleY })
   }
 
+  setSelectedLessonId = (selectedLessonPosition) => {
+    const selectedLessonId = get(find(this.props.lessons, { order: selectedLessonPosition }), '_id')
+    console.log(selectedLessonId)
+    this.setState({ selectedLessonId })
+  }
+
 
   render() {
-    const { width, scaleX, scaleY } = this.state
-    const { lessonsById } = this.props
-
-    const mockActiveLessons = [
-      {
-        isCompleted: true
-      },
-      {
-        _id: '123',
-        isCompleted: false,
-        completenessPercentage: 34
+    const { width, scaleX, scaleY, selectedLessonId } = this.state
+    const { userLessons, lessons } = this.props
+    const activeLessons = lessons.reduce((acc, lesson) => {
+      const userLesson = find(userLessons, { lessonId: lesson._id })
+      if(userLesson) {
+        lesson.userLesson = userLesson
+        acc.push(lesson)
       }
-    ]
+      return acc
+    }, [])
 
-    const mockInactiveLessons = [
-      {
-
-      },
-      {
-
-      },
-      {
-
-      }
-    ]
+    const inactiveLessons = lessons.filter(lesson => !find(activeLessons, { _id: lesson._id }) )
 
     const stageProportion = 0.70
     return (
@@ -109,8 +110,10 @@ class Lessons extends Component {
           width={ width * stageProportion }
           scaleX={ scaleX }
           scaleY={ scaleY }
-          activeLessons={ mockActiveLessons }
-          inactiveLessons={ mockInactiveLessons }
+          activeLessons={ activeLessons }
+          inactiveLessons={ inactiveLessons }
+          selectedLessonId={ selectedLessonId }
+          setSelectedLessonId={ this.setSelectedLessonId }
         />
         <LessonCard
           style={ {
@@ -126,10 +129,14 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
+  const { userLessons: { userLessonsById }, lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
+
+  const userLessons = Object.values(userLessonsById)
+  const lessons = Object.values(lessonsById)
 
   return {
-    lessonsById
+    lessons: orderBy(lessons, ['order'], ['asc'])
+    , userLessons
     , sideNavWidth
   }
 }
@@ -137,7 +144,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getManyLessons: (params) => dispatch(getManyLessons(params))
-    , getManyUserLessons: (params) => dispatch(getManyLessons(params))
+    , getManyUserLessons: (params) => dispatch(getManyUserLessons(params))
   }
 }
 

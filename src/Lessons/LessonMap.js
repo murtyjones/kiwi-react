@@ -35,6 +35,8 @@ class LessonMap extends Component {
   static propTypes = {
     activeLessons: T.array.isRequired
     , inactiveLessons: T.array.isRequired
+    , selectedLessonId: T.string.isRequired
+    , setSelectedLessonId: T.func.isRequired
     , width: T.number.isRequired
   }
 
@@ -44,24 +46,21 @@ class LessonMap extends Component {
     })
   }
 
-  handleClick = () => {
-
+  handleClick = (e) => {
+    const lessonPosition = parseInt(e.target.textArr[0].text)
+    this.props.setSelectedLessonId(lessonPosition)
   }
 
   handleMouseOver = () => {
-    this.setState({
-      cursor: 'pointer'
-    })
+    this.setState({ cursor: 'pointer' })
   }
 
   handleMouseOut = () => {
-    this.setState({
-      cursor: 'auto'
-    })
+    this.setState({ cursor: 'auto' })
   }
 
   render() {
-    const { width, activeLessons, inactiveLessons, scaleX, scaleY } = this.props
+    const { width, activeLessons, inactiveLessons, selectedLessonId, scaleX, scaleY } = this.props
     const { height, cursor } = this.state
 
     return (
@@ -76,7 +75,7 @@ class LessonMap extends Component {
             <MapBubbles
               activeLessons={ activeLessons }
               inactiveLessons={ inactiveLessons }
-              selectedLessonId={ activeLessons[1]._id }
+              selectedLessonId={ selectedLessonId }
               width={ width }
               handleClick={ this.handleClick }
               handleMouseOver={ this.handleMouseOver }
