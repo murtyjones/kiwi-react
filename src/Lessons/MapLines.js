@@ -39,13 +39,18 @@ const generateInactiveLinePoints = (inactiveLessons, MAP, startsAfter) => {
   const lessonCoordinates = inactiveLessons.map((each, i) => {
     const map_index = i + 1 + startsAfter // needed because we start from 1 in the map
     const list = []
-    list.push(...MAP[`LINE_POINT_${map_index - 1}`])
+    if(map_index - 1 > 0) {
+      list.push(...MAP[`LINE_POINT_${map_index - 1}`])
+    }
     list.push(MAP[`CIRCLE_${map_index}_X`])
     list.push(MAP[`CIRCLE_${map_index}_Y`])
     return list
   })
   // reduce  and return various coordinates into one list of coordinates
-  return lessonCoordinates.reduce((acc, each) => { acc.push(...each); return acc }, [])
+  return lessonCoordinates.reduce((acc, each) => {
+    acc.push(...each)
+    return acc
+  }, [])
 }
 
 const MapLines = ({ activeLessons, inactiveLessons, width }) => {

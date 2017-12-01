@@ -84,7 +84,6 @@ class Lessons extends Component {
 
   setSelectedLessonId = (selectedLessonPosition) => {
     const selectedLessonId = get(find(this.props.lessons, { order: selectedLessonPosition }), '_id')
-    console.log(selectedLessonId)
     this.setState({ selectedLessonId })
   }
 
@@ -115,13 +114,16 @@ class Lessons extends Component {
           selectedLessonId={ selectedLessonId }
           setSelectedLessonId={ this.setSelectedLessonId }
         />
-        <LessonCard
-          style={ {
-            ...styles.lessonCardContainer,
-            width: width * (1 - stageProportion) - 20,
-            height: Math.max(width * (1 - stageProportion), 400),
-          } }
-        />
+        { selectedLessonId &&
+          <LessonCard
+            lesson={ find(lessons, { _id: selectedLessonId }) }
+            style={ {
+              ...styles.lessonCardContainer,
+              width: width * (1 - stageProportion) - 20,
+              height: Math.max(width * (1 - stageProportion), 400),
+            } }
+          />
+        }
       </div>
     )
   }

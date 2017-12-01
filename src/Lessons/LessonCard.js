@@ -44,35 +44,35 @@ const styles = {
   }
 }
 
-const TimeToComplete = () => {
+const TimeToComplete = ({ minutes }) => {
   return (
     <div style={ styles.timeToComplete }>
       <Alarm
         style={ styles.alarm }
       />
-      <span style={ styles.minutes }>5 minutes</span>
+      <span style={ styles.minutes }>{ minutes } minutes</span>
     </div>
   )
 }
 
-const LessonCard = ({ style }) => {
+const LessonCard = ({ style, lesson }) => {
   return (
-    <KiwiLink to={'/#'}>
+    <KiwiLink to={ `/lesson/${ lesson._id }` }>
       <Card style={ style } containerStyle={ styles.container }>
         <CardMedia
           style={ styles.media }
         />
         <div style={ styles.body }>
           <CardHeader
-            title={ '2. Lesson Title' }
+            title={ `${lesson.order}. ${lesson.title}` }
             titleStyle={ styles.titleStyle }
           />
           <CardText
             style={ styles.text }
           >
-            This is my lesson. There are many like it, but this one is mine. My lesson is my best friend. It is my life.
+            { lesson.subtitle }
           </CardText>
-          <TimeToComplete />
+          <TimeToComplete minutes={ lesson.minutesToComplete } />
         </div>
       </Card>
     </KiwiLink>
