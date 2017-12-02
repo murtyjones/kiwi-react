@@ -1,3 +1,26 @@
+.disabled:hover {
+    cursor: default !important;
+}
+
+.lessonFullSizeEditor {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.backButton, .nextButton {
+    border: 1px solid #CCCCCC;
+    background-color: white;
+    z-index: 3;
+}
+
+.leftArrow, .rightArrow {
+     color: #CCCCCC !important;
+ }
+
+.backButton:hover, .nextButton:hover {
+    cursor: pointer;
+}
+
 .lessonBackground {
     width: 100%;
     left: 0;
@@ -8,6 +31,13 @@
 }
 
 @media screen and (min-width: 1306px /* 1050 + 256px SideNav */) {
+    .backButton, .nextButton {
+        border: 0;
+        background-color: #FFFFFF;
+    }
+    .leftArrow, .rightArrow {
+        color: #CCCCCC !important;
+    }
     .lessonBackground {
         width: 1000px;
         margin-left: -500px;
