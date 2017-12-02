@@ -37,7 +37,7 @@ class MapBubbles extends PureComponent {
     const { handleClick, handleMouseOver, handleMouseOut } = this.props
     const { mapDimensions } = this.state
 
-    const hasBeenStartedByStudent = has(lesson, 'isCompleted')
+    const hasBeenStartedByStudent = has(lesson, 'userLesson')
 
     const circleProps = { // defaults to inactive
       fill: styles.inactiveFillColor
