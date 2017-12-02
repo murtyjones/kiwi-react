@@ -9,6 +9,7 @@ import { RaisedButton } from 'material-ui'
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
 import KiwiToggleField from '../../common/KiwiToggleField'
+import { Toggle } from 'redux-form-material-ui'
 
 import Slides from './Slides'
 
@@ -58,7 +59,7 @@ class LessonForm extends Component {
         <Field
           name={ 'isPublished' }
           label={ 'Is live?' }
-          component={ KiwiToggleField }
+          component={ Toggle }
         />
         <FieldArray
           name="slides"
