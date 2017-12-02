@@ -125,18 +125,12 @@ class MapBubbles extends PureComponent {
   }
 
   render() {
-    const { activeLessons, inactiveLessons, selectedLessonId = null } = this.props
+    const { mapLessons, selectedLessonId = null } = this.props
 
     const bubbleElements = []
 
-    activeLessons.forEach((lesson, i) => {
+    mapLessons.forEach((lesson, i) => {
       const overallLessonIndex = i + 1
-      const isSelected = isLessonSelected(lesson, selectedLessonId)
-      bubbleElements.push(...this.renderCircleAndText(lesson, overallLessonIndex, isSelected))
-    })
-
-    inactiveLessons.forEach((lesson, i) => {
-      const overallLessonIndex = i + 1 + activeLessons.length
       const isSelected = isLessonSelected(lesson, selectedLessonId)
       bubbleElements.push(...this.renderCircleAndText(lesson, overallLessonIndex, isSelected))
     })

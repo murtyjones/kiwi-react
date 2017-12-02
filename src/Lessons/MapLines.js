@@ -1,5 +1,6 @@
 import React from 'react'
 import { Line } from 'react-konva'
+import { has } from 'lodash'
 
 import { LESSON_MAP_POINTS } from '../constants'
 
@@ -53,11 +54,15 @@ const generateInactiveLinePoints = (inactiveLessons, MAP, startsAfter) => {
   }, [])
 }
 
-const MapLines = ({ activeLessons, inactiveLessons, width }) => {
-  const MAP = LESSON_MAP_POINTS(width)
+const MapLines = ({ mapLessons, width }) => {
 
-  const linePointsActive = generateActiveLinePoints(activeLessons, MAP)
-  const _linePointsInactive = generateInactiveLinePoints(inactiveLessons, MAP, activeLessons.length)
+  const activeLessons = mapLessons.filter(lesson => has(lesson, 'userLesson'))
+    , inactiveLessons = mapLessons.filter(lesson => !has(lesson, 'userLesson'))
+
+  const map = LESSON_MAP_POINTS(width)
+
+  const linePointsActive = generateActiveLinePoints(activeLessons, map)
+  const _linePointsInactive = generateInactiveLinePoints(inactiveLessons, map, activeLessons.length)
 
   const linePointsInactive = [
     ...linePointsActive.slice(-2)
