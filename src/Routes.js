@@ -48,7 +48,7 @@ let baseAppStyle = {
   , fontFamily: "Roboto, sans-serif"
 }
 
-const nonMenu = {
+const nonMenuStyle = {
   width: '100%'
   , height: '100%'
 }
@@ -95,7 +95,7 @@ class App extends Component {
             , top: topBarWidthString
             }
           }>
-            <div style={ nonMenu }>
+            <div style={ nonMenuStyle }>
               <Switch>
                 {/* ----------------- */}
                 {/* Logged out routes */}
@@ -107,6 +107,7 @@ class App extends Component {
                 {/* Logged in routes  */}
                 {/* ----------------- */}
                 <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/projects' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
                 <AuthenticatedRoute path='/lessons' exact component={ Lessons } isLoggedIn={ isLoggedIn } />
