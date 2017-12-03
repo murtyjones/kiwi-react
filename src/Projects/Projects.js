@@ -6,8 +6,7 @@ import { isEmpty } from 'lodash'
 import { Link } from 'react-router-dom'
 import { KiwiLink } from '../common/KiwiLink'
 import { getManyUserProjects } from '../actions'
-import UserProjectWidget from './UserProjectWidget'
-
+import ProjectCard from './ProjectCard'
 
 class Projects extends Component {
   constructor(props) {
@@ -37,27 +36,28 @@ class Projects extends Component {
 
   render() {
     const { userProjects } = this.props
-
+    const stageProportion = 0.70
     return (
       <div>
+      <br/>
+      <div>
+          Create a new project...
+      </div>
+      <br/>
+      <KiwiLink to={ `/project/new` }>New Project</KiwiLink>
+      <br/>
+      <br/>
+        <hr />
         <div>
           Previous saved projects...
         </div>
         <div>
           { !isEmpty(userProjects) && Object.values(userProjects)
             .map(each =>
-              <UserProjectWidget project={ each }/>
+              <ProjectCard project={ each } />
             )
           }
         </div>
-        <br/>
-        <div>
-            ...or create a new project...
-        </div>
-        <br/>
-        <KiwiLink to={ `/project/new` }>New Project</KiwiLink>
-        <br/>
-        <br/>
       </div>
     )
   }
