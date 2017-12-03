@@ -18,8 +18,11 @@
 }
 
 .leftArrow, .rightArrow {
-     color: #CCCCCC !important;
- }
+    color: #000000 !important;
+}
+.leftArrow.disabled, .rightArrow.disabled {
+    color: #CCCCCC !important;
+}
 
 .backButton:hover, .nextButton:hover {
     cursor: pointer;
@@ -44,9 +47,6 @@
     .backButton, .nextButton {
         border: 0;
         background-color: #FFFFFF;
-    }
-    .leftArrow, .rightArrow {
-        color: #CCCCCC !important;
     }
 
     .lessonBackground {

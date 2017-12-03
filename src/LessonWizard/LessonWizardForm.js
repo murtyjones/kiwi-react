@@ -124,7 +124,7 @@ class LessonWizardForm extends Component {
         onClick={ onPrevClick }
       >
         <KeyboardArrowLeft
-          className='leftArrow'
+          className={ cns('leftArrow', { 'disabled': prevDisabled }) }
           style={ styles.leftArrowStyle }
           onClick={ onPrevClick }
         />
@@ -136,7 +136,7 @@ class LessonWizardForm extends Component {
         onClick={ onNextClick }
       >
         <KeyboardArrowRight
-          className='rightArrow'
+          className={ cns('rightArrow', { 'disabled': nextDisabled }) }
           style={ styles.rightArrowStyle }
           onClick={ onNextClick }
         />
