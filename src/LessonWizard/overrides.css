@@ -7,6 +7,10 @@
     margin-right: 50px;
 }
 
+.lessonHalfSizeEditorRight {
+    margin-right: 50px;
+}
+
 .backButton, .nextButton {
     border: 1px solid #CCCCCC;
     background-color: white;
@@ -25,10 +29,16 @@
     width: 100%;
     left: 0;
 }
+
 .lessonWizardForm {
     width: 100%;
     left: 0;
 }
+
+.halfHalfLeftSide {
+    padding-left: 50px;
+}
+
 
 @media screen and (min-width: 1306px /* 1050 + 256px SideNav */) {
     .backButton, .nextButton {
@@ -38,11 +48,22 @@
     .leftArrow, .rightArrow {
         color: #CCCCCC !important;
     }
+
     .lessonBackground {
         width: 1000px;
         margin-left: -500px;
         left: 50%;
     }
+
+    .lessonFullSizeEditor, .lessonHalfSizeEditorRight {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .halfHalfLeftSide {
+        padding-left: 75px;
+    }
+
     .lessonWizardForm {
         width: 1050px;
         margin-left: -525px;
