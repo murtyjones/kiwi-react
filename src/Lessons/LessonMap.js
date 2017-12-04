@@ -20,8 +20,8 @@ const styles = {
 class LessonMap extends Component {
   constructor(props) {
     super(props)
-    const allLessons = props.activeLessons.length + props.inactiveLessons.length
-    const startingHeight = Math.max(minHeight, allLessons * heightPerLessonBubble)
+    const mapLessonsLength = props.mapLessons.length
+    const startingHeight = Math.max(minHeight, mapLessonsLength * heightPerLessonBubble)
     this.state = {
       stage: null,
       cursor: 'auto',
@@ -33,8 +33,7 @@ class LessonMap extends Component {
   }
 
   static propTypes = {
-    activeLessons: T.array.isRequired
-    , inactiveLessons: T.array.isRequired
+    mapLessons: T.array.isRequired
     , selectedLessonId: T.string
     , selectedLessonPosition: T.number
     , scaleX: T.any
@@ -62,7 +61,7 @@ class LessonMap extends Component {
   }
 
   render() {
-    const { width, activeLessons, inactiveLessons, selectedLessonId, selectedLessonPosition, scaleX, scaleY } = this.props
+    const { width, mapLessons, selectedLessonId, selectedLessonPosition, scaleX, scaleY } = this.props
     const { height, cursor } = this.state
 
     return (
@@ -70,13 +69,11 @@ class LessonMap extends Component {
         <Stage width={ width } height={ height } scaleX={ scaleX } scaleY={ scaleY }>
           <Layer style={ styles.layer1  }>
             <MapLines
-              activeLessons={ activeLessons }
-              inactiveLessons={ inactiveLessons }
+              mapLessons={ mapLessons }
               width={ width }
             />
             <MapBubbles
-              activeLessons={ activeLessons }
-              inactiveLessons={ inactiveLessons }
+              mapLessons={ mapLessons }
               selectedLessonId={ selectedLessonId }
               selectedLessonPosition={ selectedLessonPosition }
               width={ width }

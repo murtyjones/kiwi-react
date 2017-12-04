@@ -91,16 +91,15 @@ class Lessons extends Component {
   render() {
     const { width, scaleX, scaleY, selectedLessonId } = this.state
     const { userLessons, lessons } = this.props
-    const activeLessons = lessons.reduce((acc, lesson) => {
+
+    const mapLessons = lessons.reduce((acc, lesson) => {
       const userLesson = find(userLessons, { lessonId: lesson._id })
       if(userLesson) {
         lesson.userLesson = userLesson
-        acc.push(lesson)
       }
+      acc.push(lesson)
       return acc
     }, [])
-
-    const inactiveLessons = lessons.filter(lesson => !find(activeLessons, { _id: lesson._id }) )
 
     const stageProportion = 0.70
     return (
@@ -109,8 +108,7 @@ class Lessons extends Component {
           width={ width * stageProportion }
           scaleX={ scaleX }
           scaleY={ scaleY }
-          activeLessons={ activeLessons }
-          inactiveLessons={ inactiveLessons }
+          mapLessons={ mapLessons }
           selectedLessonId={ selectedLessonId }
           setSelectedLessonId={ this.setSelectedLessonId }
         />

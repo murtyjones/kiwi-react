@@ -49,7 +49,7 @@ let baseAppStyle = {
   , fontFamily: "Roboto, sans-serif"
 }
 
-const nonMenu = {
+const nonMenuStyle = {
   width: '100%'
   , height: '100%'
 }
@@ -96,7 +96,7 @@ class App extends Component {
             , top: topBarWidthString
             }
           }>
-            <div style={ nonMenu }>
+            <div style={ nonMenuStyle }>
               <Switch>
                 {/* ----------------- */}
                 {/* Logged out routes */}

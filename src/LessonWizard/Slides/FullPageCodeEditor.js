@@ -3,6 +3,7 @@ import * as T from 'prop-types'
 
 import CodeEditor from '../../CodeEditorV2/CodeEditorV2'
 import { LESSON_SLIDE_TYPES } from '../../constants'
+import { titleStyle, slideContent } from './commonSlideStyles'
 
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/python/python'
@@ -44,12 +45,15 @@ class FullPageCodeEditor extends Component {
   render() {
     const { slideData, className } = this.props
     return [
-      <div
-        className={ className }
-        dangerouslySetInnerHTML={ { __html: slideData.instructions } }
-      />
+      <div className={ className }>
+        <div style={ slideContent }>
+          <div style={ titleStyle }>{ slideData.title }</div>
+          <div dangerouslySetInnerHTML={ { __html: slideData.prompt } } />
+        </div>
+      </div>
       ,
       <CodeEditor
+        className='lessonFullSizeEditor'
         layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
         editorStyle={ codeEditorStyles }
         editorInput={ slideData.editorInput }
