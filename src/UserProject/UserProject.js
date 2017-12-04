@@ -9,9 +9,30 @@ import { TextField } from 'material-ui'
 
 import renderIf from 'render-if'
 
-import CodeEditor from '../CodeEditor/CodeEditor'
+import { LESSON_SLIDE_TYPES } from '../constants'
 
+import CodeEditor from '../CodeEditorV2/CodeEditorV2'
 
+const codeEditorStyles = {
+  editorInputContainerStyle: {
+    width: '50%'
+    , display: 'inline-block'
+  },
+  editorOutputContainerStyle: {
+    width: '50%'
+    , display: 'inline-block'
+  },
+  editorContainerStyle: {
+    display: 'flex'
+    , minHeight: '600px'
+  },
+  editorOutputStyle: {
+    border: '1px solid #CCC'
+    , borderLeft: 0
+    , borderTopRightRadius: '10px'
+    , borderBottomRightRadius: '10px'
+  }
+}
 
 class UserProject extends Component {
   constructor(props) {
@@ -50,7 +71,7 @@ class UserProject extends Component {
   }
 
 
-  saveHandler(code) {
+  saveHandler = (code) => {
     const { postUserProject, putUserProject } = this.props
     const { newProject, projectTitle } = this.state
     const id = newProject ? null : this.state.projectId
@@ -77,11 +98,14 @@ class UserProject extends Component {
         />
         { renderIf(isNewOrHasCode)(
           <CodeEditor
-            codeInput={ newProject ? { code: null } : userProject }
-            newProject = { newProject }
+            className='lessonFullSizeEditor'
+            layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
             saveHandler={ this.saveHandler.bind(this) }
+            editorStyle={ codeEditorStyles }
+            editorInput={ userProject.code ? userProject.code: '' }
           />
         ) }
+
       </div>
     )
   }

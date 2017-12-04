@@ -49,6 +49,7 @@ class CodeEditor extends Component {
     , options: T.object
     , layoutType: T.string.isRequired
     , className: T.string
+    , saveHandler: T.func.isRequired
   }
 
   getChildRef = (input) => {
@@ -130,14 +131,21 @@ class CodeEditor extends Component {
     })
   }
 
+  saveCode = () => {
+    this.props.saveHandler(this.state.editorInput)
+  }
+
   render() {
-    const { className, options, editorStyle, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
+    const { className, options, editorStyle, saveHandler, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
     const { editorInput, editorOutput, errorMsg, prompt, rawInputValue } = this.state
 
     return (
       <div className={ className }>
         <button style={ { display: 'block' } } onClick={ this.runCode }>
           Run code
+        </button>
+        <button onClick={ this.saveCode }>
+          Save code
         </button>
         <div style={ editorStyle.editorContainerStyle }>
           <div style={ editorStyle.editorInputContainerStyle }>
