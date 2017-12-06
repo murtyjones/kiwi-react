@@ -51,7 +51,7 @@ const styles = {
     , width: '66px'
     , height: '66px'
     , backgroundColor: goButtonBackgroundColor
-},
+  },
   goButton: {
     color: 'white'
     , verticalAlign: 'middle'

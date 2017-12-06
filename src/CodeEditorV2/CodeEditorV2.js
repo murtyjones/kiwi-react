@@ -4,6 +4,7 @@ import { GridList, GridTile } from 'material-ui'
 import CodeMirror from 'react-codemirror'
 import skulpt from 'skulpt'
 import EditorOutput from './EditorOutput'
+import Tools from './Tools'
 
 import { LESSON_SLIDE_TYPES } from '../constants'
 
@@ -141,13 +142,14 @@ class CodeEditor extends Component {
 
     return (
       <div className={ className }>
-        <button style={ { display: 'block' } } onClick={ this.runCode }>
-          Run code
-        </button>
-        <button onClick={ this.saveCode }>
-          Save code
-        </button>
+        {/*<button style={ { display: 'block' } } onClick={ this.runCode }>*/}
+          {/*Run code*/}
+        {/*</button>*/}
+        {/*<button onClick={ this.saveCode }>*/}
+          {/*Save code*/}
+        {/*</button>*/}
         <div style={ editorStyle.editorContainerStyle }>
+          <Tools />
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
               className={ layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
