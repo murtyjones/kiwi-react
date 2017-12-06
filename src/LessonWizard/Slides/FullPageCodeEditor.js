@@ -43,9 +43,9 @@ class FullPageCodeEditor extends Component {
   }
 
   render() {
-    const { slideData, className } = this.props
+    const { slideData, className, input } = this.props
     return [
-      <div className={ className }>
+      <div key={ className } className={ className }>
         <div style={ slideContent }>
           <div style={ titleStyle }>{ slideData.title }</div>
           <div dangerouslySetInnerHTML={ { __html: slideData.prompt } } />
@@ -53,10 +53,12 @@ class FullPageCodeEditor extends Component {
       </div>
       ,
       <CodeEditor
+        key='lessonFullSizeEditor'
         className='lessonFullSizeEditor'
         layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
         editorStyle={ codeEditorStyles }
-        editorInput={ slideData.editorInput }
+        editorInput={ input.value || slideData.editorInput }
+        onChange={ input.onChange }
       />
     ]
   }

@@ -50,7 +50,8 @@ class CodeEditor extends Component {
     , options: T.object
     , layoutType: T.string.isRequired
     , className: T.string
-    , saveHandler: T.func.isRequired
+    , saveHandler: T.func
+    , onChange: T.func
   }
 
   getChildRef = (input) => {
@@ -59,6 +60,9 @@ class CodeEditor extends Component {
 
   updateInput = (newCode) => {
     this.setState({ editorInput: newCode })
+    if(this.props.onChange) {
+      this.props.onChange(newCode)
+    }
   }
 
   addToOutput = (text) => {
@@ -164,7 +168,7 @@ class CodeEditor extends Component {
           </div>
         </div>
         <Tools
-          onSaveClick={ this.saveCode }
+          onSaveClick={ saveHandler ? this.saveCode : null }
           onRunClick={ this.runCode }
         />
       </div>

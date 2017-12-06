@@ -111,7 +111,7 @@ class Tools extends Component {
 
   static propTypes = {
     className: T.string
-    , onSaveClick: T.func.isRequired
+    , onSaveClick: T.func
     , onRunClick: T.func.isRequired
   }
 
@@ -124,39 +124,50 @@ class Tools extends Component {
     const { isSaveLabelVisible, isRunLabelVisible } = this.state
     return (
       <div style={ styles.container }>
-        <div
-          className='toolbarLabel'
-          style={ {
-            display: isSaveLabelVisible ? 'inline': 'none'
-            , ...styles.label
-            , ...styles.saveButtonLabel
-          } }
-        >
-          Save code
-        </div>
-        <SaveButton
-          className='toolbarButton'
-          onMouseEnter={ () => this.mouseAction({ isSaveLabelVisible: true }) }
-          onMouseLeave={ () => this.mouseAction({ isSaveLabelVisible: false }) }
-          onClick={ onSaveClick }
-        />
 
-        <div
-          className='toolbarLabel'
-          style={ {
-            display: isRunLabelVisible ? 'inline': 'none'
-            , ...styles.label
-            , ...styles.runButtonLabel
-          } }
-        >
-          Run code
-        </div>
-        <RunButton
-          className='toolbarButton'
-          onMouseEnter={ () => this.mouseAction({ isRunLabelVisible: true }) }
-          onMouseLeave={ () => this.mouseAction({ isRunLabelVisible: false }) }
-          onClick={ onRunClick }
-        />
+        { onSaveClick && [
+          <div
+            key='toolbarLabel'
+            className='toolbarLabel'
+            style={ {
+              display: isSaveLabelVisible ? 'inline': 'none'
+              , ...styles.label
+              , ...styles.saveButtonLabel
+            } }
+          >
+            Save code
+          </div>
+          ,
+          <SaveButton
+            key='toolbarButton'
+            className='toolbarButton'
+            onMouseEnter={ () => this.mouseAction({ isSaveLabelVisible: true }) }
+            onMouseLeave={ () => this.mouseAction({ isSaveLabelVisible: false }) }
+            onClick={ onSaveClick }
+          />
+        ]}
+
+        { onRunClick && [
+          <div
+            key='toolbarLabel'
+            className='toolbarLabel'
+            style={ {
+              display: isRunLabelVisible ? 'inline': 'none'
+              , ...styles.label
+              , ...styles.runButtonLabel
+            } }
+          >
+            Run code
+          </div>
+          ,
+          <RunButton
+            key='toolbarButton'
+            className='toolbarButton'
+            onMouseEnter={ () => this.mouseAction({ isRunLabelVisible: true }) }
+            onMouseLeave={ () => this.mouseAction({ isRunLabelVisible: false }) }
+            onClick={ onRunClick }
+          />
+        ]}
 
       </div>
     )

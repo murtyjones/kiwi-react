@@ -50,7 +50,7 @@ class LessonWizard extends Component {
 
   handleSubmit = (params) => {
     const { postUserLesson, putUserLesson } = this.props
-    const _id = params._id
+    const _id = get(params ,'_id')
     if(_id) {
       delete params._id
       params.id = _id
@@ -96,7 +96,9 @@ const mapStateToProps = (state, ownProps) => {
   const { match: { params: { id } } } = ownProps
 
   const lesson = lessonsById[id] || {}
-  const userLesson = userLessonsByLessonId[id] || {}
+  const userLesson = userLessonsByLessonId[id] || {
+    lessonId: id
+  }
 
   return {
     lesson

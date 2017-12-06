@@ -19,6 +19,8 @@ import FullPageCodeEditor from './Slides/FullPageCodeEditor'
 
 import './overrides.css'
 
+const formName = 'userLesson'
+
 const availableSlideTypes = {
   [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
     component: FullPageText
@@ -110,16 +112,27 @@ class LessonWizardForm extends Component {
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
       , onPrevClick = prevDisabled ? null : goToPrevSlide
       , onNextClick = nextDisabled ? null : goToNextSlide && handleSubmit
+      , slideRef = `completedData.${activeSlideObject.id}`
 
     return [
-      <form className='lessonWizardForm' style={ styles.lessonWizardForm }  onSubmit={ handleSubmit }>
-        <ActiveSlideComponent
+      <form
+        key='lessonWizardForm'
+        className='lessonWizardForm'
+        style={ styles.lessonWizardForm }
+        onSubmit={ handleSubmit }
+      >
+        <Field
+          name={ slideRef }
+          label='Type'
+          component={ ActiveSlideComponent }
           className={ 'lessonWizardFormContent' }
           slideData={ activeSlideObject }
+          slideRef={ slideRef }
         />
       </form>
       ,
       <div
+        key='backButton'
         className={ cns('backButton', { 'disabled': prevDisabled }) }
         style={ styles.prevButton }
         onClick={ onPrevClick }
@@ -132,6 +145,7 @@ class LessonWizardForm extends Component {
       </div>
       ,
       <div
+        key='nextButton'
         className={ cns('nextButton', { 'disabled': nextDisabled }) }
         style={ styles.nextButton }
         onClick={ onNextClick }
@@ -143,13 +157,13 @@ class LessonWizardForm extends Component {
         />
       </div>
       ,
-      <div className='lessonBackground' style={ styles.lessonBackground } />
+      <div key='lessonBackground' className='lessonBackground' style={ styles.lessonBackground } />
     ]
   }
 }
 
 export default reduxForm({
-  form: 'userLesson'
+  form: formName
   , destroyOnUnmount: false
   , forceUnregisterOnUnmount: true
 })(LessonWizardForm)
