@@ -40,6 +40,7 @@ class FullPageCodeEditor extends Component {
   static propTypes = {
     slideData: T.object
     , className: T.string
+    , input: T.object
   }
 
   render() {

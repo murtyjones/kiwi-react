@@ -29,6 +29,7 @@ class LessonWizard extends Component {
     , lesson: T.object.isRequired
     , userId: T.string.isRequired
     , userLesson: T.object.isRequired
+    , initialValues: T.object
   }
 
   componentWillMount() {
@@ -56,9 +57,7 @@ class LessonWizard extends Component {
       params.id = _id
       return putUserLesson(params)
     }
-    return postUserLesson(params).then(res => {
-      this.props.history.push(`/lessons/${res._id}`)
-    })
+    return postUserLesson(params)
   }
 
   goToNextSlide = () => {
@@ -70,7 +69,7 @@ class LessonWizard extends Component {
   }
 
   render() {
-    const { lesson, userLesson } = this.props
+    const { lesson, userLesson, initialValues } = this.props
     const { activeSlideIndex, needsLesson } = this.state
 
     return !needsLesson
@@ -78,7 +77,7 @@ class LessonWizard extends Component {
         <LessonWizardForm
           onSubmit={ this.handleSubmit }
           lesson={ lesson }
-          initialValues={ userLesson }
+          initialValues={ initialValues }
           activeSlideIndex={ activeSlideIndex }
           goToNextSlide={ this.goToNextSlide }
           goToPrevSlide={ this.goToPrevSlide }
@@ -96,14 +95,24 @@ const mapStateToProps = (state, ownProps) => {
   const { match: { params: { id } } } = ownProps
 
   const lesson = lessonsById[id] || {}
+  const initialValues = { answerData: {} }
   const userLesson = userLessonsByLessonId[id] || {
     lessonId: id
   }
+  get(lesson, 'slides', []).forEach((each, i) => {
+    const answer = get(userLesson, `answerData.${each.id}.answer`, '')
+    if(!!answer) {
+      initialValues.answerData[each.id] = answer
+    } else {
+      initialValues.answerData[each.id] = ''
+    }
+  })
 
   return {
     lesson
     , userLesson
     , userId
+    , initialValues
   }
 }
 

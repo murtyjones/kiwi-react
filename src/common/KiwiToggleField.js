@@ -10,7 +10,6 @@ const _KiwiToggleField = ({ children, input, label, type, meta, ...custom }) => 
       toggled={ !!input.value }
       // onClick={ (e) => { input.onChange(e.target.checked) } }
       onToggle={ (e, v) => {
-        console.log(v)
         input.onChange(v)
       } }
       { ... custom }
@@ -27,8 +26,6 @@ class KiwiToggleField extends Component {
 
   render() {
     const { children, input, label, type, meta, custom } = this.props
-    console.log(input)
-    console.log(custom)
     return [
       <label key={ `label-${1}` }>{ label }</label>
       ,
@@ -37,7 +34,6 @@ class KiwiToggleField extends Component {
         toggled={ !!input.value }
         onBlur={ (e) => { input.onChange(e.target.checked) } }
         // onToggle={ (e, v) => {
-        //   console.log('hiya')
         //   input.onChange(v)
         //   this.handleToggle(v)
         // } }

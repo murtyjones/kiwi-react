@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter, Redirect, Route } from 'react-router-dom'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
-import { get, find, isEqual } from 'lodash'
-import { connect } from 'react-redux'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import cns from 'classnames'
-
 
 import { isPrevDisabled, isNextDisabled } from "../utils/lessonWizardUtils"
 import { LESSON_SLIDE_TYPES } from '../constants'
@@ -112,7 +108,7 @@ class LessonWizardForm extends Component {
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
       , onPrevClick = prevDisabled ? null : goToPrevSlide
       , onNextClick = nextDisabled ? null : goToNextSlide && handleSubmit
-      , slideRef = `completedData.${activeSlideObject.id}`
+      , slideRef = `answerData.${activeSlideObject.id}`
 
     return [
       <form
@@ -123,11 +119,9 @@ class LessonWizardForm extends Component {
       >
         <Field
           name={ slideRef }
-          label='Type'
           component={ ActiveSlideComponent }
           className={ 'lessonWizardFormContent' }
           slideData={ activeSlideObject }
-          slideRef={ slideRef }
         />
       </form>
       ,
@@ -157,13 +151,19 @@ class LessonWizardForm extends Component {
         />
       </div>
       ,
-      <div key='lessonBackground' className='lessonBackground' style={ styles.lessonBackground } />
+      <div
+        key='lessonBackground'
+        className='lessonBackground'
+        style={ styles.lessonBackground }
+      />
     ]
   }
 }
+
 
 export default reduxForm({
   form: formName
   , destroyOnUnmount: false
   , forceUnregisterOnUnmount: true
+  , enableReinitialize: true
 })(LessonWizardForm)
