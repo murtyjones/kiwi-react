@@ -15,7 +15,6 @@ const styles = {
     , paddingRight: '50px'
     , boxSizing: 'border-box'
     , zIndex: 4
-    , minHeight: '600px'
   },
   circle: {
     borderRadius: '50%'
@@ -121,7 +120,6 @@ class Tools extends Component {
     const { isSaveLabelVisible, isRunLabelVisible } = this.state
     return (
       <div style={ styles.container }>
-
         <div
           className='toolbarLabel'
           style={ {

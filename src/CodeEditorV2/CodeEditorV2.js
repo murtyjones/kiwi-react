@@ -142,14 +142,8 @@ class CodeEditor extends Component {
 
     return (
       <div className={ className }>
-        {/*<button style={ { display: 'block' } } onClick={ this.runCode }>*/}
-          {/*Run code*/}
-        {/*</button>*/}
-        {/*<button onClick={ this.saveCode }>*/}
-          {/*Save code*/}
-        {/*</button>*/}
         <div style={ editorStyle.editorContainerStyle }>
-          <Tools />
+
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
               className={ layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
@@ -170,6 +164,7 @@ class CodeEditor extends Component {
             />
           </div>
         </div>
+        <Tools />
       </div>
     )
   }
