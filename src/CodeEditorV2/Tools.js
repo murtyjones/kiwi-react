@@ -12,7 +12,7 @@ const styles = {
   container: {
     position: 'absolute'
     , width: '50%'
-    , paddingRight: '50px' // should match up to the margin styling on lessonFullSizeEditor
+    , paddingRight: '50px'
     , boxSizing: 'border-box'
     , zIndex: 4
     , minHeight: '600px'
@@ -27,11 +27,9 @@ const styles = {
   },
   saveCircle: {
     bottom: '90px'
-    , right: '70px'
   },
   runCircle: {
     bottom: '20px'
-    , right: '70px'
   },
   button: {
     color: buttonColor
@@ -61,17 +59,16 @@ const styles = {
   },
   saveButtonLabel: {
     bottom: '105px'
-    , right: '125px'
   },
   runButtonLabel: {
     bottom: '35px'
-    , right: '125px'
   }
 }
 
-const RunButton = ({ onMouseEnter, onMouseLeave }) => {
+const RunButton = ({ className, onMouseEnter, onMouseLeave }) => {
   return (
     <div
+      className={ className }
       onMouseEnter={ onMouseEnter }
       onMouseLeave={ onMouseLeave }
       style={ { ...styles.circle, ...styles.runCircle } }
@@ -84,9 +81,10 @@ const RunButton = ({ onMouseEnter, onMouseLeave }) => {
   )
 }
 
-const SaveButton = ({ onMouseEnter, onMouseLeave }) => {
+const SaveButton = ({ className, onMouseEnter, onMouseLeave }) => {
   return (
     <div
+      className={ className }
       onMouseEnter={ onMouseEnter }
       onMouseLeave={ onMouseLeave }
       style={ { ...styles.circle, ...styles.saveCircle } }
@@ -115,7 +113,6 @@ class Tools extends Component {
   }
 
   mouseAction = (newState) => {
-    console.log(newState)
     this.setState(newState)
   }
 
@@ -125,23 +122,35 @@ class Tools extends Component {
     return (
       <div style={ styles.container }>
 
-        <div style={ {
-          display: isSaveLabelVisible ? 'inline': 'none'
-          , ...styles.label
-          , ...styles.saveButtonLabel
-        } }>Save code</div>
+        <div
+          className='toolbarLabel'
+          style={ {
+            display: isSaveLabelVisible ? 'inline': 'none'
+            , ...styles.label
+            , ...styles.saveButtonLabel
+          } }
+        >
+          Save code
+        </div>
         <SaveButton
+          className='toolbarButton'
           onMouseEnter={ () => this.mouseAction({ isSaveLabelVisible: true }) }
           onMouseLeave={ () => this.mouseAction({ isSaveLabelVisible: false }) }
           onClick={ saveOnClick }
         />
 
-        <div style={ {
-          display: isRunLabelVisible ? 'inline': 'none'
-          , ...styles.label
-          , ...styles.runButtonLabel
-        } }>Run code</div>
+        <div
+          className='toolbarLabel'
+          style={ {
+            display: isRunLabelVisible ? 'inline': 'none'
+            , ...styles.label
+            , ...styles.runButtonLabel
+          } }
+        >
+          Run code
+        </div>
         <RunButton
+          className='toolbarButton'
           onMouseEnter={ () => this.mouseAction({ isRunLabelVisible: true }) }
           onMouseLeave={ () => this.mouseAction({ isRunLabelVisible: false }) }
           onClick={ runOnClick }

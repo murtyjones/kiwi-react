@@ -7,6 +7,14 @@
     margin-right: 50px;
 }
 
+.toolbarButton {
+    right: 70px;
+}
+
+.toolbarLabel {
+  right: 125px;
+}
+
 .lessonHalfSizeEditorRight {
     margin-right: 50px;
 }
@@ -58,6 +66,14 @@
     .lessonFullSizeEditor, .lessonHalfSizeEditorRight {
         margin-left: 0;
         margin-right: 0;
+    }
+
+    .toolbarButton {
+        right: 20px;
+    }
+
+    .toolbarLabel {
+        right: 75px;
     }
 
     .halfHalfLeftSide {
