@@ -103,13 +103,14 @@ class LessonWizardForm extends Component {
 
   render() {
     const { handleSubmit, activeSlideIndex, lesson, goToNextSlide, goToPrevSlide } = this.props
-    console.log(activeSlideIndex)
+
     const activeSlideObject = lesson.slides[activeSlideIndex]
-    const ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
-    const prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
+      , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
+      , prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
       , onPrevClick = prevDisabled ? null : goToPrevSlide
-      , onNextClick = nextDisabled ? null : goToNextSlide
+      , onNextClick = nextDisabled ? null : goToNextSlide && handleSubmit
+
     return [
       <form className='lessonWizardForm' style={ styles.lessonWizardForm }  onSubmit={ handleSubmit }>
         <ActiveSlideComponent
