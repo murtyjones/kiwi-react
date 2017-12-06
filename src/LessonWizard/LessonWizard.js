@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter, Redirect, Route } from 'react-router-dom'
-import { get, find, isEqual, isEmpty, has } from 'lodash'
+import { get, find, isEqual, isEmpty, has, cloneDeep } from 'lodash'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
@@ -100,14 +100,12 @@ const mapStateToProps = (state, ownProps) => {
   const userLesson = userLessonsByLessonId[id] || {}
 
   if(!isEmpty(userLesson)) {
-    initialValues = userLesson
+    initialValues = cloneDeep(userLesson)
   }
 
   get(lesson, 'slides', []).forEach((each, i) => {
-    const answer = get(userLesson, `answerData.${each.id}.answer`, '')
-    if(!!answer) {
-      initialValues.answerData[each.id] = answer
-    }
+    const answer = get(userLesson, `answerData[${each.id}].answer`, '')
+    initialValues.answerData[each.id] = answer
   })
 
   return {
