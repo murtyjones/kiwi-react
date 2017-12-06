@@ -87,7 +87,7 @@ class CodeEditor extends Component {
 
   runCode = () => {
     const { editorInput, editorOutput } = this.state
-    console.log(editorOutput)
+    codeOutput = '' // reset each time
     skulpt.canvas = 'mycanvas'
     skulpt.pre = 'output'
     skulpt.configure({
@@ -143,7 +143,6 @@ class CodeEditor extends Component {
     return (
       <div className={ className }>
         <div style={ editorStyle.editorContainerStyle }>
-
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
               className={ layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
@@ -164,7 +163,10 @@ class CodeEditor extends Component {
             />
           </div>
         </div>
-        <Tools />
+        <Tools
+          onSaveClick={ this.saveCode }
+          onRunClick={ this.runCode }
+        />
       </div>
     )
   }

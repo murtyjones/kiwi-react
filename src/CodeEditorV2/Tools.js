@@ -64,33 +64,37 @@ const styles = {
   }
 }
 
-const RunButton = ({ className, onMouseEnter, onMouseLeave }) => {
+const RunButton = ({ className, onMouseEnter, onMouseLeave, onClick }) => {
   return (
     <div
       className={ className }
       onMouseEnter={ onMouseEnter }
       onMouseLeave={ onMouseLeave }
       style={ { ...styles.circle, ...styles.runCircle } }
+      onClick={ onClick }
     >
       <PlayArrow
         onMouseEnter={ onMouseEnter }
         style={ { ...styles.button, ...styles.runButton } }
+        onClick={ onClick }
       />
     </div>
   )
 }
 
-const SaveButton = ({ className, onMouseEnter, onMouseLeave }) => {
+const SaveButton = ({ className, onMouseEnter, onMouseLeave, onClick }) => {
   return (
     <div
       className={ className }
       onMouseEnter={ onMouseEnter }
       onMouseLeave={ onMouseLeave }
       style={ { ...styles.circle, ...styles.saveCircle } }
+      onClick={ onClick }
     >
       <Save
         onMouseEnter={ onMouseEnter }
         style={ { ...styles.button, ...styles.saveButton } }
+        onClick={ onClick }
       />
     </div>
   )
@@ -107,8 +111,8 @@ class Tools extends Component {
 
   static propTypes = {
     className: T.string
-    , saveOnClick: T.func.isRequired
-    , runOnClick: T.func.isRequired
+    , onSaveClick: T.func.isRequired
+    , onRunClick: T.func.isRequired
   }
 
   mouseAction = (newState) => {
@@ -116,7 +120,7 @@ class Tools extends Component {
   }
 
   render() {
-    const { saveOnClick, runOnClick } = this.props
+    const { onSaveClick, onRunClick } = this.props
     const { isSaveLabelVisible, isRunLabelVisible } = this.state
     return (
       <div style={ styles.container }>
@@ -134,7 +138,7 @@ class Tools extends Component {
           className='toolbarButton'
           onMouseEnter={ () => this.mouseAction({ isSaveLabelVisible: true }) }
           onMouseLeave={ () => this.mouseAction({ isSaveLabelVisible: false }) }
-          onClick={ saveOnClick }
+          onClick={ onSaveClick }
         />
 
         <div
@@ -151,7 +155,7 @@ class Tools extends Component {
           className='toolbarButton'
           onMouseEnter={ () => this.mouseAction({ isRunLabelVisible: true }) }
           onMouseLeave={ () => this.mouseAction({ isRunLabelVisible: false }) }
-          onClick={ runOnClick }
+          onClick={ onRunClick }
         />
 
       </div>
