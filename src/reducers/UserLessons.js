@@ -14,7 +14,7 @@ function userLessons(state = initialState, action) {
         [action.payload.after["_id"]]: action.payload.after
       })
       const userLessonsByLessonId = Object.assign({}, state.userLessonsByLessonId, {
-        [action.payload.after["userId"]]: action.payload.after
+        [action.payload.after["lessonId"]]: action.payload.after
       })
       const newState = Object.assign({}, state, {
         userLessonsById
@@ -27,7 +27,7 @@ function userLessons(state = initialState, action) {
         [action.payload._id]: action.payload
       })
       const userLessonsByLessonId = Object.assign({}, state.userLessonsByLessonId, {
-        [action.payload.userId]: action.payload
+        [action.payload.lessonId]: action.payload
       })
       const newState = Object.assign({}, state, {
         userLessonsById

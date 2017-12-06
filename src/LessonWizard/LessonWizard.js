@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter, Redirect, Route } from 'react-router-dom'
-import { get, find, isEqual, isEmpty } from 'lodash'
+import { get, find, isEqual, isEmpty, has } from 'lodash'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
@@ -94,17 +94,19 @@ const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId } } = state
   const { match: { params: { id } } } = ownProps
 
+  let initialValues = { answerData: {}, lessonId: id }
+
   const lesson = lessonsById[id] || {}
-  const initialValues = { answerData: {} }
-  const userLesson = userLessonsByLessonId[id] || {
-    lessonId: id
+  const userLesson = userLessonsByLessonId[id] || {}
+
+  if(!isEmpty(userLesson)) {
+    initialValues = userLesson
   }
+
   get(lesson, 'slides', []).forEach((each, i) => {
     const answer = get(userLesson, `answerData.${each.id}.answer`, '')
     if(!!answer) {
       initialValues.answerData[each.id] = answer
-    } else {
-      initialValues.answerData[each.id] = ''
     }
   })
 
