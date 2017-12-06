@@ -54,6 +54,12 @@ class CodeEditor extends Component {
     , onChange: T.func
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(this.props.editorInput !== nextProps.editorInput) {
+      this.forceInputUpdate(nextProps.editorInput)
+    }
+  }
+
   getChildRef = (input) => {
     this.inputText = input
   }
@@ -63,6 +69,11 @@ class CodeEditor extends Component {
     if(this.props.onChange) {
       this.props.onChange(newCode)
     }
+  }
+
+  forceInputUpdate = (nextEditorInput) => {
+    this.setState({ editorInput: nextEditorInput })
+    this.codeMirror.getCodeMirror().setValue(nextEditorInput)
   }
 
   addToOutput = (text) => {
@@ -149,6 +160,7 @@ class CodeEditor extends Component {
         <div style={ editorStyle.editorContainerStyle }>
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
+              ref={ (c) => { this.codeMirror = c } }
               className={ layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
               style={ styles.editor }
               value={ editorInput }
