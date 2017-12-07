@@ -50,6 +50,7 @@ class LessonWizard extends Component {
   }
 
   handleSubmit = (params) => {
+    console.log(params)
     const { postUserLesson, putUserLesson } = this.props
     const _id = get(params ,'_id')
     if(_id) {
@@ -71,6 +72,7 @@ class LessonWizard extends Component {
   render() {
     const { lesson, userLesson, initialValues } = this.props
     const { activeSlideIndex, needsLesson } = this.state
+
 
     return !needsLesson
       ? (
@@ -94,19 +96,26 @@ const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId } } = state
   const { match: { params: { id } } } = ownProps
 
-  let initialValues = { answerData: {}, lessonId: id }
+  let initialValues = { answerData: [], lessonId: id }
 
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
 
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
+    initialValues.answerData = []
   }
 
   get(lesson, 'slides', []).forEach((each, i) => {
-    const answer = get(userLesson, `answerData[${each.id}].answer`, '')
-    initialValues.answerData[each.id] = answer
+    const answer = get(userLesson, `answerData[${each.id}]`, {})
+    if(!isEmpty(answer)) {
+      initialValues.answerData[i] = answer
+    } else {
+      initialValues.answerData[i] = { answer: '', id: each.id }
+    }
   })
+
+  console.log(initialValues.answerData)
 
   return {
     lesson

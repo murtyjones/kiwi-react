@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Field, reduxForm, SubmissionError } from 'redux-form'
+import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import cns from 'classnames'
-
+import { has } from 'lodash'
 import { isPrevDisabled, isNextDisabled } from "../utils/lessonWizardUtils"
 import { LESSON_SLIDE_TYPES } from '../constants'
 
@@ -86,6 +86,18 @@ const styles = {
   }
 }
 
+class Slides extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    const { fields } = this.props
+
+    return fields.map((each, i) => <div>hi</div>)
+  }
+}
+
 class LessonWizardForm extends Component {
   constructor(props) {
     super(props)
@@ -97,17 +109,29 @@ class LessonWizardForm extends Component {
     , lesson: T.object.isRequired
     , goToNextSlide: T.func.isRequired
     , goToPrevSlide: T.func.isRequired
+    , handleSubmit: T.func.isRequired
+  }
+
+  onPrev = () => {
+    const { goToPrevSlide } = this.props
+    goToPrevSlide()
+  }
+
+  onNext = (params) => {
+    const { goToNextSlide, handleSubmit } = this.props
+    goToNextSlide()
+    handleSubmit(params)
   }
 
   render() {
-    const { handleSubmit, activeSlideIndex, lesson, goToNextSlide, goToPrevSlide } = this.props
+    const { handleSubmit, activeSlideIndex, lesson } = this.props
 
     const activeSlideObject = lesson.slides[activeSlideIndex]
       , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
       , prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
-      , onPrevClick = prevDisabled ? null : goToPrevSlide
-      , onNextClick = nextDisabled ? null : goToNextSlide && handleSubmit
+      , onPrevClick = !prevDisabled ? this.onPrev : null
+      , onNextClick = !nextDisabled ? this.onNext : null
       , slideRef = `answerData.${activeSlideObject.id}`
 
     return [
@@ -117,11 +141,23 @@ class LessonWizardForm extends Component {
         style={ styles.lessonWizardForm }
         onSubmit={ handleSubmit }
       >
-        <Field
-          name={ slideRef }
-          component={ ActiveSlideComponent }
-          className={ 'lessonWizardFormContent' }
-          slideData={ activeSlideObject }
+        <FieldArray
+          name='answerData'
+          component={ answers =>
+            answers.fields.map((name, i) => {
+              if(i === activeSlideIndex) {
+                return (
+                  <Field
+                    name={ `${name}.answer` }
+                    component={ ActiveSlideComponent }
+                    className={ 'lessonWizardFormContent' }
+                    slideData={ activeSlideObject }
+                  />
+                )
+              }
+              return null
+            })
+          }
         />
       </form>
       ,

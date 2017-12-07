@@ -48,10 +48,11 @@ class HalfHalf extends Component {
   static propTypes = {
     slideData: T.object
     , className: T.string
+    , input: T.object
   }
 
   render() {
-    const { slideData, className } = this.props
+    const { slideData, className, input } = this.props
     return [
       <div className={ className }>
         <div style={ slideContent }>
@@ -70,7 +71,8 @@ class HalfHalf extends Component {
           className='lessonHalfSizeEditorRight'
           layoutType={ LESSON_SLIDE_TYPES.HALF_HALF }
           editorStyle={ codeEditorStyles }
-          editorInput={ slideData.editorInput }
+          editorInput={ input.value || slideData.editorInput }
+          onChange={ input.onChange }
         />
       </div>
 

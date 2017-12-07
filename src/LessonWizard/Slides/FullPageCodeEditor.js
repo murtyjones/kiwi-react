@@ -45,6 +45,7 @@ class FullPageCodeEditor extends Component {
 
   render() {
     const { slideData, className, input } = this.props
+    console.log(this.props.input)
     return [
       <div key={ className } className={ className }>
         <div style={ slideContent }>
