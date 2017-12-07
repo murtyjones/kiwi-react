@@ -49,6 +49,11 @@ class HalfHalf extends Component {
     slideData: T.object
     , className: T.string
     , input: T.object
+    , setToViewed: T.func.isRequired
+  }
+
+  componentWillMount() {
+    this.props.setToViewed()
   }
 
   render() {

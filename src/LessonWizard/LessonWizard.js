@@ -110,7 +110,7 @@ const mapStateToProps = (state, ownProps) => {
     if(!isEmpty(answer)) {
       initialValues.answerData[i] = answer
     } else {
-      initialValues.answerData[i] = { answer: '', id: each.id }
+      initialValues.answerData[i] = { answer: '', id: each.id, isViewed: false }
     }
   })
 

@@ -10,6 +10,11 @@ class FullPageText extends Component {
   static propTypes = {
     slideData: T.object
     , className: T.string
+    , setToViewed: T.func.isRequired
+  }
+
+  componentWillMount() {
+    this.props.setToViewed()
   }
 
   render() {

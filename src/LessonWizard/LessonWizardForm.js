@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form'
+import { Field, FieldArray, reduxForm, SubmissionError, change, getFormValues } from 'redux-form'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import cns from 'classnames'
@@ -98,6 +98,12 @@ class LessonWizardForm extends Component {
     , goToNextSlide: T.func.isRequired
     , goToPrevSlide: T.func.isRequired
     , handleSubmit: T.func.isRequired
+    , dispatch: T.func.isRequired
+  }
+
+  setToViewed = (ref) => {
+    console.log(`${ref}.isViewed`)
+    this.props.dispatch(change(formName, `${ref}.isViewed`, true))
   }
 
   onPrev = () => {
@@ -139,6 +145,7 @@ class LessonWizardForm extends Component {
                   component={ ActiveSlideComponent }
                   className={ 'lessonWizardFormContent' }
                   slideData={ activeSlideObject }
+                  setToViewed={ () => this.setToViewed(name) }
                 />
               ) : null
             })
