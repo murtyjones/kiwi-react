@@ -18,7 +18,11 @@ class FullPageText extends Component {
       <div className={ className }>
         <div style={ slideContent }>
           <div style={ titleStyle }>{ slideData.title }</div>
-          <div style={{overflow: 'hidden'}} dangerouslySetInnerHTML={ { __html: slideData.instructions } } />
+          <div
+            className='instructions'
+            style={{overflow: 'hidden'}}
+            dangerouslySetInnerHTML={ { __html: slideData.instructions } }
+          />
         </div>
       </div>
     )

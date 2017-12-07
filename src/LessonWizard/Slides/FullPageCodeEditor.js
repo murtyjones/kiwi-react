@@ -45,12 +45,14 @@ class FullPageCodeEditor extends Component {
 
   render() {
     const { slideData, className, input } = this.props
-    console.log(this.props.input)
     return [
       <div key={ className } className={ className }>
         <div style={ slideContent }>
           <div style={ titleStyle }>{ slideData.title }</div>
-          <div dangerouslySetInnerHTML={ { __html: slideData.prompt } } />
+          <div
+            className='prompt'
+            dangerouslySetInnerHTML={ { __html: slideData.prompt } }
+          />
         </div>
       </div>
       ,

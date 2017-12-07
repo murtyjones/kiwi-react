@@ -61,7 +61,7 @@ class HalfHalf extends Component {
       </div>
       ,
       <div
-        className='halfHalfLeftSide'
+        className='halfHalfLeftSide instructions'
         style={ styles.left }
         dangerouslySetInnerHTML={ { __html: slideData.instructions } }
       />

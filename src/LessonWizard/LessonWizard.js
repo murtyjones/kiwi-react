@@ -50,7 +50,6 @@ class LessonWizard extends Component {
   }
 
   handleSubmit = (params) => {
-    console.log(params)
     const { postUserLesson, putUserLesson } = this.props
     const _id = get(params ,'_id')
     if(_id) {
@@ -114,8 +113,6 @@ const mapStateToProps = (state, ownProps) => {
       initialValues.answerData[i] = { answer: '', id: each.id }
     }
   })
-
-  console.log(initialValues.answerData)
 
   return {
     lesson

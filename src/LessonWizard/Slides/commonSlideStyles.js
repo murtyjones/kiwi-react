@@ -1,10 +1,10 @@
 const titleStyle = {
-  fontSize: '14pt'
+  fontSize: '12pt'
   , textTransform: 'uppercase'
   , color: '#6B6B6B'
   , paddingBottom: '10px'
   , marginBottom: '10px'
-  , borderBottom: '1px solid #CCCCCC'
+  , borderBottom: '0px solid #CCCCCC'
 }
 
 const slideContent = {

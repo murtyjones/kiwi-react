@@ -86,18 +86,6 @@ const styles = {
   }
 }
 
-class Slides extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    const { fields } = this.props
-
-    return fields.map((each, i) => <div>hi</div>)
-  }
-}
-
 class LessonWizardForm extends Component {
   constructor(props) {
     super(props)
@@ -132,7 +120,6 @@ class LessonWizardForm extends Component {
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
       , onPrevClick = !prevDisabled ? this.onPrev : null
       , onNextClick = !nextDisabled ? this.onNext : null
-      , slideRef = `answerData.${activeSlideObject.id}`
 
     return [
       <form
@@ -145,17 +132,15 @@ class LessonWizardForm extends Component {
           name='answerData'
           component={ answers =>
             answers.fields.map((name, i) => {
-              if(i === activeSlideIndex) {
-                return (
-                  <Field
-                    name={ `${name}.answer` }
-                    component={ ActiveSlideComponent }
-                    className={ 'lessonWizardFormContent' }
-                    slideData={ activeSlideObject }
-                  />
-                )
-              }
-              return null
+              return (i === activeSlideIndex) ? (
+                <Field
+                  key={ `${name}.answer` }
+                  name={ `${name}.answer` }
+                  component={ ActiveSlideComponent }
+                  className={ 'lessonWizardFormContent' }
+                  slideData={ activeSlideObject }
+                />
+              ) : null
             })
           }
         />
