@@ -102,7 +102,6 @@ class LessonWizardForm extends Component {
   }
 
   setToViewed = (ref) => {
-    console.log(`${ref}.isViewed`)
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
   }
 
