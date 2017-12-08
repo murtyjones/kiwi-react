@@ -116,12 +116,30 @@ class LessonWizardForm extends Component {
     handleSubmit(params)
   }
 
+  renderSlide = ({ fields }) => {
+    // this function should be kept outside the render method! otherwise child components will remount!!!
+    const { activeSlideIndex, lesson } = this.props
+    const activeSlideObject = lesson.slides[activeSlideIndex]
+      , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
+
+    return fields.map((name, i) => {
+      return (i === activeSlideIndex) ? (
+        <Field
+          key={ `${name}.answer` }
+          name={ `${name}.answer` }
+          component={ ActiveSlideComponent }
+          className={ 'lessonWizardFormContent' }
+          slideData={ activeSlideObject }
+          setToViewed={ () => this.setToViewed(name) }
+        />
+      ) : null
+    })
+  }
+
   render() {
     const { handleSubmit, activeSlideIndex, lesson } = this.props
 
-    const activeSlideObject = lesson.slides[activeSlideIndex]
-      , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
-      , prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
+    const prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
       , onPrevClick = !prevDisabled ? this.onPrev : null
       , onNextClick = !nextDisabled ? this.onNext : null
@@ -135,20 +153,7 @@ class LessonWizardForm extends Component {
       >
         <FieldArray
           name='answerData'
-          component={ answers =>
-            answers.fields.map((name, i) => {
-              return (i === activeSlideIndex) ? (
-                <Field
-                  key={ `${name}.answer` }
-                  name={ `${name}.answer` }
-                  component={ ActiveSlideComponent }
-                  className={ 'lessonWizardFormContent' }
-                  slideData={ activeSlideObject }
-                  setToViewed={ () => this.setToViewed(name) }
-                />
-              ) : null
-            })
-          }
+          component={ this.renderSlide }
         />
       </form>
       ,

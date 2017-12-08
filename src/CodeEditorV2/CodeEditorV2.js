@@ -55,7 +55,6 @@ class CodeEditor extends Component {
   }
 
   componentDidMount() {
-    console.log('a')
     const cmInstance = this.codeMirror.getCodeMirror()
     cmInstance.focus()
     cmInstance.setCursor(cmInstance.lineCount(), 0)
