@@ -9,18 +9,13 @@ const initialState = {
 function lessons(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.PUT_LESSON_SUCCESS: {
-      const resultIsArray = action.payload && action.payload.constructor === Array
-      const newLessonsById = resultIsArray
-        ? action.payload.reduce((acc, each) => {
-          acc[each.after['_id']] = each.after
-          return acc
-        }, {})
-        : { [action.payload.after["_id"]]: action.payload.after }
+      const newLessonsById = Object.assign({}, state.lessonsById, {
+        [action.payload.after["_id"]]: action.payload.after
+      })
       const lessonsById = Object.assign({}, state.lessonsById, newLessonsById)
       const newState = Object.assign({}, state, {
         lessonsById
       })
-
       return newState
     }
     case ACTIONS.GET_LESSON_SUCCESS:
