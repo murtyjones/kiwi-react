@@ -54,8 +54,11 @@ class CodeEditor extends Component {
     , onChange: T.func
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('hi')
+  componentDidMount() {
+    console.log('a')
+    const cmInstance = this.codeMirror.getCodeMirror()
+    cmInstance.focus()
+    cmInstance.setCursor(cmInstance.lineCount(), 0)
   }
 
   getChildRef = (input) => {
@@ -94,7 +97,6 @@ class CodeEditor extends Component {
 
   runCode = () => {
     const { editorInput, editorOutput } = this.state
-    console.log(editorInput)
     codeOutput = '' // reset each time
     skulpt.canvas = 'mycanvas'
     skulpt.pre = 'output'
@@ -123,7 +125,6 @@ class CodeEditor extends Component {
 
     const myPromise = skulpt.misceval.asyncToPromise(() => skulpt.importMainWithBody("<stdin>", false, editorInput, true))
     myPromise.then(() => {
-      console.log(codeOutput)
       this.setState({
         editorOutput: codeOutput
         , errorMsg: ''
@@ -147,14 +148,13 @@ class CodeEditor extends Component {
   render() {
     const { className, options, editorStyle, saveHandler, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
     const { editorInput, editorOutput, errorMsg, prompt, rawInputValue } = this.state
-    console.log(editorOutput)
 
     return (
       <div className={ className }>
         <div style={ editorStyle.editorContainerStyle }>
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
-              //ref={ (c) => { this.codeMirror = c } }
+              ref={ (c) => { this.codeMirror = c } }
               className={ layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
               style={ styles.editor }
               value={ editorInput }
