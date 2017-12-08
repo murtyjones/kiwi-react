@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { isEmpty, find } from 'lodash'
+import { isEmpty, find, get } from 'lodash'
 
 import LessonWidget from './LessonWidget'
 import { KiwiLink } from '../../common/KiwiLink'
-import { getManyLessons, putLesson } from '../../actions/index'
+import { getManyLessons, putLesson, getLessonOrder, putLessonOrder } from '../../actions/index'
 import { SortableList } from '../../common/SortableComponents'
+import { reorderLessons } from '../../utils/lessonOrderUtils'
 
 
 class ManageLessons extends Component {
@@ -18,23 +19,37 @@ class ManageLessons extends Component {
   static propTypes = {
     putLesson: T.func.isRequired
     , getManyLessons: T.func.isRequired
+    , putLessonOrder: T.func.isRequired
+    , getLessonOrder: T.func.isRequired
   }
 
   componentWillMount() {
-    const { getManyLessons } = this.props
+    const { getManyLessons, getLessonOrder } = this.props
     getManyLessons()
+    getLessonOrder()
   }
 
   getLessonsByType = (lessonsById) => {
-    const lessonsByType = Object.values(lessonsById).reduce((acc, lesson) => {
-      if(lesson.isPublished) {
-        acc.published[lesson.order] = lesson
-      } else {
-        acc.unpublished.push(lesson)
+    const { orderOfPublishedLessons } = this.props
+    const lessons = Object.values(lessonsById)
+    const published = orderOfPublishedLessons.reduce((acc, lessonId) => {
+      const lesson = find(lessons, { _id: lessonId })
+      if(lesson) {
+        acc.push(lesson)
       }
       return acc
-    }, { published: [], unpublished: [] })
-    return lessonsByType
+    }, [])
+    const unpublished = lessons.reduce((acc, lesson) => {
+      if(!lesson.isPublished) {
+        acc.push(lesson)
+      }
+      return acc
+    }, [])
+
+    return {
+      published
+      , unpublished
+    }
   }
 
   onSortEnd = (pos) => {
@@ -48,6 +63,16 @@ class ManageLessons extends Component {
     }
     this.props.putLesson({
       ...lesson,
+      order: newWorldOrder
+    })
+  }
+
+  onSortEnd = (event) => {
+    const { lessonsById, lessonOrder, orderOfPublishedLessons } = this.props
+    const newWorldOrder = reorderLessons({ event, orderOfPublishedLessons })
+
+    this.props.putLessonOrder({
+      ...lessonOrder,
       order: newWorldOrder
     })
   }
@@ -77,10 +102,14 @@ class ManageLessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { lessons: { lessonsById } } = state
+  const { lessonMetadata: { lessonOrder }, lessons: { lessonsById } } = state
+
+  const orderOfPublishedLessons = get(lessonOrder, 'order', [])
 
   return {
     lessonsById
+    , lessonOrder
+    , orderOfPublishedLessons
   }
 }
 
@@ -88,6 +117,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getManyLessons: (params) => dispatch(getManyLessons(params))
     , putLesson: (params) => dispatch(putLesson(params))
+    , putLessonOrder: (params) => dispatch(putLessonOrder(params))
+    , getLessonOrder: () => dispatch(getLessonOrder())
   }
 }
 

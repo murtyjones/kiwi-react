@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { orderBy, find, get } from 'lodash'
+import { orderBy, find, findIndex, get } from 'lodash'
 
-import { getManyLessons, getManyUserLessons } from '../actions'
+import { getManyLessons, getManyUserLessons, getLessonOrder } from '../actions'
 
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
+
+const stageProportion = 0.70
 
 const generateMinWidth = (sideNavWidth) => {
   return 1024 - sideNavWidth
@@ -41,14 +43,17 @@ class Lessons extends Component {
   static propTypes = {
     getManyLessons: T.func
     , getManyUserLessons: T.func
+    , getLessonOrder: T.func
     , userLessons: T.array
     , lessons: T.array
+    , orderOfPublishedLessons: T.array
     , sideNavWidth: T.number.isRequired
   }
 
   componentWillMount() {
     this.props.getManyLessons()
     this.props.getManyUserLessons()
+    this.props.getLessonOrder()
   }
 
   componentDidMount() {
@@ -90,18 +95,20 @@ class Lessons extends Component {
 
   render() {
     const { width, scaleX, scaleY, selectedLessonId } = this.state
-    const { userLessons, lessons } = this.props
+    const { userLessons, lessons, orderOfPublishedLessons } = this.props
+    const selectedLessonPosition = selectedLessonId
+      ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
+      : 0
 
-    const mapLessons = lessons.reduce((acc, lesson) => {
-      const userLesson = find(userLessons, { lessonId: lesson._id })
-      if(userLesson) {
+    const mapLessons = orderOfPublishedLessons.map(lessonId => {
+      const lesson = find(lessons, { _id: lessonId })
+        , userLesson = find(userLessons, { lessonId })
+      if(lesson && userLesson) {
         lesson.userLesson = userLesson
       }
-      acc.push(lesson)
-      return acc
-    }, [])
+      return lesson
+    })
 
-    const stageProportion = 0.70
     return (
       <div ref={ (c) => { this.lessonsContainerNode = c } }>
         <LessonMap
@@ -114,7 +121,11 @@ class Lessons extends Component {
         />
         { selectedLessonId &&
           <LessonCard
-            lesson={ find(lessons, { _id: selectedLessonId }) }
+            lesson={ {
+              ...find(lessons, { _id: selectedLessonId }),
+              order: selectedLessonPosition
+              }
+            }
             style={ {
               ...styles.lessonCardContainer,
               width: width * (1 - stageProportion) - 20,
@@ -129,21 +140,24 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { userLessons: { userLessonsById }, lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
+  const { lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
 
   const userLessons = Object.values(userLessonsById)
-  const lessons = Object.values(lessonsById).filter(each => each.isPublished)
+    , lessons = Object.values(lessonsById).filter(each => each.isPublished)
+    , orderOfPublishedLessons = get(lessonOrder, 'order', [])
 
   return {
     lessons: orderBy(lessons, ['order'], ['asc'])
     , userLessons
     , sideNavWidth
+    , orderOfPublishedLessons
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getManyLessons: (params) => dispatch(getManyLessons(params))
+    , getLessonOrder: () => dispatch(getLessonOrder())
     , getManyUserLessons: (params) => dispatch(getManyUserLessons(params))
   }
 }

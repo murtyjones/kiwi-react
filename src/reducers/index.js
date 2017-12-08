@@ -6,6 +6,7 @@ import home from './home'
 import auth from './Auth'
 import userProjects from './UserProjects'
 import lessons from './Lessons'
+import lessonMetadata from './LessonMetadata'
 import userLessons from './UserLessons'
 import sideNav from './SideNav'
 import topBar from './TopBar'
@@ -20,4 +21,5 @@ export default combineReducers({
   , userLessons
   , sideNav
   , topBar
+  , lessonMetadata
 })

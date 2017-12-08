@@ -75,7 +75,6 @@ class App extends Component {
     } else {
       this.props.openSideNav()
     }
-
   }
 
   render() {
