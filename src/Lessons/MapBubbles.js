@@ -58,8 +58,8 @@ class MapBubbles extends PureComponent {
     if(isSelected) {
       circleProps.width = 80
       circleProps.height = 80
-
       textProps.fontSize = 45
+      circleProps.fill = styles.activeFillColor
 
       TEXT_Y_OFFSET = TEXT_Y_OFFSET + 10
     }
