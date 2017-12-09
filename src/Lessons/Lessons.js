@@ -122,14 +122,14 @@ class Lessons extends Component {
         { selectedLessonId &&
           <LessonCard
             lesson={ {
-              ...find(lessons, { _id: selectedLessonId }),
-              order: selectedLessonPosition
+                ...find(lessons, { _id: selectedLessonId })
+                , order: selectedLessonPosition
               }
             }
             style={ {
-              ...styles.lessonCardContainer,
-              width: width * (1 - stageProportion) - 20,
-              height: Math.max(width * (1 - stageProportion), 400),
+              ...styles.lessonCardContainer
+              , width: width * (1 - stageProportion) - 20
+              , height: Math.max(width * (1 - stageProportion), 400)
             } }
           />
         }

@@ -65,11 +65,13 @@ class MapBubbles extends PureComponent {
     }
 
     if(hasBeenStartedByStudent) {
+      const completionPercentage = 75  // mock 75% for now - will ultimately end up being this:  get(lesson, 'userLesson.completionPercentage', 0)
       circleProps.stroke = styles.activeStrokeColor
       circleProps.strokeWidth = 5
       circleProps.fill = styles.activeFillColor
       textProps.fill = styles.activeTextColor
-      if(lesson.isCompleted) {
+
+      if(completionPercentage === 100) {
         checkMark = [
           <Circle
             key={ `checkMark-circle-${index}` }
@@ -90,6 +92,8 @@ class MapBubbles extends PureComponent {
             scale={ { x : 1.1, y : 1.1 } }
           />
         ]
+      } else {
+        // partial border styling
       }
     }
 
