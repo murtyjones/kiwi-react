@@ -27,6 +27,7 @@ class Slides extends Component {
       , selectedSlideTitle: ''
       , canAddNewSlide: true
       , deleteDialogOpen: false
+      , activeSlideIndex: 0
     }
   }
 
@@ -47,8 +48,8 @@ class Slides extends Component {
   setSelectedSlideType = (slideIndex, value) => {
     const { localSlideTypes } = this.state
     this.setState({
-      localSlideTypes: update(localSlideTypes, { $splice: [[slideIndex, 1, value]] }),
-      canAddNewSlide: true
+      localSlideTypes: update(localSlideTypes, {$splice: [[slideIndex, 1, value]] })
+      , canAddNewSlide: true
     })
   }
 
@@ -74,21 +75,25 @@ class Slides extends Component {
   }
 
   renderSlideLabel = (i) => {
+    const { activeSlideIndex } = this.state
     return (
       <div>
         Slide #{i + 1}
-        <Clear
-          style={ deleteStyle }
-          onClick={ () => { this.setState({ deleteDialogOpen: true }) } }
-        />
+        { activeSlideIndex === i &&
+          <Clear
+            style={ deleteStyle }
+            onClick={ () => { this.setState({ deleteDialogOpen: true }) } }
+          />
+        }
       </div>
     )
   }
 
   renderDeleteDialogActions = (i) => {
+    const { activeSlideIndex } = this.state
     return [
-      <FlatButton onClick={ () => { this.deleteSlide(i) } }>
-        Confirm
+      <FlatButton onClick={ () => { this.deleteSlide(activeSlideIndex) } }>
+        Delete slide #{activeSlideIndex + 1}
       </FlatButton>,
       <FlatButton onClick={ () => { this.setState({ deleteDialogOpen: false }) } }>
         Cancel
@@ -114,12 +119,13 @@ class Slides extends Component {
         </ListItem>
         <Tabs>
           { fields.map((eachSlideRef, i) =>
-            <Tab key={ i } label={ this.renderSlideLabel(i) }>
+            <Tab key={ i } label={ this.renderSlideLabel(i) } onActive={ () => { this.setState({ activeSlideIndex: i }) } }>
               <Dialog
+                key={ i }
                 open={ deleteDialogOpen }
                 actions={ this.renderDeleteDialogActions(i) }
               >
-                Are you sure you want to delete this slide?
+                Are you sure you want to delete slide #{i + 1}?
               </Dialog>
               <h4>Slide #{i + 1}</h4>
               <Field
