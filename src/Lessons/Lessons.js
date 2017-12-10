@@ -48,12 +48,14 @@ class Lessons extends Component {
     , lessons: T.array
     , orderOfPublishedLessons: T.array
     , sideNavWidth: T.number.isRequired
+    , userId: T.string.isRequired
   }
 
   componentWillMount() {
-    this.props.getManyLessons()
-    this.props.getManyUserLessons()
-    this.props.getLessonOrder()
+    const { getManyLessons, getManyUserLessons, getLessonOrder, userId } = this.props
+    getManyLessons()
+    getManyUserLessons({ userId })
+    getLessonOrder()
   }
 
   componentDidMount() {
@@ -140,7 +142,7 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
+  const { auth: { userId },lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
 
   const userLessons = Object.values(userLessonsById)
     , lessons = Object.values(lessonsById).filter(each => each.isPublished)
@@ -151,6 +153,7 @@ const mapStateToProps = (state) => {
     , userLessons
     , sideNavWidth
     , orderOfPublishedLessons
+    , userId
   }
 }
 

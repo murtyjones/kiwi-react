@@ -118,12 +118,14 @@ class Slides extends Component {
   moveSlide = (to) => {
     const { fields } = this.props
     const { activeSlideIndex, localSlideTypes } = this.state
-    const incremented = activeSlideIndex + to
-    const newLocalSlideTypes = immutablySwapItems(localSlideTypes, activeSlideIndex, incremented)
+    const incremented = this.state.activeSlideIndex + 1
+    const newLocalSlideTypes = immutablySwapItems(localSlideTypes, activeSlideIndex, this.state.activeSlideIndex + 1)
     fields.swap(activeSlideIndex, incremented)
     this.setState({
-      localSlideTypes: update(localSlideTypes, { $set: newLocalSlideTypes })
-      , activeSlideIndex: incremented
+      activeSlideIndex: this.state.activeSlideIndex + 1
+      , localSlideTypes: update(localSlideTypes, { $set: newLocalSlideTypes })
+    }, function () {
+      console.log(this.state.activeSlideIndex);
     })
   }
 
@@ -185,7 +187,6 @@ class Slides extends Component {
           >
             Add Slide to End
           </RaisedButton>
-          &nbsp;
           <RaisedButton
             onClick={ this.addSlideAfterCurrent }
             disabled={ !canAddNewSlide }
@@ -193,7 +194,7 @@ class Slides extends Component {
             Add Slide after Slide #{activeSlideIndex + 1}
           </RaisedButton>
         </ListItem>
-        <Tabs selectedIndex={ activeSlideIndex } >
+        <Tabs initialSelectedIndex={ activeSlideIndex } >
           { fields.map((eachSlideRef, i) =>
             <Tab key={ i } label={ this.renderSlideLabel(i) } onActive={ () => { this.setState({ activeSlideIndex: i }) } }>
               <Dialog

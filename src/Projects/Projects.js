@@ -16,47 +16,41 @@ class Projects extends Component {
   static propTypes = {
     getManyUserProjects: T.func
     , userProjects: T.object
+    , userId: T.string.isRequired
   }
 
   componentWillMount() {
     this.getUserProjectData()
-    this.updateCanvas
   }
 
   getUserProjectData = () => {
-    const { getManyUserProjects } = this.props
-    getManyUserProjects()
-  }
-
-  updateCanvas() {
-    const ctx = this.refs.canvas.getContext('2d')
-    ctx.fillRect(0,0,0,0)
+    const { getManyUserProjects, userId } = this.props
+    getManyUserProjects({ userId })
   }
 
 
   render() {
     const { userProjects } = this.props
-    const stageProportion = 0.70
     return (
       <div>
-      <br/>
-      <div>
-          Create a new project...
-      </div>
-      <br/>
-      <KiwiLink to={ `/project/new` }>New Project</KiwiLink>
-      <br/>
-      <br/>
-        <hr />
+        <br/>
         <div>
-          Previous saved projects...
+            Create a new project...
         </div>
-        <div>
-          { !isEmpty(userProjects) && Object.values(userProjects)
-            .map(each =>
-              <ProjectCard project={ each } />
-            )
-          }
+        <br/>
+        <KiwiLink to={ `/project/new` }>New Project</KiwiLink>
+        <br/>
+        <br/>
+          <hr />
+          <div>
+            Previous saved projects...
+          </div>
+          <div>
+            { !isEmpty(userProjects) && Object.values(userProjects)
+              .map(each =>
+                <ProjectCard project={ each } />
+              )
+            }
         </div>
       </div>
     )
@@ -65,10 +59,11 @@ class Projects extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { userProjects: { projectsById } } = state
+  const { userProjects: { projectsById }, auth: { userId } } = state
 
   return {
     userProjects: projectsById
+    , userId
   }
 }
 

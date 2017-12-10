@@ -1,14 +1,16 @@
 import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
 import config from 'config'
+import { encode } from 'querystring'
 
 export const getManyUserProjects = (params) => {
+  const query = params ? `?${encode(params)}` : ''
   const options = {
     method: 'GET',
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_MANY_USER_PROJECTS_REQUEST })
-    return ApiFetch(`${config.api}/api/userprojects`, options)
+    return ApiFetch(`${config.api}/api/userprojects${query}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_MANY_USER_PROJECTS_SUCCESS, payload: res })
     })
