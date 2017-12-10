@@ -86,7 +86,7 @@ const styles = {
   }
 }
 
-class LessonWizardForm extends Component {
+class UserLessonWizardForm extends Component {
   constructor(props) {
     super(props)
   }
@@ -198,4 +198,4 @@ export default reduxForm({
   , destroyOnUnmount: false
   , forceUnregisterOnUnmount: true
   , enableReinitialize: true
-})(LessonWizardForm)
+})(UserLessonWizardForm)

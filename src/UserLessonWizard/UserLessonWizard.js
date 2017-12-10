@@ -6,10 +6,10 @@ import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
 import { postUserLesson, putUserLesson, getManyUserLessons, getLesson } from '../actions'
-import LessonWizardForm from './LessonWizardForm'
+import UserLessonWizardForm from './UserLessonWizardForm'
 
 
-class LessonWizard extends Component {
+class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
     const isNew = props.match.path.includes('new')
@@ -75,7 +75,7 @@ class LessonWizard extends Component {
 
     return !needsLesson
       ? (
-        <LessonWizardForm
+        <UserLessonWizardForm
           onSubmit={ this.handleSubmit }
           lesson={ lesson }
           initialValues={ initialValues }
@@ -88,7 +88,7 @@ class LessonWizard extends Component {
 
   }
 }
-export const LessonWizardComponent = LessonWizard
+export const UserLessonWizardComponent = UserLessonWizard
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -131,4 +131,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LessonWizard))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserLessonWizard))
