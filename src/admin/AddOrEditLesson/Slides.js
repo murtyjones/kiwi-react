@@ -4,18 +4,51 @@ import * as T from 'prop-types'
 import { Field } from 'redux-form'
 import { List, ListItem, RaisedButton, FlatButton, MenuItem, Tabs, Tab, Dialog } from 'material-ui'
 import Clear  from 'material-ui-icons/Clear'
+import ChevronLeft from 'material-ui-icons/ChevronLeft'
+import ChevronRight from 'material-ui-icons/ChevronRight'
 import { find, isEmpty } from 'lodash'
 
 import { slideTypes as allSlideTypes } from './slideTypes'
 import renderSelectField from '../../common/renderSelectField'
 import renderTextField from "../../common/renderTextField"
 
-const deleteStyle = {
-  color: 'white'
-  , height: '19px'
-  , width: '19px'
-  , position: 'absolute'
-  , right: '0px'
+
+const defaultSlideTypeValue = allSlideTypes[0].value
+
+function immutablySwapItems(items, firstIndex, secondIndex) {
+  // Constant reference - we can still modify the array itself
+  const results= items.slice();
+  const firstItem = items[firstIndex];
+  results[firstIndex] = items[secondIndex];
+  results[secondIndex] = firstItem;
+
+  return results;
+}
+
+const styles = {
+  deleteStyle: {
+    color: 'white'
+    , height: '20px'
+    , width: '20px'
+    , position: 'absolute'
+    , right: '0px'
+  },
+  leftChevronStyle: {
+    color: 'white'
+    , height: '24px'
+    , width: '24px'
+    , position: 'absolute'
+    , left: '20%'
+    , marginLeft: '-12px'
+  },
+  rightChevronStyle: {
+    color: 'white'
+    , height: '24px'
+    , width: '24px'
+    , position: 'absolute'
+    , right: '20%'
+    , marginRight: '-12px'
+  }
 }
 
 class Slides extends Component {
@@ -78,18 +111,41 @@ class Slides extends Component {
     const { activeSlideIndex, localSlideTypes } = this.state
     const { fields } = this.props
     fields.insert(activeSlideIndex + 1, {})
-    this.setState({ localSlideTypes: update(localSlideTypes, { $splice: [[activeSlideIndex + 1, 0, allSlideTypes[0].value]] }) })
+    this.setState({ localSlideTypes: update(localSlideTypes, { $splice: [[activeSlideIndex + 1, 0, defaultSlideTypeValue]] }) })
     this.setState({ canAddNewSlide: false })
+  }
+
+  moveSlide = (to) => {
+    const { fields } = this.props
+    const { activeSlideIndex, localSlideTypes } = this.state
+    const newS = immutablySwapItems(localSlideTypes, activeSlideIndex, activeSlideIndex + to)
+    fields.swap(activeSlideIndex, activeSlideIndex + to)
+    this.setState({ localSlideTypes: update(localSlideTypes, { $set: newS }) })
   }
 
   renderSlideLabel = (i) => {
     const { activeSlideIndex } = this.state
+    const { fields } = this.props
+    const isActive = activeSlideIndex === i
+    const title = `${fields.get(i).title} (#${i + 1})` || `Slide #${i + 1}`
     return (
       <div>
-        Slide #{i + 1}
-        { activeSlideIndex === i &&
+        { isActive &&
+          <ChevronLeft
+            style={ styles.leftChevronStyle }
+            onClick={ () => { this.moveSlide(-1) } }
+          />
+        }
+        { title }
+        { isActive &&
+          <ChevronRight
+            style={ styles.rightChevronStyle }
+            onClick={ () => { this.moveSlide(1) } }
+          />
+        }
+        { isActive &&
           <Clear
-            style={ deleteStyle }
+            style={ styles.deleteStyle }
             onClick={ () => { this.setState({ deleteDialogOpen: true }) } }
           />
         }
