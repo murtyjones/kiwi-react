@@ -74,6 +74,14 @@ class Slides extends Component {
     this.setState({ deleteDialogOpen: false })
   }
 
+  addSlideAfterCurrent = () => {
+    const { activeSlideIndex, localSlideTypes } = this.state
+    const { fields } = this.props
+    fields.insert(activeSlideIndex + 1, {})
+    this.setState({ localSlideTypes: update(localSlideTypes, { $splice: [[activeSlideIndex + 1, 0, allSlideTypes[0].value]] }) })
+    this.setState({ canAddNewSlide: false })
+  }
+
   renderSlideLabel = (i) => {
     const { activeSlideIndex } = this.state
     return (
@@ -89,7 +97,7 @@ class Slides extends Component {
     )
   }
 
-  renderDeleteDialogActions = (i) => {
+  renderDeleteDialogActions = () => {
     const { activeSlideIndex } = this.state
     return [
       <FlatButton onClick={ () => { this.deleteSlide(activeSlideIndex) } }>
@@ -105,7 +113,7 @@ class Slides extends Component {
 
   render() {
     const { fields } = this.props
-    const { localSlideTypes, canAddNewSlide, deleteDialogOpen } = this.state
+    const { localSlideTypes, canAddNewSlide, deleteDialogOpen, activeSlideIndex } = this.state
 
     return (
       <List>
@@ -114,7 +122,14 @@ class Slides extends Component {
             onClick={ () => fields.push({}) && this.setState({ canAddNewSlide: false }) }
             disabled={ !canAddNewSlide }
           >
-            Add Slide
+            Add Slide to End
+          </RaisedButton>
+          &nbsp;
+          <RaisedButton
+            onClick={ this.addSlideAfterCurrent }
+            disabled={ !canAddNewSlide }
+          >
+            Add Slide after Slide #{activeSlideIndex + 1}
           </RaisedButton>
         </ListItem>
         <Tabs>
@@ -123,9 +138,9 @@ class Slides extends Component {
               <Dialog
                 key={ i }
                 open={ deleteDialogOpen }
-                actions={ this.renderDeleteDialogActions(i) }
+                actions={ this.renderDeleteDialogActions() }
               >
-                Are you sure you want to delete slide #{i + 1}?
+                Are you sure you want to delete slide #{activeSlideIndex + 1}?
               </Dialog>
               <h4>Slide #{i + 1}</h4>
               <Field
