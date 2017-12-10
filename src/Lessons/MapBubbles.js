@@ -94,6 +94,15 @@ class MapBubbles extends PureComponent {
         ]
       } else {
         // partial border styling
+        delete(circleProps.fill)
+        const variance = circleProps.height / 100
+        const offset = circleProps.height/2
+        const gradStartPt = -1 * (completionPercentage * variance - offset)
+        circleProps.fillLinearGradientStartPoint={y: gradStartPt}
+        circleProps.fillLinearGradientEndPoint={y : gradStartPt + .01}
+        circleProps.fillLinearGradientColorStops=
+        [0, styles.inactiveFillColor,
+          1, styles.activeFillColor]
       }
     }
 
