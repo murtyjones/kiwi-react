@@ -4,12 +4,18 @@
     border: 1px solid #CCC;
 }
 
+.CodeMirror-scroll {
+    border-radius: 10px 0 0 10px;
+}
+
 .CodeMirrorHalf > .CodeMirror {
     height: 300px;
     border-radius: 10px 10px 0 0;
     border: 1px solid #CCC;
 }
 
+
 .rawInput {
     color: #000000 !important;
 }
+
