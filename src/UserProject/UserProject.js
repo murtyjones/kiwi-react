@@ -100,7 +100,7 @@ class UserProject extends Component {
           <CodeEditor
             className='lessonFullSizeEditor'
             layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
-            saveHandler={ this.saveHandler.bind(this) }
+            onSave={ this.saveHandler }
             editorStyle={ codeEditorStyles }
             editorInput={ userProject.code ? userProject.code: '' }
           />

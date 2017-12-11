@@ -42,10 +42,15 @@ class FullPageCodeEditor extends Component {
     , className: T.string
     , input: T.object
     , setToViewed: T.func.isRequired
+    , handleCodeSave: T.func.isRequired
   }
 
   componentWillMount() {
     this.props.setToViewed()
+  }
+
+  handleSave = (v) => {
+    this.props.handleCodeSave(v)
   }
 
   render() {
@@ -68,6 +73,7 @@ class FullPageCodeEditor extends Component {
         editorStyle={ codeEditorStyles }
         editorInput={ input.value || slideData.editorInput }
         onChange={ input.onChange }
+        onSave={ this.handleSave }
       />
     ]
   }

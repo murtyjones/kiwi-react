@@ -111,8 +111,8 @@ class Tools extends Component {
 
   static propTypes = {
     className: T.string
-    , onSaveClick: T.func
-    , onRunClick: T.func.isRequired
+    , onSave: T.func
+    , onRun: T.func.isRequired
   }
 
   mouseAction = (newState) => {
@@ -120,12 +120,12 @@ class Tools extends Component {
   }
 
   render() {
-    const { onSaveClick, onRunClick } = this.props
+    const { onSave, onRun } = this.props
     const { isSaveLabelVisible, isRunLabelVisible } = this.state
     return (
       <div style={ styles.container }>
 
-        { onSaveClick && [
+        { onSave && [
           <div
             key='toolbarLabel'
             className='toolbarLabel'
@@ -143,11 +143,11 @@ class Tools extends Component {
             className='toolbarButton'
             onMouseEnter={ () => this.mouseAction({ isSaveLabelVisible: true }) }
             onMouseLeave={ () => this.mouseAction({ isSaveLabelVisible: false }) }
-            onClick={ onSaveClick }
+            onClick={ onSave }
           />
         ]}
 
-        { onRunClick && [
+        { onRun && [
           <div
             key='toolbarLabel'
             className='toolbarLabel'
@@ -165,7 +165,7 @@ class Tools extends Component {
             className='toolbarButton'
             onMouseEnter={ () => this.mouseAction({ isRunLabelVisible: true }) }
             onMouseLeave={ () => this.mouseAction({ isRunLabelVisible: false }) }
-            onClick={ onRunClick }
+            onClick={ onRun }
           />
         ]}
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Field, FieldArray, reduxForm, SubmissionError, change, getFormValues } from 'redux-form'
+import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
+import { connect } from 'react-redux'
 import cns from 'classnames'
 import { has } from 'lodash'
 import { isPrevDisabled, isNextDisabled } from "../utils/lessonWizardUtils"
@@ -95,6 +96,7 @@ class UserLessonWizardForm extends Component {
     onSubmit: T.func.isRequired
     , activeSlideIndex: T.number.isRequired
     , lesson: T.object.isRequired
+    , formValues: T.object.isRequired
     , goToNextSlide: T.func.isRequired
     , goToPrevSlide: T.func.isRequired
     , handleSubmit: T.func.isRequired
@@ -116,6 +118,12 @@ class UserLessonWizardForm extends Component {
     handleSubmit(params)
   }
 
+  handleCodeSave = (v) => {
+    const { onSubmit, activeSlideIndex, lesson, formValues } = this.props
+    console.log(formValues)
+    onSubmit(formValues)
+  }
+
   renderSlide = ({ fields }) => {
     // this function should be kept outside the render method! otherwise child components will remount!!!
     const { activeSlideIndex, lesson } = this.props
@@ -128,6 +136,7 @@ class UserLessonWizardForm extends Component {
           key={ `${name}.answer` }
           name={ `${name}.answer` }
           component={ ActiveSlideComponent }
+          handleCodeSave={ this.handleCodeSave }
           className={ 'lessonWizardFormContent' }
           slideData={ activeSlideObject }
           setToViewed={ () => this.setToViewed(name) }
@@ -192,6 +201,15 @@ class UserLessonWizardForm extends Component {
   }
 }
 
+
+
+
+
+UserLessonWizardForm = connect(
+  state => ({
+    formValues: getFormValues(formName)(state)
+  })
+)(UserLessonWizardForm)
 
 export default reduxForm({
   form: formName

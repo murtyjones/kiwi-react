@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { GridList, GridTile } from 'material-ui'
-import CodeMirror from 'react-codemirror'
+//import CodeMirror from 'react-codemirror'
+import { UnControlled as CodeMirror } from 'react-codemirror2'
 import skulpt from 'skulpt'
 import EditorOutput from './EditorOutput'
 import Tools from './Tools'
 
 import { LESSON_SLIDE_TYPES } from '../constants'
+
 
 require('./editorOverrides.css')
 
@@ -50,24 +52,32 @@ class CodeEditor extends Component {
     , options: T.object
     , layoutType: T.string.isRequired
     , className: T.string
-    , saveHandler: T.func
+    , onSave: T.func
     , onChange: T.func
   }
 
   componentDidMount() {
-    const cmInstance = this.codeMirror.getCodeMirror()
-    cmInstance.focus()
-    cmInstance.setCursor(cmInstance.lineCount(), 0)
+    // const cmInstance = this.codeMirror.getCodeMirror()
+    // cmInstance.focus()
+    // cmInstance.setCursor(cmInstance.lineCount(), 0)
   }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.editorInput !== nextProps.editorInput) {
+      console.log(nextProps.editorInput)
+      this.updateInput(nextProps.editorInput)
+    }
+  }
+
 
   getChildRef = (input) => {
     this.inputText = input
   }
 
-  updateInput = (newCode) => {
+  updateInput = (editor, data, value) => {
     const { onChange } = this.props
-    this.setState({ editorInput: newCode })
-    if(onChange) onChange(newCode)
+    this.setState({ editorInput: value })
+    if(onChange) onChange(value)
   }
 
   addToOutput = (text) => {
@@ -140,24 +150,27 @@ class CodeEditor extends Component {
     })
   }
 
-  saveCode = () => {
-    this.props.saveHandler(this.state.editorInput)
+  handleSave = () => {
+    this.props.onSave(this.state.editorInput)
   }
 
   render() {
-    const { className, options, editorStyle, saveHandler, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
-    const { editorInput, editorOutput, errorMsg, prompt, rawInputValue } = this.state
+    const { className, editorInput, options, editorStyle, onSave, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
+    const { editorOutput, errorMsg, prompt, rawInputValue } = this.state
 
     return (
       <div className={ className }>
         <div style={ editorStyle.editorContainerStyle }>
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
-              ref={ (c) => { this.codeMirror = c } }
               className={ layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
               style={ styles.editor }
               value={ editorInput }
-              onChange={ this.updateInput }
+              //onChange={ this.updateInput }
+              //onBeforeChange={ this.updateInput }
+              onChange={(editor, data, value) => {
+                this.setState({ editorInput: value })
+              }}
               options={ options || defaultOptions }
             />
           </div>
@@ -173,8 +186,8 @@ class CodeEditor extends Component {
           </div>
         </div>
         <Tools
-          onSaveClick={ saveHandler ? this.saveCode : null }
-          onRunClick={ this.runCode }
+          onSave={ onSave ? this.handleSave : null }
+          onRun={ this.runCode }
         />
       </div>
     )

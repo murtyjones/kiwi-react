@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { withRouter, Redirect, Route } from 'react-router-dom'
 import { get, find, isEqual, isEmpty, has, cloneDeep } from 'lodash'
 import { connect } from 'react-redux'
-import { SubmissionError } from 'redux-form'
+import { getFormValues } from 'redux-form'
 
 import { postUserLesson, putUserLesson, getManyUserLessons, getLesson } from '../actions'
 import UserLessonWizardForm from './UserLessonWizardForm'
@@ -30,6 +30,7 @@ class UserLessonWizard extends Component {
     , userId: T.string.isRequired
     , userLesson: T.object.isRequired
     , initialValues: T.object
+    , formValues: T.object
   }
 
   componentWillMount() {
@@ -52,9 +53,12 @@ class UserLessonWizard extends Component {
   handleSubmit = (params) => {
     const { postUserLesson, putUserLesson } = this.props
     const _id = get(params ,'_id')
+      , id = get(params, 'id')
     if(_id) {
       delete params._id
       params.id = _id
+      return putUserLesson(params)
+    } else if (id) {
       return putUserLesson(params)
     }
     return postUserLesson(params)
@@ -69,7 +73,7 @@ class UserLessonWizard extends Component {
   }
 
   render() {
-    const { lesson, userLesson, initialValues } = this.props
+    const { lesson, userLesson, initialValues, formValues } = this.props
     const { activeSlideIndex, needsLesson } = this.state
 
 
@@ -79,6 +83,7 @@ class UserLessonWizard extends Component {
           onSubmit={ this.handleSubmit }
           lesson={ lesson }
           initialValues={ initialValues }
+          formValues={ formValues }
           activeSlideIndex={ activeSlideIndex }
           goToNextSlide={ this.goToNextSlide }
           goToPrevSlide={ this.goToPrevSlide }
@@ -99,6 +104,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
+  const formValues = getFormValues('userLesson')(state)
 
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
@@ -119,6 +125,7 @@ const mapStateToProps = (state, ownProps) => {
     , userLesson
     , userId
     , initialValues
+    , formValues
   }
 }
 

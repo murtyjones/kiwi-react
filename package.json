@@ -53,6 +53,7 @@
     "prop-types": "^15.6.0",
     "react": "^16.1.1",
     "react-codemirror": "^1.0.0",
+    "react-codemirror2": "^3.0.7",
     "react-dom": "^16.1.1",
     "react-grid-system": "^2.9.6",
     "react-helmet": "^5.1.3",
