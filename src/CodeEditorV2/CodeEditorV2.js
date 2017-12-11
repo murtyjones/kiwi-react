@@ -74,7 +74,7 @@ class CodeEditor extends Component {
     this.inputText = input
   }
 
-  updateInput = (editor, data, value) => {
+  updateInput = (value) => {
     const { onChange } = this.props
     this.setState({ editorInput: value })
     if(onChange) onChange(value)
@@ -166,11 +166,9 @@ class CodeEditor extends Component {
               className={ layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
               style={ styles.editor }
               value={ editorInput }
-              //onChange={ this.updateInput }
-              //onBeforeChange={ this.updateInput }
-              onChange={(editor, data, value) => {
-                this.setState({ editorInput: value })
-              }}
+              onChange={ (editor, data, value) => {
+                this.updateInput(value)
+              } }
               options={ options || defaultOptions }
             />
           </div>
