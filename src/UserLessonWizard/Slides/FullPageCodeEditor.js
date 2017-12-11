@@ -45,8 +45,10 @@ class FullPageCodeEditor extends Component {
     , handleCodeSave: T.func.isRequired
   }
 
-  componentWillMount() {
-    this.props.setToViewed()
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.input.isViewed) {
+      this.props.setToViewed()
+    }
   }
 
   handleSave = (v) => {

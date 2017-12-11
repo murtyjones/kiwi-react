@@ -30,7 +30,7 @@ class UserLessonWizard extends Component {
     , userId: T.string.isRequired
     , userLesson: T.object.isRequired
     , initialValues: T.object
-    , formValues: T.object
+    , currentValues: T.object
   }
 
   componentWillMount() {
@@ -51,7 +51,8 @@ class UserLessonWizard extends Component {
   }
 
   handleSubmit = (params) => {
-    const { postUserLesson, putUserLesson } = this.props
+    const { postUserLesson, putUserLesson, userLesson } = this.props
+    console.log(params)
     const _id = get(params ,'_id')
       , id = get(params, 'id')
     if(_id) {
@@ -72,8 +73,12 @@ class UserLessonWizard extends Component {
     this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
   }
 
+  handleFinalSlideNextClick = () => {
+
+  }
+
   render() {
-    const { lesson, userLesson, initialValues, formValues } = this.props
+    const { lesson, userLesson, initialValues, currentValues } = this.props
     const { activeSlideIndex, needsLesson } = this.state
 
 
@@ -83,10 +88,11 @@ class UserLessonWizard extends Component {
           onSubmit={ this.handleSubmit }
           lesson={ lesson }
           initialValues={ initialValues }
-          formValues={ formValues }
+          currentValues={ currentValues }
           activeSlideIndex={ activeSlideIndex }
           goToNextSlide={ this.goToNextSlide }
           goToPrevSlide={ this.goToPrevSlide }
+          onFinalSlideNextClick={ this.handleFinalSlideNextClick }
         />
       )
       : 'loading'
@@ -104,7 +110,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
-  const formValues = getFormValues('userLesson')(state)
+  const currentValues = getFormValues('userLesson')(state)
 
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
@@ -125,7 +131,7 @@ const mapStateToProps = (state, ownProps) => {
     , userLesson
     , userId
     , initialValues
-    , formValues
+    , currentValues
   }
 }
 

@@ -6,7 +6,7 @@ import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { has } from 'lodash'
-import { isPrevDisabled, isNextDisabled } from "../utils/lessonWizardUtils"
+import { isPrevDisabled, isNextDisabled, isFinalSlide } from "../utils/lessonWizardUtils"
 import { LESSON_SLIDE_TYPES } from '../constants'
 
 // import slides
@@ -101,9 +101,12 @@ class UserLessonWizardForm extends Component {
     , goToPrevSlide: T.func.isRequired
     , handleSubmit: T.func.isRequired
     , dispatch: T.func.isRequired
+    , onFinalSlideNextClick: T.func.isRequired
+    , currentValues: T.object.isRequired
   }
 
   setToViewed = (ref) => {
+    console.log(`${ref}.isViewed`)
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
   }
 
@@ -113,15 +116,20 @@ class UserLessonWizardForm extends Component {
   }
 
   onNext = (params) => {
-    const { goToNextSlide, handleSubmit } = this.props
+    const { goToNextSlide, handleSubmit, currentValues } = this.props
     goToNextSlide()
-    handleSubmit(params)
+    onSubmit(currentValues)
+  }
+
+  onFinalNext = (params) => {
+    const { onFinalSlideNextClick, handleSubmit, currentValues, onSubmit } = this.props
+    onSubmit(currentValues)
+    onFinalSlideNextClick(params)
   }
 
   handleCodeSave = (v) => {
-    const { onSubmit, activeSlideIndex, lesson, formValues } = this.props
-    console.log(formValues)
-    onSubmit(formValues)
+    const { onSubmit, activeSlideIndex, lesson, currentValues } = this.props
+    onSubmit(currentValues)
   }
 
   renderSlide = ({ fields }) => {
@@ -151,7 +159,7 @@ class UserLessonWizardForm extends Component {
     const prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
       , onPrevClick = !prevDisabled ? this.onPrev : null
-      , onNextClick = !nextDisabled ? this.onNext : null
+      , onNextClick = !nextDisabled ? isFinalSlide ? this.onFinalNext : this.onNext : null
 
     return [
       <form

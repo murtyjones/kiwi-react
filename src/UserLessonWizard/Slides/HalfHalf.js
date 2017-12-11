@@ -52,8 +52,10 @@ class HalfHalf extends Component {
     , setToViewed: T.func.isRequired
   }
 
-  componentWillMount() {
-    this.props.setToViewed()
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.input.isViewed) {
+      this.props.setToViewed()
+    }
   }
 
   render() {
