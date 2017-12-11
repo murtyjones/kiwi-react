@@ -105,12 +105,7 @@ class UserLessonWizardForm extends Component {
     , currentValues: T.object.isRequired
   }
 
-  shouldComponentUpdate() {
-    console.log('here')
-  }
-
   setToViewed = (ref) => {
-    console.log(`${ref}.isViewed`)
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
   }
 
@@ -126,9 +121,9 @@ class UserLessonWizardForm extends Component {
   }
 
   onFinalNext = (params) => {
-    console.log('onFinalNext')
     const { onFinalSlideNextClick, currentValues, onSubmit } = this.props
     onSubmit(currentValues)
+    onFinalSlideNextClick()
   }
 
   handleCodeSave = (v) => {

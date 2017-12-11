@@ -73,7 +73,7 @@ class UserLessonWizard extends Component {
   }
 
   handleFinalSlideNextClick = () => {
-
+    console.log('done')
   }
 
   render() {
@@ -109,7 +109,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
-  const currentValues = getFormValues('userLesson')(state)
+  const currentValues = getFormValues('userLesson')(state) || {}
 
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
