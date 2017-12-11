@@ -6,13 +6,14 @@ import Reorder from 'material-ui-icons/Reorder'
 const styles = {
   reorder: {
     cursor: 'row-resize'
+    , float: 'left'
+    , color: '#CCCCCC'
     , marginTop: '25px'
-    , marginLeft: '15px'
+    , marginLeft: '20px'
     , display: 'inline-block'
   },
   card: {
-    width: '100px'
-    , display: 'inline-block'
+    display: 'inline-block'
   }
 }
 
