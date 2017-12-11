@@ -116,19 +116,19 @@ class UserLessonWizardForm extends Component {
   }
 
   onNext = (params) => {
-    const { goToNextSlide, handleSubmit, currentValues } = this.props
+    const { goToNextSlide, onSubmit, currentValues } = this.props
     goToNextSlide()
     onSubmit(currentValues)
   }
 
   onFinalNext = (params) => {
-    const { onFinalSlideNextClick, handleSubmit, currentValues, onSubmit } = this.props
+    const { onFinalSlideNextClick, currentValues, onSubmit } = this.props
     onSubmit(currentValues)
     onFinalSlideNextClick(params)
   }
 
   handleCodeSave = (v) => {
-    const { onSubmit, activeSlideIndex, lesson, currentValues } = this.props
+    const { onSubmit, currentValues } = this.props
     onSubmit(currentValues)
   }
 
