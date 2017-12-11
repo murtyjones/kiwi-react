@@ -52,7 +52,6 @@ class UserLessonWizard extends Component {
 
   handleSubmit = (params) => {
     const { postUserLesson, putUserLesson, userLesson } = this.props
-    console.log(params)
     const _id = get(params ,'_id')
       , id = get(params, 'id')
     if(_id) {
