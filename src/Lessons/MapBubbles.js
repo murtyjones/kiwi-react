@@ -5,6 +5,18 @@ import { has, get, find, findIndex, cloneDeep, isEmpty } from 'lodash'
 
 import { LESSON_MAP_POINTS, SVG_PATHS } from '../constants'
 
+const scaleUp = { // for some reason, these must be destructed using '...' when passing to .to()
+  scaleX: 1.3
+  , scaleY: 1.3
+  , duration: 0.2
+}
+
+const scaleDown = { // for some reason, these must be destructed using '...' when passing to .to()
+  scaleX: 1
+  , scaleY: 1
+  , duration: 0.2
+}
+
 const colors = {
   activeStrokeColor: '#696969'
   , activeFillColor: '#FFFFFF'
@@ -45,10 +57,6 @@ const shapeProps = {
     , offsetY: 33
     , fill: colors.checkMarkColor
     , data: SVG_PATHS.CHECKMARK
-    , scale: {
-      x : 1.1,
-      y : 1.1
-    }
   }
 }
 
@@ -82,7 +90,7 @@ class MapBubbles extends PureComponent {
   }
 
   static propTypes = {
-    handleClick: T.func.isRequired
+    onLessonSelect: T.func.isRequired
     , handleMouseOver: T.func.isRequired
     , handleMouseOut: T.func.isRequired
     , mapLessons: T.array.isRequired
@@ -114,51 +122,34 @@ class MapBubbles extends PureComponent {
     }
   }
 
-  scaleDownBubble = (bubbleRef, bubbleTextRef) => {
-    this.refs[bubbleRef].to({
-      scaleX: 1
-      , scaleY: 1
-      , duration: .2
-    })
-    this.refs[bubbleTextRef].to({
-      scaleX: 1
-      , scaleY: 1
-      , offsetX: shapeProps.defaultBubbleTextStyle.offsetX
-      , offsetY: shapeProps.defaultBubbleTextStyle.offsetY
-      , duration: .2
-    })
+  scaleDownBubble = (bubbleRef, bubbleTextRef, checkmarkBubbleRef, checkmarkeRef) => {
+    this.refs[bubbleRef].to({...scaleDown})
+    this.refs[bubbleTextRef].to({...scaleDown})
+    this.refs[checkmarkBubbleRef].to({...scaleDown})
+    this.refs[checkmarkeRef].to({...scaleDown})
   }
 
-  scaleUpBubble = (bubbleRef, bubbleTextRef) => {
-    this.refs[bubbleRef].to({
-      scaleX: 1.3
-      , scaleY: 1.3
-      , duration: .2
-    })
-    this.refs[bubbleTextRef].to({
-      scaleX: 1.3
-      , scaleY: 1.3
-      , offsetX: shapeProps.selectedBubbleTextStyle.offsetX
-      , offsetY: shapeProps.selectedBubbleTextStyle.offsetY
-      , duration: .2
-    })
+  scaleUpBubble = (bubbleRef, bubbleTextRef, checkmarkBubbleRef, checkmarkeRef) => {
+    this.refs[bubbleRef].to({...scaleUp})
+    this.refs[bubbleTextRef].to({...scaleUp})
+    this.refs[checkmarkBubbleRef].to({...scaleUp})
+    this.refs[checkmarkeRef].to({...scaleUp})
   }
 
   handleLessonBubbleClick = (e, lessonId, order) => {
-    const { bubbleStyles, bubbleTextStyles, selectedBubbleRef, selectedBubbleTextRef } = this.state
-    const { handleClick } = this.props
-    handleClick(e, lessonId)
-    const bubbleRef = `circle-${order}`
-      ,   textRef = `text-${order}`
-      ,   checkmarkBubbleRef = `text-${order}`
-      ,   checkmarkeRef = `text-${order}`
+    const { bubbleStyles, bubbleTextStyles, selectedBubbleRef, selectedBubbleTextRef, selectedCheckmarkBubbleRef, selectedCheckmarkRef } = this.state
+      , bubbleRef = `circle-${order}`
+      , bubbleTextRef = `text-${order}`
+      , checkmarkBubbleRef = `checkMark-bubble-${order}`
+      , checkmarkeRef = `checkMark-${order}`
+      , newBubbleStyles =  cloneDeep(bubbleStyles)
+      , newBubbleTextStyles = cloneDeep(bubbleTextStyles)
+    
+    this.props.onLessonSelect(e, lessonId)
 
     if(selectedBubbleRef && selectedBubbleTextRef) {
-      this.scaleDownBubble(selectedBubbleRef, selectedBubbleTextRef)
+      this.scaleDownBubble(selectedBubbleRef, selectedBubbleTextRef, selectedCheckmarkBubbleRef, selectedCheckmarkRef)
     }
-
-    const newBubbleStyles =  cloneDeep(bubbleStyles)
-      , newBubbleTextStyles = cloneDeep(bubbleTextStyles)
 
     this.setState({
       bubbleStyles: newBubbleStyles.map((_, i) => {
@@ -168,10 +159,12 @@ class MapBubbles extends PureComponent {
         return (i === order - 1) ? shapeProps.selectedBubbleTextStyle : shapeProps.defaultBubbleTextStyle
       })
       , selectedBubbleRef: bubbleRef
-      , selectedBubbleTextRef: textRef
+      , selectedBubbleTextRef: bubbleTextRef
+      , selectedCheckmarkBubbleRef: checkmarkBubbleRef
+      , selectedCheckmarkRef: checkmarkeRef
     })
 
-    this.scaleUpBubble(bubbleRef, textRef)
+    this.scaleUpBubble(bubbleRef, bubbleTextRef, checkmarkBubbleRef, checkmarkeRef)
   }
 
   renderLessonBubble = (lesson, order, isSelected) => {

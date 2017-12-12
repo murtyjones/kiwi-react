@@ -48,7 +48,7 @@ class LessonMap extends Component {
     })
   }
 
-  handleClick = (e, selectedLessonId) => {
+  handleLessonSelect = (e, selectedLessonId) => {
     this.props.setSelectedLessonId(selectedLessonId)
   }
 
@@ -77,7 +77,7 @@ class LessonMap extends Component {
               selectedLessonId={ selectedLessonId }
               selectedLessonPosition={ selectedLessonPosition }
               width={ width }
-              handleClick={ this.handleClick }
+              onLessonSelect={ this.handleLessonSelect }
               handleMouseOver={ this.handleMouseOver }
               handleMouseOut={ this.handleMouseOut }
             />
