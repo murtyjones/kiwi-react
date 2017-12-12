@@ -115,6 +115,7 @@ class UserLessonWizardForm extends Component {
   }
 
   onNext = (params) => {
+    console.log('hm1')
     const { goToNextSlide, onSubmit, currentValues } = this.props
     goToNextSlide()
     onSubmit(currentValues)
@@ -122,6 +123,7 @@ class UserLessonWizardForm extends Component {
 
   onFinalNext = (params) => {
     const { onFinalSlideNextClick, currentValues, onSubmit } = this.props
+    console.log('hm2')
     onSubmit(currentValues)
     onFinalSlideNextClick()
   }
@@ -157,8 +159,9 @@ class UserLessonWizardForm extends Component {
 
     const prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
+      , isFinal = isFinalSlide(activeSlideIndex, lesson)
       , onPrevClick = !prevDisabled ? this.onPrev : null
-      , onNextClick = !nextDisabled ? isFinalSlide ? this.onFinalNext : this.onNext : null
+      , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
 
     return [
       <form
