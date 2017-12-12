@@ -48,7 +48,6 @@ class TopBar extends Component {
       <AppBar
         style={ { ...styles.menu, left: this.props.sideNavWidth } }
         iconElementLeft={ <Menu onClick={ this.props.toggleSideNav } style={ styles.leftIcon } /> }
-        onLeftIconButtonTouchTap={ this.props.toggleSideNav }
         title={ '' }
         titleStyle={ styles.title }
       />
