@@ -47,8 +47,8 @@ const shapeProps = {
   checkMarkBubbleStyle: {
     offsetX: -20
     , offsetY: 20
-    , width: 20
-    , height: 20
+    , width: 17
+    , height: 17
     , fill: colors.checkMarkCircleColor
 
   },
@@ -144,7 +144,7 @@ class MapBubbles extends PureComponent {
       , checkmarkeRef = `checkMark-${order}`
       , newBubbleStyles =  cloneDeep(bubbleStyles)
       , newBubbleTextStyles = cloneDeep(bubbleTextStyles)
-    
+
     this.props.onLessonSelect(e, lessonId)
 
     if(selectedBubbleRef && selectedBubbleTextRef) {
