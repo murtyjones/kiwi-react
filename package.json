@@ -24,7 +24,10 @@
     "url": "https://github.com/murtyjones/kiwi-react/issues"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "./test/setup.js",
+    "setupFiles": [
+      "./test/setup.js",
+      "jest-localstorage-mock"
+    ],
     "globals": {
       "__DEV__": true,
       "window": true
@@ -110,6 +113,7 @@
     "isparta": "^4.0.0",
     "jest": "^21.2.1",
     "jest-cli": "^21.1.0",
+    "jest-localstorage-mock": "^2.1.0",
     "jsdom": "^11.5.1",
     "mocha": "^4.0.1",
     "mocha-each": "^1.1.0",
@@ -117,7 +121,9 @@
     "postcss-reporter": "^5.0.0",
     "proxyquire": "^1.8.0",
     "react-hot-loader": "3.1.3",
+    "react-router-redux": "^4.0.8",
     "redux-mock-store": "^1.3.0",
+    "redux-router": "^2.1.2",
     "run-sequence": "^2.1.0",
     "style-loader": "^0.19.0",
     "uglifyjs-webpack-plugin": "^1.1.2",

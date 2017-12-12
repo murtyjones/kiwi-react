@@ -16,9 +16,7 @@ import renderIf from 'render-if'
 class LoginOrRegister extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      switchText: ''
-    }
+    this.state = {}
   }
 
   static propTypes = {
@@ -30,14 +28,13 @@ class LoginOrRegister extends Component {
     , openSideNav: T.func
     , openTopBar: T.func
     , closeTopBar: T.func
+    , history: T.any
+    , location: T.any
   }
 
   componentWillMount() {
     this.props.closeSideNav()
     this.props.closeTopBar()
-    const { match } = this.props
-    const switchText = match.path === '/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
-    this.setState({ switchText })
   }
 
   componentWillReceiveProps() {
@@ -101,14 +98,15 @@ class LoginOrRegister extends Component {
   }
 
   switchTabs = () => {
-    const { match } = this.props
-    const to = match.path === '/login' ? '/register' : '/login'
-    this.props.history.push(to)
+    const { location, history } = this.props
+    const to = location.pathname === '/login' ? '/register' : '/login'
+    history.push(to)
   }
 
   render() {
-    const { isLoggedIn, match } = this.props
-    const { switchText } = this.state
+    const { location } = this.props
+    const currentPath = location.pathname
+    const switchText = currentPath === '/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
 
     const availableRoutes = [
       {
@@ -120,8 +118,7 @@ class LoginOrRegister extends Component {
         component: this.renderRegisterForm
       }
     ]
-
-    const currentRoute = find(availableRoutes, { path: match.path })
+    const currentRoute = find(availableRoutes, { path: currentPath })
 
     const ComponentToRender = () => { return currentRoute.component() }
 

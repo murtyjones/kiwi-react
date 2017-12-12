@@ -12,7 +12,7 @@ import sideNav from './SideNav'
 import topBar from './TopBar'
 
 // Export combined reducers
-export default combineReducers({
+export const notCombined = {
   form: formReducer
   , home
   , auth
@@ -22,4 +22,6 @@ export default combineReducers({
   , sideNav
   , topBar
   , lessonMetadata
-})
+}
+
+export default combineReducers(notCombined)
