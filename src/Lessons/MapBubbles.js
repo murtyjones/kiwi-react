@@ -76,6 +76,8 @@ class MapBubbles extends PureComponent {
       , bubbleTextStyles: props.mapLessons.map((_, i) => shapeProps.defaultBubbleTextStyle)
       , selectedBubbleRef: ''
       , selectedBubbleTextRef: ''
+      , selectedCheckmarkBubbleRef: ''
+      , selectedCheckmarkRef: ''
     }
   }
 
@@ -127,21 +129,19 @@ class MapBubbles extends PureComponent {
     })
   }
 
-  delayedScaleUpBubble = (bubbleRef, bubbleTextRef) => {
-    setTimeout(() => {
-      this.refs[bubbleRef].to({
-        scaleX: 1.3
-        , scaleY: 1.3
-        , duration: .2
-      })
-      this.refs[bubbleTextRef].to({
-        scaleX: 1.3
-        , scaleY: 1.3
-        , offsetX: shapeProps.selectedBubbleTextStyle.offsetX
-        , offsetY: shapeProps.selectedBubbleTextStyle.offsetY
-        , duration: .2
-      })
-    }, 100)
+  scaleUpBubble = (bubbleRef, bubbleTextRef) => {
+    this.refs[bubbleRef].to({
+      scaleX: 1.3
+      , scaleY: 1.3
+      , duration: .2
+    })
+    this.refs[bubbleTextRef].to({
+      scaleX: 1.3
+      , scaleY: 1.3
+      , offsetX: shapeProps.selectedBubbleTextStyle.offsetX
+      , offsetY: shapeProps.selectedBubbleTextStyle.offsetY
+      , duration: .2
+    })
   }
 
   handleLessonBubbleClick = (e, lessonId, order) => {
@@ -150,6 +150,8 @@ class MapBubbles extends PureComponent {
     handleClick(e, lessonId)
     const bubbleRef = `circle-${order}`
       ,   textRef = `text-${order}`
+      ,   checkmarkBubbleRef = `text-${order}`
+      ,   checkmarkeRef = `text-${order}`
 
     if(selectedBubbleRef && selectedBubbleTextRef) {
       this.scaleDownBubble(selectedBubbleRef, selectedBubbleTextRef)
@@ -169,7 +171,7 @@ class MapBubbles extends PureComponent {
       , selectedBubbleTextRef: textRef
     })
 
-    this.delayedScaleUpBubble(bubbleRef, textRef)
+    this.scaleUpBubble(bubbleRef, textRef)
   }
 
   renderLessonBubble = (lesson, order, isSelected) => {
@@ -181,7 +183,8 @@ class MapBubbles extends PureComponent {
       , hasBeenStartedByStudent = has(lesson, 'userLesson')
       , bubbleKeyAndRef = `circle-${order}`
       , bubbleTextKeyAndRef = `text-${order}`
-      , checkmarkKeyAndRef = `checkMark-circle-${order}`
+      , checkmarkBubbleKeyAndRef = `checkMark-bubble-${order}`
+      , checkmarkKeyAndRef = `checkMark-${order}`
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
 
@@ -195,17 +198,17 @@ class MapBubbles extends PureComponent {
       const completionPercentage = 75  // mock 75% for now - will ultimately end up being this:  get(lesson, 'userLesson.completionPercentage', 0)
 
       if(completionPercentage === 100) {
+
       } else {
         // partial border styling
-        delete(bubbleStyle.fill)
-        const variance = bubbleStyle.height / 100
-        const offset = bubbleStyle.height/2
-        const gradStartPt = -1 * (completionPercentage * variance - offset)
-        bubbleStyle.fillLinearGradientStartPoint={y: gradStartPt}
-        bubbleStyle.fillLinearGradientEndPoint={y : gradStartPt + .01}
-        bubbleStyle.fillLinearGradientColorStops=
-        [0, colors.inactiveFillColor,
-          1, colors.activeFillColor]
+        // delete(bubbleStyle.fill)
+        // const variance = bubbleStyle.height / 100
+        // const offset = bubbleStyle.height/2
+        // const gradStartPt = -1 * (completionPercentage * variance - offset)
+        // bubbleStyle.fillLinearGradientStartPoint={y: gradStartPt}
+        // bubbleStyle.fillLinearGradientEndPoint={y : gradStartPt + .01}
+        // bubbleStyle.fillLinearGradientColorStops=
+        // [0, colors.inactiveFillColor, 1, colors.activeFillColor]
       }
     }
 
@@ -215,11 +218,11 @@ class MapBubbles extends PureComponent {
         ref={ bubbleKeyAndRef }
         x={ x }
         y={ y }
-
+        { ...clickProps }
         { ...bubbleStyle }
       />
       ,
-      <Text
+      <Text // Lesson Bubble Text
         key={ bubbleTextKeyAndRef }
         ref={ bubbleTextKeyAndRef }
         x={ x }
@@ -229,18 +232,20 @@ class MapBubbles extends PureComponent {
         { ...bubbleTextStyle }
       />
       ,
-      <Circle
-        key={ checkmarkKeyAndRef }
-        ref={ checkmarkKeyAndRef }
-        x={ mapDimensions[`CIRCLE_${order}_X`] }
-        y={ mapDimensions[`CIRCLE_${order}_Y`] }
+      <Circle // Checkmark Bubble
+        key={ checkmarkBubbleKeyAndRef }
+        ref={ checkmarkBubbleKeyAndRef }
+        x={ x }
+        y={ y }
         { ...clickProps }
         { ...shapeProps.checkMarkBubbleStyle }
       />
       ,
-      <Path
-        x={ mapDimensions[`CIRCLE_${order}_X`] }
-        y={ mapDimensions[`CIRCLE_${order}_Y`] }
+      <Path // Checkmark Bubble Text
+        key={ checkmarkKeyAndRef }
+        ref={ checkmarkKeyAndRef }
+        x={ x }
+        y={ y }
         { ...clickProps }
         { ...shapeProps.checkMarkStyle }
       />
