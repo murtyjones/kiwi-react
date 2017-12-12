@@ -37,6 +37,7 @@ class Lessons extends Component {
       , minWidth: _minWidth
       , selectedLessonId: null
       , selectedLessonPosition: null
+      , userLessonJustCompletedId: get(props, 'location.state.userLessonJustCompletedId', '')
     }
   }
 
@@ -49,6 +50,7 @@ class Lessons extends Component {
     , orderOfPublishedLessons: T.array
     , sideNavWidth: T.number.isRequired
     , userId: T.string.isRequired
+    , history: T.object.isRequired
   }
 
   componentWillMount() {
@@ -96,7 +98,7 @@ class Lessons extends Component {
 
 
   render() {
-    const { width, scaleX, scaleY, selectedLessonId } = this.state
+    const { width, scaleX, scaleY, selectedLessonId, userLessonJustCompletedId } = this.state
     const { userLessons, lessons, orderOfPublishedLessons } = this.props
     const selectedLessonPosition = selectedLessonId
       ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
@@ -105,9 +107,10 @@ class Lessons extends Component {
     const mapLessons = orderOfPublishedLessons.map(lessonId => {
       const lesson = find(lessons, { _id: lessonId })
         , userLesson = find(userLessons, { lessonId })
-      if(lesson && userLesson) {
-        lesson.userLesson = userLesson
-      }
+
+      if(!lesson) return {}
+      if(userLesson) lesson.userLesson = userLesson
+      if(userLesson && userLessonJustCompletedId === userLesson._id) lesson.justCompleted = true
       return lesson
     })
 

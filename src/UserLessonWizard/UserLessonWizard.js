@@ -31,6 +31,7 @@ class UserLessonWizard extends Component {
     , userLesson: T.object.isRequired
     , initialValues: T.object
     , currentValues: T.object
+    , history: T.any.isRequired
   }
 
   componentWillMount() {
@@ -73,7 +74,12 @@ class UserLessonWizard extends Component {
   }
 
   handleFinalSlideNextClick = () => {
-    return <Route push to='/lessons' />
+    return this.props.history.push({
+      pathname: '/lessons'
+      , state: {
+        userLessonJustCompletedId: this.props.userLesson._id
+      }
+    })
   }
 
   render() {

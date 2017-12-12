@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
+import * as T from 'prop-types'
 import { Circle, Text, Path } from 'react-konva'
-import { has, get } from 'lodash'
+import { has, get, find, findIndex, cloneDeep, isEmpty } from 'lodash'
 
 import { LESSON_MAP_POINTS } from '../constants'
 
@@ -12,6 +13,29 @@ const styles = {
   , inactiveTextColor: '#808080'
   , checkMarkCircleColor: '#808080'
   , checkMarkColor: 'white'
+}
+
+const defaultBubbleStyle = {
+  fill: styles.inactiveFillColor
+  , width: 50
+  , height: 50
+}
+
+const selectedBubbleStyle = {
+  ...defaultBubbleStyle
+  , fill: styles.activeFillColor
+}
+
+const defaultBubbleTextStyle = {
+  textFill: styles.inactiveTextColor
+  , fontSize: 28
+  , offsetX: 18
+  , offsetY: 13
+}
+
+const selectedBubbleTextStyle = {
+  ...defaultBubbleTextStyle
+  , textFill: styles.activeTextColor
 }
 
 const checkMarkSVGData = 'M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z' // copied from material ui
@@ -30,17 +54,116 @@ class MapBubbles extends PureComponent {
     super(props)
     this.state = {
       mapDimensions: LESSON_MAP_POINTS(props.width)
+      , bubbleStyles: props.mapLessons.map((_, i) => defaultBubbleStyle)
+      , bubbleTextStyles: props.mapLessons.map((_, i) => defaultBubbleTextStyle)
+      , selectedBubbleRef: ''
+      , selectedBubbleTextRef: ''
     }
   }
 
-  renderCircleAndText = (lesson, index, isSelected) => {
-    const { handleClick, handleMouseOver, handleMouseOut } = this.props
-    const { mapDimensions } = this.state
+  static propTypes = {
+    handleClick: T.func.isRequired
+    , handleMouseOver: T.func.isRequired
+    , handleMouseOut: T.func.isRequired
+    , mapLessons: T.array.isRequired
+  }
 
-    const hasBeenStartedByStudent = has(lesson, 'userLesson')
+  componentDidMount() {
+    const { mapLessons } = this.props
+    mapLessons.forEach((each, index) => {
+      const order = index + 1
+      if(each.justCompleted) {
+        setTimeout(() => {
+          this.refs[`circle-${order}`].to({
+            scaleX: 1.2,
+            scaleY: 1.2,
+            duration: 0.5
+          })
+        }, 500)
+
+      }
+    })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(isEmpty(this.props.mapLessons) && !isEmpty(nextProps.mapLessons)) {
+      this.setState({
+        bubbleStyles: nextProps.mapLessons.map((_, i) => defaultBubbleStyle)
+        , bubbleTextStyles: nextProps.mapLessons.map((_, i) => defaultBubbleTextStyle)
+      })
+    }
+  }
+
+  scaleDownBubble = (bubbleRef, bubbleTextRef) => {
+    this.refs[bubbleRef].to({
+      scaleX: 1
+      , scaleY: 1
+      , duration: .2
+    })
+    this.refs[bubbleTextRef].to({
+      scaleX: 1
+      , scaleY: 1
+      , offsetX: defaultBubbleTextStyle.offsetX
+      , offsetY: defaultBubbleTextStyle.offsetY
+      , duration: .2
+    })
+  }
+
+  delayedScaleUpBubble = (bubbleRef, bubbleTextRef) => {
+    setTimeout(() => {
+      this.refs[bubbleRef].to({
+        scaleX: 1.3
+        , scaleY: 1.3
+        , duration: .2
+      })
+      this.refs[bubbleTextRef].to({
+        scaleX: 1.3
+        , scaleY: 1.3
+        , offsetX: selectedBubbleTextStyle.offsetX
+        , offsetY: selectedBubbleTextStyle.offsetY
+        , duration: .2
+      })
+    }, 100)
+  }
+
+  handleLessonBubbleClick = (e, lessonId, order) => {
+    const { bubbleStyles, bubbleTextStyles, selectedBubbleRef, selectedBubbleTextRef } = this.state
+    const { handleClick } = this.props
+    handleClick(e, lessonId)
+    const bubbleRef = `circle-${order}`
+      ,   textRef = `text-${order}`
+
+    if(selectedBubbleRef && selectedBubbleTextRef) {
+      this.scaleDownBubble(selectedBubbleRef, selectedBubbleTextRef)
+    }
+
+    const newBubbleStyles =  cloneDeep(bubbleStyles)
+      , newBubbleTextStyles = cloneDeep(bubbleTextStyles)
+
+    this.setState({
+      bubbleStyles: newBubbleStyles.map((_, i) => {
+        return (i === order - 1) ? selectedBubbleStyle : defaultBubbleStyle
+      })
+      , bubbleTextStyles: newBubbleTextStyles.map((_, i) => {
+        return (i === order - 1) ? selectedBubbleTextStyle : defaultBubbleTextStyle
+      })
+      , selectedBubbleRef: bubbleRef
+      , selectedBubbleTextRef: textRef
+    })
+
+    this.delayedScaleUpBubble(bubbleRef, textRef)
+  }
+
+  renderCircleAndText = (lesson, order, isSelected) => {
+    const { handleClick, handleMouseOver, handleMouseOut } = this.props
+      , { mapDimensions, bubbleStyles, bubbleTextStyles } = this.state
+      , index = order - 1
+      , bubbleStyle = bubbleStyles[index]
+      , bubbleTextStyle = bubbleTextStyles[index]
+      , hasBeenStartedByStudent = has(lesson, 'userLesson')
 
     const circleProps = { // defaults to inactive
-      fill: styles.inactiveFillColor
+      fill: bubbleStyle.fill
       , width: 50
       , height: 50
     }
@@ -52,18 +175,6 @@ class MapBubbles extends PureComponent {
 
     let checkMark = []
 
-    let TEXT_X_OFFSET = 18
-    let TEXT_Y_OFFSET = 13
-
-    if(isSelected) {
-      circleProps.width = 80
-      circleProps.height = 80
-      textProps.fontSize = 45
-      circleProps.fill = styles.activeFillColor
-
-      TEXT_Y_OFFSET = TEXT_Y_OFFSET + 10
-    }
-
     if(hasBeenStartedByStudent) {
       const completionPercentage = 75  // mock 75% for now - will ultimately end up being this:  get(lesson, 'userLesson.completionPercentage', 0)
       circleProps.stroke = styles.activeStrokeColor
@@ -74,19 +185,20 @@ class MapBubbles extends PureComponent {
       if(completionPercentage === 100) {
         checkMark = [
           <Circle
-            key={ `checkMark-circle-${index}` }
-            x={ mapDimensions[`CIRCLE_${index}_X`] + CHECK_MARK_CIRCLE_X_OFFSET }
-            y={ mapDimensions[`CIRCLE_${index}_Y`] - CHECK_MARK_CIRCLE_Y_OFFSET }
+            key={ `checkMark-circle-${order}` }
+            x={ mapDimensions[`CIRCLE_${order}_X`] + CHECK_MARK_CIRCLE_X_OFFSET }
+            y={ mapDimensions[`CIRCLE_${order}_Y`] - CHECK_MARK_CIRCLE_Y_OFFSET }
             width={ 20 }
             height={ 20 }
-            onClick={ (e) => handleClick(e, lesson._id) }
+            onClick={ (e) => this.handleLessonBubbleClick(e, lesson._id, order) }
             onMouseOver={ handleMouseOver }
             onMouseOut={ handleMouseOut }
             fill={ styles.checkMarkCircleColor }
-          />,
+          />
+          ,
           <Path
-            x={ mapDimensions[`CIRCLE_${index}_X`] + CHECK_MARK_X_OFFSET }
-            y={ mapDimensions[`CIRCLE_${index}_Y`] - CHECK_MARK_Y_OFFSET }
+            x={ mapDimensions[`CIRCLE_${order}_X`] + CHECK_MARK_X_OFFSET }
+            y={ mapDimensions[`CIRCLE_${order}_Y`] - CHECK_MARK_Y_OFFSET }
             data={ checkMarkSVGData }
             fill={ styles.checkMarkColor }
             scale={ { x : 1.1, y : 1.1 } }
@@ -108,29 +220,31 @@ class MapBubbles extends PureComponent {
 
     return [
       <Circle
-        key={ `circle-${index}` }
-        x={ mapDimensions[`CIRCLE_${index}_X`] }
-        y={ mapDimensions[`CIRCLE_${index}_Y`] }
-        onClick={ (e) => handleClick(e, lesson._id) }
+        key={ `circle-${order}` }
+        ref={ `circle-${order}` }
+        x={ mapDimensions[`CIRCLE_${order}_X`] }
+        y={ mapDimensions[`CIRCLE_${order}_Y`] }
+        onClick={ (e) => this.handleLessonBubbleClick(e, lesson._id, order) }
         onMouseOver={ handleMouseOver }
         onMouseOut={ handleMouseOut }
-        { ...circleProps }
+        { ...bubbleStyle }
       />
       ,
       <Text
-        key={ `text-${index}` }
-        x={ mapDimensions[`CIRCLE_${index}_X`] - TEXT_X_OFFSET }
-        y={ mapDimensions[`CIRCLE_${index}_Y`] - TEXT_Y_OFFSET }
+        key={ `text-${order}` }
+        ref={ `text-${order}` }
+        x={ mapDimensions[`CIRCLE_${order}_X`] }
+        y={ mapDimensions[`CIRCLE_${order}_Y`] }
         width={ 35 }
         height={ 35 }
-        text={ index }
+        text={ order }
         fontStyle={ 'bold' }
         fontFamily={ 'arial' }
         align={ 'center' }
-        onClick={ (e) => handleClick(e, lesson._id) }
+        onClick={ (e) => this.handleLessonBubbleClick(e, lesson._id, order) }
         onMouseOver={ handleMouseOver }
         onMouseOut={ handleMouseOut }
-        { ...textProps }
+        { ...bubbleTextStyle }
       />
       ,
       ...checkMark
@@ -143,9 +257,9 @@ class MapBubbles extends PureComponent {
     const bubbleElements = []
 
     mapLessons.forEach((lesson, i) => {
-      const overallLessonIndex = i + 1
+      const order = i + 1
       const isSelected = isLessonSelected(lesson, selectedLessonId)
-      bubbleElements.push(...this.renderCircleAndText(lesson, overallLessonIndex, isSelected))
+      bubbleElements.push(...this.renderCircleAndText(lesson, order, isSelected))
     })
 
     return bubbleElements
