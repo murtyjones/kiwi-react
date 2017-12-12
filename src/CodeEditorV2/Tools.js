@@ -76,7 +76,7 @@ const RunButton = ({ className, onMouseEnter, onMouseLeave, onClick }) => {
       <PlayArrow
         onMouseEnter={ onMouseEnter }
         style={ { ...styles.button, ...styles.runButton } }
-        onClick={ onClick }
+        onClick={ (e) => e.preventDefault() && onClick }
       />
     </div>
   )
@@ -94,7 +94,7 @@ const SaveButton = ({ className, onMouseEnter, onMouseLeave, onClick }) => {
       <Save
         onMouseEnter={ onMouseEnter }
         style={ { ...styles.button, ...styles.saveButton } }
-        onClick={ onClick }
+        onClick={ (e) => e.preventDefault() && onClick }
       />
     </div>
   )
