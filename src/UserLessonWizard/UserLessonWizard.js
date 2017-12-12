@@ -73,7 +73,7 @@ class UserLessonWizard extends Component {
   }
 
   handleFinalSlideNextClick = () => {
-    console.log('done')
+    return <Route push to='/lessons' />
   }
 
   render() {

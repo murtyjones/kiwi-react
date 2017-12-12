@@ -56,19 +56,11 @@ class CodeEditor extends Component {
     , onChange: T.func
   }
 
-  componentDidMount() {
-    // const cmInstance = this.codeMirror.getCodeMirror()
-    // cmInstance.focus()
-    // cmInstance.setCursor(cmInstance.lineCount(), 0)
-  }
-
   componentWillReceiveProps(nextProps) {
     if(this.props.editorInput !== nextProps.editorInput) {
-      console.log(nextProps.editorInput)
       this.updateInput(nextProps.editorInput)
     }
   }
-
 
   getChildRef = (input) => {
     this.inputText = input
