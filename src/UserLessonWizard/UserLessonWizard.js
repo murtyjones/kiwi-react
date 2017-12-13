@@ -11,12 +11,10 @@ import UserLessonWizardForm from './UserLessonWizardForm'
 class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
-    const isNew = props.match.path.includes('new')
-    const lessonIsLoaded = !isEmpty(props.lesson)
+    const lessonIsEmpty = isEmpty(props.lesson)
     this.state = {
       activeSlideIndex: 0
-      , isNew
-      , needsLesson: !lessonIsLoaded
+      , needsLesson: lessonIsEmpty
     }
   }
 
@@ -46,7 +44,7 @@ class UserLessonWizard extends Component {
     const lessonHasChanged = !isEqual(this.props.lesson, nextProps.lesson)
     const userLessonHasChanged = !isEqual(this.props.userLesson, nextProps.userLesson)
     if((lessonHasChanged || userLessonHasChanged) && !isEmpty(nextProps.lesson)) {
-      this.setState({ isNew: false, needsLesson: false })
+      this.setState({ needsLesson: false })
     }
   }
 
