@@ -10,7 +10,23 @@ import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } from '../actions'
 
-import renderIf from 'render-if'
+const styles = {
+  container: {
+    marginTop: '50px'
+    , marginLeft: '15px'
+    , marginRight: '15px'
+  },
+  tabItemContainerStyle: {
+    background: 'transparent'
+  },
+  inkBarStyle: {
+    background: 'white'
+  },
+  tabStyle: {
+    borderBottom: '2px solid #2E2860'
+    , textTransform: 'lowercase'
+  }
+}
 
 
 class LoginOrRegister extends Component {
@@ -99,12 +115,22 @@ class LoginOrRegister extends Component {
 
   render() {
     return (
-      <div>
-        <Tabs initialSelectedIndex={ 0 } >
-          <Tab>
+      <div style={ styles.container }>
+        <Tabs
+          inkBarStyle={ styles.inkBarStyle }
+          tabItemContainerStyle={ styles.tabItemContainerStyle }
+          initialSelectedIndex={ 0 }
+        >
+          <Tab
+            style={ styles.tabStyle }
+            label='login'
+          >
             { this.renderLoginForm() }
           </Tab>
-          <Tab>
+          <Tab
+            style={ styles.tabStyle }
+            label='register'
+          >
             { this.renderRegisterForm() }
           </Tab>
         </Tabs>
