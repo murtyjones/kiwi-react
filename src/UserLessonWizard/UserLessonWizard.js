@@ -8,11 +8,6 @@ import { getFormValues } from 'redux-form'
 import { postUserLesson, putUserLesson, getManyUserLessons, getLesson } from '../actions'
 import UserLessonWizardForm from './UserLessonWizardForm'
 
-
-const getIdFromPathName = pathname => {
-
-}
-
 class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
