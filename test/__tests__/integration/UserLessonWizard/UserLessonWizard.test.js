@@ -33,6 +33,12 @@ describe('integration tests', () => {
     lessonId = 'fakeId'
     props = {}
     router = {}
+    preMounter = () => {
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(payload1))
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(payload2))
+      ;({ store, dispatchSpy } = setupIntegrationTest(notCombined, router))
+      store.dispatch({ payload: { idToken: chesterAdminIdToken }, type: ACTIONS.LOGIN_SUCCESS })
+    }
     mounter = (Child, childProps, store) => {
       return mount(
         <MemoryRouter initialEntries={[ '/lessons/fakeId' ]}>
@@ -64,12 +70,8 @@ describe('integration tests', () => {
   describe('componentWillMount', () => {
 
     describe('needsLesson', () => {
-
       beforeEach(() => {
-        ApiFetch.mockImplementationOnce(() => Promise.resolve(payload1))
-        ApiFetch.mockImplementationOnce(() => Promise.resolve(payload2))
-        ;({ store, dispatchSpy } = setupIntegrationTest(notCombined, router))
-        store.dispatch({ payload: { idToken: chesterAdminIdToken }, type: ACTIONS.LOGIN_SUCCESS })
+        preMounter()
         component = mounter(UserLessonWizard, props, store)
       })
 
@@ -143,15 +145,12 @@ describe('integration tests', () => {
           ],
           "updatedAt" : "2017-12-08T04:40:08Z"
         }
-        ApiFetch.mockImplementationOnce(() => Promise.resolve(payload1))
-        ApiFetch.mockImplementationOnce(() => Promise.resolve(payload2))
-        ;({ store, dispatchSpy } = setupIntegrationTest(notCombined, router))
-        store.dispatch({ payload: { idToken: chesterAdminIdToken }, type: ACTIONS.LOGIN_SUCCESS })
+        preMounter()
         store.dispatch({ payload: lesson, type: ACTIONS.GET_LESSON_SUCCESS })
         component = mounter(UserLessonWizard, props, store)
       })
 
-      
+
       it('should dispatch the appropriate requests', () => {
         expect(dispatchSpy).not.toBeCalledWith({ type: ACTIONS.GET_LESSON_REQUEST })
         expect(dispatchSpy).not.toBeCalledWith({ type: ACTIONS.GET_MANY_USER_LESSONS_REQUEST })
