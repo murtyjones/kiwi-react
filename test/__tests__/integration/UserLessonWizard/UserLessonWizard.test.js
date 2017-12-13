@@ -64,7 +64,6 @@ describe('integration tests', () => {
 
   describe('componentWillMount', () => {
     describe('needsLesson', () => {
-      
       beforeEach(() => {
         preMounter()
         component = mounter(UserLessonWizard, props, store)
@@ -88,7 +87,6 @@ describe('integration tests', () => {
 
     describe('!needsLesson', () => {
       let lesson
-
       beforeEach(() => {
         lesson = {
           "_id" : lessonId,
