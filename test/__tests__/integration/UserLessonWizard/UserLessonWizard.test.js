@@ -75,8 +75,6 @@ describe('integration tests', () => {
         component = mounter(UserLessonWizard, props, store)
       })
 
-
-
       it('should dispatch the appropriate requests', () => {
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_LESSON_REQUEST })
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_USER_LESSONS_REQUEST })
@@ -149,7 +147,6 @@ describe('integration tests', () => {
         store.dispatch({ payload: lesson, type: ACTIONS.GET_LESSON_SUCCESS })
         component = mounter(UserLessonWizard, props, store)
       })
-
 
       it('should dispatch the appropriate requests', () => {
         expect(dispatchSpy).not.toBeCalledWith({ type: ACTIONS.GET_LESSON_REQUEST })
