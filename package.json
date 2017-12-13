@@ -31,6 +31,9 @@
     "globals": {
       "__DEV__": true,
       "window": true
+    },
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
     }
   },
   "homepage": "https://github.com/murtyjones/kiwi-react#readme",
@@ -109,6 +112,7 @@
     "gulp-sass-variables": "^1.1.1",
     "gulp-spawn-mocha": "^4.0.1",
     "gulp-util": "^3.0.8",
+    "identity-obj-proxy": "^3.0.0",
     "isomorphic-fetch": "^2.2.1",
     "isparta": "^4.0.0",
     "jest": "^21.2.1",

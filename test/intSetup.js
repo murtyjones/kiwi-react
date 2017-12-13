@@ -1,6 +1,6 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { ReactWrapper } from 'enzyme';
+import { applyMiddleware, combineReducers, createStore } from 'redux'
+import thunk from 'redux-thunk'
+import { ReactWrapper } from 'enzyme'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 
@@ -15,25 +15,24 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
  *     dispatchSpy: a jest spy function to be used on assertions of dispatch action calls
  */
 export function setupIntegrationTest(reducers, initialRouterState = {}) {
-  console.log(reducers)
   // creating the router's reducer
   function _routerReducer(state = initialRouterState, action) {
     // override the initial state of the router so it can be used in test.
-    return routerReducer(state, action);
+    return routerReducer(state, action)
   }
 
   // creating a jest mock function to serve as a dispatch spy for asserting dispatch actions if needed
-  const dispatchSpy = jest.fn(() => ({}));
-  const reducerSpy = (state, action) => dispatchSpy(action);
+  const dispatchSpy = jest.fn(() => ({}))
+  const reducerSpy = (state, action) => dispatchSpy(action)
   // applying thunk middleware to the the store
-  const emptyStore = applyMiddleware(thunk)(createStore);
+  const emptyStore = applyMiddleware(thunk)(createStore)
   const combinedReducers = combineReducers({
     reducerSpy,
     router: _routerReducer,
     ...reducers,
-  });
+  })
   // creating the store
-  const store = emptyStore(combinedReducers);
+  const store = emptyStore(combinedReducers)
 
-  return { store, dispatchSpy };
+  return { store, dispatchSpy }
 }

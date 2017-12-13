@@ -5,10 +5,10 @@ import { mount } from 'enzyme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Route, Link, MemoryRouter } from 'react-router-dom'
 
-import { notCombined } from '../../../src/reducers/index'
+import { notCombined } from '../../../../src/reducers/index'
 // make sure to import your connected component
-import LoginOrRegister from '../../../src/LoginOrRegister/LoginOrRegister'
-import { setupIntegrationTest } from '../../intSetup'
+import LoginOrRegister from '../../../../src/LoginOrRegister/LoginOrRegister'
+import { setupIntegrationTest } from '../../../intSetup'
 
 describe('integration tests', () => {
   let store
@@ -17,8 +17,8 @@ describe('integration tests', () => {
     , component
 
   beforeEach(() => {
-    router = {};
-    ({store, dispatchSpy} = setupIntegrationTest(notCombined, router));
+    router = {}
+    ;({store, dispatchSpy} = setupIntegrationTest(notCombined, router))
 
     component = mount(
       <MemoryRouter initialEntries={[ '/login' ]}>
@@ -34,12 +34,20 @@ describe('integration tests', () => {
           muiTheme: PropTypes.object.isRequired
         }
       })
-  });
+  })
+
+  it('should start with the login text rendered since we specified /login', () => {
+    expect(component.find('span').prop('children')).toEqual('No account? Register here!')
+  })
 
   it('should change the login text to register on click', () => {
-    expect(component.find('span').prop('children')).toEqual('No account? Register here!');
-    component.find('span').simulate('click');
-    expect(component.find('span').prop('children')).toEqual('Already registered? Sign in here!');
-  });
+    expect(component.find('span').prop('children')).toEqual('No account? Register here!')
+    component.find('span').simulate('click')
+    expect(component.find('span').prop('children')).toEqual('Already registered? Sign in here!')
+  })
+
+  it('should click submit', () => {
+    component.find('button[type="submit"]').simulate('click')
+  })
 
 })

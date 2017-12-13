@@ -9,6 +9,10 @@ import { postUserLesson, putUserLesson, getManyUserLessons, getLesson } from '..
 import UserLessonWizardForm from './UserLessonWizardForm'
 
 
+const getIdFromPathName = pathname => {
+
+}
+
 class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
@@ -35,7 +39,7 @@ class UserLessonWizard extends Component {
   }
 
   componentWillMount() {
-    const { getManyUserLessons, getLesson, userId, match: { params: { id } } } = this.props
+    const { getManyUserLessons, getLesson, userId, match: { params: { id } }, location: { pathname } } = this.props
     const { needsLesson } = this.state
     if(needsLesson) {
       getLesson({ id })
