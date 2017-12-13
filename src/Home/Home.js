@@ -119,19 +119,6 @@ class Home extends Component {
     this.props.openTopBar()
   }
 
-  handleLoginSubmit = async(v) => {
-    const { login } = this.props
-    const { email, password } = v
-    return login({ email, password })
-      .then(result => {
-        this.props.history.push("/lessons")
-      }).catch(e => {
-        if(e.description.includes('Wrong email or password.')) {
-          throw new SubmissionError({ password: '', _error: 'Wrong email or password.' })
-        }
-      })
-  }
-
   render() {
     const { drawerIsOpen } = this.state
 
