@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import { Drawer, Menu, MenuItem, Subheader, Divider } from 'material-ui'
 import Circle from 'material-ui-icons/FiberManualRecord'
@@ -35,6 +35,10 @@ const styles = {
     position: 'absolute'
     , bottom: 0
   },
+  menuItemBottomUp: {
+    position: 'absolute'
+    , bottom: '70px'
+  },
   circle: {
     width: '45px'
     , height: '45px'
@@ -52,7 +56,7 @@ const styles = {
   }
 }
 
-class SideNav extends Component {
+class SideNav extends PureComponent {
   constructor(props) {
     super(props)
   }
@@ -60,10 +64,11 @@ class SideNav extends Component {
   static propTypes = {
     isAdmin: T.bool.isRequired
     , isOpen: T.bool.isRequired
+    , isLoggedIn: T.bool.isRequired
   }
 
   render() {
-    const { isOpen, isAdmin } = this.props
+    const { isOpen, isAdmin, isLoggedIn } = this.props
     return (
       <Drawer open={ isOpen }>
         <Menu style={ styles.menu } listStyle={ styles.menu } autoWidth={ false }>
@@ -124,6 +129,18 @@ class SideNav extends Component {
                   />
                 </KiwiLink>
               ]
+            }
+            { isLoggedIn &&
+              <KiwiLink to='/signout'>
+                <MenuItem
+                  key={ 'signout' }
+                  style={ { color: '#000000', ...styles.menuItem, ...styles.menuItemBottomUp } }
+                  leftIcon={
+                    <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                  }
+                  primaryText={ 'Sign out' }
+                />
+              </KiwiLink>
             }
             <KiwiLink to='/legal'>
               <MenuItem

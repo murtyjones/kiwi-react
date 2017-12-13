@@ -2,6 +2,7 @@ import AuthService from '../utils/AuthService'
 import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
 import config from 'config'
+import BluebirdPromise from 'bluebird'
 
 const authService = new AuthService()
 
@@ -40,13 +41,15 @@ export const register = (params) => {
 }
 
 export const signout = () => {
-  return async dispatch => {
+  return dispatch => {
     dispatch({ type: ACTIONS.SIGNOUT_REQUEST })
     return AuthService.signout()
     .then(res => {
-      dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: success })
+      dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: res })
+      return res
     }).catch(err => {
       dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: err })
+      throw err
     })
   }
 }

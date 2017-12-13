@@ -4,11 +4,11 @@ import { withRouter, Redirect, Route } from 'react-router-dom'
 import { get, find } from 'lodash'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
-
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } from '../actions'
+import { Tabs, Tab } from 'material-ui/Tabs'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
+import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } from '../actions'
 
 import renderIf from 'render-if'
 
@@ -51,13 +51,13 @@ class LoginOrRegister extends Component {
     const { login } = this.props
     const { email, password } = v
     return login({ email, password })
-    .then(result => {
-      this.props.history.push("/lessons")
-    }).catch(e => {
-      if(e.description.includes('Wrong email or password.')) {
-        throw new SubmissionError({ password: '', _error: 'Wrong email or password.' })
-      }
-    })
+      .then(result => {
+        this.props.history.push("/lessons")
+      }).catch(e => {
+        if(e.description.includes('Wrong email or password.')) {
+          throw new SubmissionError({ password: '', _error: 'Wrong email or password.' })
+        }
+      })
   }
 
   handleRegisterSubmit = async(v) => {
@@ -65,16 +65,16 @@ class LoginOrRegister extends Component {
     const { email, password } = v
     try {
       return register({ email, password })
-      .then(res => {
-        return login({ email, password })
-      }).then(res => {
-        this.props.history.push("/lessons")
-      }).catch(e => {
-        console.log(JSON.stringify(e))
-        if(e.message.includes('User already exists')) {
-          throw new SubmissionError({ email: 'Email address is already in use!', _error: 'Registration failed!' })
-        }
-      })
+        .then(res => {
+          return login({ email, password })
+        }).then(res => {
+          this.props.history.push("/lessons")
+        }).catch(e => {
+          console.log(JSON.stringify(e))
+          if(e.message.includes('User already exists')) {
+            throw new SubmissionError({ email: 'Email address is already in use!', _error: 'Registration failed!' })
+          }
+        })
     } catch (e) {
       console.error(e)
     }
@@ -97,35 +97,17 @@ class LoginOrRegister extends Component {
     )
   }
 
-  switchTabs = () => {
-    const { location, history } = this.props
-    const to = location.pathname === '/login' ? '/register' : '/login'
-    history.push(to)
-  }
-
   render() {
-    const { location } = this.props
-    const currentPath = location.pathname
-    const switchText = currentPath === '/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
-
-    const availableRoutes = [
-      {
-        path: '/login',
-        component: this.renderLoginForm
-      },
-      {
-        path: '/register',
-        component: this.renderRegisterForm
-      }
-    ]
-    const currentRoute = find(availableRoutes, { path: currentPath })
-
-    const ComponentToRender = () => { return currentRoute.component() }
-
     return (
       <div>
-        <span onClick={ this.switchTabs }>{ switchText }</span>
-        <ComponentToRender />
+        <Tabs initialSelectedIndex={ 0 } >
+          <Tab>
+            { this.renderLoginForm() }
+          </Tab>
+          <Tab>
+            { this.renderRegisterForm() }
+          </Tab>
+        </Tabs>
       </div>
     )
   }

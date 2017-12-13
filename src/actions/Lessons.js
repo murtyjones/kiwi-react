@@ -10,7 +10,6 @@ export const getManyLessons = (params) => {
     dispatch({ type: ACTIONS.GET_MANY_LESSONS_REQUEST })
     return ApiFetch(`${config.api}/api/lessons`, options)
     .then(res => {
-      console.log('lol')
       dispatch({ type: ACTIONS.GET_MANY_LESSONS_SUCCESS, payload: res })
     })
     .catch(e => {

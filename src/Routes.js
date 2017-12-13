@@ -25,7 +25,7 @@ import AuthorizedRoute from './Routes/AuthorizedRoute'
 /**
  * Route Components/Containers
  */
-import Home from './Home'
+import Home from './Home/Home'
 import Dashboard from './Dashboard/Dashboard'
 import Projects from './Projects/Projects'
 import UserProject from './UserProject/UserProject'
@@ -36,6 +36,7 @@ import Lessons from './Lessons/Lessons'
 import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
 import SideNav from './SideNav/SideNav'
 import TopBar from './TopBar/TopBar'
+import SignOut from './SignOut/SignOut'
 
 
 
@@ -87,7 +88,7 @@ class App extends Component {
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
-          <SideNav isOpen={ isSideNavOpen } isAdmin={ isAdmin } />
+          <SideNav isOpen={ isSideNavOpen } isAdmin={ isAdmin } isLoggedIn={ isLoggedIn } />
           <TopBar isOpen={ isTopBarOpen } sideNavWidth={ sideNavWidth } toggleSideNav={ this.toggleSideNav } />
           <div className={ cns('baseAppStyles') } style={{
             ...baseAppStyle
@@ -100,9 +101,16 @@ class App extends Component {
                 {/* ----------------- */}
                 {/* Logged out routes */}
                 {/* ----------------- */}
-                <Route path='/' exact component={ Home } />
-                <Route path='/login' exact auth={ authService } component={ LoginOrRegister } />
-                <Route path='/register' exact auth={ authService } component={ LoginOrRegister } />
+                <Route path='/' exact render={() => (
+                  isLoggedIn ? (
+                    <Redirect to="/lessons"/>
+                  ) : (
+                    <Home />
+                  )
+                )} />
+                <Route path='/login' exact component={ LoginOrRegister } />
+                <Route path='/register' exact component={ LoginOrRegister } />
+                <Route path='/signout' exact component={ SignOut } />
                 {/* ----------------- */}
                 {/* Logged in routes  */}
                 {/* ----------------- */}
