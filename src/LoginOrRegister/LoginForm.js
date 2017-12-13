@@ -12,13 +12,13 @@ let LoginForm = props => {
         name="email"
         type="text"
         component={ renderTextField }
-        label="Email"
+        hintText="Email"
       />
       <Field
         name="password"
         type="password"
         component={ renderTextField }
-        label="Password"
+        hintText="Password"
       />
       { error && <strong>{ error }</strong> }
       <div>

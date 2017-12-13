@@ -30,7 +30,6 @@ let RegisterForm = props => {
         type="text"
         component={ renderTextField }
         hintText="email"
-        showLabelAbove={ false }
         inputStyle={ styles.input }
         style={ styles.field }
         hintStyle={ styles.hintStyle }
@@ -42,7 +41,6 @@ let RegisterForm = props => {
         type="password"
         component={ renderTextField }
         hintText="password"
-        showLabelAbove={ false }
         inputStyle={ styles.input }
         style={ styles.field }
         hintStyle={ styles.hintStyle }

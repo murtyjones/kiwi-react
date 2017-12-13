@@ -11,13 +11,13 @@ let RegisterForm = props => {
         name="email"
         type="text"
         component={ renderTextField }
-        label="email"
+        hintText="email"
       />
       <Field
         name="password"
         type="password"
         component={ renderTextField }
-        label="password"
+        hintText="password"
       />
       { error && <strong>{error}</strong> }
       <div>

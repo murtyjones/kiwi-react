@@ -39,16 +39,17 @@ class LessonForm extends Component {
       <form onSubmit={ handleSubmit } style={ { width: "100%", height: "100%" } }>
         <Field
           name={ 'title' }
-          label={ 'Title' }
+          hintText={ 'Title' }
           component={ renderTextField }
         />
         <Field
           name={ 'subtitle' }
-          label={ 'Subtitle' }
+          hintText={ 'Subtitle' }
           component={ renderTextField }
         />
         <Field
           name={ 'minutesToComplete' }
+          hintText={ 'Minutes to Complete' }
           label={ 'Minutes to Complete' }
           component={ KiwiSliderField }
           defaultValue={ 1 }

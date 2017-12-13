@@ -5,7 +5,7 @@ const renderSelectField = ({ children, input, label, type, meta: { touched, erro
   return (
     <div>
       <label>
-        {label}
+        { label }
       </label>
       <div>
         <SelectField

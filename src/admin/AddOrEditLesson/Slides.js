@@ -207,7 +207,7 @@ class Slides extends Component {
               <h4>Slide #{i + 1}</h4>
               <Field
                 name={ `${eachSlideRef}.type` }
-                label='Type'
+                hintText='Slide Type'
                 component={ renderSelectField }
                 onSelectCustom={ (v) => this.setSelectedSlideType(i, v) }
               >
@@ -221,7 +221,7 @@ class Slides extends Component {
               </Field>
               <Field
                 name={ `${eachSlideRef}.title` }
-                label='Title'
+                hintText='Title'
                 component={ renderTextField }
               />
               { localSlideTypes[i] && this.renderSlideConfigure(eachSlideRef, localSlideTypes[i]) }
