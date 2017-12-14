@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { titleStyle, slideContent } from './commonSlideStyles'
 
+const styles = {
+  instructions: {
+    overflow: 'hidden'
+  }
+}
+
 class FullPageText extends Component {
   constructor(props) {
     super(props)
@@ -24,10 +30,18 @@ class FullPageText extends Component {
     return (
       <div className={ className }>
         <div style={ slideContent }>
-          <div style={ titleStyle }>{ slideData.title }</div>
           <div
+            key='title'
+            id='title'
+            style={ titleStyle }
+          >
+            { slideData.title }
+            </div>
+          <div
+            key='instructions'
+            id='instructions'
             className='instructions'
-            style={{overflow: 'hidden'}}
+            style={ styles.instructions }
             dangerouslySetInnerHTML={ { __html: slideData.instructions } }
           />
         </div>

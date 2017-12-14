@@ -60,8 +60,16 @@ class FullPageCodeEditor extends Component {
     return [
       <div key={ className } className={ className }>
         <div style={ slideContent }>
-          <div style={ titleStyle }>{ slideData.title }</div>
           <div
+            key='title'
+            id='title'
+            style={ titleStyle }
+          >
+            { slideData.title }
+            </div>
+          <div
+            key='prompt'
+            id='prompt'
             className='prompt'
             dangerouslySetInnerHTML={ { __html: slideData.prompt } }
           />

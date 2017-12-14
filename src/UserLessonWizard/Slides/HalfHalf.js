@@ -63,11 +63,19 @@ class HalfHalf extends Component {
     return [
       <div className={ className }>
         <div style={ slideContent }>
-          <div style={ titleStyle }>{ slideData.title }</div>
+          <div
+            key='title'
+            id='title'
+            style={ titleStyle }
+          >
+            { slideData.title }
+          </div>
         </div>
       </div>
       ,
       <div
+        key='instructions'
+        id='instructions'
         className='halfHalfLeftSide instructions'
         style={ styles.left }
         dangerouslySetInnerHTML={ { __html: slideData.instructions } }

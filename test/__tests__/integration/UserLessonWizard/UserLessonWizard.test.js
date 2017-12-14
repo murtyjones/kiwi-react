@@ -138,7 +138,7 @@ describe('integration tests', () => {
 
     })
 
-    describe('render', () => {
+    describe('initial render', () => { // enzyme can't handle arrays yet so testing will need to be done the buttons and such
       beforeEach(() => {
         preMounter()
         store.dispatch({ payload: lesson, type: ACTIONS.GET_LESSON_SUCCESS })
@@ -147,6 +147,23 @@ describe('integration tests', () => {
 
       it('should render two svgs for forward and back buttons', () => {
         expect(component.find('svg').length).toBe(2)
+      })
+
+      it('should render the form', () => {
+        expect(component.find('form[className="lessonWizardForm"]').length).toBe(1)
+      })
+
+      it('should render the form content div', () => {
+        expect(component.find('div[className="lessonWizardFormContent"]').length).toBe(1)
+      })
+
+      it('should render slide title', () => {
+        expect(component.find('div[id="title"]').length).toBe(1)
+      })
+
+      it('should render first slide instructions', () => {
+        expect(component.find('div[id="instructions"]').length).toBe(1)
+        expect(component.find('div[id="instructions"]').props()).toHaveProperty('dangerouslySetInnerHTML', { __html: lesson.slides[0].instructions })
       })
 
 
