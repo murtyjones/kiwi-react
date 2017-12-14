@@ -91,8 +91,9 @@ describe('integration tests', () => {
     ApiFetch.mockClear()
   })
 
-  describe('actions', () => {
-    describe('needsLesson', () => {
+  describe('componentWillMount', () => {
+
+    describe('when needsLesson', () => {
       beforeEach(() => {
         preMounter()
         component = mounter(UserLessonWizard, props, store)
@@ -114,7 +115,7 @@ describe('integration tests', () => {
       })
     })
 
-    describe('!needsLesson', () => {
+    describe('when !needsLesson', () => {
       beforeEach(() => {
         preMounter()
         store.dispatch({ payload: lesson, type: ACTIONS.GET_LESSON_SUCCESS })
@@ -134,9 +135,26 @@ describe('integration tests', () => {
       it('should pass the lessonId and userId when making requests', () => {
         expect(ApiFetch.mock.calls.length).toBe(0)
       })
+
+    })
+
+    describe('render', () => {
+      beforeEach(() => {
+        preMounter()
+        store.dispatch({ payload: lesson, type: ACTIONS.GET_LESSON_SUCCESS })
+        component = mounter(UserLessonWizard, props, store)
+      })
+
+      it('should render two svgs for forward and back buttons', () => {
+        expect(component.find('svg').length).toBe(2)
+      })
+
+
     })
 
   })
+
+
 
 
 
