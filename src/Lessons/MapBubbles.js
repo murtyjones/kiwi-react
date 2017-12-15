@@ -23,7 +23,7 @@ const colors = {
   , inactiveFillColor: '#664C93'
   , activeTextColor: '#FFFFFF'
   , inactiveTextColor: '#FFFFFF'
-  , checkMarkCircleColor: '#808080'
+  , checkMarkCircleColor: '#abd698'
   , checkMarkColor: '#FFFFFF'
   , completionLayer1Color: '#7E5DB8'
 }
