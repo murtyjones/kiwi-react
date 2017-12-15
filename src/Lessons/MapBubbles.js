@@ -19,7 +19,7 @@ const scaleDown = { // for some reason, these must be destructed using '...' whe
 
 const colors = {
   activeStrokeColor: '#696969'
-  , activeFillColor: '#FFFFFF'
+  , activeFillColor: '#664C93' // #40305E
   , inactiveFillColor: '#664C93'
   , activeTextColor: '#FFFFFF'
   , inactiveTextColor: '#FFFFFF'
@@ -28,6 +28,13 @@ const colors = {
   , completionLayer1Color: '#7E5DB8'
 }
 
+const makeBubbleRef = (order) => `circle-${order}`
+  , makeBubbleTextRef = (order) => `text-${order}`
+  , makeCompletionLayer1Ref = (order) => `circle-completion-layer-1-${order}`
+  , makeCompletionLayer2Ref = (order) => `circle-completion-layer-2-${order}`
+  , makeCheckMarkBubbleRef = (order) => `checkMark-bubble-${order}`
+  , makeCheckMarkRef = (order) => `checkMark-${order}`
+
 const shapeProps = {
   defaultBubbleStyle: {
     fill: colors.inactiveFillColor
@@ -35,7 +42,7 @@ const shapeProps = {
     , height: 50
   },
   defaultBubbleTextStyle: {
-    textFill: colors.inactiveTextColor
+    fill: colors.inactiveTextColor
     , width: 35
     , height: 35
     , fontSize: 28
@@ -64,7 +71,7 @@ const shapeProps = {
     , lineJoin: 'round'
     , innerRadius: 18
     , outerRadius: 21
-    , fill: 'black'
+    , fill: colors.completionLayer1Color
     , clockwise: true
   },
   artAddPoints: [
@@ -141,11 +148,11 @@ class MapBubbles extends PureComponent {
         , completionPercentage = get(lesson, 'userLesson.completionPercentage', null)
         , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
         , hasBeenStarted = has(lesson, 'userLesson')
-        , bubbleRef = `circle-${order}`
-        , completionRef = `circle-completion-${order}`
-        , bubbleTextRef = `text-${order}`
-        , checkMarkBubbleRef = `checkMark-bubble-${order}`
-        , checkMarkRef = `checkMark-${order}`
+        , bubbleRef = makeBubbleRef(order)
+        , completionRef = makeCompletionLayer1Ref(order)
+        , bubbleTextRef = makeBubbleTextRef(order)
+        , checkMarkBubbleRef = makeCheckMarkBubbleRef(order)
+        , checkMarkRef = makeCheckMarkRef(order)
       if(wasJustCompleted) {
         setTimeout(() => {
           this.scaleItems(
@@ -190,11 +197,11 @@ class MapBubbles extends PureComponent {
 
   handleLessonBubbleClick = (e, lesson, order) => {
     const { bubbleStyles, bubbleTextStyles, selectedBubbleRef, selectedBubbleTextRef, selectedCheckMarkBubbleRef, selectedCheckMarkRef, selectedBubbleHasBeenCompleted, selectedCompletionRef } = this.state
-      , bubbleRef = `circle-${order}`
-      , bubbleTextRef = `text-${order}`
-      , checkMarkBubbleRef = `checkMark-bubble-${order}`
-      , checkMarkRef = `checkMark-${order}`
-      , completionRef = `circle-completion-${order}`
+      , bubbleRef = makeBubbleRef(order)
+      , completionRef = makeCompletionLayer1Ref(order)
+      , bubbleTextRef = makeBubbleTextRef(order)
+      , checkMarkBubbleRef = makeCheckMarkBubbleRef(order)
+      , checkMarkRef = makeCheckMarkRef(order)
       , completionRefs = [...Array(6)].map((x, i) => `${completionRef}-${i}`)
       , selectedCompletionRefs = [...Array(6)].map((x, i) => `${selectedCompletionRef}-${i}`)
       , newBubbleStyles =  cloneDeep(bubbleStyles)
@@ -258,11 +265,12 @@ class MapBubbles extends PureComponent {
       , bubbleTextStyle = bubbleTextStyles[index]
       , hasBeenStarted = has(lesson, 'userLesson')
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', 0)
-      , bubbleRef = `circle-${order}`
-      , bubbleTextRef = `text-${order}`
-      , completionRef = `circle-completion-${order}`
-      , checkMarkBubbleRef = `checkMark-bubble-${order}`
-      , checkMarkRef = `checkMark-${order}`
+      , bubbleRef = makeBubbleRef(order)
+      , completionLayer1Ref = makeCompletionLayer1Ref(order)
+      , bubbleTextRef = makeBubbleTextRef(order)
+      , checkMarkBubbleRef = makeCheckMarkBubbleRef(order)
+      , checkMarkRef = makeCheckMarkRef(order)
+
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
 
@@ -309,18 +317,10 @@ class MapBubbles extends PureComponent {
         { ...bubbleTextStyle }
       />
       ,
-      <Arc
-        key={ completionRef }
-        ref={ completionRef }
-        x={ x }
-        y={ y }
-        { ...shapeProps.arcStyle }
-      />
-      ,
       [...Array(6)].map((e, i) =>
         <Arc
-          key={ `${completionRef}-${i}` }
-          ref={ `${completionRef}-${i}` }
+          key={ `${completionLayer1Ref}-${i}` }
+          ref={ `${completionLayer1Ref}-${i}` }
           x={ x }
           y={ y }
           { ...shapeProps.arcStyle }
