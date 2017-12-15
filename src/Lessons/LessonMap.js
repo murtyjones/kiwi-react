@@ -3,6 +3,7 @@ import * as T from 'prop-types'
 import { Stage, Layer } from 'react-konva'
 import MapLines from './MapLines'
 import MapBubbles from './MapBubbles'
+import { isEmpty }  from 'lodash'
 
 const heightPerLessonBubble = 150
 const minHeight = 768
@@ -30,6 +31,10 @@ class LessonMap extends Component {
       scaleX: 1,
       scaleY: 1
     }
+  }
+
+  componetWillMount() {
+
   }
 
   static propTypes = {
@@ -72,15 +77,17 @@ class LessonMap extends Component {
               mapLessons={ mapLessons }
               width={ width }
             />
-            <MapBubbles
-              mapLessons={ mapLessons }
-              selectedLessonId={ selectedLessonId }
-              selectedLessonPosition={ selectedLessonPosition }
-              width={ width }
-              onLessonSelect={ this.handleLessonSelect }
-              handleMouseOver={ this.handleMouseOver }
-              handleMouseOut={ this.handleMouseOut }
-            />
+            { !isEmpty(mapLessons) &&
+              <MapBubbles
+                mapLessons={ mapLessons }
+                selectedLessonId={ selectedLessonId }
+                selectedLessonPosition={ selectedLessonPosition }
+                width={ width }
+                onLessonSelect={ this.handleLessonSelect }
+                handleMouseOver={ this.handleMouseOver }
+                handleMouseOut={ this.handleMouseOut }
+              />
+            }
           </Layer>
         </Stage>
       </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { orderBy, find, findIndex, get } from 'lodash'
+import { orderBy, find, findIndex, get, cloneDeep } from 'lodash'
 
 import { getManyLessons, getManyUserLessons, getLessonOrder } from '../actions'
 
@@ -147,8 +147,8 @@ class Lessons extends Component {
 const mapStateToProps = (state) => {
   const { auth: { userId },lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
 
-  const userLessons = Object.values(userLessonsById)
-    , lessons = Object.values(lessonsById).filter(each => each.isPublished)
+  const userLessons = cloneDeep(Object.values(userLessonsById))
+    , lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
     , orderOfPublishedLessons = get(lessonOrder, 'order', [])
 
   return {
