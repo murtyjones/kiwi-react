@@ -52,26 +52,10 @@ class ManageLessons extends Component {
     }
   }
 
-  onSortEnd = (pos) => {
-    const { lessonsById } = this.props
-    const oldOrder = pos.oldIndex, newWorldOrder = pos.newIndex
-    const lesson = find(Object.values(lessonsById), { order: oldOrder})
-    const _id = lesson._id
-    if(_id) {
-      delete lesson._id
-      lesson.id = _id
-    }
-    this.props.putLesson({
-      ...lesson,
-      order: newWorldOrder
-    })
-  }
-
   onSortEnd = (event) => {
-    const { lessonsById, lessonOrder, orderOfPublishedLessons } = this.props
+    const { putLessonOrder, lessonOrder, orderOfPublishedLessons } = this.props
     const newWorldOrder = reorderLessons({ event, orderOfPublishedLessons })
-
-    this.props.putLessonOrder({
+    putLessonOrder({
       ...lessonOrder,
       order: newWorldOrder
     })
