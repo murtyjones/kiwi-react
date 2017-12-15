@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { Circle, Text, Path } from 'react-konva'
+import { Circle, Text, Path, Arc } from 'react-konva'
 import { has, get, find, findIndex, cloneDeep, isEqual } from 'lodash'
 
 import { LESSON_MAP_POINTS, SVG_PATHS } from '../constants'
@@ -20,11 +20,12 @@ const scaleDown = { // for some reason, these must be destructed using '...' whe
 const colors = {
   activeStrokeColor: '#696969'
   , activeFillColor: '#FFFFFF'
-  , inactiveFillColor: '#C6C6C6'
-  , activeTextColor: '#000000'
-  , inactiveTextColor: '#808080'
+  , inactiveFillColor: '#664C93'
+  , activeTextColor: '#FFFFFF'
+  , inactiveTextColor: '#FFFFFF'
   , checkMarkCircleColor: '#808080'
   , checkMarkColor: '#FFFFFF'
+  , completionLayer1Color: '#7E5DB8'
 }
 
 const shapeProps = {
@@ -57,7 +58,23 @@ const shapeProps = {
     , offsetY: 33
     , fill: colors.checkMarkColor
     , data: SVG_PATHS.CHECKMARK
-  }
+  },
+  arcStyle: {
+    lineCap: 'round'
+    , lineJoin: 'round'
+    , innerRadius: 18
+    , outerRadius: 21
+    , fill: 'black'
+    , clockwise: true
+  },
+  artAddPoints: [
+    { angle: 306, rotation: -90 }
+    , { angle: 306, rotation: -150 }
+    , { angle: 306, rotation: -210 }
+    , { angle: 306, rotation: -270 }
+    , { angle: 306, rotation: -330 }
+    , { angle: 306, rotation: -30 }
+  ]
 }
 
 shapeProps.selectedBubbleStyle = {
@@ -69,6 +86,9 @@ shapeProps.selectedBubbleTextStyle = {
   ...shapeProps.defaultBubbleTextStyle
   , textFill: colors.activeTextColor
 }
+
+const calculateNewAngle = (completionPercentage) =>
+  360 - (completionPercentage * 3.6)
 
 
 const isLessonSelected = (lessonOrUserLesson, selectedLessonId) => {
@@ -118,12 +138,14 @@ class MapBubbles extends PureComponent {
     mapLessons.forEach((lesson, index) => {
       const order = index + 1
         , wasJustCompleted = lesson.justCompleted
+        , completionPercentage = get(lesson, 'userLesson.completionPercentage', null)
         , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
         , hasBeenStarted = has(lesson, 'userLesson')
         , bubbleRef = `circle-${order}`
+        , completionRef = `circle-completion-${order}`
         , bubbleTextRef = `text-${order}`
         , checkMarkBubbleRef = `checkMark-bubble-${order}`
-        , checkMarkeRef = `checkMark-${order}`
+        , checkMarkRef = `checkMark-${order}`
       if(wasJustCompleted) {
         setTimeout(() => {
           this.scaleItems(
@@ -133,7 +155,7 @@ class MapBubbles extends PureComponent {
         }, 500)
       } else if(hasBeenCompleted) {
           this.scaleItems(
-            [checkMarkBubbleRef, checkMarkeRef]
+            [checkMarkBubbleRef, checkMarkRef]
             , {
               scaleX: 1,
               scaleY: 1,
@@ -141,7 +163,7 @@ class MapBubbles extends PureComponent {
             })
       } else {
         this.scaleItems(
-          [checkMarkBubbleRef, checkMarkeRef]
+          [checkMarkBubbleRef, checkMarkRef]
           , {
             scaleX: 0,
             scaleY: 0,
@@ -149,6 +171,13 @@ class MapBubbles extends PureComponent {
           }
         )
       }
+      // if(this.refs[completionRef] && completionPercentage) {
+      //   console.log(completionPercentage)
+      //   this.refs[completionRef].to({
+      //     angle: calculateNewAngle(completionPercentage),
+      //     duration: 1.0
+      //   })
+      // }
     })
   }
 
@@ -160,20 +189,24 @@ class MapBubbles extends PureComponent {
   }
 
   handleLessonBubbleClick = (e, lesson, order) => {
-    const { bubbleStyles, bubbleTextStyles, selectedBubbleRef, selectedBubbleTextRef, selectedCheckMarkBubbleRef, selectedCheckMarkRef, selectedBubbleHasBeenCompleted } = this.state
+    const { bubbleStyles, bubbleTextStyles, selectedBubbleRef, selectedBubbleTextRef, selectedCheckMarkBubbleRef, selectedCheckMarkRef, selectedBubbleHasBeenCompleted, selectedCompletionRef } = this.state
       , bubbleRef = `circle-${order}`
       , bubbleTextRef = `text-${order}`
       , checkMarkBubbleRef = `checkMark-bubble-${order}`
-      , checkMarkeRef = `checkMark-${order}`
+      , checkMarkRef = `checkMark-${order}`
+      , completionRef = `circle-completion-${order}`
+      , completionRefs = [...Array(6)].map((x, i) => `${completionRef}-${i}`)
+      , selectedCompletionRefs = [...Array(6)].map((x, i) => `${selectedCompletionRef}-${i}`)
       , newBubbleStyles =  cloneDeep(bubbleStyles)
       , newBubbleTextStyles = cloneDeep(bubbleTextStyles)
       , hasBeenStarted = has(lesson, 'userLesson')
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', 0)
 
+
     this.props.onLessonSelect(e, lesson._id)
 
     if(selectedBubbleRef && selectedBubbleTextRef) {
-      const itemsRef = [selectedBubbleRef, selectedBubbleTextRef]
+      const itemsRef = [selectedBubbleRef, selectedBubbleTextRef, ...selectedCompletionRefs]
       if(selectedBubbleHasBeenCompleted) {
         itemsRef.push(selectedCheckMarkBubbleRef)
         itemsRef.push(selectedCheckMarkRef)
@@ -190,15 +223,16 @@ class MapBubbles extends PureComponent {
       })
       , selectedBubbleRef: bubbleRef
       , selectedBubbleTextRef: bubbleTextRef
+      , selectedCompletionRef: completionRef
       , selectedBubbleHasBeenCompleted: hasBeenCompleted
       , selectedCheckMarkBubbleRef: checkMarkBubbleRef
-      , selectedCheckMarkRef: checkMarkeRef
+      , selectedCheckMarkRef: checkMarkRef
     })
 
-    const _itemsRef = [bubbleRef, bubbleTextRef]
+    const _itemsRef = [bubbleRef, bubbleTextRef, ...completionRefs]
     if(hasBeenCompleted) {
       _itemsRef.push(checkMarkBubbleRef)
-      _itemsRef.push(checkMarkeRef)
+      _itemsRef.push(checkMarkRef)
     }
 
     this.scaleItems(_itemsRef, scaleUp)
@@ -224,10 +258,11 @@ class MapBubbles extends PureComponent {
       , bubbleTextStyle = bubbleTextStyles[index]
       , hasBeenStarted = has(lesson, 'userLesson')
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', 0)
-      , bubbleKeyAndRef = `circle-${order}`
-      , bubbleTextKeyAndRef = `text-${order}`
-      , checkMarkBubbleKeyAndRef = `checkMark-bubble-${order}`
-      , checkMarkKeyAndRef = `checkMark-${order}`
+      , bubbleRef = `circle-${order}`
+      , bubbleTextRef = `text-${order}`
+      , completionRef = `circle-completion-${order}`
+      , checkMarkBubbleRef = `checkMark-bubble-${order}`
+      , checkMarkRef = `checkMark-${order}`
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
 
@@ -256,8 +291,8 @@ class MapBubbles extends PureComponent {
 
     return [
       <Circle // Lesson Bubble
-        key={ bubbleKeyAndRef }
-        ref={ bubbleKeyAndRef }
+        key={ bubbleRef }
+        ref={ bubbleRef }
         x={ x }
         y={ y }
         { ...clickProps }
@@ -265,8 +300,8 @@ class MapBubbles extends PureComponent {
       />
       ,
       <Text // Lesson Bubble Text
-        key={ bubbleTextKeyAndRef }
-        ref={ bubbleTextKeyAndRef }
+        key={ bubbleTextRef }
+        ref={ bubbleTextRef }
         x={ x }
         y={ y }
         text={ order }
@@ -274,9 +309,28 @@ class MapBubbles extends PureComponent {
         { ...bubbleTextStyle }
       />
       ,
+      <Arc
+        key={ completionRef }
+        ref={ completionRef }
+        x={ x }
+        y={ y }
+        { ...shapeProps.arcStyle }
+      />
+      ,
+      [...Array(6)].map((e, i) =>
+        <Arc
+          key={ `${completionRef}-${i}` }
+          ref={ `${completionRef}-${i}` }
+          x={ x }
+          y={ y }
+          { ...shapeProps.arcStyle }
+          { ...shapeProps.artAddPoints[i] }
+        />
+      )
+      ,
       <Circle // CheckMark Bubble
-        key={ checkMarkBubbleKeyAndRef }
-        ref={ checkMarkBubbleKeyAndRef }
+        key={ checkMarkBubbleRef }
+        ref={ checkMarkBubbleRef }
         x={ x }
         y={ y }
         { ...clickProps }
@@ -284,8 +338,8 @@ class MapBubbles extends PureComponent {
       />
       ,
       <Path // CheckMark Bubble Text
-        key={ checkMarkKeyAndRef }
-        ref={ checkMarkKeyAndRef }
+        key={ checkMarkRef }
+        ref={ checkMarkRef }
         x={ x }
         y={ y }
         { ...clickProps }
