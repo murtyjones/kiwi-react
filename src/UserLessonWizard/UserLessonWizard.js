@@ -11,10 +11,8 @@ import UserLessonWizardForm from './UserLessonWizardForm'
 class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
-    const lessonIsEmpty = isEmpty(props.lesson)
     this.state = {
       activeSlideIndex: 0
-      , needsLesson: lessonIsEmpty
     }
   }
 
@@ -32,26 +30,15 @@ class UserLessonWizard extends Component {
   }
 
   componentWillMount() {
-    const { getManyUserLessons, getLesson, userId, match: { params: { id } }, location: { pathname } } = this.props
-    const { needsLesson } = this.state
-    if(needsLesson) {
-      getLesson({ id })
-      getManyUserLessons({ lessonId: id, userId })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const lessonHasChanged = !isEqual(this.props.lesson, nextProps.lesson)
-    const userLessonHasChanged = !isEqual(this.props.userLesson, nextProps.userLesson)
-    if((lessonHasChanged || userLessonHasChanged) && !isEmpty(nextProps.lesson)) {
-      this.setState({ needsLesson: false })
-    }
+    const { getManyUserLessons, getLesson, userId, match: { params: { id } } } = this.props
+    getLesson({ id })
+    getManyUserLessons({ lessonId: id, userId })
   }
 
   handleSubmit = (params) => {
-    const { postUserLesson, putUserLesson, userLesson } = this.props
-    const _id = get(params ,'_id')
-      , id = get(params, 'id')
+    const { postUserLesson, putUserLesson } = this.props
+    const _id = get(params ,'_id', null)
+      , id = get(params, 'id', null)
     if(_id) {
       delete params._id
       params.id = _id
@@ -80,11 +67,10 @@ class UserLessonWizard extends Component {
   }
 
   render() {
-    const { lesson, userLesson, initialValues, currentValues } = this.props
-    const { activeSlideIndex, needsLesson } = this.state
+    const { lesson, initialValues, currentValues } = this.props
+    const { activeSlideIndex } = this.state
 
-
-    return !needsLesson
+    return !isEmpty(lesson)
       ? (
         <UserLessonWizardForm
           onSubmit={ this.handleSubmit }
@@ -96,9 +82,7 @@ class UserLessonWizard extends Component {
           goToPrevSlide={ this.goToPrevSlide }
           onFinalSlideNextClick={ this.handleFinalSlideNextClick }
         />
-      )
-      : 'loading'
-
+      ) : null
   }
 }
 export const UserLessonWizardComponent = UserLessonWizard
@@ -113,7 +97,6 @@ const mapStateToProps = (state, ownProps) => {
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
   const currentValues = getFormValues('userLesson')(state) || {}
-
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
     initialValues.answerData = []

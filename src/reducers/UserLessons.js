@@ -9,7 +9,7 @@ const initialState = {
 
 function userLessons(state = initialState, action) {
   switch (action.type) {
-    case ACTIONS.PUT_USER_LESSON_SUCCESS:
+    case ACTIONS.PUT_USER_LESSON_SUCCESS: {
       const userLessonsById = Object.assign({}, state.userLessonsById, {
         [action.payload.after["_id"]]: action.payload.after
       })
@@ -21,6 +21,7 @@ function userLessons(state = initialState, action) {
         , userLessonsByLessonId
       })
       return newState
+    }
     case ACTIONS.GET_USER_LESSON_SUCCESS:
     case ACTIONS.POST_USER_LESSON_SUCCESS: {
       const userLessonsById = Object.assign({}, state.userLessonsById, {
