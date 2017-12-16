@@ -176,6 +176,7 @@ class UserLessonWizardForm extends Component {
       ,
       <div
         key='backButton'
+        id='backButton'
         className={ cns('backButton', { 'disabled': prevDisabled }) }
         style={ styles.prevButton }
         onClick={ onPrevClick }
@@ -189,6 +190,7 @@ class UserLessonWizardForm extends Component {
       ,
       <div
         key='nextButton'
+        id='nextButton'
         className={ cns('nextButton', { 'disabled': nextDisabled }) }
         style={ styles.nextButton }
         onClick={ onNextClick }
