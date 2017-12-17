@@ -323,6 +323,7 @@ class MapBubbles extends PureComponent {
           ref={ `${completionLayer1Ref}-${i}` }
           x={ x }
           y={ y }
+          { ...clickProps }
           { ...shapeProps.arcStyle }
           { ...shapeProps.artAddPoints[i] }
         />
