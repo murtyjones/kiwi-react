@@ -70,7 +70,6 @@ describe('UserLessonWizard', () => {
       updatedAt: "2017-12-08T04:40:08Z"
     }
     userLesson = { _id: userLessonId, lessonId, answerData: { [slide1Id]: {  } } }
-
     setupStore = () => {
       ({ store, dispatchSpy } = setupIntegrationTest(notCombined, router))
       store.dispatch({ payload: { idToken: chesterAdminIdToken }, type: ACTIONS.LOGIN_SUCCESS })
@@ -101,24 +100,22 @@ describe('UserLessonWizard', () => {
 
   })
 
-  afterEach(() => {
-    ApiFetch.mockClear()
-  })
-
 
   describe('with existing userLesson', () => {
+    beforeEach(async() => {
+      setupStore()
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(lesson)) // getLesson response
+      ApiFetch.mockImplementationOnce(() => Promise.resolve([userLesson])) // getManyUserLessons response
+      component = mountWithStore(props, store) // mount component
+      await flushAllPromises() // wait for requests to resolve
+      component.update() // update component after having resolved requests
+    })
+
+    afterEach(() => {
+      ApiFetch.mockReset()
+    })
+
     describe('componentWillMount', () => {
-      beforeEach(() => {
-        setupStore()
-        ApiFetch.mockImplementationOnce(() => Promise.resolve(lesson))
-        ApiFetch.mockImplementationOnce(() => Promise.resolve([userLesson]))
-        component = mountWithStore(props, store)
-      })
-
-      afterEach(() => {
-        ApiFetch.mockReset()
-      })
-
       it('should dispatch the appropriate requests', () => {
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_LESSON_REQUEST })
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_USER_LESSONS_REQUEST })
@@ -138,40 +135,23 @@ describe('UserLessonWizard', () => {
 
 
     describe('render', () => {
-      beforeEach(async () => {
-        setupStore()
-        ApiFetch.mockImplementationOnce(() => Promise.resolve(lesson))
-        ApiFetch.mockImplementationOnce(() => Promise.resolve([userLesson]))
-        component = mountWithStore(props, store)
-        await flushAllPromises()
-      })
-
-      afterEach(() => {
-        ApiFetch.mockReset()
-      })
-
       it('should render two svg buttons for forward and back buttons', async () => {
-        component.update()
         expect(component.find('svg').length).toBe(2)
       })
 
       it('should render the form', async () => {
-        component.update()
         expect(component.find('form[className="lessonWizardForm"]').length).toBe(1)
       })
 
       it('should render the form content div', async () => {
-        component.update()
         expect(component.find('div[className="lessonWizardFormContent"]').length).toBe(1)
       })
 
       it('should render slide title', async () => {
-        component.update()
         expect(component.find('div[id="title"]').length).toBe(1)
       })
 
       it('should render first slide instructions', async () => {
-        component.update()
         expect(component.find('div[id="instructions"]').length).toBe(1)
         expect(component.find('div[id="instructions"]').props()).toHaveProperty('dangerouslySetInnerHTML', {__html: lesson.slides[0].instructions})
       })
@@ -214,20 +194,10 @@ describe('UserLessonWizard', () => {
             }
           ]
         }
-        setupStore()
-        ApiFetch.mockImplementationOnce(() => Promise.resolve(lesson)) // get lesson in componentWillMount
-        ApiFetch.mockImplementationOnce(() => Promise.resolve([userLesson])) // get userLesson in componentWillMount
         ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
-        component = mountWithStore(props, store)
-        await flushAllPromises()
-      })
-
-      afterEach(() => {
-        ApiFetch.mockReset()
       })
 
       it('should dispatch PUT request with expected params', async () => {
-        component.update()
         component.find('svg').at(1).simulate('click')
         await flushAllPromises()
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.PUT_USER_LESSON_REQUEST })
@@ -250,7 +220,6 @@ describe('UserLessonWizard', () => {
       })
 
       it('should receive expect response from dispatching PUT request', async () => {
-        component.update()
         component.find('svg').at(1).simulate('click')
         await flushAllPromises()
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.PUT_USER_LESSON_SUCCESS, payload: putLessonPayloadApiResponse })
