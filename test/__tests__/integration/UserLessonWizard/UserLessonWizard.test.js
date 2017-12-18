@@ -219,10 +219,30 @@ describe('UserLessonWizard', () => {
         )
       })
 
-      it('should receive expect response from dispatching PUT request', async () => {
-        component.find('svg').at(1).simulate('click')
-        await flushAllPromises()
-        expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.PUT_USER_LESSON_SUCCESS, payload: putLessonPayloadApiResponse })
+      describe('1 click forward', () => {
+        it('should receive expect response from dispatching PUT request', async () => {
+          component.find('svg').at(1).simulate('click')
+          await flushAllPromises()
+          expect(dispatchSpy).toBeCalledWith({
+            type: ACTIONS.PUT_USER_LESSON_SUCCESS,
+            payload: putLessonPayloadApiResponse
+          })
+        })
+
+        it('should change the focus to slide 2 (full sized editor)', async () => {
+          expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(0)
+          component.find('svg').at(1).simulate('click')
+          await flushAllPromises()
+          expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(1)
+        })
+
+        it('should have the expected beginning slide 2 content', async () => {
+          // prepopulate userlesson with answer and expect that over prompt
+          component.find('svg').at(1).simulate('click')
+          await flushAllPromises()
+          expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining('slide2EditorInput'))
+        })
+
       })
 
     })
