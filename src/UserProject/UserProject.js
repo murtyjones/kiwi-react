@@ -72,15 +72,21 @@ class UserProject extends Component {
 
 
   saveHandler = (code) => {
-    const { postUserProject, putUserProject } = this.props
+    const { postUserProject, putUserProject, userProject } = this.props
     const { newProject, projectTitle } = this.state
     const id = newProject ? null : this.state.projectId
     if(newProject) {
-      postUserProject({ code, title: projectTitle }).then(res => {
+      postUserProject({ code, title: projectTitle })
+      .then(res => {
         this.props.history.push(`/project/${res._id}`)
       })
     } else {
-      putUserProject({ id, code, title: projectTitle })
+      putUserProject({
+        ...userProject
+        , id
+        , code
+        , title: projectTitle
+      })
     }
   }
 

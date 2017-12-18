@@ -38,14 +38,10 @@ export const getUserProject = (params) => {
 }
 
 export const putUserProject = (params) => {
-  const { id, code, title, description } = params
+  const { id } = params
   const options = {
     method: "PUT",
-    body: {
-      code: code
-      , title: title
-      , description: description
-    }
+    body: params
   }
   return dispatch => {
     dispatch({ type: ACTIONS.PUT_USER_PROJECT_REQUEST })
@@ -60,14 +56,9 @@ export const putUserProject = (params) => {
 }
 
 export const postUserProject = (params) => {
-  const { code, title, description } = params
   const options = {
     method: "POST",
-    body: {
-      code: code
-      , title: title
-      , description: description
-    }
+    body: params
   }
   return dispatch => {
     dispatch({ type: ACTIONS.POST_USER_PROJECT_REQUEST })
