@@ -12,6 +12,7 @@ export const getLessonOrder = () => {
     return ApiFetch(`${config.api}/api/lessons/order`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_LESSON_ORDER_SUCCESS, payload: res })
+      return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.GET_LESSON_ORDER_FAILURE, payload: e })
@@ -29,6 +30,7 @@ export const putLessonOrder = (params) => {
     return ApiFetch(`${config.api}/api/lessons/order`, options)
     .then(res => {
       dispatch({ type: ACTIONS.PUT_LESSON_ORDER_SUCCESS, payload: res})
+      return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.PUT_LESSON_ORDER_FAILURE, payload: e })

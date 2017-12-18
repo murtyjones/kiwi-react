@@ -4,6 +4,7 @@ import { withRouter, Redirect, Route } from 'react-router-dom'
 import { get, find, isEqual, isEmpty, has, cloneDeep } from 'lodash'
 import { connect } from 'react-redux'
 import { getFormValues } from 'redux-form'
+import BluebirdPromise from 'bluebird'
 
 import { postUserLesson, putUserLesson, getManyUserLessons, getLesson } from '../actions'
 import UserLessonWizardForm from './UserLessonWizardForm'
@@ -12,7 +13,7 @@ class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeSlideIndex: 0
+      activeSlideIndex: -1
     }
   }
 
@@ -31,8 +32,19 @@ class UserLessonWizard extends Component {
 
   componentWillMount() {
     const { getManyUserLessons, getLesson, userId, match: { params: { id } } } = this.props
-    getLesson({ id })
-    getManyUserLessons({ lessonId: id, userId })
+    BluebirdPromise.all([
+      getLesson({ id })
+      , getManyUserLessons({ lessonId: id, userId })
+    ]).then(([lesson, userLessonAsArray]) => {
+      const userLesson = userLessonAsArray[0]
+      for (let i = 0, len = lesson.slides.length; i < len; i++) {
+        const slide = lesson.slides[i]
+        const slideAnswerData = get(userLesson, `answerData.${slide.id}`, {})
+        if(!slideAnswerData.isAnsweredCorrectly) {
+          return this.setState({ activeSlideIndex: i })
+        }
+      }
+    })
   }
 
   handleSubmit = (params) => {
@@ -70,7 +82,7 @@ class UserLessonWizard extends Component {
     const { lesson, initialValues, currentValues } = this.props
     const { activeSlideIndex } = this.state
 
-    return !isEmpty(lesson)
+    return !isEmpty(lesson) && activeSlideIndex > -1
       ? (
         <UserLessonWizardForm
           onSubmit={ this.handleSubmit }

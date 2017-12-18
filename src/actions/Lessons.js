@@ -28,6 +28,7 @@ export const deleteLesson = (params) => {
     return ApiFetch(`${config.api}/api/lessons/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.DELETE_LESSON_SUCCESS, payload: res})
+      return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.DELETE_LESSON_FAILURE, payload: e})
@@ -45,6 +46,7 @@ export const getLesson = (params) => {
     return ApiFetch(`${config.api}/api/lessons/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_LESSON_SUCCESS, payload: res })
+      return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.GET_LESSON_FAILURE, payload: e })
@@ -63,6 +65,7 @@ export const putLesson = (params) => {
     return ApiFetch(`${config.api}/api/lessons/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.PUT_LESSON_SUCCESS, payload: res})
+      return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.PUT_LESSON_FAILURE, payload: e })
@@ -80,7 +83,7 @@ export const postLesson = (params) => {
     return ApiFetch(`${config.api}/api/lessons/`, options)
     .then(res => {
       dispatch({ type: ACTIONS.POST_LESSON_SUCCESS, payload: res })
-      return res // needed so that component can know about the _id
+      return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.POST_LESSON_FAILURE, payload: e })

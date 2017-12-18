@@ -30,6 +30,7 @@ export const getUserProject = (params) => {
     return ApiFetch(`${config.api}/api/userprojects/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_USER_PROJECT_SUCCESS, payload: res })
+      return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.GET_USER_PROJECT_FAILURE, payload: e })
@@ -48,6 +49,7 @@ export const putUserProject = (params) => {
     return ApiFetch(`${config.api}/api/userprojects/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.PUT_USER_PROJECT_SUCCESS, payload: res})
+      return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.PUT_USER_PROJECT_FAILURE, payload: e })
