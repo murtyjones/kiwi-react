@@ -69,7 +69,15 @@ describe('UserLessonWizard', () => {
       ],
       updatedAt: "2017-12-08T04:40:08Z"
     }
-    userLesson = { _id: userLessonId, lessonId, answerData: { [slide1Id]: {  } } }
+    userLesson = {
+      _id: userLessonId,
+      lessonId,
+      answerData: {
+        [slide1Id]: {  }
+        , [slide2Id]: { answer: "slide2Answer" }
+        , [slide3Id]: { answer: "" }
+      }
+    }
     setupStore = () => {
       ({ store, dispatchSpy } = setupIntegrationTest(notCombined, router))
       store.dispatch({ payload: { idToken: chesterAdminIdToken }, type: ACTIONS.LOGIN_SUCCESS })
@@ -160,39 +168,15 @@ describe('UserLessonWizard', () => {
 
 
     describe('interaction', () => {
-      let putLessonPayload, putLessonPayloadApiResponse
+      let putLessonPayloadApiResponse
       beforeEach(async () => {
         putLessonPayloadApiResponse = {
           before: {
-            _id: userLessonId,
-            lessonId
+            ...userLesson
           }
-          ,after: {
-            _id: userLessonId,
-            lessonId
+          , after: {
+            ...userLesson
           }
-        }
-        putLessonPayload =  {
-          _id: userLessonId,
-          lessonId,
-          body: 'doesntmatter',
-          answerData: [
-            {
-              answer: '',
-              id: '075866a6-7b18-4a6d-86c7-e4f5503e40af',
-              isViewed: false
-            },
-            {
-              answer: '',
-              id: '6f1a9e61-6fcf-4fec-96ba-558912478786',
-              isViewed: false
-            },
-            {
-              answer: '',
-              id: '76915074-79eb-423c-b754-5151f099d947',
-              isViewed: false
-            }
-          ]
         }
         ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
       })
@@ -209,8 +193,8 @@ describe('UserLessonWizard', () => {
               ...userLesson,
               answerData: [
                 { answer: "", id: slide1Id, isViewed: true }
-                , { answer: "", id: slide2Id, isViewed: false }
-                , { answer: "", id: slide3Id, isViewed: false }
+                , userLesson.answerData[slide2Id]
+                , userLesson.answerData[slide3Id]
               ],
               id: userLessonId
             },
@@ -240,7 +224,7 @@ describe('UserLessonWizard', () => {
           // prepopulate userlesson with answer and expect that over prompt
           component.find('svg').at(1).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining('slide2EditorInput'))
+          expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide2Id].answer))
         })
 
       })
