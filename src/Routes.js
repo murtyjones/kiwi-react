@@ -68,6 +68,7 @@ class App extends Component {
     , sideNavWidth: T.number.isRequired
     , isTopBarOpen: T.bool.isRequired
     , topBarHeight: T.number.isRequired
+    , topBarTitle: T.string.isRequired
   }
 
   toggleSideNav = () => {
@@ -79,7 +80,7 @@ class App extends Component {
   }
 
   render() {
-    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight } = this.props
+    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle } = this.props
     const sideNavWidthString = `${sideNavWidth}px`
     const topBarWidthString = `${topBarHeight}px`
     return (
@@ -89,7 +90,7 @@ class App extends Component {
             <title>Kiwi Compute</title>
           </Helmet>
           <SideNav isOpen={ isSideNavOpen } isAdmin={ isAdmin } isLoggedIn={ isLoggedIn } />
-          <TopBar isOpen={ isTopBarOpen } sideNavWidth={ sideNavWidth } toggleSideNav={ this.toggleSideNav } />
+          <TopBar isOpen={ isTopBarOpen } title={ topBarTitle } sideNavWidth={ sideNavWidth } toggleSideNav={ this.toggleSideNav } />
           <div className={ cns('baseAppStyles') } style={{
             ...baseAppStyle
             , left: sideNavWidthString
@@ -139,7 +140,7 @@ class App extends Component {
 export const AppComponent = App
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn, isAdmin }, sideNav: { sideNavWidth, isSideNavOpen }, topBar: { topBarHeight, isTopBarOpen } } = state
+  const { auth: { isLoggedIn, isAdmin }, sideNav: { sideNavWidth, isSideNavOpen }, topBar: { topBarHeight, isTopBarOpen, topBarTitle } } = state
 
   return {
     isLoggedIn
@@ -148,6 +149,7 @@ const mapStateToProps = (state) => {
     , sideNavWidth
     , isTopBarOpen
     , topBarHeight
+    , topBarTitle
   }
 }
 

@@ -6,7 +6,7 @@ import Menu from 'material-ui-icons/Menu'
 
 const styles = {
   menu: {
-    position: 'absolute'
+    position: 'fixed'
     , top: 0
     , left: 0
     , right: 0
@@ -39,16 +39,24 @@ class TopBar extends Component {
     toggleSideNav: T.func.isRequired
     , sideNavWidth: T.number.isRequired
     , isOpen: T.bool.isRequired
+    , title: T.bool.isRequired
   }
 
   render() {
-    const { isOpen } = this.props
+    const { isOpen, sideNavWidth, toggleSideNav, title } = this.props
+
     if(!isOpen) return null
+
     return (
       <AppBar
-        style={ { ...styles.menu, left: this.props.sideNavWidth } }
-        iconElementLeft={ <Menu onClick={ this.props.toggleSideNav } style={ styles.leftIcon } /> }
-        title={ '' }
+        style={ {
+          ...styles.menu
+          , left: sideNavWidth
+        } }
+        iconElementLeft={
+          <Menu onClick={ toggleSideNav } style={ styles.leftIcon } />
+        }
+        title={ title }
         titleStyle={ styles.title }
       />
     )

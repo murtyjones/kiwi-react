@@ -11,3 +11,9 @@ export const closeTopBar = () => {
     dispatch({ type: ACTIONS.CLOSE_TOPBAR })
   }
 }
+
+export const setTopBarTitle = (title) => {
+  return dispatch => {
+    dispatch({ type: ACTIONS.SET_TOPBAR_TITLE, payload: title })
+  }
+}
