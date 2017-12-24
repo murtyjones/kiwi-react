@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import AuthService from './utils/AuthService'
-import { closeSideNav, openSideNav } from './actions'
+import { closeSideNav, openSideNav, setTopBarTitle } from './actions'
 
 
 const authService = new AuthService()
@@ -69,6 +69,7 @@ class App extends Component {
     , isTopBarOpen: T.bool.isRequired
     , topBarHeight: T.number.isRequired
     , topBarTitle: T.string.isRequired
+    , topBarTitleDisabled: T.bool.isRequired
   }
 
   toggleSideNav = () => {
@@ -80,7 +81,7 @@ class App extends Component {
   }
 
   render() {
-    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle } = this.props
+    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, topBarFocused } = this.props
     const sideNavWidthString = `${sideNavWidth}px`
     const topBarWidthString = `${topBarHeight}px`
     return (
@@ -90,7 +91,7 @@ class App extends Component {
             <title>Kiwi Compute</title>
           </Helmet>
           <SideNav isOpen={ isSideNavOpen } isAdmin={ isAdmin } isLoggedIn={ isLoggedIn } />
-          <TopBar isOpen={ isTopBarOpen } title={ topBarTitle } sideNavWidth={ sideNavWidth } toggleSideNav={ this.toggleSideNav } />
+          <TopBar isOpen={ isTopBarOpen } isFocused={ topBarFocused } title={ topBarTitle } titleDisabled={ topBarTitleDisabled } sideNavWidth={ sideNavWidth } handleTitleChange={ setTopBarTitle } toggleSideNav={ this.toggleSideNav } />
           <div className={ cns('baseAppStyles') } style={{
             ...baseAppStyle
             , left: sideNavWidthString
@@ -140,7 +141,7 @@ class App extends Component {
 export const AppComponent = App
 
 const mapStateToProps = (state) => {
-  const { auth: { isLoggedIn, isAdmin }, sideNav: { sideNavWidth, isSideNavOpen }, topBar: { topBarHeight, isTopBarOpen, topBarTitle } } = state
+  const { auth: { isLoggedIn, isAdmin }, sideNav: { sideNavWidth, isSideNavOpen }, topBar: { topBarHeight, isTopBarOpen, topBarTitle, topBarTitleDisabled, topBarFocused } } = state
 
   return {
     isLoggedIn
@@ -150,6 +151,8 @@ const mapStateToProps = (state) => {
     , isTopBarOpen
     , topBarHeight
     , topBarTitle
+    , topBarTitleDisabled
+    , topBarFocused
   }
 }
 
@@ -158,6 +161,7 @@ const mapDispatchToProps = (dispatch) => {
     signout: () => dispatch(signout())
     , closeSideNav: () => dispatch(closeSideNav())
     , openSideNav: () => dispatch(openSideNav())
+    , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
   }
 }
 

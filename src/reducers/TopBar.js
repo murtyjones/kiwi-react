@@ -5,6 +5,8 @@ const getInitialState = () => {
     isTopBarOpen: true
     , topBarHeight: 60
     , topBarTitle: ''
+    , topBarTitleDisabled: true
+    , topBarFocused: false
   }
 }
 
@@ -28,6 +30,19 @@ export default (state = getInitialState(), action) => {
     case ACTIONS.SET_TOPBAR_TITLE: {
       const newState = Object.assign({}, state, {
         topBarTitle: action.payload
+      })
+      return newState
+    }
+    case ACTIONS.TOGGLE_TOPBAR_TITLE_EDITABLE: {
+      const newState = Object.assign({}, state, {
+        topBarTitleDisabled: action.payload
+      })
+      return newState
+    }
+    case ACTIONS.TOGGLE_TOPBAR_TITLE_FOCUS: {
+      const isFocused = action.payload
+      const newState = Object.assign({}, state, {
+        topBarFocused: isFocused
       })
       return newState
     }

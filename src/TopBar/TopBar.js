@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { AppBar } from 'material-ui'
-
+import { AppBar, TextField } from 'material-ui'
 import Menu from 'material-ui-icons/Menu'
+import cns from 'classnames'
+
+import './overrides.css'
 
 const styles = {
   menu: {
@@ -18,7 +20,17 @@ const styles = {
   },
   title: {
     color: 'black'
-  },
+    , whiteSpace: 'nowrap'
+    , overflow: 'hidden'
+    , textOverflow: 'ellipsis'
+    , margin: '0px'
+    , paddingTop: '0px'
+    , letterSpacing: '0px'
+    , fontSize: '28px'
+    , fontWeight: '400'
+    , lineHeight: '64px'
+    , flex: '1 1 0%'
+},
   leftIcon: {
     color: 'black'
     , height: '30px'
@@ -27,6 +39,9 @@ const styles = {
     , position: 'relative'
     , top: '50%'
     , marginTop: '-30px'
+  },
+  appBarTitleStyle: {
+    display: 'none'
   }
 }
 
@@ -39,11 +54,32 @@ class TopBar extends Component {
     toggleSideNav: T.func.isRequired
     , sideNavWidth: T.number.isRequired
     , isOpen: T.bool.isRequired
-    , title: T.bool.isRequired
+    , title: T.string.isRequired
+    , titleDisabled: T.bool.isRequired
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.title !== nextProps.title) {
+      this.setState({ title: nextProps.title })
+    }
+    if(nextProps.isFocused && !this.props.isFocused) {
+      console.log('hm')
+      this.input.focus()
+      this.input.setSelectionRange(this.input.value.length, this.input.value.length)
+    }
+    if(!nextProps.isFocused && this.props.isFocused) {
+      console.log('hm2')
+      this.input.blur()
+    }
+  }
+
+  handleTitleChange = (e) => {
+    const { handleTitleChange } = this.props
+    handleTitleChange(e.target.value)
   }
 
   render() {
-    const { isOpen, sideNavWidth, toggleSideNav, title } = this.props
+    const { isOpen, sideNavWidth, toggleSideNav, titleDisabled, handleTitleChange, title } = this.props
 
     if(!isOpen) return null
 
@@ -56,9 +92,17 @@ class TopBar extends Component {
         iconElementLeft={
           <Menu onClick={ toggleSideNav } style={ styles.leftIcon } />
         }
-        title={ title }
-        titleStyle={ styles.title }
-      />
+        titleStyle={ styles.appBarTitleStyle }
+      >
+        <input
+          ref={ c => this.input = c }
+          className={ cns('titleInput', { 'disabled': titleDisabled } ) }
+          onChange={ this.handleTitleChange }
+          value={ title }
+          style={ styles.title }
+          disabled={ titleDisabled }
+        />
+      </AppBar>
     )
   }
 }

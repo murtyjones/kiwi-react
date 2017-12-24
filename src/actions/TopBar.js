@@ -17,3 +17,15 @@ export const setTopBarTitle = (title) => {
     dispatch({ type: ACTIONS.SET_TOPBAR_TITLE, payload: title })
   }
 }
+
+export const toggleTopBarTitleFocus = (isFocused) => {
+  return dispatch => {
+    dispatch({ type: ACTIONS.TOGGLE_TOPBAR_TITLE_FOCUS, payload: isFocused })
+  }
+}
+
+export const toggleTopBarTitleIsDisabled = (isDisabled) => {
+  return dispatch => {
+    dispatch({ type: ACTIONS.TOGGLE_TOPBAR_TITLE_EDITABLE, payload: isDisabled })
+  }
+}

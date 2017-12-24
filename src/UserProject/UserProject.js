@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty, isEqual, get } from 'lodash'
 
-import { getUserProject, putUserProject, postUserProject } from '../actions'
+import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleIsDisabled, toggleTopBarTitleFocus } from '../actions'
 import { TextField } from 'material-ui'
 
 import renderIf from 'render-if'
@@ -38,8 +38,7 @@ class UserProject extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      newProject: (props.location.pathname === "/project/new"),
-      projectTitle: get(props, 'userProject.title', ''),
+      isNewProject: (props.location.pathname === "/project/new"),
       projectId: (props.location.pathname === "/project/new") ? null : props.match.params.id
     }
   }
@@ -49,80 +48,83 @@ class UserProject extends Component {
     , getUserProject: T.func.isRequired
     , putUserProject: T.func.isRequired
     , postUserProject: T.func.isRequired
+    , setTopBarTitle: T.func.isRequired
+    , toggleTopBarTitleFocus: T.func.isRequired
+    , toggleTopBarTitleIsDisabled: T.func.isRequired
   }
 
   componentWillMount() {
-    const { getUserProject, userProject, location: { pathname }, match: { params: { id } } } = this.props
-    const { newProject } = this.state
+    const { toggleTopBarTitleIsDisabled, toggleTopBarTitleFocus, setTopBarTitle, getUserProject, userProject, match: { params: { id } } } = this.props
+    const { isNewProject } = this.state
 
-    if(!newProject && isEmpty(userProject)) {
+    if(!isNewProject && isEmpty(userProject)) {
       getUserProject({ id })
     }
+
+    toggleTopBarTitleIsDisabled(false)
+    toggleTopBarTitleFocus(true)
+    setTopBarTitle('name me!')
+
   }
 
   componentWillReceiveProps(nextProps) {
     if(!isEqual(this.props.userProject, nextProps.userProject)) {
+      nextProps.setTopBarTitle(get(nextProps, 'userProject.title', ''))
       this.setState({
         projectId: nextProps.userProject._id
-        , newProject: false
-        , projectTitle: nextProps.userProject.title
+        , isNewProject: false
       })
+      nextProps.setTopBarTitle(nextProps.userProject.title)
     }
   }
 
 
-  saveHandler = (code) => {
-    const { postUserProject, putUserProject, userProject } = this.props
-    const { newProject, projectTitle } = this.state
-    const id = newProject ? null : this.state.projectId
-    if(newProject) {
-      postUserProject({ code, title: projectTitle })
+  handleSave = (code) => {
+    const { postUserProject, putUserProject, userProject, topBarTitle } = this.props
+    const { isNewProject } = this.state
+
+    const id = isNewProject ? null : this.state.projectId
+      , title = topBarTitle
+
+    if(isNewProject) {
+      postUserProject({ code, title })
       .then(res => {
         this.props.history.push(`/project/${res._id}`)
       })
     } else {
-      putUserProject({
-        ...userProject
-        , id
-        , code
-        , title: projectTitle
-      })
+      putUserProject({ ...userProject, id, code, title })
     }
   }
 
 
   render() {
     const { userProject, userProject: { _id } } = this.props
-    const { newProject, projectTitle } = this.state
-    const isNewOrHasCode = newProject || (!newProject && !!userProject.code)
+    const { isNewProject } = this.state
+    const isNewOrHasCode = isNewProject || (!isNewProject && !!userProject.code)
+
     return (
       <div>
-        <TextField
-          placeholder="pick your title!"
-          value={ projectTitle }
-          onChange={ (e) => this.setState({ projectTitle: e.target.value }) }
-        />
         { renderIf(isNewOrHasCode)(
           <CodeEditor
             className='lessonFullSizeEditor'
             layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
-            onSave={ this.saveHandler }
+            onSave={ this.handleSave }
             editorStyle={ codeEditorStyles }
             editorInput={ userProject.code ? userProject.code: '' }
           />
         ) }
-
       </div>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { userProjects: { projectsById } } = state
+  const { userProjects: { projectsById }, topBar: { topBarTitle } } = state
   const { match: { params: { id } } } = ownProps
 
   return {
     userProject: projectsById[id] || {}
+    , topBarTitle
   }
 }
 
@@ -131,6 +133,9 @@ const mapDispatchToProps = (dispatch) => {
     getUserProject: (params) => dispatch(getUserProject(params))
     , putUserProject: (params) => dispatch(putUserProject(params))
     , postUserProject: (params) => dispatch(postUserProject(params))
+    , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
+    , toggleTopBarTitleFocus: (isFocused) => dispatch(toggleTopBarTitleFocus(isFocused))
+    , toggleTopBarTitleIsDisabled: (isDisabled) => dispatch(toggleTopBarTitleIsDisabled(isDisabled))
   }
 }
 
