@@ -62,6 +62,16 @@ class LessonForm extends Component {
           label={ 'Is live?' }
           component={ Toggle }
         />
+        <Field
+          name={ 'groundColor' }
+          placeholder={ 'Ground Color (HEX, e.g. #000000)' }
+          component={ renderTextField }
+        />
+        <Field
+          name={ 'horizonColor' }
+          placeholder={ 'Horizon Color (HEX, e.g. #000000)' }
+          component={ renderTextField }
+        />
         <FieldArray
           name="slides"
           component={ Slides }

@@ -41,22 +41,12 @@ class Title extends Component {
           name={ `${slideRef}.description` }
           placeholder={ 'Description' }
           component={ renderTextField }
-          multiline={ true }
+          multiLine={ true }
           rows={ 5 }
         />
         <Field
           name={ `${slideRef}.iconUrl` }
           placeholder={ 'Link to Icon URL' }
-          component={ renderTextField }
-        />
-        <Field
-          name={ `${slideRef}.groundColor` }
-          placeholder={ 'Ground Color (HEX, e.g. #000000)' }
-          component={ renderTextField }
-        />
-        <Field
-          name={ `${slideRef}.horizonColor` }
-          placeholder={ 'Horizon Color (HEX, e.g. #000000)' }
           component={ renderTextField }
         />
       </div>
