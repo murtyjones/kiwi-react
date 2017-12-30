@@ -6,7 +6,7 @@ import { List, ListItem, RaisedButton, FlatButton, MenuItem, Tabs, Tab, Dialog }
 import Clear  from 'material-ui-icons/Clear'
 import ChevronLeft from 'material-ui-icons/ChevronLeft'
 import ChevronRight from 'material-ui-icons/ChevronRight'
-import { find, isEmpty } from 'lodash'
+import { find, isEmpty, clone } from 'lodash'
 
 import { slideTypes as allSlideTypes } from './slideTypes'
 import renderSelectField from '../../common/renderSelectField'
@@ -17,12 +17,12 @@ const defaultSlideTypeValue = allSlideTypes[0].value
 
 function immutablySwapItems(items, firstIndex, secondIndex) {
   // Constant reference - we can still modify the array itself
-  const results= items.slice();
-  const firstItem = items[firstIndex];
-  results[firstIndex] = items[secondIndex];
-  results[secondIndex] = firstItem;
+  const results = items.slice()
+  const firstItem = items[firstIndex]
+  results[firstIndex] = items[secondIndex]
+  results[secondIndex] = firstItem
 
-  return results;
+  return results
 }
 
 const styles = {
@@ -54,7 +54,6 @@ const styles = {
 class Slides extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
       localSlideTypes: []
       , selectedSlideTitle: ''
@@ -78,6 +77,10 @@ class Slides extends Component {
     }
   }
 
+  componentDidUpdate() {
+    console.log('state is', this.state);
+  }
+
   setSelectedSlideType = (slideIndex, value) => {
     const { localSlideTypes } = this.state
     this.setState({
@@ -86,10 +89,12 @@ class Slides extends Component {
     })
   }
 
+
   deleteSelectedSlideType = (slideIndex) => {
     const { localSlideTypes } = this.state
     this.setState({ localSlideTypes: update(localSlideTypes, { $splice: [[slideIndex, 1]] }) })
   }
+
 
   renderSlideConfigure = (slideRef, value) => {
     const SlideConfigComponent = find(allSlideTypes, { value }).component
@@ -100,12 +105,14 @@ class Slides extends Component {
     )
   }
 
+
   deleteSlide = (i) => {
     const { fields } = this.props
     this.deleteSelectedSlideType(i)
     fields.remove(i)
     this.setState({ deleteDialogOpen: false })
   }
+
 
   addSlideAfterCurrent = () => {
     const { activeSlideIndex, localSlideTypes } = this.state
@@ -115,19 +122,24 @@ class Slides extends Component {
     this.setState({ canAddNewSlide: false })
   }
 
+
   moveSlide = (to) => {
     const { fields } = this.props
     const { activeSlideIndex, localSlideTypes } = this.state
-    const incremented = this.state.activeSlideIndex + 1
-    const newLocalSlideTypes = immutablySwapItems(localSlideTypes, activeSlideIndex, this.state.activeSlideIndex + 1)
-    fields.swap(activeSlideIndex, incremented)
+    const newSlot = this.state.activeSlideIndex + to
     this.setState({
-      activeSlideIndex: this.state.activeSlideIndex + 1
-      , localSlideTypes: update(localSlideTypes, { $set: newLocalSlideTypes })
-    }, function () {
-      console.log(this.state.activeSlideIndex);
+      activeSlideIndex: newSlot
+    }, () => {
+      const newLocalSlideTypes = immutablySwapItems(localSlideTypes, activeSlideIndex, newSlot)
+      fields.swap(activeSlideIndex, newSlot)
+      this.setState({
+        localSlideTypes: update(localSlideTypes, { $set: newLocalSlideTypes })
+      })
     })
+
+
   }
+
 
   renderSlideLabel = (i) => {
     const { activeSlideIndex } = this.state
@@ -160,6 +172,7 @@ class Slides extends Component {
     )
   }
 
+
   renderDeleteDialogActions = () => {
     const { activeSlideIndex } = this.state
     return [
@@ -173,10 +186,10 @@ class Slides extends Component {
   }
 
 
-
   render() {
     const { fields } = this.props
     const { localSlideTypes, canAddNewSlide, deleteDialogOpen, activeSlideIndex } = this.state
+    console.log(activeSlideIndex)
 
     return (
       <List>
@@ -194,9 +207,14 @@ class Slides extends Component {
             Add Slide after Slide #{activeSlideIndex + 1}
           </RaisedButton>
         </ListItem>
-        <Tabs initialSelectedIndex={ activeSlideIndex } >
+        <Tabs value={ activeSlideIndex } >
           { fields.map((eachSlideRef, i) =>
-            <Tab key={ i } label={ this.renderSlideLabel(i) } onActive={ () => { this.setState({ activeSlideIndex: i }) } }>
+            <Tab
+              key={ i }
+              value={ i }
+              label={ this.renderSlideLabel(i) }
+              onActive={ () => activeSlideIndex !== i && this.setState({ activeSlideIndex: i }) }
+            >
               <Dialog
                 key={ i }
                 open={ deleteDialogOpen }

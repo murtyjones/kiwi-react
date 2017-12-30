@@ -4,7 +4,7 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 const SortableItem = SortableElement(({item, component}) => {
   const ComponentToRender = component
   return <div><ComponentToRender item={ item } /></div>
-});
+})
 
 const SortableList = SortableContainer(({items, component}) => {
   return (

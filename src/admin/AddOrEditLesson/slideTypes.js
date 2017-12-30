@@ -1,6 +1,7 @@
 import FullPageText from './SlideConfigs/FullPageText'
 import HalfTextHalfCode from './SlideConfigs/HalfTextHalfCode'
 import FullPageCode from './SlideConfigs/FullPageCode'
+import Title from './SlideConfigs/Title'
 
 import { LESSON_SLIDE_TYPES } from '../../constants'
 
@@ -19,6 +20,10 @@ slideTypes = [
     label: 'Full page code editor'
     , value: LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR
     , component: FullPageCode
+  }, {
+    label: 'Title'
+    , value: LESSON_SLIDE_TYPES.TITLE
+    , component: Title
   }
 ]
 
