@@ -57,7 +57,6 @@ class Slides extends Component {
     this.state = {
       localSlideTypes: []
       , selectedSlideTitle: ''
-      , canAddNewSlide: true
       , deleteDialogOpen: false
       , activeSlideIndex: 0
     }
@@ -77,22 +76,29 @@ class Slides extends Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log('state is', this.state);
+
+  swapSelectedSlideType = (newSlot) => {
+    const { localSlideTypes, activeSlideIndex } = this.state
+    const newLocalSlideTypes = immutablySwapItems(localSlideTypes, activeSlideIndex, newSlot)
+    this.setState({
+      localSlideTypes: update(localSlideTypes, { $set: newLocalSlideTypes })
+    })
   }
 
-  setSelectedSlideType = (slideIndex, value) => {
+
+  spliceSelectedSlideType = (slideIndex, spliceBy, value) => {
     const { localSlideTypes } = this.state
     this.setState({
-      localSlideTypes: update(localSlideTypes, {$splice: [[slideIndex, 1, value]] })
-      , canAddNewSlide: true
+      localSlideTypes: update(localSlideTypes, { $splice: [[slideIndex, spliceBy, value]] })
     })
   }
 
 
   deleteSelectedSlideType = (slideIndex) => {
     const { localSlideTypes } = this.state
-    this.setState({ localSlideTypes: update(localSlideTypes, { $splice: [[slideIndex, 1]] }) })
+    this.setState({
+      localSlideTypes: update(localSlideTypes, { $splice: [[slideIndex, 1]] })
+    })
   }
 
 
@@ -115,29 +121,20 @@ class Slides extends Component {
 
 
   addSlideAfterCurrent = () => {
-    const { activeSlideIndex, localSlideTypes } = this.state
+    const { activeSlideIndex } = this.state
     const { fields } = this.props
     fields.insert(activeSlideIndex + 1, {})
-    this.setState({ localSlideTypes: update(localSlideTypes, { $splice: [[activeSlideIndex + 1, 0, defaultSlideTypeValue]] }) })
-    this.setState({ canAddNewSlide: false })
+    this.spliceSelectedSlideType(activeSlideIndex + 1, 0, defaultSlideTypeValue)
   }
 
 
   moveSlide = (to) => {
     const { fields } = this.props
-    const { activeSlideIndex, localSlideTypes } = this.state
-    const newSlot = this.state.activeSlideIndex + to
-    this.setState({
-      activeSlideIndex: newSlot
-    }, () => {
-      const newLocalSlideTypes = immutablySwapItems(localSlideTypes, activeSlideIndex, newSlot)
-      fields.swap(activeSlideIndex, newSlot)
-      this.setState({
-        localSlideTypes: update(localSlideTypes, { $set: newLocalSlideTypes })
-      })
-    })
-
-
+    const { activeSlideIndex } = this.state
+    const newSlot = activeSlideIndex + to
+    this.swapSelectedSlideType(newSlot)
+    fields.swap(activeSlideIndex, newSlot)
+    this.setState({ activeSlideIndex: newSlot })
   }
 
 
@@ -188,22 +185,15 @@ class Slides extends Component {
 
   render() {
     const { fields } = this.props
-    const { localSlideTypes, canAddNewSlide, deleteDialogOpen, activeSlideIndex } = this.state
-    console.log(activeSlideIndex)
+    const { localSlideTypes, deleteDialogOpen, activeSlideIndex } = this.state
 
     return (
       <List>
         <ListItem>
-          <RaisedButton
-            onClick={ () => fields.push({}) && this.setState({ canAddNewSlide: false }) }
-            disabled={ !canAddNewSlide }
-          >
+          <RaisedButton onClick={ () => fields.push({}) }>
             Add Slide to End
           </RaisedButton>
-          <RaisedButton
-            onClick={ this.addSlideAfterCurrent }
-            disabled={ !canAddNewSlide }
-          >
+          <RaisedButton onClick={ this.addSlideAfterCurrent }>
             Add Slide after Slide #{activeSlideIndex + 1}
           </RaisedButton>
         </ListItem>
@@ -227,7 +217,7 @@ class Slides extends Component {
                 name={ `${eachSlideRef}.type` }
                 hintText='Slide Type'
                 component={ renderSelectField }
-                onSelectCustom={ (v) => this.setSelectedSlideType(i, v) }
+                onSelectCustom={ (v) => this.spliceSelectedSlideType(i, 1, v) }
               >
                 { allSlideTypes.map((eachType, i) =>
                   <MenuItem
