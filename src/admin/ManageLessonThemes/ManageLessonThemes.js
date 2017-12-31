@@ -6,7 +6,7 @@ import { isEmpty, find, get } from 'lodash'
 
 import LessonThemeWidget from './LessonThemeWidget'
 import { KiwiLink } from '../../common/KiwiLink'
-import { getManyLessonThemes } from '../../actions'
+import { getManyLessonThemes, deleteLessonTheme } from '../../actions'
 
 
 class ManageLessonThemes extends Component {
@@ -16,11 +16,17 @@ class ManageLessonThemes extends Component {
 
   static propTypes = {
     getManyLessonThemes: T.func.isRequired
+    , deleteLessonTheme: T.func.isRequired
   }
 
   componentWillMount() {
     const { getManyLessonThemes } = this.props
     getManyLessonThemes()
+  }
+
+  onDelete = (e, id) => {
+    e.preventDefault()
+    this.props.deleteLessonTheme({id})
   }
 
   render() {
@@ -33,7 +39,7 @@ class ManageLessonThemes extends Component {
         </KiwiLink>
         <h5>Lesson Themes</h5>
         { Object.values(lessonThemesById).map((theme, i) => {
-          return <LessonThemeWidget key={ i } item={ theme } draggable={ false } />
+          return <LessonThemeWidget key={ i } item={ theme } onDelete={ this.onDelete } />
         }) }
       </div>
     )
@@ -51,6 +57,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getManyLessonThemes: (params) => dispatch(getManyLessonThemes(params))
+    , deleteLessonTheme: (params) => dispatch(deleteLessonTheme(params))
   }
 }
 

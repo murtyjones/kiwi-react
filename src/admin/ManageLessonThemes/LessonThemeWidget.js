@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
-import Reorder from 'material-ui-icons/Reorder'
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import Delete from 'material-ui-icons/Delete'
 
 const styles = {
-  reorder: {
-    cursor: 'row-resize'
-    , float: 'left'
+  delete: {
+    float: 'left'
     , color: '#CCCCCC'
-    , marginTop: '25px'
-    , marginLeft: '20px'
+    , marginTop: '15px'
+    , marginLeft: '15px'
     , display: 'inline-block'
   },
   card: {
@@ -25,15 +24,15 @@ class LessonWidget extends Component {
   }
 
   render() {
-    const { item, draggable = true } = this.props
+    const { item, onDelete } = this.props
     return (
       <KiwiLink to={ `/admin/lessons/themes/${item._id}` }>
         <Card key={ item.name }>
-          { draggable && <Reorder style={ styles.reorder } /> }
           <CardHeader
             title={ item.name }
             style={ styles.card }
           />
+          <Delete style={ styles.delete } onClick={ (e) => onDelete(e, item._id) } />
         </Card>
       </KiwiLink>
 

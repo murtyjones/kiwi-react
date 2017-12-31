@@ -37,14 +37,14 @@ function lessonThemes(state = initialState, action) {
       return newState
     }
     case ACTIONS.DELETE_LESSON_THEME_SUCCESS: {
-      const lessonThemesById = action.payload.reduce((acc, each) => {
-        acc[each._id] = each
-        return acc
-      }, {})
-      const newState = Object.assign({}, state, {
-        lessonThemesById
-      })
-      return newState
+      if(action.payload.ok) {
+        const lessonThemesById = Object.assign({}, state.lessonThemesById)
+        delete lessonThemesById[action.payload.value._id]
+        const newState = Object.assign({}, state, {
+          lessonThemesById
+        })
+        return newState
+      }
     }
     default:
       return state

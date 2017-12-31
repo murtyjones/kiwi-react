@@ -39,14 +39,14 @@ function lessons(state = initialState, action) {
       return newState
     }
     case ACTIONS.DELETE_LESSON_SUCCESS: {
-      const lessonsById = action.payload.reduce((acc, each) => {
-        acc[each._id] = each
-        return acc
-      }, {})
-      const newState = Object.assign({}, state, {
-        lessonsById
-      })
-      return newState
+      if(action.payload.ok) {
+        const lessonsById = Object.assign({}, state.lessonThemesById)
+        delete lessonsById[action.payload.value._id]
+        const newState = Object.assign({}, state, {
+          lessonsById
+        })
+        return newState
+      }
     }
     default:
       return state
