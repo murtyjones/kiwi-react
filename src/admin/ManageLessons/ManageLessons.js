@@ -77,9 +77,9 @@ class ManageLessons extends Component {
           component={ LessonWidget }
         />
         <h5>Unpublished</h5>
-        { lessonsByType.unpublished.map((lesson, i) => {
-          return <LessonWidget key={ i } item={ lesson } draggable={ false } />
-        }) }
+        { lessonsByType.unpublished.map((lesson, i) =>
+          <LessonWidget key={ i } item={ lesson } draggable={ false } />
+        )}
       </div>
     )
   }

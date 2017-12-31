@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { postLesson, putLesson, getLesson } from '../../actions'
+import { postLesson, putLesson, getLesson, getManyLessonThemes } from '../../actions'
 import { has, isEmpty, isEqual } from 'lodash'
 import LessonForm from './LessonForm'
 
@@ -26,11 +26,13 @@ class AddOrEditLesson extends Component {
   }
 
   componentWillMount() {
-    const { getLesson, match: { params: { id } } } = this.props
+    const { getLesson, getManyLessonThemes, match: { params: { id } } } = this.props
     const { needsLesson } = this.state
     if(needsLesson) {
       getLesson({ id })
+
     }
+    getManyLessonThemes()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,7 +58,7 @@ class AddOrEditLesson extends Component {
   }
 
   render() {
-    const { initialValues } = this.props
+    const { initialValues, lessonThemes } = this.props
     const { needsLesson, isNewLesson } = this.state
     return (
       <div>
@@ -65,6 +67,7 @@ class AddOrEditLesson extends Component {
           :
             <LessonForm
               initialValues={ initialValues }
+              themeOptions={ lessonThemes }
               onSubmit={ this.handleSubmit }
             />
         }
@@ -75,10 +78,13 @@ class AddOrEditLesson extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { lessons: { lessonsById } } = state
+  const { lessons: { lessonsById }, lessonThemes: { lessonThemesById } } = state
   const { match: { params: { id } } } = ownProps
+  const lessonThemes = Object.values(lessonThemesById)
+
   return {
     initialValues: lessonsById[id] || {}
+    , lessonThemes
   }
 }
 
@@ -87,6 +93,7 @@ const mapDispatchToProps = (dispatch) => {
     putLesson: (params) => dispatch(putLesson(params))
     , postLesson: (params) => dispatch(postLesson(params))
     , getLesson: (params) => dispatch(getLesson(params))
+    , getManyLessonThemes: (params) => dispatch(getManyLessonThemes(params))
   }
 }
 

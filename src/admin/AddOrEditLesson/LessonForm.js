@@ -4,12 +4,12 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, formValueSelector } from 'redux-form'
 
-import { RaisedButton } from 'material-ui'
+import { RaisedButton, MenuItem } from 'material-ui'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
 import KiwiToggleField from '../../common/KiwiToggleField'
-import { Toggle } from 'redux-form-material-ui'
+import { Toggle, SelectField } from 'redux-form-material-ui'
 
 import Slides from './Slides'
 
@@ -34,7 +34,8 @@ class LessonForm extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting, slideTypes } = this.props
+    const { handleSubmit, submitting, slideTypes, themeOptions } = this.props
+
     return (
       <form onSubmit={ handleSubmit } style={ { width: "100%", height: "100%" } }>
         <Field
@@ -62,6 +63,15 @@ class LessonForm extends Component {
           label={ 'Is live?' }
           component={ Toggle }
         />
+        <Field
+          name={ 'themeId' }
+          hintText={ 'Lesson Theme' }
+          component={ SelectField }
+        >
+          { themeOptions.map((theme, i) =>
+            <MenuItem key={ theme._id }value={ theme._id } primaryText={ theme.name } />
+          )}
+        </Field>
         <FieldArray
           name="slides"
           component={ Slides }
@@ -90,7 +100,7 @@ const mapStateToProps = (state, ownProps) => {
     initialValues.isPublished = false
 
   return {
-    slideTypes,
+    slideTypes
   }
 }
 
