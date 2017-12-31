@@ -31,7 +31,9 @@ import Projects from './Projects/Projects'
 import UserProject from './UserProject/UserProject'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
+import AddOrEditLessonTheme from './admin/AddOrEditLessonTheme/AddOrEditLessonTheme'
 import ManageLessons from './admin/ManageLessons/ManageLessons'
+import ManageLessonThemes from './admin/ManageLessonThemes/ManageLessonThemes'
 import Lessons from './Lessons/Lessons'
 import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
 import SideNav from './SideNav/SideNav'
@@ -84,13 +86,14 @@ class App extends Component {
     const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, topBarFocused } = this.props
     const sideNavWidthString = `${sideNavWidth}px`
     const topBarWidthString = `${topBarHeight}px`
+    const authProps = { isLoggedIn, isAdmin }
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
-          <SideNav isOpen={ isSideNavOpen } isAdmin={ isAdmin } isLoggedIn={ isLoggedIn } />
+          <SideNav isOpen={ isSideNavOpen } { ...authProps } />
           <TopBar isOpen={ isTopBarOpen } isFocused={ topBarFocused } title={ topBarTitle } titleDisabled={ topBarTitleDisabled } sideNavWidth={ sideNavWidth } handleTitleChange={ setTopBarTitle } toggleSideNav={ this.toggleSideNav } />
           <div className={ cns('baseAppStyles') } style={{
             ...baseAppStyle
@@ -116,19 +119,22 @@ class App extends Component {
                 {/* ----------------- */}
                 {/* Logged in routes  */}
                 {/* ----------------- */}
-                <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/projects' exact component={ Projects } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/project/new' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/project/:id' exact component={ UserProject } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/lessons' exact component={ Lessons } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/lessons/new' exact component={ UserLessonWizard } isLoggedIn={ isLoggedIn } />
-                <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } isLoggedIn={ isLoggedIn } />
+                <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } { ...authProps } />
+                <AuthenticatedRoute path='/projects' exact component={ Projects } { ...authProps } />
+                <AuthenticatedRoute path='/project/new' exact component={ UserProject } { ...authProps } />
+                <AuthenticatedRoute path='/project/:id' exact component={ UserProject } { ...authProps } />
+                <AuthenticatedRoute path='/lessons' exact component={ Lessons } { ...authProps } />
+                <AuthenticatedRoute path='/lessons/new' exact component={ UserLessonWizard } { ...authProps } />
+                <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...authProps } />
                 {/* ----------------- */}
                 {/* Admin-only routes */}
                 {/* ----------------- */}
-                <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
-                <AuthorizedRoute path='/admin/lesson/new' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
-                <AuthorizedRoute path='/admin/lesson/:id' exact component={ AddOrEditLesson } isLoggedIn={ isLoggedIn } isAdmin={ isAdmin } />
+                <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } { ...authProps } />
+                <AuthorizedRoute path='/admin/lessons/themes' exact component={ ManageLessonThemes } { ...authProps } />
+                <AuthorizedRoute path='/admin/lessons/new' exact component={ AddOrEditLesson } { ...authProps } />
+                <AuthorizedRoute path='/admin/lessons/:id' exact component={ AddOrEditLesson } { ...authProps } />
+                <AuthorizedRoute path='/admin/lessons/themes/new' exact component={ AddOrEditLessonTheme } { ...authProps } />
+                <AuthorizedRoute path='/admin/lessons/themes/:id' exact component={ AddOrEditLessonTheme } { ...authProps } />
               </Switch>
               </div>
           </div>

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
 
-import { getManyLessons } from '../../actions/index'
+import { getManyLessons } from '../../actions'
 import LessonWidget from './LessonWidget'
 
 import { KiwiLink } from '../../common/KiwiLink'

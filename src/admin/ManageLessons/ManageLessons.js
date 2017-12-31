@@ -6,7 +6,7 @@ import { isEmpty, find, get } from 'lodash'
 
 import LessonWidget from './LessonWidget'
 import { KiwiLink } from '../../common/KiwiLink'
-import { getManyLessons, putLesson, getLessonOrder, putLessonOrder } from '../../actions/index'
+import { getManyLessons, putLesson, getLessonOrder, putLessonOrder } from '../../actions'
 import { SortableList } from '../../common/SortableComponents'
 import { reorderLessons } from '../../utils/lessonOrderUtils'
 
@@ -67,7 +67,7 @@ class ManageLessons extends Component {
 
     return (
       <div>
-        <KiwiLink to={ '/admin/lesson/new' }>
+        <KiwiLink to={ '/admin/lessons/new' }>
           New Lesson
         </KiwiLink>
         <h5>Published</h5>

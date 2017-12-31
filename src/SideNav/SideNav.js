@@ -128,6 +128,20 @@ class SideNav extends PureComponent {
                     primaryText={ 'Add/Edit Lessons' }
                   />
                 </KiwiLink>
+                ,
+                <KiwiLink
+                  key={ 3 }
+                  to='/admin/lessons/themes'
+                >
+                  <MenuItem
+                    key={ 'admin/lessons/themes' }
+                    style={ styles.menuItem }
+                    leftIcon={
+                      <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                    }
+                    primaryText={ 'Add/Edit Themes' }
+                  />
+                </KiwiLink>
               ]
             }
             { isLoggedIn &&

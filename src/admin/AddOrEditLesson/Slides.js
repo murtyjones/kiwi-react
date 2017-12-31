@@ -197,7 +197,7 @@ class Slides extends Component {
             Add Slide after Slide #{activeSlideIndex + 1}
           </RaisedButton>
         </ListItem>
-        <Tabs value={ activeSlideIndex } >
+        <Tabs value={ activeSlideIndex }>
           { fields.map((eachSlideRef, i) =>
             <Tab
               key={ i }

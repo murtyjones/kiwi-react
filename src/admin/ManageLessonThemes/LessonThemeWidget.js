@@ -27,12 +27,11 @@ class LessonWidget extends Component {
   render() {
     const { item, draggable = true } = this.props
     return (
-      <KiwiLink to={ `/admin/lessons/${item._id}` }>
-        <Card key={ item.title }>
+      <KiwiLink to={ `/admin/lessons/themes/${item._id}` }>
+        <Card key={ item.name }>
           { draggable && <Reorder style={ styles.reorder } /> }
           <CardHeader
-            title={ item.title }
-            subtitle={ item.subtitle }
+            title={ item.name }
             style={ styles.card }
           />
         </Card>

@@ -8,7 +8,7 @@ import { Drawer, Menu, MenuItem, Subheader, Divider } from 'material-ui'
 import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown'
 
 
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } from '../actions/index'
+import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } from '../actions'
 import { ApiFetch } from '../utils/ApiFetch'
 import LoginOrRegister from './LoginOrRegister'
 

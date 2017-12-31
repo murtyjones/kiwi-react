@@ -6,7 +6,7 @@ import { postLesson, putLesson, getLesson } from '../../actions'
 import { has, isEmpty, isEqual } from 'lodash'
 import LessonForm from './LessonForm'
 
-class Lesson extends Component {
+class AddOrEditLesson extends Component {
   constructor(props) {
     super(props)
     const isNewLesson = props.match.path.includes('new')
@@ -51,7 +51,7 @@ class Lesson extends Component {
       return putLesson(params)
     }
     return postLesson(params).then(res => {
-      this.props.history.push(`/admin/lesson/${res._id}`)
+      this.props.history.push(`/admin/lessons/${res._id}`)
     })
   }
 
@@ -90,4 +90,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Lesson))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddOrEditLesson))
