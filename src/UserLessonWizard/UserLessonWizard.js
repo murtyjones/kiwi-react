@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { getFormValues } from 'redux-form'
 import BluebirdPromise from 'bluebird'
 
-import { postUserLesson, putUserLesson, getManyUserLessons, getLesson } from '../actions'
+import { postUserLesson, putUserLesson, getManyUserLessons, getLesson, getLessonTheme } from '../actions'
 import UserLessonWizardForm from './UserLessonWizardForm'
 
 class UserLessonWizard extends Component {
@@ -31,12 +31,13 @@ class UserLessonWizard extends Component {
   }
 
   componentWillMount() {
-    const { getManyUserLessons, getLesson, userId, match: { params: { id } } } = this.props
+    const { getManyUserLessons, getLesson, getLessonTheme, userId, match: { params: { id } } } = this.props
     BluebirdPromise.all([
       getLesson({ id })
       , getManyUserLessons({ lessonId: id, userId })
     ]).then(([lesson, userLessonAsArray]) => {
       const userLesson = userLessonAsArray[0]
+      getLessonTheme({ id: lesson.themeId })
       for (let i = 0, len = lesson.slides.length; i < len; i++) {
         const slide = lesson.slides[i]
         const slideAnswerData = get(userLesson, `answerData.${slide.id}`, {})
@@ -79,13 +80,14 @@ class UserLessonWizard extends Component {
   }
 
   render() {
-    const { lesson, initialValues, currentValues } = this.props
+    const { lesson, initialValues, currentValues, theme } = this.props
     const { activeSlideIndex } = this.state
     return !isEmpty(lesson) && activeSlideIndex > -1
       ? (
         <UserLessonWizardForm
           onSubmit={ this.handleSubmit }
           lesson={ lesson }
+          theme={ theme }
           initialValues={ initialValues }
           currentValues={ currentValues }
           activeSlideIndex={ activeSlideIndex }
@@ -100,13 +102,14 @@ export const UserLessonWizardComponent = UserLessonWizard
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId } } = state
+  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId }, lessonThemes: { lessonThemesById } } = state
   const { match: { params: { id } } } = ownProps
 
   let initialValues = { answerData: [], lessonId: id }
 
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
+  const theme = lessonThemesById[lesson.themeId]
   const currentValues = getFormValues('userLesson')(state) || {}
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
@@ -128,6 +131,7 @@ const mapStateToProps = (state, ownProps) => {
     , userId
     , initialValues
     , currentValues
+    , theme
   }
 }
 
@@ -137,6 +141,7 @@ const mapDispatchToProps = (dispatch) => {
     , putUserLesson: params => dispatch(putUserLesson(params))
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
     , getLesson: params => dispatch(getLesson(params))
+    , getLessonTheme: params => dispatch(getLessonTheme(params))
   }
 }
 

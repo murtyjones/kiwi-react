@@ -13,22 +13,13 @@ import { LESSON_SLIDE_TYPES } from '../constants'
 import FullPageText from './Slides/FullPageText'
 import HalfHalf from './Slides/HalfHalf'
 import FullPageCodeEditor from './Slides/FullPageCodeEditor'
+import Title from './Slides/Title'
 
 import './overrides.css'
 
 const formName = 'userLesson'
 
-const availableSlideTypes = {
-  [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
-    component: FullPageText
-  },
-  [LESSON_SLIDE_TYPES.HALF_HALF]: {
-    component: HalfHalf
-  },
-  [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR]: {
-    component: FullPageCodeEditor
-  }
-}
+const defaultBackground = 'lessonFullBackground'
 
 const circleSize = 60
 
@@ -41,13 +32,6 @@ const styles = {
     , overflow: 'auto'
     , position: 'absolute'
     , top: 0
-  },
-  lessonBackground: {
-    backgroundColor: 'white'
-    , height:'100%'
-    , position: 'absolute'
-    , top: 0
-    , zIndex: '-1'
   },
   prevButton: {
     height: `${circleSize*2}px`
@@ -84,6 +68,42 @@ const styles = {
     , right: 0
     , top: '50%'
     , marginTop: `-${circleSize/2}px`
+  },
+  themeContainer: {
+    height: '100%'
+    , width: '100%'
+  },
+  foreground: {
+    width: '100%'
+    , height: '180px'
+    , position: 'absolute' // required for z-index to work
+    , zIndex: -2
+  },
+  background: {
+    width: '100%'
+    , top: '180px'
+    , bottom: 0
+    , position: 'absolute' // required for z-index to work
+    , zIndex: -2
+  }
+}
+
+const availableSlideTypes = {
+  [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
+    component: FullPageText
+    , backgroundClassName: 'lessonFullBackground'
+  },
+  [LESSON_SLIDE_TYPES.HALF_HALF]: {
+    component: HalfHalf
+    , backgroundClassName: 'lessonFullBackground'
+  },
+  [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR]: {
+    component: FullPageCodeEditor
+    , backgroundClassName: 'lessonFullBackground'
+  },
+  [LESSON_SLIDE_TYPES.TITLE]: {
+    component: Title
+    , backgroundClassName: 'lessonTitleBackground'
   }
 }
 
@@ -96,6 +116,7 @@ class UserLessonWizardForm extends Component {
     onSubmit: T.func.isRequired
     , activeSlideIndex: T.number.isRequired
     , lesson: T.object.isRequired
+    , theme: T.object.isRequired
     , formValues: T.object.isRequired
     , goToNextSlide: T.func.isRequired
     , goToPrevSlide: T.func.isRequired
@@ -153,7 +174,9 @@ class UserLessonWizardForm extends Component {
   }
 
   render() {
-    const { handleSubmit, activeSlideIndex, lesson } = this.props
+    const { handleSubmit, activeSlideIndex, lesson, theme } = this.props
+    const activeSlideObject = lesson.slides[activeSlideIndex]
+    const ActiveSlideBackgroundClassName = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackground
 
     const prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
@@ -203,10 +226,28 @@ class UserLessonWizardForm extends Component {
       </div>
       ,
       <div
-        key='lessonBackground'
-        className='lessonBackground'
-        style={ styles.lessonBackground }
+        key={ ActiveSlideBackgroundClassName }
+        className={ ActiveSlideBackgroundClassName }
       />
+      ,
+      <div style={ styles.themeContainer }>
+        <div
+          key='themeForeground'
+          className='themeForeground'
+          style={ {
+            ...styles.foreground
+            , backgroundColor: theme.foregroundColor
+          } }
+        />
+        <div
+          key='themeForeground'
+          className='themeForeground'
+          style={ {
+            ...styles.background
+            , backgroundColor: theme.backgroundColor
+          } }
+        />
+      </div>
     ]
   }
 }

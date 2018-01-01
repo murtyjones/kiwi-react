@@ -41,9 +41,26 @@
     cursor: pointer;
 }
 
-.lessonBackground {
+.lessonFullBackground {
     width: 100%;
     left: 0;
+    background-color: white;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.lessonTitleBackground {
+    background-color: white;
+    width: 600px;
+    height: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -300px;
+    z-index: -1;
 }
 
 .lessonWizardForm {
@@ -62,7 +79,7 @@
         background-color: #FFFFFF;
     }
 
-    .lessonBackground {
+    .lessonFullBackground {
         width: 1000px;
         margin-left: -500px;
         left: 50%;
