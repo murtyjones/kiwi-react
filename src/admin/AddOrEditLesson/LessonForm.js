@@ -69,7 +69,7 @@ class LessonForm extends Component {
           component={ SelectField }
         >
           { themeOptions.map((theme, i) =>
-            <MenuItem key={ theme._id }value={ theme._id } primaryText={ theme.name } />
+            <MenuItem key={ theme._id } value={ theme._id } primaryText={ theme.name } />
           )}
         </Field>
         <FieldArray
