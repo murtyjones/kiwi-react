@@ -266,15 +266,12 @@ class UserLessonWizardForm extends Component {
     />
 
   render() {
-    const { handleSubmit, activeSlideIndex, lesson, theme } = this.props
+    const { handleSubmit, theme } = this.props
         , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
         , hasTheme = !!theme
-        // , prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
-        // , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
-        // , isFinal = isFinalSlide(activeSlideIndex, lesson)
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
 
