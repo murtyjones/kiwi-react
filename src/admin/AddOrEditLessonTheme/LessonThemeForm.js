@@ -63,7 +63,7 @@ const renderAssets = ({ fields }) => (
           label='Percentage from left/right'
           component={ KiwiSliderField }
           defaultValue={ 0 }
-          min={ 0 }
+          min={ -10 }
           step={ 1 }
           max={ 100 }
         />
@@ -72,7 +72,7 @@ const renderAssets = ({ fields }) => (
           label='Percentage from top/bottom'
           component={ KiwiSliderField }
           defaultValue={ 0 }
-          min={ 0 }
+          min={ -10 }
           step={ 1 }
           max={ 100 }
         />

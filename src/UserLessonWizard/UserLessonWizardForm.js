@@ -91,8 +91,8 @@ const styles = {
   themeQuadrant: {
     display: 'table-cell'
     , position: 'relative'
-    , overflow: 'auto'
     , height: '100%'
+    , overflow: 'visible'
     , zIndex: -1
   },
   asset: {
