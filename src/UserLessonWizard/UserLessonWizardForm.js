@@ -92,19 +92,20 @@ const styles = {
     display: 'inline-block'
     , position: 'absolute'
   },
-  gridTile: {
-    flex: '1 1 auto'
+  themeQuadrant: {
+    display: 'table-cell'
+    , position: 'relative'
+    , overflow: 'auto'
+    , height: '100%'
   },
-  grid: {
+  themeTable: {
     height: '100%'
     , width: '100%'
-    , display: 'inline-flex'
-    , flexWrap: 'wrap'
   },
-  row: {
+  themeTableRow: {
     height: '50%'
     , width: '100%'
-    , display: 'inline-flex'
+    , display: 'table'
   }
 }
 
@@ -217,6 +218,20 @@ class UserLessonWizardForm extends Component {
     })
   }
 
+  renderQuadrantAssets = (quadrantAssets) => {
+    return quadrantAssets.map((asset, i) =>
+      <img
+        src={ asset.url }
+        style={ {
+         ...styles.asset
+         , [asset.relativeToTopOrBottom]: `${asset.y}%`
+         , [asset.relativeToLeftOrRight]: `${asset.x}%`
+        } }
+      />
+
+    )
+  }
+
   render() {
     const { handleSubmit, activeSlideIndex, lesson, theme } = this.props
     const activeSlideObject = lesson.slides[activeSlideIndex]
@@ -278,29 +293,25 @@ class UserLessonWizardForm extends Component {
       />
       ,
       <div
-        style={ styles.grid }
+        style={ styles.themeTable }
       >
-        <div style={ { ...styles.row, backgroundColor: theme.backgroundColor, height: `${theme.horizonY}%` } }>
-          <div style={ styles.gridTile }>
-            { themeAssetsByQuadrant.topLeft.map((asset, i) =>
-              <div
-                style={ {
-                  ...styles.asset
-                  , [asset.relativeToTopOrBottom]: `${asset.y}%`
-                  , [asset.relativeToLeftOrRight]: `${asset.x}%`
-                } }
-              >
-                <img src={ asset.url } />
-              </div>
-            ) }
+        <div style={ { ...styles.themeTableRow, backgroundColor: theme.backgroundColor, height: `${theme.horizonY}%` } }>
+          <div style={ styles.themeQuadrant }>
+            { this.renderQuadrantAssets(themeAssetsByQuadrant.topLeft) }
           </div>
-          <div style={ { ...styles.gridTile, flex: `0 0 ${activeSlideWidth}` } } />
-          <div style={ styles.gridTile } />
+          <div style={ { ...styles.themeQuadrant, width: activeSlideWidth } } />
+          <div style={ styles.themeQuadrant }>
+            { this.renderQuadrantAssets(themeAssetsByQuadrant.topRight) }
+          </div>
         </div>
-        <div style={ { ...styles.row, backgroundColor: theme.foregroundColor, height: `${100 - theme.horizonY}%` } }>
-          <div style={ styles.gridTile } />
-          <div style={ { ...styles.gridTile, flex: `0 0 ${activeSlideWidth}` } } />
-          <div style={ styles.gridTile } />
+        <div style={ { ...styles.themeTableRow, backgroundColor: theme.foregroundColor, height: `${100 - theme.horizonY}%` } }>
+          <div style={ styles.themeQuadrant }>
+            { this.renderQuadrantAssets(themeAssetsByQuadrant.bottomLeft) }
+          </div>
+          <div style={ { ...styles.themeQuadrant, width: activeSlideWidth } } />
+          <div style={ styles.themeQuadrant }>
+            { this.renderQuadrantAssets(themeAssetsByQuadrant.bottomRight) }
+            </div>
         </div>
       </div>
       /*,
