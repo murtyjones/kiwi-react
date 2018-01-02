@@ -26,6 +26,7 @@ describe('UserLessonWizard', () => {
     , slide1Id, slide2Id, slide3Id
     , lesson
     , userLesson
+    , lessonTheme
     , router = {}
     , props = {}
     , store
@@ -78,6 +79,9 @@ describe('UserLessonWizard', () => {
         , [slide3Id]: { answer: "" }
       }
     }
+    lessonTheme = {
+
+    }
     setupStore = () => {
       ({ store, dispatchSpy } = setupIntegrationTest(notCombined, router))
       store.dispatch({ payload: { idToken: chesterAdminIdToken }, type: ACTIONS.LOGIN_SUCCESS })
@@ -114,6 +118,7 @@ describe('UserLessonWizard', () => {
       setupStore()
       ApiFetch.mockImplementationOnce(() => Promise.resolve(lesson)) // getLesson response
       ApiFetch.mockImplementationOnce(() => Promise.resolve([userLesson])) // getManyUserLessons response
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(lessonTheme)) // getManyUserLessons response
       component = mountWithStore(props, store) // mount component
       await flushAllPromises() // wait for requests to resolve
       component.update() // update component after having resolved requests
