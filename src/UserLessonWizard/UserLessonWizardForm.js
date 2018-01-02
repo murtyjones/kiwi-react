@@ -227,7 +227,8 @@ class UserLessonWizardForm extends Component {
         , activeSlideObject = lesson.slides[activeSlideIndex]
         , activeSlideBackgroundClassName = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
-        , themeAssetsByQuadrant = this.sortAssetsByQuadrant(theme)
+        , hasTheme = !!theme
+        , themeAssetsByQuadrant = hasTheme ? this.sortAssetsByQuadrant(theme): null
         , prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
         , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
         , isFinal = isFinalSlide(activeSlideIndex, lesson)
@@ -284,10 +285,8 @@ class UserLessonWizardForm extends Component {
       />
       ,
       // Render theme if it exists
-      !!theme &&
-        <div
-          style={ styles.themeTable }
-        >
+      hasTheme &&
+        <div style={ styles.themeTable }>
           <div style={ { ...styles.themeTableRow, backgroundColor: theme.backgroundColor, height: `${theme.horizonY}%` } }>
             <div style={ styles.themeQuadrant }>
               { themeAssetsByQuadrant.topLeft }

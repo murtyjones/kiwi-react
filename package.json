@@ -12,6 +12,7 @@
     "build": "./node_modules/.bin/gulp build",
     "postinstall": "npm rebuild node-sass",
     "test": "jest",
+    "minify-svg": "./node_modules/.bin/svgo",
     "analyzeBundleSize": "./node_modules/.bin/webpack --config gulpConfigs/webpack.config.production.js --json | ./node_modules/.bin/webpack-bundle-size-analyzer"
   },
   "repository": {
@@ -131,6 +132,7 @@
     "redux-router": "^2.1.2",
     "run-sequence": "^2.1.0",
     "style-loader": "^0.19.0",
+    "svgo": "^1.0.3",
     "uglifyjs-webpack-plugin": "1.1.1",
     "webpack": "^3.10.0",
     "webpack-bundle-analyzer": "^2.9.1",
