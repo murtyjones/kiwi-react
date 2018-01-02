@@ -75,37 +75,30 @@ const styles = {
     height: '100%'
     , width: '100%'
   },
-  foreground: {
-    width: '100%'
-    , height: '180px'
-    , position: 'absolute' // required for z-index to work
+  themeTable: {
+    height: '100%'
+    , position: 'relative'
+    , width: '100%'
     , zIndex: -2
   },
-  background: {
-    width: '100%'
-    , top: '180px'
-    , bottom: 0
-    , position: 'absolute' // required for z-index to work
+  themeTableRow: {
+    height: '50%'
+    , position: 'relative'
+    , width: '100%'
+    , display: 'table'
     , zIndex: -2
-  },
-  asset: {
-    display: 'inline-block'
-    , position: 'absolute'
   },
   themeQuadrant: {
     display: 'table-cell'
     , position: 'relative'
     , overflow: 'auto'
     , height: '100%'
+    , zIndex: -1
   },
-  themeTable: {
-    height: '100%'
-    , width: '100%'
-  },
-  themeTableRow: {
-    height: '50%'
-    , width: '100%'
-    , display: 'table'
+  asset: {
+    display: 'inline-block'
+    , position: 'absolute'
+    , zIndex: 0
   }
 }
 
@@ -201,14 +194,15 @@ class UserLessonWizardForm extends Component {
   sortAssetsByQuadrant = (theme) => {
     const assets = get(theme, 'assets', [])
     return assets.reduce((acc, asset) => {
+      const renderedAsset = this.renderAsset(asset)
       if(asset.quadrant === 'topLeft')
-        acc.topLeft.push(asset)
+        acc.topLeft.push(renderedAsset)
       else if(asset.quadrant === 'topRight')
-        acc.topRight.push(asset)
+        acc.topRight.push(renderedAsset)
       else if(asset.quadrant === 'bottomLeft')
-        acc.bottomLeft.push(asset)
+        acc.bottomLeft.push(renderedAsset)
       else if(asset.quadrant === 'bottomRight')
-        acc.bottomRight.push(asset)
+        acc.bottomRight.push(renderedAsset)
       return acc
     }, {
       topLeft: []
@@ -218,35 +212,30 @@ class UserLessonWizardForm extends Component {
     })
   }
 
-  renderQuadrantAssets = (quadrantAssets) => {
-    return quadrantAssets.map((asset, i) =>
-      <img
-        src={ asset.url }
-        style={ {
-         ...styles.asset
-         , [asset.relativeToTopOrBottom]: `${asset.y}%`
-         , [asset.relativeToLeftOrRight]: `${asset.x}%`
-        } }
-      />
-
-    )
-  }
+  renderAsset = (asset) =>
+    <img
+      src={ asset.url }
+      style={ {
+        ...styles.asset
+        , [asset.relativeToTopOrBottom]: `${asset.y}%`
+        , [asset.relativeToLeftOrRight]: `${asset.x}%`
+      } }
+    />
 
   render() {
     const { handleSubmit, activeSlideIndex, lesson, theme } = this.props
-    const activeSlideObject = lesson.slides[activeSlideIndex]
-    const activeSlideBackgroundClassName = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
-    const activeSlideWidth = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
-
-    const themeAssetsByQuadrant = this.sortAssetsByQuadrant(theme)
-
-    const prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
-      , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
-      , isFinal = isFinalSlide(activeSlideIndex, lesson)
-      , onPrevClick = !prevDisabled ? this.onPrev : null
-      , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
+        , activeSlideObject = lesson.slides[activeSlideIndex]
+        , activeSlideBackgroundClassName = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
+        , activeSlideWidth = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
+        , themeAssetsByQuadrant = this.sortAssetsByQuadrant(theme)
+        , prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
+        , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
+        , isFinal = isFinalSlide(activeSlideIndex, lesson)
+        , onPrevClick = !prevDisabled ? this.onPrev : null
+        , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
 
     return [
+      // Render form
       <form
         key='lessonWizardForm'
         className='lessonWizardForm'
@@ -259,6 +248,7 @@ class UserLessonWizardForm extends Component {
         />
       </form>
       ,
+      // Render buttons
       <div
         key='backButton'
         id='backButton'
@@ -269,7 +259,7 @@ class UserLessonWizardForm extends Component {
         <KeyboardArrowLeft
           className={ cns('leftArrow', { 'disabled': prevDisabled }) }
           style={ styles.leftArrowStyle }
-          onClick={ (e) => e.preventDefault() && onPrevClick() } // prevents triggering of parent onClick
+          onClick={ (e) => e.preventDefault() && onPrevClick() }
         />
       </div>
       ,
@@ -283,67 +273,40 @@ class UserLessonWizardForm extends Component {
         <KeyboardArrowRight
           className={ cns('rightArrow', { 'disabled': nextDisabled }) }
           style={ styles.rightArrowStyle }
-          onClick={ (e) => e.preventDefault() && onNextClick() } // prevents triggering of parent onClick
+          onClick={ (e) => e.preventDefault() && onNextClick() }
         />
       </div>
       ,
+      // Render white background
       <div
         key={ activeSlideBackgroundClassName }
         className={ activeSlideBackgroundClassName }
       />
       ,
-      <div
-        style={ styles.themeTable }
-      >
-        <div style={ { ...styles.themeTableRow, backgroundColor: theme.backgroundColor, height: `${theme.horizonY}%` } }>
-          <div style={ styles.themeQuadrant }>
-            { this.renderQuadrantAssets(themeAssetsByQuadrant.topLeft) }
-          </div>
-          <div style={ { ...styles.themeQuadrant, width: activeSlideWidth } } />
-          <div style={ styles.themeQuadrant }>
-            { this.renderQuadrantAssets(themeAssetsByQuadrant.topRight) }
-          </div>
-        </div>
-        <div style={ { ...styles.themeTableRow, backgroundColor: theme.foregroundColor, height: `${100 - theme.horizonY}%` } }>
-          <div style={ styles.themeQuadrant }>
-            { this.renderQuadrantAssets(themeAssetsByQuadrant.bottomLeft) }
-          </div>
-          <div style={ { ...styles.themeQuadrant, width: activeSlideWidth } } />
-          <div style={ styles.themeQuadrant }>
-            { this.renderQuadrantAssets(themeAssetsByQuadrant.bottomRight) }
+      // Render theme if it exists
+      !!theme &&
+        <div
+          style={ styles.themeTable }
+        >
+          <div style={ { ...styles.themeTableRow, backgroundColor: theme.backgroundColor, height: `${theme.horizonY}%` } }>
+            <div style={ styles.themeQuadrant }>
+              { themeAssetsByQuadrant.topLeft }
             </div>
-        </div>
-      </div>
-      /*,
-      <div style={ styles.themeContainer }>
-        <div
-          key='themeForeground'
-          className='themeForeground'
-          style={ {
-            ...styles.foreground
-            , backgroundColor: theme.backgroundColor
-          } }
-        />
-        <div
-          key='themeForeground'
-          className='themeForeground'
-          style={ {
-            ...styles.background
-            , backgroundColor: theme.foregroundColor
-          } }
-        />
-        { (theme.assets || []).map((asset, i) =>
-          <div
-            style={ {
-              ...styles.asset
-              , top: `${asset.y}px`
-              , [asset.relativeTo]: `${asset.x}%`
-            } }
-          >
-            <img src={ asset.url } />
+            <div style={ { ...styles.themeQuadrant, width: activeSlideWidth } } />
+            <div style={ styles.themeQuadrant }>
+              { themeAssetsByQuadrant.topRight }
+            </div>
           </div>
-        ) }
-      </div>*/
+          <div style={ { ...styles.themeTableRow, backgroundColor: theme.foregroundColor, height: `${100 - theme.horizonY}%` } }>
+            <div style={ styles.themeQuadrant }>
+              { themeAssetsByQuadrant.bottomLeft }
+            </div>
+            <div style={ { ...styles.themeQuadrant, width: activeSlideWidth } } />
+            <div style={ styles.themeQuadrant }>
+              { themeAssetsByQuadrant.bottomRight }
+            </div>
+          </div>
+        </div>
     ]
   }
 }
