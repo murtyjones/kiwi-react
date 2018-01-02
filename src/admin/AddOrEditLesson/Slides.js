@@ -127,7 +127,6 @@ class Slides extends Component {
     this.spliceSelectedSlideType(activeSlideIndex + 1, 0, defaultSlideTypeValue)
   }
 
-
   moveSlide = (to) => {
     const { fields } = this.props
     const { activeSlideIndex } = this.state

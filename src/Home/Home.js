@@ -119,6 +119,14 @@ class Home extends Component {
     this.props.openTopBar()
   }
 
+  openDrawer = () => {
+    this.setState({ drawerIsOpen: true })
+  }
+
+  closeDrawer = () => {
+    this.setState({ drawerIsOpen: false })
+  }
+
   render() {
     const { drawerIsOpen } = this.state
 
@@ -131,7 +139,7 @@ class Home extends Component {
           openSecondary={ true }
         >
           <div
-            onClick={ () => this.setState({ drawerIsOpen: false }) }
+            onClick={ this.closeDrawer }
             className='x'
             style={ styles.x }
           />
@@ -165,7 +173,7 @@ class Home extends Component {
         </GridList>
         <div style={ styles.loginContainer } >
           <span
-          onClick={ () => this.setState({ drawerIsOpen: true })}
+          onClick={ this.openDrawer }
             style={ styles.login }
           >
             log in

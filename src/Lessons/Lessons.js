@@ -8,6 +8,7 @@ import { getManyLessons, getManyUserLessons, getLessonOrder } from '../actions'
 
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
+import LessonMapBackground from './LessonMapBackground'
 
 const stageProportion = 0.70
 
@@ -116,6 +117,9 @@ class Lessons extends Component {
 
     return (
       <div ref={ (c) => { this.lessonsContainerNode = c } }>
+        <LessonMapBackground
+
+        />
         <LessonMap
           width={ width * stageProportion }
           scaleX={ scaleX }

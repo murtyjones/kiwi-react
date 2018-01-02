@@ -4,7 +4,7 @@ import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import { connect } from 'react-redux'
-import { get } from 'lodash'
+import { get, isEqual } from 'lodash'
 import cns from 'classnames'
 
 import { isPrevDisabled, isNextDisabled, isFinalSlide } from "../utils/lessonWizardUtils"
@@ -128,6 +128,10 @@ const availableSlideTypes = {
 class UserLessonWizardForm extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      activeSlideObject: null
+      , themeAssetsByQuadrant: null
+    }
   }
 
   static propTypes = {
@@ -143,6 +147,27 @@ class UserLessonWizardForm extends Component {
     , onFinalSlideNextClick: T.func.isRequired
     , currentValues: T.object.isRequired
   }
+
+  componentWillMount() {
+    const { lesson, activeSlideIndex, theme } = this.props
+    this.setActiveSlideObject(lesson, activeSlideIndex)
+    if(theme) this.setThemeAssetsByQuadrant(theme)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(!isEqual(nextProps.lesson, this.props.lesson) || nextProps.activeSlideIndex !== this.props.activeSlideIndex) {
+      this.setActiveSlideObject(nextProps.lesson, nextProps.activeSlideIndex)
+    }
+    if(!isEqual(nextProps.theme, this.props.theme)) {
+      this.setThemeAssetsByQuadrant(nextProps.theme)
+    }
+  }
+
+  setActiveSlideObject = (lesson, activeSlideIndex) =>
+    this.setState({ activeSlideObject: lesson.slides[activeSlideIndex] })
+
+  setThemeAssetsByQuadrant = (theme) =>
+    this.setState({ themeAssetsByQuadrant: this.sortAssetsByQuadrant(theme) })
 
   setToViewed = (ref) => {
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
@@ -173,7 +198,7 @@ class UserLessonWizardForm extends Component {
   renderSlide = ({ fields }) => {
     // this function should be kept outside the render method! otherwise child components will remount!!!
     const { activeSlideIndex, lesson } = this.props
-    const activeSlideObject = lesson.slides[activeSlideIndex]
+      , { activeSlideObject } = this.state
       , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
 
     return fields.map((name, i) => {
@@ -220,11 +245,11 @@ class UserLessonWizardForm extends Component {
 
   render() {
     const { handleSubmit, activeSlideIndex, lesson, theme } = this.props
-        , activeSlideObject = lesson.slides[activeSlideIndex]
-        , activeSlideBackgroundClassName = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
-        , activeSlideWidth = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
+        , { activeSlideObject, themeAssetsByQuadrant } = this.state
+        , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
+        , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
+        , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
         , hasTheme = !!theme
-        , themeAssetsByQuadrant = hasTheme ? this.sortAssetsByQuadrant(theme): null
         , prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
         , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
         , isFinal = isFinalSlide(activeSlideIndex, lesson)
