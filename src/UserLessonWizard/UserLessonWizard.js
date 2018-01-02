@@ -82,7 +82,7 @@ class UserLessonWizard extends Component {
   render() {
     const { lesson, initialValues, currentValues, theme } = this.props
     const { activeSlideIndex } = this.state
-    return !isEmpty(lesson) && activeSlideIndex > -1
+    return !isEmpty(lesson) && !isEmpty(theme) && activeSlideIndex > -1
       ? (
         <UserLessonWizardForm
           onSubmit={ this.handleSubmit }
@@ -109,7 +109,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
-  const theme = lessonThemesById[lesson.themeId]
+  const theme = lessonThemesById[lesson.themeId] || {}
   const currentValues = getFormValues('userLesson')(state) || {}
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)

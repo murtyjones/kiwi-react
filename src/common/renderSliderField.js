@@ -10,6 +10,13 @@ class renderSliderField extends Component {
     }
   }
 
+  componentDidMount() {
+    const { input: { value } } = this.props
+    if(value) {
+      this.setState({ value })
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if(this.props.input.value !== nextProps.input.value) {
       this.setState({ value: nextProps.input.value })

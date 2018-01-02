@@ -4,8 +4,9 @@ import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import { connect } from 'react-redux'
+import { get } from 'lodash'
 import cns from 'classnames'
-import { has } from 'lodash'
+
 import { isPrevDisabled, isNextDisabled, isFinalSlide } from "../utils/lessonWizardUtils"
 import { LESSON_SLIDE_TYPES } from '../constants'
 
@@ -19,7 +20,8 @@ import './overrides.css'
 
 const formName = 'userLesson'
 
-const defaultBackground = 'lessonFullBackground'
+const defaultBackgroundClassName = 'lessonFullBackground'
+const defaultWidth = '600px'
 
 const circleSize = 60
 
@@ -85,6 +87,24 @@ const styles = {
     , bottom: 0
     , position: 'absolute' // required for z-index to work
     , zIndex: -2
+  },
+  asset: {
+    display: 'inline-block'
+    , position: 'absolute'
+  },
+  gridTile: {
+    flex: '1 1 auto'
+  },
+  grid: {
+    height: '100%'
+    , width: '100%'
+    , display: 'inline-flex'
+    , flexWrap: 'wrap'
+  },
+  row: {
+    height: '50%'
+    , width: '100%'
+    , display: 'inline-flex'
   }
 }
 
@@ -92,18 +112,22 @@ const availableSlideTypes = {
   [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
     component: FullPageText
     , backgroundClassName: 'lessonFullBackground'
+    , width: '1000px'
   },
   [LESSON_SLIDE_TYPES.HALF_HALF]: {
     component: HalfHalf
     , backgroundClassName: 'lessonFullBackground'
+    , width: '1000px'
   },
   [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR]: {
     component: FullPageCodeEditor
     , backgroundClassName: 'lessonFullBackground'
+    , width: '1000px'
   },
   [LESSON_SLIDE_TYPES.TITLE]: {
     component: Title
     , backgroundClassName: 'lessonTitleBackground'
+    , width: '600px'
   }
 }
 
@@ -173,10 +197,33 @@ class UserLessonWizardForm extends Component {
     })
   }
 
+  sortAssetsByQuadrant = (theme) => {
+    const assets = get(theme, 'assets', [])
+    return assets.reduce((acc, asset) => {
+      if(asset.quadrant === 'topLeft')
+        acc.topLeft.push(asset)
+      else if(asset.quadrant === 'topRight')
+        acc.topRight.push(asset)
+      else if(asset.quadrant === 'bottomLeft')
+        acc.bottomLeft.push(asset)
+      else if(asset.quadrant === 'bottomRight')
+        acc.bottomRight.push(asset)
+      return acc
+    }, {
+      topLeft: []
+      , topRight: []
+      , bottomLeft: []
+      , bottomRight: []
+    })
+  }
+
   render() {
     const { handleSubmit, activeSlideIndex, lesson, theme } = this.props
     const activeSlideObject = lesson.slides[activeSlideIndex]
-    const ActiveSlideBackgroundClassName = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackground
+    const activeSlideBackgroundClassName = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
+    const activeSlideWidth = activeSlideObject && activeSlideObject.type ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
+
+    const themeAssetsByQuadrant = this.sortAssetsByQuadrant(theme)
 
     const prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
       , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
@@ -226,17 +273,44 @@ class UserLessonWizardForm extends Component {
       </div>
       ,
       <div
-        key={ ActiveSlideBackgroundClassName }
-        className={ ActiveSlideBackgroundClassName }
+        key={ activeSlideBackgroundClassName }
+        className={ activeSlideBackgroundClassName }
       />
       ,
+      <div
+        style={ styles.grid }
+      >
+        <div style={ { ...styles.row, backgroundColor: theme.backgroundColor, height: `${theme.horizonY}%` } }>
+          <div style={ styles.gridTile }>
+            { themeAssetsByQuadrant.topLeft.map((asset, i) =>
+              <div
+                style={ {
+                  ...styles.asset
+                  , [asset.relativeToTopOrBottom]: `${asset.y}%`
+                  , [asset.relativeToLeftOrRight]: `${asset.x}%`
+                } }
+              >
+                <img src={ asset.url } />
+              </div>
+            ) }
+          </div>
+          <div style={ { ...styles.gridTile, flex: `0 0 ${activeSlideWidth}` } } />
+          <div style={ styles.gridTile } />
+        </div>
+        <div style={ { ...styles.row, backgroundColor: theme.foregroundColor, height: `${100 - theme.horizonY}%` } }>
+          <div style={ styles.gridTile } />
+          <div style={ { ...styles.gridTile, flex: `0 0 ${activeSlideWidth}` } } />
+          <div style={ styles.gridTile } />
+        </div>
+      </div>
+      /*,
       <div style={ styles.themeContainer }>
         <div
           key='themeForeground'
           className='themeForeground'
           style={ {
             ...styles.foreground
-            , backgroundColor: theme.foregroundColor
+            , backgroundColor: theme.backgroundColor
           } }
         />
         <div
@@ -244,10 +318,21 @@ class UserLessonWizardForm extends Component {
           className='themeForeground'
           style={ {
             ...styles.background
-            , backgroundColor: theme.backgroundColor
+            , backgroundColor: theme.foregroundColor
           } }
         />
-      </div>
+        { (theme.assets || []).map((asset, i) =>
+          <div
+            style={ {
+              ...styles.asset
+              , top: `${asset.y}px`
+              , [asset.relativeTo]: `${asset.x}%`
+            } }
+          >
+            <img src={ asset.url } />
+          </div>
+        ) }
+      </div>*/
     ]
   }
 }
