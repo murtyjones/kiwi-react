@@ -131,6 +131,9 @@ class UserLessonWizardForm extends Component {
     this.state = {
       activeSlideObject: null
       , themeAssetsByQuadrant: null
+      , prevDisabled: null
+      , nextDisabled: null
+      , isFinal: null
     }
   }
 
@@ -150,24 +153,43 @@ class UserLessonWizardForm extends Component {
 
   componentWillMount() {
     const { lesson, activeSlideIndex, theme } = this.props
-    this.setActiveSlideObject(lesson, activeSlideIndex)
+    this.setActiveSlideObject(activeSlideIndex, lesson)
     if(theme) this.setThemeAssetsByQuadrant(theme)
+    this.setPrevDisabled(activeSlideIndex, lesson)
+    this.setNextDisabled(activeSlideIndex, lesson)
+    this.setIsFinal(activeSlideIndex, lesson)
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!isEqual(nextProps.lesson, this.props.lesson) || nextProps.activeSlideIndex !== this.props.activeSlideIndex) {
-      this.setActiveSlideObject(nextProps.lesson, nextProps.activeSlideIndex)
+    const lessonHasChanged = !isEqual(nextProps.lesson, this.props.lesson)
+        , activeSlideIndexHasChanged = nextProps.activeSlideIndex !== this.props.activeSlideIndex
+
+    if(lessonHasChanged || activeSlideIndexHasChanged) {
+      this.setActiveSlideObject(nextProps.activeSlideIndex, nextProps.lesson)
+      this.setIsFinal(nextProps.activeSlideIndex, nextProps.lesson)
+      this.setPrevDisabled(nextProps.activeSlideIndex, nextProps.lesson)
+      this.setNextDisabled(nextProps.activeSlideIndex, nextProps.lesson)
     }
+
     if(!isEqual(nextProps.theme, this.props.theme)) {
       this.setThemeAssetsByQuadrant(nextProps.theme)
     }
   }
 
-  setActiveSlideObject = (lesson, activeSlideIndex) =>
+  setActiveSlideObject = (activeSlideIndex, lesson) =>
     this.setState({ activeSlideObject: lesson.slides[activeSlideIndex] })
 
   setThemeAssetsByQuadrant = (theme) =>
     this.setState({ themeAssetsByQuadrant: this.sortAssetsByQuadrant(theme) })
+
+  setPrevDisabled = (activeSlideIndex, lesson) =>
+    this.setState({ prevDisabled: isPrevDisabled(activeSlideIndex, lesson) })
+
+  setNextDisabled = (activeSlideIndex, lesson) =>
+    this.setState({ nextDisabled: isNextDisabled(activeSlideIndex, lesson) })
+
+  setIsFinal = (activeSlideIndex, lesson) =>
+    this.setState({ isFinal: isFinalSlide(activeSlideIndex, lesson) })
 
   setToViewed = (ref) => {
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
@@ -245,14 +267,14 @@ class UserLessonWizardForm extends Component {
 
   render() {
     const { handleSubmit, activeSlideIndex, lesson, theme } = this.props
-        , { activeSlideObject, themeAssetsByQuadrant } = this.state
+        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
         , hasTheme = !!theme
-        , prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
-        , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
-        , isFinal = isFinalSlide(activeSlideIndex, lesson)
+        // , prevDisabled = isPrevDisabled(activeSlideIndex, lesson)
+        // , nextDisabled = isNextDisabled(activeSlideIndex, lesson)
+        // , isFinal = isFinalSlide(activeSlideIndex, lesson)
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
 
