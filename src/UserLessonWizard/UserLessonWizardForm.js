@@ -195,14 +195,10 @@ class UserLessonWizardForm extends Component {
     const assets = get(theme, 'assets', [])
     return assets.reduce((acc, asset) => {
       const renderedAsset = this.renderAsset(asset)
-      if(asset.quadrant === 'topLeft')
-        acc.topLeft.push(renderedAsset)
-      else if(asset.quadrant === 'topRight')
-        acc.topRight.push(renderedAsset)
-      else if(asset.quadrant === 'bottomLeft')
-        acc.bottomLeft.push(renderedAsset)
-      else if(asset.quadrant === 'bottomRight')
-        acc.bottomRight.push(renderedAsset)
+      if     (asset.quadrant === 'topLeft')     acc.topLeft.push(renderedAsset)
+      else if(asset.quadrant === 'topRight')    acc.topRight.push(renderedAsset)
+      else if(asset.quadrant === 'bottomLeft')  acc.bottomLeft.push(renderedAsset)
+      else if(asset.quadrant === 'bottomRight') acc.bottomRight.push(renderedAsset)
       return acc
     }, {
       topLeft: []
