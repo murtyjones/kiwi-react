@@ -209,13 +209,27 @@ describe('UserLessonWizard', () => {
       })
 
       describe('1 click forward', () => {
-        it('should receive expect response from dispatching PUT request', async () => {
+        it("should dispatch PUT request after clicking 'next' button", async () => {
           component.find('svg').at(1).simulate('click')
           await flushAllPromises()
           expect(dispatchSpy).toBeCalledWith({
             type: ACTIONS.PUT_USER_LESSON_SUCCESS,
             payload: putLessonPayloadApiResponse
           })
+        })
+
+        it("should change activeSlideIndex by 1 when clicking next button", async () => {
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+          component.find('svg').at(1).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
+        })
+
+        it("should NOT change activeSlideIndex when clicking prev button", async () => {
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+          component.find('svg').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
         it('should change the focus to slide 2 (full sized editor)', async () => {

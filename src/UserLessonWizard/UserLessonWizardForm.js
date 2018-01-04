@@ -161,18 +161,21 @@ class UserLessonWizardForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const lessonHasChanged = !isEqual(nextProps.lesson, this.props.lesson)
-        , activeSlideIndexHasChanged = nextProps.activeSlideIndex !== this.props.activeSlideIndex
+    const { lesson, activeSlideIndex, theme } = this.props
+      , { lesson: nextLesson, activeSlideIndex: nextActiveSlideIndex, theme: nextTheme } = nextProps
+      , lessonHasChanged = !isEqual(nextLesson, lesson)
+      , activeSlideIndexHasChanged = nextActiveSlideIndex !== activeSlideIndex
+      , themHasChanged = !isEqual(nextTheme, theme)
 
     if(lessonHasChanged || activeSlideIndexHasChanged) {
-      this.setActiveSlideObject(nextProps.activeSlideIndex, nextProps.lesson)
-      this.setIsFinal(nextProps.activeSlideIndex, nextProps.lesson)
-      this.setPrevDisabled(nextProps.activeSlideIndex, nextProps.lesson)
-      this.setNextDisabled(nextProps.activeSlideIndex, nextProps.lesson)
+      this.setActiveSlideObject(nextActiveSlideIndex, nextLesson)
+      this.setIsFinal(nextActiveSlideIndex, nextLesson)
+      this.setPrevDisabled(nextActiveSlideIndex, nextLesson)
+      this.setNextDisabled(nextActiveSlideIndex, nextLesson)
     }
 
-    if(!isEqual(nextProps.theme, this.props.theme)) {
-      this.setThemeAssetsByQuadrant(nextProps.theme)
+    if(themHasChanged) {
+      this.setThemeAssetsByQuadrant(nextTheme)
     }
   }
 
@@ -220,8 +223,8 @@ class UserLessonWizardForm extends Component {
   renderSlide = ({ fields }) => {
     // this function should be kept outside the render method! otherwise child components will remount!!!
     const { activeSlideIndex, lesson } = this.props
-      , { activeSlideObject } = this.state
-      , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
+        , { activeSlideObject } = this.state
+        , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
 
     return fields.map((name, i) => {
       return (i === activeSlideIndex) ? (
