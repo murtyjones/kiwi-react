@@ -4,6 +4,7 @@ import { Circle, Text, Path, Arc } from 'react-konva'
 import { has, get, find, findIndex, cloneDeep, isEqual } from 'lodash'
 
 import { LESSON_MAP_POINTS, SVG_PATHS } from '../constants'
+import insertIf from '../utils/insertIf'
 
 const scaleUp = { // for some reason, these must be destructed using '...' when passing to .to()
   scaleX: 1.3
@@ -26,13 +27,13 @@ const colors = {
   , completedColor: '#543e80'
   , checkMarkCircleColor: '#abd698'
   , checkMarkColor: '#FFFFFF'
-  , completionLayer1Color: '#7E5DB8'
+  , completionLayerOneColor: '#7E5DB8'
 }
 
 const makeBubbleRef = (order) => `circle-${order}`
     , makeBubbleTextRef = (order) => `text-${order}`
-    , makeCompletionLayer1RefText = (order) => `circle-completion-layer-1-${order}`
-    , makeCompletionLayer2RefText = (order) => `circle-completion-layer-2-${order}`
+    , makeCompletionLayerOneRefText = (order) => `circle-completion-layer-1-${order}`
+    , makeCompletionLayerTwoRefText = (order) => `circle-completion-layer-2-${order}`
     , makeCompletionRefArray = (completionLayerRefText) => [...Array(6)].map((x, i) => `${completionLayerRefText}-${i}`)
     , makeCheckMarkRef = (order) => `checkMark-${order}`
 
@@ -64,7 +65,7 @@ const shapeProps = {
     , lineJoin: 'round'
     , innerRadius: 18
     , outerRadius: 21
-    , fill: colors.completionLayer1Color
+    , fill: colors.completionLayerOneColor
     , clockwise: true
   },
   artAddPoints: [
@@ -91,10 +92,6 @@ const calculateNewAngle = (completionPercentage) =>
   360 - (completionPercentage * 3.6)
 
 
-const isLessonSelected = (lessonOrUserLesson, selectedLessonId) => {
-  return get(lessonOrUserLesson, '_id') === selectedLessonId || get(lessonOrUserLesson, 'lessonId') === selectedLessonId
-}
-
 class MapBubbles extends PureComponent {
   constructor(props) {
     super(props)
@@ -118,118 +115,83 @@ class MapBubbles extends PureComponent {
   }
 
   componentWillMount() {
-    const { mapLessons, selectedLessonId } = this.props
-    this.setAllStyles(mapLessons)
-    this.setMapLessons(mapLessons, selectedLessonId)
+    const { mapLessons } = this.props
+    this.applyLessonStates(mapLessons)
   }
 
   componentWillReceiveProps(nextProps) {
-    const { mapLessons, selectedLessonId } = this.props
-        , { mapLessons: nextMapLessons, selectedLessonId: nextSelectedLessonId } = nextProps
-        , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
-        , selectedLessonIdHasChanged = selectedLessonId !== nextSelectedLessonId
-
-    if(mapLessonsHasChanged) {
-      this.setAllStyles(nextMapLessons)
-    }
-
-    if(mapLessonsHasChanged || selectedLessonIdHasChanged) {
-      this.setMapLessons(nextMapLessons, nextSelectedLessonId)
-    }
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    const { mapLessons } = this.state
-        , { mapLessons: nextMapLessons } = nextState
+    const { mapLessons } = this.props
+        , { mapLessons: nextMapLessons } = nextProps
         , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
 
     if(mapLessonsHasChanged) {
-      this.handleLessonStateChange(nextMapLessons)
+      this.applyLessonStates(nextMapLessons)
     }
   }
 
-  handleLessonStateChange = (mapLessons) =>
+  applyLessonStates = (mapLessons) =>
     mapLessons.forEach((lesson, index) => {
-      const order = lesson.order
-        , wasJustCompleted = lesson.justCompleted
-        , completionPercentage = get(lesson, 'userLesson.completionPercentage', null)
-        , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
-        , hasBeenStarted = has(lesson, 'userLesson')
-        , bubbleRef = makeBubbleRef(order)
-        , completionLayerRefText = makeCompletionLayer1RefText(order)
-        , completionRefs = makeCompletionRefArray(completionLayerRefText)
-        , bubbleTextRef = makeBubbleTextRef(order)
-        , checkMarkRef = makeCheckMarkRef(order)
+      const order = index + 1
+          , wasJustCompleted = lesson.justCompleted
+          , completionPercentage = get(lesson, 'userLesson.completionPercentage', null)
+          , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
+          , hasBeenStarted = has(lesson, 'userLesson')
+          , bubbleRef = makeBubbleRef(order)
+          , completionRefs = makeCompletionRefArray(makeCompletionLayerOneRefText(order))
+          , bubbleTextRef = makeBubbleTextRef(order)
+          , checkMarkRef = makeCheckMarkRef(order)
 
       if(wasJustCompleted) {
         setTimeout(() => {
-          this.handleBubbleSelectionScaling(lesson)
-          this.setSelectedLesson(lesson)
+          this.handleBubbleSelectionScaling(lesson, order)
+          this.setSelectedLesson(lesson, order)
+          this.completionAnimation(lesson)
         }, 500)
       }
     })
 
-  setAllStyles = (mapLessons) =>
-    this.setState({
-      bubbleStyles: mapLessons.map((_, i) => shapeProps.defaultBubbleStyle)
-      , bubbleTextStyles: mapLessons.map((_, i) => shapeProps.defaultBubbleTextStyle)
-    })
+  completionAnimation = () => {
 
-  setSelectedLesson = (lesson) => {
-    const order = lesson.order
-      , { bubbleStyles, bubbleTextStyles } = this.state
+  }
+
+  setSelectedLesson = (lesson, order) =>
     this.setState({
-      bubbleStyles: cloneDeep(bubbleStyles).map((_, i) => {
-        return (i === order - 1) ? shapeProps.selectedBubbleStyle : shapeProps.defaultBubbleStyle
-      })
-      , bubbleTextStyles: cloneDeep(bubbleTextStyles).map((_, i) => {
-        return (i === order - 1) ? shapeProps.selectedBubbleTextStyle : shapeProps.defaultBubbleTextStyle
-      })
+      bubbleStyles: cloneDeep(this.state.bubbleStyles).map((_, i) =>
+        (i === order - 1) ? shapeProps.selectedBubbleStyle : shapeProps.defaultBubbleStyle
+      )
+      , bubbleTextStyles: cloneDeep(this.state.bubbleTextStyles).map((_, i) =>
+        (i === order - 1) ? shapeProps.selectedBubbleTextStyle : shapeProps.defaultBubbleTextStyle
+      )
       , selectedBubbleRef: makeBubbleRef(order)
       , selectedBubbleTextRef: makeBubbleTextRef(order)
-      , selectedCompletionRefs: makeCompletionRefArray(makeCompletionLayer1RefText(order))
+      , selectedCompletionLayerOneRefs: makeCompletionRefArray(makeCompletionLayerOneRefText(order))
       , selectedBubbleHasBeenCompleted: get(lesson, 'userLesson.hasBeenCompleted', false)
       , selectedCheckMarkRef: makeCheckMarkRef(order)
     })
-  }
 
-  setMapLessons = (mapLessons, selectedLessonId) =>
-    this.setState({ mapLessons:
-      mapLessons.reduce((acc, lesson, i) => {
-        const order = i + 1
-        const isSelected = isLessonSelected(lesson, selectedLessonId)
-        acc.push({ ...lesson, order, isSelected })
-        return acc
-      }, [])
-    })
-
-  handleBubbleSelectionScaling = (lesson) => {
-    const { selectedBubbleRef, selectedBubbleTextRef, selectedCheckMarkRef, selectedBubbleHasBeenCompleted, selectedCompletionRefs } = this.state
-      , order = lesson.order
+  handleBubbleSelectionScaling = (lesson, order) => {
+    const { selectedBubbleRef, selectedBubbleTextRef, selectedCheckMarkRef, selectedBubbleHasBeenCompleted, selectedCompletionLayerOneRefs } = this.state
       , bubbleRef = makeBubbleRef(order)
       , bubbleTextRef = makeBubbleTextRef(order)
       , checkMarkRef = makeCheckMarkRef(order)
-      , completionLayerRefText = makeCompletionLayer1RefText(order)
-      , completionRefs = makeCompletionRefArray(completionLayerRefText)
-      , shouldHaveCheckMark = get(lesson, 'userLesson.hasBeenCompleted', 0)
-
-    let itemsRef
+      , completionRefs = makeCompletionRefArray(makeCompletionLayerOneRefText(order))
+      , shouldHaveCheckMark = get(lesson, 'userLesson.hasBeenCompleted', false)
 
     if(selectedBubbleRef && selectedBubbleTextRef) {
-      itemsRef = [selectedBubbleRef, selectedBubbleTextRef, ...selectedCompletionRefs]
-      if(selectedBubbleHasBeenCompleted) {
-        itemsRef.push(selectedCheckMarkRef)
-      }
-      this.scaleItems(itemsRef, scaleDown)
+      this.scaleItems([
+        selectedBubbleRef
+        , selectedBubbleTextRef
+        , ...selectedCompletionLayerOneRefs
+        , ...insertIf(selectedBubbleHasBeenCompleted, selectedCheckMarkRef)
+      ], scaleDown)
     }
 
-
-    itemsRef = [bubbleRef, bubbleTextRef, ...completionRefs]
-    if(shouldHaveCheckMark) {
-      itemsRef.push(checkMarkRef)
-    }
-
-    this.scaleItems(itemsRef, scaleUp)
+    this.scaleItems([
+      bubbleRef
+      , bubbleTextRef
+      , ...completionRefs
+      , ...insertIf(shouldHaveCheckMark, checkMarkRef)
+    ], scaleUp)
   }
 
   scaleItems = (itemRefs, scaleProps) =>
@@ -238,10 +200,10 @@ class MapBubbles extends PureComponent {
         this.refs[eachRef].to({...scaleProps}/*must be passed with this strange destruction*/)
     })
 
-  handleLessonBubbleClick = (e, lesson) => {
+  handleLessonBubbleClick = (e, lesson, order) => {
     this.props.onLessonSelect(e, lesson._id)
-    this.handleBubbleSelectionScaling(lesson)
-    this.setSelectedLesson(lesson)
+    this.handleBubbleSelectionScaling(lesson, order)
+    this.setSelectedLesson(lesson, order)
   }
 
   handleMouseOver = (e) => {
@@ -256,41 +218,27 @@ class MapBubbles extends PureComponent {
     this.props.handleMouseOut()
   }
 
-  renderLessonBubble = (lesson) => {
+  renderLessonBubble = (lesson, order) => {
     const { handleMouseOver, handleMouseOut } = this.props
       , { mapDimensions, bubbleStyles, bubbleTextStyles } = this.state
-      , order = lesson.order
       , index = order - 1
       , bubbleStyle = bubbleStyles[index]
       , bubbleTextStyle = bubbleTextStyles[index]
       , hasBeenStarted = has(lesson, 'userLesson')
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
       , bubbleRef = makeBubbleRef(order)
-      , completionLayer1RefText = makeCompletionLayer1RefText(order)
+      , completionLayerOneRefText = makeCompletionLayerOneRefText(order)
       , bubbleTextRef = makeBubbleTextRef(order)
       , checkMarkRef = makeCheckMarkRef(order)
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
 
     const clickProps = {
-      onClick: (e) => this.handleLessonBubbleClick(e, lesson)
-      , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson)
+      onClick: (e) => this.handleLessonBubbleClick(e, lesson, order)
+      , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order)
       , onMouseOver: this.handleMouseOver
       , onMouseOut: this.handleMouseOut
     }
-
-    let conditional = []
-
-    if(hasBeenCompleted) conditional.push(
-      <Path // CheckMark Bubble Text
-        key={ checkMarkRef }
-        ref={ checkMarkRef }
-        x={ x }
-        y={ y }
-        { ...clickProps }
-        { ...shapeProps.checkMarkStyle }
-      />
-    )
 
     return [
       <Circle // Lesson Bubble
@@ -314,8 +262,8 @@ class MapBubbles extends PureComponent {
       ,
       [...Array(6)].map((e, i) =>
         <Arc
-          key={ `${completionLayer1RefText}-${i}` }
-          ref={ `${completionLayer1RefText}-${i}` }
+          key={ `${completionLayerOneRefText}-${i}` }
+          ref={ `${completionLayerOneRefText}-${i}` }
           x={ x }
           y={ y }
           { ...clickProps }
@@ -324,15 +272,24 @@ class MapBubbles extends PureComponent {
         />
       )
       ,
-      ...conditional
+      ...insertIf(hasBeenCompleted,
+        <Path // CheckMark Bubble Text
+          key={ checkMarkRef }
+          ref={ checkMarkRef }
+          x={ x }
+          y={ y }
+          { ...clickProps }
+          { ...shapeProps.checkMarkStyle }
+        />
+      )
     ]
   }
 
   render() {
-    const { mapLessons } = this.state
+    const { mapLessons } = this.props
 
     return mapLessons.reduce((acc, lesson, i) => {
-      acc.push(...this.renderLessonBubble(lesson, lesson.order, lesson.isSelected))
+      acc.push(...this.renderLessonBubble(lesson, i + 1))
       return acc
     }, [])
   }
