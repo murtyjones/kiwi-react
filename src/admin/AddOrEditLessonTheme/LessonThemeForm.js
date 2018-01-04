@@ -8,7 +8,6 @@ import { RaisedButton, List, ListItem, MenuItem } from 'material-ui'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
-import KiwiToggleField from '../../common/KiwiToggleField'
 import { SelectField } from 'redux-form-material-ui'
 
 let formName = 'lessonTheme'

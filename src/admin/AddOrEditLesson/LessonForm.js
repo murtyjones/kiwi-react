@@ -8,7 +8,6 @@ import { RaisedButton, MenuItem } from 'material-ui'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
-import KiwiToggleField from '../../common/KiwiToggleField'
 import { Toggle, SelectField } from 'redux-form-material-ui'
 
 import Slides from './Slides'
