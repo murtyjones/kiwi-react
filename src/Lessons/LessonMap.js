@@ -10,7 +10,8 @@ const minHeight = 768
 
 const styles = {
   container: {
-    width: '100%'
+    width: '100vw'
+    , position: 'absolute'
   },
   layer1: {
     width: '100%',
@@ -66,17 +67,13 @@ class LessonMap extends Component {
   }
 
   render() {
-    const { width, mapLessons, selectedLessonId, selectedLessonPosition, scaleX, scaleY } = this.props
+    const { width, mapLessons, selectedLessonId, selectedLessonPosition, sideNavWidth, scaleX, scaleY } = this.props
     const { height, cursor } = this.state
 
     return (
-      <div style={ { ...styles.container, cursor } }>
+      <div style={ { ...styles.container, cursor, left:  `${-sideNavWidth}px` } }>
         <Stage width={ width } height={ height } scaleX={ scaleX } scaleY={ scaleY }>
           <Layer style={ styles.layer1  }>
-            <MapLines
-              mapLessons={ mapLessons }
-              width={ width }
-            />
             { !isEmpty(mapLessons) &&
               <MapBubbles
                 mapLessons={ mapLessons }

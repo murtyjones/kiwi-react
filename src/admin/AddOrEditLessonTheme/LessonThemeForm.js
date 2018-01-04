@@ -106,12 +106,12 @@ class LessonThemeForm extends Component {
         />
         <Field
           name='foregroundColor'
-          placeholder='Foreground Color (HEX, e.g. #000000)'
+          placeholder='Ground Color (HEX, e.g. #000000)'
           component={ renderTextField }
         />
         <Field
           name='backgroundColor'
-          placeholder='Background Color (HEX, e.g. #000000)'
+          placeholder='Sky Color (HEX, e.g. #000000)'
           component={ renderTextField }
         />
         <Field

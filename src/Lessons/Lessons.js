@@ -2,21 +2,28 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { orderBy, find, findIndex, get, cloneDeep } from 'lodash'
+import { orderBy, find, findIndex, get, cloneDeep, isEqual } from 'lodash'
 
-import { getManyLessons, getManyUserLessons, getLessonOrder } from '../actions'
+import { getManyLessons, getManyUserLessons, getLessonOrder, openSideNav, closeSideNav } from '../actions'
+
 
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
 import LessonMapBackground from './LessonMapBackground'
 
-const stageProportion = 0.70
+const stageProportion = 1
+
+const minWidth = 1024
 
 const generateMinWidth = (sideNavWidth) => {
   return 1024 - sideNavWidth
 }
 
 const styles = {
+  mapContainer: {
+    width: '100vw'
+    , position: 'absolute'
+  },
   lessonCardContainer: {
     position: 'fixed'
     , right: '20px'
@@ -29,21 +36,22 @@ const styles = {
 class Lessons extends Component {
   constructor(props) {
     super(props)
-    let _minWidth = generateMinWidth(props.sideNavWidth)
     this.state = {
-      width: _minWidth // this is temporary
-      , startingWidth: _minWidth // this is temporary
+      width: minWidth // this is temporary
+      , startingWidth: minWidth // this is temporary
       , scaleX: 1
       , scaleY: 1
-      , minWidth: _minWidth
+      , minWidth: minWidth
       , selectedLessonId: null
-      , selectedLessonPosition: null
-      , userLessonJustCompletedId: get(props, 'location.state.userLessonJustCompletedId', '')
+      , userLessonJustCompletedId: get(props, 'location.state.userLessonJustCompletedId', '5a37fa1995ff1440e9b06b37')
+      , mapLessons: null
     }
   }
 
   static propTypes = {
-    getManyLessons: T.func
+    openSideNav: T.func
+    , closeSideNav: T.func
+    , getManyLessons: T.func
     , getManyUserLessons: T.func
     , getLessonOrder: T.func
     , userLessons: T.array
@@ -55,10 +63,12 @@ class Lessons extends Component {
   }
 
   componentWillMount() {
-    const { getManyLessons, getManyUserLessons, getLessonOrder, userId } = this.props
+    const { closeSideNav, getManyLessons, getManyUserLessons, getLessonOrder, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
+    closeSideNav()
     getManyLessons()
     getManyUserLessons({ userId })
     getLessonOrder()
+    this.setMapLessons(orderOfPublishedLessons, lessons, userLessons)
   }
 
   componentDidMount() {
@@ -74,12 +84,38 @@ class Lessons extends Component {
     window.addEventListener("resize", this.updateDimensions)
   }
 
+  componentWillUnmount() {
+    this.props.openSideNav()
+  }
+
   componentWillReceiveProps(nextProps) {
+    const orderHasChanged = !isEqual(nextProps.orderOfPublishedLessons, this.props.orderOfPublishedLessons)
+        , lessonsHasChanged = !isEqual(nextProps.lessons, this.props.lessons)
+        , userLessonsHasChanged = !isEqual(nextProps.userLessons, this.props.userLessons)
     if(this.props.sideNavWidth !== nextProps.sideNavWidth) {
-      this.setState({ minWidth: generateMinWidth(nextProps.sideNavWidth) })
       this.updateDimensions()
     }
+    if(orderHasChanged || lessonsHasChanged || userLessonsHasChanged) {
+      this.setMapLessons(nextProps.orderOfPublishedLessons, nextProps.lessons, nextProps.userLessons)
+    }
   }
+
+  setMapLessons = (orderOfPublishedLessons, lessons, userLessons) =>
+    this.setState({
+      mapLessons: orderOfPublishedLessons.map(lessonId => {
+        const lesson = find(lessons, { _id: lessonId })
+          , userLesson = find(userLessons, { lessonId })
+
+        if(!lesson) return {}
+        if(userLesson) {
+          lesson.userLesson = userLesson
+        }
+        if(userLesson && this.state.userLessonJustCompletedId === userLesson._id) {
+          lesson.justCompleted = true
+        }
+        return lesson
+      })
+    })
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateDimensions)
@@ -97,31 +133,27 @@ class Lessons extends Component {
     this.setState({ selectedLessonId })
   }
 
-
   render() {
-    const { width, scaleX, scaleY, selectedLessonId, userLessonJustCompletedId } = this.state
-    const { userLessons, lessons, orderOfPublishedLessons } = this.props
+    const { lessons, orderOfPublishedLessons, sideNavWidth } = this.props
+    const { width, scaleX, scaleY, selectedLessonId, mapLessons, userLessonJustCompletedId } = this.state
     const selectedLessonPosition = selectedLessonId
       ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
       : 0
 
-    const mapLessons = orderOfPublishedLessons.map(lessonId => {
-      const lesson = find(lessons, { _id: lessonId })
-        , userLesson = find(userLessons, { lessonId })
-
-      if(!lesson) return {}
-      if(userLesson) lesson.userLesson = userLesson
-      if(userLesson && userLessonJustCompletedId === userLesson._id) lesson.justCompleted = true
-      return lesson
-    })
-
-    return (
-      <div ref={ (c) => { this.lessonsContainerNode = c } }>
-        <LessonMapBackground
-
-        />
+    return [
+      <LessonMapBackground
+        key={ 'LessonMapBackground' }
+        sideNavWidth={ sideNavWidth }
+      />
+      ,
+      <div
+        key={ 'LessonMap' }
+        ref={ (c) => { this.lessonsContainerNode = c } }
+        style={ styles.mapContainer}
+      >
         <LessonMap
           width={ width * stageProportion }
+          sideNavWidth={ sideNavWidth }
           scaleX={ scaleX }
           scaleY={ scaleY }
           mapLessons={ mapLessons }
@@ -135,15 +167,11 @@ class Lessons extends Component {
                 , order: selectedLessonPosition
               }
             }
-            style={ {
-              ...styles.lessonCardContainer
-              , width: width * (1 - stageProportion) - 20
-              , height: Math.max(width * (1 - stageProportion), 400)
-            } }
+            style={ styles.lessonCardContainer }
           />
         }
       </div>
-    )
+    ]
   }
 
 }
@@ -169,6 +197,8 @@ const mapDispatchToProps = (dispatch) => {
     getManyLessons: (params) => dispatch(getManyLessons(params))
     , getLessonOrder: () => dispatch(getLessonOrder())
     , getManyUserLessons: (params) => dispatch(getManyUserLessons(params))
+    , openSideNav: () => dispatch(openSideNav())
+    , closeSideNav: () => dispatch(closeSideNav())
   }
 }
 

@@ -276,6 +276,7 @@ class MapBubbles extends PureComponent {
 
     const clickProps = {
       onClick: (e) => this.handleLessonBubbleClick(e, lesson, order)
+      , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order)
       , onMouseOver: this.handleMouseOver
       , onMouseOut: this.handleMouseOut
     }
