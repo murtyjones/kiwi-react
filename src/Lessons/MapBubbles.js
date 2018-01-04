@@ -96,8 +96,7 @@ class MapBubbles extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      mapLessons: []
-      , mapDimensions: LESSON_MAP_POINTS(props.width)
+      mapDimensions: LESSON_MAP_POINTS(props.width)
       , bubbleStyles: props.mapLessons.map((_, i) => shapeProps.defaultBubbleStyle)
       , bubbleTextStyles: props.mapLessons.map((_, i) => shapeProps.defaultBubbleTextStyle)
       , selectedBubbleRef: ''
@@ -145,7 +144,7 @@ class MapBubbles extends PureComponent {
         setTimeout(() => {
           this.handleBubbleSelectionScaling(lesson, order)
           this.setSelectedLesson(lesson, order)
-          this.completionAnimation(lesson)
+          this.completionAnimation(lesson, order)
         }, 500)
       }
     })
@@ -219,19 +218,18 @@ class MapBubbles extends PureComponent {
   }
 
   renderLessonBubble = (lesson, order) => {
-    const { handleMouseOver, handleMouseOut } = this.props
-      , { mapDimensions, bubbleStyles, bubbleTextStyles } = this.state
-      , index = order - 1
-      , bubbleStyle = bubbleStyles[index]
-      , bubbleTextStyle = bubbleTextStyles[index]
-      , hasBeenStarted = has(lesson, 'userLesson')
-      , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
-      , bubbleRef = makeBubbleRef(order)
-      , completionLayerOneRefText = makeCompletionLayerOneRefText(order)
-      , bubbleTextRef = makeBubbleTextRef(order)
-      , checkMarkRef = makeCheckMarkRef(order)
-      , x = mapDimensions[`CIRCLE_${order}_X`]
-      , y = mapDimensions[`CIRCLE_${order}_Y`]
+    const { mapDimensions, bubbleStyles, bubbleTextStyles } = this.state
+        , index = order - 1
+        , bubbleStyle = bubbleStyles[index]
+        , bubbleTextStyle = bubbleTextStyles[index]
+        , hasBeenStarted = has(lesson, 'userLesson')
+        , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
+        , bubbleRef = makeBubbleRef(order)
+        , completionLayerOneRefText = makeCompletionLayerOneRefText(order)
+        , bubbleTextRef = makeBubbleTextRef(order)
+        , checkMarkRef = makeCheckMarkRef(order)
+        , x = mapDimensions[`CIRCLE_${order}_X`]
+        , y = mapDimensions[`CIRCLE_${order}_Y`]
 
     const clickProps = {
       onClick: (e) => this.handleLessonBubbleClick(e, lesson, order)
