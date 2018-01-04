@@ -29,11 +29,11 @@ const colors = {
 }
 
 const makeBubbleRef = (order) => `circle-${order}`
-  , makeBubbleTextRef = (order) => `text-${order}`
-  , makeCompletionLayer1Ref = (order) => `circle-completion-layer-1-${order}`
-  , makeCompletionLayer2Ref = (order) => `circle-completion-layer-2-${order}`
-  , makeCheckMarkBubbleRef = (order) => `checkMark-bubble-${order}`
-  , makeCheckMarkRef = (order) => `checkMark-${order}`
+    , makeBubbleTextRef = (order) => `text-${order}`
+    , makeCompletionLayer1Ref = (order) => `circle-completion-layer-1-${order}`
+    , makeCompletionLayer2Ref = (order) => `circle-completion-layer-2-${order}`
+    , makeCheckMarkBubbleRef = (order) => `checkMark-bubble-${order}`
+    , makeCheckMarkRef = (order) => `checkMark-${order}`
 
 const shapeProps = {
   defaultBubbleStyle: {
@@ -58,7 +58,6 @@ const shapeProps = {
     , width: 17
     , height: 17
     , fill: colors.checkMarkCircleColor
-
   },
   checkMarkStyle: {
     offsetX: -10
@@ -106,7 +105,8 @@ class MapBubbles extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      mapDimensions: LESSON_MAP_POINTS(props.width)
+      mapLessons: []
+      , mapDimensions: LESSON_MAP_POINTS(props.width)
       , bubbleStyles: props.mapLessons.map((_, i) => shapeProps.defaultBubbleStyle)
       , bubbleTextStyles: props.mapLessons.map((_, i) => shapeProps.defaultBubbleTextStyle)
       , selectedBubbleRef: ''
@@ -129,6 +129,7 @@ class MapBubbles extends PureComponent {
 
   componentWillMount() {
     this.pageLoadActions(this.props.mapLessons)
+    this.setMapLessons(this.props.mapLessons, this.props.selectedLessonId)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -138,6 +139,7 @@ class MapBubbles extends PureComponent {
         , bubbleTextStyles: nextProps.mapLessons.map((_, i) => shapeProps.defaultBubbleTextStyle)
       })
       this.pageLoadActions(nextProps.mapLessons)
+      this.setMapLessons(nextProps.mapLessons, nextProps.selectedLessonId)
     }
   }
 
@@ -156,7 +158,7 @@ class MapBubbles extends PureComponent {
       if(wasJustCompleted) {
         setTimeout(() => {
           this.scaleItems(
-            [bubbleRef]
+            [bubbleRef, completionRef, bubbleTextRef]
             , scaleUp
           )
         }, 500)
@@ -188,6 +190,16 @@ class MapBubbles extends PureComponent {
     })
   }
 
+  setMapLessons = (mapLessons, selectedLessonId) =>
+    this.setState({ mapLessons:
+      mapLessons.reduce((acc, lesson, i) => {
+        const order = i + 1
+        const isSelected = isLessonSelected(lesson, selectedLessonId)
+        acc.push({ ...lesson, order, isSelected })
+        return acc
+      }, [])
+    })
+
   scaleItems = (itemRefs, scaleProps) => {
     itemRefs.forEach(eachRef => {
       if(this.refs[eachRef])
@@ -212,8 +224,10 @@ class MapBubbles extends PureComponent {
 
     this.props.onLessonSelect(e, lesson._id)
 
+    let itemsRef
+
     if(selectedBubbleRef && selectedBubbleTextRef) {
-      const itemsRef = [selectedBubbleRef, selectedBubbleTextRef, ...selectedCompletionRefs]
+      itemsRef = [selectedBubbleRef, selectedBubbleTextRef, ...selectedCompletionRefs]
       if(selectedBubbleHasBeenCompleted) {
         itemsRef.push(selectedCheckMarkBubbleRef)
         itemsRef.push(selectedCheckMarkRef)
@@ -236,13 +250,13 @@ class MapBubbles extends PureComponent {
       , selectedCheckMarkRef: checkMarkRef
     })
 
-    const _itemsRef = [bubbleRef, bubbleTextRef, ...completionRefs]
+    itemsRef = [bubbleRef, bubbleTextRef, ...completionRefs]
     if(hasBeenCompleted) {
-      _itemsRef.push(checkMarkBubbleRef)
-      _itemsRef.push(checkMarkRef)
+      itemsRef.push(checkMarkBubbleRef)
+      itemsRef.push(checkMarkRef)
     }
 
-    this.scaleItems(_itemsRef, scaleUp)
+    this.scaleItems(itemsRef, scaleUp)
   }
 
   handleMouseOver = (e) => {
@@ -257,9 +271,10 @@ class MapBubbles extends PureComponent {
     this.props.handleMouseOut()
   }
 
-  renderLessonBubble = (lesson, order, isSelected) => {
+  renderLessonBubble = (lesson) => {
     const { handleMouseOver, handleMouseOut } = this.props
       , { mapDimensions, bubbleStyles, bubbleTextStyles } = this.state
+      , order = lesson.order
       , index = order - 1
       , bubbleStyle = bubbleStyles[index]
       , bubbleTextStyle = bubbleTextStyles[index]
@@ -283,9 +298,7 @@ class MapBubbles extends PureComponent {
     
     // if(hasBeenStarted) {
       // if(completionPercentage === 100) {
-
       // } else {
-
         // partial border styling
         // delete(bubbleStyle.fill)
         // const variance = bubbleStyle.height / 100
@@ -351,15 +364,13 @@ class MapBubbles extends PureComponent {
   }
 
   render() {
-    const { mapLessons, selectedLessonId = null } = this.props
+    const { mapLessons } = this.state
 
     const bubbleElements = []
 
-    mapLessons.forEach((lesson, i) => {
-      const order = i + 1
-      const isSelected = isLessonSelected(lesson, selectedLessonId)
-      bubbleElements.push(...this.renderLessonBubble(lesson, order, isSelected))
-    })
+    mapLessons.forEach((lesson, i) =>
+      bubbleElements.push(...this.renderLessonBubble(lesson, lesson.order, lesson.isSelected))
+    )
 
     return bubbleElements
   }
