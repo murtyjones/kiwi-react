@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import { Circle, Text, Path, Arc } from 'react-konva'
-import { has, get, find, findIndex, cloneDeep, isEqual } from 'lodash'
+import { has, get, find, findIndex, cloneDeep, isEqual, isEmpty } from 'lodash'
 
 import { LESSON_MAP_POINTS, SVG_PATHS } from '../constants'
 import insertIf from '../utils/insertIf'
+import setTimeoutAsync from '../utils/setTimeoutAsync'
 
 const scaleUp = { // for some reason, these must be destructed using '...' when passing to .to()
   scaleX: 1.3
@@ -28,12 +29,13 @@ const colors = {
   , checkMarkCircleColor: '#abd698'
   , checkMarkColor: '#FFFFFF'
   , completionLayerOneColor: '#7E5DB8'
+  , completionLayerTwoColor: '#FFFFFF'
 }
 
 const makeBubbleRef = (order) => `circle-${order}`
     , makeBubbleTextRef = (order) => `text-${order}`
-    , makeCompletionLayerOneRefText = (order) => `circle-completion-layer-1-${order}`
-    , makeCompletionLayerTwoRefText = (order) => `circle-completion-layer-2-${order}`
+    , makeCompletionLayerOneRef = (order) => `circle-completion-layer-one-${order}`
+    , makeCompletionLayerTwoRef = (order) => `circle-completion-layer-one-${order}`
     , makeCompletionRefArray = (completionLayerRefText) => [...Array(6)].map((x, i) => `${completionLayerRefText}-${i}`)
     , makeCheckMarkRef = (order) => `checkMark-${order}`
 
@@ -60,22 +62,26 @@ const shapeProps = {
     , fill: colors.checkMarkColor
     , data: SVG_PATHS.CHECKMARK
   },
-  arcStyle: {
+  arcStyleLayerOne: {
     lineCap: 'round'
     , lineJoin: 'round'
     , innerRadius: 18
     , outerRadius: 21
     , fill: colors.completionLayerOneColor
-    , clockwise: true
+    , clockwise: false
+    , angle: 1
+    , rotation: -90
   },
-  artAddPoints: [
-    { angle: 306, rotation: -90 }
-    , { angle: 306, rotation: -150 }
-    , { angle: 306, rotation: -210 }
-    , { angle: 306, rotation: -270 }
-    , { angle: 306, rotation: -330 }
-    , { angle: 306, rotation: -30 }
-  ]
+  arcStyleLayerTwo: {
+    lineCap: 'round'
+    , lineJoin: 'round'
+    , innerRadius: 18
+    , outerRadius: 21
+    , fill: colors.completionLayerTwoColor
+    , clockwise: false
+    , angle: 90
+    , rotation: -90
+  }
 }
 
 shapeProps.selectedBubbleStyle = {
@@ -87,9 +93,6 @@ shapeProps.selectedBubbleTextStyle = {
   ...shapeProps.defaultBubbleTextStyle
   , textFill: colors.activeTextColor
 }
-
-const calculateNewAngle = (completionPercentage) =>
-  360 - (completionPercentage * 3.6)
 
 
 class MapBubbles extends PureComponent {
@@ -113,44 +116,73 @@ class MapBubbles extends PureComponent {
     , selectedLessonId: T.string
   }
 
-  componentWillMount() {
+  async componentDidMount() {
     const { mapLessons } = this.props
-    this.applyLessonStates(mapLessons)
+    await this.applyLessonStates(mapLessons)
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const { mapLessons } = this.props
         , { mapLessons: nextMapLessons } = nextProps
         , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
 
     if(mapLessonsHasChanged) {
-      this.applyLessonStates(nextMapLessons)
+      await this.applyLessonStates(nextMapLessons)
     }
   }
 
-  applyLessonStates = (mapLessons) =>
-    mapLessons.forEach((lesson, index) => {
+  applyLessonStates = async(mapLessons) => {
+    await this.drawLayerOne(mapLessons)
+    mapLessons.forEach(async(lesson, index) => {
       const order = index + 1
-          , wasJustCompleted = lesson.justCompleted
-          , completionPercentage = get(lesson, 'userLesson.completionPercentage', null)
-          , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
-          , hasBeenStarted = has(lesson, 'userLesson')
-          , bubbleRef = makeBubbleRef(order)
-          , completionRefs = makeCompletionRefArray(makeCompletionLayerOneRefText(order))
-          , bubbleTextRef = makeBubbleTextRef(order)
-          , checkMarkRef = makeCheckMarkRef(order)
+        , wasJustCompleted = lesson.justCompleted
+        , completionPercentage = get(lesson, 'userLesson.completionPercentage', null)
+        , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
+        , hasBeenStarted = has(lesson, 'userLesson')
+        , bubbleRef = makeBubbleRef(order)
+        , completionLayerOneRef = makeCompletionLayerOneRef(order)
+        , bubbleTextRef = makeBubbleTextRef(order)
+        , checkMarkRef = makeCheckMarkRef(order)
 
-      if(wasJustCompleted) {
-        setTimeout(() => {
+      if (wasJustCompleted) {
+          await setTimeoutAsync(500)
           this.handleBubbleSelectionScaling(lesson, order)
           this.setSelectedLesson(lesson, order)
           this.completionAnimation(lesson, order)
-        }, 500)
+
       }
     })
+  }
+
 
   completionAnimation = () => {
 
+  }
+
+  drawLayerOne = async(mapLessons) => {
+    return await mapLessons.forEach(async(lesson, i) => {
+      const order = i + 1
+      const completionLayerOneRefText = makeCompletionLayerOneRef(order)
+      const newAngle = 360
+      await this.refs[completionLayerOneRefText].to({
+        angle: newAngle
+        , duration: 0.5
+      })
+      shapeProps.arcStyleLayerOne.angle = newAngle
+    })
+  }
+
+  drawLayerTwoForLesson = async(lesson, i) => {
+    const order = i + 1
+    const completionLayerTwoRefText = makeCompletionLayerTwoRef(order)
+      , completionPercentage = get(lesson, 'userLesson.completionPercentage', 0) / 100
+      , newAngle = completionPercentage * 360
+
+    await this.refs[completionLayerTwoRefText].to({
+      angle: newAngle
+      , duration: 0.5
+    })
+    shapeProps.arcStyleLayerTwo.angle = newAngle
   }
 
   setSelectedLesson = (lesson, order) =>
@@ -163,24 +195,24 @@ class MapBubbles extends PureComponent {
       )
       , selectedBubbleRef: makeBubbleRef(order)
       , selectedBubbleTextRef: makeBubbleTextRef(order)
-      , selectedCompletionLayerOneRefs: makeCompletionRefArray(makeCompletionLayerOneRefText(order))
+      , selectedCompletionLayerOneRef: makeCompletionLayerOneRef(order)
       , selectedBubbleHasBeenCompleted: get(lesson, 'userLesson.hasBeenCompleted', false)
       , selectedCheckMarkRef: makeCheckMarkRef(order)
     })
 
   handleBubbleSelectionScaling = (lesson, order) => {
-    const { selectedBubbleRef, selectedBubbleTextRef, selectedCheckMarkRef, selectedBubbleHasBeenCompleted, selectedCompletionLayerOneRefs } = this.state
+    const { selectedBubbleRef, selectedBubbleTextRef, selectedCheckMarkRef, selectedBubbleHasBeenCompleted, selectedCompletionLayerOneRef } = this.state
       , bubbleRef = makeBubbleRef(order)
       , bubbleTextRef = makeBubbleTextRef(order)
       , checkMarkRef = makeCheckMarkRef(order)
-      , completionRefs = makeCompletionRefArray(makeCompletionLayerOneRefText(order))
+      , completionLayerOneRef = makeCompletionLayerOneRef(order)
       , shouldHaveCheckMark = get(lesson, 'userLesson.hasBeenCompleted', false)
 
     if(selectedBubbleRef && selectedBubbleTextRef) {
       this.scaleItems([
         selectedBubbleRef
         , selectedBubbleTextRef
-        , ...selectedCompletionLayerOneRefs
+        , selectedCompletionLayerOneRef
         , ...insertIf(selectedBubbleHasBeenCompleted, selectedCheckMarkRef)
       ], scaleDown)
     }
@@ -188,7 +220,7 @@ class MapBubbles extends PureComponent {
     this.scaleItems([
       bubbleRef
       , bubbleTextRef
-      , ...completionRefs
+      , completionLayerOneRef
       , ...insertIf(shouldHaveCheckMark, checkMarkRef)
     ], scaleUp)
   }
@@ -225,7 +257,8 @@ class MapBubbles extends PureComponent {
         , hasBeenStarted = has(lesson, 'userLesson')
         , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
         , bubbleRef = makeBubbleRef(order)
-        , completionLayerOneRefText = makeCompletionLayerOneRefText(order)
+        , completionLayerOneRefText = makeCompletionLayerOneRef(order)
+        , completionLayerTwoRefText = makeCompletionLayerTwoRef(order)
         , bubbleTextRef = makeBubbleTextRef(order)
         , checkMarkRef = makeCheckMarkRef(order)
         , x = mapDimensions[`CIRCLE_${order}_X`]
@@ -258,17 +291,23 @@ class MapBubbles extends PureComponent {
         { ...bubbleTextStyle }
       />
       ,
-      [...Array(6)].map((e, i) =>
-        <Arc
-          key={ `${completionLayerOneRefText}-${i}` }
-          ref={ `${completionLayerOneRefText}-${i}` }
-          x={ x }
-          y={ y }
-          { ...clickProps }
-          { ...shapeProps.arcStyle }
-          { ...shapeProps.artAddPoints[i] }
-        />
-      )
+      <Arc
+        key={ `${completionLayerOneRefText}` }
+        ref={ `${completionLayerOneRefText}` }
+        x={ x }
+        y={ y }
+        { ...clickProps }
+        { ...shapeProps.arcStyleLayerOne }
+      />
+      ,
+      <Arc
+        key={ `${completionLayerTwoRefText}` }
+        ref={ `${completionLayerTwoRefText}` }
+        x={ x }
+        y={ y }
+        { ...clickProps }
+        { ...shapeProps.arcStyleLayerTwo }
+      />
       ,
       ...insertIf(hasBeenCompleted,
         <Path // CheckMark Bubble Text
