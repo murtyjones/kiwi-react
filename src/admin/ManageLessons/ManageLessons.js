@@ -46,10 +46,7 @@ class ManageLessons extends Component {
       return acc
     }, [])
 
-    return {
-      published
-      , unpublished
-    }
+    return { published, unpublished }
   }
 
   onSortEnd = (event) => {

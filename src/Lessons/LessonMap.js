@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { Stage, Layer } from 'react-konva'
 import MapLines from './MapLines'
 import MapBubbles from './MapBubbles'
-import { isEmpty }  from 'lodash'
+import { isEmpty, isEqual, get }  from 'lodash'
 
 const heightPerLessonBubble = 150
 const minHeight = 768
@@ -19,23 +19,30 @@ const styles = {
   }
 }
 
+const getLatestActiveLesson = mapLessons => {
+  for (let i = 0, length = mapLessons.length; i < length; i++) {
+    const lesson = mapLessons[i]
+      , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', '')
+    if(!hasBeenCompleted)
+      return lesson._id
+  }
+  return ''
+}
+
 class LessonMap extends Component {
   constructor(props) {
     super(props)
     const mapLessonsLength = props.mapLessons.length
     const startingHeight = Math.max(minHeight, mapLessonsLength * heightPerLessonBubble)
     this.state = {
-      stage: null,
-      cursor: 'auto',
-      height: startingHeight,
-      heightWidthRatio: startingHeight / props.width,
-      scaleX: 1,
-      scaleY: 1
+      stage: null
+      , cursor: 'auto'
+      , height: startingHeight
+      , heightWidthRatio: startingHeight / props.width
+      , scaleX: 1
+      , scaleY: 1
+      , latestActiveLessonId: ''
     }
-  }
-
-  componetWillMount() {
-
   }
 
   static propTypes = {
@@ -48,27 +55,43 @@ class LessonMap extends Component {
     , width: T.number.isRequired
   }
 
+  componentWillMount() {
+    this.setLatestActiveLessonId(this.props.mapLessons)
+  }
+
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      height: nextProps.width * this.state.heightWidthRatio
-    })
+    const { mapLessons, width } = this.props
+      , { mapLessons: nextMapLessons, width: nextWidth } = nextProps
+
+    const mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
+      , widthHasChanged = !isEqual(width, nextWidth)
+
+    if(widthHasChanged) {
+      this.setState({ height: nextProps.width * this.state.heightWidthRatio })
+    }
+
+    if(mapLessonsHasChanged) {
+      this.setLatestActiveLessonId(nextMapLessons)
+    }
+
   }
 
   handleLessonSelect = (e, selectedLessonId) => {
     this.props.setSelectedLessonId(selectedLessonId)
   }
 
-  handleMouseOver = () => {
+  handleMouseOver = () =>
     this.setState({ cursor: 'pointer' })
-  }
 
-  handleMouseOut = () => {
+  handleMouseOut = () =>
     this.setState({ cursor: 'auto' })
-  }
+
+  setLatestActiveLessonId = (mapLessons) => 
+    this.setState({ latestActiveLessonId: getLatestActiveLesson(mapLessons) })
 
   render() {
     const { width, mapLessons, selectedLessonId, selectedLessonPosition, sideNavWidth, scaleX, scaleY } = this.props
-    const { height, cursor } = this.state
+    const { height, cursor, latestActiveLessonId } = this.state
 
     return (
       <div style={ { ...styles.container, cursor, left:  `${-sideNavWidth}px` } }>
@@ -79,6 +102,7 @@ class LessonMap extends Component {
                 mapLessons={ mapLessons }
                 selectedLessonId={ selectedLessonId }
                 selectedLessonPosition={ selectedLessonPosition }
+                latestActiveLessonId={ latestActiveLessonId }
                 width={ width }
                 onLessonSelect={ this.handleLessonSelect }
                 handleMouseOver={ this.handleMouseOver }

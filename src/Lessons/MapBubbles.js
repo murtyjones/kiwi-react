@@ -20,6 +20,11 @@ const scaleDown = { // for some reason, these must be destructed using '...' whe
   , duration: 0.1
 }
 
+const bubbleStates = {
+  AVAILABLE: 'AVAILABLE'
+  , LOCKED: 'LOCKED'
+}
+
 const colors = {
   activeStrokeColor: '#696969'
   , activeFillColor: '#664C93' // #40305E
@@ -58,6 +63,7 @@ const shapeProps = {
     , fontFamily: 'arial'
     , align: 'center'
   },
+  defaultBubbleTextColor: colors.inactiveTextColor,
   defaultCheckMarkStyle: {
     stroke: colors.checkMarkColor
     , strokeWidth: 4
@@ -70,7 +76,6 @@ const shapeProps = {
     , strokeWidth: 6
     , offsetX: 15
     , offsetY: 0
-    , points: []
   },
   defaultArcStyleLayerOne: {
     lineCap: 'round'
@@ -104,6 +109,21 @@ shapeProps.selectedBubbleTextStyle = {
   , textFill: colors.activeTextColor
 }
 
+const calculateBubbleAvailabilities = (mapLessons, latestActiveLessonId) => {
+  let pastLatestActiveLessonId = false
+  return mapLessons.map((e, i) => {
+    const order = i + 1
+    if(!pastLatestActiveLessonId && e._id !== latestActiveLessonId) {
+      return bubbleStates.AVAILABLE
+    } else if(!pastLatestActiveLessonId && e._id === latestActiveLessonId) {
+      pastLatestActiveLessonId = true
+      return bubbleStates.AVAILABLE
+    } else if(pastLatestActiveLessonId) {
+      return bubbleStates.LOCKED
+    }
+  })
+}
+
 class MapBubbles extends PureComponent {
   constructor(props) {
     super(props)
@@ -111,7 +131,10 @@ class MapBubbles extends PureComponent {
       mapDimensions: LESSON_MAP_POINTS(props.width)
       , bubbleStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultBubbleStyle))
       , bubbleTextStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultBubbleTextStyle))
+      , bubbleAvailabilities: props.mapLessons.map((_, i) => i + 1)
+      , bubbleTextColors: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultBubbleTextColor))
       , checkMarkStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultCheckMarkStyle))
+      , checkMarkPoints: props.mapLessons.map(_ => [])
       , arcStylesLayerOne: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultArcStyleLayerOne))
       , arcStylesLayerTwo: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultArcStyleLayerTwo))
       , selectedBubbleRef: ''
@@ -128,6 +151,12 @@ class MapBubbles extends PureComponent {
     , handleMouseOut: T.func.isRequired
     , mapLessons: T.array.isRequired
     , selectedLessonId: T.string
+    , latestActiveLessonId: T.string
+  }
+
+  componentWillMount() {
+    const { mapLessons, latestActiveLessonId } = this.props
+    this.setBubbleAvailabilities(mapLessons, latestActiveLessonId)
   }
 
   async componentDidMount() {
@@ -136,14 +165,22 @@ class MapBubbles extends PureComponent {
   }
 
   async componentWillReceiveProps(nextProps) {
-    const { mapLessons } = this.props
-        , { mapLessons: nextMapLessons } = nextProps
+    const { mapLessons, latestActiveLessonId } = this.props
+        , { mapLessons: nextMapLessons, latestActiveLessonId: nextLatestActiveLessonId } = nextProps
         , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
+        , latestActiveLessonIdHasCHanged = !isEqual(latestActiveLessonId, nextLatestActiveLessonId)
 
     if(mapLessonsHasChanged) {
       await this.applyLessonStates(nextMapLessons)
     }
+
+    if(latestActiveLessonIdHasCHanged || mapLessonsHasChanged) {
+      this.setBubbleAvailabilities(nextMapLessons, nextLatestActiveLessonId)
+    }
   }
+
+  setBubbleAvailabilities = (mapLessons, latestActiveLessonId) =>
+    this.setState({ bubbleAvailabilities: calculateBubbleAvailabilities(mapLessons, latestActiveLessonId) })
 
   applyLessonStates = async(mapLessons) => {
     await setTimeoutAsync(500)
@@ -162,6 +199,7 @@ class MapBubbles extends PureComponent {
         await this.fadeText(lesson, order)
         this.drawCheckMark(lesson, order)
       } else if(hasBeenCompleted) {
+        this.drawCheckMark(lesson, order)
         await this.drawLayerTwoForLesson(lesson, order, colors.inProgressLayerTwoColor)
       } else {
         await this.drawLayerTwoForLesson(lesson, order, colors.inProgressLayerTwoColor)
@@ -170,30 +208,19 @@ class MapBubbles extends PureComponent {
   }
 
   drawCheckMark = (lesson, order) => {
-    const { mapDimensions, checkMarkStyles } = this.state
+    const { mapDimensions, checkMarkPoints } = this.state
       , i = order - 1
-      , newCheckMarkStyles = cloneDeep(checkMarkStyles)
+      , newCheckMarkPoints = cloneDeep(checkMarkPoints)
       , checkMarkRef = makeCheckMarkRef(order)
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
 
-    this.refs[checkMarkRef].to({
-      points: [ x, y ]
-      , duration: 1
-    })
+    this.refs[checkMarkRef].to({ duration: 1, points: [ x, y ] })
+    this.refs[checkMarkRef].to({ duration: 1, points: [ x, y, x+10, y+10 ] })
+    this.refs[checkMarkRef].to({ duration: 1, points: [ x, y, x+10, y+10, x+30, y-10 ] })
 
-    this.refs[checkMarkRef].to({
-      points: [ x, y, x+10, y+10 ]
-      , duration: 1
-    })
-
-    this.refs[checkMarkRef].to({
-      points: [ x, y, x+10, y+10, x+30, y-10 ]
-      , duration: 1
-    })
-
-    newCheckMarkStyles[i].points = [ x, y, x+10, y+10, x+30, y-10 ]
-    this.setState({ checkMarkStyles: newCheckMarkStyles })
+    newCheckMarkPoints[i] = [ x, y, x+10, y+10, x+30, y-10 ]
+    this.setState({ checkMarkPoints: newCheckMarkPoints })
 
   }
 
@@ -269,12 +296,13 @@ class MapBubbles extends PureComponent {
     if(selectedBubbleRef && selectedBubbleTextRef) {
 
       if(selectedBubbleHasBeenCompleted) {
-        this.scaleCheckMark(selectedCheckMarkRef, order, shapeProps.defaultCheckMarkStyle.strokeWidth)
+        this.scaleCheckMark(selectedCheckMarkRef, order, 'down')
       }
+
+      this.scaleBubbleText(selectedBubbleTextRef, selectedBubbleHasBeenCompleted, order, scaleUp)
 
       this.scaleItems([
         selectedBubbleRef
-        , selectedBubbleTextRef
         , selectedCompletionLayerOneRef
         , selectedCompletionLayerTwoRef
       ], scaleDown)
@@ -288,16 +316,33 @@ class MapBubbles extends PureComponent {
       , completionLayerOneRef = makeCompletionLayerOneRef(order)
       , completionLayerTwoRef = makeCompletionLayerTwoRef(order)
       , shouldHaveCheckMark = get(lesson, 'userLesson.hasBeenCompleted', false)
+
     if(shouldHaveCheckMark) {
-      this.scaleCheckMark(checkMarkRef, order, shapeProps.selectedCheckMarkStyle.strokeWidth)
+      this.scaleCheckMark(checkMarkRef, order, 'up')
     }
+    
+    this.scaleBubbleText(bubbleTextRef, shouldHaveCheckMark, order, scaleUp)
 
     this.scaleItems([
       bubbleRef
-      , bubbleTextRef
       , completionLayerOneRef
       , completionLayerTwoRef
     ], scaleUp)
+  }
+
+  scaleBubbleText = (ref, hasBeenCompleted, order, scaleParams) => {
+    const { bubbleTextColors } = this.state
+      , newBubbleTextColors = cloneDeep(bubbleTextColors)
+      , i = order - 1
+
+    this.refs[ref].to({...scaleParams})
+    if(hasBeenCompleted) {
+      newBubbleTextColors[i] = colors.justCompletedTextColor
+    } else {
+      newBubbleTextColors[i] = colors.activeTextColor
+    }
+
+    this.setState({ bubbleTextColors: newBubbleTextColors })
   }
 
   handleBubbleSelectionScaling = (lesson, order) => {
@@ -311,24 +356,33 @@ class MapBubbles extends PureComponent {
         this.refs[eachRef].to({...scaleProps}/*must be passed with this strange destruction*/)
     })
 
-  scaleCheckMark = (ref, order, strokeWidth) => {
+  scaleCheckMark = (ref, order, direction) => {
     const { checkMarkStyles } = this.state
       , newCheckMarkStyles = cloneDeep(checkMarkStyles)
       , i = order - 1
+      , directionIsUp = direction === 'up'
+      , strokeWidth = directionIsUp
+        ? shapeProps.selectedCheckMarkStyle.strokeWidth
+        : shapeProps.defaultCheckMarkStyle.strokeWidth
+
     this.refs[ref].to({
       strokeWidth
       , duration: 0.1
     }/*must be passed with this strange destruction*/)
     newCheckMarkStyles[i].strokeWidth = strokeWidth
-    console.log(i)
-    console.log(checkMarkStyles[i])
     this.setState({ checkMarkStyles: newCheckMarkStyles })
   }
 
   handleLessonBubbleClick = (e, lesson, order) => {
-    this.props.onLessonSelect(e, lesson._id)
-    this.handleBubbleSelectionScaling(lesson, order)
-    this.setSelectedLesson(lesson, order)
+    const { bubbleAvailabilities } = this.state
+      , i = order - 1
+      , isAvailable = bubbleAvailabilities[i] === bubbleStates.AVAILABLE
+
+    if(isAvailable) {
+      this.props.onLessonSelect(e, lesson._id)
+      this.handleBubbleSelectionScaling(lesson, order)
+      this.setSelectedLesson(lesson, order)
+    }
   }
 
   handleMouseOver = (e) => {
@@ -344,11 +398,14 @@ class MapBubbles extends PureComponent {
   }
 
   renderLessonBubble = (lesson, order) => {
-    const { mapDimensions, bubbleStyles, bubbleTextStyles, checkMarkStyles, arcStylesLayerOne, arcStylesLayerTwo } = this.state
+    const { mapDimensions, bubbleStyles, bubbleAvailabilities, bubbleTextStyles, bubbleTextColors, checkMarkStyles, checkMarkPoints, arcStylesLayerOne, arcStylesLayerTwo } = this.state
       , index = order - 1
       , bubbleStyle = bubbleStyles[index]
       , bubbleTextStyle = bubbleTextStyles[index]
+      , bubbleAvailability = bubbleAvailabilities[index]
+      , bubbleTextColor = bubbleTextColors[index]
       , checkMarkStyle = checkMarkStyles[index]
+      , oneCheckMarkPoints = checkMarkPoints[index]
       , arcStyleLayerOne = arcStylesLayerOne[index]
       , arcStyleLayerTwo = arcStylesLayerTwo[index]
       , hasBeenStarted = has(lesson, 'userLesson')
@@ -360,6 +417,8 @@ class MapBubbles extends PureComponent {
       , checkMarkRef = makeCheckMarkRef(order)
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
+
+    const bubbleText = bubbleAvailability === bubbleStates.AVAILABLE ? order : null
 
     const clickProps = {
       onClick: (e) => this.handleLessonBubbleClick(e, lesson, order)
@@ -383,9 +442,10 @@ class MapBubbles extends PureComponent {
         ref={ bubbleTextRef }
         x={ x }
         y={ y }
-        text={ order }
+        text={ bubbleText }
         { ...clickProps }
         { ...bubbleTextStyle }
+        fill={ bubbleTextColor }
       />
       ,
       <Arc
@@ -412,6 +472,7 @@ class MapBubbles extends PureComponent {
           ref={ checkMarkRef }
           { ...clickProps }
           { ...checkMarkStyle }
+          points={ oneCheckMarkPoints }
         />
       )
     ]
