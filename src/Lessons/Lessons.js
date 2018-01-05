@@ -43,7 +43,7 @@ class Lessons extends Component {
       , scaleY: 1
       , minWidth: minWidth
       , selectedLessonId: null
-      , userLessonJustCompletedId: get(props, 'location.state.userLessonJustCompletedId', '5a37fa1995ff1440e9b06b37')
+      , userLessonJustCompletedId: get(props, 'location.state.userLessonJustCompletedId', '5a37fa1995ff1440e9b06b37') // TODO DELETE ME
       , mapLessons: null
     }
   }
@@ -89,14 +89,18 @@ class Lessons extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const orderHasChanged = !isEqual(nextProps.orderOfPublishedLessons, this.props.orderOfPublishedLessons)
-        , lessonsHasChanged = !isEqual(nextProps.lessons, this.props.lessons)
-        , userLessonsHasChanged = !isEqual(nextProps.userLessons, this.props.userLessons)
-    if(this.props.sideNavWidth !== nextProps.sideNavWidth) {
+    const { lessons, userLessons, orderOfPublishedLessons, sideNavWidth } = this.props
+      , { lessons: nextLessons, userLessons: nextUserLessons, orderOfPublishedLessons: nextOrderOfPublishedLessons, sideNavWidth: nextSideNavWidth } = nextProps
+      , orderHasChanged = !isEqual(orderOfPublishedLessons, nextOrderOfPublishedLessons)
+      , lessonsHasChanged = !isEqual(lessons, nextLessons)
+      , userLessonsHasChanged = !isEqual(userLessons, nextUserLessons)
+      , sideNavHasChanged = sideNavWidth !== nextSideNavWidth
+
+    if(sideNavHasChanged) {
       this.updateDimensions()
     }
     if(orderHasChanged || lessonsHasChanged || userLessonsHasChanged) {
-      this.setMapLessons(nextProps.orderOfPublishedLessons, nextProps.lessons, nextProps.userLessons)
+      this.setMapLessons(nextOrderOfPublishedLessons, nextLessons, nextUserLessons)
     }
   }
 
