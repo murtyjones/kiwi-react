@@ -44,8 +44,8 @@ const makeBubbleRef = (order) => `circle-${order}`
 const shapeProps = {
   defaultBubbleStyle: {
     fill: colors.inactiveFillColor
-    , width: 50
-    , height: 50
+    , width: 57
+    , height: 57
   },
   defaultBubbleTextStyle: {
     fill: colors.inactiveTextColor
@@ -63,18 +63,20 @@ const shapeProps = {
     , strokeWidth: 4
     , offsetX: 15
     , offsetY: 0
+    , points: []
   },
   selectedCheckMarkStyle: {
     stroke: colors.checkMarkColor
     , strokeWidth: 6
     , offsetX: 15
     , offsetY: 0
+    , points: []
   },
   defaultArcStyleLayerOne: {
     lineCap: 'round'
     , lineJoin: 'round'
-    , innerRadius: 18
-    , outerRadius: 21
+    , innerRadius: 21
+    , outerRadius: 24
     , fill: colors.completionLayerOneColor
     , clockwise: false
     , angle: 0
@@ -83,8 +85,8 @@ const shapeProps = {
   defaultArcStyleLayerTwo: {
     lineCap: 'round'
     , lineJoin: 'round'
-    , innerRadius: 18
-    , outerRadius: 21
+    , innerRadius: 21
+    , outerRadius: 24
     , fill: colors.completionLayerTwoColor
     , clockwise: false
     , angle: 0
@@ -158,6 +160,7 @@ class MapBubbles extends PureComponent {
         await this.drawLayerTwoForLesson(lesson, order, colors.justCompletedLayerTwoColor)
         await setTimeoutAsync(1600)
         await this.fadeText(lesson, order)
+        this.drawCheckMark(lesson, order)
       } else if(hasBeenCompleted) {
         await this.drawLayerTwoForLesson(lesson, order, colors.inProgressLayerTwoColor)
       } else {
@@ -166,9 +169,42 @@ class MapBubbles extends PureComponent {
     })
   }
 
+  drawCheckMark = (lesson, order) => {
+    const { mapDimensions, checkMarkStyles } = this.state
+      , i = order - 1
+      , newCheckMarkStyles = cloneDeep(checkMarkStyles)
+      , checkMarkRef = makeCheckMarkRef(order)
+      , x = mapDimensions[`CIRCLE_${order}_X`]
+      , y = mapDimensions[`CIRCLE_${order}_Y`]
+
+    this.refs[checkMarkRef].to({
+      points: [ x, y ]
+      , duration: 1
+    })
+
+    this.refs[checkMarkRef].to({
+      points: [ x, y, x+10, y+10 ]
+      , duration: 1
+    })
+
+    this.refs[checkMarkRef].to({
+      points: [ x, y, x+10, y+10, x+30, y-10 ]
+      , duration: 1
+    })
+
+    newCheckMarkStyles[i].points = [ x, y, x+10, y+10, x+30, y-10 ]
+    this.setState({ checkMarkStyles: newCheckMarkStyles })
+
+  }
+
   fadeText = (lesson, order) => {
+    const { bubbleTextStyles } = this.state
+      , newBubbleTextStyles = cloneDeep(bubbleTextStyles)
+      , i = order - 1
     const bubbleTextRef = makeBubbleTextRef(order)
     this.refs[bubbleTextRef].to({ fill: colors.justCompletedTextColor, duration: 0.3 })
+    newBubbleTextStyles[i].fill = colors.justCompletedTextColor
+    this.setState({ bubbleTextStyles: newBubbleTextStyles })
   }
 
   drawLayerOneForAll = async(mapLessons) => {
@@ -228,12 +264,12 @@ class MapBubbles extends PureComponent {
       , selectedCheckMarkRef: makeCheckMarkRef(order)
     })
 
-  deScaleCurrentlySelectedLesson = () => {
+  deScaleCurrentlySelectedLesson = (order) => {
     const { selectedBubbleRef, selectedBubbleTextRef, selectedCheckMarkRef, selectedBubbleHasBeenCompleted, selectedCompletionLayerOneRef, selectedCompletionLayerTwoRef } = this.state
     if(selectedBubbleRef && selectedBubbleTextRef) {
 
       if(selectedBubbleHasBeenCompleted) {
-        this.scaleCheckMark(selectedCheckMarkRef, order, 6)
+        this.scaleCheckMark(selectedCheckMarkRef, order, shapeProps.defaultCheckMarkStyle.strokeWidth)
       }
 
       this.scaleItems([
@@ -245,18 +281,15 @@ class MapBubbles extends PureComponent {
     }
   }
 
-  handleBubbleSelectionScaling = (lesson, order) => {
+  scaleUpNewlySelectedLesson = (lesson, order) => {
     const bubbleRef = makeBubbleRef(order)
       , bubbleTextRef = makeBubbleTextRef(order)
       , checkMarkRef = makeCheckMarkRef(order)
       , completionLayerOneRef = makeCompletionLayerOneRef(order)
       , completionLayerTwoRef = makeCompletionLayerTwoRef(order)
       , shouldHaveCheckMark = get(lesson, 'userLesson.hasBeenCompleted', false)
-
-    this.deScaleCurrentlySelectedLesson()
-
     if(shouldHaveCheckMark) {
-      this.scaleCheckMark(checkMarkRef, order, 6)
+      this.scaleCheckMark(checkMarkRef, order, shapeProps.selectedCheckMarkStyle.strokeWidth)
     }
 
     this.scaleItems([
@@ -265,6 +298,11 @@ class MapBubbles extends PureComponent {
       , completionLayerOneRef
       , completionLayerTwoRef
     ], scaleUp)
+  }
+
+  handleBubbleSelectionScaling = (lesson, order) => {
+    this.deScaleCurrentlySelectedLesson(order)
+    this.scaleUpNewlySelectedLesson(lesson, order)
   }
 
   scaleItems = (itemRefs, scaleProps) =>
@@ -279,9 +317,11 @@ class MapBubbles extends PureComponent {
       , i = order - 1
     this.refs[ref].to({
       strokeWidth
-      , duration: 1
+      , duration: 0.1
     }/*must be passed with this strange destruction*/)
     newCheckMarkStyles[i].strokeWidth = strokeWidth
+    console.log(i)
+    console.log(checkMarkStyles[i])
     this.setState({ checkMarkStyles: newCheckMarkStyles })
   }
 
@@ -320,8 +360,6 @@ class MapBubbles extends PureComponent {
       , checkMarkRef = makeCheckMarkRef(order)
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
-
-    console.log(checkMarkStyle)
 
     const clickProps = {
       onClick: (e) => this.handleLessonBubbleClick(e, lesson, order)
@@ -372,11 +410,6 @@ class MapBubbles extends PureComponent {
         <Line
           key={ checkMarkRef }
           ref={ checkMarkRef }
-          points={ [
-            x, y,
-            x+10, y+10,
-            x+30, y-10
-          ] }
           { ...clickProps }
           { ...checkMarkStyle }
         />
