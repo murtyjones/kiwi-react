@@ -4,7 +4,7 @@ import { Circle, Text, Path, Arc, Line } from 'react-konva'
 import { has, get, find, findIndex, cloneDeep, isEqual, isEmpty } from 'lodash'
 import update from 'immutability-helper'
 
-import { LESSON_MAP_POINTS } from '../constants'
+import { LESSON_MAP_POINTS, SVG_PATHS } from '../constants'
 import insertIf from '../utils/insertIf'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 
@@ -35,6 +35,7 @@ const colors = {
   , justCompletedLayerTwoColor: '#FFFFFF'
   , justCompletedTextColor: '#543e80'
   , checkMarkColor: '#FFFFFF'
+  , lockColor: '#FFFFFF'
   , completionLayerOneColor: '#7E5DB8'
   , completionLayerTwoColor: '#FFFFFF'
 }
@@ -96,6 +97,12 @@ const shapeProps = {
     , clockwise: false
     , angle: 0
     , rotation: -90
+  },
+  lockStyle: {
+    offsetX: 11
+    , offsetY: 11
+    , fill: colors.lockColor
+    , data: SVG_PATHS.LOCK
   }
 }
 
@@ -403,6 +410,8 @@ class MapBubbles extends PureComponent {
       , bubbleStyle = bubbleStyles[index]
       , bubbleTextStyle = bubbleTextStyles[index]
       , bubbleAvailability = bubbleAvailabilities[index]
+      , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
+      , bubbleText = isAvailable ? order : null
       , bubbleTextColor = bubbleTextColors[index]
       , checkMarkStyle = checkMarkStyles[index]
       , oneCheckMarkPoints = checkMarkPoints[index]
@@ -418,12 +427,10 @@ class MapBubbles extends PureComponent {
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
 
-    const bubbleText = bubbleAvailability === bubbleStates.AVAILABLE ? order : null
-
     const clickProps = {
       onClick: (e) => this.handleLessonBubbleClick(e, lesson, order)
       , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order)
-      , onMouseOver: this.handleMouseOver
+      , onMouseOver: (e) => this.handleMouseOver(e, lesson, isAvailable)
       , onMouseOut: this.handleMouseOut
     }
 
@@ -473,6 +480,17 @@ class MapBubbles extends PureComponent {
           { ...clickProps }
           { ...checkMarkStyle }
           points={ oneCheckMarkPoints }
+        />
+      )
+      ,
+      ...insertIf(!isAvailable,
+        <Path
+          key={ checkMarkRef }
+          ref={ checkMarkRef }
+          x={ x }
+          y={ y }
+          { ...clickProps }
+          { ...shapeProps.lockStyle }
         />
       )
     ]
