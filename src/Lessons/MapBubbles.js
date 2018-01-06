@@ -35,7 +35,7 @@ const colors = {
   , justCompletedLayerTwoColor: '#FFFFFF'
   , justCompletedTextColor: '#543e80'
   , checkMarkColor: '#FFFFFF'
-  , messageBoxColor: '#443268'
+  , tagColor: '#443268'
   , lockColor: '#FFFFFF'
   , completionLayerOneColor: '#7E5DB8'
   , completionLayerTwoColor: '#FFFFFF'
@@ -48,8 +48,6 @@ const makeBubbleRef = (order) => `circle-${order}`
     , makeCompletionLayerTwoRef = (order) => `circle-completion-layer-two-${order}`
     , makeCompletionRefArray = (completionLayerRefText) => [...Array(6)].map((x, i) => `${completionLayerRefText}-${i}`)
     , makeCheckMarkRef = (order) => `checkMark-${order}`
-    , makeMessageBoxRef = (order) => `message-box-${order}`
-    , makeMessageRef = (order) => `message-${order}`
     , makeTagRef = (order) => `tag-${order}`
     , makeTagTextRef = (order) => `tag-text-${order}`
 
@@ -110,25 +108,8 @@ const shapeProps = {
     , fill: colors.lockColor
     , data: SVG_PATHS.LOCK
   },
-  messageBoxStyle: {
-    fill: colors.messageBoxColor
-    , offsetY: 10
-    , width: 0
-    , height: 20
-  },
-  messageStyle: {
-    fill: 'white'
-    , offsetY: 2
-    , offsetX: -11
-    , width: 50
-    , height: 20
-    , fontSize: 4
-    , fontFamily: 'Courier'
-    , text: ''
-    , scaleY: 3
-  },
   tagStyle: {
-    fill: 'black'
+    fill: colors.tagColor
     , pointerDirection: 'down'
     , pointerWidth: 0
     , pointerHeight: 0
@@ -182,8 +163,6 @@ class MapBubbles extends PureComponent {
       , bubbleTextColors: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultBubbleTextColor))
       , checkMarkStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultCheckMarkStyle))
       , checkMarkPoints: props.mapLessons.map(_ => [])
-      , messageBoxStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.messageBoxStyle))
-      , messageStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.messageStyle))
       , tagStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.tagStyle))
       , tagTextStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.tagTextStyle))
       , arcStylesLayerOne: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultArcStyleLayerOne))
@@ -193,6 +172,7 @@ class MapBubbles extends PureComponent {
       , selectedCheckMarkRef: ''
       , selectedCompletionLayerOneRef: ''
       , selectedCompletionLayerTwoRef: ''
+      , selectedTagRef: ''
     }
   }
 
@@ -340,7 +320,7 @@ class MapBubbles extends PureComponent {
       , selectedCompletionLayerTwoRef: makeCompletionLayerTwoRef(order)
       , selectedBubbleHasBeenCompleted: get(lesson, 'userLesson.hasBeenCompleted', false)
       , selectedCheckMarkRef: makeCheckMarkRef(order)
-      , selectedMessageBoxRef: makeMessageBoxRef(order)
+      , selectedTagRef: makeTagRef(order)
     })
 
   deScaleCurrentlySelectedLesson = (order) => {
@@ -437,72 +417,24 @@ class MapBubbles extends PureComponent {
   handleMouseOver = (e, lesson, order, isAvailable) => {
     e.cancelBubble = true
     e.evt.preventDefault()
-    const { selectedMessageBoxRef } = this.state
-      , messageBoxRef = makeMessageBoxRef(order)
-      , isAlreadySelected = selectedMessageBoxRef === messageBoxRef
+    const { selectedTagRef } = this.state
+      , toxRef = makeTagRef(order)
+      , isAlreadySelected = selectedTagRef === toxRef
     let message = isAvailable ? lesson.title : 'Not available yet!'
     if(isAvailable)
       this.props.handleMouseOver()
     if(!isAlreadySelected)
-      this._displayMessage(order, message)
+      this.displayMessage(order, message)
   }
 
   handleMouseOut = (e, lesson, order, isAvailable) => {
     e.cancelBubble = true
     e.evt.preventDefault()
     this.props.handleMouseOut()
-    this._undisplayMessage(order)
+    this.undisplayMessage(order)
   }
 
   displayMessage = (order, message) => {
-    const messageBoxRef = makeMessageBoxRef(order)
-      , messageRef = makeMessageRef(order)
-      , width = 13
-      , i = order - 1
-      , { messageBoxStyles, messageStyles } = this.state
-      , newMessageBoxStyles = cloneDeep(messageBoxStyles)
-      , newMessageStyles = cloneDeep(messageStyles)
-
-    this.refs[messageRef].text(message)
-    this.refs[messageBoxRef].to({
-      scaleX: width, duration: 0.1
-    })
-    this.refs[messageRef].to({
-      scaleX: 3, duration: 0.1
-    })
-    newMessageBoxStyles[i].width = width
-    newMessageStyles[i].text = message
-    this.setState({
-      messageBoxStyles: newMessageBoxStyles
-      , messageStyles: newMessageStyles
-    })
-
-  }
-
-  undisplayMessage = (order) => {
-    const messageBoxRef = makeMessageBoxRef(order)
-      , messageRef = makeMessageRef(order)
-      , width = 1
-      , i = order - 1
-      , { messageStyles } = this.state
-      , newMessageStyles = cloneDeep(messageStyles)
-
-    this.refs[messageRef].text('')
-    this.refs[messageBoxRef].to({
-      scaleX: width, duration: 0.2
-    })
-    this.refs[messageRef].to({
-      scaleX: 1, duration: 0.2
-    })
-    newMessageStyles[i].text = ''
-    this.setState({ messageStyles: newMessageStyles })
-    // for some reason not having this code is ok,
-    // but having it doesn't allow the animation
-    // newMessageBoxStyles[i].width = width
-    // this.setState({ messageBoxStyles: newMessageBoxStyles })
-  }
-
-  _displayMessage = (order, message) => {
     const tagRef = makeTagRef(order)
       , tagTextRef = makeTagTextRef(order)
       , width = 13
@@ -522,7 +454,7 @@ class MapBubbles extends PureComponent {
     })
   }
 
-  _undisplayMessage = (order) => {
+  undisplayMessage = (order) => {
     const tagRef = makeTagRef(order)
       , tagTextRef = makeTagTextRef(order)
       , width = 13
@@ -543,7 +475,7 @@ class MapBubbles extends PureComponent {
   }
 
   renderLessonBubble = (lesson, order) => {
-    const { mapDimensions, bubbleStyles, bubbleAvailabilities, bubbleTextStyles, tagStyles, tagTextStyles, messageStyles, messageBoxStyles, bubbleTextColors, checkMarkStyles, checkMarkPoints, arcStylesLayerOne, arcStylesLayerTwo } = this.state
+    const { mapDimensions, bubbleStyles, bubbleAvailabilities, bubbleTextStyles, tagStyles, tagTextStyles, bubbleTextColors, checkMarkStyles, checkMarkPoints, arcStylesLayerOne, arcStylesLayerTwo } = this.state
       , index = order - 1
       , bubbleStyle = bubbleStyles[index]
       , bubbleTextStyle = bubbleTextStyles[index]
@@ -555,8 +487,6 @@ class MapBubbles extends PureComponent {
       , oneCheckMarkPoints = checkMarkPoints[index]
       , arcStyleLayerOne = arcStylesLayerOne[index]
       , arcStyleLayerTwo = arcStylesLayerTwo[index]
-      , messageBoxStyle = messageBoxStyles[index]
-      , messageStyle = messageStyles[index]
       , tagStyle = tagStyles[index]
       , tagTextStyle = tagTextStyles[index]
       , hasBeenStarted = has(lesson, 'userLesson')
@@ -567,8 +497,6 @@ class MapBubbles extends PureComponent {
       , completionLayerTwoRefText = makeCompletionLayerTwoRef(order)
       , bubbleTextRef = makeBubbleTextRef(order)
       , checkMarkRef = makeCheckMarkRef(order)
-      , messageBoxRef = makeMessageBoxRef(order)
-      , messageRef = makeMessageRef(order)
       , tagRef = makeTagRef(order)
       , tagTextRef = makeTagTextRef(order)
       , x = mapDimensions[`CIRCLE_${order}_X`]
@@ -594,22 +522,6 @@ class MapBubbles extends PureComponent {
           { ...tagTextStyle }
         />
       </Label>
-      ,
-      <Rect
-        key={ messageBoxRef }
-        ref={ messageBoxRef }
-        x={ x }
-        y={ y }
-        { ...messageBoxStyle }
-      />
-      ,
-      <Text
-        key={ messageRef }
-        ref={ messageRef }
-        x={ x }
-        y={ y }
-        { ...messageStyle }
-      />
       ,
       <Circle // Lesson Bubble
         key={ bubbleRef }
