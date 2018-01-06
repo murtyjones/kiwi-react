@@ -43,7 +43,7 @@ class Lessons extends Component {
       , scaleY: 1
       , minWidth: minWidth
       , selectedLessonId: null
-      , userLessonJustCompletedId: get(props, 'location.state.userLessonJustCompletedId', '5a37fa1995ff1440e9b06b37') // TODO DELETE ME
+      , userLessonJustCompletedId: get(props, 'location.state.userLessonJustCompletedId', '')
       , mapLessons: null
     }
   }
@@ -143,6 +143,7 @@ class Lessons extends Component {
     const selectedLessonPosition = selectedLessonId
       ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
       : 0
+    console.log(this.state.userLessonJustCompletedId)
 
     return [
       <LessonMapBackground
