@@ -110,21 +110,23 @@ const shapeProps = {
   },
   tagStyle: {
     fill: colors.tagColor
-    , pointerDirection: 'down'
+    , lineJoin: 'round'
+    , cornerRadius: 3
+    , scaleX: 0
+    , offsetX: 0
+    , pointerDirection: 'left'
     , pointerWidth: 0
     , pointerHeight: 0
-    , lineJoin: 'round'
-    , scaleX: 0
-    , cornerRadius: 3
   },
   tagTextStyle: {
     text: ''
     , fontFamily: 'Arial'
     , fontSize: 18
-    , padding: 5
+    , padding: 7
     , fill: 'white'
     , scaleX: 0
-  },
+    , offsetX: 0
+  }
 }
 
 shapeProps.selectedBubbleStyle = {
@@ -437,16 +439,21 @@ class MapBubbles extends PureComponent {
   displayMessage = (order, message) => {
     const tagRef = makeTagRef(order)
       , tagTextRef = makeTagTextRef(order)
-      , width = 13
+      , offsetXPerChar = 0.1
+      , chars = message.length
+      , offsetX = 10
       , i = order - 1
       , { tagStyles, tagTextStyles } = this.state
       , newTagStyles = cloneDeep(tagStyles)
       , newTagTextStyles = cloneDeep(tagTextStyles)
+
     this.refs[tagTextRef].text(message)
-    this.refs[tagRef].to({ scaleX: 1, duration: 0.1 })
-    this.refs[tagTextRef].to({ scaleX: 1, duration: 0.1 })
+    this.refs[tagRef].to({ scaleX: 1, duration: 0.1, offsetX })
+    this.refs[tagTextRef].to({ scaleX: 1, duration: 0.1, offsetX })
     newTagStyles[i].scaleX = 1
     newTagTextStyles[i].scaleX = 1
+    newTagStyles[i].offsetX = offsetX
+    newTagTextStyles[i].offsetX = offsetX
     newTagTextStyles[i].text = message
     this.setState({
       tagStyles: newTagStyles
@@ -457,7 +464,6 @@ class MapBubbles extends PureComponent {
   undisplayMessage = (order) => {
     const tagRef = makeTagRef(order)
       , tagTextRef = makeTagTextRef(order)
-      , width = 13
       , i = order - 1
       , { tagStyles, tagTextStyles } = this.state
       , newTagStyles = cloneDeep(tagStyles)
@@ -510,7 +516,7 @@ class MapBubbles extends PureComponent {
     }
 
     return [
-      <Label x={ x } y={ y } offsetX={ -82 } offsetY={ -15 }>
+      <Label x={ x } y={ y } offsetX={ -33 }>
         <Tag
           key={ tagRef }
           ref={ tagRef }
