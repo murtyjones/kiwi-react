@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { Circle, Text, Path, Arc, Line } from 'react-konva'
+import { Circle, Text, Path, Arc, Line, Rect } from 'react-konva'
 import { has, get, find, findIndex, cloneDeep, isEqual, isEmpty } from 'lodash'
 import update from 'immutability-helper'
 
@@ -35,6 +35,7 @@ const colors = {
   , justCompletedLayerTwoColor: '#FFFFFF'
   , justCompletedTextColor: '#543e80'
   , checkMarkColor: '#FFFFFF'
+  , messageBoxColor: '#443268'
   , lockColor: '#FFFFFF'
   , completionLayerOneColor: '#7E5DB8'
   , completionLayerTwoColor: '#FFFFFF'
@@ -46,6 +47,8 @@ const makeBubbleRef = (order) => `circle-${order}`
     , makeCompletionLayerTwoRef = (order) => `circle-completion-layer-two-${order}`
     , makeCompletionRefArray = (completionLayerRefText) => [...Array(6)].map((x, i) => `${completionLayerRefText}-${i}`)
     , makeCheckMarkRef = (order) => `checkMark-${order}`
+    , makeMessageBoxRef = (order) => `message-box-${order}`
+    , makeMessageRef = (order) => `message-${order}`
 
 const shapeProps = {
   defaultBubbleStyle: {
@@ -103,6 +106,23 @@ const shapeProps = {
     , offsetY: 11
     , fill: colors.lockColor
     , data: SVG_PATHS.LOCK
+  },
+  messageBoxStyle: {
+    fill: colors.messageBoxColor
+    , offsetY: 10
+    , width: 0
+    , height: 20
+  },
+  messageStyle: {
+    fill: 'white'
+    , offsetY: 2
+    , offsetX: -11
+    , width: 50
+    , height: 20
+    , fontSize: 4
+    , fontFamily: 'Courier'
+    , text: ''
+    , scaleY: 3
   }
 }
 
@@ -142,6 +162,8 @@ class MapBubbles extends PureComponent {
       , bubbleTextColors: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultBubbleTextColor))
       , checkMarkStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultCheckMarkStyle))
       , checkMarkPoints: props.mapLessons.map(_ => [])
+      , messageBoxStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.messageBoxStyle))
+      , messageStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.messageStyle))
       , arcStylesLayerOne: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultArcStyleLayerOne))
       , arcStylesLayerTwo: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultArcStyleLayerTwo))
       , selectedBubbleRef: ''
@@ -296,6 +318,7 @@ class MapBubbles extends PureComponent {
       , selectedCompletionLayerTwoRef: makeCompletionLayerTwoRef(order)
       , selectedBubbleHasBeenCompleted: get(lesson, 'userLesson.hasBeenCompleted', false)
       , selectedCheckMarkRef: makeCheckMarkRef(order)
+      , selectedMessageBoxRef: makeMessageBoxRef(order)
     })
 
   deScaleCurrentlySelectedLesson = (order) => {
@@ -372,10 +395,7 @@ class MapBubbles extends PureComponent {
         ? shapeProps.selectedCheckMarkStyle.strokeWidth
         : shapeProps.defaultCheckMarkStyle.strokeWidth
 
-    this.refs[ref].to({
-      strokeWidth
-      , duration: 0.1
-    }/*must be passed with this strange destruction*/)
+    this.refs[ref].to({ strokeWidth, duration: 0.1})
     newCheckMarkStyles[i].strokeWidth = strokeWidth
     this.setState({ checkMarkStyles: newCheckMarkStyles })
   }
@@ -392,20 +412,76 @@ class MapBubbles extends PureComponent {
     }
   }
 
-  handleMouseOver = (e) => {
+  handleMouseOver = (e, lesson, order, isAvailable) => {
     e.cancelBubble = true
     e.evt.preventDefault()
-    this.props.handleMouseOver()
+    const { selectedMessageBoxRef } = this.state
+      , messageBoxRef = makeMessageBoxRef(order)
+      , isAlreadySelected = selectedMessageBoxRef === messageBoxRef
+    let message = isAvailable ? lesson.title : 'Not available yet!'
+    if(isAvailable)
+      this.props.handleMouseOver()
+    if(!isAlreadySelected)
+      this.displayMessage(order, message)
   }
 
-  handleMouseOut = (e) => {
+  handleMouseOut = (e, lesson, order, isAvailable) => {
     e.cancelBubble = true
     e.evt.preventDefault()
     this.props.handleMouseOut()
+    this.undisplayMessage(order)
+  }
+
+  displayMessage = async (order, message) => {
+    const messageBoxRef = makeMessageBoxRef(order)
+      , messageRef = makeMessageRef(order)
+      , width = 13
+      , i = order - 1
+      , { messageBoxStyles, messageStyles } = this.state
+      , newMessageBoxStyles = cloneDeep(messageBoxStyles)
+      , newMessageStyles = cloneDeep(messageStyles)
+
+    this.refs[messageBoxRef].to({
+      scaleX: width, duration: 0.1
+    })
+    this.refs[messageRef].to({
+      scaleX: 3, duration: 0.1
+    })
+    this.refs[messageRef].text(message)
+    newMessageBoxStyles[i].width = width
+    newMessageStyles[i].text = message
+    this.setState({
+      messageBoxStyles: newMessageBoxStyles
+      , messageStyles: newMessageStyles
+    })
+
+  }
+
+  undisplayMessage = (order) => {
+    const messageBoxRef = makeMessageBoxRef(order)
+      , messageRef = makeMessageRef(order)
+      , width = 1
+      , i = order - 1
+      , { messageStyles } = this.state
+      , newMessageStyles = cloneDeep(messageStyles)
+
+    this.refs[messageRef].text('')
+    this.refs[messageBoxRef].to({
+      scaleX: width, duration: 0.2
+    })
+    this.refs[messageRef].to({
+      scaleX: 1, duration: 0.2
+    })
+    newMessageStyles[i].text = ''
+    this.setState({ messageStyles: newMessageStyles })
+    // for some reason not having this code is ok,
+    // but having it doesn't allow the animation
+    // newMessageBoxStyles[i].width = width
+    // this.setState({ messageBoxStyles: newMessageBoxStyles })
   }
 
   renderLessonBubble = (lesson, order) => {
-    const { mapDimensions, bubbleStyles, bubbleAvailabilities, bubbleTextStyles, bubbleTextColors, checkMarkStyles, checkMarkPoints, arcStylesLayerOne, arcStylesLayerTwo } = this.state
+    const { mapDimensions, bubbleStyles, bubbleAvailabilities, bubbleTextStyles, messageStyles, messageBoxStyles, bubbleTextColors, checkMarkStyles, checkMarkPoints, arcStylesLayerOne, arcStylesLayerTwo } = this.state
       , index = order - 1
       , bubbleStyle = bubbleStyles[index]
       , bubbleTextStyle = bubbleTextStyles[index]
@@ -417,6 +493,8 @@ class MapBubbles extends PureComponent {
       , oneCheckMarkPoints = checkMarkPoints[index]
       , arcStyleLayerOne = arcStylesLayerOne[index]
       , arcStyleLayerTwo = arcStylesLayerTwo[index]
+      , messageBoxStyle = messageBoxStyles[index]
+      , messageStyle = messageStyles[index]
       , hasBeenStarted = has(lesson, 'userLesson')
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
       , bubbleRef = makeBubbleRef(order)
@@ -424,17 +502,35 @@ class MapBubbles extends PureComponent {
       , completionLayerTwoRefText = makeCompletionLayerTwoRef(order)
       , bubbleTextRef = makeBubbleTextRef(order)
       , checkMarkRef = makeCheckMarkRef(order)
+      , messageBoxRef = makeMessageBoxRef(order)
+      , messageRef = makeMessageRef(order)
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
 
     const clickProps = {
       onClick: (e) => this.handleLessonBubbleClick(e, lesson, order)
       , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order)
-      , onMouseOver: (e) => this.handleMouseOver(e, lesson, isAvailable)
-      , onMouseOut: this.handleMouseOut
+      , onMouseOver: (e) => this.handleMouseOver(e, lesson, order, isAvailable)
+      , onMouseOut: (e) => this.handleMouseOut(e, lesson, order, isAvailable)
     }
 
     return [
+      <Rect
+        key={ messageBoxRef }
+        ref={ messageBoxRef }
+        x={ x }
+        y={ y }
+        { ...messageBoxStyle }
+      />
+      ,
+      <Text
+        key={ messageRef }
+        ref={ messageRef }
+        x={ x }
+        y={ y }
+        { ...messageStyle }
+      />
+      ,
       <Circle // Lesson Bubble
         key={ bubbleRef }
         ref={ bubbleRef }
