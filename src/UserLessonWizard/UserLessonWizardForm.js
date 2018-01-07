@@ -260,6 +260,7 @@ class UserLessonWizardForm extends Component {
 
   renderAsset = (asset) =>
     <img
+      key={ asset.url }
       src={ asset.url }
       style={ {
         ...styles.asset
@@ -329,22 +330,45 @@ class UserLessonWizardForm extends Component {
       ,
       // Render theme if it exists
       hasTheme &&
-        <div style={ styles.themeTable }>
-          <div style={ { ...styles.themeTableRow, backgroundColor: theme.backgroundColor, height: `${theme.horizonY}%` } }>
-            <div style={ styles.themeQuadrant }>
+        <div key='lessonTheme' style={ styles.themeTable }>
+          <div
+            key='top-row'
+            style={ {
+              ...styles.themeTableRow
+              , backgroundColor: theme.backgroundColor
+              , height: `${theme.horizonY}%`
+            } }
+          >
+            <div key='top-row-column-left' style={ styles.themeQuadrant }>
               { themeAssetsByQuadrant.topLeft }
             </div>
-            <div style={ { ...styles.themeQuadrant, width: activeSlideWidth } } />
-            <div style={ styles.themeQuadrant }>
+            <div
+              key='top-row-column-middle'
+              style={ {
+                ...styles.themeQuadrant
+                , width: activeSlideWidth
+              } }
+            />
+            <div key='top-row-column-right' style={ styles.themeQuadrant }>
               { themeAssetsByQuadrant.topRight }
             </div>
           </div>
-          <div style={ { ...styles.themeTableRow, backgroundColor: theme.foregroundColor, height: `${100 - theme.horizonY}%` } }>
-            <div style={ styles.themeQuadrant }>
+          <div
+            key='bottom-row'
+            style={ {
+              ...styles.themeTableRow,
+              backgroundColor: theme.foregroundColor,
+              height: `${100 - theme.horizonY}%`
+            } }
+          >
+            <div key='bottom-row-column-left' style={ styles.themeQuadrant }>
               { themeAssetsByQuadrant.bottomLeft }
             </div>
-            <div style={ { ...styles.themeQuadrant, width: activeSlideWidth } } />
-            <div style={ styles.themeQuadrant }>
+            <div
+              key='bottom-row-column-middle'
+              style={ { ...styles.themeQuadrant, width: activeSlideWidth } }
+            />
+            <div key='bottom-row-column-right' style={ styles.themeQuadrant }>
               { themeAssetsByQuadrant.bottomRight }
             </div>
           </div>

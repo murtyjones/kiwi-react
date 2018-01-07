@@ -13,7 +13,7 @@ class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeSlideIndex: -1
+      activeSlideIndex: 0
     }
   }
 
@@ -82,7 +82,7 @@ class UserLessonWizard extends Component {
   render() {
     const { lesson, initialValues, currentValues, theme } = this.props
     const { activeSlideIndex } = this.state
-    return !isEmpty(lesson) && activeSlideIndex > -1
+    return !isEmpty(lesson)
       ? (
         <UserLessonWizardForm
           onSubmit={ this.handleSubmit }
