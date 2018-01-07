@@ -13,9 +13,9 @@ module.exports = {
   },
   context: path.join(__dirname, '../'),
   entry: [
-    'react-hot-loader/patch',
-    'webpack-hot-middleware/client',
-    './src/Main.js'
+    'react-hot-loader/patch'
+    , 'webpack-hot-middleware/client'
+    , './src/Main.js'
   ],
   output: {
     path: path.join(__dirname, '../build/js'),

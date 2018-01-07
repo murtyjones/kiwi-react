@@ -143,7 +143,6 @@ class Lessons extends Component {
     const selectedLessonPosition = selectedLessonId
       ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
       : 0
-    console.log(this.state.userLessonJustCompletedId)
 
     return [
       <LessonMapBackground

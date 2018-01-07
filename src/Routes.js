@@ -86,15 +86,23 @@ class App extends Component {
     const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, topBarFocused } = this.props
     const sideNavWidthString = `${sideNavWidth}px`
     const topBarWidthString = `${topBarHeight}px`
-    const authProps = { isLoggedIn, isAdmin }
+    const extras = { isLoggedIn, isAdmin, setTopBarTitle }
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
-          <SideNav isOpen={ isSideNavOpen } { ...authProps } />
-          <TopBar isOpen={ isTopBarOpen } isFocused={ topBarFocused } title={ topBarTitle } titleDisabled={ topBarTitleDisabled } sideNavWidth={ sideNavWidth } handleTitleChange={ setTopBarTitle } toggleSideNav={ this.toggleSideNav } />
+          <SideNav isOpen={ isSideNavOpen } { ...extras } />
+          <TopBar
+            isOpen={ isTopBarOpen }
+            isFocused={ topBarFocused }
+            title={ topBarTitle }
+            titleDisabled={ topBarTitleDisabled }
+            sideNavWidth={ sideNavWidth }
+            handleTitleChange={ setTopBarTitle }
+            toggleSideNav={ this.toggleSideNav }
+          />
           <div className={ cns('baseAppStyles') } style={{
             ...baseAppStyle
             , left: sideNavWidthString
@@ -119,22 +127,22 @@ class App extends Component {
                 {/* ----------------- */}
                 {/* Logged in routes  */}
                 {/* ----------------- */}
-                <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } { ...authProps } />
-                <AuthenticatedRoute path='/projects' exact component={ Projects } { ...authProps } />
-                <AuthenticatedRoute path='/project/new' exact component={ UserProject } { ...authProps } />
-                <AuthenticatedRoute path='/project/:id' exact component={ UserProject } { ...authProps } />
-                <AuthenticatedRoute path='/lessons' exact component={ Lessons } { ...authProps } />
-                <AuthenticatedRoute path='/lessons/new' exact component={ UserLessonWizard } { ...authProps } />
-                <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...authProps } />
+                <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } { ...extras } />
+                <AuthenticatedRoute path='/projects' exact component={ Projects } { ...extras } />
+                <AuthenticatedRoute path='/project/new' exact component={ UserProject } { ...extras } />
+                <AuthenticatedRoute path='/project/:id' exact component={ UserProject } { ...extras } />
+                <AuthenticatedRoute path='/lessons' exact component={ Lessons } { ...extras } />
+                <AuthenticatedRoute path='/lessons/new' exact component={ UserLessonWizard } { ...extras } />
+                <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...extras } />
                 {/* ----------------- */}
                 {/* Admin-only routes */}
                 {/* ----------------- */}
-                <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } { ...authProps } />
-                <AuthorizedRoute path='/admin/lessons/themes' exact component={ ManageLessonThemes } { ...authProps } />
-                <AuthorizedRoute path='/admin/lessons/new' exact component={ AddOrEditLesson } { ...authProps } />
-                <AuthorizedRoute path='/admin/lessons/:id' exact component={ AddOrEditLesson } { ...authProps } />
-                <AuthorizedRoute path='/admin/lessons/themes/new' exact component={ AddOrEditLessonTheme } { ...authProps } />
-                <AuthorizedRoute path='/admin/lessons/themes/:id' exact component={ AddOrEditLessonTheme } { ...authProps } />
+                <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/themes' exact component={ ManageLessonThemes } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/new' exact component={ AddOrEditLesson } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/:id' exact component={ AddOrEditLesson } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/themes/new' exact component={ AddOrEditLessonTheme } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/themes/:id' exact component={ AddOrEditLessonTheme } { ...extras } />
               </Switch>
               </div>
           </div>

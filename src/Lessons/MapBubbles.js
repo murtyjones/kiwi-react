@@ -597,7 +597,6 @@ class MapBubbles extends PureComponent {
   render() {
     const { mapLessons } = this.props
 
-    console.log(this.state.bubbleT)
     return mapLessons.reduce((acc, lesson, i) => {
       acc.push(...this.renderLessonBubble(lesson, i + 1))
       return acc
