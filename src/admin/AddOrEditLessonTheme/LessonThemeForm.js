@@ -8,7 +8,7 @@ import { RaisedButton, List, ListItem, MenuItem } from 'material-ui'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
-import { SelectField } from 'redux-form-material-ui'
+import { Toggle, SelectField } from 'redux-form-material-ui'
 
 let formName = 'lessonTheme'
 
@@ -20,7 +20,7 @@ const renderAssets = ({ fields }) => (
     { fields.map((assetRef, i) =>
       <ListItem key={ i }>
         <RaisedButton onClick={ () => fields.remove(i) }>Remove Asset</RaisedButton>
-        <h4>Asset #{i + 1}</h4>
+        <h3>Asset #{i + 1}</h3>
         <Field
           name={ `${assetRef}.name` }
           placeholder='Asset Name'
@@ -41,7 +41,7 @@ const renderAssets = ({ fields }) => (
           <MenuItem key='bottomLeft'  value='bottomLeft'  primaryText='Bottom left (Ground)' />
           <MenuItem key='bottomRight' value='bottomRight' primaryText='Bottom right (Ground)' />
         </Field>
-        <h5>Dimensions</h5>
+        <h4>Where to place the asset in the quadrant</h4>
         <label>Position relative to...<br/></label>
         <Field
           name={ `${assetRef}.relativeToLeftOrRight` }
@@ -75,6 +75,24 @@ const renderAssets = ({ fields }) => (
           step={ 1 }
           max={ 100 }
         />
+        <h4>How wide or tall the asset should be compared to the quadrant</h4>
+        <label>Do you want to specify the assets width or its height?<br /></label>
+        <Field
+          name={ `${assetRef}.specifyWidthOrHeight` }
+          component={ SelectField }
+        >
+          <MenuItem key='width'  value='width'  primaryText='Specify desired width' />
+          <MenuItem key='height' value='height' primaryText='Specify desired height' />
+        </Field>
+        <Field
+          name={ `${assetRef}.percentageWidthOrHeight` }
+          label='Percentage width/height of the quadrant'
+          component={ KiwiSliderField }
+          defaultValue={ 1 }
+          min={ 1 }
+          step={ 1 }
+          max={ 100 }
+        />
       </ListItem>
     ) }
   </List>
@@ -103,14 +121,33 @@ class LessonThemeForm extends Component {
           hintText='Theme Name'
           component={ renderTextField }
         />
+        <h4>Background</h4>
+        <Field
+          name={ 'useColorsOverImages' }
+          label={ 'Prefer colors over images?' }
+          component={ Toggle }
+          style={ { width: '400px' } }
+        />
         <Field
           name='foregroundColor'
           placeholder='Ground Color (HEX, e.g. #000000)'
           component={ renderTextField }
         />
+        <h5>Colors (ignore if using images)</h5>
         <Field
           name='backgroundColor'
           placeholder='Sky Color (HEX, e.g. #000000)'
+          component={ renderTextField }
+        />
+        <h5>Images (ignore if using colors)</h5>
+        <Field
+          name='foregroundImageUrl'
+          placeholder='Ground Image URL'
+          component={ renderTextField }
+        />
+        <Field
+          name='backgroundImageUrl'
+          placeholder='Sky Image URL'
           component={ renderTextField }
         />
         <Field

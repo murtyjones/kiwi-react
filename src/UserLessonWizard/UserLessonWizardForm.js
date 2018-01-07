@@ -266,6 +266,7 @@ class UserLessonWizardForm extends Component {
         ...styles.asset
         , [asset.relativeToTopOrBottom]: `${asset.y}%`
         , [asset.relativeToLeftOrRight]: `${asset.x}%`
+        , [asset.specifyWidthOrHeight]: `${asset.percentageWidthOrHeight}%`
       } }
     />
 
@@ -276,8 +277,13 @@ class UserLessonWizardForm extends Component {
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
         , hasTheme = !!theme
+        , foregroundColor = hasTheme && get(theme, 'useColorsOverImages', false) ? theme.foregroundColor : ''
+        , foregroundImage = hasTheme && !get(theme, 'useColorsOverImages', false) ? theme.foregroundImageUrl : ''
+        , backgroundColor = hasTheme && get(theme, 'useColorsOverImages', false) ? theme.backgroundColor : ''
+        , backgroundImage = hasTheme && !get(theme, 'useColorsOverImages', false) ? theme.backgroundImageUrl : ''
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
+
 
     return [
       // Render form
@@ -332,10 +338,37 @@ class UserLessonWizardForm extends Component {
       hasTheme &&
         <div key='lessonTheme' style={ styles.themeTable }>
           <div
+            key='background-background'
+            style={ {
+              position: 'absolute'
+              , top: 0
+              , left: 0
+              , background: `${backgroundColor} url('${backgroundImage}')`
+              , backgroundSize: '150px 150px'
+              , backgroundRepeat: 'repeat'
+              , height: `${theme.horizonY}%`
+              , width: '100%'
+              , zIndex: -2
+            } }
+          />
+          <div
+            key='background-foreground'
+            style={ {
+              position: 'absolute'
+              , top: `${theme.horizonY}%`
+              , left: 0
+              , background: `${foregroundColor} url('${foregroundImage}')`
+              , backgroundSize: '150px 150px'
+              , backgroundRepeat: 'repeat'
+              , width: '100%'
+              , height: `${100-theme.horizonY}%`
+              , zIndex: -2
+            } }
+          />
+          <div
             key='top-row'
             style={ {
               ...styles.themeTableRow
-              , backgroundColor: theme.backgroundColor
               , height: `${theme.horizonY}%`
             } }
           >
@@ -357,7 +390,6 @@ class UserLessonWizardForm extends Component {
             key='bottom-row'
             style={ {
               ...styles.themeTableRow,
-              backgroundColor: theme.foregroundColor,
               height: `${100 - theme.horizonY}%`
             } }
           >
