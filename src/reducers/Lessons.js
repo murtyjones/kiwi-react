@@ -29,18 +29,21 @@ function lessons(state = initialState, action) {
       return newState
     }
     case ACTIONS.GET_MANY_LESSONS_SUCCESS: {
-      const lessonsById = action.payload.reduce((acc, each) => {
+      const payloadLessonsById = action.payload.reduce((acc, each) => {
         acc[each._id] = each
         return acc
       }, {})
       const newState = Object.assign({}, state, {
-        lessonsById
+        lessonsById: {
+          ...state.lessonsById
+          , ...payloadLessonsById
+        }
       })
       return newState
     }
     case ACTIONS.DELETE_LESSON_SUCCESS: {
       if(action.payload.ok) {
-        const lessonsById = Object.assign({}, state.lessonThemesById)
+        const lessonsById = Object.assign({}, state.lessonsById)
         delete lessonsById[action.payload.value._id]
         const newState = Object.assign({}, state, {
           lessonsById

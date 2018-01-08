@@ -1,13 +1,13 @@
-import lessonsReducer from '../../../../src/reducers/Lessons'
+import lessonThemesReducer from '../../../../src/reducers/LessonThemes'
 import { ACTIONS } from '../../../../src/constants'
 
 
 describe('Lessons Reducer', () => {
-  describe('PUT_LESSON_SUCCESS', () => {
+  describe('PUT_LESSON_THEME_SUCCESS', () => {
     let initialState, action
     beforeEach(() => {
       initialState = {
-        lessonsById: {
+        lessonThemesById: {
           'shouldSurvive': {
             key: 'value'
           }
@@ -17,7 +17,7 @@ describe('Lessons Reducer', () => {
         }
       }
       action = {
-        type: ACTIONS.PUT_LESSON_SUCCESS
+        type: ACTIONS.PUT_LESSON_THEME_SUCCESS
         , payload: {
           before: {}
           , after: { _id: '123' }
@@ -25,26 +25,26 @@ describe('Lessons Reducer', () => {
       }
     })
 
-    it('should modify lessonsById as expected', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
+    it('should modify lessonThemesById as expected', () => {
+      const expectedLessonThemesById = {
+        ...initialState.lessonThemesById
         , [action.payload.after._id]: action.payload.after
       }
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
+      const r = lessonThemesReducer(initialState, action)
+      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
     })
 
     it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
+      const r = lessonThemesReducer(initialState, action)
       expect(r.otherStuff).toEqual(initialState.otherStuff)
     })
   })
 
-  describe('GET_LESSON_SUCCESS', () => {
+  describe('GET_LESSON_THEME_SUCCESS', () => {
     let initialState, action
     beforeEach(() => {
       initialState = {
-        lessonsById: {
+        lessonThemesById: {
           'shouldSurvive': {
             key: 'value'
           }
@@ -54,32 +54,32 @@ describe('Lessons Reducer', () => {
         }
       }
       action = {
-        type: ACTIONS.GET_LESSON_SUCCESS
+        type: ACTIONS.GET_LESSON_THEME_SUCCESS
         , payload: { _id: '1', key: 'value' }
       }
     })
 
-    it('should modify lessonsById as expected', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
+    it('should modify lessonThemesById as expected', () => {
+      const expectedLessonThemesById = {
+        ...initialState.lessonThemesById
         , [action.payload._id]: action.payload
       }
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
+      const r = lessonThemesReducer(initialState, action)
+      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
     })
 
     it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
+      const r = lessonThemesReducer(initialState, action)
       expect(r.otherStuff).toEqual(initialState.otherStuff)
     })
 
   })
 
-  describe('POST_LESSON_SUCCESS', () => {
+  describe('POST_LESSON_THEME_SUCCESS', () => {
     let initialState, action
     beforeEach(() => {
       initialState = {
-        lessonsById: {
+        lessonThemesById: {
           'shouldSurvive': {
             key: 'value'
           }
@@ -89,32 +89,32 @@ describe('Lessons Reducer', () => {
         }
       }
       action = {
-        type: ACTIONS.POST_LESSON_SUCCESS
+        type: ACTIONS.POST_LESSON_THEME_SUCCESS
         , payload: { _id: '1', key: 'value' }
       }
     })
 
-    it('should modify lessonsById as expected', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
+    it('should modify lessonThemesById as expected', () => {
+      const expectedLessonThemesById = {
+        ...initialState.lessonThemesById
         , [action.payload._id]: action.payload
       }
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
+      const r = lessonThemesReducer(initialState, action)
+      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
     })
 
     it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
+      const r = lessonThemesReducer(initialState, action)
       expect(r.otherStuff).toEqual(initialState.otherStuff)
     })
 
   })
 
-  describe('GET_MANY_LESSONS_SUCCESS', () => {
+  describe('GET_MANY_LESSON_THEMES_SUCCESS', () => {
     let initialState, action
     beforeEach(() => {
       initialState = {
-        lessonsById: {
+        lessonThemesById: {
           'shouldSurvive': {
             key: 'value'
           }
@@ -124,7 +124,7 @@ describe('Lessons Reducer', () => {
         }
       }
       action = {
-        type: ACTIONS.GET_MANY_LESSONS_SUCCESS
+        type: ACTIONS.GET_MANY_LESSON_THEMES_SUCCESS
         , payload: [
           { _id: '1', key: 'value' }
           , { _id: '2', key: 'value' }
@@ -133,29 +133,29 @@ describe('Lessons Reducer', () => {
       }
     })
 
-    it('should modify lessonsById as expected', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
+    it('should modify lessonThemesById as expected', () => {
+      const expectedLessonThemesById = {
+        ...initialState.lessonThemesById
       }
-      action.payload.forEach(e => { expectedLessonsById[e._id] = e })
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
+      action.payload.forEach(e => { expectedLessonThemesById[e._id] = e })
+      const r = lessonThemesReducer(initialState, action)
+      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
     })
 
     it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
+      const r = lessonThemesReducer(initialState, action)
       expect(r.otherStuff).toEqual(initialState.otherStuff)
     })
 
 
   })
 
-  describe('DELETE_LESSON_SUCCESS', () => {
+  describe('DELETE_LESSON_THEME_SUCCESS', () => {
     let initialState, action, lessonId
     beforeEach(() => {
       lessonId = 'id1'
       initialState = {
-        lessonsById: {
+        lessonThemesById: {
           [lessonId]: {
             key: 'value'
           }
@@ -168,7 +168,7 @@ describe('Lessons Reducer', () => {
         }
       }
       action = {
-        type: ACTIONS.DELETE_LESSON_SUCCESS
+        type: ACTIONS.DELETE_LESSON_THEME_SUCCESS
         , payload: {
           ok: 1
           , value: { _id: lessonId }
@@ -176,26 +176,26 @@ describe('Lessons Reducer', () => {
       }
     })
 
-    it('should modify lessonsById as expected if ok returned', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
+    it('should modify lessonThemesById as expected if ok returned', () => {
+      const expectedLessonThemesById = {
+        ...initialState.lessonThemesById
       }
-      delete expectedLessonsById[lessonId]
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
+      delete expectedLessonThemesById[lessonId]
+      const r = lessonThemesReducer(initialState, action)
+      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
     })
 
-    it('should not modify lessonsById at all if !ok', () => {
+    it('should not modify lessonThemesById at all if !ok', () => {
       action.payload.ok = 0
-      const expectedLessonsById = {
-        ...initialState.lessonsById
+      const expectedLessonThemesById = {
+        ...initialState.lessonThemesById
       }
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
+      const r = lessonThemesReducer(initialState, action)
+      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
     })
 
     it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
+      const r = lessonThemesReducer(initialState, action)
       expect(r.otherStuff).toEqual(initialState.otherStuff)
     })
 

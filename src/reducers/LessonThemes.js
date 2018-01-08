@@ -7,10 +7,10 @@ const initialState = {
 function lessonThemes(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.PUT_LESSON_THEME_SUCCESS: {
-      const newLessonsById = Object.assign({}, state.lessonThemesById, {
+      const newLessonThemesById = Object.assign({}, state.lessonThemesById, {
         [action.payload.after["_id"]]: action.payload.after
       })
-      const lessonThemesById = Object.assign({}, state.lessonThemesById, newLessonsById)
+      const lessonThemesById = Object.assign({}, state.lessonThemesById, newLessonThemesById)
       const newState = Object.assign({}, state, {
         lessonThemesById
       })
@@ -27,12 +27,15 @@ function lessonThemes(state = initialState, action) {
       return newState
     }
     case ACTIONS.GET_MANY_LESSON_THEMES_SUCCESS: {
-      const lessonThemesById = action.payload.reduce((acc, each) => {
+      const payloadLessonThemesById = action.payload.reduce((acc, each) => {
         acc[each._id] = each
         return acc
       }, {})
       const newState = Object.assign({}, state, {
-        lessonThemesById
+        lessonThemesById: {
+          ...state.lessonThemesById
+          , ...payloadLessonThemesById
+        }
       })
       return newState
     }
