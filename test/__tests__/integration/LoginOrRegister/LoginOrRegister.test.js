@@ -8,6 +8,9 @@ import { Route, Link, MemoryRouter } from 'react-router-dom'
 import { notCombined } from '../../../../src/reducers/index'
 // make sure to import your connected component
 import LoginOrRegister from '../../../../src/LoginOrRegister/LoginOrRegister'
+
+// prevent jest from using __mocks__/config.js to mock config
+jest.unmock('config')
 import { setupIntegrationTest } from '../../../intSetup'
 
 describe('integration tests', () => {

@@ -15,6 +15,7 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
  *     dispatchSpy: a jest spy function to be used on assertions of dispatch action calls
  */
 export function setupIntegrationTest(reducers, initialRouterState = {}) {
+
   // creating the router's reducer
   function _routerReducer(state = initialRouterState, action) {
     // override the initial state of the router so it can be used in test.
