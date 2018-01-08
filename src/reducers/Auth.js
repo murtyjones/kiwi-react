@@ -10,17 +10,17 @@ const initialState = {
   , refreshToken: AuthService.getRefreshToken()
 }
 
-function auth(state = initialState, action) {
+function authReducer(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.TOKEN_REFRESH:
     case ACTIONS.LOGIN_SUCCESS: {
       const idToken = action.payload.idToken
-      const decoded = AuthService.decodeToken(idToken)
+      const decodedToken = AuthService.decodeToken(idToken)
       const decodedExp = AuthService.decodeTokenExp(idToken)
       AuthService.setToken(idToken)
       AuthService.setTokenExp(decodedExp)
-      AuthService.setIsAdmin(decoded)
-      AuthService.setUserId(decoded)
+      AuthService.setIsAdmin(decodedToken)
+      AuthService.setUserId(decodedToken)
       AuthService.setRefreshToken(action.payload.refreshToken)
       const newState = Object.assign({}, state, {
         isLoggedIn: true
@@ -49,4 +49,4 @@ function auth(state = initialState, action) {
   }
 }
 
-export default auth
+export default authReducer
