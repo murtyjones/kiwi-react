@@ -11,10 +11,6 @@ import UserLessonWizard from '../../../../src/UserLessonWizard/UserLessonWizard'
 import { setupIntegrationTest } from '../../../integrationSetup'
 
 
-// prevent jest from using __mocks__/config.js to mock config
-jest.unmock('config')
-jest.mock('../../../../src/utils/ApiFetch')
-
 import ApiFetch from '../../../../src/utils/ApiFetch'
 import '../../../__mocks__/codeMirrorDom'
 

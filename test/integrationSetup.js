@@ -3,6 +3,9 @@ import thunk from 'redux-thunk'
 import { ReactWrapper } from 'enzyme'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
+// prevent jest from using __mocks__/config.js to mock config
+jest.unmock('config')
+jest.mock('../src/utils/ApiFetch')
 
 
 /* Sets up basic variables to be used by integration tests
