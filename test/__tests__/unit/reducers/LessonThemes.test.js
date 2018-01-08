@@ -2,7 +2,7 @@ import lessonThemesReducer from '../../../../src/reducers/LessonThemes'
 import { ACTIONS } from '../../../../src/constants'
 
 
-describe('Lessons Reducer', () => {
+describe('Lesson Themes Reducer', () => {
   describe('PUT_LESSON_THEME_SUCCESS', () => {
     let initialState, action
     beforeEach(() => {

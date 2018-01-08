@@ -2,7 +2,7 @@ import lessonMetadataReducer from '../../../../src/reducers/LessonMetadata'
 import { ACTIONS } from '../../../../src/constants'
 
 
-describe('Lessons Reducer', () => {
+describe('Lesson Metadata Reducer', () => {
 
   describe('PUT_LESSON_ORDER_SUCCESS', () => {
     let initialState, action

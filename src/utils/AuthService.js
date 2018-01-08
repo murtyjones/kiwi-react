@@ -67,7 +67,7 @@ export default class AuthService {
 
   }
 
-  static signout() {
+  signout() {
     return new BluebirdPromise((resolve, reject) => {
       window.localStorage.removeItem('isLoggedIn')
       window.localStorage.removeItem('token')

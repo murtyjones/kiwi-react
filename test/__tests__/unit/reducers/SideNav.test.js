@@ -2,7 +2,7 @@ import sideNavReducer from '../../../../src/reducers/SideNav'
 import { ACTIONS } from '../../../../src/constants'
 
 
-describe('Lessons Reducer', () => {
+describe('SideNav Reducer', () => {
 
   describe('OPEN_SIDENAV', () => {
     let initialState, action

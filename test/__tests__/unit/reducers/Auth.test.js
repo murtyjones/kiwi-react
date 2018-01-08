@@ -3,7 +3,7 @@ import { ACTIONS } from '../../../../src/constants'
 jest.mock('../../../../src/utils/AuthService', () => mockAuthService)
 import authReducer from '../../../../src/reducers/Auth'
 
-describe('LessonThemeController', () => {
+describe('Auth Reducer', () => {
 
   describe('TOKEN_REFRESH', () => {
     let initialState, action

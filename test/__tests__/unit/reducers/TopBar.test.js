@@ -2,7 +2,7 @@ import topBarReducer from '../../../../src/reducers/TopBar'
 import { ACTIONS } from '../../../../src/constants'
 
 
-describe('Lessons Reducer', () => {
+describe('TopBar Reducer', () => {
 
   describe('OPEN_TOPBAR', () => {
     let initialState, action

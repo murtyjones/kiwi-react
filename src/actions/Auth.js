@@ -13,6 +13,7 @@ export const login = (params) => {
     return authService.login({ email, password })
     .then(success => {
       dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
+      return success
     }).catch(err => {
       dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: err })
       throw err
@@ -43,7 +44,7 @@ export const register = (params) => {
 export const signout = () => {
   return dispatch => {
     dispatch({ type: ACTIONS.SIGNOUT_REQUEST })
-    return AuthService.signout()
+    return authService.signout()
     .then(res => {
       dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: res })
       return res
