@@ -16,6 +16,7 @@ export const getLessonOrder = () => {
     })
     .catch(e => {
       dispatch({ type: ACTIONS.GET_LESSON_ORDER_FAILURE, payload: e })
+      throw e
     })
   }
 }

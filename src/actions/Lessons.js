@@ -11,6 +11,7 @@ export const getManyLessons = (params) => {
     return ApiFetch(`${config.api}/api/lessons`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_MANY_LESSONS_SUCCESS, payload: res })
+      return res
     })
     .catch(e => {
       dispatch({ type: ACTIONS.GET_MANY_LESSONS_FAILURE, payload: e })
@@ -80,7 +81,7 @@ export const postLesson = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.POST_LESSON_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/`, options)
+    return ApiFetch(`${config.api}/api/lessons`, options)
     .then(res => {
       dispatch({ type: ACTIONS.POST_LESSON_SUCCESS, payload: res })
       return res

@@ -11,6 +11,7 @@ export const getManyLessonThemes = (params) => {
     return ApiFetch(`${config.api}/api/lessons/themes`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_MANY_LESSON_THEMES_SUCCESS, payload: res })
+        return res
       })
       .catch(e => {
         dispatch({ type: ACTIONS.GET_MANY_LESSON_THEMES_FAILURE, payload: e })
@@ -80,7 +81,7 @@ export const postLessonTheme = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.POST_LESSON_THEME_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/themes/`, options)
+    return ApiFetch(`${config.api}/api/lessons/themes`, options)
       .then(res => {
         dispatch({ type: ACTIONS.POST_LESSON_THEME_SUCCESS, payload: res })
         return res

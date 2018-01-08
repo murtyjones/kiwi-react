@@ -65,7 +65,7 @@ export const postUserLesson = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.POST_USER_LESSON_REQUEST })
-    return ApiFetch(`${config.api}/api/userlessons/`, options)
+    return ApiFetch(`${config.api}/api/userlessons`, options)
       .then(res => {
         dispatch({ type: ACTIONS.POST_USER_LESSON_SUCCESS, payload: res })
         return res

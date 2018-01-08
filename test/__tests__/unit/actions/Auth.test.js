@@ -1,8 +1,7 @@
 import mockAuthServiceMethods, { mockAuthService } from '../../../__mocks__/authService'
 jest.mock('../../../../src/utils/AuthService', () => mockAuthService)
-import mockApiFetch, { mockApiFetchFail } from '../../../__mocks__/ApiFetch'
+import mockApiFetch from '../../../__mocks__/ApiFetch'
 jest.mock('../../../../src/utils/ApiFetch', () => mockApiFetch)
-import ApiFetch from '../../../../src/utils/ApiFetch'
 import '../../../__mocks__/config'
 import config from 'config'
 import { ACTIONS } from '../../../../src/constants'
@@ -122,14 +121,13 @@ describe('Auth Actions', () => {
 
     it('should make expected dispatch call with expected params if ApiFetch rejects', async () => {
       const rejectWith = 'ApiFetch Rejected Result'
-      ApiFetch.mockReturnValueOnce(Promise.reject(rejectWith))
+      mockApiFetch.mockReturnValueOnce(Promise.reject(rejectWith))
       try {
         const result = await store.dispatch(register(params))
       } catch(err) {
         const actions = store.getActions()
         expect(actions[1]).toEqual({ type: ACTIONS.REGISTER_FAILURE, payload: rejectWith })
       }
-
     })
 
   })
