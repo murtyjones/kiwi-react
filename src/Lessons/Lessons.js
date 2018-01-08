@@ -30,6 +30,7 @@ const styles = {
     , bottom: '20px'
     , width: '350px'
     , height: '400px'
+    , zIndex: 1000
   }
 }
 
