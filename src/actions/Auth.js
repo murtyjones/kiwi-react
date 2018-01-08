@@ -2,7 +2,6 @@ import AuthService from '../utils/AuthService'
 import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
 import config from 'config'
-import BluebirdPromise from 'bluebird'
 
 const authService = new AuthService()
 

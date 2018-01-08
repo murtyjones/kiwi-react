@@ -46,6 +46,16 @@ describe('UserProject Themes Actions', () => {
       expect(mockApiFetch.mock.calls[0][1]).toEqual(expectedBody)
     })
 
+    it('should include query params if included in request', async () => {
+      const params = { userId: '123' }
+      const expectedUrl = `${config.api}/api/userprojects?userId=${params.userId}`
+      const expectedBody = {
+        method: "GET"
+      }
+      const result = await store.dispatch(getManyUserProjects(params))
+      expect(mockApiFetch.mock.calls[0][0]).toEqual(expectedUrl)
+    })
+
     it('should return the expected response', async () => {
       const expectedResult = await mockApiFetch()
       const result = await store.dispatch(getManyUserProjects())
