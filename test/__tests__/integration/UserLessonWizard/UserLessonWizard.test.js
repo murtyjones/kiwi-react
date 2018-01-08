@@ -8,7 +8,7 @@ import { Route, Link, MemoryRouter } from 'react-router-dom'
 import { ACTIONS, LESSON_SLIDE_TYPES } from '../../../../src/constants'
 import { notCombined } from '../../../../src/reducers/index'
 import UserLessonWizard from '../../../../src/UserLessonWizard/UserLessonWizard'
-import { setupIntegrationTest } from '../../../intSetup'
+import { setupIntegrationTest } from '../../../integrationSetup'
 
 
 // prevent jest from using __mocks__/config.js to mock config

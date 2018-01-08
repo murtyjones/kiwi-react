@@ -11,7 +11,7 @@ import LoginOrRegister from '../../../../src/LoginOrRegister/LoginOrRegister'
 
 // prevent jest from using __mocks__/config.js to mock config
 jest.unmock('config')
-import { setupIntegrationTest } from '../../../intSetup'
+import { setupIntegrationTest } from '../../../integrationSetup'
 
 describe('integration tests', () => {
   let store
