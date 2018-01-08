@@ -12,6 +12,7 @@ const styles = {
   container: {
     width: '100vw'
     , position: 'absolute'
+    , zIndex: 1000
   },
   layer1: {
     width: '100%',

@@ -358,7 +358,7 @@ class UserLessonWizardForm extends Component {
               , top: `${theme.horizonY}%`
               , left: 0
               , background: `${foregroundColor} url('${foregroundImage}')`
-              , backgroundSize: '150px 150px'
+              , backgroundSize: '100%'
               , backgroundRepeat: 'repeat'
               , width: '100%'
               , height: `${100-theme.horizonY}%`
