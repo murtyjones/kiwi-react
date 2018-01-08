@@ -141,8 +141,7 @@ class Slides extends Component {
     const { activeSlideIndex } = this.state
     const { fields } = this.props
     const isActive = activeSlideIndex === i
-    const fieldTitle = fields.get(i).title
-    const title = fieldTitle ? `${fieldTitle} (#${i + 1})` : `Slide #${i + 1}`
+    const title = `Slide #${i + 1}`
     return (
       <div>
         { isActive &&
