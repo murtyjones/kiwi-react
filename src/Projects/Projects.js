@@ -59,10 +59,10 @@ class Projects extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { userProjects: { projectsById }, auth: { userId } } = state
+  const { userProjects: { userProjectsById }, auth: { userId } } = state
 
   return {
-    userProjects: projectsById
+    userProjects: userProjectsById
     , userId
   }
 }

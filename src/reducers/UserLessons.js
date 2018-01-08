@@ -37,17 +37,23 @@ function userLessons(state = initialState, action) {
       return newState
     }
     case ACTIONS.GET_MANY_USER_LESSONS_SUCCESS: {
-      const userLessonsById = action.payload.reduce((acc, each) => {
+      const payloadUserLessonsById = action.payload.reduce((acc, each) => {
         acc[each._id] = each
         return acc
       }, {})
-      const userLessonsByLessonId = action.payload.reduce((acc, each) => {
+      const payloadUserLessonsByLessonId = action.payload.reduce((acc, each) => {
         acc[each.lessonId] = each
         return acc
       }, {})
       const newState = Object.assign({}, state, {
-        userLessonsById
-        , userLessonsByLessonId
+        userLessonsById: {
+          ...state.userLessonsById
+          , ...payloadUserLessonsById
+        },
+        userLessonsByLessonId: {
+          ...state.userLessonsByLessonId
+          , ...payloadUserLessonsByLessonId
+        }
       })
       return newState
     }

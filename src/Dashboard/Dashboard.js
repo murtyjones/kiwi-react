@@ -65,10 +65,10 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { userProjects: { projectsById } } = state
+  const { userProjects: { userProjectsById } } = state
 
   return {
-    userProjects: projectsById
+    userProjects: userProjectsById
   }
 }
 

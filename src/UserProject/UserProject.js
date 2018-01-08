@@ -119,11 +119,11 @@ class UserProject extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { userProjects: { projectsById }, topBar: { topBarTitle } } = state
+  const { userProjects: { userProjectsById }, topBar: { topBarTitle } } = state
   const { match: { params: { id } } } = ownProps
 
   return {
-    userProject: projectsById[id] || {}
+    userProject: userProjectsById[id] || {}
     , topBarTitle
   }
 }
