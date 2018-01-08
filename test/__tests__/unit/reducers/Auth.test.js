@@ -1,11 +1,9 @@
 import mockAuthService from '../../../__mocks__/authService'
 import { ACTIONS } from '../../../../src/constants'
 jest.mock('../../../../src/utils/AuthService', () => mockAuthService)
-import authReducer from '../../../../src/reducers/auth'
+import authReducer from '../../../../src/reducers/Auth'
 
 describe('LessonThemeController', () => {
-  let mocks
-  let sandbox
 
   describe('TOKEN_REFRESH', () => {
     let initialState, action
