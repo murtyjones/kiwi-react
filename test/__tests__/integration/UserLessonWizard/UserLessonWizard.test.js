@@ -10,7 +10,6 @@ import { notCombined } from '../../../../src/reducers/index'
 import UserLessonWizard from '../../../../src/UserLessonWizard/UserLessonWizard'
 import { setupIntegrationTest } from '../../../integrationSetup'
 
-
 import ApiFetch from '../../../../src/utils/ApiFetch'
 import '../../../__mocks__/codeMirrorDom'
 
@@ -113,12 +112,11 @@ describe('UserLessonWizard', () => {
   })
 
 
-  describe('with existing userLesson', () => {
+  describe('with no lesson or userLesson yet loaded, but both exist', () => {
     beforeEach(async() => {
       setupStore()
       ApiFetch.mockImplementationOnce(() => Promise.resolve(lesson)) // getLesson response
       ApiFetch.mockImplementationOnce(() => Promise.resolve([userLesson])) // getManyUserLessons response
-      ApiFetch.mockImplementationOnce(() => Promise.resolve(lessonTheme)) // getManyUserLessons response
       component = mountWithStore(props, store) // mount component
       await flushAllPromises() // wait for requests to resolve
       component.update() // update component after having resolved requests
@@ -194,7 +192,7 @@ describe('UserLessonWizard', () => {
       })
 
       it('should dispatch PUT request with expected params', async () => {
-        component.find('svg').at(1).simulate('click')
+        component.find('svg').at(firstSlideNext).simulate('click')
         await flushAllPromises()
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.PUT_USER_LESSON_REQUEST })
         delete userLesson._id
@@ -305,6 +303,7 @@ describe('UserLessonWizard', () => {
         })
 
       })
+
 
     })
 

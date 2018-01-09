@@ -46,7 +46,6 @@ class UserLessonWizard extends Component {
       , lessonIsEmpty = isEmpty(lesson)
       , userLessonIsEmpty = isEmpty(userLesson)
       , themeIsEmpty = isEmpty(theme)
-
     if(lessonIsEmpty) getLesson({id})
     if(userLessonIsEmpty) getManyUserLessons({ lessonId: id, userId })
     if(lesson.themeId && themeIsEmpty) getLessonTheme({ id: lesson.themeId })
@@ -62,20 +61,18 @@ class UserLessonWizard extends Component {
       , lessonIdHasChanged = !isEqual(id, nextId)
       , lessonHasChanged = !isEqual(lesson, nextLesson)
       , userLessonHasChanged = !isEqual(userLesson, nextUserLesson)
-      , themeHasChanged = !isEqual(theme, nextTheme)
       , userIdHasChanged = !isEqual(userId, nextUserId)
       , lessonIsEmpty = isEmpty(nextLesson)
       , userLessonIsEmpty = isEmpty(nextUserLesson)
       , themeIsEmpty = isEmpty(nextTheme)
-
+      , themeIdHasChanged = nextLesson.themeId !== nextTheme._id
 
     if(lessonIdHasChanged || userIdHasChanged) {
       nextGetLesson({ id: nextId })
       nextGetManyUserLessons({ lessonId: nextId, userId: nextUserId })
-      nexGetLessonTheme({ id: nextLesson.themeId })
     }
 
-    if(nextLesson.themeId && themeIsEmpty) {
+    if((nextLesson.themeId && themeIsEmpty) || themeIdHasChanged) {
       nexGetLessonTheme({ id: nextLesson.themeId })
     }
 

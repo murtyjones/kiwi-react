@@ -49,7 +49,7 @@ export const putUserLesson = (params) => {
     dispatch({ type: ACTIONS.PUT_USER_LESSON_REQUEST })
     return ApiFetch(`${config.api}/api/userlessons/${id}`, options)
       .then(res => {
-        dispatch({ type: ACTIONS.PUT_USER_LESSON_SUCCESS, payload: res})
+        dispatch({ type: ACTIONS.PUT_USER_LESSON_SUCCESS, payload: res })
         return res
       })
       .catch(e => {
