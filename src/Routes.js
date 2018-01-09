@@ -57,6 +57,11 @@ const nonMenuStyle = {
   , height: '100%'
 }
 
+const fetchPosts = (setTop) => store.dispatch({
+  types: ['FETCH_POSTS', 'FETCH_POSTS_SUCCESS', 'FETCH_POSTS_FAIL'],
+    url: '/posts'
+})
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -82,11 +87,16 @@ class App extends Component {
     }
   }
 
+  setTitle = (title) => {
+    this.props.setTopBarTitle(title)
+  }
+
   render() {
     const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, topBarFocused } = this.props
     const sideNavWidthString = `${sideNavWidth}px`
     const topBarWidthString = `${topBarHeight}px`
     const extras = { isLoggedIn, isAdmin, setTopBarTitle }
+    console.log(topBarTitle)
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
@@ -127,22 +137,20 @@ class App extends Component {
                 {/* ----------------- */}
                 {/* Logged in routes  */}
                 {/* ----------------- */}
-                <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } { ...extras } />
-                <AuthenticatedRoute path='/projects' exact component={ UserProjects } { ...extras } />
-                <AuthenticatedRoute path='/project/new' exact component={ UserProject } { ...extras } />
+                <AuthenticatedRoute path='/projects' exact component={ UserProjects } onEnter={ () => this.setTitle('Projects') } { ...extras } />
+                <AuthenticatedRoute path='/project/new' exact component={ UserProject } onEnter={ () => this.setTitle('Name me!') } { ...extras } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } { ...extras } />
-                <AuthenticatedRoute path='/lessons' exact component={ Lessons } { ...extras } />
-                <AuthenticatedRoute path='/lessons/new' exact component={ UserLessonWizard } { ...extras } />
+                <AuthenticatedRoute path='/lessons' exact component={ Lessons } onEnter={ () => this.setTitle('Lessons') } { ...extras } />
                 <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...extras } />
                 {/* ----------------- */}
                 {/* Admin-only routes */}
                 {/* ----------------- */}
-                <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/themes' exact component={ ManageLessonThemes } { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/new' exact component={ AddOrEditLesson } { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/:id' exact component={ AddOrEditLesson } { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/themes/new' exact component={ AddOrEditLessonTheme } { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/themes/:id' exact component={ AddOrEditLessonTheme } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } title='Manage Lessons' { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/themes' exact component={ ManageLessonThemes } onEnter={ () => this.setTitle('Manage Lesson Themes') } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/new' exact component={ AddOrEditLesson } onEnter={ () => this.setTitle('Create new lesson') } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/:id' exact component={ AddOrEditLesson } onEnter={ () => this.setTitle('Edit Lesson') } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/themes/new' exact component={ AddOrEditLessonTheme } onEnter={ () => this.setTitle('Create new Lesson Theme') } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/themes/:id' exact component={ AddOrEditLessonTheme } onEnter={ () => this.setTitle('Edit Lesson Theme') } { ...extras } />
               </Switch>
               </div>
           </div>

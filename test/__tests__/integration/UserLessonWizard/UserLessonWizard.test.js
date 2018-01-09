@@ -173,8 +173,12 @@ describe('UserLessonWizard', () => {
 
 
     describe('interaction', () => {
-      let putLessonPayloadApiResponse
+      let putLessonPayloadApiResponse, firstSlideNext, firstSlidePrev, secondSlideNext, secondSlidePrev
       beforeEach(async () => {
+        firstSlidePrev = 0
+        firstSlideNext = 1
+        secondSlidePrev = 2
+        secondSlideNext = 3
         putLessonPayloadApiResponse = {
           before: {
             ...userLesson
@@ -183,6 +187,7 @@ describe('UserLessonWizard', () => {
             ...userLesson
           }
         }
+        ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
         ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
       })
 
@@ -208,9 +213,9 @@ describe('UserLessonWizard', () => {
         )
       })
 
-      describe('1 click forward', () => {
+      describe('1 click', () => {
         it("should dispatch PUT request after clicking 'next' button", async () => {
-          component.find('svg').at(1).simulate('click')
+          component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           expect(dispatchSpy).toBeCalledWith({
             type: ACTIONS.PUT_USER_LESSON_SUCCESS,
@@ -220,30 +225,80 @@ describe('UserLessonWizard', () => {
 
         it("should change activeSlideIndex by 1 when clicking next button", async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
-          component.find('svg').at(1).simulate('click')
+          component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
         })
 
         it("should NOT change activeSlideIndex when clicking prev button", async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
-          component.find('svg').at(0).simulate('click')
+          component.find('svg').at(firstSlidePrev).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
         it('should change the focus to slide 2 (full sized editor)', async () => {
           expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(0)
-          component.find('svg').at(1).simulate('click')
+          component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(1)
         })
 
         it('should have the expected beginning slide 2 content', async () => {
           // prepopulate userlesson with answer and expect that over prompt
-          component.find('svg').at(1).simulate('click')
+          component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide2Id].answer))
+        })
+
+      })
+
+      describe('2 clicks', () => {
+        it("should dispatch PUT request after clicking next button twice", async () => {
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(dispatchSpy).toBeCalledWith({
+            type: ACTIONS.PUT_USER_LESSON_SUCCESS,
+            payload: putLessonPayloadApiResponse
+          })
+        })
+
+        it("should change activeSlideIndex by 2 when clicking next button twice", async () => {
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
+        })
+
+        it("should change activeSlideIndex when clicking next, then prev button", async () => {
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlidePrev).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+        })
+
+        it('should change the focus to slide 3 (half sized editor) when clicking next twice', async () => {
+          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(0)
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(1)
+        })
+
+        it('should have the expected beginning slide 3 content when clicking next twice', async () => {
+          // prepopulate userlesson with answer and expect that over prompt
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
         })
 
       })

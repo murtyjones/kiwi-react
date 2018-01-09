@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import { AppBar, TextField } from 'material-ui'
 import Menu from 'material-ui-icons/Menu'
@@ -45,7 +45,7 @@ const styles = {
   }
 }
 
-class TopBar extends Component {
+class TopBar extends PureComponent {
   constructor(props) {
     super(props)
   }
@@ -59,16 +59,19 @@ class TopBar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.title !== nextProps.title) {
+    const { title, isFocused } = this.props
+    const { title: nextTitle, isFocused: nextIsFocused } = nextProps
+
+    if(title !== nextTitle) {
       this.setState({ title: nextProps.title })
     }
-    if(nextProps.isFocused && !this.props.isFocused) {
-      console.log('hm')
+
+    if(nextIsFocused && !isFocused) {
       this.input.focus()
       this.input.setSelectionRange(this.input.value.length, this.input.value.length)
     }
-    if(!nextProps.isFocused && this.props.isFocused) {
-      console.log('hm2')
+
+    if(!nextIsFocused && isFocused) {
       this.input.blur()
     }
   }

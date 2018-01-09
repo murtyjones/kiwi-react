@@ -61,7 +61,7 @@ class HalfHalf extends PureComponent {
   render() {
     const { slideData, className, input } = this.props
     return [
-      <div className={ className }>
+      <div key='halfhalf-title-container' className={ className }>
         <div style={ slideContent }>
           <div
             key='title'
@@ -74,14 +74,14 @@ class HalfHalf extends PureComponent {
       </div>
       ,
       <div
-        key='instructions'
-        id='instructions'
+        key='halfhalf-instructions'
+        id='halfhalf-instructions'
         className='halfHalfLeftSide instructions'
         style={ styles.left }
         dangerouslySetInnerHTML={ { __html: slideData.instructions } }
       />
       ,
-      <div style={ styles.right }>
+      <div key='halfhalf-editor' style={ styles.right }>
         <CodeEditor
           className='lessonHalfSizeEditorRight'
           layoutType={ LESSON_SLIDE_TYPES.HALF_HALF }
