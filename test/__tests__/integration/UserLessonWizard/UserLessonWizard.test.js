@@ -173,12 +173,14 @@ describe('UserLessonWizard', () => {
 
 
     describe('interaction', () => {
-      let putLessonPayloadApiResponse, firstSlideNext, firstSlidePrev, secondSlideNext, secondSlidePrev
+      let putLessonPayloadApiResponse, firstSlideNext, firstSlidePrev, secondSlideNext, secondSlidePrev, thirdSlidePrev, thirdSlideNext
       beforeEach(async () => {
         firstSlidePrev = 0
         firstSlideNext = 1
         secondSlidePrev = 2
         secondSlideNext = 3
+        thirdSlidePrev = 4
+        thirdSlideNext = 5
         putLessonPayloadApiResponse = {
           before: {
             ...userLesson
@@ -278,6 +280,7 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
           component.find('svg').at(secondSlidePrev).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
