@@ -9,6 +9,17 @@ import BluebirdPromise from 'bluebird'
 import { postUserLesson, putUserLesson, getManyUserLessons, getLesson, getLessonTheme } from '../actions'
 import UserLessonWizardForm from './UserLessonWizardForm'
 
+const getLatestCompletedSlide = (lesson, userLesson) => {
+  for (let i = 0, len = lesson.slides.length; i < len; i++) {
+    const slide = lesson.slides[i]
+    const slideAnswerData = get(userLesson, `answerData.${slide.id}`, {})
+    if(!slideAnswerData.isAnsweredCorrectly) {
+      return i
+    }
+  }
+  return lesson.slides.length - 1 // final slide
+}
+
 class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
@@ -31,21 +42,44 @@ class UserLessonWizard extends Component {
   }
 
   componentWillMount() {
-    const { getManyUserLessons, getLesson, getLessonTheme, userId, match: { params: { id } } } = this.props
-    BluebirdPromise.all([
-      getLesson({ id })
-      , getManyUserLessons({ lessonId: id, userId })
-    ]).then(([lesson, userLessonAsArray]) => {
-      const userLesson = userLessonAsArray[0]
-      getLessonTheme({ id: lesson.themeId })
-      for (let i = 0, len = lesson.slides.length; i < len; i++) {
-        const slide = lesson.slides[i]
-        const slideAnswerData = get(userLesson, `answerData.${slide.id}`, {})
-        if(!slideAnswerData.isAnsweredCorrectly) {
-          return this.setState({ activeSlideIndex: i })
-        }
-      }
-    })
+    const { getManyUserLessons, getLesson, getLessonTheme, lesson, userLesson, theme, userId, match: { params: { id } } } = this.props
+      , lessonIsEmpty = isEmpty(lesson)
+      , userLessonIsEmpty = isEmpty(userLesson)
+      , themeIsEmpty = isEmpty(theme)
+
+    if(lessonIsEmpty) getLesson({id})
+    if(userLessonIsEmpty) getManyUserLessons({ lessonId: id, userId })
+    if(lesson.themeId && themeIsEmpty) getLessonTheme({ id: lesson.themeId })
+    if(!lessonIsEmpty && !userLessonIsEmpty) {
+      const activeSlideIndex = getLatestCompletedSlide(lesson, userLesson)
+      return this.setState({ activeSlideIndex })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { lesson, userLesson, theme, userId, match: { params: { id } } } = this.props
+    const { getManyUserLessons: nextGetManyUserLessons, getLesson: nextGetLesson, getLessonTheme: nexGetLessonTheme, lesson: nextLesson, userLesson: nextUserLesson, theme: nextTheme, userId: nextUserId, match: { params: { id: nextId } } } = nextProps
+      , lessonIdHasChanged = !isEqual(id, nextId)
+      , lessonHasChanged = !isEqual(lesson, nextLesson)
+      , userLessonHasChanged = !isEqual(userLesson, nextUserLesson)
+      , themeHasChanged = !isEqual(theme, nextTheme)
+      , userIdHasChanged = !isEqual(userId, nextUserId)
+      , lessonIsEmpty = isEmpty(nextLesson)
+      , userLessonIsEmpty = isEmpty(nextUserLesson)
+      , themeIsEmpty = isEmpty(nextTheme)
+
+
+    if(lessonIdHasChanged || userIdHasChanged) {
+      nextGetLesson({ id: nextId })
+      nextGetManyUserLessons({ lessonId: nextId, userId: nextUserId })
+      getLessonTheme({ id: nextLesson.themeId })
+    }
+
+    if(!lessonIsEmpty && !userLessonIsEmpty && (lessonHasChanged || userLessonHasChanged)) {
+      const activeSlideIndex = getLatestCompletedSlide(nextLesson, nextUserLesson)
+      return this.setState({ activeSlideIndex })
+    }
+
   }
 
   handleSubmit = (params) => {
@@ -82,6 +116,7 @@ class UserLessonWizard extends Component {
   render() {
     const { lesson, initialValues, currentValues, theme } = this.props
     const { activeSlideIndex } = this.state
+
     return !isEmpty(lesson)
       ? (
         <UserLessonWizardForm
