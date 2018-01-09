@@ -123,23 +123,17 @@ class LessonThemeForm extends Component {
         />
         <h4>Background</h4>
         <Field
-          name={ 'useColorsOverImages' }
-          label={ 'Prefer colors over images?' }
-          component={ Toggle }
-          style={ { width: '400px' } }
-        />
-        <Field
           name='foregroundColor'
           placeholder='Ground Color (HEX, e.g. #000000)'
           component={ renderTextField }
         />
-        <h5>Colors (ignore if using images)</h5>
+        <h5>Colors</h5>
         <Field
           name='backgroundColor'
           placeholder='Sky Color (HEX, e.g. #000000)'
           component={ renderTextField }
         />
-        <h5>Images (ignore if using colors)</h5>
+        <h5>Images</h5>
         <Field
           name='foregroundImageUrl'
           placeholder='Ground Image URL'
