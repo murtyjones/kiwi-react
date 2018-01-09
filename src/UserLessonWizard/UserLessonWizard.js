@@ -72,7 +72,11 @@ class UserLessonWizard extends Component {
     if(lessonIdHasChanged || userIdHasChanged) {
       nextGetLesson({ id: nextId })
       nextGetManyUserLessons({ lessonId: nextId, userId: nextUserId })
-      getLessonTheme({ id: nextLesson.themeId })
+      nexGetLessonTheme({ id: nextLesson.themeId })
+    }
+    
+    if(nextLesson.themeId && themeIsEmpty) {
+      nexGetLessonTheme({ id: lesson.themeId })
     }
 
     if(!lessonIsEmpty && !userLessonIsEmpty && (lessonHasChanged || userLessonHasChanged)) {
