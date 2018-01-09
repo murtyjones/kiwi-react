@@ -47,8 +47,8 @@ class UserProjects extends Component {
           </div>
           <div>
             { !isEmpty(userProjects) && Object.values(userProjects)
-              .map(each =>
-                <ProjectCard project={ each } />
+              .map((each, i) =>
+                <ProjectCard key={ i } project={ each } />
               )
             }
         </div>

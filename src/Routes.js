@@ -96,7 +96,7 @@ class App extends Component {
     const sideNavWidthString = `${sideNavWidth}px`
     const topBarWidthString = `${topBarHeight}px`
     const extras = { isLoggedIn, isAdmin, setTopBarTitle }
-    console.log(topBarTitle)
+
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
@@ -137,20 +137,20 @@ class App extends Component {
                 {/* ----------------- */}
                 {/* Logged in routes  */}
                 {/* ----------------- */}
-                <AuthenticatedRoute path='/projects' exact component={ UserProjects } onEnter={ () => this.setTitle('Projects') } { ...extras } />
-                <AuthenticatedRoute path='/project/new' exact component={ UserProject } onEnter={ () => this.setTitle('Name me!') } { ...extras } />
+                <AuthenticatedRoute path='/projects' exact component={ UserProjects } title='Projects' { ...extras } />
+                <AuthenticatedRoute path='/project/new' exact component={ UserProject } title='Name Me!' { ...extras } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } { ...extras } />
-                <AuthenticatedRoute path='/lessons' exact component={ Lessons } onEnter={ () => this.setTitle('Lessons') } { ...extras } />
+                <AuthenticatedRoute path='/lessons' exact component={ Lessons } title='Lessons' { ...extras } />
                 <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...extras } />
                 {/* ----------------- */}
                 {/* Admin-only routes */}
                 {/* ----------------- */}
                 <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } title='Manage Lessons' { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/themes' exact component={ ManageLessonThemes } onEnter={ () => this.setTitle('Manage Lesson Themes') } { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/new' exact component={ AddOrEditLesson } onEnter={ () => this.setTitle('Create new lesson') } { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/:id' exact component={ AddOrEditLesson } onEnter={ () => this.setTitle('Edit Lesson') } { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/themes/new' exact component={ AddOrEditLessonTheme } onEnter={ () => this.setTitle('Create new Lesson Theme') } { ...extras } />
-                <AuthorizedRoute path='/admin/lessons/themes/:id' exact component={ AddOrEditLessonTheme } onEnter={ () => this.setTitle('Edit Lesson Theme') } { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/themes' exact component={ ManageLessonThemes } title='Manage Lesson Themes' { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/new' exact component={ AddOrEditLesson } title='Create new lesson' { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/:id' exact component={ AddOrEditLesson } title='Edit Lesson' { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/themes/new' exact component={ AddOrEditLessonTheme } title='Create new Lesson Theme' { ...extras } />
+                <AuthorizedRoute path='/admin/lessons/themes/:id' exact component={ AddOrEditLessonTheme } title='Edit Lesson Theme' { ...extras } />
               </Switch>
               </div>
           </div>

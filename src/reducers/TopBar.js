@@ -9,7 +9,6 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  let sideNav
   switch (action.type) {
     case ACTIONS.OPEN_TOPBAR: {
       const newState = Object.assign({}, state, {

@@ -1,18 +1,22 @@
-import React, {PropTypes} from "react"
-import { Route, Redirect } from "react-router-dom"
-import {setTopBarTitle} from "../actions/TopBar"
+import React, {PropTypes} from 'react'
+import { Route, Redirect } from 'react-router-dom'
+import WithTheme from '../hocs/WithTheme'
 
-function AuthorizedRoute ({component: Component, isLoggedIn, title, isAdmin, ...rest}) {
-  if(title) {
-    setTopBarTitle(title)
-  }
+function AuthorizedRoute ({component: Component, isLoggedIn, isAdmin, setTopBarTitle, title, ...rest}) {
   return (
     <Route
       { ...rest }
       render={
         (props) => isLoggedIn && isAdmin
-          ? <Component { ...props } />
-          : <Redirect
+          ?
+          <WithTheme
+            WrappedComponent={ Component }
+            title={ title }
+            setTopBarTitle={ setTopBarTitle }
+            { ...props }
+          />
+          :
+          <Redirect
             to={ { pathname: '/', state: { from: props.location } } }
           />
       }
