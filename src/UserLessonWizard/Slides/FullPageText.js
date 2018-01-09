@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import { titleStyle, slideContent } from './commonSlideStyles'
 
@@ -8,7 +8,7 @@ const styles = {
   }
 }
 
-class FullPageText extends Component {
+class FullPageText extends PureComponent {
   constructor(props) {
     super(props)
   }

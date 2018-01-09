@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PureComponent } from 'react'
 import * as T from 'prop-types'
 import { withRouter, Redirect, Route } from 'react-router-dom'
 import { get, find } from 'lodash'
@@ -13,7 +13,7 @@ import RegisterForm from './RegisterForm'
 import renderIf from 'render-if'
 
 
-class LoginOrRegister extends Component {
+class LoginOrRegister extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {}

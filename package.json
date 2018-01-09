@@ -26,9 +26,9 @@
   },
   "jest": {
     "setupFiles": [
-      "./test/unitSetup.js"
-      , "./test/integrationSetup.js"
-      , "jest-localstorage-mock"
+      "./test/unitSetup.js",
+      "./test/integrationSetup.js",
+      "jest-localstorage-mock"
     ],
     "globals": {
       "__DEV__": true,

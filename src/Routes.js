@@ -27,7 +27,7 @@ import AuthorizedRoute from './Routes/AuthorizedRoute'
  */
 import Home from './Home/Home'
 import Dashboard from './Dashboard/Dashboard'
-import Projects from './Projects/Projects'
+import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
@@ -128,7 +128,7 @@ class App extends Component {
                 {/* Logged in routes  */}
                 {/* ----------------- */}
                 <AuthenticatedRoute path='/dashboard' exact component={ Dashboard } { ...extras } />
-                <AuthenticatedRoute path='/projects' exact component={ Projects } { ...extras } />
+                <AuthenticatedRoute path='/projects' exact component={ UserProjects } { ...extras } />
                 <AuthenticatedRoute path='/project/new' exact component={ UserProject } { ...extras } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } { ...extras } />
                 <AuthenticatedRoute path='/lessons' exact component={ Lessons } { ...extras } />

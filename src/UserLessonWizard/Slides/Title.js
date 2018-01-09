@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
 import { titleStyle, slideContent } from './commonSlideStyles'
@@ -34,7 +34,7 @@ const styles = {
   }
 }
 
-class Title extends Component {
+class Title extends PureComponent {
   constructor(props) {
     super(props)
   }

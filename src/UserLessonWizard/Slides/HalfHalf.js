@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 
 import CodeEditor from '../../CodeEditorV2/CodeEditorV2'
@@ -40,7 +40,7 @@ const codeEditorStyles = {
   }
 }
 
-class HalfHalf extends Component {
+class HalfHalf extends PureComponent {
   constructor(props) {
     super(props)
   }

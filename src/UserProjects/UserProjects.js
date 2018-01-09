@@ -8,7 +8,7 @@ import { KiwiLink } from '../common/KiwiLink'
 import { getManyUserProjects } from '../actions'
 import ProjectCard from './ProjectCard'
 
-class Projects extends Component {
+class UserProjects extends Component {
   constructor(props) {
     super(props)
   }
@@ -73,4 +73,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Projects))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserProjects))
