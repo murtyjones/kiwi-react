@@ -277,10 +277,15 @@ class UserLessonWizardForm extends Component {
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
         , hasTheme = !!theme
-        , foregroundColor = hasTheme && get(theme, 'useColorsOverImages', false) ? theme.foregroundColor : ''
-        , foregroundImage = hasTheme && !get(theme, 'useColorsOverImages', false) ? theme.foregroundImageUrl : ''
-        , backgroundColor = hasTheme && get(theme, 'useColorsOverImages', false) ? theme.backgroundColor : ''
-        , backgroundImage = hasTheme && !get(theme, 'useColorsOverImages', false) ? theme.backgroundImageUrl : ''
+        , useColorsOverImages = get(theme, 'useColorsOverImages', false)
+        , foregroundColor = hasTheme && (useColorsOverImages ? theme.foregroundColor : '')
+        , foregroundImage = hasTheme && (!useColorsOverImages ? theme.foregroundImageUrl : '')
+        , backgroundColor = hasTheme && (useColorsOverImages ? theme.backgroundColor : '')
+        , backgroundImage = hasTheme && (!useColorsOverImages ? theme.backgroundImageUrl : '')
+        , backgroundImageWidth = hasTheme && (!useColorsOverImages ? theme.backgroundImageWidth : '')
+        , backgroundImageHeight = hasTheme && (!useColorsOverImages ? theme.backgroundImageHeight : '')
+        , foregroundImageWidth = hasTheme && (!useColorsOverImages ? theme.foregroundImageWidth : '')
+        , foregroundImageHeight = hasTheme && (!useColorsOverImages ? theme.foregroundImageHeight : '')
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
 
@@ -344,7 +349,7 @@ class UserLessonWizardForm extends Component {
               , top: 0
               , left: 0
               , background: `${backgroundColor} url('${backgroundImage}')`
-              , backgroundSize: '150px 150px'
+              , backgroundSize: `${backgroundImageWidth} ${backgroundImageHeight}`
               , backgroundRepeat: 'repeat'
               , height: `${theme.horizonY}%`
               , width: '100%'
@@ -358,7 +363,7 @@ class UserLessonWizardForm extends Component {
               , top: `${theme.horizonY}%`
               , left: 0
               , background: `${foregroundColor} url('${foregroundImage}')`
-              , backgroundSize: '100%'
+              , backgroundSize: `${foregroundImageWidth} ${foregroundImageHeight}`
               , backgroundRepeat: 'repeat'
               , width: '100%'
               , height: `${100-theme.horizonY}%`

@@ -1,16 +1,14 @@
 import { ACTIONS } from '../constants'
 
-const getInitialState = () => {
-  return {
-    isTopBarOpen: true
-    , topBarHeight: 60
-    , topBarTitle: ''
-    , topBarTitleDisabled: true
-    , topBarFocused: false
-  }
+const initialState = {
+  isTopBarOpen: true
+  , topBarHeight: 60
+  , topBarTitle: ''
+  , topBarTitleDisabled: true
+  , topBarFocused: false
 }
 
-export default (state = getInitialState(), action) => {
+export default (state = initialState, action) => {
   let sideNav
   switch (action.type) {
     case ACTIONS.OPEN_TOPBAR: {

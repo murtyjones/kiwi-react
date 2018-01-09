@@ -146,8 +146,28 @@ class LessonThemeForm extends Component {
           component={ renderTextField }
         />
         <Field
+          name='foregroundImageWidth'
+          placeholder='Ground Width (px)'
+          component={ renderTextField }
+        />
+        <Field
+          name='foregroundImageHeight'
+          placeholder='Ground Height (px)'
+          component={ renderTextField }
+        />
+        <Field
           name='backgroundImageUrl'
           placeholder='Sky Image URL'
+          component={ renderTextField }
+        />
+        <Field
+          name='backgroundImageWidth'
+          placeholder='Sky Width (px)'
+          component={ renderTextField }
+        />
+        <Field
+          name='backgroundImageHeight'
+          placeholder='Sky Height (px)'
           component={ renderTextField }
         />
         <Field
