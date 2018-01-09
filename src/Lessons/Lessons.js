@@ -87,6 +87,7 @@ class Lessons extends Component {
 
   componentWillUnmount() {
     this.props.openSideNav()
+    window.removeEventListener("resize", this.updateDimensions)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -122,10 +123,6 @@ class Lessons extends Component {
       })
     })
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions)
-  }
-
   updateDimensions = () => {
     const clientWidth = this.lessonsContainerNode.clientWidth
     const width = Math.max(clientWidth, this.state.minWidth)
@@ -140,20 +137,20 @@ class Lessons extends Component {
 
   render() {
     const { lessons, orderOfPublishedLessons, sideNavWidth } = this.props
-    const { width, scaleX, scaleY, selectedLessonId, mapLessons, userLessonJustCompletedId } = this.state
+    const { width, scaleX, scaleY, selectedLessonId, mapLessons } = this.state
     const selectedLessonPosition = selectedLessonId
       ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
       : 0
 
     return [
       <LessonMapBackground
-        key={ 'LessonMapBackground' }
+        key='LessonMapBackground'
         sideNavWidth={ sideNavWidth }
       />
       ,
       <div
-        key={ 'LessonMap' }
-        ref={ (c) => { this.lessonsContainerNode = c } }
+        key='LessonMap'
+        ref={ c => { this.lessonsContainerNode = c } }
         style={ styles.mapContainer}
       >
         <LessonMap

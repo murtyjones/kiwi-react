@@ -38,8 +38,8 @@ class LessonMap extends Component {
     this.state = {
       stage: null
       , cursor: 'auto'
-      , height: startingHeight
-      , heightWidthRatio: startingHeight / props.width
+      , height: 1500
+      , heightWidthRatio: 1500 / props.width
       , scaleX: 1
       , scaleY: 1
       , latestActiveLessonId: ''

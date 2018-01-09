@@ -18,7 +18,7 @@ const styles = {
     , minWidth: '1024px'
     , position: 'absolute'
     , overflow: 'scroll'
-    , minHeight: '2500px'
+    // , minHeight: '2500px'
   },
   layer1: {
     width: '100%',
@@ -33,10 +33,6 @@ const styles = {
       , paddingBottom: '150px'
       , zIndex: 1
     }
-    // , assets: {
-    //   display: 'table-row'
-    //   , width: '100%'
-    // }
     , mainAsset: {
       width: '100%'
       , left: 0
@@ -53,12 +49,9 @@ const styles = {
       , display: 'table'
       , paddingBottom: '150px'
       , position: 'relative'
-      //, zIndex: -200
+      , background: `#A5CC83 url('http://res.cloudinary.com/kiwi-stage/image/upload/v1515428912/map-houses-pattern_kq8obi.svg')`
+      , backgroundSize: '56px 57px'
     }
-    // , assets: {
-    //   display: 'table-row'
-    //   , width: '100%'
-    // }
     , topLeft: {
       marginRight: '-17%'
       , width: '77%'
