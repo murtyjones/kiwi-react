@@ -22,7 +22,7 @@ describe('UserLessonWizard', () => {
     , chesterAdminUserId = '5a262f3cd799747b257ace41'
     , lessonId
     , userLessonId
-    , slide1Id, slide2Id, slide3Id, slide4Id
+    , slide2Id, slide3Id, slide4Id, slide1Id
     , lesson
     , userLesson
     , lessonTheme
@@ -42,36 +42,37 @@ describe('UserLessonWizard', () => {
     lessonId = 'fakeLessonId'
     userLessonId = 'fakeUserLessonId'
     lesson = {
-      _id: lessonId,
-      isPublished: true,
-      title: "Print Statements!",
-      subtitle: "How to show an output",
-      minutesToComplete: 15,
-      slides: [
+      _id: lessonId
+      , isPublished: true
+      , title: "Print Statements!"
+      , subtitle: "How to show an output"
+      , minutesToComplete: 15
+      , slides: [
         {
-          type: LESSON_SLIDE_TYPES.FULL_PAGE_TEXT,
-          instructions: "<p>slide1Instructions</p>",
-          editorInput: "slide1EditorInput",
-          title: "What is a Print Statement? ",
-          id: slide1Id
+          type: LESSON_SLIDE_TYPES.TITLE
+          , title: "slide1Title"
+          , subtitle: "slide1Subtitle"
+          , description: "slide1Description"
+          , id: slide1Id
         },
         {
-          type: LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR,
-          prompt: "slide2Prompt",
-          editorInput: "slide2EditorInput",
-          id: slide2Id
+          type: LESSON_SLIDE_TYPES.FULL_PAGE_TEXT
+          , instructions: "<p>slide1Instructions</p>"
+          , editorInput: "slide2EditorInput"
+          , title: "What is a Print Statement? "
+          , id: slide2Id
         },
         {
-          type: LESSON_SLIDE_TYPES.HALF_HALF,
-          instructions: "<p>slide3Instructions</p>",
-          editorInput: "slide3EditorInput",
-          id: slide3Id
+          type: LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR
+          , prompt: "slide3Prompt"
+          , editorInput: "slide2EditorInput"
+          , id: slide3Id
         },
         {
-          type: LESSON_SLIDE_TYPES.HALF_HALF,
-          instructions: "<p></p>",
-          editorInput: "slide4EditorInput",
-          id: slide4Id
+          type: LESSON_SLIDE_TYPES.HALF_HALF
+          , instructions: "<p>slide4Instructions</p>"
+          , editorInput: "slide4EditorInput"
+          , id: slide4Id
         }
       ],
       updatedAt: "2017-12-08T04:40:08Z"
@@ -80,9 +81,10 @@ describe('UserLessonWizard', () => {
       _id: userLessonId,
       lessonId,
       answerData: {
-        [slide1Id]: {  }
-        , [slide2Id]: { answer: "slide2Answer" }
-        , [slide3Id]: { answer: "" }
+        [slide2Id]: {  }
+        , [slide1Id]: { answer: "" }
+        , [slide2Id]: { answer: "" }
+        , [slide3Id]: { answer: "slide3Answer" }
         , [slide4Id]: { answer: "" }
       }
     }
@@ -166,15 +168,6 @@ describe('UserLessonWizard', () => {
         expect(component.find('div[className="lessonWizardFormContent"]').length).toBe(1)
       })
 
-      it('should render slide title', async () => {
-        expect(component.find('div[id="title"]').length).toBe(1)
-      })
-
-      it('should render first slide instructions', async () => {
-        expect(component.find('div[id="instructions"]').length).toBe(1)
-        expect(component.find('div[id="instructions"]').props()).toHaveProperty('dangerouslySetInnerHTML', {__html: lesson.slides[0].instructions})
-      })
-
     })
 
 
@@ -183,10 +176,10 @@ describe('UserLessonWizard', () => {
       beforeEach(async () => {
         firstSlidePrev = 0
         firstSlideNext = 1
-        secondSlidePrev = 2
-        secondSlideNext = 3
-        thirdSlidePrev = 1
-        thirdSlideNext = 2
+        secondSlidePrev = 0
+        secondSlideNext = 1
+        thirdSlidePrev = 2
+        thirdSlideNext = 3
         fourthSlidePrev = 1
         fourthSlideNext = 2 // ????
         putLessonPayloadApiResponse = {
@@ -214,7 +207,7 @@ describe('UserLessonWizard', () => {
             body: {
               ...userLesson,
               answerData: [
-                { answer: "", id: slide1Id, isViewed: true }
+                { answer: "", isViewed: true }
                 , userLesson.answerData[slide2Id]
                 , userLesson.answerData[slide3Id]
                 , userLesson.answerData[slide4Id]
@@ -224,6 +217,23 @@ describe('UserLessonWizard', () => {
             method: "PUT"
           }
         )
+      })
+
+      describe('slide 1', () => {
+        it('should render first slide title', async () => {
+          expect(component.find('div[id="title"]').length).toBe(1)
+          expect(component.find('div[id="title"]').text()).toEqual(lesson.slides[0].title)
+        })
+
+        it('should render first slide subtitle', async () => {
+          expect(component.find('div[id="subtitle"]').length).toBe(1)
+          expect(component.find('div[id="subtitle"]').text()).toEqual(lesson.slides[0].subtitle)
+        })
+
+        it('should render first slide description', async () => {
+          expect(component.find('div[id="description"]').length).toBe(1)
+          expect(component.find('div[id="description"]').text()).toEqual(lesson.slides[0].description)
+        })
       })
 
       describe('slides 1 - 2', () => {
@@ -250,18 +260,17 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
-        it('should change the focus to slide 2 (full sized editor)', async () => {
-          expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(0)
+        it('should have the expected slide 2 title', async () => {
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(1)
+          expect(component.find('div[id="title"]').length).toBe(1)
         })
 
-        it('should have the expected beginning slide 2 content', async () => {
-          // prepopulate userlesson with answer and expect that over prompt
+        it('should have the expected slide 2 instructions', async () => {
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide2Id].answer))
+          expect(component.find('div[id="instructions"]').length).toBe(1)
+          expect(component.find('div[id="instructions"]').props()).toHaveProperty('dangerouslySetInnerHTML', {__html: lesson.slides[1].instructions})
         })
 
       })
@@ -278,7 +287,7 @@ describe('UserLessonWizard', () => {
           })
         })
 
-        it("should change activeSlideIndex by 2 when clicking next button twice", async () => {
+        it("should change activeSlideIndex to 2 when clicking next button twice", async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
@@ -297,13 +306,13 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
-        it('should change the focus to slide 3 (half sized editor) when clicking next twice', async () => {
-          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(0)
+        it('should change the focus to slide 2 (full sized editor)', async () => {
+          expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(0)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(1)
+          expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(1)
         })
 
         it('should have the expected beginning slide 3 content when clicking next twice', async () => {
@@ -312,7 +321,8 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
+          expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
+
         })
 
       })
@@ -353,7 +363,6 @@ describe('UserLessonWizard', () => {
           component.find('svg').at(thirdSlideNext).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
-          console.log(component.find('svg').length)
           component.find('svg').at(fourthSlidePrev).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
@@ -365,7 +374,19 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
+        it('should change the focus to slide 4 (half sized editor) when clicking next twice', async () => {
+          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(0)
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(thirdSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(1)
+        })
 
+        // expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide4Id].answer))
+        // expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
 
       })
 
