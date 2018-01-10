@@ -21,8 +21,7 @@ const codeEditorStyles = {
     , display: 'inline-block'
   },
   editorContainerStyle: {
-    display: 'flex'
-    , minHeight: '600px'
+    minHeight: '600px'
   },
   editorOutputStyle: {
     border: '1px solid #CCC'

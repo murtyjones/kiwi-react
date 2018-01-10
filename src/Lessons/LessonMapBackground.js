@@ -10,6 +10,7 @@ const themeAssetLinks = {
     , pattern: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515428912/map-houses-pattern_kq8obi.svg'
   }
   , egypt: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1514912906/map-egypt-optimized_qrnphc.svg'
+  , moon: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515602453/map-moon-top_idpwvp.svg'
 }
 
 const styles = {
@@ -23,24 +24,6 @@ const styles = {
   layer1: {
     width: '100%',
     height: '400px',
-  },
-  egypt: {
-    background: {
-      position: 'relative'
-      , marginTop: '-300px'
-      , width: '100%'
-      , display: 'table'
-      , paddingBottom: '150px'
-      , zIndex: 1
-    }
-    , mainAsset: {
-      width: '100%'
-      , left: 0
-      , float: 'left'
-      , display: 'inline'
-      , position: 'relative'
-      , zIndex: -9
-    }
   },
   neighborhood: {
     background: {
@@ -68,6 +51,44 @@ const styles = {
       , position: 'relative'
       , zIndex: 2
     }
+  },
+  egypt: {
+    background: {
+      position: 'relative'
+      , marginTop: '-300px'
+      , width: '100%'
+      , display: 'table'
+      , paddingBottom: '150px'
+      , zIndex: 1
+    }
+    , mainAsset: {
+      width: '100%'
+      , left: 0
+      , float: 'left'
+      , display: 'inline'
+      , position: 'relative'
+      , zIndex: -9
+    }
+  },
+  moon: {
+    background: {
+      position: 'relative'
+      , background: `#B5B5B5 url('http://res.cloudinary.com/kiwi-stage/image/upload/v1515602449/map-moon-pattern_jngzrl.svg')`
+      , backgroundSize: '60px 51px'
+      , marginTop: '-300px'
+      , width: '100%'
+      , display: 'table'
+      , paddingBottom: '150px'
+      , zIndex: 1
+    },
+    mainAsset: {
+      width: '100%'
+      , left: 0
+      , float: 'left'
+      , display: 'inline'
+      , position: 'relative'
+      , zIndex: -9
+    }
   }
 }
 
@@ -85,27 +106,30 @@ class LessonMapBackground extends PureComponent {
     return (
       <div style={ { ...styles.container, left: `${-this.props.sideNavWidth}px` } }>
         <div key='neighborhood' style={ styles.neighborhood.background }>
-          {/*<div key='neighborhood-row'>*/}
-            <img
-              key='neighborhood-top-left'
-              src={ themeAssetLinks.neighborhood.topLeft }
-              style={ styles.neighborhood.topLeft }
-            />
-            <img
-              key='neighborhood-top-right'
-              src={ themeAssetLinks.neighborhood.topRight }
-              style={ styles.neighborhood.topRight }
-            />
-          {/*</div>*/}
+          <img
+            key='neighborhood-top-left'
+            src={ themeAssetLinks.neighborhood.topLeft }
+            style={ styles.neighborhood.topLeft }
+          />
+          <img
+            key='neighborhood-top-right'
+            src={ themeAssetLinks.neighborhood.topRight }
+            style={ styles.neighborhood.topRight }
+          />
         </div>
         <div key='egypt' style={ styles.egypt.background }>
-          {/*<div key='egypt-row'>*/}
-            <img
-              key='egypt-top-left'
-              src={ themeAssetLinks.egypt }
-              style={ styles.egypt.mainAsset }
+          <img
+            key='egypt-top-left'
+            src={ themeAssetLinks.egypt }
+            style={ styles.egypt.mainAsset }
           />
-          {/*</div>*/}
+        </div>
+        <div key='moon' style={ styles.moon.background }>
+          <img
+            key='egypt-top-left'
+            src={ themeAssetLinks.moon }
+            style={ styles.moon.mainAsset }
+          />
         </div>
       </div>
     )

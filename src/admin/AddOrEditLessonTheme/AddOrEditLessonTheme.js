@@ -86,7 +86,7 @@ const mapStateToProps = (state, ownProps) => {
       if(!e.y) initialValues.assets[i].y = 0
     })
   }
-  
+
   return {
     initialValues
   }

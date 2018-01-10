@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
+import cns from 'classnames'
 import { GridList, GridTile } from 'material-ui'
 //import CodeMirror from 'react-codemirror'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
@@ -11,6 +12,7 @@ import { LESSON_SLIDE_TYPES } from '../constants'
 
 
 require('./editorOverrides.css')
+import '../common/flexOverride.css'
 
 const defaultOptions = {
   lineNumbers: true
@@ -166,13 +168,14 @@ class CodeEditor extends Component {
   render() {
     const { className, editorInput, options, editorStyle, onSave, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue } = this.state
+      , isFullSized = layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR
 
     return (
       <div className={ className }>
-        <div style={ editorStyle.editorContainerStyle }>
+        <div style={ editorStyle.editorContainerStyle } className={ cns({ flexOverride: isFullSized }) }>
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
-              className={ layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
+              className={ isFullSized ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
               style={ styles.editor }
               value={ editorInput }
               onChange={ (editor, data, value) => {
