@@ -10,7 +10,7 @@ const themeAssetLinks = {
     , pattern: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515428912/map-houses-pattern_kq8obi.svg'
   }
   , egypt: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1514912906/map-egypt-optimized_qrnphc.svg'
-  , moon: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515602453/map-moon-top_idpwvp.svg'
+  , moon: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515620862/map-moon-optimized_v7c2mv.svg'
 }
 
 const styles = {
@@ -73,8 +73,6 @@ const styles = {
   moon: {
     background: {
       position: 'relative'
-      , background: `#B5B5B5 url('http://res.cloudinary.com/kiwi-stage/image/upload/v1515602449/map-moon-pattern_jngzrl.svg')`
-      , backgroundSize: '60px 51px'
       , marginTop: '-300px'
       , width: '100%'
       , display: 'table'
