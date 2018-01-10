@@ -10,17 +10,18 @@ const styles = {
 }
 
 const textareaStyle = {
-  padding: '0px',
-  border: '0px',
-  fontSize: '14px',
-  color: 'rgb(253, 220, 255)',
-  margin: '0px',
-  height: '16px',
-  fontFamily: 'monospace',
-  width: '179px',
-  background: 'transparent',
-  resize: 'none',
-  outline: 'none'
+  padding: '0px'
+  , border: '0px'
+  , fontSize: '14px'
+  , color: 'rgb(253, 220, 255)'
+  , margin: '0px'
+  , height: '16px'
+  , fontFamily: 'monospace'
+  , width: '179px'
+  , background: 'transparent'
+  , resize: 'none'
+  , outline: 'none'
+  , overflow: 'hidden'
 }
 
 export default class EditorOutput extends Component {
