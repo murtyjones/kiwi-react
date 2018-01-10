@@ -62,15 +62,32 @@ class CodeEditor extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    // only update is editorInput has changed
+    return nextProps.editorInput !== this.state.editorInput
+  }
+
+  setStateAsync = (newState) => {
+    return new Promise((resolve) => {
+      this.setState(newState, resolve)
+    });
+  }
+
   getChildRef = (input) => {
     this.inputText = input
   }
 
-  updateInput = (value) => {
+  updateInput = async (value) => {
     const { onChange } = this.props
-    this.setState({ editorInput: value })
+    // state should be fully up to date before
+    // hitting shouldComponentUpdate.
+    // Hence the 'await' statement here
+    await this.setEditorInput(value)
     if(onChange) onChange(value)
   }
+
+  setEditorInput = async (v) =>
+    await this.setStateAsync({ editorInput: v })
 
   addToOutput = (text) => {
     codeOutput = codeOutput + text
