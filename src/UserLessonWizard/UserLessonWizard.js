@@ -63,6 +63,7 @@ class UserLessonWizard extends Component {
       , userLessonHasChanged = !isEqual(userLesson, nextUserLesson)
       , userIdHasChanged = !isEqual(userId, nextUserId)
       , lessonIsEmpty = isEmpty(nextLesson)
+      , userLessonWasEmpty = isEmpty(userLesson)
       , userLessonIsEmpty = isEmpty(nextUserLesson)
       , themeIsEmpty = isEmpty(nextTheme)
       , themeIdHasChanged = nextLesson.themeId !== nextTheme._id
@@ -76,7 +77,7 @@ class UserLessonWizard extends Component {
       nexGetLessonTheme({ id: nextLesson.themeId })
     }
 
-    if(!lessonIsEmpty && !userLessonIsEmpty && (lessonHasChanged || userLessonHasChanged)) {
+    if(!lessonIsEmpty && !userLessonIsEmpty && userLessonWasEmpty && (lessonHasChanged || userLessonHasChanged)) {
       const activeSlideIndex = getLatestCompletedSlide(nextLesson, nextUserLesson)
       return this.setState({ activeSlideIndex })
     }
