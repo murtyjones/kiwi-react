@@ -22,7 +22,7 @@ describe('UserLessonWizard', () => {
     , chesterAdminUserId = '5a262f3cd799747b257ace41'
     , lessonId
     , userLessonId
-    , slide1Id, slide2Id, slide3Id
+    , slide1Id, slide2Id, slide3Id, slide4Id
     , lesson
     , userLesson
     , lessonTheme
@@ -38,6 +38,7 @@ describe('UserLessonWizard', () => {
     slide1Id = 'id1'
     slide2Id = 'id2'
     slide3Id = 'id3'
+    slide4Id = 'id4'
     lessonId = 'fakeLessonId'
     userLessonId = 'fakeUserLessonId'
     lesson = {
@@ -65,6 +66,12 @@ describe('UserLessonWizard', () => {
           instructions: "<p>slide3Instructions</p>",
           editorInput: "slide3EditorInput",
           id: slide3Id
+        },
+        {
+          type: LESSON_SLIDE_TYPES.HALF_HALF,
+          instructions: "<p></p>",
+          editorInput: "slide4EditorInput",
+          id: slide4Id
         }
       ],
       updatedAt: "2017-12-08T04:40:08Z"
@@ -76,6 +83,7 @@ describe('UserLessonWizard', () => {
         [slide1Id]: {  }
         , [slide2Id]: { answer: "slide2Answer" }
         , [slide3Id]: { answer: "" }
+        , [slide4Id]: { answer: "" }
       }
     }
     lessonTheme = {
@@ -170,15 +178,17 @@ describe('UserLessonWizard', () => {
     })
 
 
-    describe('interaction', () => {
-      let putLessonPayloadApiResponse, firstSlideNext, firstSlidePrev, secondSlideNext, secondSlidePrev, thirdSlidePrev, thirdSlideNext
+    describe('interactions', () => {
+      let putLessonPayloadApiResponse, firstSlideNext, firstSlidePrev, secondSlideNext, secondSlidePrev, thirdSlidePrev, thirdSlideNext, fourthSlidePrev, fourthSlideNext
       beforeEach(async () => {
         firstSlidePrev = 0
         firstSlideNext = 1
         secondSlidePrev = 2
         secondSlideNext = 3
-        thirdSlidePrev = 4
-        thirdSlideNext = 5
+        thirdSlidePrev = 1
+        thirdSlideNext = 2
+        fourthSlidePrev = 1
+        fourthSlideNext = 2 // ????
         putLessonPayloadApiResponse = {
           before: {
             ...userLesson
@@ -187,6 +197,8 @@ describe('UserLessonWizard', () => {
             ...userLesson
           }
         }
+        ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
+        ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
         ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
         ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
       })
@@ -205,6 +217,7 @@ describe('UserLessonWizard', () => {
                 { answer: "", id: slide1Id, isViewed: true }
                 , userLesson.answerData[slide2Id]
                 , userLesson.answerData[slide3Id]
+                , userLesson.answerData[slide4Id]
               ],
               id: userLessonId
             },
@@ -213,7 +226,7 @@ describe('UserLessonWizard', () => {
         )
       })
 
-      describe('1 click', () => {
+      describe('slides 1 - 2', () => {
         it("should dispatch PUT request after clicking 'next' button", async () => {
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
@@ -253,7 +266,7 @@ describe('UserLessonWizard', () => {
 
       })
 
-      describe('2 clicks', () => {
+      describe('slides 1 - 3', () => {
         it("should dispatch PUT request after clicking next button twice", async () => {
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
@@ -274,7 +287,7 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
         })
 
-        it("should change activeSlideIndex when clicking next, then prev button", async () => {
+        it("should change activeSlideIndex back to 0 clicking next, then prev button", async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
@@ -301,6 +314,58 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
         })
+
+      })
+
+      describe('slides 1 - 4', () => {
+        it("should dispatch PUT request after clicking next button thrice", async () => {
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(thirdSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(dispatchSpy).toBeCalledWith({
+            type: ACTIONS.PUT_USER_LESSON_SUCCESS,
+            payload: putLessonPayloadApiResponse
+          })
+        })
+
+        it("should change activeSlideIndex by 3 when clicking next button thrice", async () => {
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(thirdSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
+        })
+
+        it('should be able to progress to slide 4', async () => {
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
+          component.find('svg').at(thirdSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
+          console.log(component.find('svg').length)
+          component.find('svg').at(fourthSlidePrev).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
+          component.find('svg').at(thirdSlidePrev).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
+          component.find('svg').at(secondSlidePrev).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+        })
+
+
 
       })
 
