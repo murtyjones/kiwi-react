@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { postLessonTheme, putLessonTheme, getLessonTheme } from '../../actions'
-import { has, isEmpty, isEqual } from 'lodash'
+import { has, isEmpty, isEqual, cloneDeep } from 'lodash'
 import LessonThemeForm from './LessonThemeForm'
 
 class AddOrEditLessonTheme extends Component {
@@ -77,8 +77,18 @@ class AddOrEditLessonTheme extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { lessonThemes: { lessonThemesById } } = state
   const { match: { params: { id } } } = ownProps
+  const lessonTheme = lessonThemesById[id] || {}
+  const initialValues = cloneDeep(lessonTheme)
+
+  if(initialValues.assets && initialValues.assets.length) {
+    initialValues.assets.forEach((e, i) => {
+      if(!e.x) initialValues.assets[i].x = 0
+      if(!e.y) initialValues.assets[i].y = 0
+    })
+  }
+  
   return {
-    initialValues: lessonThemesById[id] || {}
+    initialValues
   }
 }
 
