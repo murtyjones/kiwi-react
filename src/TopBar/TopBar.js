@@ -56,6 +56,7 @@ class TopBar extends PureComponent {
     , isOpen: T.bool.isRequired
     , title: T.string.isRequired
     , titleDisabled: T.bool.isRequired
+    , backgroundColor: T.string
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,7 +83,8 @@ class TopBar extends PureComponent {
   }
 
   render() {
-    const { isOpen, sideNavWidth, toggleSideNav, titleDisabled, handleTitleChange, title } = this.props
+    const { isOpen, sideNavWidth, toggleSideNav, titleDisabled, title, backgroundColor } = this.props
+
 
     if(!isOpen) return null
 
@@ -91,6 +93,7 @@ class TopBar extends PureComponent {
         style={ {
           ...styles.menu
           , left: sideNavWidth
+          , backgroundColor: backgroundColor || '#FFFFFF'
         } }
         iconElementLeft={
           <Menu onClick={ toggleSideNav } style={ styles.leftIcon } />
