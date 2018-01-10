@@ -1,14 +1,21 @@
 import { ACTIONS } from '../constants'
 
 const initialState = {
-  themeColor: ''
+  secondaryThemeColor: '#624F8F'
+  , mainThemeColor: '#FFFFFF'
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ACTIONS.SET_THEME_COLOR: {
+    case ACTIONS.SET_MAIN_COLOR: {
       const newState = Object.assign({}, state, {
-        themeColor: action.payload
+        mainThemeColor: action.payload
+      })
+      return newState
+    }
+    case ACTIONS.SET_SECONDARY_COLOR: {
+      const newState = Object.assign({}, state, {
+        secondaryThemeColor: action.payload
       })
       return newState
     }

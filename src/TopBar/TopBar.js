@@ -15,7 +15,7 @@ const styles = {
     , width: 'auto'
     , height: '60px'
     , backgroundColor: 'white'
-    , borderBottom: '1px solid #E6E6E6'
+    , borderBottom: '0px solid #E6E6E6'
     , margin: 0
   },
   title: {
@@ -93,7 +93,7 @@ class TopBar extends PureComponent {
         style={ {
           ...styles.menu
           , left: sideNavWidth
-          , backgroundColor: backgroundColor || '#FFFFFF'
+          , backgroundColor: backgroundColor
         } }
         iconElementLeft={
           <Menu onClick={ toggleSideNav } style={ styles.leftIcon } />
@@ -105,7 +105,10 @@ class TopBar extends PureComponent {
           className={ cns('titleInput', { 'disabled': titleDisabled } ) }
           onChange={ this.handleTitleChange }
           value={ title }
-          style={ styles.title }
+          style={ {
+            ...styles.title
+            , backgroundColor: backgroundColor
+          } }
           disabled={ titleDisabled }
         />
       </AppBar>
