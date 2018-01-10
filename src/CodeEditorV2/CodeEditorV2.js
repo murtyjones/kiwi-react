@@ -64,9 +64,10 @@ class CodeEditor extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    // only update is editorInput has changed
-    return nextProps.editorInput !== this.state.editorInput
+  shouldComponentUpdate(nextProps, nextState) {
+    const editorOutputHasChanged = nextState.editorOutput !== this.state.editorOutput
+    const editorInputHasChanged = nextProps.editorInput !== this.state.editorInput
+    return editorInputHasChanged || editorOutputHasChanged
   }
 
   setStateAsync = (newState) => {
