@@ -191,6 +191,8 @@ class MapBubbles extends PureComponent {
   componentWillMount() {
     const { mapLessons, latestActiveLessonId } = this.props
     this.setBubbleAvailabilities(mapLessons, latestActiveLessonId)
+    this.setStartingCheckMarkPoints(mapLessons)
+    this.setStartingBubbleTextColors(mapLessons)
   }
 
   async componentDidMount() {
@@ -205,6 +207,8 @@ class MapBubbles extends PureComponent {
         , latestActiveLessonIdHasCHanged = !isEqual(latestActiveLessonId, nextLatestActiveLessonId)
 
     if(mapLessonsHasChanged) {
+      this.setStartingCheckMarkPoints(nextMapLessons)
+      this.setStartingBubbleTextColors(nextMapLessons)
       await this.applyLessonStates(nextMapLessons)
     }
 
@@ -213,18 +217,62 @@ class MapBubbles extends PureComponent {
     }
   }
 
+  setStateAsync = (newState) => {
+    return new Promise((resolve) => {
+      this.setState(newState, resolve)
+    });
+  }
+
+  setStartingCheckMarkPoints = (mapLessons) => {
+    const { checkMarkPoints, mapDimensions } = this.state
+    const newCheckMarkPoints = cloneDeep(checkMarkPoints)
+    mapLessons.forEach((lesson, i) => {
+      const order = i + 1
+        , x = mapDimensions[`CIRCLE_${order}_X`]
+        , y = mapDimensions[`CIRCLE_${order}_Y`]
+        , wasJustCompleted = get(lesson, 'justCompleted', false)
+        , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
+      if(hasBeenCompleted && !wasJustCompleted) {
+
+        newCheckMarkPoints[i] = [ x, y, x+10, y+10, x+30, y-10 ]
+      }
+    })
+    this.setState({ checkMarkPoints: newCheckMarkPoints })
+  }
+
+  setStartingBubbleTextColors = (mapLessons) => {
+    const { bubbleTextStyles, bubbleTextColors, mapDimensions } = this.state
+    const newBubbleTextStyles = cloneDeep(bubbleTextStyles)
+    const newBubbleTextColors = cloneDeep(bubbleTextColors)
+    mapLessons.forEach((lesson, i) => {
+      const wasJustCompleted = get(lesson, 'justCompleted', false)
+        ,  hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
+      if(hasBeenCompleted && !wasJustCompleted) {
+        newBubbleTextStyles[i].fill = colors.completedTextColor
+        newBubbleTextColors[i] = colors.completedTextColor
+      }
+    })
+    this.setState({
+      bubbleTextStyles: newBubbleTextStyles
+      , bubbleTextColors: newBubbleTextColors
+    })
+  }
+
   setBubbleAvailabilities = (mapLessons, latestActiveLessonId) =>
     this.setState({ bubbleAvailabilities: calculateBubbleAvailabilities(mapLessons, latestActiveLessonId) })
 
   applyLessonStates = async(mapLessons) => {
+    const { checkMarkPoints, mapDimensions } = this.state
     await setTimeoutAsync(500)
     await this.drawLayerOneForAll(mapLessons)
     mapLessons.forEach(async(lesson, index) => {
       const order = index + 1
+        , x = mapDimensions[`CIRCLE_${order}_X`]
+        , y = mapDimensions[`CIRCLE_${order}_Y`]
         , wasJustCompleted = get(lesson, 'justCompleted', false)
         , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
 
-      if(wasJustCompleted || hasBeenCompleted) {
+      if(wasJustCompleted) {
         await this.fadeText(lesson, order)
       }
 
@@ -236,7 +284,6 @@ class MapBubbles extends PureComponent {
         await setTimeoutAsync(1600)
         this.drawCheckMark(lesson, order)
       } else if(hasBeenCompleted) {
-        this.drawCheckMark(lesson, order)
         await this.drawLayerTwoForLesson(lesson, order, colors.inProgressLayerTwoColor)
       } else {
         await this.drawLayerTwoForLesson(lesson, order, colors.inProgressLayerTwoColor)
@@ -495,6 +542,7 @@ class MapBubbles extends PureComponent {
       , tagStyle = tagStyles[index]
       , tagTextStyle = tagTextStyles[index]
       , hasBeenStarted = has(lesson, 'userLesson')
+      , wasJustCompleted = get(lesson, 'justCompleted', false)
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
       , bubbleRef = makeBubbleRef(order)
       , transparentBubbleRef = makeTransparentBubbleRef(order)
