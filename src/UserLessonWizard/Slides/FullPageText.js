@@ -19,8 +19,14 @@ class FullPageText extends PureComponent {
     , setToViewed: T.func.isRequired
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.setToViewed()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.input.isViewed) {
+      nextProps.setToViewed()
+    }
   }
 
   render() {

@@ -45,9 +45,13 @@ class Title extends PureComponent {
     , setToViewed: T.func.isRequired
   }
 
+  componentDidMount() {
+    this.props.setToViewed()
+  }
+
   componentWillReceiveProps(nextProps) {
     if(!nextProps.input.isViewed) {
-      this.props.setToViewed()
+      nextProps.setToViewed()
     }
   }
 

@@ -196,29 +196,6 @@ describe('UserLessonWizard', () => {
         ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
       })
 
-      it('should dispatch PUT request with expected params', async () => {
-        component.find('svg').at(firstSlideNext).simulate('click')
-        await flushAllPromises()
-        expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.PUT_USER_LESSON_REQUEST })
-        delete userLesson._id
-        expect(ApiFetch).toBeCalledWith(
-          `http://localhost:8080/api/userlessons/${userLessonId}`,
-          {
-            body: {
-              ...userLesson,
-              answerData: [
-                { answer: "", isViewed: true }
-                , userLesson.answerData[slide2Id]
-                , userLesson.answerData[slide3Id]
-                , userLesson.answerData[slide4Id]
-              ],
-              id: userLessonId
-            },
-            method: "PUT"
-          }
-        )
-      })
-
       describe('slide 1', () => {
         it('should render first slide title', async () => {
           expect(component.find('div[id="title"]').length).toBe(1)
@@ -235,22 +212,17 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[id="description"]').text()).toEqual(lesson.slides[0].description)
         })
 
-        it('should set slide to viewed', async () => {
-          expect(dispatchSpy).toBeCalledWith({
-            type: "@@redux-form/CHANGE",
-            meta: {
-              form: "userLesson",
-              field: "answerData[0].isViewed"
-            },
-            payload: true
-          })
+        it('should set slide 1 to viewed', async () => {
+          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[0].isViewed).toEqual(true)
         })
+
       })
 
       describe('slides 1 - 2', () => {
         it("should dispatch PUT request after clicking 'next' button", async () => {
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
+          expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.PUT_USER_LESSON_REQUEST })
           expect(dispatchSpy).toBeCalledWith({
             type: ACTIONS.PUT_USER_LESSON_SUCCESS,
             payload: putLessonPayloadApiResponse
@@ -284,17 +256,33 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[id="instructions"]').props()).toHaveProperty('dangerouslySetInnerHTML', {__html: lesson.slides[1].instructions})
         })
 
-        it('should set slide to viewed', async () => {
+        it('should set slide 2 to viewed', async () => {
+          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[1].isViewed).toEqual(undefined)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
-          expect(dispatchSpy).toBeCalledWith({
-            type: "@@redux-form/CHANGE",
-            meta: {
-              form: "userLesson",
-              field: "answerData[1].isViewed"
-            },
-            payload: true
-          })
+          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[1].isViewed).toEqual(true)
+        })
+
+        it('should call ApiFetch with expected params on next click', async () => {
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          delete userLesson._id
+          expect(ApiFetch).toBeCalledWith(
+            `http://localhost:8080/api/userlessons/${userLessonId}`,
+            {
+              body: {
+                ...userLesson,
+                answerData: [
+                  { answer: "", isViewed: true }
+                  , userLesson.answerData[slide2Id]
+                  , userLesson.answerData[slide3Id]
+                  , userLesson.answerData[slide4Id]
+                ],
+                id: userLessonId
+              },
+              method: "PUT"
+            }
+          )
         })
 
       })
@@ -347,19 +335,12 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
         })
 
-        it('should set slide to viewed', async () => {
+        it('should set slide 3 to viewed', async () => {
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
-          expect(dispatchSpy).toBeCalledWith({
-            type: "@@redux-form/CHANGE",
-            meta: {
-              form: "userLesson",
-              field: "answerData[2].isViewed"
-            },
-            payload: true
-          })
+          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[2].isViewed).toEqual(true)
         })
 
         it('should call ApiFetch after clicking save button in lessonFullSizeEditor', async () => {
@@ -446,21 +427,14 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide4Id].answer))
         })
 
-        it('should set slide to viewed', async () => {
+        it('should set slide 4 to viewed', async () => {
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(thirdSlideNext).simulate('click')
           await flushAllPromises()
-          expect(dispatchSpy).toBeCalledWith({
-            type: "@@redux-form/CHANGE",
-            meta: {
-              form: "userLesson",
-              field: "answerData[3].isViewed"
-            },
-            payload: true
-          })
+          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[3].isViewed).toEqual(true)
         })
 
       })
