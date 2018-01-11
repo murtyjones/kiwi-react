@@ -44,9 +44,13 @@ class FullPageCodeEditor extends PureComponent {
     , handleCodeSave: T.func.isRequired
   }
 
+  componentWillMount() {
+    this.props.setToViewed()
+  }
+
   componentWillReceiveProps(nextProps) {
     if(!nextProps.input.isViewed) {
-      this.props.setToViewed()
+      nextProps.setToViewed()
     }
   }
 

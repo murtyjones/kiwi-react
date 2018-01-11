@@ -306,7 +306,7 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
-        it('should change the focus to slide 2 (full sized editor)', async () => {
+        it('should change the focus to slide 3 (full sized editor) when clicking next twice', async () => {
           expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(0)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
@@ -322,7 +322,19 @@ describe('UserLessonWizard', () => {
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
           expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
+        })
 
+        it('should call ApiFetch after clicking save button in lessonFullSizeEditor', async () => {
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          const saveButton = component.find('div[className="toolbarButton"]').at(0)
+          const beforeCallCount = ApiFetch.mock.calls.length
+          saveButton.simulate('click')
+          await flushAllPromises()
+          const afterCallCount = ApiFetch.mock.calls.length
+          expect(afterCallCount - beforeCallCount).toEqual(1)
         })
 
       })

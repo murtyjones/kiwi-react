@@ -127,7 +127,7 @@ class Tools extends Component {
 
         { onSave && [
           <div
-            key='toolbarLabel'
+            key='saveLabel'
             className='toolbarLabel'
             style={ {
               display: isSaveLabelVisible ? 'inline': 'none'
@@ -139,7 +139,7 @@ class Tools extends Component {
           </div>
           ,
           <SaveButton
-            key='toolbarButton'
+            key='saveButton'
             className='toolbarButton'
             onMouseEnter={ () => this.mouseAction({ isSaveLabelVisible: true }) }
             onMouseLeave={ () => this.mouseAction({ isSaveLabelVisible: false }) }
@@ -149,7 +149,7 @@ class Tools extends Component {
 
         { onRun && [
           <div
-            key='toolbarLabel'
+            key='runLabel'
             className='toolbarLabel'
             style={ {
               display: isRunLabelVisible ? 'inline': 'none'
@@ -161,7 +161,7 @@ class Tools extends Component {
           </div>
           ,
           <RunButton
-            key='toolbarButton'
+            key='runButton'
             className='toolbarButton'
             onMouseEnter={ () => this.mouseAction({ isRunLabelVisible: true }) }
             onMouseLeave={ () => this.mouseAction({ isRunLabelVisible: false }) }
