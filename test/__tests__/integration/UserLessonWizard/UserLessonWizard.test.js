@@ -234,6 +234,17 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[id="description"]').length).toBe(1)
           expect(component.find('div[id="description"]').text()).toEqual(lesson.slides[0].description)
         })
+
+        it('should set slide to viewed', async () => {
+          expect(dispatchSpy).toBeCalledWith({
+            type: "@@redux-form/CHANGE",
+            meta: {
+              form: "userLesson",
+              field: "answerData[0].isViewed"
+            },
+            payload: true
+          })
+        })
       })
 
       describe('slides 1 - 2', () => {
@@ -271,6 +282,19 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           expect(component.find('div[id="instructions"]').length).toBe(1)
           expect(component.find('div[id="instructions"]').props()).toHaveProperty('dangerouslySetInnerHTML', {__html: lesson.slides[1].instructions})
+        })
+
+        it('should set slide to viewed', async () => {
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(dispatchSpy).toBeCalledWith({
+            type: "@@redux-form/CHANGE",
+            meta: {
+              form: "userLesson",
+              field: "answerData[1].isViewed"
+            },
+            payload: true
+          })
         })
 
       })
@@ -316,12 +340,26 @@ describe('UserLessonWizard', () => {
         })
 
         it('should have the expected beginning slide 3 content when clicking next twice', async () => {
-          // prepopulate userlesson with answer and expect that over prompt
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
           expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
+        })
+
+        it('should set slide to viewed', async () => {
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(dispatchSpy).toBeCalledWith({
+            type: "@@redux-form/CHANGE",
+            meta: {
+              form: "userLesson",
+              field: "answerData[2].isViewed"
+            },
+            payload: true
+          })
         })
 
         it('should call ApiFetch after clicking save button in lessonFullSizeEditor', async () => {
@@ -386,7 +424,7 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
-        it('should change the focus to slide 4 (half sized editor) when clicking next twice', async () => {
+        it('should change the focus to slide 4 (half sized editor)', async () => {
           expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(0)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
@@ -397,8 +435,33 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(1)
         })
 
-        // expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide4Id].answer))
-        // expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
+        it('should have expected slide 4 content', async () => {
+          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(0)
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(thirdSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide4Id].answer))
+        })
+
+        it('should set slide to viewed', async () => {
+          component.find('svg').at(firstSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(secondSlideNext).simulate('click')
+          await flushAllPromises()
+          component.find('svg').at(thirdSlideNext).simulate('click')
+          await flushAllPromises()
+          expect(dispatchSpy).toBeCalledWith({
+            type: "@@redux-form/CHANGE",
+            meta: {
+              form: "userLesson",
+              field: "answerData[3].isViewed"
+            },
+            payload: true
+          })
+        })
 
       })
 
