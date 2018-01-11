@@ -30,13 +30,14 @@ module.exports = {
     }]
   },
   plugins: [
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new UglifyJSPlugin()
+    new UglifyJSPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/)
   ],
   externals: {
     config: JSON.stringify(prodConfig)
