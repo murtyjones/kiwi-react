@@ -135,7 +135,7 @@ class Tools extends Component {
               , ...styles.saveButtonLabel
             } }
           >
-            Save code
+            SAVE CODE
           </div>
           ,
           <SaveButton
@@ -157,7 +157,7 @@ class Tools extends Component {
               , ...styles.runButtonLabel
             } }
           >
-            Run code
+            RUN CODE
           </div>
           ,
           <RunButton

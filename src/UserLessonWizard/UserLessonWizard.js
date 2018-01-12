@@ -10,14 +10,15 @@ import { postUserLesson, putUserLesson, getManyUserLessons, getLesson, getLesson
 import UserLessonWizardForm from './UserLessonWizardForm'
 
 const getLatestCompletedSlide = (lesson, userLesson) => {
-  for (let i = 0, len = lesson.slides.length; i < len; i++) {
+  const slides = lesson.slides || []
+  for (let i = 0, len = slides.length; i < len; i++) {
     const slide = lesson.slides[i]
     const slideAnswerData = get(userLesson, `answerData.${slide.id}`, {})
     if(!slideAnswerData.isAnsweredCorrectly) {
       return i
     }
   }
-  return lesson.slides.length - 1 // final slide
+  return slides.length - 1 // final slide
 }
 
 class UserLessonWizard extends Component {
