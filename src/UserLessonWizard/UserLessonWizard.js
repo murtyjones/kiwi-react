@@ -56,30 +56,26 @@ class UserLessonWizard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { lesson, userLesson, theme, userId, match: { params: { id } } } = this.props
+    const { lesson, userLesson, userId, match: { params: { id } } } = this.props
     const { getManyUserLessons: nextGetManyUserLessons, getLesson: nextGetLesson, getLessonTheme: nexGetLessonTheme, lesson: nextLesson, userLesson: nextUserLesson, theme: nextTheme, userId: nextUserId, match: { params: { id: nextId } } } = nextProps
       , lessonIdHasChanged = !isEqual(id, nextId)
       , lessonHasChanged = !isEqual(lesson, nextLesson)
       , userLessonHasChanged = !isEqual(userLesson, nextUserLesson)
       , userIdHasChanged = !isEqual(userId, nextUserId)
-      , lessonIsEmpty = isEmpty(nextLesson)
-      , userLessonWasEmpty = isEmpty(userLesson)
-      , userLessonIsEmpty = isEmpty(nextUserLesson)
-      , themeIsEmpty = isEmpty(nextTheme)
-      , themeIdHasChanged = nextLesson.themeId !== nextTheme._id
+      , themeIdHasChanged = !isEqual(nextTheme._id, nextLesson.themeId)
 
     if(lessonIdHasChanged || userIdHasChanged) {
       nextGetLesson({ id: nextId })
       nextGetManyUserLessons({ lessonId: nextId, userId: nextUserId })
     }
 
-    if((nextLesson.themeId && themeIsEmpty) || themeIdHasChanged) {
+    if(themeIdHasChanged) {
       nexGetLessonTheme({ id: nextLesson.themeId })
     }
 
-    if(!lessonIsEmpty && !userLessonIsEmpty && userLessonWasEmpty && (lessonHasChanged || userLessonHasChanged)) {
+    if(lessonHasChanged || userLessonHasChanged) {
       const activeSlideIndex = getLatestCompletedSlide(nextLesson, nextUserLesson)
-      return this.setState({ activeSlideIndex })
+      this.setState({ activeSlideIndex })
     }
 
   }

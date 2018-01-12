@@ -33,7 +33,10 @@ export default class EditorOutput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ value: nextProps.value })
+    const valueHasChanged = nextProps.value !== this.props.value
+    if(nextProps.value && valueHasChanged) {
+      this.setState({ value: nextProps.value })
+    }
   }
 
   handleChange = (e) => {
