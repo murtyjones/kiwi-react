@@ -7,6 +7,7 @@ import insertIf from '../utils/insertIf'
 const styles = {
   base: {
     height: '100%'
+    , overflowX: 'scroll'
   },
 }
 
