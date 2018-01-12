@@ -43,8 +43,11 @@ export default LESSON_MAP_POINTS = (width) => {
       490
     ]
 
-    , CIRCLE_5_Y: 1500 + (step * 4)
-    , CIRCLE_5_X: 485
+    , CIRCLE_5_Y: 1600
+    , CIRCLE_5_X: 700
+
+    , CIRCLE_6_Y: 1800
+    , CIRCLE_6_X: 200
 
 
   }
