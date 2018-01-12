@@ -97,7 +97,6 @@ class Lessons extends Component {
       , lessonsHasChanged = !isEqual(lessons, nextLessons)
       , userLessonsHasChanged = !isEqual(userLessons, nextUserLessons)
       , sideNavHasChanged = sideNavWidth !== nextSideNavWidth
-
     if(sideNavHasChanged) {
       this.updateDimensions()
     }

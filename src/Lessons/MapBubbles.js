@@ -556,6 +556,7 @@ class MapBubbles extends PureComponent {
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
 
+
     const clickProps = {
       onClick: (e) => this.handleLessonBubbleClick(e, lesson, order)
       , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order)
