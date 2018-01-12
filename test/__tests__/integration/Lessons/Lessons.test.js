@@ -144,7 +144,7 @@ describe('Lessons', () => {
       setupStore()
       ApiFetch.mockImplementationOnce(() => Promise.resolve(lessons)) // getManyLessons response
       ApiFetch.mockImplementationOnce(() => Promise.resolve([userLessons])) // getManyUserLessons response
-      ApiFetch.mockImplementationOnce(() => Promise.resolve([lessonOrder])) // getManyUserLessons response
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(lessonOrder)) // getLessonOrder response
       component = mountWithStore(props, store) // mount component
       await flushAllPromises() // wait for requests to resolve
       component.update() // update component after having resolved requests
@@ -163,19 +163,27 @@ describe('Lessons', () => {
       })
 
       it('should dispatch success methods with resolved payloads', () => {
-        // expect(dispatchSpy).toBeCalledWith({
-        //   type: ACTIONS.GET_LESSON_SUCCESS,
-        //   payload: lesson
-        // })
-        // expect(dispatchSpy).toBeCalledWith({
-        //   type: ACTIONS.GET_MANY_USER_LESSONS_SUCCESS,
-        //   payload: [userLesson]
-        // })
+        expect(dispatchSpy).toBeCalledWith({
+          type: ACTIONS.GET_MANY_LESSONS_SUCCESS,
+          payload: lessons
+        })
+        expect(dispatchSpy).toBeCalledWith({
+          type: ACTIONS.GET_MANY_USER_LESSONS_SUCCESS,
+          payload: [userLessons]
+        })
+        expect(dispatchSpy).toBeCalledWith({
+          type: ACTIONS.GET_LESSON_ORDER_SUCCESS,
+          payload: lessonOrder
+        })
       })
 
-      it('should pass the lessonId and userId when making requests', () => {
-        // expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/api/lessons/${lessonId}`)
-        // expect(ApiFetch.mock.calls[1][0]).toBe(`http://localhost:8080/api/userlessons?lessonId=${lessonId}&userId=${chesterAdminUserId}`)
+      it('should call ApiFetch with expected params', () => {
+        expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/api/lessons`)
+        expect(ApiFetch.mock.calls[0][1]).toEqual({ method: "GET" })
+        expect(ApiFetch.mock.calls[1][0]).toBe(`http://localhost:8080/api/userlessons?userId=${chesterAdminUserId}`)
+        expect(ApiFetch.mock.calls[1][1]).toEqual({ method: "GET" })
+        expect(ApiFetch.mock.calls[2][0]).toBe(`http://localhost:8080/api/lessons/order`)
+        expect(ApiFetch.mock.calls[2][1]).toEqual({ method: "GET" })
       })
 
     })

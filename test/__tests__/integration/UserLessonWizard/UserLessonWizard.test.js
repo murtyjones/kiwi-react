@@ -149,7 +149,9 @@ describe('UserLessonWizard', () => {
 
       it('should pass the lessonId and userId when making requests', () => {
         expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/api/lessons/${lessonId}`)
+        expect(ApiFetch.mock.calls[0][1]).toEqual({ method: "GET" })
         expect(ApiFetch.mock.calls[1][0]).toBe(`http://localhost:8080/api/userlessons?lessonId=${lessonId}&userId=${chesterAdminUserId}`)
+        expect(ApiFetch.mock.calls[1][1]).toEqual({ method: "GET" })
       })
 
     })
