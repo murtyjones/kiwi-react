@@ -41,7 +41,7 @@ export default class EditorOutput extends Component {
   }
 
   render() {
-    const { editorOutput, errorMsg, refInput, prompt = '' } = this.props
+    const { editorOutput, errorMsg, setInputRef, prompt = '' } = this.props
     const { value } = this.state
     return (
       !errorMsg ? (
@@ -57,7 +57,7 @@ export default class EditorOutput extends Component {
               <textarea
                 style={ textareaStyle }
                 className='rawInput'
-                ref={ refInput }
+                ref={ setInputRef }
                 onChange={ this.handleChange }
                 value={ value }
               />

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card, CardText } from 'material-ui/Card'
 
 import ErrorMessage from './ErrorMessage'
+import insertIf from '../utils/insertIf'
 
 const styles = {
   base: {
@@ -44,31 +45,40 @@ export default class EditorOutput extends Component {
   }
 
   render() {
-    const { editorOutput, errorMsg, refInput, style, prompt = '' } = this.props
+    const { editorOutput, errorMsg, setInputRef, style, prompt = '' } = this.props
     const { value } = this.state
-    return (
-      !errorMsg ? (
-        <Card style={ { ...styles.base, ...style } }>
-          <CardText>
-            <pre>
-              { editorOutput }
-              <textarea
-                style={ textareaStyle }
-                className='rawInput'
-                ref={ refInput }
-                onChange={ this.handleChange }
-                value={ value }
-              />
-            </pre>
-          </CardText>
-        </Card>
-      ) : (
+    const cardDisplay = !!errorMsg ? { display: 'none' } : {}
+    return [
+      <Card
+        key='output'
+        style={ {
+          ...styles.base
+          , ...style
+          , ...cardDisplay
+        } }
+      >
+        <CardText>
+          <pre>
+            { editorOutput }
+            <textarea
+              style={ textareaStyle }
+              className='rawInput'
+              ref={ setInputRef }
+              onChange={ this.handleChange }
+              value={ value }
+            />
+          </pre>
+        </CardText>
+      </Card>
+      ,
+      ...insertIf(errorMsg,
         <ErrorMessage
+          key='error'
           style={ styles.base }
           errorMsg={ errorMsg }
         />
       )
-    )
+    ]
   }
 
 }

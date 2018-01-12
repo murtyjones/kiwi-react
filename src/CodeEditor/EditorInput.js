@@ -37,7 +37,7 @@ export default class EditorInput extends Component {
   render() {
     const options = {
       lineNumbers: true,
-      lineWrapping: true,
+      lineWrapping: false,
       mode: 'text/x-python',
       extraKeys: {
         'Ctrl-Space': this.autoComplete

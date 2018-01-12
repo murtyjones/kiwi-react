@@ -217,7 +217,8 @@ class CodeEditor extends Component {
                 errorMsg={ errorMsg }
                 prompt={ prompt }
                 value={ rawInputValue }
-                refInput={ this.getChildRef }
+                currentInputRef={ this.inputText }
+                setInputRef={ this.getChildRef }
               />
             </Col>
           </Col>

@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import cns from 'classnames'
 import { GridList, GridTile } from 'material-ui'
 //import CodeMirror from 'react-codemirror'
-import { UnControlled as CodeMirror } from 'react-codemirror2'
+import { Controlled as CodeMirror } from 'react-codemirror2'
 import skulpt from 'skulpt'
 import EditorOutput from './EditorOutput'
 import Tools from './Tools'
@@ -16,7 +16,7 @@ import '../common/flexOverride.css'
 
 const defaultOptions = {
   lineNumbers: true
-  , lineWrapping: true
+  , lineWrapping: false
   , mode: 'text/x-python'
 }
 
@@ -64,11 +64,11 @@ class CodeEditor extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const editorOutputHasChanged = nextState.editorOutput !== this.state.editorOutput
-    const editorInputHasChanged = nextProps.editorInput !== this.state.editorInput
-    return editorInputHasChanged || editorOutputHasChanged
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // const editorInputHasChanged = nextProps.editorInput !== this.state.editorInput || nextProps.editorInput !== nextState.editorInput
+  //   // if(!editorInputHasChanged) return false
+  //   return true
+  // }
 
   setStateAsync = (newState) => {
     return new Promise((resolve) => {
@@ -76,21 +76,21 @@ class CodeEditor extends Component {
     });
   }
 
-  getChildRef = (input) => {
-    this.inputText = input
+  getChildRef = (c) => {
+    this.inputText = c
   }
 
-  updateInput = async (value) => {
+  updateInput = (v) => {
     const { onChange } = this.props
     // state should be fully up to date before
     // hitting shouldComponentUpdate.
     // Hence the 'await' statement here
-    await this.setEditorInput(value)
-    if(onChange) onChange(value)
+    this.setEditorInput(v)
+    if(onChange) onChange(v)
   }
 
-  setEditorInput = async (v) =>
-    await this.setStateAsync({ editorInput: v })
+  setEditorInput = (v) =>
+    this.setState({ editorInput: v })
 
   addToOutput = (text) => {
     codeOutput = codeOutput + text
@@ -103,6 +103,22 @@ class CodeEditor extends Component {
       })
     }
     return skulpt.builtinFiles["files"][x]
+  }
+
+  handleChange = (v) => {
+    const { onChange } = this.props
+    if(onChange) onChange(v)
+
+  }
+
+
+  handleBeforeChange = (v) => {
+    this.setState({
+      errorMsg: ''
+      , errorLine: null
+      , tabFocus: 'output'
+    })
+    this.setEditorInput(v)
   }
 
   rawInputListener = (e) => {
@@ -127,7 +143,7 @@ class CodeEditor extends Component {
           this.addToOutput(`${prompt} `)
         }
         this.setState({ editorOutput: codeOutput })
-        return new Promise((resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
           this.setState({ prompt, rawInputResolve: resolve })
           const elem = this.inputText
           this.inputText.focus()
@@ -148,11 +164,7 @@ class CodeEditor extends Component {
     myPromise.then(() => {
       this.setState({
         editorOutput: codeOutput
-        , errorMsg: ''
-        , errorLine: null
-        , tabFocus: 'output'
       })
-      //codeOutput = ''
     }, (e) => {
       this.setState({
         errorMsg: e.toString()
@@ -167,8 +179,8 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { className, editorInput, options, editorStyle, onSave, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
-    const { editorOutput, errorMsg, prompt, rawInputValue } = this.state
+    const { className, options, editorStyle, onSave, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
+    const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
       , isFullSized = layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR
 
     return (
@@ -179,8 +191,11 @@ class CodeEditor extends Component {
               className={ isFullSized ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
               style={ styles.editor }
               value={ editorInput }
+              onBeforeChange={ (editor, data, value) => {
+                this.handleBeforeChange(value)
+              } }
               onChange={ (editor, data, value) => {
-                this.updateInput(value)
+                this.handleChange(value)
               } }
               options={ options || defaultOptions }
             />
@@ -192,7 +207,7 @@ class CodeEditor extends Component {
               errorMsg={ errorMsg }
               prompt={ prompt }
               value={ rawInputValue }
-              refInput={ this.getChildRef }
+              setInputRef={ this.getChildRef }
             />
           </div>
         </div>
