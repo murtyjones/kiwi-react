@@ -197,6 +197,7 @@ class MapBubbles extends PureComponent {
 
   async componentDidMount() {
     const { mapLessons } = this.props
+    this.setTagPointerDirections(mapLessons)
     await this.applyLessonStates(mapLessons)
   }
 
@@ -238,6 +239,24 @@ class MapBubbles extends PureComponent {
       }
     })
     this.setState({ checkMarkPoints: newCheckMarkPoints })
+  }
+
+  setTagPointerDirections = (mapLessons) => {
+    const { tagStyles } = this.state
+    let newTagStyles = cloneDeep(tagStyles)
+    newTagStyles = mapLessons.map((e, i) => {
+      const { width } = this.props
+        , { mapDimensions } = this.state
+        , order = i + 1
+        , { tagStyles, tagTextStyles } = this.state
+        , newTagStyles = cloneDeep(tagStyles)
+        , x = mapDimensions[`CIRCLE_${order}_X`]
+        , rightOrLeftLabel = x / width >= 0.50 ? 'right': 'left'
+      newTagStyles[i].pointerDirection = rightOrLeftLabel
+      return newTagStyles[i]
+    })
+    console.log(newTagStyles)
+    this.setState({ tagStyles: newTagStyles })
   }
 
   setStartingBubbleTextColors = (mapLessons) => {
@@ -491,7 +510,9 @@ class MapBubbles extends PureComponent {
   }
 
   displayMessage = (order, message) => {
-    const tagRef = makeTagRef(order)
+    const { width } = this.props
+      , { mapDimensions } = this.state
+      , tagRef = makeTagRef(order)
       , tagTextRef = makeTagTextRef(order)
       , offsetX = 10
       , i = order - 1
@@ -527,6 +548,7 @@ class MapBubbles extends PureComponent {
   }
 
   renderLessonBubble = (lesson, order) => {
+    const { width } = this.props
     const { mapDimensions, bubbleStyles, bubbleAvailabilities, bubbleTextStyles, tagStyles, tagTextStyles, bubbleTextColors, checkMarkStyles, checkMarkPoints, arcStylesLayerOne, arcStylesLayerTwo } = this.state
       , index = order - 1
       , bubbleStyle = bubbleStyles[index]
@@ -555,6 +577,9 @@ class MapBubbles extends PureComponent {
       , lockRef = makeLockRef(order)
       , x = mapDimensions[`CIRCLE_${order}_X`]
       , y = mapDimensions[`CIRCLE_${order}_Y`]
+      , rightOrLeftLabel = x / width >= 0.50 ? 'right': 'left'
+      , labelOffsetX = rightOrLeftLabel === 'right' ? 15 : -33
+
 
 
     const clickProps = {
@@ -565,7 +590,7 @@ class MapBubbles extends PureComponent {
     }
 
     return [
-      <Label key={ `label-${tagRef}` } x={ x } y={ y } offsetX={ -33 }>
+      <Label key={ `label-${tagRef}` } x={ x } y={ y } offsetX={ labelOffsetX }>
         <Tag
           key={ tagRef }
           ref={ tagRef }
@@ -645,7 +670,6 @@ class MapBubbles extends PureComponent {
 
   render() {
     const { mapLessons } = this.props
-
     return mapLessons.reduce((acc, lesson, i) => {
       acc.push(...this.renderLessonBubble(lesson, i + 1))
       return acc
