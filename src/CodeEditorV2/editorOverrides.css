@@ -19,3 +19,7 @@
     color: #000000 !important;
 }
 
+.errorLine {
+    background-color: rgb(255, 129, 110);
+    color: #FFFFFF
+}
