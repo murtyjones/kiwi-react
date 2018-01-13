@@ -46,7 +46,7 @@ class CodeEditor extends Component {
       , rawInputValue: ''
       , rawInputResolve: null
     }
-    this.instance = null
+    this.codeMirror = null
   }
 
   static propTypes = {
@@ -67,10 +67,10 @@ class CodeEditor extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     if(this.state.errorLine) {
-      this.instance.removeLineClass((this.state.errorLine - 1), 'wrap', 'errorLine')
+      this.codeMirror.removeLineClass((this.state.errorLine - 1), 'wrap', 'errorLine')
     }
     if(nextState.errorLine) {
-      this.instance.addLineClass((nextState.errorLine - 1), 'wrap', 'errorLine')
+      this.codeMirror.addLineClass((nextState.errorLine - 1), 'wrap', 'errorLine')
     }
   }
 
@@ -192,7 +192,7 @@ class CodeEditor extends Component {
         <div style={ editorStyle.editorContainerStyle } className={ cns({ flexOverride: isFullSized }) }>
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
-              editorDidMount={(editor) => { this.instance = editor }}
+              editorDidMount={(editor) => { this.codeMirror = editor }}
               className={ isFullSized ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
               style={ styles.editor }
               value={ editorInput }
