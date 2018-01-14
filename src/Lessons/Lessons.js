@@ -10,14 +10,7 @@ import { getManyLessons, getManyUserLessons, getLessonOrder, openSideNav, closeS
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
 import LessonMapBackground from './LessonMapBackground'
-
-const stageProportion = 1
-
-const minWidth = 1024
-
-const generateMinWidth = (sideNavWidth) => {
-  return 1024 - sideNavWidth
-}
+import insertIf from '../utils/insertIf'
 
 const styles = {
   mapContainer: {
@@ -38,12 +31,7 @@ class Lessons extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      width: minWidth // this is temporary
-      , startingWidth: minWidth // this is temporary
-      , scaleX: 1
-      , scaleY: 1
-      , minWidth: minWidth
-      , selectedLessonId: null
+      selectedLessonId: null
       , userLessonJustCompletedId: get(props, 'location.state.userLessonJustCompletedId', '')
       , mapLessons: null
     }
@@ -72,22 +60,8 @@ class Lessons extends Component {
     this.setMapLessons(orderOfPublishedLessons, lessons, userLessons)
   }
 
-  componentDidMount() {
-    const clientWidth = this.lessonsContainerNode.clientWidth
-    const width = Math.max(clientWidth, this.state.minWidth)
-    this.setState({
-      startingWidth: width
-      , width: width
-      , scaleX: width / this.state.minWidth
-      , scaleY: width / this.state.minWidth
-
-    })
-    window.addEventListener("resize", this.updateDimensions)
-  }
-
   componentWillUnmount() {
     this.props.openSideNav()
-    window.removeEventListener("resize", this.updateDimensions)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -96,10 +70,7 @@ class Lessons extends Component {
       , orderHasChanged = !isEqual(orderOfPublishedLessons, nextOrderOfPublishedLessons)
       , lessonsHasChanged = !isEqual(lessons, nextLessons)
       , userLessonsHasChanged = !isEqual(userLessons, nextUserLessons)
-      , sideNavHasChanged = sideNavWidth !== nextSideNavWidth
-    if(sideNavHasChanged) {
-      this.updateDimensions()
-    }
+
     if(orderHasChanged || lessonsHasChanged || userLessonsHasChanged) {
       this.setMapLessons(nextOrderOfPublishedLessons, nextLessons, nextUserLessons)
     }
@@ -122,21 +93,13 @@ class Lessons extends Component {
       })
     })
 
-  updateDimensions = () => {
-    const clientWidth = this.lessonsContainerNode.clientWidth
-    const width = Math.max(clientWidth, this.state.minWidth)
-    const scaleX = width / this.state.minWidth
-    const scaleY = scaleX
-    this.setState({ width, scaleX, scaleY })
-  }
-
   setSelectedLessonId = (selectedLessonId) => {
     this.setState({ selectedLessonId })
   }
 
   render() {
     const { lessons, orderOfPublishedLessons, sideNavWidth } = this.props
-    const { width, scaleX, scaleY, selectedLessonId, mapLessons } = this.state
+    const { selectedLessonId, mapLessons } = this.state
     const selectedLessonPosition = selectedLessonId
       ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
       : 0
@@ -147,31 +110,24 @@ class Lessons extends Component {
         sideNavWidth={ sideNavWidth }
       />
       ,
-      <div
+      <LessonMap
         key='LessonMap'
-        ref={ c => { this.lessonsContainerNode = c } }
-        style={ styles.mapContainer}
-      >
-        <LessonMap
-          width={ width * stageProportion }
-          sideNavWidth={ sideNavWidth }
-          scaleX={ scaleX }
-          scaleY={ scaleY }
-          mapLessons={ mapLessons }
-          selectedLessonId={ selectedLessonId }
-          setSelectedLessonId={ this.setSelectedLessonId }
-        />
-        { selectedLessonId &&
-          <LessonCard
-            lesson={ {
-                ...find(lessons, { _id: selectedLessonId })
-                , order: selectedLessonPosition
-              }
+        sideNavWidth={ sideNavWidth }
+        mapLessons={ mapLessons }
+        selectedLessonId={ selectedLessonId }
+        setSelectedLessonId={ this.setSelectedLessonId }
+      />
+      ,
+      ...insertIf(selectedLessonId,
+        <LessonCard
+          lesson={ {
+              ...find(lessons, { _id: selectedLessonId })
+              , order: selectedLessonPosition
             }
-            style={ styles.lessonCardContainer }
-          />
-        }
-      </div>
+          }
+          style={ styles.lessonCardContainer }
+        />
+      )
     ]
   }
 

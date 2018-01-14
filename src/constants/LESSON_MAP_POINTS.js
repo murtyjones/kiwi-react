@@ -1,54 +1,26 @@
 let LESSON_MAP_POINTS
-export default LESSON_MAP_POINTS = (width) => {
-  const start_y = 100
-  const step = 115
+export default LESSON_MAP_POINTS = (width, height) => {
   return {
-    CIRCLE_1_Y: 375
-    , CIRCLE_1_X: 340
+    CIRCLE_1_Y: 305
+    , CIRCLE_1_X: 265
 
-    , LINE_POINT_1: [
-      200/* W */,
-      170,
-      320/* W */,
-      160
-    ]
+    , CIRCLE_2_Y: 600
+    , CIRCLE_2_X: 1120
 
-    , CIRCLE_2_Y: 695
-    , CIRCLE_2_X: 845
+    , CIRCLE_3_Y: 1170
+    , CIRCLE_3_X: 1390
 
-    , LINE_POINT_2: [
-      400/* W */,
-      290,
-      280/* W */,
-      280
-    ]
+    , CIRCLE_4_Y: 1840
+    , CIRCLE_4_X: 475
 
-    , CIRCLE_3_Y: 1100
-    , CIRCLE_3_X: 295
+    , CIRCLE_5_Y: 2130
+    , CIRCLE_5_X: 605
 
-    , LINE_POINT_3: [
-      230/* W */,
-      380,
-      140/* W */,
-      390
-    ]
+    , CIRCLE_6_Y: 2655
+    , CIRCLE_6_X: 1125
 
-    , CIRCLE_4_Y: 1285
-    , CIRCLE_4_X: 485
-
-    , LINE_POINT_4: [
-      170/* W */,
-      530,
-      280/* W */,
-      490
-    ]
-
-    , CIRCLE_5_Y: 1600
-    , CIRCLE_5_X: 700
-
-    , CIRCLE_6_Y: 1800
-    , CIRCLE_6_X: 200
-
+    , CIRCLE_7_Y: 3010
+    , CIRCLE_7_X: 315
 
   }
 

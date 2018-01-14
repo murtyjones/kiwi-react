@@ -73,7 +73,7 @@ const styles = {
   moon: {
     background: {
       position: 'relative'
-      , marginTop: '-300px'
+      , marginTop: '-350px'
       , width: '100%'
       , display: 'table'
       , paddingBottom: '150px'

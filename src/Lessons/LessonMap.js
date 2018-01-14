@@ -5,9 +5,6 @@ import MapLines from './MapLines'
 import MapBubbles from './MapBubbles'
 import { isEmpty, isEqual, get }  from 'lodash'
 
-const heightPerLessonBubble = 150
-const minHeight = 768
-
 const styles = {
   container: {
     width: '100vw'
@@ -19,6 +16,10 @@ const styles = {
     height: '400px',
   }
 }
+
+const widthAnchor = 1680 // standard macbook screen size
+const heightAnchor = 4000
+const targetHeightWidthRatio = heightAnchor / widthAnchor
 
 const getLatestActiveLesson = mapLessons => {
   for (let i = 0, length = mapLessons.length; i < length; i++) {
@@ -33,16 +34,13 @@ const getLatestActiveLesson = mapLessons => {
 class LessonMap extends Component {
   constructor(props) {
     super(props)
-    const mapLessonsLength = props.mapLessons.length
-    const startingHeight = Math.max(minHeight, mapLessonsLength * heightPerLessonBubble)
     this.state = {
       stage: null
       , cursor: 'auto'
-      , height: 2000
-      , heightWidthRatio: 2000 / props.width
-      , scaleX: 1
-      , scaleY: 1
       , latestActiveLessonId: ''
+      , width: widthAnchor
+      , height: heightAnchor
+      , targetHeightWidthRatio
     }
   }
 
@@ -50,26 +48,34 @@ class LessonMap extends Component {
     mapLessons: T.array.isRequired
     , selectedLessonId: T.string
     , selectedLessonPosition: T.number
-    , scaleX: T.any
-    , scaleY: T.any
     , setSelectedLessonId: T.func.isRequired
-    , width: T.number.isRequired
   }
 
   componentWillMount() {
     this.setLatestActiveLessonId(this.props.mapLessons)
   }
 
+  componentDidMount() {
+    this.updateDimensions()
+    window.addEventListener("resize", this.updateDimensions)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions)
+  }
+
+  updateDimensions = () => {
+    this.setState({
+      width: document.documentElement.clientWidth
+      , height: document.documentElement.clientWidth * this.state.targetHeightWidthRatio
+    })
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { mapLessons, width } = this.props
-      , { mapLessons: nextMapLessons, width: nextWidth } = nextProps
+    const { mapLessons } = this.props
+      , { mapLessons: nextMapLessons } = nextProps
 
     const mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
-      , widthHasChanged = !isEqual(width, nextWidth)
-
-    if(widthHasChanged) {
-      this.setState({ height: nextProps.width * this.state.heightWidthRatio })
-    }
 
     if(mapLessonsHasChanged) {
       this.setLatestActiveLessonId(nextMapLessons)
@@ -77,9 +83,8 @@ class LessonMap extends Component {
 
   }
 
-  handleLessonSelect = (e, selectedLessonId) => {
+  handleLessonSelect = (e, selectedLessonId) =>
     this.props.setSelectedLessonId(selectedLessonId)
-  }
 
   handleMouseOver = () =>
     this.setState({ cursor: 'pointer' })
@@ -91,20 +96,21 @@ class LessonMap extends Component {
     this.setState({ latestActiveLessonId: getLatestActiveLesson(mapLessons) })
 
   render() {
-    const { width, mapLessons, selectedLessonId, selectedLessonPosition, sideNavWidth, scaleX, scaleY } = this.props
-    const { height, cursor, latestActiveLessonId } = this.state
+    const { mapLessons, selectedLessonId, selectedLessonPosition, sideNavWidth } = this.props
+    const { width, height, cursor, latestActiveLessonId } = this.state
+    const scaleXY = width / widthAnchor
 
     return (
       <div style={ { ...styles.container, cursor, left:  `${-sideNavWidth}px` } }>
-        <Stage width={ width } height={ height } scaleX={ scaleX } scaleY={ scaleY }>
-          <Layer style={ styles.layer1  }>
+        <Stage width={ width } height={ height } scaleX={ scaleXY } scaleY={ scaleXY }>
+          <Layer>
             { !isEmpty(mapLessons) &&
               <MapBubbles
                 mapLessons={ mapLessons }
                 selectedLessonId={ selectedLessonId }
                 selectedLessonPosition={ selectedLessonPosition }
                 latestActiveLessonId={ latestActiveLessonId }
-                width={ width }
+                width={ window.innerWidth }
                 onLessonSelect={ this.handleLessonSelect }
                 handleMouseOver={ this.handleMouseOver }
                 handleMouseOut={ this.handleMouseOut }
