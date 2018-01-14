@@ -18,7 +18,7 @@ const getLatestCompletedSlide = (lesson, userLesson) => {
       return i
     }
   }
-  return slides.length - 1 // final slide
+  return 0 // if all done, take to first slide
 }
 
 class UserLessonWizard extends Component {
