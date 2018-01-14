@@ -5,7 +5,7 @@ import './overrides.css'
 
 const themeAssetLinks = {
   neighborhood: {
-    topLeft: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515429030/map-houses-top-left_sfahix.svg'
+    topLeft: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515968117/map-houses-top-left-v2_v2l1a6.svg'
     , topRight: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515428912/map-houses-top-right_wqhkkn.svg'
     , pattern: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515428912/map-houses-pattern_kq8obi.svg'
   }
@@ -55,7 +55,6 @@ const styles = {
   egypt: {
     background: {
       position: 'relative'
-      , marginTop: '-300px'
       , width: '100%'
       , display: 'table'
       , paddingBottom: '150px'
@@ -73,7 +72,6 @@ const styles = {
   moon: {
     background: {
       position: 'relative'
-      , marginTop: '-350px'
       , width: '100%'
       , display: 'table'
       , paddingBottom: '150px'
@@ -115,14 +113,14 @@ class LessonMapBackground extends PureComponent {
             style={ styles.neighborhood.topRight }
           />
         </div>
-        <div key='egypt' style={ styles.egypt.background }>
+        <div key='egypt' className='egypt' style={ styles.egypt.background }>
           <img
             key='egypt-top-left'
             src={ themeAssetLinks.egypt }
             style={ styles.egypt.mainAsset }
           />
         </div>
-        <div key='moon' style={ styles.moon.background }>
+        <div key='moon' className='moon' style={ styles.moon.background }>
           <img
             key='egypt-top-left'
             src={ themeAssetLinks.moon }

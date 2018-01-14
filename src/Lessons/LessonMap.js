@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Stage, Layer } from 'react-konva'
-import MapLines from './MapLines'
 import MapBubbles from './MapBubbles'
-import { isEmpty, isEqual, get, debounce }  from 'lodash'
+import ScaledStage from './ScaledStage'
+import { isEmpty, isEqual, get }  from 'lodash'
 
 const styles = {
   container: {
@@ -16,10 +15,6 @@ const styles = {
     height: '400px',
   }
 }
-
-const widthAnchor = 1680 // standard macbook screen size
-const heightAnchor = 4000
-const targetHeightWidthRatio = heightAnchor / widthAnchor
 
 const getLatestActiveLesson = mapLessons => {
   for (let i = 0, length = mapLessons.length; i < length; i++) {
@@ -35,12 +30,8 @@ class LessonMap extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      stage: null
-      , cursor: 'auto'
+      cursor: 'auto'
       , latestActiveLessonId: ''
-      , width: widthAnchor
-      , height: heightAnchor
-      , targetHeightWidthRatio
     }
   }
 
@@ -55,71 +46,45 @@ class LessonMap extends Component {
     this.setLatestActiveLessonId(this.props.mapLessons)
   }
 
-  componentDidMount() {
-    this.updateDimensions()
-    window.addEventListener("resize", this.updateDimensions)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions)
-  }
-
-  updateDimensions = debounce(() => {
-      this.setState({
-        width: document.documentElement.clientWidth
-        , height: document.documentElement.clientWidth * this.state.targetHeightWidthRatio
-      })
-  }, 300)
-
   componentWillReceiveProps(nextProps) {
     const { mapLessons } = this.props
       , { mapLessons: nextMapLessons } = nextProps
-
-    const mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
+      , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
 
     if(mapLessonsHasChanged) {
       this.setLatestActiveLessonId(nextMapLessons)
     }
-
   }
 
   handleLessonSelect = (e, selectedLessonId) =>
     this.props.setSelectedLessonId(selectedLessonId)
 
-  handleMouseOver = () =>
-    this.setState({ cursor: 'pointer' })
+  handleMouseOver = () => this.setState({ cursor: 'pointer' })
 
-  handleMouseOut = () =>
-    this.setState({ cursor: 'auto' })
+  handleMouseOut = () => this.setState({ cursor: 'auto' })
 
   setLatestActiveLessonId = (mapLessons) => 
     this.setState({ latestActiveLessonId: getLatestActiveLesson(mapLessons) })
 
   render() {
     const { mapLessons, selectedLessonId, selectedLessonPosition, sideNavWidth } = this.props
-    const { width, height, cursor, latestActiveLessonId } = this.state
-    const scaleXY = width / widthAnchor
-    console.log(width)
+    const { cursor, latestActiveLessonId } = this.state
 
     return (
-      <div style={ { ...styles.container, cursor, left:  `${-sideNavWidth}px` } }>
-        <Stage width={ width } height={ height } scaleX={ scaleXY } scaleY={ scaleXY }>
-          <Layer>
-            { !isEmpty(mapLessons) &&
+      <div style={ { ...styles.container, cursor, left:  `${-sideNavWidth}px` /* This forces the div behind the SideNav if it is open*/ } }>
+        { !isEmpty(mapLessons) &&
+          <ScaledStage>
               <MapBubbles
                 mapLessons={ mapLessons }
                 selectedLessonId={ selectedLessonId }
                 selectedLessonPosition={ selectedLessonPosition }
                 latestActiveLessonId={ latestActiveLessonId }
-                width={ width }
-                height={ height }
                 onLessonSelect={ this.handleLessonSelect }
                 handleMouseOver={ this.handleMouseOver }
                 handleMouseOut={ this.handleMouseOut }
               />
-            }
-          </Layer>
-        </Stage>
+          </ScaledStage>
+        }
       </div>
     )
   }

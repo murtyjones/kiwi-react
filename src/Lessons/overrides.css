@@ -15,3 +15,23 @@
 .cf {
     *zoom: 1;
 }
+
+.egypt {
+    /*
+     * Here's the deal: the background images need to overlap
+     * with the images above them. Here's how the formula works:
+     * At normal size (1700px), margin-top = -370px. For every
+     * 100px change in screen width, add or subtract 13px.
+     */
+    margin-top: calc(-370px - calc(calc(100% - 1700px) / 100 * 13))
+}
+
+.moon {
+    /*
+     * Here's the deal: the background images need to overlap
+     * with the images above them. Here's how the formula works:
+     * At normal size (1700px), margin-top = -370px. For every
+     * 100px change in screen width, add or subtract 13px.
+     */
+    margin-top: calc(-370px - calc(calc(100% - 1700px) / 100 * 13))
+}

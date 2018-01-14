@@ -120,6 +120,7 @@ class Lessons extends Component {
       ,
       ...insertIf(selectedLessonId,
         <LessonCard
+          key='LessonCard'
           lesson={ {
               ...find(lessons, { _id: selectedLessonId })
               , order: selectedLessonPosition

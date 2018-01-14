@@ -1,11 +1,11 @@
 let LESSON_MAP_POINTS
 export default LESSON_MAP_POINTS = (width, height) => {
   return {
-    CIRCLE_1_Y: 305
-    , CIRCLE_1_X: 265
+    CIRCLE_1_Y: 295
+    , CIRCLE_1_X: 255
 
-    , CIRCLE_2_Y: 600
-    , CIRCLE_2_X: 1120
+    , CIRCLE_2_Y: 575
+    , CIRCLE_2_X: 1075
 
     , CIRCLE_3_Y: 1170
     , CIRCLE_3_X: 1390

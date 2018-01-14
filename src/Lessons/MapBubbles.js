@@ -255,7 +255,6 @@ class MapBubbles extends PureComponent {
       newTagStyles[i].pointerDirection = rightOrLeftLabel
       return newTagStyles[i]
     })
-    console.log(newTagStyles)
     this.setState({ tagStyles: newTagStyles })
   }
 
