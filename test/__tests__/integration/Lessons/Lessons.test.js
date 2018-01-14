@@ -201,7 +201,8 @@ describe('Lessons', () => {
           },
           lesson4
         ]
-        expect(component.find('LessonMap').props().mapLessons).toEqual(expectedMapLessons)
+        const instanceComponent = component.find('LessonMap').at(0) // there are multiple nodes because the children are passed through
+        expect(instanceComponent.props().mapLessons).toEqual(expectedMapLessons)
       })
 
       it('should render a Label with Tag and Text children for each lesson', async () => {
