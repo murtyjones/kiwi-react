@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { Stage, Layer } from 'react-konva'
 import MapLines from './MapLines'
 import MapBubbles from './MapBubbles'
-import { isEmpty, isEqual, get }  from 'lodash'
+import { isEmpty, isEqual, get, debounce }  from 'lodash'
 
 const styles = {
   container: {
@@ -64,12 +64,12 @@ class LessonMap extends Component {
     window.removeEventListener("resize", this.updateDimensions)
   }
 
-  updateDimensions = () => {
-    this.setState({
-      width: document.documentElement.clientWidth
-      , height: document.documentElement.clientWidth * this.state.targetHeightWidthRatio
-    })
-  }
+  updateDimensions = debounce(() => {
+      this.setState({
+        width: document.documentElement.clientWidth
+        , height: document.documentElement.clientWidth * this.state.targetHeightWidthRatio
+      })
+  }, 300)
 
   componentWillReceiveProps(nextProps) {
     const { mapLessons } = this.props
@@ -99,6 +99,7 @@ class LessonMap extends Component {
     const { mapLessons, selectedLessonId, selectedLessonPosition, sideNavWidth } = this.props
     const { width, height, cursor, latestActiveLessonId } = this.state
     const scaleXY = width / widthAnchor
+    console.log(width)
 
     return (
       <div style={ { ...styles.container, cursor, left:  `${-sideNavWidth}px` } }>
@@ -110,7 +111,8 @@ class LessonMap extends Component {
                 selectedLessonId={ selectedLessonId }
                 selectedLessonPosition={ selectedLessonPosition }
                 latestActiveLessonId={ latestActiveLessonId }
-                width={ window.innerWidth }
+                width={ width }
+                height={ height }
                 onLessonSelect={ this.handleLessonSelect }
                 handleMouseOver={ this.handleMouseOver }
                 handleMouseOut={ this.handleMouseOut }

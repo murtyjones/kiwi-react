@@ -159,7 +159,7 @@ class MapBubbles extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      mapDimensions: LESSON_MAP_POINTS(props.width)
+      mapDimensions: LESSON_MAP_POINTS(props.width, props.height)
       , bubbleStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultBubbleStyle))
       , bubbleTextStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultBubbleTextStyle))
       , bubbleAvailabilities: props.mapLessons.map((_, i) => i + 1)
