@@ -23,6 +23,7 @@
      * At normal size (1700px), margin-top = -370px. For every
      * 100px change in screen width, add or subtract 13px.
      */
+    margin-top: -370px; /* Fallback! */
     margin-top: calc(-370px - calc(calc(100% - 1700px) / 100 * 13))
 }
 
@@ -33,5 +34,6 @@
      * At normal size (1700px), margin-top = -370px. For every
      * 100px change in screen width, add or subtract 13px.
      */
+    margin-top: -370px; /* Fallback! */
     margin-top: calc(-370px - calc(calc(100% - 1700px) / 100 * 13))
 }
