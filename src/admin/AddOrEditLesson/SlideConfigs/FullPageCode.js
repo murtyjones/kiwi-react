@@ -27,8 +27,9 @@ const codeEditorStyles = {
 
 const renderCodeEditor = ({input}) =>
   <CodeEditor
-    className='lessonHalfSizeEditorRight'
-    layoutType={ LESSON_SLIDE_TYPES.HALF_HALF }
+    key='lessonFullSizeEditor'
+    className='lessonFullSizeEditor'
+    layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
     editorStyle={ codeEditorStyles }
     editorInput={ input.value || '' }
     onChange={ input.onChange }

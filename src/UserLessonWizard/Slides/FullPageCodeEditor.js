@@ -60,7 +60,7 @@ class FullPageCodeEditor extends PureComponent {
 
   render() {
     const { slideData, className, input } = this.props
-    
+
     return [
       <div key={ className } className={ className }>
         <div style={ slideContent }>
