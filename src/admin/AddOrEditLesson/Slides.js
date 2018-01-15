@@ -54,15 +54,20 @@ class Slides extends Component {
 
   static propTypes = {
     getAllCurrentSlideTypes: T.func
-    , selectedSlideTypes: T.array
+    , allSlideValues: T.array
     , fields: T.object
   }
 
   componentWillReceiveProps(nextProps) {
-    const noSlidesSetYet = !this.props.selectedSlideTypes && isEmpty(this.state.localSlideTypes)
-    const hasSlideToSet = !isEmpty(nextProps.selectedSlideTypes)
+    const { allSlideValues } = this.props
+    const { allSlideValues: nextAllSlideValues } = nextProps
+    const { localSlideTypes } = this.state
+
+    const noSlidesSetYet = !allSlideValues && isEmpty(localSlideTypes)
+    const hasSlideToSet = !isEmpty(nextAllSlideValues)
+
     if(noSlidesSetYet && hasSlideToSet) {
-      this.setState({ localSlideTypes: nextProps.selectedSlideTypes.map(e => e.type) })
+      this.setState({ localSlideTypes: nextAllSlideValues.map(e => e.type) })
     }
   }
 
@@ -92,11 +97,16 @@ class Slides extends Component {
   }
 
 
-  renderSlideConfigure = (slideRef, value) => {
-    const SlideConfigComponent = find(allSlideTypes, { value }).component
+  renderSlideConfigure = (slideRef, i) => {
+    const { allSlideValues } = this.props
+      , { localSlideTypes } = this.state
+      , value = localSlideTypes[i]
+      , SlideConfigComponent = find(allSlideTypes, { value }).component
+
     return (
       <SlideConfigComponent
         slideRef={ slideRef }
+        slideValues={ allSlideValues[i] }
       />
     )
   }
@@ -220,7 +230,7 @@ class Slides extends Component {
                 hintText='Title'
                 component={ renderTextField }
               />
-              { localSlideTypes[i] && this.renderSlideConfigure(eachSlideRef, localSlideTypes[i]) }
+              { localSlideTypes[i] && this.renderSlideConfigure(eachSlideRef, i) }
             </Tab>
           ) }
         </Tabs>

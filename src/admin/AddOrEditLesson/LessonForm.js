@@ -36,11 +36,11 @@ class LessonForm extends Component {
 
   static propTypes = {
     initialValues: T.object
-    , slideTypes: T.array
+    , allSlideValues: T.array
   }
 
   render() {
-    const { handleSubmit, submitting, slideTypes, themeOptions } = this.props
+    const { handleSubmit, submitting, allSlideValues, themeOptions } = this.props
 
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
@@ -85,7 +85,7 @@ class LessonForm extends Component {
         <FieldArray
           name="slides"
           component={ Slides }
-          selectedSlideTypes={ slideTypes }
+          allSlideValues={ allSlideValues }
         />
         <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
           Save
@@ -104,13 +104,13 @@ LessonForm = reduxForm({
 
 const selector = formValueSelector(formName)
 const mapStateToProps = (state, ownProps) => {
-  const slideTypes = selector(state, 'slides')
+  const allSlideValues = selector(state, 'slides')
   const initialValues = ownProps.initialValues
   if(!initialValues.isPublished)
     initialValues.isPublished = false
 
   return {
-    slideTypes
+    allSlideValues
   }
 }
 

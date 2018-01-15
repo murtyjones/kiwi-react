@@ -81,7 +81,7 @@ class FullPageCodeEditor extends PureComponent {
           className='prompt'
           dangerouslySetInnerHTML={ { __html: slideData.prompt } }
         />
-        { slideData.example &&
+        { slideData.hasExample &&
           <div
             key='exampleButton'
             className='exampleButton'

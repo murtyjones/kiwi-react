@@ -5,6 +5,8 @@ import renderRichTextEditor from '../../../common/renderRichTextEditor'
 import renderRichCodeTextEditor from '../../../common/renderRichCodeTextEditor'
 import CodeEditor from '../../../CodeEditorV2/CodeEditorV2'
 import { LESSON_SLIDE_TYPES } from '../../../constants'
+import insertIf from '../../../utils/insertIf'
+import { Toggle } from 'redux-form-material-ui'
 
 const codeEditorStyles = {
   editorInputContainerStyle: {
@@ -55,7 +57,7 @@ class FullPageCode extends Component {
   }
 
   render() {
-    const { slideRef } = this.props
+    const { slideRef, slideValues } = this.props
     return (
       <div>
         <Field
@@ -64,10 +66,17 @@ class FullPageCode extends Component {
           component={ renderRichTextEditor }
         />
         <Field
-          name={ `${slideRef}.example` }
-          label='Code Example'
-          component={ renderRichCodeTextEditor }
+          name={`${slideRef}.hasExample` }
+          label='Include example?'
+          component={ Toggle }
         />
+        { slideValues.hasExample &&
+          <Field
+            name={`${slideRef}.example` }
+            label='Example Code'
+            component={ renderRichCodeTextEditor }
+          />
+        }
         <Field
           name={ `${slideRef}.editorInput` }
           label={ 'Editor Input' }

@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactQuill from 'react-quill'
+import { get } from 'lodash'
 import 'react-quill/dist/quill.snow.css'
 import insertIf from '../utils/insertIf'
 
@@ -29,11 +30,11 @@ const renderRichTextEditor = (props) => {
     ,
     <ReactQuill
       key='editor'
-      value={ props.input.value }
+      value={ get(props, 'input.value', '') }
       modules={ modules }
       formats={ formats }
       style={ props.style }
-      onChange={ props.input.onChange }
+      onChange={ get(props, 'input.onChange', null) }
     />
   ]
 }
