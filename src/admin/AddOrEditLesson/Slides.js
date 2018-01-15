@@ -8,22 +8,12 @@ import ChevronLeft from 'material-ui-icons/ChevronLeft'
 import ChevronRight from 'material-ui-icons/ChevronRight'
 import { find, isEmpty, clone } from 'lodash'
 
-import { slideTypes as allSlideTypes } from './slideTypes'
 import renderSelectField from '../../common/renderSelectField'
-import renderTextField from "../../common/renderTextField"
+import renderTextField from '../../common/renderTextField'
+import immutablySwapItems from '../../utils/immutabilityUtils'
 
-
+import { slideTypes as allSlideTypes } from './slideTypes'
 const defaultSlideTypeValue = allSlideTypes[0].value
-
-function immutablySwapItems(items, firstIndex, secondIndex) {
-  // Constant reference - we can still modify the array itself
-  const results = items.slice()
-  const firstItem = items[firstIndex]
-  results[firstIndex] = items[secondIndex]
-  results[secondIndex] = firstItem
-
-  return results
-}
 
 const styles = {
   deleteStyle: {
@@ -141,7 +131,7 @@ class Slides extends Component {
     const { activeSlideIndex } = this.state
     const { fields } = this.props
     const isActive = activeSlideIndex === i
-    const title = `Slide #${i + 1}`
+    const title = `#${i + 1}`
     return (
       <div>
         { isActive &&

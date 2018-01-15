@@ -14,6 +14,7 @@ import { LESSON_SLIDE_TYPES } from '../constants'
 import FullPageText from './Slides/FullPageText'
 import HalfHalf from './Slides/HalfHalf'
 import FullPageCodeEditor from './Slides/FullPageCodeEditor'
+import FullPageCodeExample from './Slides/FullPageCodeExample'
 import Title from './Slides/Title'
 
 import './overrides.css'
@@ -110,6 +111,11 @@ const availableSlideTypes = {
   },
   [LESSON_SLIDE_TYPES.HALF_HALF]: {
     component: HalfHalf
+    , backgroundClassName: 'lessonFullBackground'
+    , width: '1000px'
+  },
+  [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EXAMPLE]: {
+    component: FullPageCodeExample
     , backgroundClassName: 'lessonFullBackground'
     , width: '1000px'
   },
