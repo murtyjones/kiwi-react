@@ -33,15 +33,15 @@
     transition: all 0.4s ease;
 }
 
-.exampleText {
-    display: none;
-    font-size: 16pt;
-}
-
 .exampleButton:hover {
     cursor: pointer;
     width: calc(100% - 120px);
     height: 200px;
+}
+
+.exampleText {
+    display: none;
+    font-size: 16pt;
 }
 
 .exampleButton:hover > .exampleText {
