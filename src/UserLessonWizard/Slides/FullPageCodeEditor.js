@@ -5,6 +5,8 @@ import CodeEditor from '../../CodeEditorV2/CodeEditorV2'
 import { LESSON_SLIDE_TYPES } from '../../constants'
 import { titleStyle, slideContent } from './commonSlideStyles'
 
+import './overrides.css'
+
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/python/python'
 import 'codemirror/addon/hint/show-hint'
@@ -69,13 +71,16 @@ class FullPageCodeEditor extends PureComponent {
           style={ titleStyle }
         >
           { slideData.title }
-          </div>
+        </div>
         <div
           key='prompt'
           id='prompt'
           className='prompt'
           dangerouslySetInnerHTML={ { __html: slideData.prompt } }
         />
+        <div key='exampleButton' className='exampleButton'>
+          Example
+        </div>
       </div>
       ,
       <CodeEditor

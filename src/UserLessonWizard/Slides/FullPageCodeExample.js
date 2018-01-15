@@ -23,7 +23,7 @@ const styles = {
     , fontWeight: 'bold'
     , fontSize: '14pt'
   },
-  example: {
+  fullPageExample: {
     overflow: 'hidden'
     , fontFamily: 'monospace'
     , fontSize: '16pt'
@@ -76,10 +76,10 @@ class FullPageCodeExample extends PureComponent {
             Example
           </div>
           <div
-            key='example'
-            id='example'
-            className='example'
-            style={ styles.example }
+            key='fullPageExample'
+            id='fullPageExample'
+            className='fullPageExample'
+            style={ styles.fullPageExample }
             dangerouslySetInnerHTML={ { __html: slideData.example } }
           />
         </div>

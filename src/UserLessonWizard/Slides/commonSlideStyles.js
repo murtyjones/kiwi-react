@@ -8,7 +8,8 @@ const titleStyle = {
 }
 
 const slideContent = {
-  paddingLeft: '50px'
+  position: 'relative' // needed for absolute children
+  , paddingLeft: '50px'
   , paddingRight: '50px'
   , paddingTop: '30px'
 }
