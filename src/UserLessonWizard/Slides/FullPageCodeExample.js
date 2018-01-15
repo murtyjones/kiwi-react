@@ -1,10 +1,32 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { explanationStyle, slideContent } from './commonSlideStyles'
+import { slideContent, titleStyle } from './commonSlideStyles'
 
 const styles = {
+  exampleContainer: {
+    position: 'relative' // has to be done so that child pos:abs will work
+    , border: '1px solid #CCC'
+    , borderRadius: '15px'
+    , padding: '5px'
+    , paddingLeft: '20px'
+    , marginTop: '20px'
+  },
+  exampleLabel: {
+    display: 'inline-block'
+    , position: 'absolute'
+    , top: '-10px'
+    , left: '15px'
+    , background: '#FFFFFF'
+    , padding: '2px'
+    , paddingLeft: '10px'
+    , paddingRight: '10px'
+    , fontWeight: 'bold'
+    , fontSize: '14pt'
+  },
   example: {
     overflow: 'hidden'
+    , fontFamily: 'monospace'
+    , fontSize: '16pt'
   },
   explanationStyle: {
 
@@ -35,14 +57,23 @@ class FullPageCodeExample extends PureComponent {
   render() {
     const { slideData, className } = this.props
     return (
-      <div className={ className }>
-        <div style={ slideContent }>
-          <div
-            key='explanation'
-            id='explanation'
-            style={ styles.explanationStyle }
-          >
-            { slideData.title }
+      <div style={ slideContent } className={ className }>
+        <div
+          key='title'
+          id='title'
+          style={ titleStyle }
+        >
+          { slideData.title }
+        </div>
+        <div
+          key='explanation'
+          id='explanation'
+          style={ styles.explanationStyle }
+          dangerouslySetInnerHTML={ { __html: slideData.explanation } }
+        />
+        <div key='exampleContainer' style={ styles.exampleContainer }>
+          <div key='exampleLabel' style={ styles.exampleLabel }>
+            Example
           </div>
           <div
             key='example'

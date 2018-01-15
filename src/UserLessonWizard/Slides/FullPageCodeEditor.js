@@ -62,22 +62,20 @@ class FullPageCodeEditor extends PureComponent {
     const { slideData, className, input } = this.props
 
     return [
-      <div key={ className } className={ className }>
-        <div style={ slideContent }>
-          <div
-            key='title'
-            id='title'
-            style={ titleStyle }
-          >
-            { slideData.title }
-            </div>
-          <div
-            key='prompt'
-            id='prompt'
-            className='prompt'
-            dangerouslySetInnerHTML={ { __html: slideData.prompt } }
-          />
-        </div>
+      <div key={ className } style={ slideContent } className={ className }>
+        <div
+          key='title'
+          id='title'
+          style={ titleStyle }
+        >
+          { slideData.title }
+          </div>
+        <div
+          key='prompt'
+          id='prompt'
+          className='prompt'
+          dangerouslySetInnerHTML={ { __html: slideData.prompt } }
+        />
       </div>
       ,
       <CodeEditor
