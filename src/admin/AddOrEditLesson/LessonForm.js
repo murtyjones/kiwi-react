@@ -3,16 +3,23 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, formValueSelector } from 'redux-form'
-
 import { RaisedButton, MenuItem } from 'material-ui'
+import { Toggle, SelectField } from 'redux-form-material-ui'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
-import { Toggle, SelectField } from 'redux-form-material-ui'
 
 import Slides from './Slides'
 
 let formName = 'lesson'
+
+const styles = {
+  form: {
+    width: '100%'
+    , height: '100%'
+    , padding: '10px'
+  }
+}
 
 class LessonForm extends Component {
   constructor(props) {
@@ -36,21 +43,21 @@ class LessonForm extends Component {
     const { handleSubmit, submitting, slideTypes, themeOptions } = this.props
 
     return (
-      <form onSubmit={ handleSubmit } style={ { width: "100%", height: "100%" } }>
+      <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
-          name={ 'title' }
-          hintText={ 'Title' }
+          name='title'
+          hintText='Title'
           component={ renderTextField }
         />
         <Field
-          name={ 'subtitle' }
-          hintText={ 'Subtitle' }
+          name='subtitle'
+          hintText='Subtitle'
           component={ renderTextField }
         />
         <Field
-          name={ 'minutesToComplete' }
-          hintText={ 'Minutes to Complete' }
-          label={ 'Minutes to Complete' }
+          name='minutesToComplete'
+          hintText='Minutes to Complete'
+          label='Minutes to Complete'
           component={ KiwiSliderField }
           defaultValue={ 1 }
           min={ 1 }
@@ -58,18 +65,22 @@ class LessonForm extends Component {
           max={ 100 }
         />
         <Field
-          name={ 'isPublished' }
-          label={ 'Is live?' }
+          name='isPublished'
+          label='Is live?'
           component={ Toggle }
         />
         <Field
-          name={ 'themeId' }
-          hintText={ 'Lesson Theme' }
+          name='themeId'
+          hintText='Lesson Theme'
           component={ SelectField }
         >
-          { themeOptions.map((theme, i) =>
-            <MenuItem key={ theme._id } value={ theme._id } primaryText={ theme.name } />
-          )}
+          { themeOptions.map(theme =>
+            <MenuItem
+              key={ theme._id }
+              value={ theme._id }
+              primaryText={ theme.name }
+            />
+          ) }
         </Field>
         <FieldArray
           name="slides"
