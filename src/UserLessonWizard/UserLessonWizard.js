@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter, Redirect, Route } from 'react-router-dom'
 import { get, find, isEqual, isEmpty, has, cloneDeep } from 'lodash'
+import moment from 'moment'
 import { connect } from 'react-redux'
 import { getFormValues } from 'redux-form'
 import BluebirdPromise from 'bluebird'
@@ -26,6 +27,7 @@ class UserLessonWizard extends Component {
     super(props)
     this.state = {
       activeSlideIndex: 0
+      , lessonAndUserLessonReceived: false
     }
   }
 
@@ -52,18 +54,21 @@ class UserLessonWizard extends Component {
     if(lesson.themeId && themeIsEmpty) getLessonTheme({ id: lesson.themeId })
     if(!lessonIsEmpty && !userLessonIsEmpty) {
       const activeSlideIndex = getLatestCompletedSlide(lesson, userLesson)
-      return this.setState({ activeSlideIndex })
+      return this.setState({ activeSlideIndex, lessonAndUserLessonReceived: true })
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { lesson, userLesson, userId, match: { params: { id } } } = this.props
+    const { lessonAndUserLessonReceived } = this.state
     const { getManyUserLessons: nextGetManyUserLessons, getLesson: nextGetLesson, getLessonTheme: nexGetLessonTheme, lesson: nextLesson, userLesson: nextUserLesson, theme: nextTheme, userId: nextUserId, match: { params: { id: nextId } } } = nextProps
       , lessonIdHasChanged = !isEqual(id, nextId)
       , lessonHasChanged = !isEqual(lesson, nextLesson)
       , userLessonHasChanged = !isEqual(userLesson, nextUserLesson)
       , userIdHasChanged = !isEqual(userId, nextUserId)
       , themeIdHasChanged = !isEqual(nextTheme._id, nextLesson.themeId)
+      , lessonWasEmpty = isEmpty(lesson)
+      , userLessonWasEmpty = isEmpty(userLesson)
 
     if(lessonIdHasChanged || userIdHasChanged) {
       nextGetLesson({ id: nextId })
@@ -74,9 +79,9 @@ class UserLessonWizard extends Component {
       nexGetLessonTheme({ id: nextLesson.themeId })
     }
 
-    if(lessonHasChanged || userLessonHasChanged) {
+    if(lessonHasChanged || userLessonHasChanged && !lessonAndUserLessonReceived) {
       const activeSlideIndex = getLatestCompletedSlide(nextLesson, nextUserLesson)
-      this.setState({ activeSlideIndex })
+      this.setState({ activeSlideIndex, lessonAndUserLessonReceived: true })
     }
 
   }

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
 import renderTextField from '../../../common/renderTextField'
+import renderRichTextEditor from '../../../common/renderRichTextEditor'
 import CodeEditor from '../../../CodeEditorV2/CodeEditorV2'
 import { LESSON_SLIDE_TYPES } from '../../../constants'
+
 const codeEditorStyles = {
   editorInputContainerStyle: {
     width: '50%'
@@ -57,11 +59,7 @@ class FullPageCode extends Component {
         <Field
           name={ `${slideRef}.prompt` }
           label={ 'Prompt (optional)' }
-          component={ renderTextField }
-          multiLine={ true }
-          underlineShow={ false }
-          rows={ 2 }
-          style={ styles.prompt }
+          component={ renderRichTextEditor }
         />
         <Field
           name={ `${slideRef}.editorInput` }
