@@ -14,7 +14,14 @@ const slideContent = {
   , paddingTop: '30px'
 }
 
+const example = {
+  overflow: 'hidden'
+    , fontFamily: 'monospace'
+    , fontSize: '16pt'
+}
+
 export {
   titleStyle
   , slideContent
+  , example
 }

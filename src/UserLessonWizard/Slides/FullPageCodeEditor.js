@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
+import cns from 'classnames'
 
 import CodeEditor from '../../CodeEditorV2/CodeEditorV2'
 import { LESSON_SLIDE_TYPES } from '../../constants'
-import { titleStyle, slideContent } from './commonSlideStyles'
+import { titleStyle, slideContent, example } from './commonSlideStyles'
 
 import './overrides.css'
 
@@ -32,6 +33,8 @@ const codeEditorStyles = {
     , borderBottomRightRadius: '10px'
   }
 }
+
+const defaultExampleHtml = 'Example'
 
 class FullPageCodeEditor extends PureComponent {
   constructor(props) {
@@ -78,9 +81,19 @@ class FullPageCodeEditor extends PureComponent {
           className='prompt'
           dangerouslySetInnerHTML={ { __html: slideData.prompt } }
         />
-        <div key='exampleButton' className='exampleButton'>
-          Example
-        </div>
+        { slideData.example &&
+          <div
+            key='exampleButton'
+            className='exampleButton'
+          >
+            <div className="exampleHeader">Example</div>
+            <div
+              className="exampleText"
+              style={ example }
+              dangerouslySetInnerHTML={ { __html: slideData.example } }
+            />
+          </div>
+        }
       </div>
       ,
       <CodeEditor

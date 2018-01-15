@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { slideContent, titleStyle } from './commonSlideStyles'
+import { slideContent, titleStyle, example } from './commonSlideStyles'
 
 const styles = {
   exampleContainer: {
@@ -22,11 +22,6 @@ const styles = {
     , paddingRight: '10px'
     , fontWeight: 'bold'
     , fontSize: '14pt'
-  },
-  fullPageExample: {
-    overflow: 'hidden'
-    , fontFamily: 'monospace'
-    , fontSize: '16pt'
   },
   explanationStyle: {
 
@@ -79,7 +74,7 @@ class FullPageCodeExample extends PureComponent {
             key='fullPageExample'
             id='fullPageExample'
             className='fullPageExample'
-            style={ styles.fullPageExample }
+            style={ example }
             dangerouslySetInnerHTML={ { __html: slideData.example } }
           />
         </div>

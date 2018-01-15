@@ -1,15 +1,30 @@
+.exampleHeader {
+    color: #2E2860;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
+.exampleButton:hover > .exampleHeader {
+    background: #FFFFFF;
+    padding: 10px;
+    position: absolute;
+    left: 20px;
+    top: -20px;
+}
+
 .exampleButton {
     position: absolute;
     right: 45px;
     top: 20px;
     width: 65px;
     height: 20px;
-    text-align: center;
     display: inline-block;
     border: 1px solid #BDBDBD;
     border-radius: 20px;
     padding: 10px 15px;
-    color: #BDBDBD;
     background: #FFFFFF;
     z-index: 10;
     -webkit-transition: all 0.4s ease;
@@ -18,8 +33,17 @@
     transition: all 0.4s ease;
 }
 
+.exampleText {
+    display: none;
+    font-size: 16pt;
+}
+
 .exampleButton:hover {
     cursor: pointer;
     width: calc(100% - 120px);
     height: 200px;
+}
+
+.exampleButton:hover > .exampleText {
+    display: block;
 }
