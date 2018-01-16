@@ -69,9 +69,9 @@ describe('UserLessonWizard', () => {
           , id: slide3Id
         },
         {
-          type: LESSON_SLIDE_TYPES.HALF_HALF
-          , instructions: "<p>slide4Instructions</p>"
-          , editorInput: "slide4EditorInput"
+          type: LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EXAMPLE
+          , explanation: "<p>slide4Explanation</p>"
+          , example: "slide4Example"
           , id: slide4Id
         }
       ],
@@ -182,8 +182,8 @@ describe('UserLessonWizard', () => {
         secondSlideNext = 1
         thirdSlidePrev = 2
         thirdSlideNext = 3
-        fourthSlidePrev = 1
-        fourthSlideNext = 2 // ????
+        fourthSlidePrev = 0
+        fourthSlideNext = 1 // ????
         putLessonPayloadApiResponse = {
           before: {
             ...userLesson
@@ -407,26 +407,30 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
-        it('should change the focus to slide 4 (half sized editor)', async () => {
-          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(0)
+        it('should change the focus to slide 4', async () => {
+          expect(component.find('div[className="fullPageExampleContainer"]').length).toBe(0)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(thirdSlideNext).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(1)
+          expect(component.find('div[className="fullPageExampleContainer"]').length).toBe(1)
         })
 
         it('should have expected slide 4 content', async () => {
-          expect(component.find('div[className="lessonHalfSizeEditorRight"]').length).toBe(0)
+          expect(component.find('div[className="fullPageExplanation"]').length).toBe(0)
+          expect(component.find('div[className="exampleLabel"]').length).toBe(0)
+          expect(component.find('div[className="fullPageExample"]').length).toBe(0)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(thirdSlideNext).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="lessonHalfSizeEditorRight"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide4Id].answer))
+          expect(component.find('div[className="fullPageExplanation"]').html()).toEqual(expect.stringContaining(lesson.slides[3].explanation))
+          expect(component.find('div[className="fullPageExample"]').text()).toEqual(lesson.slides[3].example)
+          expect(component.find('div[className="exampleLabel"]').text()).toEqual('Example')
         })
 
         it('should set slide 4 to viewed', async () => {

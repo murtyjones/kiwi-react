@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { slideContent, titleStyle, example } from './commonSlideStyles'
 
 const styles = {
-  exampleContainer: {
+  fullPageExampleContainer: {
     position: 'relative' // has to be done so that child pos:abs will work
     , border: '1px solid #CCC'
     , borderRadius: '15px'
@@ -23,7 +23,7 @@ const styles = {
     , fontWeight: 'bold'
     , fontSize: '14pt'
   },
-  explanationStyle: {
+  fullPageExplanationStyle: {
 
   }
 }
@@ -61,13 +61,24 @@ class FullPageCodeExample extends PureComponent {
           { slideData.title }
         </div>
         <div
-          key='explanation'
-          id='explanation'
-          style={ styles.explanationStyle }
+          key='fullPageExplanation'
+          id='fullPageExplanation'
+          className='fullPageExplanation'
+          style={ styles.fullPageExplanationStyle }
           dangerouslySetInnerHTML={ { __html: slideData.explanation } }
         />
-        <div key='exampleContainer' style={ styles.exampleContainer }>
-          <div key='exampleLabel' style={ styles.exampleLabel }>
+        <div
+          key='fullPageExampleContainer'
+          id='fullPageExampleContainer'
+          className='fullPageExampleContainer'
+          style={ styles.fullPageExampleContainer }
+        >
+          <div
+            key='exampleLabel'
+            id='exampleLabel'
+            className='exampleLabel'
+            style={ styles.exampleLabel }
+          >
             Example
           </div>
           <div
