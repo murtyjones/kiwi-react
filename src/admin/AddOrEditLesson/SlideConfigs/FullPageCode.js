@@ -8,35 +8,16 @@ import { LESSON_SLIDE_TYPES } from '../../../constants'
 import insertIf from '../../../utils/insertIf'
 import { Toggle } from 'redux-form-material-ui'
 
-const codeEditorStyles = {
-  editorInputContainerStyle: {
-    width: '50%'
-    , display: 'inline-block'
-  },
-  editorOutputContainerStyle: {
-    width: '50%'
-    , display: 'inline-block'
-  },
-  editorContainerStyle: {
-    minHeight: '600px'
-  },
-  editorOutputStyle: {
-    border: '1px solid #CCC'
-    , borderLeft: 0
-    , borderTopRightRadius: '10px'
-    , borderBottomRightRadius: '10px'
-  }
-}
-
 const renderCodeEditor = ({input}) =>
-  <CodeEditor
-    key='lessonFullSizeEditor'
-    className='lessonFullSizeEditor'
-    layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
-    editorStyle={ codeEditorStyles }
-    editorInput={ input.value || '' }
-    onChange={ input.onChange }
-  />
+  <div style={ styles.codeEditorContainer }>
+    <CodeEditor
+      key='lessonFullSizeEditor'
+      className='lessonFullSizeEditor'
+      editorInput={ input.value || '' }
+      onChange={ input.onChange }
+    />
+  </div>
+
 
 const styles = {
   prompt: {
@@ -48,6 +29,13 @@ const styles = {
     border: '1px solid #ccc',
     height: '500px',
     width: '100%'
+  },
+  codeEditorContainer: {
+    height: '500px'
+    , width: '100%'
+    , overflow: 'auto'
+    , display: 'flex'
+    , flexFlow: 'column'
   }
 }
 

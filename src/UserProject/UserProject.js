@@ -13,23 +13,15 @@ import { LESSON_SLIDE_TYPES } from '../constants'
 
 import CodeEditor from '../CodeEditorV2/CodeEditorV2'
 
-const codeEditorStyles = {
-  editorInputContainerStyle: {
-    width: '50%'
-    , display: 'inline-block'
-  },
-  editorOutputContainerStyle: {
-    width: '50%'
-    , display: 'inline-block'
-  },
-  editorContainerStyle: {
-    minHeight: '600px'
-  },
-  editorOutputStyle: {
-    border: '1px solid #CCC'
-    , borderLeft: 0
-    , borderTopRightRadius: '10px'
-    , borderBottomRightRadius: '10px'
+const styles = {
+  container: {
+    height: '100%'
+    , width: '100%'
+    , overflow: 'auto'
+    , position: 'absolute'
+    , top: '0px'
+    , display: 'flex'
+    , flexFlow: 'column'
   }
 }
 
@@ -102,14 +94,12 @@ class UserProject extends Component {
     const isNewOrHasCode = isNewProject || (!isNewProject && !!userProject.code)
 
     return (
-      <div>
+      <div style={ styles.container }>
         { renderIf(isNewOrHasCode)(
           <CodeEditor
             className='lessonFullSizeEditor'
-            layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
-            onSave={ this.handleSave }
-            editorStyle={ codeEditorStyles }
             editorInput={ userProject.code ? userProject.code: '' }
+            onSave={ this.handleSave }
           />
         ) }
       </div>

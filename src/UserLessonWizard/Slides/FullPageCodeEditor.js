@@ -14,26 +14,6 @@ import 'codemirror/addon/hint/show-hint'
 import 'codemirror/addon/hint/javascript-hint'
 import 'codemirror/addon/hint/show-hint.css'
 
-const codeEditorStyles = {
-  editorInputContainerStyle: {
-    width: '50%'
-    , display: 'inline-block'
-  },
-  editorOutputContainerStyle: {
-    width: '50%'
-    , display: 'inline-block'
-  },
-  editorContainerStyle: {
-    minHeight: '600px'
-  },
-  editorOutputStyle: {
-    border: '1px solid #CCC'
-    , borderLeft: 0
-    , borderTopRightRadius: '10px'
-    , borderBottomRightRadius: '10px'
-  }
-}
-
 const defaultExampleHtml = 'Example'
 
 class FullPageCodeEditor extends PureComponent {
@@ -99,8 +79,6 @@ class FullPageCodeEditor extends PureComponent {
       <CodeEditor
         key='lessonFullSizeEditor'
         className='lessonFullSizeEditor'
-        layoutType={ LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR }
-        editorStyle={ codeEditorStyles }
         editorInput={ input.value || slideData.editorInput }
         onChange={ input.onChange }
         onSave={ this.handleSave }

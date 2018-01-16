@@ -12,9 +12,8 @@ const styles = {
   container: {
     position: 'absolute'
     , width: '50%'
-    , paddingRight: '50px'
-    , boxSizing: 'border-box'
-    , zIndex: 4
+    , height: '200px'
+    , bottom: '20px'
   },
   circle: {
     borderRadius: '50%'
@@ -26,9 +25,11 @@ const styles = {
   },
   saveCircle: {
     bottom: '90px'
+    , right: '20px'
   },
   runCircle: {
     bottom: '20px'
+    , right: '20px'
   },
   button: {
     color: buttonColor
@@ -58,9 +59,11 @@ const styles = {
   },
   saveButtonLabel: {
     bottom: '105px'
+    , right: '75px'
   },
   runButtonLabel: {
     bottom: '35px'
+    , right: '75px'
   }
 }
 

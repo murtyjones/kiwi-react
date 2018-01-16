@@ -6,6 +6,8 @@
     margin-left: 50px;
     margin-right: 50px;
     margin-top: 20px;
+    flex: 1 1 auto;
+    position: relative;
 }
 
 .prompt, .instructions {
@@ -111,5 +113,6 @@
         box-sizing: border-box;
         padding-left: 25px;
         padding-right: 25px;
+        flex: 0 1 auto;
     }
 }

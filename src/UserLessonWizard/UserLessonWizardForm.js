@@ -35,6 +35,8 @@ const styles = {
     , overflow: 'auto'
     , position: 'absolute'
     , top: 0
+    , display: 'flex'
+    , flexFlow: 'column'
   },
   prevButton: {
     height: `${circleSize*2}px`
@@ -109,11 +111,11 @@ const availableSlideTypes = {
     , backgroundClassName: 'lessonFullBackground'
     , width: '1000px'
   },
-  [LESSON_SLIDE_TYPES.HALF_HALF]: {
-    component: HalfHalf
-    , backgroundClassName: 'lessonFullBackground'
-    , width: '1000px'
-  },
+  // [LESSON_SLIDE_TYPES.HALF_HALF]: {
+  //   component: HalfHalf
+  //   , backgroundClassName: 'lessonFullBackground'
+  //   , width: '1000px'
+  // },
   [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EXAMPLE]: {
     component: FullPageCodeExample
     , backgroundClassName: 'lessonFullBackground'

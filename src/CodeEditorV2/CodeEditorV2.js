@@ -14,6 +14,36 @@ import { LESSON_SLIDE_TYPES } from '../constants'
 require('./editorOverrides.css')
 import '../common/flexOverride.css'
 
+const defaultCodeEditorStyles = {
+  editorInputContainerStyle: {
+    position: 'absolute'
+    , bottom: '0'
+    , right: '50%'
+    , left: '0'
+    , top: '0'
+  },
+  editorOutputContainerStyle: {
+    position: 'absolute'
+    , bottom: '0'
+    , right: '0'
+    , left: '50%'
+    , top: '0'
+  },
+  editorContainerStyle: {
+    position: 'absolute'
+    , bottom: '20px'
+    , right: '0'
+    , left: '0'
+    , top: '0'
+  },
+  editorOutputStyle: {
+    border: '1px solid #CCC'
+    , borderLeft: 0
+    , borderTopRightRadius: '10px'
+    , borderBottomRightRadius: '10px'
+  }
+}
+
 const defaultOptions = {
   lineNumbers: true
   , lineWrapping: false
@@ -183,7 +213,7 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { className, options, editorStyle, onSave, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
+    const { className, options, onSave, editorStyle = defaultCodeEditorStyles, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
       , isFullSized = layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR
 

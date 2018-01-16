@@ -1,5 +1,13 @@
+.CodeMirrorFull {
+    position: absolute;
+    bottom: 2px; /* so that the bordering doesnt mismatch vs editor output */
+    right: 0;
+    left: 0;
+    top: 0;
+}
+
 .CodeMirrorFull > .CodeMirror {
-    height: 598px;
+    height: 100%;
     border-radius: 10px 0 0 10px;
     border: 1px solid #CCC;
 }
