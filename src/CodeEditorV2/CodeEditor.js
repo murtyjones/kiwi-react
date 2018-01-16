@@ -83,7 +83,7 @@ class CodeEditor extends Component {
     editorInput: T.string.isRequired
     , editorStyle: T.object
     , options: T.object
-    , layoutType: T.string.isRequired
+    , layoutType: T.string
     , className: T.string
     , onSave: T.func
     , onChange: T.func

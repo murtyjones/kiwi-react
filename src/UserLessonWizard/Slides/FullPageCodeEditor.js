@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
 
-import CodeEditor from '../../CodeEditorV2/CodeEditorV2'
+import CodeEditor from '../../CodeEditor/CodeEditor'
 import { LESSON_SLIDE_TYPES } from '../../constants'
 import { titleStyle, slideContent, example } from './commonSlideStyles'
 

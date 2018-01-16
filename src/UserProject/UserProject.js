@@ -11,7 +11,7 @@ import renderIf from 'render-if'
 
 import { LESSON_SLIDE_TYPES } from '../constants'
 
-import CodeEditor from '../CodeEditorV2/CodeEditorV2'
+import CodeEditor from '../CodeEditor/CodeEditor'
 
 const styles = {
   container: {
