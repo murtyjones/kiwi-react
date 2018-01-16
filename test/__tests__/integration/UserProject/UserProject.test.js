@@ -25,7 +25,6 @@ describe('UserProject', () => {
     , slide2Id, slide3Id, slide4Id, slide1Id
     , lesson
     , userLesson
-    , lessonTheme
     , router = {}
     , props = {}
     , store
@@ -88,42 +87,99 @@ describe('UserProject', () => {
         , [slide4Id]: { answer: "" }
       }
     }
-    lessonTheme = {
-
-    }
     setupStore = () => {
       ({ store, dispatchSpy } = setupIntegrationTest(notCombined, router))
       store.dispatch({ payload: { idToken: chesterAdminIdToken }, type: ACTIONS.LOGIN_SUCCESS })
     }
-    mountWithStore = (childProps, store) => {
-      return mount(
-        <MemoryRouter initialEntries={[ `/projects/${userProjectId}` ]}>
-          <Provider store={ store }>
-            <Route
-              component={ matchProps =>
-                <UserProject { ...childProps } { ...matchProps } />
-              }
-              path="/projects/:id" />
+  })
 
-          </Provider>
-        </MemoryRouter>
-        , {
-          context: {
-            muiTheme: getMuiTheme()
-            , match: { params: { id: userProjectId } }
-          },
-          childContextTypes: {
-            muiTheme: PropTypes.object.isRequired
-            , match: PropTypes.object.isRequired
-          }
-        })
-    }
+  describe('with new userProject', () => {
+    beforeEach(async() => {
+      mountWithStore = (childProps, store) => {
+        return mount(
+          <MemoryRouter initialEntries={[`/projects/new`]}>
+            <Provider store={store}>
+              <Route
+                component={ matchProps =>
+                  <UserProject {...childProps} {...matchProps} />
+                }
+                path="/projects/new"
+              />
+            </Provider>
+          </MemoryRouter>
+          , {
+            context: {
+              muiTheme: getMuiTheme()
+              , match: { params:  { } }
+            },
+            childContextTypes: {
+              muiTheme: PropTypes.object.isRequired
+              , match: PropTypes.object.isRequired
+            }
+          })
+      }
+      setupStore()
+      ApiFetch.mockImplementationOnce(() => Promise.resolve({})) // getUserProject response
+      component = mountWithStore(props, store) // mount component
+      await flushAllPromises() // wait for requests to resolve
+      component.update() // update component after having resolved requests
+    })
+
+    afterEach(() => {
+      ApiFetch.mockReset()
+    })
+
+    describe('componentWillMount', () => {
+      it('should dispatch the appropriate requests', () => {
+        expect(dispatchSpy).not.toBeCalledWith({ type: ACTIONS.GET_USER_PROJECT_REQUEST })
+      })
+
+      it('should dispatch success methods with resolved payloads', () => {
+        expect(dispatchSpy).not.toBeCalledWith({ type: ACTIONS.GET_USER_PROJECT_SUCCESS, payload: {} })
+      })
+
+    })
+
+    describe('render', () => {
+      it('should render expected divs', () => {
+        expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(1)
+        expect(component.find('CodeEditor').html()).toContain('CodeMirror cm-s-default')
+        expect(component.find('CodeEditor').html()).toContain('react-codemirror2 CodeMirrorFull')
+        expect(component.find('div[className="toolbarLabel"]').length).toBe(2)
+        expect(component.find('div[className="toolbarButton"]').length).toBe(2)
+      })
+
+    })
+
 
   })
 
 
-  describe('with new userProject', () => {
+  describe('with not new userProject', () => {
     beforeEach(async() => {
+      mountWithStore = (childProps, store) => {
+        return mount(
+          <MemoryRouter initialEntries={[`/projects/${userProjectId}`]}>
+            <Provider store={store}>
+              <Route
+                component={ matchProps =>
+                  <UserProject {...childProps} {...matchProps} />
+                }
+                path="/projects/:id"
+              />
+            </Provider>
+          </MemoryRouter>
+          , {
+            context: {
+              muiTheme: getMuiTheme()
+              , match: { params: { id: userProjectId } }
+            },
+            childContextTypes: {
+              muiTheme: PropTypes.object.isRequired
+              , match: PropTypes.object.isRequired
+            }
+          })
+      }
       setupStore()
       ApiFetch.mockImplementationOnce(() => Promise.resolve({})) // getUserProject response
       component = mountWithStore(props, store) // mount component

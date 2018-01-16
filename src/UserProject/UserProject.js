@@ -29,8 +29,8 @@ class UserProject extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isNewProject: (props.location.pathname === "/project/new"),
-      projectId: (props.location.pathname === "/project/new") ? null : props.match.params.id
+      isNewProject: !props.match.params.id,
+      projectId: !!props.match.params.id ? props.match.params.id : null
     }
   }
 
