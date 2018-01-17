@@ -13,81 +13,54 @@ import { ApiFetch } from '../utils/ApiFetch'
 import LoginOrRegister from './LoginOrRegister'
 
 import '../close.css'
+import './overrides.css'
+
+const isMobile = () => { return window.innerWidth <= 479 }
 
 const styles = {
-  logo: {
-    width: '200px'
-  },
-  container: {
+  homeContentContainer: {
     width: '100%'
     , height: '100%'
-    , backgroundColor: '#2E2860'
+    , backgroundColor: '#3E2E61'
     , color: '#FFFFFF'
     , fontFamily: 'Trebuchet MS'
+    , position: 'relative' // needed for abs children
   },
-  gridlist: {
-    width: '100%'
-    , height: '100vh'
+  titleContainer: {
+    width: '600px'
+    , textAlign: 'center'
+    , position: 'absolute'
+    , top: '40%'
+    , left: '20%'
+    , zIndex: 20
   },
   titleStyle: {
-    display: 'block'
-    , width: '100%'
-    , position: 'absolute'
-    , top: '35%'
+    fontSize: '5.5vw'
     , fontWeight: 'bold'
-    , fontSize: '5.5vw'
-    , textAlign: 'center'
+    , borderBottom: '3px #9AC045 solid'
   },
-  subTitleStyle: {
-    display: 'block'
-    , width: '100%'
-    , textAlign: 'center'
-  },
-  titleTileStyle: {
-    textAlign: 'center'
-    , minHeight: '300px'
-    , height: '100%'
-  },
-  downArrow: {
-    color: '#FFFFFF'
-    , display: 'inline-block'
-    , margin: '0 auto'
-  },
-  bottomCTAContainer: {
-    height: '50px'
-    , position: 'absolute'
-    , bottom: '0'
-    , textAlign: 'center'
-    , width: '100%'
-  },
-  bottomCTA: {
-    cursor: 'pointer'
-    , width: '256px'
-    , height: '100%'
-    , margin: '0 auto'
-  },
-  loginContainer: {
+  loginButtonContainer: {
     position: 'absolute'
-    , top: '10px'
+    , top: '20px'
     , right: '0'
-    , width: '10%'
+    , width: '50px'
     , textAlign: 'center'
     , paddingTop: '10px'
-    , paddingRight: '10px'
+    , paddingRight: '15px'
   },
-  login: {
+  loginButton: {
     borderBottom: '2px #FFFFFF solid'
     , paddingBottom: '3px'
     , cursor: 'pointer'
   },
-  x: {
+  closeDrawerButton: {
     marginTop: '10px'
     , marginRight: '10px'
   },
   loginDrawer: {
     backgroundColor: '#4E449A'
   },
-  loginDrawerWidth: '25%'
+  loginDrawerWidth: 400 // px
 }
 
 class Home extends Component {
@@ -132,58 +105,75 @@ class Home extends Component {
   render() {
     const { drawerIsOpen } = this.state
 
-    return (
-      <div style={ styles.container }>
-        <img src='../../assets/images/landing-logo.svg' style={ styles.logo } />
-        <Drawer
-          containerStyle={ styles.loginDrawer }
-          width={ styles.loginDrawerWidth }
-          open={ drawerIsOpen }
-          openSecondary={ true }
-        >
-          <div
-            onClick={ this.closeDrawer }
-            className='x'
-            style={ styles.x }
-          />
-          <LoginOrRegister />
-        </Drawer>
-        <GridList
-          style={ styles.gridlist }
-          cols={ 6 }
-          cellHeight={ 'auto' }
-        >
-          <GridTile cols={ 1 } />
-          <GridTile
-            cols={ 4 }
-            style={ styles.titleTileStyle }
-          >
-            <span style={ styles.titleStyle }>Start your coding<br />adventure today</span>
+    return [
+      <div key='homeContent' style={ styles.homeContentContainer }>
+        <img
+          key='homeLogo'
+          className='homeLogo'
+          src='../../assets/images/landing-logo.svg'
+        />
 
-            {/* disabled until we have the theme stuff sorted
-            <div style={ styles.bottomCTAContainer }>
-              <div style={ styles.bottomCTA }>
-                <span style={ styles.subTitleStyle }>Learn more</span>
-                <KeyboardArrowDown
-                  viewBox={ '4 4 16 16' }
-                  style={ styles.downArrow }
-                />
-              </div>
-            </div>
-            */}
-          </GridTile>
-          <GridTile cols={ 1 } />
-        </GridList>
-        <div style={ styles.loginContainer } >
+        <img
+          key='homeDragon'
+          className='homeDragon'
+          src='../../assets/images/landing-bg_dragon.svg'
+        />
+
+        <img
+          key='homeBackgroundLayer1'
+          className='homeBackgroundLayer1'
+          src='../../assets/images/landing-bg_01.svg'
+        />
+
+        <img
+          key='homeBackgroundLayer2'
+          className='homeBackgroundLayer2'
+          src='../../assets/images/landing-bg_02.svg'
+        />
+
+        <img
+          key='homeBackgroundLayer3'
+          className='homeBackgroundLayer3'
+          src='../../assets/images/landing-bg_03.svg'
+        />
+
+        <img
+          key='homeBackgroundLayer4'
+          className='homeBackgroundLayer4'
+          src='../../assets/images/landing-bg_04.svg'
+        />
+
+        <div style={ styles.loginButtonContainer } >
           <span
-          onClick={ this.openDrawer }
-            style={ styles.login }
+            onClick={ this.openDrawer }
+            style={ styles.loginButton }
           >
             log in
           </span>
         </div>
+
+        <div style={ styles.titleContainer } >
+          <span style={ styles.titleStyle }>Start your coding<br />adventure today</span>
+        </div>
+        
       </div>
-    )
+      ,
+      <Drawer
+        key='loginDrawer'
+        containerClassName='loginDrawer'
+        containerStyle={ styles.loginDrawer }
+        width={ isMobile() ? '100%' : styles.loginDrawerWidth }
+        open={ drawerIsOpen }
+        openSecondary={ true }
+      >
+        <div
+          onClick={ this.closeDrawer }
+          className='closeDrawerButton'
+          style={ styles.closeDrawerButton }
+        />
+        <LoginOrRegister />
+      </Drawer>
+    ]
   }
 }
 
