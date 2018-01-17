@@ -1,5 +1,5 @@
 .homeLogo {
-    width: 140px;
+    width: 150px;
     position: absolute;
     top: 20px;
     left: 20px;
@@ -7,33 +7,33 @@
 
 
 .homeDragon {
-    width: 300px;
+    width: calc(15px + 13vw);
     position: absolute;
-    top: 50px;
-    left: 35%;
+    top: 80px;
+    left: 50%;
 }
 
 .homeBackgroundLayer1 {
     position: absolute;
-    bottom: 0;
+    bottom: calc(-15.0vw + 100px);
     z-index: 4
 }
 
 
 .homeBackgroundLayer2 {
     position: absolute;
-    bottom: -50px;
+    bottom: calc(-15.0vw + 100px);
     z-index: 3
 }
 
 .homeBackgroundLayer3 {
     position: absolute;
-    bottom: -100px;
+    bottom: calc(-15.0vw + 100px);
     z-index: 2
 }
 
 .homeBackgroundLayer4 {
     position: absolute;
-    bottom: -150px;
+    bottom: calc(-15.0vw + 100px);
     z-index: 1
 }

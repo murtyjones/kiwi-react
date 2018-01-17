@@ -100,7 +100,7 @@ const LessonCard = ({ style, lesson }) => {
         />
         <div style={ styles.body }>
           <CardHeader
-            title={ `${lesson.order}. ${lesson.title}` }
+            title={ lesson.title }
             titleStyle={ styles.titleStyle }
           />
           <CardText

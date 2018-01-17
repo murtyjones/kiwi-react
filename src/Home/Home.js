@@ -11,11 +11,10 @@ import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown'
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } from '../actions'
 import { ApiFetch } from '../utils/ApiFetch'
 import LoginOrRegister from './LoginOrRegister'
+import isMobile from '../utils/userAgentUtils'
 
 import '../close.css'
 import './overrides.css'
-
-const isMobile = () => { return window.innerWidth <= 479 }
 
 const styles = {
   homeContentContainer: {
@@ -27,15 +26,14 @@ const styles = {
     , position: 'relative' // needed for abs children
   },
   titleContainer: {
-    width: '600px'
-    , textAlign: 'center'
+    textAlign: 'left'
     , position: 'absolute'
-    , top: '40%'
-    , left: '20%'
+    , top: '35%'
+    , left: '15%'
     , zIndex: 20
   },
   titleStyle: {
-    fontSize: '5.5vw'
+    fontSize: 'calc(10px + 3.6vw)'
     , fontWeight: 'bold'
     , borderBottom: '3px #9AC045 solid'
   },
@@ -168,7 +166,7 @@ class Home extends Component {
       >
         <div
           onClick={ this.closeDrawer }
-          className='closeDrawerButton'
+          className='x'
           style={ styles.closeDrawerButton }
         />
         <LoginOrRegister />
