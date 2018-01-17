@@ -9,6 +9,8 @@
     transition: transform .25s ease-in-out;
 }
 .x:hover {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
     transform: rotate(180deg);
 }
 .x:before {
@@ -23,6 +25,8 @@
     width: 32px;
     height: 0;
     border-top: 2px solid rgba(256,256,256,0.5);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
     transform: rotate(45deg);
     transform-origin: center;
 }
@@ -38,6 +42,8 @@
     width: 32px;
     height: 0;
     border-top: 2px solid rgba(256,256,256,0.5);
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
     transform: rotate(-45deg);
     transform-origin: center;
 }
