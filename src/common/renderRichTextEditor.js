@@ -9,7 +9,7 @@ const modules = {
       { 'header': '1'}, {'header': '2'}, { 'font': [] }
     ],
     [
-      { size: [] }, { color: [] }
+      { size: [] }, { color: [] }, { background: [] }
     ],
     [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
     [
@@ -22,7 +22,7 @@ const modules = {
 
 const formats = [
   'header', 'font',
-  'size', 'color',
+  'size', 'color', 'background',
   'bold', 'italic', 'underline', 'strike', 'blockquote',
   'list', 'bullet', 'indent',
   'link',

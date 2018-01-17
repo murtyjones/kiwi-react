@@ -7,7 +7,7 @@ import insertIf from '../utils/insertIf'
 const modules = {
   toolbar: [
     [
-      { size: [] }, { color: [] }
+      { size: [] }, { color: [] }, { background: [] }
     ],
     [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
     [
@@ -17,7 +17,7 @@ const modules = {
 }
 
 const formats = [
-  'size', 'color',
+  'size', 'color', 'background',
   'bold', 'italic', 'underline', 'strike', 'blockquote',
   'list', 'bullet', 'indent'
 ]
