@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import WithTheme from '../hocs/WithTheme'
 
-function AuthorizedRoute ({component: Component, isLoggedIn, isAdmin, setTopBarTitle, title, ...rest}) {
+function AuthorizedRoute ({component: Component, isLoggedIn, isAdmin, setTopBarTitle, topBarTitleDisabled, toggleTopBarTitleIsDisabled, title, ...rest}) {
   return (
     <Route
       { ...rest }
@@ -12,7 +12,9 @@ function AuthorizedRoute ({component: Component, isLoggedIn, isAdmin, setTopBarT
           <WithTheme
             WrappedComponent={ Component }
             title={ title }
+            topBarTitleDisabled={ topBarTitleDisabled }
             setTopBarTitle={ setTopBarTitle }
+            toggleTopBarTitleIsDisabled={ toggleTopBarTitleIsDisabled }
             { ...props }
           />
           :

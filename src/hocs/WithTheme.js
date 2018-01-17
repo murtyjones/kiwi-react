@@ -6,14 +6,16 @@ export default class WithTheme extends Component {
   }
 
   componentDidMount() {
-    const { title, setTopBarTitle } = this.props
+    const { title, setTopBarTitle, toggleTopBarTitleIsDisabled, topBarTitleDisabled = true } = this.props
     setTopBarTitle(title || '')
+    toggleTopBarTitleIsDisabled(topBarTitleDisabled)
   }
 
   componentWillReceiveProps(nextProps) {
-    const { title } = this.props
-    const { title: nextTitle, setTopBarTitle } = nextProps
+    const { title, topBarTitleDisabled } = this.props
+    const { title: nextTitle, topBarTitleDisabled: nextTopBarTitleDisabled = true, setTopBarTitle, toggleTopBarTitleIsDisabled } = nextProps
     if(title !== nextTitle) setTopBarTitle(nextTitle || '')
+    if(topBarTitleDisabled !== nextTopBarTitleDisabled) toggleTopBarTitleIsDisabled(nextTopBarTitleDisabled)
   }
 
   render() {

@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import AuthService from './utils/AuthService'
-import { closeSideNav, openSideNav, setTopBarTitle, setMainThemeColor, setSecondaryThemeColor } from './actions'
+import { closeSideNav, openSideNav, setTopBarTitle, toggleTopBarTitleIsDisabled, setMainThemeColor, setSecondaryThemeColor } from './actions'
 
 
 const authService = new AuthService()
@@ -57,11 +57,6 @@ const nonMenuStyle = {
   , height: '100%'
 }
 
-const fetchPosts = (setTop) => store.dispatch({
-  types: ['FETCH_POSTS', 'FETCH_POSTS_SUCCESS', 'FETCH_POSTS_FAIL'],
-    url: '/posts'
-})
-
 class App extends Component {
   constructor(props) {
     super(props)
@@ -90,10 +85,10 @@ class App extends Component {
   }
 
   render() {
-    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, setMainThemeColor, setSecondaryThemeColor, topBarFocused, mainThemeColor, secondaryThemeColor } = this.props
+    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setMainThemeColor, setSecondaryThemeColor, topBarFocused, mainThemeColor, secondaryThemeColor } = this.props
     const sideNavWidthString = `${sideNavWidth}px`
     const topBarWidthString = `${topBarHeight}px`
-    const extras = { isLoggedIn, isAdmin, setTopBarTitle, setMainThemeColor, setSecondaryThemeColor, mainThemeColor, secondaryThemeColor }
+    const extras = { isLoggedIn, isAdmin, setTopBarTitle, setMainThemeColor, setSecondaryThemeColor, mainThemeColor, secondaryThemeColor, toggleTopBarTitleIsDisabled }
 
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
@@ -137,8 +132,8 @@ class App extends Component {
                 {/* Logged in routes  */}
                 {/* ----------------- */}
                 <AuthenticatedRoute path='/projects' exact component={ UserProjects } title='Projects' { ...extras } />
-                <AuthenticatedRoute path='/project/new' exact component={ UserProject } title='Name Me!' { ...extras } />
-                <AuthenticatedRoute path='/project/:id' exact component={ UserProject } { ...extras } />
+                <AuthenticatedRoute path='/project/new' exact component={ UserProject } title='Name Me!' topBarTitleDisabled={ false } { ...extras } />
+                <AuthenticatedRoute path='/project/:id' exact component={ UserProject } topBarTitleDisabled={ false } { ...extras } />
                 <AuthenticatedRoute path='/lessons' exact component={ Lessons } title='Lessons' { ...extras } />
                 <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...extras } />
                 {/* ----------------- */}
@@ -185,6 +180,7 @@ const mapDispatchToProps = (dispatch) => {
     , closeSideNav: () => dispatch(closeSideNav())
     , openSideNav: () => dispatch(openSideNav())
     , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
+    , toggleTopBarTitleIsDisabled: isDisabled => dispatch(toggleTopBarTitleIsDisabled(isDisabled))
     , setMainThemeColor: (color) => dispatch(setMainThemeColor(color))
     , setSecondaryThemeColor: (color) => dispatch(setSecondaryThemeColor(color))
   }

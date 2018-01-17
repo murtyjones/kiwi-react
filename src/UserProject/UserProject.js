@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { isEmpty, isEqual, get } from 'lodash'
 import renderIf from 'render-if'
 
-import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleIsDisabled, toggleTopBarTitleFocus } from '../actions'
+import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleFocus } from '../actions'
 import CodeEditor from '../CodeEditor/CodeEditor'
 
 import '../common/flex.css'
@@ -40,16 +40,20 @@ class UserProject extends Component {
   }
 
   componentWillMount() {
-    const { toggleTopBarTitleIsDisabled, toggleTopBarTitleFocus, setTopBarTitle, getUserProject, userProject, match: { params: { id } } } = this.props
+    const { toggleTopBarTitleFocus, setTopBarTitle, getUserProject, userProject, match: { params: { id } } } = this.props
     const { isNewProject } = this.state
 
     if(!isNewProject && isEmpty(userProject)) {
       getUserProject({ id })
     }
 
-    toggleTopBarTitleIsDisabled(false)
     toggleTopBarTitleFocus(true)
-    setTopBarTitle('name me!')
+
+    const title = isEmpty(userProject) || !userProject.title
+      ? 'name me!'
+      : userProject.title
+
+    setTopBarTitle(title)
 
   }
 
@@ -119,7 +123,6 @@ const mapDispatchToProps = (dispatch) => {
     , postUserProject: (params) => dispatch(postUserProject(params))
     , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
     , toggleTopBarTitleFocus: (isFocused) => dispatch(toggleTopBarTitleFocus(isFocused))
-    , toggleTopBarTitleIsDisabled: (isDisabled) => dispatch(toggleTopBarTitleIsDisabled(isDisabled))
   }
 }
 
