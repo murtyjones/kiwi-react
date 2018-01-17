@@ -163,11 +163,11 @@ describe('UserLessonWizard', () => {
       })
 
       it('should render the form', async () => {
-        expect(component.find('form[className="lessonWizardForm"]').length).toBe(1)
+        expect(component.find('form[className="lessonWizardForm flex flexFlowColumn"]').length).toBe(1)
       })
 
       it('should render the form content div', async () => {
-        expect(component.find('div[className="lessonWizardFormContent"]').length).toBe(1)
+        expect(component.find('div[className="lessonWizardFormContent flexZeroOneAuto"]').length).toBe(1)
       })
 
     })
@@ -321,12 +321,12 @@ describe('UserLessonWizard', () => {
         })
 
         it('should change the focus to slide 3 (full sized editor) when clicking next twice', async () => {
-          expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(0)
+          expect(component.find('div[className="lessonFullSizeEditor flexOneOneAuto"]').length).toBe(0)
           component.find('svg').at(firstSlideNext).simulate('click')
           await flushAllPromises()
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(1)
+          expect(component.find('div[className="lessonFullSizeEditor flexOneOneAuto"]').length).toBe(1)
         })
 
         it('should have the expected beginning slide 3 content when clicking next twice', async () => {
@@ -334,7 +334,7 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           component.find('svg').at(secondSlideNext).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="lessonFullSizeEditor"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
+          expect(component.find('div[className="lessonFullSizeEditor flexOneOneAuto"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
         })
 
         it('should set slide 3 to viewed', async () => {

@@ -92,7 +92,7 @@ class UserProject extends Component {
       <div className='flex flexFlowColumn' style={ styles.container }>
         { renderIf(isNewOrHasCode)(
           <CodeEditor
-            className='lessonFullSizeEditor'
+            className='lessonFullSizeEditor flexOneOneAuto'
             editorInput={ userProject.code ? userProject.code: '' }
             onSave={ this.handleSave }
           />

@@ -14,7 +14,7 @@ const renderCodeEditor = ({input}) =>
   <div className='flex flexFlowColumn' style={ styles.codeEditorContainer }>
     <CodeEditor
       key='lessonFullSizeEditor'
-      className='lessonFullSizeEditor'
+      className='lessonFullSizeEditor flexOneOneAuto'
       editorInput={ input.value || '' }
       onChange={ input.onChange }
     />
