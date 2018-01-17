@@ -12,10 +12,12 @@ import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } fr
 import { ApiFetch } from '../utils/ApiFetch'
 import LoginOrRegister from './LoginOrRegister'
 
-
 import '../close.css'
 
 const styles = {
+  logo: {
+    width: '200px'
+  },
   container: {
     width: '100%'
     , height: '100%'
@@ -132,6 +134,7 @@ class Home extends Component {
 
     return (
       <div style={ styles.container }>
+        <img src='../../assets/images/landing-logo.svg' style={ styles.logo } />
         <Drawer
           containerStyle={ styles.loginDrawer }
           width={ styles.loginDrawerWidth }
