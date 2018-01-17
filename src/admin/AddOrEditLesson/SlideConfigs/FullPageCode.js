@@ -8,8 +8,10 @@ import { LESSON_SLIDE_TYPES } from '../../../constants'
 import insertIf from '../../../utils/insertIf'
 import { Toggle } from 'redux-form-material-ui'
 
+import '../../../common/flex.css'
+
 const renderCodeEditor = ({input}) =>
-  <div style={ styles.codeEditorContainer }>
+  <div className='flex flexFlowColumn' style={ styles.codeEditorContainer }>
     <CodeEditor
       key='lessonFullSizeEditor'
       className='lessonFullSizeEditor'
@@ -34,8 +36,6 @@ const styles = {
     height: '500px'
     , width: '100%'
     , overflow: 'auto'
-    , display: 'flex'
-    , flexFlow: 'column'
   }
 }
 

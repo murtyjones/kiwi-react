@@ -1,0 +1,30 @@
+.flex {
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+}
+
+
+.flexFlowColumn {
+    flex-flow: column;
+    -webkit-flex-flow: column; /* Safari 6.1+ */
+}
+
+
+.flexOneOneAuto {
+    flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+}
+
+
+.flexZeroOneAuto {
+    flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+}
+
+
+.flexOneOneZeroPercent {
+    flex: 1 1 0%;
+    -webkit-flex: 1 1 0%;
+}

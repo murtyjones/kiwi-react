@@ -18,6 +18,7 @@ import FullPageCodeExample from './Slides/FullPageCodeExample'
 import Title from './Slides/Title'
 
 import './overrides.css'
+import '../common/flex.css'
 
 const formName = 'userLesson'
 
@@ -35,8 +36,6 @@ const styles = {
     , overflow: 'auto'
     , position: 'absolute'
     , top: 0
-    , display: 'flex'
-    , flexFlow: 'column'
   },
   prevButton: {
     height: `${circleSize*2}px`
@@ -241,7 +240,7 @@ class UserLessonWizardForm extends Component {
           name={ `${name}.answer` }
           component={ ActiveSlideComponent }
           handleCodeSave={ this.handleCodeSave }
-          className={ 'lessonWizardFormContent' }
+          className='lessonWizardFormContent flexZeroOneAuto'
           slideData={ activeSlideObject }
           setToViewed={ () => this.setToViewed(name) }
         />
@@ -300,7 +299,7 @@ class UserLessonWizardForm extends Component {
       // Render form
       <form
         key='lessonWizardForm'
-        className='lessonWizardForm'
+        className='lessonWizardForm flex flexFlowColumn'
         style={ styles.lessonWizardForm }
         onSubmit={ handleSubmit }
       >

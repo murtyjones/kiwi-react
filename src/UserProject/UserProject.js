@@ -3,15 +3,12 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty, isEqual, get } from 'lodash'
-
-import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleIsDisabled, toggleTopBarTitleFocus } from '../actions'
-import { TextField } from 'material-ui'
-
 import renderIf from 'render-if'
 
-import { LESSON_SLIDE_TYPES } from '../constants'
-
+import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleIsDisabled, toggleTopBarTitleFocus } from '../actions'
 import CodeEditor from '../CodeEditor/CodeEditor'
+
+import '../common/flex.css'
 
 const styles = {
   container: {
@@ -20,8 +17,6 @@ const styles = {
     , overflow: 'auto'
     , position: 'absolute'
     , top: '0px'
-    , display: 'flex'
-    , flexFlow: 'column'
   }
 }
 
@@ -94,7 +89,7 @@ class UserProject extends Component {
     const isNewOrHasCode = isNewProject || (!isNewProject && !!userProject.code)
 
     return (
-      <div style={ styles.container }>
+      <div className='flex flexFlowColumn' style={ styles.container }>
         { renderIf(isNewOrHasCode)(
           <CodeEditor
             className='lessonFullSizeEditor'

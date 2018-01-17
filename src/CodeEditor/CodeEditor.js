@@ -12,7 +12,7 @@ import { LESSON_SLIDE_TYPES } from '../constants'
 
 
 require('./editorOverrides.css')
-import '../common/flexOverride.css'
+import '../common/flex.css'
 
 const defaultCodeEditorStyles = {
   editorInputContainerStyle: {
@@ -220,7 +220,7 @@ class CodeEditor extends Component {
 
     return (
       <div className={ className }>
-        <div style={ editorStyle.editorContainerStyle } className={ cns({ flexOverride: isFullSized }) }>
+        <div style={ editorStyle.editorContainerStyle } className={ cns({ flex: isFullSized }) }>
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
               editorDidMount={ editor => { this.codeMirror = editor } }
