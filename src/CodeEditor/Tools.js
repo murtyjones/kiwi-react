@@ -20,8 +20,10 @@ const styles = {
     , position: 'absolute'
     , width: '44px'
     , height: '44px'
-    , backgroundColor: '#FFFFFF'
+    , backgroundColor: '#edecec'
     , border: `1px ${buttonColor} solid`
+    , cursor: 'pointer'
+    , boxShadow: '3px 3px 10px #cccccc'
   },
   saveCircle: {
     bottom: '90px'
@@ -56,14 +58,14 @@ const styles = {
     position: 'absolute'
     , textTransform: 'uppercase'
     , fontSize: '11pt'
+    , display: 'inline'
+    , overflow: 'hidden'
   },
   saveButtonLabel: {
     bottom: '105px'
-    , right: '75px'
   },
   runButtonLabel: {
     bottom: '35px'
-    , right: '75px'
   }
 }
 
@@ -131,14 +133,14 @@ class Tools extends Component {
         { onSave && [
           <div
             key='saveLabel'
-            className='toolbarLabel'
+            className='toolbarLabel bringLabelOut'
             style={ {
-              display: isSaveLabelVisible ? 'inline': 'none'
-              , ...styles.label
+              ...styles.label
               , ...styles.saveButtonLabel
+              , right: isSaveLabelVisible ? '75px': '20px'
             } }
           >
-            SAVE CODE
+            { isSaveLabelVisible ? 'SAVE CODE' : '' }
           </div>
           ,
           <SaveButton
@@ -153,14 +155,14 @@ class Tools extends Component {
         { onRun && [
           <div
             key='runLabel'
-            className='toolbarLabel'
+            className='toolbarLabel bringLabelOut'
             style={ {
-              display: isRunLabelVisible ? 'inline': 'none'
-              , ...styles.label
+              ...styles.label
               , ...styles.runButtonLabel
+              , right: isRunLabelVisible ? '75px': '20px'
             } }
           >
-            RUN CODE
+            { isRunLabelVisible ? 'RUN CODE' : '' }
           </div>
           ,
           <RunButton
