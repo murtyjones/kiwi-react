@@ -3,8 +3,12 @@ import { Card, CardHeader } from 'material-ui/Card'
 
 const styles = {
   base: {
-    backgroundColor: '#ff816e',
-    minHeight: '600px',
+    backgroundColor: '#ff816e'
+    , position: 'absolute'
+    , bottom: '0'
+    , right: '0'
+    , left: '0'
+    , top: '0'
   },
 }
 

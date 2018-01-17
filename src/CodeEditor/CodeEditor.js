@@ -157,8 +157,9 @@ class CodeEditor extends Component {
 
   rawInputListener = (e) => {
     const { rawInputResolve } = this.state
-    if ((e.keyCode || e.which) === 13) {
-      let answer = e.target.value.split("\n")[0]
+    if((e.keyCode || e.which) === 13) {
+      const answerArray = e.target.value.split("\n")
+      const answer = answerArray[answerArray.length-2]
       this.setState({ prompt: '', rawInputValue: '', rawInputResolve: null })
       this.inputText.blur()
       this.addToOutput(answer + "\n")
@@ -222,7 +223,7 @@ class CodeEditor extends Component {
         <div style={ editorStyle.editorContainerStyle } className={ cns({ flexOverride: isFullSized }) }>
           <div style={ editorStyle.editorInputContainerStyle }>
             <CodeMirror
-              editorDidMount={(editor) => { this.codeMirror = editor }}
+              editorDidMount={ editor => { this.codeMirror = editor } }
               className={ isFullSized ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
               style={ styles.editor }
               value={ editorInput }

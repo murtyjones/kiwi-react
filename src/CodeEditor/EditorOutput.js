@@ -59,7 +59,7 @@ export default class EditorOutput extends Component {
         } }
       >
         <CardText>
-          <pre>
+          <pre id="editorOutput">
             { editorOutput }
             <textarea
               style={ textareaStyle }
@@ -75,7 +75,10 @@ export default class EditorOutput extends Component {
       ...insertIf(errorMsg,
         <ErrorMessage
           key='error'
-          style={ styles.base }
+          style={ {
+            ...styles.base
+            , ...style
+          } }
           errorMsg={ errorMsg }
         />
       )

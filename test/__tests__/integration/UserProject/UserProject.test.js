@@ -151,6 +151,59 @@ describe('UserProject', () => {
 
     })
 
+    describe('interaction', () => {
+      it('should start with default value', () => {
+        expect(component.find('CodeEditor').instance().codeMirror.getValue()).toBe('# Write some code!')
+      })
+
+      it('should successfully change editor value', () => {
+        let newCode =  'print 2 + 2'
+        component.find('CodeEditor').instance().codeMirror.setValue(newCode)
+        expect(component.find('CodeEditor').instance().codeMirror.getValue()).toBe(newCode)
+      })
+
+      it('should successfully run and display result of mathematical input', async () => {
+        let newCode =  'print 2 + 2'
+        component.find('CodeEditor').instance().codeMirror.setValue(newCode)
+        component.find('RunButton').simulate('click')
+        await flushAllPromises()
+        component.update()
+        expect(component.find('pre[id="editorOutput"]').text()).toBe("4\n")
+      })
+
+      it('should successfully display error message', async () => {
+        let newCode =  'print this_var_does_not_exist'
+        component.find('CodeEditor').instance().codeMirror.setValue(newCode)
+        component.find('RunButton').simulate('click')
+        await flushAllPromises()
+        component.update()
+        expect(component.html()).toContain('NameError: name \'this_var_does_not_exist\' is not defined on line 1')
+      })
+
+      it('should successfully run and display result of raw_input based input', async () => {
+        const enterKey = 13
+        const twoKey = 50
+        const threeKey = 51
+        let newCode =
+          'ans1 = raw_input("> ")\n' +
+          'ans2 = raw_input("> ")\n' +
+          'print ans1\n' +
+          'print ans2'
+        component.find('CodeEditor').instance().codeMirror.setValue(newCode)
+        component.find('RunButton').simulate('click')
+        component.update()
+        component.find('textarea[className="rawInput"]').simulate('change', { target: { value: 'answer 1\n' } })
+        // component.find('textarea[className="rawInput"]').simulate('keypress', { keyCode: 13, which: 13, key: 'Enter' })
+        component.find('textarea[className="rawInput"]').simulate('change', { target: { value: 'answer 1\nanswer 2\n' } })
+        // component.find('textarea[className="rawInput"]').simulate('keypress', { keyCode: 13, which: 13, key: 'Enter' })
+        // need to come back to this....
+      })
+
+
+
+
+    })
+
 
   })
 
