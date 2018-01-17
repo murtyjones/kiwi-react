@@ -38,55 +38,7 @@ describe('UserProject', () => {
     slide2Id = 'id2'
     slide3Id = 'id3'
     slide4Id = 'id4'
-    userProjectId = 'fakeLessonId'
-    userLessonId = 'fakeUserLessonId'
-    lesson = {
-      _id: userProjectId
-      , isPublished: true
-      , title: "Print Statements!"
-      , subtitle: "How to show an output"
-      , minutesToComplete: 15
-      , slides: [
-        {
-          type: LESSON_SLIDE_TYPES.TITLE
-          , title: "slide1Title"
-          , subtitle: "slide1Subtitle"
-          , description: "slide1Description"
-          , id: slide1Id
-        },
-        {
-          type: LESSON_SLIDE_TYPES.FULL_PAGE_TEXT
-          , instructions: "<p>slide1Instructions</p>"
-          , editorInput: "slide2EditorInput"
-          , title: "What is a Print Statement? "
-          , id: slide2Id
-        },
-        {
-          type: LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR
-          , prompt: "slide3Prompt"
-          , editorInput: "slide2EditorInput"
-          , id: slide3Id
-        },
-        {
-          type: LESSON_SLIDE_TYPES.HALF_HALF
-          , instructions: "<p>slide4Instructions</p>"
-          , editorInput: "slide4EditorInput"
-          , id: slide4Id
-        }
-      ],
-      updatedAt: "2017-12-08T04:40:08Z"
-    }
-    userLesson = {
-      _id: userLessonId,
-      userProjectId,
-      answerData: {
-        [slide2Id]: {  }
-        , [slide1Id]: { answer: "" }
-        , [slide2Id]: { answer: "" }
-        , [slide3Id]: { answer: "slide3Answer" }
-        , [slide4Id]: { answer: "" }
-      }
-    }
+    userProjectId = 'fakeUserProjectId'
     setupStore = () => {
       ({ store, dispatchSpy } = setupIntegrationTest(notCombined, router))
       store.dispatch({ payload: { idToken: chesterAdminIdToken }, type: ACTIONS.LOGIN_SUCCESS })
@@ -209,6 +161,9 @@ describe('UserProject', () => {
 
 
   describe('with not new userProject', () => {
+    let userProject, updatedUserProject
+      , originalCode = 'blah2'
+      , updatedCode = 'blah2'
     beforeEach(async() => {
       mountWithStore = (childProps, store) => {
         return mount(
@@ -233,8 +188,17 @@ describe('UserProject', () => {
             }
           })
       }
+      userProject = {
+        _id: userProjectId
+        , code: originalCode
+      }
+      updatedUserProject = {
+        _id: userProjectId
+        , code: updatedCode
+      }
       setupStore()
-      ApiFetch.mockImplementationOnce(() => Promise.resolve({})) // getUserProject response
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(userProject)) // getUserProject response
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(updatedUserProject)) // putUserProject response
       component = mountWithStore(props, store) // mount component
       await flushAllPromises() // wait for requests to resolve
       component.update() // update component after having resolved requests
@@ -250,7 +214,7 @@ describe('UserProject', () => {
       })
 
       it('should dispatch success methods with resolved payloads', () => {
-        expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_USER_PROJECT_SUCCESS, payload: {} })
+        expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_USER_PROJECT_SUCCESS, payload: userProject })
       })
 
       it('should pass the userProjectId and userId when making requests', () => {
@@ -258,6 +222,15 @@ describe('UserProject', () => {
         expect(ApiFetch.mock.calls[0][1]).toEqual({ method: "GET" })
       })
 
+    })
+
+    describe('interaction', () => {
+      it('should successfully save and populate editor with saved code', async () => {
+        component.find('SaveButton').simulate('click')
+        await flushAllPromises()
+        component.update()
+        expect(component.find('CodeEditor').html()).toContain(updatedCode)
+      })
     })
 
 
