@@ -97,7 +97,7 @@ describe('UserProject', () => {
         expect(component.find('div[className="lessonFullSizeEditor"]').length).toBe(1)
         expect(component.find('CodeEditor').html()).toContain('CodeMirror cm-s-default')
         expect(component.find('CodeEditor').html()).toContain('react-codemirror2 CodeMirrorFull')
-        expect(component.find('div[className="toolbarLabel"]').length).toBe(2)
+        expect(component.find('div[className="toolbarLabel bringLabelOut"]').length).toBe(2)
         expect(component.find('div[className="toolbarButton"]').length).toBe(2)
       })
 
