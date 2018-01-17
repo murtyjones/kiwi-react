@@ -98,18 +98,25 @@ gulp.task('lint', () => {
 
 
 // Production build
-gulp.task("build", ["clean", "todist", "webpack:build"]);
+gulp.task("build", ["clean", "copy-html", "copy-assets", "webpack:build"]);
 
-gulp.task("todist", function() {
+gulp.task("copy-html", function() {
   return gulp
-    .src(['./index.html', './style.css'])
+    .src(['./index.html'])
     .pipe(gulp.dest('build'))
+})
+
+gulp.task("copy-assets", function() {
+  return gulp
+    .src(['./assets/**'])
+    .pipe(gulp.dest('build/assets'))
 })
 
 gulp.task("clean", function() {
   return del([
     './build/build/js/*'
     , './build/*html'
+    , './build/assets/*'
   ])
 })
 
