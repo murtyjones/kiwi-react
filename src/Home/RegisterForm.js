@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import renderTextField from '../common/renderTextField'
 import { FlatButton, RaisedButton } from 'material-ui'
+import asyncValidate from './usernameAvailability'
 
 const styles = {
   field: {
@@ -27,15 +28,15 @@ const styles = {
   }
 }
 
-let RegisterForm = props => {
+const RegisterForm = props => {
   const { error, handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={ handleSubmit }>
       <Field
-        name="username"
-        type="text"
+        name='username'
+        type='text'
         component={ renderTextField }
-        hintText="username"
+        hintText='username'
         inputStyle={ styles.input }
         style={ styles.field }
         hintStyle={ styles.hintStyle }
@@ -43,10 +44,10 @@ let RegisterForm = props => {
         underlineFocusStyle={ styles.underlineFocusStyle }
       />
       <Field
-        name="password"
-        type="password"
+        name='password'
+        type='password'
         component={ renderTextField }
-        hintText="password"
+        hintText='password'
         inputStyle={ styles.input }
         style={ styles.field }
         hintStyle={ styles.hintStyle }
@@ -54,10 +55,10 @@ let RegisterForm = props => {
         underlineFocusStyle={ styles.underlineFocusStyle }
       />
       <div>
-        <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
+        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting && !error }>
           Register
         </RaisedButton>
-        <FlatButton type="button" onClick={ reset } disabled={ pristine || submitting }>
+        <FlatButton type='button' onClick={ reset } disabled={ pristine || submitting }>
           Clear Values
         </FlatButton>
       </div>
@@ -66,7 +67,7 @@ let RegisterForm = props => {
   )
 }
 
-RegisterForm = reduxForm({
+export default reduxForm({
   // a unique name for the form
   form: 'register',
   validate: values => {
@@ -79,7 +80,8 @@ RegisterForm = reduxForm({
     }
 
     return errors
-  }
+  },
+  // asyncValidate,
+  // asyncBlurFields: ['username']
 })(RegisterForm)
 
-export default RegisterForm

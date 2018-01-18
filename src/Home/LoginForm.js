@@ -54,7 +54,7 @@ let LoginForm = props => {
         underlineFocusStyle={ styles.underlineFocusStyle }
       />
       <div>
-        <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
+        <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting && !error }>
           Login
         </RaisedButton>
         <FlatButton onClick={ reset } disabled={ pristine || submitting }>
