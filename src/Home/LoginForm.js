@@ -18,6 +18,12 @@ const styles = {
   },
   hintStyle: {
     color: '#2E2860'
+  },
+  error: {
+    display: 'inline-block'
+    , fontWeight: 'bold'
+    , color: '#d45e75'
+    , padding: '5px 0'
   }
 }
 
@@ -26,10 +32,10 @@ let LoginForm = props => {
   return (
     <form onSubmit={ handleSubmit }>
       <Field
-        name="email"
+        name="username"
         type="text"
         component={ renderTextField }
-        hintText="email"
+        hintText="username"
         inputStyle={ styles.input }
         style={ styles.field }
         hintStyle={ styles.hintStyle }
@@ -47,7 +53,6 @@ let LoginForm = props => {
         underlineStyle={ styles.underlineStyle }
         underlineFocusStyle={ styles.underlineFocusStyle }
       />
-      { error && <strong>{ error }</strong> }
       <div>
         <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
           Login
@@ -56,6 +61,7 @@ let LoginForm = props => {
           Clear Values
         </FlatButton>
       </div>
+      { error && <span style={ styles.error }>{error}</span> }
     </form>
   )
 }
@@ -67,8 +73,8 @@ LoginForm = reduxForm({
   form: 'login',
   validate: values => {
     const errors = {}
-    if(!values.email) {
-      errors.email = 'Required!'
+    if(!values.username) {
+      errors.username = 'Required!'
     }
     if(!values.password) {
       errors.password = 'Required!'

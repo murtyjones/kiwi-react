@@ -20,12 +20,12 @@ export default class AuthService {
   }
 
 
-  login({ email, password }) {
+  login({ username, password }) {
     return new Promise((resolve, reject) => {
       return this.auth0.client.login({
         realm: config.auth.realm
-        , username: email
-        , password: password
+        , username
+        , password
         , scope: config.auth.scope
       }, (err, result) => {
         if (err) return reject(err)
