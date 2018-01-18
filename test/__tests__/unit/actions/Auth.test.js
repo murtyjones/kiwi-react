@@ -26,7 +26,7 @@ describe('Auth Actions', () => {
   describe('login', () => {
     let params
     beforeEach(async() => {
-      params = { email: 'fakeEmail', password: 'fakePassword' }
+      params = { username: 'fakeUsername', password: 'fakePassword' }
     })
 
     it('should call authService.login once with expected params', async () => {
@@ -75,7 +75,7 @@ describe('Auth Actions', () => {
   describe('register', () => {
     let params
     beforeEach(async() => {
-      params = { email: 'fakeEmail', password: 'fakePassword' }
+      params = { username: 'fakeUsername', password: 'fakePassword' }
     })
 
     it('should call ApiFetch once with expected params', async () => {
@@ -135,7 +135,7 @@ describe('Auth Actions', () => {
   describe('signout', () => {
     let params
     beforeEach(async() => {
-      params = { email: 'fakeEmail', password: 'fakePassword' }
+      params = { username: 'fakeUsername', password: 'fakePassword' }
     })
 
     it('should call authService.signout once', async () => {

@@ -9,20 +9,20 @@ let LoginForm = props => {
   return (
     <form onSubmit={ handleSubmit }>
       <Field
-        name="email"
-        type="text"
+        name='username'
+        type='text'
         component={ renderTextField }
-        hintText="Email"
+        hintText='Username'
       />
       <Field
-        name="password"
-        type="password"
+        name='password'
+        type='password'
         component={ renderTextField }
-        hintText="Password"
+        hintText='Password'
       />
       { error && <strong>{ error }</strong> }
       <div>
-        <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
+        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting }>
           Login
         </RaisedButton>
         <FlatButton onClick={ reset } disabled={ pristine || submitting }>
@@ -40,8 +40,8 @@ LoginForm = reduxForm({
   form: 'login',
   validate: values => {
     const errors = {}
-    if(!values.email) {
-      errors.email = 'Required!'
+    if(!values.username) {
+      errors.username = 'Required!'
     }
     if(!values.password) {
       errors.password = 'Required!'

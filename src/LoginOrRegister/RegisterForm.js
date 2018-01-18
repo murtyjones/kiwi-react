@@ -8,23 +8,23 @@ let RegisterForm = props => {
   return (
     <form onSubmit={ handleSubmit }>
       <Field
-        name="email"
-        type="text"
+        name='username'
+        type='text'
         component={ renderTextField }
-        hintText="email"
+        hintText='username'
       />
       <Field
-        name="password"
-        type="password"
+        name='password'
+        type='password'
         component={ renderTextField }
-        hintText="password"
+        hintText='password'
       />
       { error && <strong>{error}</strong> }
       <div>
-        <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
+        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting }>
           Register
         </RaisedButton>
-        <FlatButton type="button" onClick={ reset } disabled={ pristine || submitting }>
+        <FlatButton type='button' onClick={ reset } disabled={ pristine || submitting }>
           Clear Values
         </FlatButton>
       </div>
@@ -37,8 +37,8 @@ RegisterForm = reduxForm({
   form: 'register',
   validate: values => {
     const errors = {}
-    if(!values.email) {
-      errors.email = 'Required!'
+    if(!values.username) {
+      errors.username = 'Required!'
     }
     if(!values.password) {
       errors.password = 'Required!'

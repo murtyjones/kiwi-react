@@ -41,23 +41,23 @@ describe('Auth Actions', () => {
   describe('login', () => {
     let params
     beforeEach(async () => {
-      params = { email: 'fakeEmail', password: 'fakePassword' }
+      params = { username: 'fakeUsername', password: 'fakePassword' }
     })
 
     it('should call auth0.client.login once with expected args', () => {
-      const params = { email: 'fakeEmail', password: 'fakePassword' }
+      const params = { username: 'fakeUsername', password: 'fakePassword' }
       const result = authService.login(params)
       expect(loginStub.mock.calls.length).toEqual(1)
       expect(loginStub.mock.calls[0][0]).toEqual({
         password: params.password
         , realm: config.auth.realm
         , scope: config.auth.scope
-        , username: params.email
+        , username: params.username
       })
     })
 
     it('should resolve with expected value', async () => {
-      const params = { email: 'fakeEmail', password: 'fakePassword' }
+      const params = { username: 'fakeUsername', password: 'fakePassword' }
       const result = await authService.login(params)
       expect(result).toEqual(loginStubResult)
     })
@@ -66,7 +66,7 @@ describe('Auth Actions', () => {
       const failMsg = 'failure'
       loginStub.mockImplementationOnce((params, cb) => cb(failMsg, null))
       try {
-        const params = { email: 'fakeEmail', password: 'fakePassword' }
+        const params = { username: 'fakeUsername', password: 'fakePassword' }
         const result = await authService.login(params)
       } catch(err) {
         expect(err).toEqual(failMsg)
