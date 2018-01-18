@@ -8,7 +8,7 @@ const styles = {
     width: '100%'
   },
   input: {
-
+    color: '#FFFFFF'
   },
   underlineStyle: {
     borderBottom: '2px solid #2E2860'
