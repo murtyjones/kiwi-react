@@ -1,0 +1,8 @@
+.backButton, .nextButton {
+    background-color: transparent;
+    border: 0px;
+}
+
+.backButton:hover, .nextButton:hover {
+    background-color: #654E93;
+}
