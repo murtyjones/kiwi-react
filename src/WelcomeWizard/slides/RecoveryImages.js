@@ -40,23 +40,41 @@ const styles = {
   }
 }
 
+const makeRef = (baseRef, n) => `${baseRef}.1`
+
+
 export default class RecoveryImages extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      image1: ''
+      , image2: ''
+      , image3: ''
+    }
+  }
+
+  saveImageChoice = (name) => {
+    const { image1, image2 } = this.state
+    const indexToSaveAt = image2 ? 2 : image1 ? 1 : 0
+    this.setState({
+        [`image${indexToSaveAt+1}`]: name
+      }, () => {
+      this.props.fields.insert(indexToSaveAt, name)
+    })
   }
 
   render() {
-    console.log('rendered')
+    console.log(this.props)
     return (
       <div style={ styles.imageContainer }>
-        { images.map((uri, i) =>
+        { images.map((name, i) =>
           <img
             key={ i }
             style={ styles.image }
-            src={ `${recoveryUri}/${uri}.svg` }
+            src={ `${recoveryUri}/${name}.svg` }
+            onClick={ () => this.saveImageChoice(name) }
           />
         ) }
-
         <div style={ styles.attribution }>
           Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
         </div>

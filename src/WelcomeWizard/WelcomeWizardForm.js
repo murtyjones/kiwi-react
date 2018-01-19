@@ -67,6 +67,7 @@ const slides = [
     component: RecoveryImages
     , title: 'Set your recovery images'
     , fieldName: 'recovery'
+    , fieldType: FieldArray
   }
 ]
 
@@ -97,11 +98,12 @@ class WelcomeWizardForm extends Component {
     const { activeSlideIndex } = this.props
       , ActiveSlideComponent = slides[activeSlideIndex].component
       , activeSlideFieldName = slides[activeSlideIndex].fieldName
+      , ActiveSlideFieldType = slides[activeSlideIndex].fieldType
 
     return (
-      <Field
-        key={ `${activeSlideFieldName}.answer` }
-        name={ `${activeSlideFieldName}.answer` }
+      <ActiveSlideFieldType
+        key={ activeSlideFieldName }
+        name={ activeSlideFieldName }
         component={ ActiveSlideComponent }
       />
     )
