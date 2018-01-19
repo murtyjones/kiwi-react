@@ -8,6 +8,7 @@ const recoveryUri = '../assets/images/recovery'
 const images = [
   'bull'
   , 'chick'
+  , 'crab'
   , 'fox'
   , 'hippopotamus'
   , 'koala'
@@ -18,25 +19,25 @@ const images = [
 ]
 
 const styles = {
-  selectedImagesContainer: {
+  container: {
     position: 'absolute'
-    , height: '100px'
-    , width: '520px'
-    , top: '50%'
     , left: '50%'
-    , marginTop: '-350px'
-    , marginLeft: '-260px'
+    , width: '800px'
+    , height: '100%'
+    , marginLeft: '-400px'
+  },
+  selectedImagesContainer: {
+    position: 'relative'
+    , left: '50%'
+    , height: '100px'
+    , width: '30%'
+    , marginLeft: '-15%'
   },
   imageContainer: {
-    position: 'absolute'
-    , width: '510px'
-    , top: '50%'
-    , left: '50%'
-    , marginTop: '-250px'
-    , marginLeft: '-255px'
+    width: '100%'
   },
   image: {
-    width: '90px'
+    width: '80px'
     , padding: '30px'
     , backgroundColor: '#FFFFFF'
     , margin: '10px'
@@ -44,8 +45,8 @@ const styles = {
     , cursor: 'pointer'
   },
   imageSelected: {
-    height: '60px'
-    , margin: '5px 10.7%'
+    height: '50px'
+    , margin: '10px 6.0%'
   },
   imageRow: {
     width: '100%'
@@ -100,24 +101,25 @@ export default class RecoveryImages extends Component {
 
   render() {
     const { image1, image2, image3 } = this.state
-    return [
-      <div key='selected-images' style={ styles.selectedImagesContainer }>
-        { this.renderImageSelection([image1, image2, image3]) }
-      </div>
-      ,
-      <div key='image-options' style={ styles.imageContainer }>
-        { images.map((name, i) =>
-          <img
-            key={ i }
-            style={ styles.image }
-            src={ `${recoveryUri}/${name}.svg` }
-            onClick={ () => this.saveImageChoice(name) }
-          />
-        ) }
-        <div style={ styles.attribution }>
-          Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+    return (
+      <div style={ styles.container }>
+        <div key='selected-images' style={ styles.selectedImagesContainer }>
+          { this.renderImageSelection([image1, image2, image3]) }
+        </div>
+        <div key='image-options' style={ styles.imageContainer }>
+          { images.map((name, i) =>
+            <img
+              key={ i }
+              style={ styles.image }
+              src={ `${recoveryUri}/${name}.svg` }
+              onClick={ () => this.saveImageChoice(name) }
+            />
+          ) }
+          <div style={ styles.attribution }>
+            Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+          </div>
         </div>
       </div>
-    ]
+    )
   }
 }

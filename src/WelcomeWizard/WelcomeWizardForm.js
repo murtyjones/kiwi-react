@@ -12,7 +12,7 @@ import RecoveryImages from './slides/RecoveryImages'
 import './overrides.css'
 
 const formName = 'welcome'
-const circleSize = 80
+  , circleSize = 80
   , iconSize = 70
 
 const styles = {
@@ -60,13 +60,25 @@ const styles = {
     , marginTop: `-${circleSize/2}px`
   }
   , rightArrowColor: '#3E2E61'
-  , leftArrowColor: '#3E2E61'
+  , leftArrowColor: '#3E2E61',
+  title: {
+    marginTop: 0
+    , paddingTop: '5%'
+    , textAlign: 'center'
+  },
+  subtitle: {
+    margin: 0
+    , textAlign: 'center'
+    , padding: '20px 30%'
+    , paddingTop: 0
+  }
 }
 
 const slides = [
   {
     component: RecoveryImages
-    , title: 'Set your recovery images'
+    , title: 'Pick your recovery images'
+    , subtitle: 'If you misplace your password, remembering these images will help you get back into your account.'
     , fieldName: 'recovery'
     , fieldType: FieldArray
   }
@@ -97,17 +109,31 @@ class WelcomeWizardForm extends Component {
   renderActiveSlide = () => {
     // still true???? -> this function should be kept outside the render method! otherwise child components will remount!!!
     const { activeSlideIndex } = this.props
-      , ActiveSlideComponent = slides[activeSlideIndex].component
-      , activeSlideFieldName = slides[activeSlideIndex].fieldName
-      , ActiveSlideFieldType = slides[activeSlideIndex].fieldType
+      , activeSlide = slides[activeSlideIndex]
+      , ActiveSlideComponent = activeSlide.component
+      , ActiveSlideFieldType = activeSlide.fieldType
 
-    return (
+    return [
+      <h1
+        key='activeSlideTitle'
+        style={ styles.title }
+      >
+        { activeSlide.title }
+      </h1>
+      ,
+      <h4
+        key='activeSlideSubtitle'
+        style={ styles.subtitle }
+      >
+        { activeSlide.subtitle }
+      </h4>
+      ,
       <ActiveSlideFieldType
-        key={ activeSlideFieldName }
-        name={ activeSlideFieldName }
+        key={ activeSlide.fieldName }
+        name={ activeSlide.fieldName }
         component={ ActiveSlideComponent }
       />
-    )
+    ]
   }
 
   render() {
