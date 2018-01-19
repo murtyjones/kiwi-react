@@ -56,7 +56,7 @@ const styles = {
     , marginRight: '10px'
   },
   loginDrawer: {
-    backgroundColor: '#4E449A'
+    backgroundColor: '#765C9F'
   },
   loginDrawerWidth: 400 // px
 }
