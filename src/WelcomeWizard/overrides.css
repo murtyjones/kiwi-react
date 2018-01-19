@@ -1,8 +1,13 @@
-.backButton, .nextButton {
+.disabled:hover {
+    cursor: default !important;
+}
+
+.welcomeBackButton, .welcomeNextButton {
     background-color: transparent;
     border: 0px;
 }
 
-.backButton:hover, .nextButton:hover {
+.welcomeBackButton:hover, .welcomeNextButton:hover {
     background-color: #654E93;
+    cursor: pointer;
 }

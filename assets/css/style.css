@@ -5,3 +5,7 @@ body {
 .CodeMirror {
     cursor: text;
 }
+
+a {
+    color: #3E2E61;
+}

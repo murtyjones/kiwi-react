@@ -22,7 +22,7 @@ const styles = {
     , position: 'relative'
     , backgroundColor: '#765C9F'
   },
-  prevButton: {
+  welcomePrevButton: {
     height: `${circleSize*2}px`
     , width: `${circleSize}px`
     , borderBottomRightRadius: `${circleSize*2}px`
@@ -40,7 +40,7 @@ const styles = {
     , top: '50%'
     , marginTop: `-${circleSize/2}px`
   },
-  nextButton: {
+  welcomeNextButton: {
     height: `${circleSize*2}px`
     , width: `${circleSize}px`
     , borderBottomLeftRadius: `${circleSize*2}px`
@@ -128,10 +128,10 @@ class WelcomeWizardForm extends Component {
       ,
       // Render buttons
       <div
-        key='backButton'
-        id='backButton'
-        className={ cns('backButton', { 'disabled': prevDisabled }) }
-        style={ styles.prevButton }
+        key='welcomeBackButton'
+        id='welcomeBackButton'
+        className={ cns('welcomeBackButton', { 'disabled': prevDisabled }) }
+        style={ styles.welcomePrevButton }
         onClick={ onPrevClick }
       >
         <KeyboardArrowLeft
@@ -143,10 +143,10 @@ class WelcomeWizardForm extends Component {
       </div>
       ,
       <div
-        key='nextButton'
-        id='nextButton'
-        className={ cns('nextButton', { 'disabled': nextDisabled }) }
-        style={ styles.nextButton }
+        key='welcomeNextButton'
+        id='welcomeNextButton'
+        className={ cns('welcomeNextButton', { 'disabled': nextDisabled }) }
+        style={ styles.welcomeNextButton }
         onClick={ onNextClick }
       >
         <KeyboardArrowRight
