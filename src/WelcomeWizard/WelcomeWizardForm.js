@@ -21,6 +21,7 @@ const styles = {
     , height: '100%'
     , position: 'relative'
     , backgroundColor: '#765C9F'
+    , color: '#FFFFFF'
   },
   welcomePrevButton: {
     height: `${circleSize*2}px`
