@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import renderTextField from '../common/renderTextField'
 import { FlatButton, RaisedButton } from 'material-ui'
+import asyncValidate from './usernameAvailability'
 
 const styles = {
   field: {
@@ -18,18 +19,24 @@ const styles = {
   },
   hintStyle: {
     color: '#2E2860'
+  },
+  error: {
+    display: 'inline-block'
+    , fontWeight: 'bold'
+    , color: '#d45e75'
+    , padding: '5px 0'
   }
 }
 
-let RegisterForm = props => {
-  const {error, handleSubmit, pristine, reset, submitting} = props
+const RegisterForm = props => {
+  const { error, handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={ handleSubmit }>
       <Field
-        name="email"
-        type="text"
+        name='username'
+        type='text'
         component={ renderTextField }
-        hintText="email"
+        hintText='username'
         inputStyle={ styles.input }
         style={ styles.field }
         hintStyle={ styles.hintStyle }
@@ -37,43 +44,44 @@ let RegisterForm = props => {
         underlineFocusStyle={ styles.underlineFocusStyle }
       />
       <Field
-        name="password"
-        type="password"
+        name='password'
+        type='password'
         component={ renderTextField }
-        hintText="password"
+        hintText='password'
         inputStyle={ styles.input }
         style={ styles.field }
         hintStyle={ styles.hintStyle }
         underlineStyle={ styles.underlineStyle }
         underlineFocusStyle={ styles.underlineFocusStyle }
       />
-      { error && <strong>{error}</strong> }
       <div>
-        <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
+        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting && !error }>
           Register
         </RaisedButton>
-        <FlatButton type="button" onClick={ reset } disabled={ pristine || submitting }>
+        <FlatButton type='button' onClick={ reset } disabled={ pristine || submitting }>
           Clear Values
         </FlatButton>
       </div>
+      { error && <span style={ styles.error }>{error}</span> }
     </form>
   )
 }
 
-RegisterForm = reduxForm({
+export default reduxForm({
   // a unique name for the form
   form: 'register',
   validate: values => {
     const errors = {}
-    if(!values.email) {
-      errors.email = 'Required!'
+    if(!values.username) {
+      errors.username = 'Required!'
     }
     if(!values.password) {
       errors.password = 'Required!'
     }
 
     return errors
-  }
+  },
+  // asyncValidate,
+  // asyncBlurFields: ['username']
 })(RegisterForm)
 
-export default RegisterForm

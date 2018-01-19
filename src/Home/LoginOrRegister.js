@@ -65,30 +65,29 @@ class LoginOrRegister extends Component {
 
   handleLoginSubmit = async(v) => {
     const { login } = this.props
-    const { email, password } = v
-    return login({ email, password })
+    const { username, password } = v
+    return login({ username, password })
       .then(result => {
         this.props.history.push("/lessons")
       }).catch(e => {
-        if(e.description.includes('Wrong email or password.')) {
-          throw new SubmissionError({ password: '', _error: 'Wrong email or password.' })
+        if(JSON.stringify(e).includes('invalid_grant')) {
+          throw new SubmissionError({ password: '', _error: 'Wrong username or password.' })
         }
       })
   }
 
   handleRegisterSubmit = async(v) => {
     const { register, login } = this.props
-    const { email, password } = v
+    const { username, password } = v
     try {
-      return register({ email, password })
+      return register({ username, password })
         .then(res => {
-          return login({ email, password })
+          return login({ username, password })
         }).then(res => {
           this.props.history.push("/lessons")
         }).catch(e => {
-          console.log(JSON.stringify(e))
-          if(e.message.includes('User already exists')) {
-            throw new SubmissionError({ email: 'Email address is already in use!', _error: 'Registration failed!' })
+          if(JSON.stringify(e).includes('User already exists')) {
+            throw new SubmissionError({ username: 'Username is already in use!', _error: 'Registration failed!' })
           }
         })
     } catch (e) {
@@ -96,22 +95,6 @@ class LoginOrRegister extends Component {
     }
   }
 
-
-  renderLoginForm = () => {
-    return (
-      <LoginForm
-        onSubmit={ this.handleLoginSubmit }
-      />
-    )
-  }
-
-  renderRegisterForm = () => {
-    return (
-      <RegisterForm
-        onSubmit={ this.handleRegisterSubmit }
-      />
-    )
-  }
 
   render() {
     return (
@@ -125,13 +108,13 @@ class LoginOrRegister extends Component {
             style={ styles.tabStyle }
             label='login'
           >
-            { this.renderLoginForm() }
+            <LoginForm onSubmit={ this.handleLoginSubmit } />
           </Tab>
           <Tab
             style={ styles.tabStyle }
             label='register'
           >
-            { this.renderRegisterForm() }
+            <RegisterForm onSubmit={ this.handleRegisterSubmit } />
           </Tab>
         </Tabs>
       </div>

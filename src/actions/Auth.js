@@ -6,10 +6,10 @@ import config from 'config'
 const authService = new AuthService()
 
 export const login = (params) => {
-  const { email, password } = params
+  const { username, password } = params
   return dispatch => {
     dispatch({ type: ACTIONS.LOGIN_REQUEST })
-    return authService.login({ email, password })
+    return authService.login({ username, password })
     .then(success => {
       dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
       return success
@@ -21,12 +21,13 @@ export const login = (params) => {
 }
 
 export const register = (params) => {
-  const { email, password } = params
+  const { username, password } = params
+  console.log(username)
   return dispatch => {
     dispatch({ type: ACTIONS.REGISTER_REQUEST })
     const params = {
       method: 'POST',
-      body: { email, password }
+      body: { username, password }
     }
     return ApiFetch(`${config.api}/api/register`, params)
     .then(success => {
