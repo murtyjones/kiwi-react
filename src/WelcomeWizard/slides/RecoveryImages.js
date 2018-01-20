@@ -29,9 +29,9 @@ const styles = {
   selectedImagesContainer: {
     position: 'relative'
     , left: '50%'
-    , height: '100px'
-    , width: '30%'
-    , marginLeft: '-15%'
+    , height: '130px'
+    , width: '50%'
+    , marginLeft: '-25%'
   },
   imageContainer: {
     width: '100%'
@@ -39,21 +39,29 @@ const styles = {
   image: {
     width: '80px'
     , padding: '30px'
-    , backgroundColor: '#FFFFFF'
+    , backgroundColor: '#3E2E61'
     , margin: '10px'
     , borderRadius: '5px'
     , cursor: 'pointer'
   },
   imageSelected: {
-    height: '50px'
-    , margin: '10px 6.0%'
+    display: 'inline-block'
+    , height: '80px'
+    , width: '80px'
+    , margin: '10px 3%'
+    , padding: '10px'
+    , border: '1px solid #3E2E61'
+    , borderRadius: '5px'
+    , backgroundColor: '#FFFFFF'
+    , backgroundRepeat: 'no-repeat'
+    , backgroundPosition: '10px 10px'
+    , backgroundSize: '80px 80px'
   },
   imageRow: {
     width: '100%'
-    , height: '70px'
-    , backgroundColor: '#FFF'
+    , height: '90px'
     , borderRadius: '5px'
-    , marginTop: '10px'
+    , margin: '10px 0'
   },
   attribution: {
     fontSize: '11px'
@@ -87,20 +95,20 @@ export default class RecoveryImages extends Component {
 
   renderImageSelection = (images) =>
     <div style={ styles.imageRow }>
-      { images.map(image =>
-        image
-          ?
-            <img
-              key={ image }
-              style={ styles.imageSelected }
-              src={ `${recoveryUri}/${image}.svg` }
-            />
-          : null
+      { images.map((image, i) =>
+        <div
+          key={ i }
+          style={ {
+            ...styles.imageSelected
+            , backgroundImage: `url(${recoveryUri}/${image}.svg)`
+          } }
+        />
       ) }
     </div>
 
   render() {
     const { image1, image2, image3 } = this.state
+
     return (
       <div style={ styles.container }>
         <div key='selected-images' style={ styles.selectedImagesContainer }>

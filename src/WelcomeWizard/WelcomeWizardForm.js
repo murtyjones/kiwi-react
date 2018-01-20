@@ -121,12 +121,12 @@ class WelcomeWizardForm extends Component {
         { activeSlide.title }
       </h1>
       ,
-      <h4
+      <h5
         key='activeSlideSubtitle'
         style={ styles.subtitle }
       >
         { activeSlide.subtitle }
-      </h4>
+      </h5>
       ,
       <ActiveSlideFieldType
         key={ activeSlide.fieldName }
