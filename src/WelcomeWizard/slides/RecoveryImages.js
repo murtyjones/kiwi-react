@@ -39,7 +39,7 @@ const styles = {
   image: {
     width: '80px'
     , padding: '30px'
-    , backgroundColor: '#3E2E61'
+    , backgroundColor: '#5d4692'
     , margin: '10px'
     , borderRadius: '5px'
     , cursor: 'pointer'
