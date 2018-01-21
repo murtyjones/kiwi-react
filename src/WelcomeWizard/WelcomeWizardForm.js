@@ -3,12 +3,11 @@ import * as T from 'prop-types'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cns from 'classnames'
-import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
+import { reduxForm, getFormValues } from 'redux-form'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 
-import RecoveryImages from './slides/RecoveryImages'
-import FinalSlide from './slides/FinalSlide'
+import slides from './slides'
 import insertIf from '../utils/insertIf'
 
 import './overrides.css'
@@ -75,22 +74,6 @@ const styles = {
     , paddingTop: 0
   }
 }
-
-export const slides = [
-  {
-    component: RecoveryImages
-    , title: 'Pick your recovery images'
-    , subtitle: 'If you misplace your password, remembering these images will help you get back into your account.'
-    , fieldName: 'images'
-    , fieldType: FieldArray
-    , action: 'upsertPasswordRecoveryImages'
-  },
-  {
-    component: FinalSlide
-    , fieldName: '_'
-    , fieldType: Field
-  }
-]
 
 class WelcomeWizardForm extends Component {
   constructor(props) {

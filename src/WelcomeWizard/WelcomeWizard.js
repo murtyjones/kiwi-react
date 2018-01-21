@@ -5,32 +5,9 @@ import { connect } from 'react-redux'
 import Transition from 'react-transition-group'
 
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, upsertPasswordRecoveryImages, signout, login } from '../actions'
-import WelcomeWizardForm, { slides } from './WelcomeWizardForm'
+import WelcomeWizardForm from './WelcomeWizardForm'
 
-const styles = {
-  container: {
-    width: '100%'
-    , height: '100%'
-    , position: 'relative'
-    , backgroundColor: '#765C9F'
-  },
-  imageContainer: {
-    position: 'absolute'
-    , height: '500px'
-    , width: '520px'
-    , top: '50%'
-    , left: '50%'
-    , marginTop: '-250px'
-    , marginLeft: '-250px'
-  },
-  image: {
-    width: '90px'
-    , padding: '30px'
-    , backgroundColor: '#FFFFFF'
-    , margin: '10px'
-    , borderRadius: '5px'
-  }
-}
+import slides from './slides'
 
 class WelcomeWizard extends Component {
   constructor(props) {
@@ -57,16 +34,15 @@ class WelcomeWizard extends Component {
   }
 
   handleSubmit = async (v) => {
-    const { userId } = this.props
+    const { username } = this.props
     const actionType = slides[this.state.activeSlideIndex].action
     if(actionType) {
-      const params = {
-        userId
-        , ...v
-      }
+      const params = { username, ...v }
       return await this.props[actionType](params)
     }
-    this.props.history.push("/lessons")
+    if(slides.length - 1 === this.state.activeSlideIndex) {
+      this.props.history.push("/lessons")
+    }
   }
 
   goToNextSlide = () =>
@@ -94,10 +70,10 @@ class WelcomeWizard extends Component {
 export const WelcomeWizardComponent = WelcomeWizard
 
 const mapStateToProps = (state) => {
-  const { auth: { userId } } = state
+  const { auth: { username } } = state
 
   return {
-    userId
+    username
   }
 }
 

@@ -18,10 +18,10 @@ const styles = {
   }
 }
 
-const renderPasswordField = props =>
+const renderUsernameField = props =>
   <div style={ styles.container }>
     { renderTextField({ ...props, underlineShow: false, style: styles.textField }) }
   </div>
 
 
-export default renderPasswordField
+export default renderUsernameField

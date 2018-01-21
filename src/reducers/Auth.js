@@ -7,6 +7,7 @@ const initialState = {
   , exp: AuthService.getTokenExp()
   , isAdmin: AuthService.getIsAdmin()
   , userId: AuthService.getUserId()
+  , username: AuthService.getUsername()
   , refreshToken: AuthService.getRefreshToken()
 }
 
@@ -21,6 +22,7 @@ function authReducer(state = initialState, action) {
       AuthService.setTokenExp(decodedExp)
       AuthService.setIsAdmin(decodedToken)
       AuthService.setUserId(decodedToken)
+      AuthService.setUsername(decodedToken)
       AuthService.setRefreshToken(action.payload.refreshToken)
       const newState = Object.assign({}, state, {
         isLoggedIn: true
@@ -28,6 +30,7 @@ function authReducer(state = initialState, action) {
         , exp: AuthService.getTokenExp()
         , isAdmin: AuthService.getIsAdmin()
         , userId: AuthService.getUserId()
+        , username: AuthService.getUsername()
         , refreshToken: AuthService.getRefreshToken()
       })
       return newState
@@ -39,6 +42,7 @@ function authReducer(state = initialState, action) {
         , exp: null
         , isAdmin: false
         , userId: null
+        , username: null
         , refreshToken: null
       })
       return newState

@@ -62,14 +62,14 @@ export const refreshToken = () => {
 }
 
 export const upsertPasswordRecoveryImages = (params) => {
-  const { userId, images } = params
+  const { username, images } = params
   return dispatch => {
     dispatch({ type: ACTIONS.UPSERT_PASSWORD_RECOVERY_REQUEST })
     const params = {
       method: 'PUT',
       body: { images }
     }
-    return ApiFetch(`${config.api}/api/user/recovery/${userId}`, params)
+    return ApiFetch(`${config.api}/api/user/recovery/${username}`, params)
       .then(success => {
         dispatch({ type: ACTIONS.UPSERT_PASSWORD_RECOVERY_SUCCESS, payload: success })
         return success
@@ -82,19 +82,39 @@ export const upsertPasswordRecoveryImages = (params) => {
 }
 
 export const checkPasswordRecoveryCorrectness = (params) => {
-  const { userId, images } = params
+  const { username } = params
   return dispatch => {
     dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_REQUEST })
-    const params = {
+    const options = {
       method: 'POST',
-      body: { images }
+      body: params
     }
-    return ApiFetch(`${config.api}/api/user/recovery/${userId}`, params)
+    return ApiFetch(`${config.api}/api/user/recovery/${username}`, options)
       .then(success => {
         dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_SUCCESS, payload: success })
         return success
       }).catch(err => {
         dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_FAILURE, payload: err })
+        throw err
+      })
+
+  }
+}
+
+export const resetPassword = params => {
+  const { username } = params
+  return dispatch => {
+    dispatch({ type: ACTIONS.RESET_PASSWORD_REQUEST })
+    const options = {
+      method: 'POST',
+      body: params
+    }
+    return ApiFetch(`${config.api}/api/user/password/${username}`, options)
+      .then(success => {
+        dispatch({ type: ACTIONS.RESET_PASSWORD_SUCCESS, payload: success })
+        return success
+      }).catch(err => {
+        dispatch({ type: ACTIONS.RESET_PASSWORD_FAILURE, payload: err })
         throw err
       })
 

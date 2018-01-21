@@ -125,6 +125,14 @@ export default class AuthService {
     return window.localStorage.getItem('userId')
   }
 
+  static setUsername(decodedToken) {
+    return window.localStorage.setItem('username', decodedToken.nickname)
+  }
+
+  static getUsername() {
+    return window.localStorage.getItem('username')
+  }
+
   static setIsAdmin(decodedToken) {
     const app_metadata = get(decodedToken, `${config.auth.namespace}/app_metadata`)
     const isAdmin = get(app_metadata, 'roles', []).reduce((acc, role) => {

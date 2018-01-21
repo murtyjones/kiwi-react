@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cns from 'classnames'
-import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
+import { reduxForm, getFormValues } from 'redux-form'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 
-import RecoveryImages from '../WelcomeWizard/slides/RecoveryImages'
-import ResetPassword from './slides/ResetPassword'
+import slides from './slides'
 import insertIf from '../utils/insertIf'
 
 import './overrides.css'
@@ -76,21 +74,6 @@ const styles = {
   }
 }
 
-export const slides = [
-  {
-    component: RecoveryImages
-    , title: 'Guess your recovery images'
-    , subtitle: 'To reset your password, select the three images you picked when you signed up.'
-    , fieldName: 'images'
-    , fieldType: FieldArray
-    , action: 'checkPasswordRecoveryCorrectness'
-  },
-  {
-    component: ResetPassword
-    , fieldName: 'password'
-    , fieldType: Field
-  }
-]
 
 class ForgotPasswordWizardForm extends Component {
   constructor(props) {

@@ -4,39 +4,16 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Transition from 'react-transition-group'
 
-import { checkPasswordRecoveryCorrectness, openSideNav, closeSideNav, openTopBar, closeTopBar } from '../actions'
-import ForgotPasswordWizardForm, { slides } from './ForgotPasswordWizardForm'
-
-const styles = {
-  container: {
-    width: '100%'
-    , height: '100%'
-    , position: 'relative'
-    , backgroundColor: '#765C9F'
-  },
-  imageContainer: {
-    position: 'absolute'
-    , height: '500px'
-    , width: '520px'
-    , top: '50%'
-    , left: '50%'
-    , marginTop: '-250px'
-    , marginLeft: '-250px'
-  },
-  image: {
-    width: '90px'
-    , padding: '30px'
-    , backgroundColor: '#FFFFFF'
-    , margin: '10px'
-    , borderRadius: '5px'
-  }
-}
+import { checkPasswordRecoveryCorrectness, resetPassword, openSideNav, closeSideNav, openTopBar, closeTopBar } from '../actions'
+import ForgotPasswordWizardForm  from './ForgotPasswordWizardForm'
+import slides from './slides'
 
 class ForgotPasswordWizard extends Component {
   constructor(props) {
     super(props)
     this.state = {
       activeSlideIndex: 0
+      , recoveryCode: '' 
     }
   }
 
@@ -55,17 +32,24 @@ class ForgotPasswordWizard extends Component {
     this.props.openTopBar()
   }
 
+  saveRecoveryCode = success =>
+    this.setState({ recoveryCode: params.recoveryCode })
+
   handleSubmit = async (v) => {
-    const { userId } = this.props
     const actionType = slides[this.state.activeSlideIndex].action
+    const successHandlerType = slides[this.state.activeSlideIndex].handleSuccessMethod
+    const { recoveryCode } = this.state
+    const params = { ...v }
+    if(recoveryCode) params.recoveryCode = recoveryCode
     if(actionType) {
-      const params = {
-        userId
-        , ...v
+      const success = await this.props[actionType](v)
+      if(successHandlerType) {
+        this[successHandlerType](success)
       }
-      return await this.props[actionType](params)
     }
-    this.props.history.push("/lessons")
+    if(slides.length - 1 === this.state.activeSlideIndex) {
+      this.props.history.push("/lessons")
+    }
   }
 
   goToNextSlide = () =>
@@ -91,14 +75,6 @@ class ForgotPasswordWizard extends Component {
 
 export const ForgotPasswordWizardComponent = ForgotPasswordWizard
 
-const mapStateToProps = (state) => {
-  const { auth: { userId } } = state
-
-  return {
-    userId
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
     openSideNav: () => dispatch(openSideNav())
@@ -106,7 +82,8 @@ const mapDispatchToProps = (dispatch) => {
     , openTopBar: () => dispatch(openTopBar())
     , closeTopBar: () => dispatch(closeTopBar())
     , checkPasswordRecoveryCorrectness: params => dispatch(checkPasswordRecoveryCorrectness(params))
+    , resetPassword: params => dispatch(resetPassword(params))
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordWizard))
+export default withRouter(connect(null, mapDispatchToProps)(ForgotPasswordWizard))
