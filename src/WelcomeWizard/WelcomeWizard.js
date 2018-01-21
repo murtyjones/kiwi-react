@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } from '../actions'
+import Transition from 'react-transition-group'
 
-import WelcomeWizardForm from './WelcomeWizardForm'
+import { openSideNav, closeSideNav, openTopBar, closeTopBar, upsertPasswordRecoveryImages, signout, login } from '../actions'
+import WelcomeWizardForm, { slides } from './WelcomeWizardForm'
 
 const styles = {
   container: {
@@ -55,8 +56,17 @@ class WelcomeWizard extends Component {
     this.props.openTopBar()
   }
 
-  handleSubmit = (v) => {
-    //this.props.updateUserProfile({})
+  handleSubmit = async (v) => {
+    const { userId } = this.props
+    const actionType = slides[this.state.activeSlideIndex].action
+    if(actionType) {
+      const params = {
+        userId
+        , ...v
+      }
+      return await this.props[actionType](params)
+    }
+    this.props.history.push("/lessons")
   }
 
   goToNextSlide = () => {
@@ -83,6 +93,13 @@ class WelcomeWizard extends Component {
 
 export const WelcomeWizardComponent = WelcomeWizard
 
+const mapStateToProps = (state) => {
+  const { auth: { userId } } = state
+
+  return {
+    userId
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -90,7 +107,8 @@ const mapDispatchToProps = (dispatch) => {
     , closeSideNav: () => dispatch(closeSideNav())
     , openTopBar: () => dispatch(openTopBar())
     , closeTopBar: () => dispatch(closeTopBar())
+    , upsertPasswordRecoveryImages: params => dispatch(upsertPasswordRecoveryImages(params))
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(WelcomeWizard))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WelcomeWizard))

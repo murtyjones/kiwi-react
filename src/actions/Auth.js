@@ -60,3 +60,23 @@ export const refreshToken = () => {
     dispatch({ type: ACTIONS.TOKEN_REFRESH, payload: {} })
   }
 }
+
+export const upsertPasswordRecoveryImages = (params) => {
+  const { userId, images } = params
+  return dispatch => {
+    dispatch({ type: ACTIONS.UPSERT_PASSWORD_RECOVERY_REQUEST })
+    const params = {
+      method: 'PUT',
+      body: { images }
+    }
+    return ApiFetch(`${config.api}/api/user/recovery/${userId}`, params)
+      .then(success => {
+        dispatch({ type: ACTIONS.UPSERT_PASSWORD_RECOVERY_SUCCESS, payload: success })
+        return success
+      }).catch(err => {
+        dispatch({ type: ACTIONS.UPSERT_PASSWORD_RECOVERY_FAILURE, payload: err })
+        throw err
+      })
+
+  }
+}

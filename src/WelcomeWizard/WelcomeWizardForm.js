@@ -8,6 +8,8 @@ import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 
 import RecoveryImages from './slides/RecoveryImages'
+import FinalSlide from './slides/FinalSlide'
+import insertIf from '../utils/insertIf'
 
 import './overrides.css'
 
@@ -74,13 +76,19 @@ const styles = {
   }
 }
 
-const slides = [
+export const slides = [
   {
     component: RecoveryImages
     , title: 'Pick your recovery images'
     , subtitle: 'If you misplace your password, remembering these images will help you get back into your account.'
-    , fieldName: 'recovery'
+    , fieldName: 'images'
     , fieldType: FieldArray
+    , action: 'upsertPasswordRecoveryImages'
+  },
+  {
+    component: FinalSlide
+    , fieldName: '_'
+    , fieldType: Field
   }
 ]
 
@@ -96,8 +104,8 @@ class WelcomeWizardForm extends Component {
 
   onNext = (params) => {
     const { goToNextSlide, onSubmit, formValues } = this.props
-    goToNextSlide()
     onSubmit(formValues)
+    goToNextSlide()
   }
 
   onFinalNext = (params) => {
@@ -114,19 +122,23 @@ class WelcomeWizardForm extends Component {
       , ActiveSlideFieldType = activeSlide.fieldType
 
     return [
-      <h1
-        key='activeSlideTitle'
-        style={ styles.title }
-      >
-        { activeSlide.title }
-      </h1>
+      ...insertIf(activeSlide.title,
+        <h1
+          key='activeSlideTitle'
+          style={ styles.title }
+        >
+          { activeSlide.title }
+        </h1>
+      )
       ,
-      <h5
-        key='activeSlideSubtitle'
-        style={ styles.subtitle }
-      >
-        { activeSlide.subtitle }
-      </h5>
+      ...insertIf(activeSlide.subtitle,
+        <h5
+          key='activeSlideSubtitle'
+          style={ styles.subtitle }
+        >
+          { activeSlide.subtitle }
+        </h5>
+      )
       ,
       <ActiveSlideFieldType
         key={ activeSlide.fieldName }
