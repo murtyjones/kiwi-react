@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import renderTextField from '../common/renderTextField'
 import { FlatButton, RaisedButton } from 'material-ui'
+import { Link } from 'react-router-dom'
 
 const styles = {
   field: {
@@ -24,6 +25,12 @@ const styles = {
     , fontWeight: 'bold'
     , color: '#d45e75'
     , padding: '5px 0'
+  },
+  forgot: {
+    display: 'block'
+    , marginTop: '10px'
+    , fontSize: '12px'
+    , color: '#bbbbbb'
   }
 }
 
@@ -62,6 +69,7 @@ let LoginForm = props => {
         </FlatButton>
       </div>
       { error && <span style={ styles.error }>{error}</span> }
+      <Link style={ styles.forgot } to='/password'>Forgot password?</Link>
     </form>
   )
 }

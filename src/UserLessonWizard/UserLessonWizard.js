@@ -100,13 +100,13 @@ class UserLessonWizard extends Component {
     return postUserLesson(params)
   }
 
-  goToNextSlide = () => {
+  goToNextSlide = () =>
     this.setState({ activeSlideIndex: this.state.activeSlideIndex + 1 })
-  }
 
-  goToPrevSlide = () => {
+
+  goToPrevSlide = () =>
     this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
-  }
+
 
   handleFinalSlideNextClick = () => {
     return this.props.history.push({

@@ -40,6 +40,7 @@ import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
 import SideNav from './SideNav/SideNav'
 import TopBar from './TopBar/TopBar'
 import SignOut from './SignOut/SignOut'
+import ForgotPasswordWizard from './ForgotPasswordWizard/ForgotPasswordWizard'
 
 
 
@@ -129,6 +130,7 @@ class App extends Component {
                 <Route path='/login' exact component={ LoginOrRegister } />
                 <Route path='/register' exact component={ LoginOrRegister } />
                 <Route path='/signout' exact component={ SignOut } />
+                <Route path='/password' exact component={ ForgotPasswordWizard } />
                 {/* ----------------- */}
                 {/* Logged in routes  */}
                 {/* ----------------- */}

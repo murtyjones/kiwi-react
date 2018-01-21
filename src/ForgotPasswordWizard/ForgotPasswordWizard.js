@@ -4,8 +4,8 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Transition from 'react-transition-group'
 
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, upsertPasswordRecoveryImages, signout, login } from '../actions'
-import WelcomeWizardForm, { slides } from './WelcomeWizardForm'
+import { checkPasswordRecoveryCorrectness, openSideNav, closeSideNav, openTopBar, closeTopBar } from '../actions'
+import ForgotPasswordWizardForm, { slides } from './ForgotPasswordWizardForm'
 
 const styles = {
   container: {
@@ -32,14 +32,13 @@ const styles = {
   }
 }
 
-class WelcomeWizard extends Component {
+class ForgotPasswordWizard extends Component {
   constructor(props) {
     super(props)
     this.state = {
       activeSlideIndex: 0
     }
   }
-
 
   componentWillMount() {
     this.props.closeSideNav()
@@ -76,11 +75,10 @@ class WelcomeWizard extends Component {
   goToPrevSlide = () =>
     this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
 
-
   render() {
     const { activeSlideIndex } = this.state
     return (
-      <WelcomeWizardForm
+      <ForgotPasswordWizardForm
         activeSlideIndex={ activeSlideIndex }
         onSubmit={ this.handleSubmit }
         goToPrevSlide={ this.goToPrevSlide }
@@ -91,7 +89,7 @@ class WelcomeWizard extends Component {
 }
 
 
-export const WelcomeWizardComponent = WelcomeWizard
+export const ForgotPasswordWizardComponent = ForgotPasswordWizard
 
 const mapStateToProps = (state) => {
   const { auth: { userId } } = state
@@ -107,8 +105,8 @@ const mapDispatchToProps = (dispatch) => {
     , closeSideNav: () => dispatch(closeSideNav())
     , openTopBar: () => dispatch(openTopBar())
     , closeTopBar: () => dispatch(closeTopBar())
-    , upsertPasswordRecoveryImages: params => dispatch(upsertPasswordRecoveryImages(params))
+    , checkPasswordRecoveryCorrectness: params => dispatch(checkPasswordRecoveryCorrectness(params))
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WelcomeWizard))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordWizard))

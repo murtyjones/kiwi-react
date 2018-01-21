@@ -1,0 +1,13 @@
+.disabled:hover {
+    cursor: default !important;
+}
+
+.forgotPwBackButton, .forgotPwNextButton {
+    background-color: transparent;
+    border: 0px;
+}
+
+.forgotPwBackButton:hover, .forgotPwNextButton:hover {
+    background-color: #654E93;
+    cursor: pointer;
+}

@@ -80,3 +80,23 @@ export const upsertPasswordRecoveryImages = (params) => {
 
   }
 }
+
+export const checkPasswordRecoveryCorrectness = (params) => {
+  const { userId, images } = params
+  return dispatch => {
+    dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_REQUEST })
+    const params = {
+      method: 'POST',
+      body: { images }
+    }
+    return ApiFetch(`${config.api}/api/user/recovery/${userId}`, params)
+      .then(success => {
+        dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_SUCCESS, payload: success })
+        return success
+      }).catch(err => {
+        dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_FAILURE, payload: err })
+        throw err
+      })
+
+  }
+}
