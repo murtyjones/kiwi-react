@@ -36,6 +36,20 @@ const styles = {
     , position: 'relative'
     , overflow: 'hidden'
   },
+  salesBox: {
+    backgroundColor: '#FFFFFF'
+    , position: 'relative'
+    , left: '50%'
+    , width: '80%'
+    , marginLeft: '-40%'
+    , height: '80%'
+    , color: '#2F2864'
+    , fontFamily: 'Palatino'
+  },
+  salesH1: {
+    textAlign: 'center'
+    , fontSize: 'calc(10px + 3.6vw)'
+  },
   titleContainer: {
     textAlign: 'left'
     , position: 'absolute'
@@ -157,7 +171,11 @@ class Home extends Component {
           </div>
         </div>
 
-        <div key='homePageTwo' style={ styles.homePageTwo }></div>
+        <div key='homePageTwo' style={ styles.homePageTwo }>
+          <div key='salesBox' style={ styles.salesBox }>
+            <h1 style={ styles.salesH1 }>Lorem</h1>
+          </div>
+        </div>
 
         <div style={ styles.loginButtonContainer } >
           <span
