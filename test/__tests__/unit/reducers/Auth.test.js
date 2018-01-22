@@ -31,6 +31,7 @@ describe('Auth Reducer', () => {
         , exp: mockAuthService.getTokenExp()
         , isAdmin: mockAuthService.getIsAdmin()
         , userId: mockAuthService.getUserId()
+        , username: mockAuthService.getUsername()
         , refreshToken: mockAuthService.getRefreshToken()
       }
       const r = authReducer(initialState, action)
@@ -107,6 +108,7 @@ describe('Auth Reducer', () => {
         , exp: null
         , isAdmin: false
         , userId: null
+        , username: null
         , refreshToken: null
       }
       const r = authReducer(initialState, action)
