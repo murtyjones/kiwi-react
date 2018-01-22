@@ -102,12 +102,12 @@ export const checkPasswordRecoveryCorrectness = (params) => {
 }
 
 export const resetPassword = params => {
-  const { username } = params
+  const { username, password, recoveryCode } = params
   return dispatch => {
     dispatch({ type: ACTIONS.RESET_PASSWORD_REQUEST })
     const options = {
       method: 'POST',
-      body: params
+      body: { password, recoveryCode }
     }
     return ApiFetch(`${config.api}/api/user/password/${username}`, options)
       .then(success => {

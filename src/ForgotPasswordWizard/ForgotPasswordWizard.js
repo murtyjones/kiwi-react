@@ -33,21 +33,21 @@ class ForgotPasswordWizard extends Component {
   }
 
   saveRecoveryCode = success =>
-    this.setState({ recoveryCode: params.recoveryCode })
+    this.setState({ recoveryCode: success.recoveryCode })
 
   handleSubmit = async (v) => {
-    const actionType = slides[this.state.activeSlideIndex].action
-    const successHandlerType = slides[this.state.activeSlideIndex].handleSuccessMethod
-    const { recoveryCode } = this.state
+    const { activeSlideIndex: i, recoveryCode } = this.state
+    const actionType = slides[i].action
     const params = { ...v }
     if(recoveryCode) params.recoveryCode = recoveryCode
     if(actionType) {
-      const success = await this.props[actionType](v)
+      const success = await this.props[actionType](params)
+      const successHandlerType = slides[i].handleSuccessMethod
       if(successHandlerType) {
         this[successHandlerType](success)
       }
     }
-    if(slides.length - 1 === this.state.activeSlideIndex) {
+    if(slides.length - 1 === i) {
       this.props.history.push("/lessons")
     }
   }
@@ -61,6 +61,7 @@ class ForgotPasswordWizard extends Component {
 
   render() {
     const { activeSlideIndex } = this.state
+    console.log(this.state.recoveryCode)
     return (
       <ForgotPasswordWizardForm
         activeSlideIndex={ activeSlideIndex }
