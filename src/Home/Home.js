@@ -19,11 +19,22 @@ import './overrides.css'
 const styles = {
   homeContentContainer: {
     width: '100%'
-    , height: '100%'
     , backgroundColor: '#3E2E61'
     , color: '#FFFFFF'
     , fontFamily: 'Trebuchet MS'
     , position: 'relative' // needed for abs children
+  },
+  homePageOne: {
+    height: '100vh'
+    , width: '100%'
+    , position: 'relative'
+    , overflow: 'hidden'
+  },
+  homePageTwo: {
+    height: '100vh'
+    , width: '100%'
+    , position: 'relative'
+    , overflow: 'hidden'
   },
   titleContainer: {
     textAlign: 'left'
@@ -105,41 +116,48 @@ class Home extends Component {
 
     return [
       <div key='homeContent' style={ styles.homeContentContainer }>
-        <img
-          key='homeLogo'
-          className='homeLogo'
-          src='../../assets/images/landing-logo.svg'
-        />
+        <div key='homePageOne' style={ styles.homePageOne }>
+          <img
+            key='homeLogo'
+            className='homeLogo'
+            src='../../assets/images/landing-logo.svg'
+          />
 
-        <img
-          key='homeDragon'
-          className='homeDragon'
-          src='../../assets/images/landing-bg_dragon.svg'
-        />
+          <img
+            key='homeDragon'
+            className='homeDragon'
+            src='../../assets/images/landing-bg_dragon.svg'
+          />
 
-        <img
-          key='homeBackgroundLayer1'
-          className='homeBackgroundLayer1'
-          src='../../assets/images/landing-bg_01.svg'
-        />
+          <img
+            key='homeBackgroundLayer1'
+            className='homeBackgroundLayer1'
+            src='../../assets/images/landing-bg_01.svg'
+          />
 
-        <img
-          key='homeBackgroundLayer2'
-          className='homeBackgroundLayer2'
-          src='../../assets/images/landing-bg_02.svg'
-        />
+          <img
+            key='homeBackgroundLayer2'
+            className='homeBackgroundLayer2'
+            src='../../assets/images/landing-bg_02.svg'
+          />
 
-        <img
-          key='homeBackgroundLayer3'
-          className='homeBackgroundLayer3'
-          src='../../assets/images/landing-bg_03.svg'
-        />
+          <img
+            key='homeBackgroundLayer3'
+            className='homeBackgroundLayer3'
+            src='../../assets/images/landing-bg_03.svg'
+          />
 
-        <img
-          key='homeBackgroundLayer4'
-          className='homeBackgroundLayer4'
-          src='../../assets/images/landing-bg_04.svg'
-        />
+          <img
+            key='homeBackgroundLayer4'
+            className='homeBackgroundLayer4'
+            src='../../assets/images/landing-bg_04.svg'
+          />
+          <div style={ styles.titleContainer } >
+            <span style={ styles.titleStyle }>Start your coding<br />adventure today</span>
+          </div>
+        </div>
+
+        <div key='homePageTwo' style={ styles.homePageTwo }></div>
 
         <div style={ styles.loginButtonContainer } >
           <span
@@ -150,9 +168,7 @@ class Home extends Component {
           </span>
         </div>
 
-        <div style={ styles.titleContainer } >
-          <span style={ styles.titleStyle }>Start your coding<br />adventure today</span>
-        </div>
+
         
       </div>
       ,
