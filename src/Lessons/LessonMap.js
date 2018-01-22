@@ -74,15 +74,15 @@ class LessonMap extends Component {
       <div style={ { ...styles.container, cursor, left:  `${-sideNavWidth}px` /* This forces the div behind the SideNav if it is open*/ } }>
         { !isEmpty(mapLessons) &&
           <ScaledStage>
-              <MapBubbles
-                mapLessons={ mapLessons }
-                selectedLessonId={ selectedLessonId }
-                selectedLessonPosition={ selectedLessonPosition }
-                latestActiveLessonId={ latestActiveLessonId }
-                onLessonSelect={ this.handleLessonSelect }
-                handleMouseOver={ this.handleMouseOver }
-                handleMouseOut={ this.handleMouseOut }
-              />
+            <MapBubbles
+              mapLessons={ mapLessons }
+              selectedLessonId={ selectedLessonId }
+              selectedLessonPosition={ selectedLessonPosition }
+              latestActiveLessonId={ latestActiveLessonId }
+              onLessonSelect={ this.handleLessonSelect }
+              handleMouseOver={ this.handleMouseOver }
+              handleMouseOut={ this.handleMouseOut }
+            />
           </ScaledStage>
         }
       </div>
