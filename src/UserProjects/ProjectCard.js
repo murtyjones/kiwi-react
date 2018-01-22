@@ -15,7 +15,7 @@ const styles = {
     float: 'left'
     , position: 'relative'
     , width: '250px'
-    , height: '300px'
+    , height: '250px'
     , margin: '20px'
   },
   container: {
@@ -63,17 +63,7 @@ const styles = {
   }
 }
 
-const GoButton = () => {
-  return (
-    <div style={ styles.circle }>
-      <ArrowForward
-        style={ styles.goButton }
-      />
-    </div>
-  )
-}
-
-let ProjectCard = props => {
+const ProjectCard = props => {
   const { project: { title, _id } } = props
 
   return (
@@ -84,17 +74,16 @@ let ProjectCard = props => {
           style={ styles.media }
         />
         <div style={ styles.body }>
-          <CardHeader
-            title={ title }
-            titleStyle={ styles.titleStyle }
-          />
+          <CardHeader>
+            <div style={ styles.titleStyle }>{ title }</div>
+          </CardHeader>
           <CardText
             style={ styles.text }
           >
-            "Continue working on your project..."
+
           </CardText>
         </div>
-          <GoButton />
+
       </Card>
       </KiwiLink>
     </div>

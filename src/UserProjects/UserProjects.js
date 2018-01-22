@@ -4,9 +4,42 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
 import { Link } from 'react-router-dom'
+
 import { KiwiLink } from '../common/KiwiLink'
 import { getManyUserProjects } from '../actions'
 import ProjectCard from './ProjectCard'
+import NewProjectCard from './NewProjectCard'
+
+const styles = {
+  container: {
+    backgroundColor: '#3E2E61'
+    , backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516586092/projects-bg_jhlo9u.svg)'
+    , backgroundSize: '100%'
+    , width: '100%'
+    , height: '100%'
+  },
+  header: {
+    position: 'absolute'
+    , left: '50%'
+    , width: '80%'
+    , marginLeft: '-40%'
+    , top: '0px'
+    , height: '300px'
+  },
+  h2: {
+    color: '#FFFFFF'
+    , position: 'absolute'
+    , bottom: '0px'
+    , marginLeft: '20px'
+  },
+  projects: {
+    position: 'absolute'
+    , left: '50%'
+    , width: '80%'
+    , marginLeft: '-40%'
+    , top: '300px'
+  }
+}
 
 class UserProjects extends Component {
   constructor(props) {
@@ -32,26 +65,21 @@ class UserProjects extends Component {
   render() {
     const { userProjects } = this.props
     return (
-      <div>
-        <br/>
-        <div>
-            Create a new project...
+      <div style={ styles.container }>
+
+        <div style={ styles.header }>
+          <h2 style={ styles.h2 }>Recent</h2>
         </div>
-        <br/>
-        <KiwiLink to={ `/project/new` }>New Project</KiwiLink>
-        <br/>
-        <br/>
-          <hr />
-          <div>
-            Previous saved projects...
-          </div>
-          <div>
-            { !isEmpty(userProjects) && Object.values(userProjects)
-              .map((each, i) =>
-                <ProjectCard key={ i } project={ each } />
-              )
-            }
+
+        <div style={ styles.projects }>
+          <NewProjectCard />
+          { !isEmpty(userProjects) && Object.values(userProjects)
+            .map((each, i) =>
+              <ProjectCard key={ i } project={ each } />
+            )
+          }
         </div>
+
       </div>
     )
   }
