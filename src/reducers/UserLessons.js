@@ -3,12 +3,29 @@ import { ACTIONS } from '../constants'
 const initialState = {
   userLessonsById: {}
   , userLessonsByLessonId: {}
+  , isFetching: false
 }
 
 //currently missing getLesson success
 
 function userLessons(state = initialState, action) {
   switch (action.type) {
+    case ACTIONS.POST_USER_LESSON_REQUEST:
+    case ACTIONS.PUT_USER_LESSON_REQUEST:
+    case ACTIONS.GET_USER_LESSON_REQUEST:
+    case ACTIONS.GET_MANY_USER_LESSONS_REQUEST: {
+      return Object.assign({}, state, {
+        isFetching: true
+      })
+    }
+    case ACTIONS.POST_USER_LESSON_FAILURE:
+    case ACTIONS.PUT_USER_LESSON_FAILURE:
+    case ACTIONS.GET_USER_LESSON_FAILURE:
+    case ACTIONS.GET_MANY_USER_LESSONS_FAILURE: {
+      return Object.assign({}, state, {
+        isFetching: false
+      })
+    }
     case ACTIONS.PUT_USER_LESSON_SUCCESS: {
       const userLessonsById = Object.assign({}, state.userLessonsById, {
         [action.payload.after["_id"]]: action.payload.after
@@ -19,6 +36,7 @@ function userLessons(state = initialState, action) {
       const newState = Object.assign({}, state, {
         userLessonsById
         , userLessonsByLessonId
+        , isFetching: false
       })
       return newState
     }
@@ -33,6 +51,7 @@ function userLessons(state = initialState, action) {
       const newState = Object.assign({}, state, {
         userLessonsById
         , userLessonsByLessonId
+        , isFetching: false
       })
       return newState
     }
@@ -54,6 +73,7 @@ function userLessons(state = initialState, action) {
           ...state.userLessonsByLessonId
           , ...payloadUserLessonsByLessonId
         }
+        , isFetching: false
       })
       return newState
     }

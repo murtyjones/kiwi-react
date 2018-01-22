@@ -156,29 +156,34 @@ class UserLessonWizardForm extends Component {
     , dispatch: T.func.isRequired
     , onFinalSlideNextClick: T.func.isRequired
     , currentValues: T.object.isRequired
+    , isFetchingUserLessons: T.bool.isRequired
   }
 
   componentWillMount() {
-    const { lesson, activeSlideIndex, theme } = this.props
+    const { lesson, activeSlideIndex, theme, isFetchingUserLessons } = this.props
     this.setActiveSlideObject(activeSlideIndex, lesson)
     if(theme) this.setThemeAssetsByQuadrant(theme)
     this.setPrevDisabled(activeSlideIndex, lesson)
-    this.setNextDisabled(activeSlideIndex, lesson)
+    this.setNextDisabled(activeSlideIndex, lesson, isFetchingUserLessons)
     this.setIsFinal(activeSlideIndex, lesson)
   }
 
   componentWillReceiveProps(nextProps) {
-    const { lesson, activeSlideIndex, theme } = this.props
-      , { lesson: nextLesson, activeSlideIndex: nextActiveSlideIndex, theme: nextTheme } = nextProps
+    const { lesson, activeSlideIndex, theme, isFetchingUserLessons } = this.props
+      , { lesson: nextLesson, activeSlideIndex: nextActiveSlideIndex, theme: nextTheme, isFetchingUserLessons: nextIsFetchingUserLessons } = nextProps
       , lessonHasChanged = !isEqual(nextLesson, lesson)
       , activeSlideIndexHasChanged = nextActiveSlideIndex !== activeSlideIndex
       , themHasChanged = !isEqual(nextTheme, theme)
+      , isFetchingUserLessonsHasChanged = !isEqual(nextIsFetchingUserLessons, isFetchingUserLessons)
 
     if(lessonHasChanged || activeSlideIndexHasChanged) {
       this.setActiveSlideObject(nextActiveSlideIndex, nextLesson)
       this.setIsFinal(nextActiveSlideIndex, nextLesson)
       this.setPrevDisabled(nextActiveSlideIndex, nextLesson)
-      this.setNextDisabled(nextActiveSlideIndex, nextLesson)
+    }
+
+    if(lessonHasChanged || activeSlideIndexHasChanged || isFetchingUserLessonsHasChanged) {
+      this.setNextDisabled(nextActiveSlideIndex, nextLesson, nextIsFetchingUserLessons)
     }
 
     if(themHasChanged) {
@@ -195,8 +200,8 @@ class UserLessonWizardForm extends Component {
   setPrevDisabled = (activeSlideIndex, lesson) =>
     this.setState({ prevDisabled: isPrevDisabled(activeSlideIndex, lesson) })
 
-  setNextDisabled = (activeSlideIndex, lesson) =>
-    this.setState({ nextDisabled: isNextDisabled(activeSlideIndex, lesson) })
+  setNextDisabled = (activeSlideIndex, lesson, isFetchingUserLessons) =>
+    this.setState({ nextDisabled: isNextDisabled(activeSlideIndex, lesson, isFetchingUserLessons) })
 
   setIsFinal = (activeSlideIndex, lesson) =>
     this.setState({ isFinal: isFinalSlide(activeSlideIndex, lesson) })
@@ -212,6 +217,7 @@ class UserLessonWizardForm extends Component {
 
   onNext = (params) => {
     const { goToNextSlide, onSubmit, currentValues } = this.props
+    console.log('hi')
     goToNextSlide()
     onSubmit(currentValues)
   }

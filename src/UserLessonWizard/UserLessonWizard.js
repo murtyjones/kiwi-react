@@ -42,6 +42,7 @@ class UserLessonWizard extends Component {
     , initialValues: T.object
     , currentValues: T.object
     , history: T.any.isRequired
+    , isFetchingUserLessons: T.bool.isRequired
   }
 
   componentWillMount() {
@@ -118,13 +119,14 @@ class UserLessonWizard extends Component {
   }
 
   render() {
-    const { lesson, initialValues, currentValues, theme } = this.props
+    const { lesson, initialValues, currentValues, theme, isFetchingUserLessons } = this.props
     const { activeSlideIndex } = this.state
 
     return !isEmpty(lesson)
       ? (
         <UserLessonWizardForm
           onSubmit={ this.handleSubmit }
+          isFetchingUserLessons={ isFetchingUserLessons }
           lesson={ lesson }
           theme={ theme }
           initialValues={ initialValues }
@@ -141,7 +143,7 @@ export const UserLessonWizardComponent = UserLessonWizard
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId }, lessonThemes: { lessonThemesById } } = state
+  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId, isFetching }, lessonThemes: { lessonThemesById } } = state
   const { match: { params: { id } } } = ownProps
 
   let initialValues = { answerData: [], lessonId: id }
@@ -171,6 +173,7 @@ const mapStateToProps = (state, ownProps) => {
     , initialValues
     , currentValues
     , theme
+    , isFetchingUserLessons: isFetching
   }
 }
 

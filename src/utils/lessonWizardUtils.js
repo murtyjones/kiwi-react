@@ -3,11 +3,9 @@ const isPrevDisabled = (activeSlideIndex, lesson) => {
   return isFirstSlide
 }
 
-const isNextDisabled = (activeSlideIndex, lesson) => {
-  // const isFinalSlide = lesson.slides.length - 1 - activeSlideIndex === 0
-  // return isFinalSlide
-
-  return false // will eventually be true sometimes, like when the student has not answer the question
+const isNextDisabled = (activeSlideIndex, lesson, isFetchingUserLessons) => {
+  // will eventually check if student has not answered question here
+  return isFetchingUserLessons
 }
 
 const isFinalSlide = (activeSlideIndex, lesson) => {
