@@ -50,6 +50,17 @@
     display: none;
 }
 
+.submit {
+    border: 10px solid transparent;
+    padding: 10px 40px;
+    border-image: url(/../../assets/images/landing-button_border-white.svg) 30 round;
+    background-color: #FFFFFF;
+    background-clip: padding-box;
+    font-size: 13pt;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
     .sellingPointContainer {
         display: block;

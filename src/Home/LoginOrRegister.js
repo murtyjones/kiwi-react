@@ -113,7 +113,7 @@ class LoginOrRegister extends Component {
           initialSelectedIndex={ 0 }
         >
           <Tab
-            label='login'
+            label='log in'
             style={ {
               ...styles.tabStyle
               , color: activeTab === 0 ? activeColor : inactiveColor

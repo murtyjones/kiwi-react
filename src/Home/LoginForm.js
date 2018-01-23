@@ -61,8 +61,16 @@ class LoginForm extends PureComponent {
           onBlur={ () => this.setPasswordHintColorWhite(false) }
         />
         <div>
+          {/*<button*/}
+            {/*className='submit'*/}
+            {/*type='submit'*/}
+            {/*onClick={ handleSubmit }*/}
+            {/*disabled={ submitting && !error }*/}
+          {/*>*/}
+            {/*Login*/}
+          {/*</button>*/}
           <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting && !error }>
-            Login
+              Login
           </RaisedButton>
           <FlatButton onClick={ reset } disabled={ pristine || submitting }>
             Clear Values
