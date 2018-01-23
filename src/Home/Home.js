@@ -70,6 +70,7 @@ const styles = {
     , textAlign: 'center'
     , paddingTop: '10px'
     , paddingRight: '15px'
+    , zIndex: 20
   },
   loginButton: {
     borderBottom: '2px #FFFFFF solid'
