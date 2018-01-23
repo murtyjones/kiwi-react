@@ -22,18 +22,21 @@
 
 .homeBackgroundLayer2 {
     position: absolute;
-    bottom: calc(-3.0vw + 25px);
+    /*bottom: calc(20vh + 25px);*/
+    top: 60vh;
     z-index: 3
 }
 
 .homeBackgroundLayer3 {
     position: absolute;
-    bottom: calc(-7.0vw + 30px);
+    /*bottom: calc(20vh + 30px);*/
+    top: 40vh;
     z-index: 2
 }
 
 .homeBackgroundLayer4 {
     position: absolute;
-    bottom: calc(-10.0vw + 40px);
+    bottom: calc(20vh + 40px);
+    top: 20vh;
     z-index: 1
 }
