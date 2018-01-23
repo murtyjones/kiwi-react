@@ -40,3 +40,15 @@
     top: 20vh;
     z-index: 1
 }
+
+.sellingPointContainer {
+    display: inline-block;
+    width: 33%;
+}
+
+@media screen and (max-width: 768px) {
+    .sellingPointContainer {
+        display: block;
+        width: 100%;
+    }
+}

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { GridList, GridTile } from 'material-ui'
 import { Drawer, Menu, MenuItem, Subheader, Divider } from 'material-ui'
-import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown'
+import CropSquare from 'material-ui-icons/CropSquare'
 
 
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } from '../actions'
@@ -45,11 +45,37 @@ const styles = {
     , height: '80%'
     , color: '#2F2864'
     , fontFamily: 'Palatino'
+    , paddingTop: '20px'
   },
   salesH1: {
     textAlign: 'center'
     , fontSize: 'calc(10px + 3.6vw)'
+    , fontWeight: 'bold'
   },
+  sellingPointContainer: {
+    margin: '20px 0'
+    , position: 'relative'
+  },
+  sellingPointHeader: {
+    textAlign: 'center'
+    , paddingTop: '8vw' // padding for sellingPointIcon
+    , fontSize: 'calc(10px + 1.3vw)'
+    , fontWeight: 'bold'
+  },
+  sellingPointBody: {
+    textAlign: 'center'
+    , fontSize: 'calc(10px + 0.4vw)'
+    , color: '#818181'
+    , fontFamily: 'helvetica'
+  },
+  sellingPointIcon: {
+    height: '8vw'
+    , width: '8vw'
+    , position: 'absolute'
+    , left: '50%'
+    , marginLeft: '-4vw'
+  },
+  sellingPointIconColor: '#93B846',
   titleContainer: {
     textAlign: 'left'
     , position: 'absolute'
@@ -175,6 +201,37 @@ class Home extends Component {
         <div key='homePageTwo' style={ styles.homePageTwo }>
           <div key='salesBox' style={ styles.salesBox }>
             <h1 style={ styles.salesH1 }>Lorem</h1>
+
+            <div className='sellingPointContainer' style={ styles.sellingPointContainer }>
+              <CropSquare
+                className='sellingPointIcon'
+                style={ styles.sellingPointIcon }
+                color={ styles.sellingPointIconColor }
+              />
+              <div style={ styles.sellingPointHeader }>Lorem ipsum.</div>
+              <div style={ styles.sellingPointBody }>Lorem ipsum doret sit amet.</div>
+            </div>
+
+            <div className='sellingPointContainer' style={ styles.sellingPointContainer }>
+              <CropSquare
+                className='sellingPointIcon'
+                style={ styles.sellingPointIcon }
+                color={ styles.sellingPointIconColor }
+              />
+              <div style={ styles.sellingPointHeader }>Lorem ipsum.</div>
+              <div style={ styles.sellingPointBody }>Lorem ipsum doret sit amet.</div>
+            </div>
+
+            <div className='sellingPointContainer' style={ styles.sellingPointContainer }>
+              <CropSquare
+                className='sellingPointIcon'
+                style={ styles.sellingPointIcon }
+                color={ styles.sellingPointIconColor }
+              />
+              <div style={ styles.sellingPointHeader }>Lorem ipsum.</div>
+              <div style={ styles.sellingPointBody }>Lorem ipsum doret sit amet.</div>
+            </div>
+
           </div>
         </div>
 
