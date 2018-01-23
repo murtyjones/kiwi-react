@@ -46,9 +46,19 @@
     width: 33%;
 }
 
+.bulletPoints {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
     .sellingPointContainer {
         display: block;
         width: 100%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .bulletPoints {
+        display: block;
     }
 }

@@ -271,7 +271,7 @@ class Home extends Component {
 
             <div style={ styles.laptopImage } />
 
-            <div style={ styles.bulletPoints }>
+            <div className='bulletPoints' style={ styles.bulletPoints }>
 
               <div style={ styles.bulletPointContainer }>
                 <Add
