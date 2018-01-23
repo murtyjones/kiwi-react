@@ -9,6 +9,7 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } from '../actions'
+import { inactiveColor, activeColor } from './sharedStyles'
 
 const styles = {
   container: {
@@ -21,18 +22,22 @@ const styles = {
   },
   inkBarStyle: {
     background: 'white'
+    , height: '3px'
+    , marginTop: '-3px'
   },
   tabStyle: {
-    borderBottom: '2px solid #2E2860'
+    borderBottom: '3px solid #2E2860'
     , textTransform: 'lowercase'
+    , fontWeight: 'bold'
   }
 }
-
 
 class LoginOrRegister extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      activeTab: 0
+    }
   }
 
   static propTypes = {
@@ -95,8 +100,11 @@ class LoginOrRegister extends Component {
     }
   }
 
+  setActiveTab = activeTab =>
+    this.setState({ activeTab })
 
   render() {
+    const { activeTab } = this.state
     return (
       <div style={ styles.container }>
         <Tabs
@@ -105,14 +113,22 @@ class LoginOrRegister extends Component {
           initialSelectedIndex={ 0 }
         >
           <Tab
-            style={ styles.tabStyle }
             label='login'
+            style={ {
+              ...styles.tabStyle
+              , color: activeTab === 0 ? activeColor : inactiveColor
+            } }
+            onActive={ () => this.setActiveTab(0) }
           >
             <LoginForm onSubmit={ this.handleLoginSubmit } />
           </Tab>
           <Tab
-            style={ styles.tabStyle }
             label='register'
+            style={ {
+              ...styles.tabStyle
+              , color: activeTab === 1 ? activeColor : inactiveColor
+            } }
+            onActive={ () => this.setActiveTab(1) }
           >
             <RegisterForm onSubmit={ this.handleRegisterSubmit } />
           </Tab>
