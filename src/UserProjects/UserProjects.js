@@ -111,7 +111,7 @@ class UserProjects extends Component {
       <div style={ styles.container }>
 
         <div style={ styles.header }>
-          <h2 style={ styles.h2 }>Recent</h2>
+          <h2 style={ styles.h2 }>Your Projects</h2>
         </div>
 
         <div style={ styles.projects }>

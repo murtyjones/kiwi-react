@@ -11,10 +11,11 @@ const goButtonBackgroundColor = '#CCCCCC'
 
 const styles = {
   projectCardContainer: {
-    float: 'left'
-    , position: 'relative'
-    , width: '100%'
-    , height: '100%'
+    position: 'absolute'
+    , top: '0'
+    , left: '0'
+    , bottom: '0'
+    , right: '0'
   },
   container: {
     height:'100%'

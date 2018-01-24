@@ -15,11 +15,17 @@ const goButtonBackgroundColor = '#CCCCCC'
 
 const styles = {
   projectCardContainer: {
-    display: 'inline-block'
-    , float: 'left'
-    , position: 'relative'
-    , width: 'calc(100% - 10px)'
-    , height: '100%'
+    // display: 'inline-block'
+    // , float: 'left'
+    // , position: 'relative'
+    // , width: 'calc(100% - 10px)'
+    // , height: '100%'
+
+    position: 'absolute'
+    , top: '0'
+    , left: '0'
+    , bottom: '0'
+    , right: '0'
   },
   container: {
     height:'100%'
@@ -31,18 +37,19 @@ const styles = {
     , width: '10px'
     , height: '100%'
   },
-  leftSide: {
-    width: '37.5%'
+  topOfCard: {
+    width: '100%'
+    , height: '60%'
     , float: 'left'
-    , display: 'inline-block'
-    , height: '100%'
+    , display: 'block'
     , backgroundColor: mediaColor
     , textAlign: 'center'
   },
-  rightSide: {
-    float: 'left'
-    , display: 'inline-block'
-    , width: '62.5%'
+  bottomOfCard: {
+    width: '100%'
+    , height: '40%'
+    , float: 'left'
+    , display: 'block'
   },
   titleStyle: {
     fontSize: '20px'
@@ -117,11 +124,12 @@ const ProjectCard = props => {
     <div className={ className }>
       <KiwiLink to={ `/project/${_id}` }>
         <Card
+          className='card'
           style={ styles.projectCardContainer }
           containerStyle={ styles.container }
         >
           <CardMedia
-            style={ styles.leftSide }
+            style={ styles.topOfCard }
             mediaStyle={ styles.container }
           >
             { iconName &&
@@ -132,7 +140,7 @@ const ProjectCard = props => {
             }
           </CardMedia>
 
-          <div style={ styles.rightSide }>
+          <div style={ styles.bottomOfCard }>
             <CardHeader>
             <div style={ styles.lastEdited }>Last edited { lastEdited }</div>
               <div style={ styles.titleStyle }>{ title }</div>
