@@ -18,7 +18,7 @@ const styles = {
   }
 }
 
-const renderPasswordField = props =>
+const renderPasswordField = ({ attemptsRemaining, guessFailed, /*<-- to silence react warnings*/ ...props }) =>
   <div style={ styles.container }>
     { renderTextField({ ...props, underlineShow: false, style: styles.textField }) }
   </div>

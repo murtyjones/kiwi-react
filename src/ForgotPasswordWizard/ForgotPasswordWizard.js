@@ -35,8 +35,7 @@ class ForgotPasswordWizard extends Component {
   }
 
   handleRecoveryCheckResponse = response => {
-    console.log(response.message)
-    if(response.message.includes('fail')) {
+    if(response.attemptsRemaining === 0) {
       this.setState({
         activeSlideIndex: 1
         , attemptsRemaining: response.attemptsRemaining

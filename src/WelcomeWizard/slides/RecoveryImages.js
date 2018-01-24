@@ -88,6 +88,11 @@ export default class RecoveryImages extends Component {
     }
   }
 
+  static propTypes = {
+    attemptsRemaining: T.number
+    , guessFailed: T.bool
+  }
+
   saveImageChoice = (name) => {
     const { image1, image2 } = this.state
     const indexToSaveAt = image2 ? 2 : image1 ? 1 : 0
@@ -105,7 +110,7 @@ export default class RecoveryImages extends Component {
           key={ i }
           style={ {
             ...styles.imageSelected
-            , backgroundImage: `url(${recoveryUri}/${image}.svg)`
+            , backgroundImage: image ? `url(${recoveryUri}/${image}.svg)` : ''
           } }
         />
       ) }
