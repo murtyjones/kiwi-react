@@ -18,6 +18,10 @@ function lessonMetadata(state = initialState, action) {
       })
       return newState
     }
+    case ACTIONS.SIGNOUT_SUCCESS: {
+      const newState = Object.assign({}, state, initialState)
+      return newState
+    }
     default:
       return state
   }

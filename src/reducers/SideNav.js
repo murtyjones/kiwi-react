@@ -20,6 +20,10 @@ export default (state = getInitialState(), action) => {
         isSideNavOpen: false
         , sideNavWidth: 0
       }
+    case ACTIONS.SIGNOUT_SUCCESS: {
+      const newState = Object.assign({}, state, getInitialState())
+      return newState
+    }
     default:
       return state
   }
