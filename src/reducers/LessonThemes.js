@@ -48,6 +48,7 @@ function lessonThemes(state = initialState, action) {
         })
         return newState
       }
+      return state
     }
     case ACTIONS.SIGNOUT_SUCCESS: {
       const newState = Object.assign({}, state, initialState)
