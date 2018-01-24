@@ -5,9 +5,10 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import moment from 'moment'
 
 import { KiwiLink } from '../common/KiwiLink'
-import colorOrders from './colorOrder'
+import { colorOrder, iconOrder } from './assetAssignment'
+import assets from './cardAssets'
 
-const mediaColor = '#808080'
+const mediaColor = '#FFFFFF'
 const textColor = '#A9A9A9'
 const timeSectionColor = '#000000'
 const goButtonBackgroundColor = '#CCCCCC'
@@ -22,6 +23,7 @@ const styles = {
   },
   container: {
     height:'100%'
+    , width: '100%'
   },
   colorBar: {
     display: 'inline-block'
@@ -29,12 +31,18 @@ const styles = {
     , width: '10px'
     , height: '100%'
   },
-  media: {
-    height: '10%'
+  leftSide: {
+    width: '37.5%'
+    , float: 'left'
+    , display: 'inline-block'
+    , height: '100%'
     , backgroundColor: mediaColor
+    , textAlign: 'center'
   },
-  body: {
-    height: '50%'
+  rightSide: {
+    float: 'left'
+    , display: 'inline-block'
+    , width: '62.5%'
   },
   titleStyle: {
     fontSize: '20px'
@@ -62,7 +70,7 @@ const styles = {
     , width: '66px'
     , height: '66px'
     , backgroundColor: goButtonBackgroundColor
-},
+  },
   goButton: {
     color: 'white'
     , verticalAlign: 'middle'
@@ -73,31 +81,68 @@ const styles = {
     , marginLeft: '-25px'
     , width: '50px'
     , height: '50px'
+  },
+  projectIcon: {
+    display: 'inline-block'
+    , position: 'relative'
+    , height: '90px'
+    , top: '50%'
+    , marginTop: '-45px'
   }
 }
+
+const SVG = props =>
+  <div style={ styles.projectIcon }>
+    <svg
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      style={ { fill: props.iconColor } }
+      viewBox={ assets[props.iconName].viewBox }
+      height='100%'
+    >
+      <path d={ assets[props.iconName].d1 } />
+      <path d={ assets[props.iconName].d2 } />
+    </svg>
+  </div>
 
 const ProjectCard = props => {
   const { className, project: { title, _id, updatedAt, code }, createdAtRanking } = props
     , lastEdited = moment.utc(updatedAt).from(moment.utc())
     , linesOfCode = code.split("\n").length
     , linesOrLine = linesOfCode > 1 ? 'lines' : 'line'
+    , iconName = iconOrder[createdAtRanking % iconOrder.length]
+    , iconColor = colorOrder[createdAtRanking % colorOrder.length]
 
   return (
     <div className={ className }>
       <KiwiLink to={ `/project/${_id}` }>
-      <div style={ { ...styles.colorBar, backgroundColor: colorOrders[createdAtRanking % colorOrders.length] } } />
-      <Card style={ styles.projectCardContainer } containerStyle={ styles.container }>
-        <div style={ styles.body }>
-          <div style={ styles.lastEdited }>Last edited { lastEdited }</div>
-          <CardHeader>
-            <div style={ styles.titleStyle }>{ title }</div>
-          </CardHeader>
-          <CardText>
-            <div style={ styles.text }>{ linesOfCode } { linesOrLine } of code</div>
-          </CardText>
-        </div>
+        <Card
+          style={ styles.projectCardContainer }
+          containerStyle={ styles.container }
+        >
+          <CardMedia
+            style={ styles.leftSide }
+            mediaStyle={ styles.container }
+          >
+            { iconName &&
+             <SVG
+              iconName={ iconName }
+              iconColor={ iconColor }
+             />
+            }
+          </CardMedia>
 
-      </Card>
+          <div style={ styles.rightSide }>
+            <CardHeader>
+            <div style={ styles.lastEdited }>Last edited { lastEdited }</div>
+              <div style={ styles.titleStyle }>{ title }</div>
+            </CardHeader>
+            <CardText>
+              <div style={ styles.text }>{ linesOfCode } { linesOrLine } of code</div>
+            </CardText>
+          </div>
+
+        </Card>
       </KiwiLink>
     </div>
   )
