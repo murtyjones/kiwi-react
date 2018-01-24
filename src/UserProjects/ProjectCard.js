@@ -2,8 +2,10 @@ import React from 'react'
 import Alarm  from 'material-ui-icons/Alarm'
 import ArrowForward  from 'material-ui-icons/ArrowForward'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui'
+import moment from 'moment'
 
 import { KiwiLink } from '../common/KiwiLink'
+import colorOrders from './colorOrder'
 
 const mediaColor = '#808080'
 const textColor = '#A9A9A9'
@@ -64,23 +66,22 @@ const styles = {
 }
 
 const ProjectCard = props => {
-  const { project: { title, _id } } = props
+  const { project: { title, _id, updatedAt }, colorPos } = props
+    , lastEdited = moment.utc(updatedAt).from(moment.utc())
 
   return (
     <div>
       <KiwiLink to={ `/project/${_id}` }>
       <Card style={ styles.projectCardContainer } containerStyle={ styles.container }>
         <CardMedia
-          style={ styles.media }
+          style={ { ...styles.media, backgroundColor: colorOrders[colorPos % colorOrders.length] } }
         />
         <div style={ styles.body }>
           <CardHeader>
             <div style={ styles.titleStyle }>{ title }</div>
           </CardHeader>
-          <CardText
-            style={ styles.text }
-          >
-
+          <CardText>
+            <div style={ styles.text }>Last edited { lastEdited }</div>
           </CardText>
         </div>
 
