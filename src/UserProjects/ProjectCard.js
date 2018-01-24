@@ -15,12 +15,6 @@ const goButtonBackgroundColor = '#CCCCCC'
 
 const styles = {
   projectCardContainer: {
-    // display: 'inline-block'
-    // , float: 'left'
-    // , position: 'relative'
-    // , width: 'calc(100% - 10px)'
-    // , height: '100%'
-
     position: 'absolute'
     , top: '0'
     , left: '0'
@@ -142,12 +136,10 @@ const ProjectCard = props => {
 
           <div style={ styles.bottomOfCard }>
             <CardHeader>
-            <div style={ styles.lastEdited }>Last edited { lastEdited }</div>
+              <div style={ styles.lastEdited }>Last edited { lastEdited }</div>
               <div style={ styles.titleStyle }>{ title }</div>
-            </CardHeader>
-            <CardText>
               <div style={ styles.text }>{ linesOfCode } { linesOrLine } of code</div>
-            </CardText>
+            </CardHeader>
           </div>
 
         </Card>
