@@ -17,7 +17,7 @@ const slides = [
     , fieldName: 'images'
     , fieldType: FieldArray
     , action: 'checkPasswordRecoveryCorrectness'
-    , handleSuccessMethod: 'saveRecoveryCode'
+    , handleSuccessMethod: 'handleRecoveryCheckResponse'
   },
   {
     component: renderResetPassword

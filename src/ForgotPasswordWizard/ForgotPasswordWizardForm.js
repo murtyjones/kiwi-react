@@ -99,7 +99,7 @@ class ForgotPasswordWizardForm extends Component {
 
   renderActiveSlide = () => {
     // still true???? -> this function should be kept outside the render method! otherwise child components will remount!!!
-    const { activeSlideIndex } = this.props
+    const { activeSlideIndex, attemptsRemaining, guessFailed } = this.props
       , activeSlide = slides[activeSlideIndex]
       , ActiveSlideComponent = activeSlide.component
       , ActiveSlideFieldType = activeSlide.fieldType
@@ -127,6 +127,8 @@ class ForgotPasswordWizardForm extends Component {
         key={ activeSlide.fieldName }
         name={ activeSlide.fieldName }
         component={ ActiveSlideComponent }
+        attemptsRemaining={ attemptsRemaining }
+        guessFailed={ guessFailed }
       />
     ]
   }

@@ -67,6 +67,11 @@ const styles = {
     fontSize: '11px'
     , color: '#000000'
     , textAlign: 'center'
+  },
+  incorrectGuess: {
+    textAlign: 'center'
+    , color: '#ff8eca'
+    , fontWeight: 'bold'
   }
 }
 
@@ -108,9 +113,21 @@ export default class RecoveryImages extends Component {
 
   render() {
     const { image1, image2, image3 } = this.state
+    const { attemptsRemaining, guessFailed } = this.props
+      , guessOrGuesses = (guessFailed && attemptsRemaining === 1) ? 'guess' : 'guesses'
+      , guessMessage = guessFailed
+        ? attemptsRemaining === 0
+        ? "You have guessed incorrectly too many times! Your account is locked. :("
+        : `You guessed incorrectly! You have ${attemptsRemaining} ${guessOrGuesses} remaining before your account is locked`
+        : ''
 
     return (
       <div style={ styles.container }>
+        { guessFailed &&
+          <div style={ styles.incorrectGuess }>
+            { guessMessage }
+          </div>
+        }
         <div key='selected-images' style={ styles.selectedImagesContainer }>
           { this.renderImageSelection([image1, image2, image3]) }
         </div>

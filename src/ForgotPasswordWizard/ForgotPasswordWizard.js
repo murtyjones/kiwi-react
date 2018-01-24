@@ -13,7 +13,9 @@ class ForgotPasswordWizard extends Component {
     super(props)
     this.state = {
       activeSlideIndex: 0
-      , recoveryCode: '' 
+      , recoveryCode: ''
+      , attemptsRemaining: null
+      , guessFailed: false
     }
   }
 
@@ -32,8 +34,21 @@ class ForgotPasswordWizard extends Component {
     this.props.openTopBar()
   }
 
-  saveRecoveryCode = success =>
-    this.setState({ recoveryCode: success.recoveryCode })
+  handleRecoveryCheckResponse = response => {
+    console.log(response.message)
+    if(response.message.includes('fail')) {
+      this.setState({
+        activeSlideIndex: 1
+        , attemptsRemaining: response.attemptsRemaining
+        , guessFailed: true
+      })
+    } else {
+      this.setState({
+        recoveryCode: response.recoveryCode
+        , guessFailed: false
+      })
+    }
+  }
 
   handleSubmit = async (v) => {
     const { activeSlideIndex: i, recoveryCode } = this.state
@@ -43,13 +58,9 @@ class ForgotPasswordWizard extends Component {
     if(actionType) {
       const success = await this.props[actionType](params)
       const successHandlerType = slides[i].handleSuccessMethod
-      if(successHandlerType) {
-        this[successHandlerType](success)
-      }
+      if(successHandlerType) this[successHandlerType](success)
     }
-    if(slides.length - 1 === i) {
-      this.props.history.push("/lessons")
-    }
+    if(slides.length - 1 === i) this.props.history.push("/lessons")
   }
 
   goToNextSlide = () =>
@@ -60,14 +71,16 @@ class ForgotPasswordWizard extends Component {
     this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
 
   render() {
-    const { activeSlideIndex } = this.state
-    console.log(this.state.recoveryCode)
+    const { activeSlideIndex, attemptsRemaining, guessFailed } = this.state
+
     return (
       <ForgotPasswordWizardForm
         activeSlideIndex={ activeSlideIndex }
         onSubmit={ this.handleSubmit }
         goToPrevSlide={ this.goToPrevSlide }
         goToNextSlide={ this.goToNextSlide }
+        attemptsRemaining={ attemptsRemaining }
+        guessFailed={ guessFailed }
       />
     )
   }
