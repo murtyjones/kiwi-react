@@ -14,17 +14,23 @@ const goButtonBackgroundColor = '#CCCCCC'
 
 const styles = {
   projectCardContainer: {
-    float: 'left'
+    display: 'inline-block'
+    , float: 'left'
     , position: 'relative'
-    , width: '250px'
-    , height: '250px'
-    , margin: '20px'
+    , width: 'calc(100% - 10px)'
+    , height: '100%'
   },
   container: {
     height:'100%'
   },
+  colorBar: {
+    display: 'inline-block'
+    , float: 'left'
+    , width: '10px'
+    , height: '100%'
+  },
   media: {
-    height: '50%'
+    height: '10%'
     , backgroundColor: mediaColor
   },
   body: {
@@ -36,6 +42,11 @@ const styles = {
   },
   text: {
     fontSize: '16px'
+    , color: textColor
+  },
+  lastEdited: {
+    fontSize: '12px'
+    //, textTransform: 'uppercase'
     , color: textColor
   },
   alarm: {
@@ -66,22 +77,23 @@ const styles = {
 }
 
 const ProjectCard = props => {
-  const { project: { title, _id, updatedAt }, colorPos } = props
+  const { className, project: { title, _id, updatedAt, code }, createdAtRanking } = props
     , lastEdited = moment.utc(updatedAt).from(moment.utc())
+    , linesOfCode = code.split("\n").length
+    , linesOrLine = linesOfCode > 1 ? 'lines' : 'line'
 
   return (
-    <div>
+    <div className={ className }>
       <KiwiLink to={ `/project/${_id}` }>
+      <div style={ { ...styles.colorBar, backgroundColor: colorOrders[createdAtRanking % colorOrders.length] } } />
       <Card style={ styles.projectCardContainer } containerStyle={ styles.container }>
-        <CardMedia
-          style={ { ...styles.media, backgroundColor: colorOrders[colorPos % colorOrders.length] } }
-        />
         <div style={ styles.body }>
+          <div style={ styles.lastEdited }>Last edited { lastEdited }</div>
           <CardHeader>
             <div style={ styles.titleStyle }>{ title }</div>
           </CardHeader>
           <CardText>
-            <div style={ styles.text }>Last edited { lastEdited }</div>
+            <div style={ styles.text }>{ linesOfCode } { linesOrLine } of code</div>
           </CardText>
         </div>
 

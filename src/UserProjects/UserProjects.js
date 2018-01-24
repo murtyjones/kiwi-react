@@ -11,6 +11,8 @@ import NewProjectCard from './NewProjectCard'
 
 import { sortByLatestUpdated, sortByOldestCreated } from '../utils/timeUtils'
 
+import './overrides.css'
+
 const styles = {
   container: {
     backgroundColor: '#3E2E61'
@@ -113,13 +115,16 @@ class UserProjects extends Component {
         </div>
 
         <div style={ styles.projects }>
-          <NewProjectCard />
+          <NewProjectCard
+            className='projectCard'
+          />
           { !isEmpty(userProjectsByUpdatedAt) && userProjectsByUpdatedAt
             .map((each, i) =>
               <ProjectCard
+                className='projectCard'
                 key={ i }
                 project={ each }
-                colorPos={ colorOrdering[i] }
+                createdAtRanking={ colorOrdering[i] }
               />
             )
           }

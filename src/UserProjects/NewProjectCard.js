@@ -13,9 +13,11 @@ const styles = {
   projectCardContainer: {
     float: 'left'
     , position: 'relative'
-    , width: '250px'
-    , height: '250px'
-    , margin: '20px'
+    , width: '100%'
+    , height: '100%'
+  },
+  container: {
+    height:'100%'
   },
   cardHeaderStyle: {
     position: 'absolute'
@@ -50,9 +52,9 @@ const styles = {
 }
 
 const NewProjectCard = props =>
-  <div>
+  <div className={ props.className }>
     <KiwiLink to='/project/new'>
-      <Card style={ styles.projectCardContainer }>
+      <Card style={ styles.projectCardContainer } containerStyle={ styles.container }>
         <CardHeader
           style={ styles.cardHeaderStyle }
         >

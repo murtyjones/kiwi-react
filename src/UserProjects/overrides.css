@@ -1,0 +1,14 @@
+.projectCard {
+    display: inline-block;
+    width: 33.33333%;
+    height: 250px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+    .projectCard {
+        display: block;
+        width: 100%;
+    }
+}
