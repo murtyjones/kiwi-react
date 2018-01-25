@@ -67,11 +67,11 @@ class LessonMap extends Component {
     this.setState({ latestActiveLessonId: getLatestActiveLesson(mapLessons) })
 
   render() {
-    const { mapLessons, selectedLessonId, selectedLessonPosition, sideNavWidth } = this.props
+    const { mapLessons, selectedLessonId, selectedLessonPosition } = this.props
     const { cursor, latestActiveLessonId } = this.state
 
     return (
-      <div style={ { ...styles.container, cursor, left:  `${-sideNavWidth}px` /* This forces the div behind the SideNav if it is open*/ } }>
+      <div style={ { ...styles.container, cursor } }>
         { !isEmpty(mapLessons) &&
           <ScaledStage>
             <MapBubbles

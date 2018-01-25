@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { orderBy, find, findIndex, get, cloneDeep, isEqual } from 'lodash'
 
-import { getManyLessons, getManyUserLessons, getLessonOrder, openSideNav, closeSideNav } from '../actions'
+import { getManyLessons, getManyUserLessons, getLessonOrder } from '../actions'
 
 
 import LessonCard from './LessonCard'
@@ -38,42 +38,33 @@ class Lessons extends Component {
   }
 
   static propTypes = {
-    openSideNav: T.func
-    , closeSideNav: T.func
-    , getManyLessons: T.func
+    getManyLessons: T.func
     , getManyUserLessons: T.func
     , getLessonOrder: T.func
     , userLessons: T.array
     , lessons: T.array
     , orderOfPublishedLessons: T.array
-    , sideNavWidth: T.number.isRequired
     , userId: T.string.isRequired
     , history: T.object.isRequired
   }
 
   componentWillMount() {
     const { closeSideNav, getManyLessons, getManyUserLessons, getLessonOrder, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
-    closeSideNav()
     getManyLessons()
     getManyUserLessons({ userId })
     getLessonOrder()
     this.setMapLessons(orderOfPublishedLessons, lessons, userLessons)
   }
 
-  componentWillUnmount() {
-    this.props.openSideNav()
-  }
-
   componentWillReceiveProps(nextProps) {
-    const { lessons, userLessons, orderOfPublishedLessons, sideNavWidth } = this.props
-      , { lessons: nextLessons, userLessons: nextUserLessons, orderOfPublishedLessons: nextOrderOfPublishedLessons, sideNavWidth: nextSideNavWidth } = nextProps
+    const { lessons, userLessons, orderOfPublishedLessons } = this.props
+      , { lessons: nextLessons, userLessons: nextUserLessons, orderOfPublishedLessons: nextOrderOfPublishedLessons } = nextProps
       , orderHasChanged = !isEqual(orderOfPublishedLessons, nextOrderOfPublishedLessons)
       , lessonsHasChanged = !isEqual(lessons, nextLessons)
       , userLessonsHasChanged = !isEqual(userLessons, nextUserLessons)
 
-    if(orderHasChanged || lessonsHasChanged || userLessonsHasChanged) {
+    if(orderHasChanged || lessonsHasChanged || userLessonsHasChanged)
       this.setMapLessons(nextOrderOfPublishedLessons, nextLessons, nextUserLessons)
-    }
   }
 
   setMapLessons = (orderOfPublishedLessons, lessons, userLessons) =>
@@ -98,21 +89,17 @@ class Lessons extends Component {
   }
 
   render() {
-    const { lessons, orderOfPublishedLessons, sideNavWidth } = this.props
+    const { lessons, orderOfPublishedLessons } = this.props
     const { selectedLessonId, mapLessons } = this.state
     const selectedLessonPosition = selectedLessonId
       ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
       : 0
 
     return [
-      <LessonMapBackground
-        key='LessonMapBackground'
-        sideNavWidth={ sideNavWidth }
-      />
+      <LessonMapBackground key='LessonMapBackground' />
       ,
       <LessonMap
         key='LessonMap'
-        sideNavWidth={ sideNavWidth }
         mapLessons={ mapLessons }
         selectedLessonId={ selectedLessonId }
         setSelectedLessonId={ this.setSelectedLessonId }
@@ -135,7 +122,7 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth: { userId },lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById }, sideNav: { sideNavWidth } } = state
+  const { auth: { userId },lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById } } = state
 
   const userLessons = cloneDeep(Object.values(userLessonsById))
     , lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
@@ -144,7 +131,6 @@ const mapStateToProps = (state) => {
   return {
     lessons: orderBy(lessons, ['order'], ['asc'])
     , userLessons
-    , sideNavWidth
     , orderOfPublishedLessons
     , userId
   }
@@ -155,8 +141,6 @@ const mapDispatchToProps = (dispatch) => {
     getManyLessons: (params) => dispatch(getManyLessons(params))
     , getLessonOrder: () => dispatch(getLessonOrder())
     , getManyUserLessons: (params) => dispatch(getManyUserLessons(params))
-    , openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
   }
 }
 

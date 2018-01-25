@@ -68,10 +68,14 @@ class SideNav extends PureComponent {
   }
 
   render() {
-    const { isOpen, isAdmin, isLoggedIn, secondaryThemeColor } = this.props
+    const { isOpen, isAdmin, isLoggedIn, secondaryThemeColor, toggleSideNav } = this.props
 
     return (
-      <Drawer open={ isOpen }>
+      <Drawer
+        open={ isOpen }
+        docked={ false }
+        onRequestChange={ toggleSideNav }
+      >
         <Menu style={ styles.menu } listStyle={ styles.menu } autoWidth={ false }>
           <div style={ { ...styles.header,  backgroundColor: secondaryThemeColor } }>
             <div style={ styles.logo } />
@@ -82,6 +86,7 @@ class SideNav extends PureComponent {
                 <Circle style={ styles.circle } color={ 'white' } viewBox={ '4 4 16 16' } />
               }
               primaryText={ 'First name' }
+              onClick={ toggleSideNav }
             />
           </div>
           <div style={ styles.body }>
@@ -93,6 +98,7 @@ class SideNav extends PureComponent {
                   <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
                 }
                 primaryText={ 'Lessons' }
+                onClick={ toggleSideNav }
               />
             </KiwiLink>
             <KiwiLink to='/projects'>
@@ -103,6 +109,7 @@ class SideNav extends PureComponent {
                   <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
                 }
                 primaryText={ 'Projects' }
+                onClick={ toggleSideNav }
               />
             </KiwiLink>
             { isAdmin &&
@@ -127,6 +134,7 @@ class SideNav extends PureComponent {
                       <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
                     }
                     primaryText={ 'Add/Edit Lessons' }
+                    onClick={ toggleSideNav }
                   />
                 </KiwiLink>
                 ,
@@ -141,6 +149,7 @@ class SideNav extends PureComponent {
                       <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
                     }
                     primaryText={ 'Add/Edit Themes' }
+                    onClick={ toggleSideNav }
                   />
                 </KiwiLink>
               ]

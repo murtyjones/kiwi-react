@@ -95,12 +95,12 @@ class LessonMapBackground extends PureComponent {
   }
 
   static propTypes = {
-    sideNavWidth: T.number.isRequired
+
   }
 
   render() {
     return (
-      <div style={ { ...styles.container, left: `${-this.props.sideNavWidth}px` } }>
+      <div style={ styles.container }>
         <div key='neighborhood' style={ styles.neighborhood.background }>
           <img
             key='neighborhood-top-left'

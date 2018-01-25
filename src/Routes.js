@@ -49,6 +49,7 @@ let baseAppStyle = {
   , margin: 0
   , position: "absolute"
   , top: '60px'
+  , left: 0
   , right: 0
   , bottom: 0
   , fontFamily: "Roboto, sans-serif"
@@ -88,7 +89,6 @@ class App extends Component {
 
   render() {
     const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setMainThemeColor, setSecondaryThemeColor, topBarFocused, mainThemeColor, secondaryThemeColor } = this.props
-    const sideNavWidthString = `${sideNavWidth}px`
     const topBarWidthString = `${topBarHeight}px`
     const extras = { isLoggedIn, isAdmin, setTopBarTitle, setMainThemeColor, setSecondaryThemeColor, mainThemeColor, secondaryThemeColor, toggleTopBarTitleIsDisabled }
 
@@ -98,7 +98,11 @@ class App extends Component {
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
-          <SideNav isOpen={ isSideNavOpen } { ...extras } />
+          <SideNav
+            isOpen={ isSideNavOpen }
+            toggleSideNav={ this.toggleSideNav }
+            { ...extras }
+          />
           <TopBar
             isOpen={ isTopBarOpen }
             backgroundColor={ mainThemeColor }
@@ -111,7 +115,6 @@ class App extends Component {
           />
           <div className={ cns('baseAppStyles') } style={{
             ...baseAppStyle
-            , left: sideNavWidthString
             , top: topBarWidthString
             }
           }>
