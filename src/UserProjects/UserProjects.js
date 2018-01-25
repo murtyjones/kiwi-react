@@ -48,7 +48,8 @@ const styles = {
     , marginTop: '-45%'
   },
   container2: {
-    backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516840673/projects-bg-tile_t1dr9y.svg)'
+    backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516844617/projects-bg-tile_gopn6b.svg)'
+    , backgroundColor: '#654E93'
     , backgroundSize: '100%'
     , width: '100%'
     , height: '100%'
