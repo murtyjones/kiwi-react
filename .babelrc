@@ -5,6 +5,7 @@
     , "syntax-dynamic-import"
     , "transform-class-properties"
     , "lodash"
+    , "transform-async-to-generator"
   ],
   "env": {
     "local-webpack": {
@@ -21,6 +22,7 @@
         , "syntax-dynamic-import"
         , "react-hot-loader/babel"
         , "lodash"
+        , "transform-async-to-generator"
       ]
     }
   }
