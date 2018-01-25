@@ -152,7 +152,6 @@ describe('Lessons', () => {
 
     describe('componentWillMount', () => {
       it('should dispatch the appropriate requests', () => {
-        expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.CLOSE_SIDENAV })
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_LESSONS_REQUEST })
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_USER_LESSONS_REQUEST })
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_LESSON_ORDER_REQUEST })
