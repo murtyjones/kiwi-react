@@ -54,7 +54,6 @@ class Lessons extends Component {
     getManyUserLessons({ userId })
     getLessonOrder()
     this.setMapLessons(orderOfPublishedLessons, lessons, userLessons)
-    window.scrollTo(500, 0)
   }
 
   componentWillReceiveProps(nextProps) {
