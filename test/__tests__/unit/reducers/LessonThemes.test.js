@@ -202,4 +202,22 @@ describe('Lesson Themes Reducer', () => {
 
   })
 
+  describe('SIGNOUT_SUCCESS', () => {
+    let initialState, action
+    beforeEach(() => {
+      initialState = {}
+      action = {
+        type: ACTIONS.SIGNOUT_SUCCESS
+      }
+    })
+
+    it('should modify state as expected', () => {
+      const expectedState = {
+        lessonThemesById: {}
+      }
+      const r = lessonThemesReducer(initialState, action)
+      expect(r).toEqual(expectedState)
+    })
+  })
+
 })

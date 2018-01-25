@@ -146,8 +146,24 @@ describe('UserProjects Reducer', () => {
       const r = userProjectsReducer(initialState, action)
       expect(r.otherStuff).toEqual(initialState.otherStuff)
     })
+  })
 
+  describe('SIGNOUT_SUCCESS', () => {
+    let initialState, action
+    beforeEach(() => {
+      initialState = {}
+      action = {
+        type: ACTIONS.SIGNOUT_SUCCESS
+      }
+    })
 
+    it('should modify state as expected', () => {
+      const expectedState = {
+        userProjectsById: {}
+      }
+      const r = userProjectsReducer(initialState, action)
+      expect(r).toEqual(expectedState)
+    })
   })
 
 })

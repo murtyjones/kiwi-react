@@ -42,4 +42,23 @@ describe('SideNav Reducer', () => {
     })
   })
 
+  describe('SIGNOUT_SUCCESS', () => {
+    let initialState, action
+    beforeEach(() => {
+      initialState = {}
+      action = {
+        type: ACTIONS.SIGNOUT_SUCCESS
+      }
+    })
+
+    it('should modify state as expected', () => {
+      const expectedState = {
+        isSideNavOpen: false
+        , sideNavWidth: 0
+      }
+      const r = sideNavReducer(initialState, action)
+      expect(r).toEqual(expectedState)
+    })
+  })
+
 })

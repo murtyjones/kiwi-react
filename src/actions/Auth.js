@@ -22,7 +22,6 @@ export const login = (params) => {
 
 export const register = (params) => {
   const { username, password } = params
-  console.log(username)
   return dispatch => {
     dispatch({ type: ACTIONS.REGISTER_REQUEST })
     const params = {

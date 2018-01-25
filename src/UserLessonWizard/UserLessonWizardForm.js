@@ -217,7 +217,6 @@ class UserLessonWizardForm extends Component {
 
   onNext = (params) => {
     const { goToNextSlide, onSubmit, currentValues } = this.props
-    console.log('hi')
     goToNextSlide()
     onSubmit(currentValues)
   }

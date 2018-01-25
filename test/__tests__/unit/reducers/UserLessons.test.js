@@ -472,5 +472,25 @@ describe('UserLessons Reducer', () => {
     })
   })
 
+  describe('SIGNOUT_SUCCESS', () => {
+    let initialState, action
+    beforeEach(() => {
+      initialState = {}
+      action = {
+        type: ACTIONS.SIGNOUT_SUCCESS
+      }
+    })
+
+    it('should modify state as expected', () => {
+      const expectedState = {
+        userLessonsById: {},
+        userLessonsByLessonId: {},
+        isFetching: false
+      }
+      const r = userLessonsReducer(initialState, action)
+      expect(r).toEqual(expectedState)
+    })
+  })
+
 
 })

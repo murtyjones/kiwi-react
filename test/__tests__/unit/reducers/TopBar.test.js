@@ -123,5 +123,27 @@ describe('TopBar Reducer', () => {
     })
   })
 
+  describe('SIGNOUT_SUCCESS', () => {
+    let initialState, action
+    beforeEach(() => {
+      initialState = {}
+      action = {
+        type: ACTIONS.SIGNOUT_SUCCESS
+      }
+    })
+
+    it('should modify state as expected', () => {
+      const expectedState = {
+        isTopBarOpen: true,
+        topBarHeight: 60,
+        topBarTitle: '',
+        topBarTitleDisabled: true,
+        topBarFocused: false
+      }
+      const r = topBarReducer(initialState, action)
+      expect(r).toEqual(expectedState)
+    })
+  })
+
 
 })

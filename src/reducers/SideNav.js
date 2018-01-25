@@ -2,8 +2,8 @@ import { ACTIONS } from '../constants'
 
 const getInitialState = () => {
   return {
-    isSideNavOpen: true
-    , sideNavWidth: 256
+    isSideNavOpen: false
+    , sideNavWidth: 0
   }
 }
 

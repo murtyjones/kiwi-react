@@ -51,5 +51,23 @@ describe('Lesson Metadata Reducer', () => {
       expect(r.otherStuff).toEqual(initialState.otherStuff)
     })
   })
+
+  describe('SIGNOUT_SUCCESS', () => {
+    let initialState, action
+    beforeEach(() => {
+      initialState = {}
+      action = {
+        type: ACTIONS.SIGNOUT_SUCCESS
+      }
+    })
+
+    it('should modify state as expected', () => {
+      const expectedState = {
+        lessonOrder: {}
+      }
+      const r = lessonMetadataReducer(initialState, action)
+      expect(r).toEqual(expectedState)
+    })
+  })
   
 })
