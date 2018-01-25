@@ -14,33 +14,45 @@ import { sortByLatestUpdated, sortByOldestCreated } from '../utils/timeUtils'
 import './overrides.css'
 
 const styles = {
-  container: {
-    backgroundColor: '#3E2E61'
-    , backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516586092/projects-bg_jhlo9u.svg)'
-    , backgroundSize: '100%'
+  mainContainer: {
+    display: 'table'
     , width: '100%'
     , height: '100%'
   },
+  container: {
+    backgroundColor: '#3E2E61'
+    , backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516841083/projects-bg_czy2mq.svg)'
+    , backgroundSize: '100%'
+    , width: '100%'
+    , paddingBottom: '70.67%'
+    , position: 'relative'
+  },
   header: {
     position: 'absolute'
-    , left: '50%'
-    , width: '80%'
-    , marginLeft: '-40%'
-    , top: '0px'
-    , height: '300px'
+    , top: '0'
+    , left: '0'
+    , bottom: '0'
+    , right: '0'
   },
   h2: {
     color: '#FFFFFF'
-    , position: 'absolute'
+    , position: 'relative'
     , bottom: '0px'
     , marginLeft: '20px'
   },
   projects: {
-    position: 'absolute'
+    position: 'relative'
     , left: '50%'
     , width: '80%'
     , marginLeft: '-40%'
-    , top: '300px'
+    , marginTop: '-45%'
+  },
+  container2: {
+    backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516840673/projects-bg-tile_t1dr9y.svg)'
+    , backgroundSize: '100%'
+    , width: '100%'
+    , height: '100%'
+    , display: 'table-row'
   }
 }
 
@@ -107,31 +119,36 @@ class UserProjects extends Component {
 
   render() {
     const { userProjectsByUpdatedAt, colorOrdering } = this.state
-    return (
-      <div style={ styles.container }>
+    return [
+      <div key='1' style={ styles.mainContainer }>
+        <div style={ styles.container }>
 
-        <div style={ styles.header }>
-          <h2 style={ styles.h2 }>Your Projects</h2>
+          <div style={ styles.header }>
+            <h2 style={ styles.h2 }></h2>
+          </div>
+
+
+
         </div>
-
-        <div style={ styles.projects }>
-          <NewProjectCard
-            className='projectCard'
-          />
-          { !isEmpty(userProjectsByUpdatedAt) && userProjectsByUpdatedAt
-            .map((each, i) =>
-              <ProjectCard
-                className='projectCard'
-                key={ i }
-                project={ each }
-                createdAtRanking={ colorOrdering[i] }
-              />
-            )
-          }
+        <div style={ styles.container2 }>
+          <div style={ styles.projects }>
+            <NewProjectCard
+              className='projectCard'
+            />
+            { !isEmpty(userProjectsByUpdatedAt) && userProjectsByUpdatedAt
+              .map((each, i) =>
+                <ProjectCard
+                  className='projectCard'
+                  key={ i }
+                  project={ each }
+                  createdAtRanking={ colorOrdering[i] }
+                />
+              )
+            }
+          </div>
         </div>
-
       </div>
-    )
+    ]
   }
 
 }
