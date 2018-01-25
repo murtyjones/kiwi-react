@@ -14,12 +14,12 @@ import { sortByLatestUpdated, sortByOldestCreated } from '../utils/timeUtils'
 import './overrides.css'
 
 const styles = {
-  mainContainer: {
+  container: {
     display: 'table'
     , width: '100%'
     , height: '100%'
   },
-  container: {
+  rowOne: {
     backgroundColor: '#3E2E61'
     , backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516841083/projects-bg_czy2mq.svg)'
     , backgroundSize: '100%'
@@ -47,7 +47,7 @@ const styles = {
     , marginLeft: '-40%'
     , marginTop: '-45%'
   },
-  container2: {
+  rowTwo: {
     backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516844617/projects-bg-tile_gopn6b.svg)'
     , backgroundColor: '#654E93'
     , backgroundSize: '100%'
@@ -121,17 +121,15 @@ class UserProjects extends Component {
   render() {
     const { userProjectsByUpdatedAt, colorOrdering } = this.state
     return [
-      <div key='1' style={ styles.mainContainer }>
-        <div style={ styles.container }>
+      <div key='1' style={ styles.container }>
 
+        <div style={ styles.rowOne }>
           <div style={ styles.header }>
-            <h2 style={ styles.h2 }></h2>
+            <h2 style={ styles.h2 } />
           </div>
-
-
-
         </div>
-        <div style={ styles.container2 }>
+
+        <div style={ styles.rowTwo }>
           <div style={ styles.projects }>
             <NewProjectCard
               className='projectCard'
@@ -148,6 +146,7 @@ class UserProjects extends Component {
             }
           </div>
         </div>
+        
       </div>
     ]
   }
