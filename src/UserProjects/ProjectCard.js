@@ -9,7 +9,7 @@ import { colorOrder, iconOrder } from './assetAssignment'
 import assets from './cardAssets'
 
 const mediaColor = '#FFFFFF'
-const textColor = '#A9A9A9'
+const textColor = '#dfdfdf'
 const timeSectionColor = '#000000'
 const goButtonBackgroundColor = '#CCCCCC'
 
@@ -48,6 +48,7 @@ const styles = {
   titleStyle: {
     fontSize: '20px'
     , fontWeight: 'bold'
+    , color: '#FFFFFF'
   },
   text: {
     fontSize: '16px'
@@ -134,7 +135,10 @@ const ProjectCard = props => {
             }
           </CardMedia>
 
-          <div style={ styles.bottomOfCard }>
+          <div style={ {
+            ...styles.bottomOfCard
+            , backgroundColor: iconColor
+          } }>
             <CardHeader>
               <div style={ styles.lastEdited }>Last edited { lastEdited }</div>
               <div style={ styles.titleStyle }>{ title }</div>
