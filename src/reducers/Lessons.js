@@ -8,6 +8,22 @@ const initialState = {
 
 function lessons(state = initialState, action) {
   switch (action.type) {
+    case ACTIONS.PUT_LESSON_FAILURE:
+    case ACTIONS.POST_LESSON_FAILURE:
+    case ACTIONS.GET_LESSON_FAILURE:
+    case ACTIONS.GET_MANY_LESSONS_FAILURE:
+    case ACTIONS.DELETE_LESSON_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false
+      })
+    case ACTIONS.PUT_LESSON_REQUEST:
+    case ACTIONS.POST_LESSON_REQUEST:
+    case ACTIONS.GET_LESSON_REQUEST:
+    case ACTIONS.GET_MANY_LESSONS_REQUEST:
+    case ACTIONS.DELETE_LESSON_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      })
     case ACTIONS.PUT_LESSON_SUCCESS: {
       const newLessonsById = Object.assign({}, state.lessonsById, {
         [action.payload.after["_id"]]: action.payload.after
@@ -15,6 +31,7 @@ function lessons(state = initialState, action) {
       const lessonsById = Object.assign({}, state.lessonsById, newLessonsById)
       const newState = Object.assign({}, state, {
         lessonsById
+        , isFetching: false
       })
       return newState
     }
@@ -25,6 +42,7 @@ function lessons(state = initialState, action) {
       })
       const newState = Object.assign({}, state, {
         lessonsById
+        , isFetching: false
       })
       return newState
     }
@@ -38,6 +56,7 @@ function lessons(state = initialState, action) {
           ...state.lessonsById
           , ...payloadLessonsById
         }
+        , isFetching: false
       })
       return newState
     }
@@ -47,6 +66,7 @@ function lessons(state = initialState, action) {
         delete lessonsById[action.payload.value._id]
         const newState = Object.assign({}, state, {
           lessonsById
+          , isFetching: false
         })
         return newState
       }

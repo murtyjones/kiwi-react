@@ -26,18 +26,14 @@ describe('Lesson Themes Reducer', () => {
     })
 
     it('should modify lessonThemesById as expected', () => {
-      const expectedLessonThemesById = {
-        ...initialState.lessonThemesById
-        , [action.payload.after._id]: action.payload.after
+      const expectedState = {
+        ...initialState
       }
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
+      expectedState.lessonThemesById[action.payload.after._id] = action.payload.after
+      const newState = lessonThemesReducer(initialState, action)
+      expect(newState).toEqual(expectedState)
     })
 
-    it('should not modify the rest of state', () => {
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
-    })
   })
 
   describe('GET_LESSON_THEME_SUCCESS', () => {
@@ -60,17 +56,12 @@ describe('Lesson Themes Reducer', () => {
     })
 
     it('should modify lessonThemesById as expected', () => {
-      const expectedLessonThemesById = {
-        ...initialState.lessonThemesById
-        , [action.payload._id]: action.payload
+      const expectedState = {
+        ...initialState
       }
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
-    })
-
-    it('should not modify the rest of state', () => {
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
+      expectedState.lessonThemesById[action.payload._id] = action.payload
+      const newState = lessonThemesReducer(initialState, action)
+      expect(newState).toEqual(expectedState)
     })
 
   })
@@ -95,17 +86,12 @@ describe('Lesson Themes Reducer', () => {
     })
 
     it('should modify lessonThemesById as expected', () => {
-      const expectedLessonThemesById = {
-        ...initialState.lessonThemesById
-        , [action.payload._id]: action.payload
+      const expectedState = {
+        ...initialState
       }
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
-    })
-
-    it('should not modify the rest of state', () => {
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
+      expectedState.lessonThemesById[action.payload._id] = action.payload
+      const newState = lessonThemesReducer(initialState, action)
+      expect(newState).toEqual(expectedState)
     })
 
   })
@@ -134,19 +120,13 @@ describe('Lesson Themes Reducer', () => {
     })
 
     it('should modify lessonThemesById as expected', () => {
-      const expectedLessonThemesById = {
-        ...initialState.lessonThemesById
+      const expectedState = {
+        ...initialState
       }
-      action.payload.forEach(e => { expectedLessonThemesById[e._id] = e })
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
+      action.payload.forEach(e => { expectedState.lessonThemesById[e._id] = e })
+      const newState = lessonThemesReducer(initialState, action)
+      expect(newState).toEqual(expectedState)
     })
-
-    it('should not modify the rest of state', () => {
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
-    })
-
 
   })
 
@@ -176,28 +156,24 @@ describe('Lesson Themes Reducer', () => {
       }
     })
 
-    it('should modify lessonThemesById as expected if ok returned', () => {
-      const expectedLessonThemesById = {
-        ...initialState.lessonThemesById
+    it('should modify state as expected if ok returned', () => {
+      const expectedState = {
+        ...initialState
       }
-      delete expectedLessonThemesById[lessonId]
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
+      delete expectedState.lessonThemesById[lessonId]
+      const newState = lessonThemesReducer(initialState, action)
+      expect(newState).toEqual(expectedState)
     })
 
     it('should not modify lessonThemesById at all if !ok', () => {
       action.payload.ok = 0
-      const expectedLessonThemesById = {
-        ...initialState.lessonThemesById
+      const expectedState = {
+        ...initialState
       }
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.lessonThemesById).toEqual(expectedLessonThemesById)
+      const newState = lessonThemesReducer(initialState, action)
+      expect(newState).toEqual(expectedState)
     })
 
-    it('should not modify the rest of state', () => {
-      const r = lessonThemesReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
-    })
 
 
   })
@@ -215,8 +191,8 @@ describe('Lesson Themes Reducer', () => {
       const expectedState = {
         lessonThemesById: {}
       }
-      const r = lessonThemesReducer(initialState, action)
-      expect(r).toEqual(expectedState)
+      const newState = lessonThemesReducer(initialState, action)
+      expect(newState).toEqual(expectedState)
     })
   })
 

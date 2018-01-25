@@ -3,204 +3,457 @@ import { ACTIONS } from '../../../../src/constants'
 
 
 describe('Lessons Reducer', () => {
-  describe('PUT_LESSON_SUCCESS', () => {
-    let initialState, action
-    beforeEach(() => {
-      initialState = {
-        lessonsById: {
-          'shouldSurvive': {
+
+  describe('...REQUEST', () => {
+    describe('PUT_LESSON_REQUEST', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
             key: 'value'
           }
         }
-        , otherStuff: {
-          key: 'value'
+        action = {
+          type: ACTIONS.PUT_LESSON_REQUEST
+          , payload: {
+            before: {}
+            , after: { _id: '123' }
+          }
         }
-      }
-      action = {
-        type: ACTIONS.PUT_LESSON_SUCCESS
-        , payload: {
-          before: {}
-          , after: { _id: '123' }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: true
         }
-      }
+        const r = lessonsReducer(initialState, action)
+        expect(r).toEqual(expectedState)
+      })
+
     })
 
-    it('should modify lessonsById as expected', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
-        , [action.payload.after._id]: action.payload.after
-      }
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
+    describe('POST_LESSON_REQUEST', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+        }
+        action = {
+          type: ACTIONS.POST_LESSON_REQUEST
+          , payload: {
+            before: {}
+            , after: { _id: '123' }
+          }
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: true
+        }
+        const r = lessonsReducer(initialState, action)
+        expect(r).toEqual(expectedState)
+      })
+
+
     })
 
-    it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
+    describe('GET_MANY_LESSONS_REQUEST', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+        }
+        action = {
+          type: ACTIONS.GET_MANY_LESSONS_REQUEST
+          , payload: {
+            before: {}
+            , after: { _id: '123' }
+          }
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: true
+        }
+        const r = lessonsReducer(initialState, action)
+        expect(r).toEqual(expectedState)
+      })
+    })
+
+    describe('GET_LESSON_REQUEST', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+        }
+        action = {
+          type: ACTIONS.GET_LESSON_REQUEST
+          , payload: {
+            before: {}
+            , after: { _id: '123' }
+          }
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: true
+        }
+        const r = lessonsReducer(initialState, action)
+        expect(r).toEqual(expectedState)
+      })
     })
   })
 
-  describe('GET_LESSON_SUCCESS', () => {
-    let initialState, action
-    beforeEach(() => {
-      initialState = {
-        lessonsById: {
-          'shouldSurvive': {
+
+  describe('...FAILURE', () => {
+    describe('PUT_LESSON_FAILURE', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
             key: 'value'
           }
         }
-        , otherStuff: {
-          key: 'value'
+        action = {
+          type: ACTIONS.PUT_LESSON_FAILURE
+          , payload: {
+            before: {}
+            , after: { _id: '123' }
+          }
         }
-      }
-      action = {
-        type: ACTIONS.GET_LESSON_SUCCESS
-        , payload: { _id: '1', key: 'value' }
-      }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
+        }
+        const r = lessonsReducer(initialState, action)
+        expect(r).toEqual(expectedState)
+      })
+
     })
 
-    it('should modify lessonsById as expected', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
-        , [action.payload._id]: action.payload
-      }
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
+    describe('POST_LESSON_FAILURE', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+        }
+        action = {
+          type: ACTIONS.POST_LESSON_FAILURE
+          , payload: {
+            before: {}
+            , after: { _id: '123' }
+          }
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
+        }
+        const r = lessonsReducer(initialState, action)
+        expect(r).toEqual(expectedState)
+      })
+
+
     })
 
-    it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
+    describe('GET_MANY_LESSONS_FAILURE', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+        }
+        action = {
+          type: ACTIONS.GET_MANY_LESSONS_FAILURE
+          , payload: {
+            before: {}
+            , after: { _id: '123' }
+          }
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
+        }
+        const r = lessonsReducer(initialState, action)
+        expect(r).toEqual(expectedState)
+      })
     })
 
+    describe('GET_LESSON_FAILURE', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+        }
+        action = {
+          type: ACTIONS.GET_LESSON_FAILURE
+          , payload: {
+            before: {}
+            , after: { _id: '123' }
+          }
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
+        }
+        const r = lessonsReducer(initialState, action)
+        expect(r).toEqual(expectedState)
+      })
+    })
   })
 
-  describe('POST_LESSON_SUCCESS', () => {
-    let initialState, action
-    beforeEach(() => {
-      initialState = {
-        lessonsById: {
-          'shouldSurvive': {
+
+  describe('...SUCCESS', () => {
+
+    describe('PUT_LESSON_SUCCESS', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
             key: 'value'
           }
+          , isFetching: false
         }
-        , otherStuff: {
-          key: 'value'
+        action = {
+          type: ACTIONS.PUT_LESSON_SUCCESS
+          , payload: {
+            before: {}
+            , after: {_id: '123'}
+          }
         }
-      }
-      action = {
-        type: ACTIONS.POST_LESSON_SUCCESS
-        , payload: { _id: '1', key: 'value' }
-      }
+      })
+
+      it('should modify lessonsById as expected', () => {
+        const expectedState = {
+          ...initialState
+        }
+        expectedState.lessonsById[action.payload.after._id] = action.payload.after
+        const newState = lessonsReducer(initialState, action)
+        expect(newState).toEqual(expectedState)
+      })
+
     })
 
-    it('should modify lessonsById as expected', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
-        , [action.payload._id]: action.payload
-      }
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
+    describe('GET_LESSON_SUCCESS', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+          , isFetching: false
+        }
+        action = {
+          type: ACTIONS.GET_LESSON_SUCCESS
+          , payload: {_id: '1', key: 'value'}
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+        }
+        expectedState.lessonsById[action.payload._id] = action.payload
+        const newState = lessonsReducer(initialState, action)
+        expect(newState).toEqual(expectedState)
+      })
+
     })
 
-    it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
+    describe('POST_LESSON_SUCCESS', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+          , isFetching: false
+        }
+        action = {
+          type: ACTIONS.POST_LESSON_SUCCESS
+          , payload: {_id: '1', key: 'value'}
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+        }
+        expectedState.lessonsById[action.payload._id] = action.payload
+        const newState = lessonsReducer(initialState, action)
+        expect(newState).toEqual(expectedState)
+      })
+
     })
 
+    describe('GET_MANY_LESSONS_SUCCESS', () => {
+      let initialState, action
+      beforeEach(() => {
+        initialState = {
+          lessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+          , isFetching: false
+        }
+        action = {
+          type: ACTIONS.GET_MANY_LESSONS_SUCCESS
+          , payload: [
+            {_id: '1', key: 'value'}
+            , {_id: '2', key: 'value'}
+            , {_id: '3', key: 'value'}
+          ]
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+        }
+        action.payload.forEach(e => {
+          expectedState.lessonsById[e._id] = e
+        })
+        const newState = lessonsReducer(initialState, action)
+        expect(newState).toEqual(expectedState)
+      })
+
+
+    })
+
+    describe('DELETE_LESSON_SUCCESS', () => {
+      let initialState, action, lessonId
+      beforeEach(() => {
+        lessonId = 'id1'
+        initialState = {
+          lessonsById: {
+            [lessonId]: {
+              key: 'value'
+            }
+            , shouldNotSurvive: {
+              key: 'value'
+            }
+          }
+          , otherStuff: {
+            key: 'value'
+          }
+          , isFetching: false
+        }
+        action = {
+          type: ACTIONS.DELETE_LESSON_SUCCESS
+          , payload: {
+            ok: 1
+            , value: {_id: lessonId}
+          }
+        }
+      })
+
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+        }
+        delete expectedState.lessonsById[lessonId]
+        const newState = lessonsReducer(initialState, action)
+        expect(newState).toEqual(expectedState)
+      })
+
+      it('should not modify state at all if !ok', () => {
+        action.payload.ok = 0
+        const newState = lessonsReducer(initialState, action)
+        expect(newState).toEqual(initialState)
+      })
+
+
+    })
   })
 
-  describe('GET_MANY_LESSONS_SUCCESS', () => {
-    let initialState, action
-    beforeEach(() => {
-      initialState = {
-        lessonsById: {
-          'shouldSurvive': {
-            key: 'value'
-          }
-        }
-        , otherStuff: {
-          key: 'value'
-        }
-      }
-      action = {
-        type: ACTIONS.GET_MANY_LESSONS_SUCCESS
-        , payload: [
-          { _id: '1', key: 'value' }
-          , { _id: '2', key: 'value' }
-          , { _id: '3', key: 'value' }
-        ]
-      }
-    })
-
-    it('should modify lessonsById as expected', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
-      }
-      action.payload.forEach(e => { expectedLessonsById[e._id] = e })
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
-    })
-
-    it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
-    })
-
-
-  })
-
-  describe('DELETE_LESSON_SUCCESS', () => {
-    let initialState, action, lessonId
-    beforeEach(() => {
-      lessonId = 'id1'
-      initialState = {
-        lessonsById: {
-          [lessonId]: {
-            key: 'value'
-          }
-          , shouldNotSurvive: {
-            key: 'value'
-          }
-        }
-        , otherStuff: {
-          key: 'value'
-        }
-      }
-      action = {
-        type: ACTIONS.DELETE_LESSON_SUCCESS
-        , payload: {
-          ok: 1
-          , value: { _id: lessonId }
-        }
-      }
-    })
-
-    it('should modify lessonsById as expected if ok returned', () => {
-      const expectedLessonsById = {
-        ...initialState.lessonsById
-      }
-      delete expectedLessonsById[lessonId]
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
-    })
-
-    it('should not modify lessonsById at all if !ok', () => {
-      action.payload.ok = 0
-      const expectedLessonsById = {
-        ...initialState.lessonsById
-      }
-      const r = lessonsReducer(initialState, action)
-      expect(r.lessonsById).toEqual(expectedLessonsById)
-    })
-
-    it('should not modify the rest of state', () => {
-      const r = lessonsReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
-    })
-
-
-  })
 
   describe('SIGNOUT_SUCCESS', () => {
     let initialState, action
@@ -215,8 +468,8 @@ describe('Lessons Reducer', () => {
       const expectedState = {
         lessonsById: {}
       }
-      const r = lessonsReducer(initialState, action)
-      expect(r).toEqual(expectedState)
+      const newState = lessonsReducer(initialState, action)
+      expect(newState).toEqual(expectedState)
     })
   })
 

@@ -28,14 +28,14 @@ describe('UserLessons Reducer', () => {
       })
 
       it('should modify isFetching as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: true
+        }
         const r = userLessonsReducer(initialState, action)
-        expect(r.isFetching).toEqual(true)
+        expect(r).toEqual(expectedState)
       })
 
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
-      })
     })
 
     describe('POST_USER_LESSON_REQUEST', () => {
@@ -61,14 +61,14 @@ describe('UserLessons Reducer', () => {
       })
 
       it('should modify isFetching as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: true
+        }
         const r = userLessonsReducer(initialState, action)
-        expect(r.isFetching).toEqual(true)
+        expect(r).toEqual(expectedState)
       })
 
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
-      })
     })
 
     describe('GET_MANY_USER_LESSONS_REQUEST', () => {
@@ -94,14 +94,14 @@ describe('UserLessons Reducer', () => {
       })
 
       it('should modify isFetching as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: true
+        }
         const r = userLessonsReducer(initialState, action)
-        expect(r.isFetching).toEqual(true)
+        expect(r).toEqual(expectedState)
       })
 
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
-      })
     })
 
     describe('GET_USER_LESSON_REQUEST', () => {
@@ -127,14 +127,14 @@ describe('UserLessons Reducer', () => {
       })
 
       it('should modify isFetching as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: true
+        }
         const r = userLessonsReducer(initialState, action)
-        expect(r.isFetching).toEqual(true)
+        expect(r).toEqual(expectedState)
       })
 
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
-      })
     })
   })
 
@@ -149,6 +149,11 @@ describe('UserLessons Reducer', () => {
               key: 'value'
             }
           }
+          , userLessonsByLessonId: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
           , otherStuff: {
             key: 'value'
           }
@@ -157,24 +162,22 @@ describe('UserLessons Reducer', () => {
           type: ACTIONS.PUT_USER_LESSON_SUCCESS
           , payload: {
             before: {}
-            , after: {_id: '123'}
+            , after: { _id: '123', lessonId: 'abc' }
           }
         }
       })
 
-      it('should modify userLessonsById as expected', () => {
-        const expectedUserLessonsById = {
-          ...initialState.userLessonsById
-          , [action.payload.after._id]: action.payload.after
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
         }
+        expectedState.userLessonsById[action.payload.after._id] = action.payload.after
+        expectedState.userLessonsByLessonId[action.payload.after.lessonId] = action.payload.after
         const r = userLessonsReducer(initialState, action)
-        expect(r.userLessonsById).toEqual(expectedUserLessonsById)
+        expect(r).toEqual(expectedState)
       })
 
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
-      })
     })
 
     describe('GET_USER_LESSON_SUCCESS', () => {
@@ -182,6 +185,11 @@ describe('UserLessons Reducer', () => {
       beforeEach(() => {
         initialState = {
           userLessonsById: {
+            'shouldSurvive': {
+              key: 'value'
+            }
+          }
+          , userLessonsByLessonId: {
             'shouldSurvive': {
               key: 'value'
             }
@@ -196,27 +204,15 @@ describe('UserLessons Reducer', () => {
         }
       })
 
-      it('should modify userLessonsById as expected', () => {
-        const expectedUserLessonsById = {
-          ...initialState.userLessonsById
-          , [action.payload._id]: action.payload
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
         }
+        expectedState.userLessonsById[action.payload._id] = action.payload
+        expectedState.userLessonsByLessonId[action.payload.lessonId] = action.payload
         const r = userLessonsReducer(initialState, action)
-        expect(r.userLessonsById).toEqual(expectedUserLessonsById)
-      })
-
-      it('should modify userLessonsByLessonId as expected', () => {
-        const expectedUserLessonsByLessonId = {
-          ...initialState.userLessonsByLessonId
-          , [action.payload.lessonId]: action.payload
-        }
-        const r = userLessonsReducer(initialState, action)
-        expect(r.userLessonsByLessonId).toEqual(expectedUserLessonsByLessonId)
-      })
-
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
+        expect(r).toEqual(expectedState)
       })
 
     })
@@ -241,40 +237,19 @@ describe('UserLessons Reducer', () => {
         }
         action = {
           type: ACTIONS.POST_USER_LESSON_SUCCESS
-          , payload: {_id: '1', lessonId: 'a'}
+          , payload: {_id: '123', lessonId: 'abc'}
         }
       })
 
-      it('should modify userLessonsById as expected', () => {
-        const expectedUserLessonsById = {
-          ...initialState.userLessonsById
-          , [action.payload._id]: action.payload
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
         }
+        expectedState.userLessonsById[action.payload._id] = action.payload
+        expectedState.userLessonsByLessonId[action.payload.lessonId] = action.payload
         const r = userLessonsReducer(initialState, action)
-        expect(r.userLessonsById).toEqual(expectedUserLessonsById)
-      })
-
-      it('should modify userLessonsByLessonId as expected', () => {
-        const expectedUserLessonsByLessonId = {
-          ...initialState.userLessonsByLessonId
-          , [action.payload.lessonId]: action.payload
-        }
-        const r = userLessonsReducer(initialState, action)
-        expect(r.userLessonsByLessonId).toEqual(expectedUserLessonsByLessonId)
-      })
-
-      it('should modify userLessonsById as expected', () => {
-        const expectedUserLessonsById = {
-          ...initialState.userLessonsById
-          , [action.payload._id]: action.payload
-        }
-        const r = userLessonsReducer(initialState, action)
-        expect(r.userLessonsById).toEqual(expectedUserLessonsById)
-      })
-
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
+        expect(r).toEqual(expectedState)
       })
 
     })
@@ -307,31 +282,17 @@ describe('UserLessons Reducer', () => {
         }
       })
 
-      it('should modify userLessonsById as expected', () => {
-        const expectedUserLessonsById = {
-          ...initialState.userLessonsById
+      it('should modify state as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
         }
         action.payload.forEach(e => {
-          expectedUserLessonsById[e._id] = e
+          expectedState.userLessonsById[e._id] = e
+          expectedState.userLessonsByLessonId[e.lessonId] = e
         })
         const r = userLessonsReducer(initialState, action)
-        expect(r.userLessonsById).toEqual(expectedUserLessonsById)
-      })
-
-      it('should modify userLessonsByLessonId as expected', () => {
-        const expectedUserLessonsByLessonId = {
-          ...initialState.userLessonsByLessonId
-        }
-        action.payload.forEach(e => {
-          expectedUserLessonsByLessonId[e.lessonId] = e
-        })
-        const r = userLessonsReducer(initialState, action)
-        expect(r.userLessonsByLessonId).toEqual(expectedUserLessonsByLessonId)
-      })
-
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
+        expect(r).toEqual(expectedState)
       })
 
     })
@@ -362,14 +323,14 @@ describe('UserLessons Reducer', () => {
       })
 
       it('should modify isFetching as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
+        }
         const r = userLessonsReducer(initialState, action)
-        expect(r.isFetching).toEqual(false)
+        expect(r).toEqual(expectedState)
       })
 
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
-      })
     })
 
     describe('POST_USER_LESSON_FAILURE', () => {
@@ -395,14 +356,14 @@ describe('UserLessons Reducer', () => {
       })
 
       it('should modify isFetching as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
+        }
         const r = userLessonsReducer(initialState, action)
-        expect(r.isFetching).toEqual(false)
+        expect(r).toEqual(expectedState)
       })
 
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
-      })
     })
 
     describe('GET_MANY_USER_LESSONS_FAILURE', () => {
@@ -428,14 +389,14 @@ describe('UserLessons Reducer', () => {
       })
 
       it('should modify isFetching as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
+        }
         const r = userLessonsReducer(initialState, action)
-        expect(r.isFetching).toEqual(false)
+        expect(r).toEqual(expectedState)
       })
 
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
-      })
     })
 
     describe('GET_USER_LESSON_FAILURE', () => {
@@ -461,16 +422,17 @@ describe('UserLessons Reducer', () => {
       })
 
       it('should modify isFetching as expected', () => {
+        const expectedState = {
+          ...initialState
+          , isFetching: false
+        }
         const r = userLessonsReducer(initialState, action)
-        expect(r.isFetching).toEqual(false)
+        expect(r).toEqual(expectedState)
       })
 
-      it('should not modify the rest of state', () => {
-        const r = userLessonsReducer(initialState, action)
-        expect(r.otherStuff).toEqual(initialState.otherStuff)
-      })
     })
   })
+
 
   describe('SIGNOUT_SUCCESS', () => {
     let initialState, action

@@ -15,18 +15,16 @@ describe('TopBar Reducer', () => {
       }
     })
 
-    it('should modify the expected properties of state as expected', () => {
-      const expectedIsTopBarOpen = true
-      const expectedTopBarHeight = 60
+    it('should modify state as expected', () => {
+      const expectedState = {
+        ...initialState
+        , isTopBarOpen: true
+        , topBarHeight: 60
+      }
       const r = topBarReducer(initialState, action)
-      expect(r.isTopBarOpen).toEqual(expectedIsTopBarOpen)
-      expect(r.topBarHeight).toEqual(expectedTopBarHeight)
+      expect(r).toEqual(expectedState)
     })
 
-    it('should not modify the rest of state', () => {
-      const r = topBarReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
-    })
   })
 
   describe('CLOSE_TOPBAR', () => {
@@ -40,17 +38,14 @@ describe('TopBar Reducer', () => {
       }
     })
 
-    it('should modify the expected properties of state as expected', () => {
-      const expectedIsTopBarOpen = false
-      const expectedTopBarHeight = 0
+    it('should modify state as expected', () => {
+      const expectedState = {
+        ...initialState
+        , isTopBarOpen: false
+        , topBarHeight: 0
+      }
       const r = topBarReducer(initialState, action)
-      expect(r.isTopBarOpen).toEqual(expectedIsTopBarOpen)
-      expect(r.topBarHeight).toEqual(expectedTopBarHeight)
-    })
-
-    it('should not modify the rest of state', () => {
-      const r = topBarReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
+      expect(r).toEqual(expectedState)
     })
   })
 
@@ -66,14 +61,13 @@ describe('TopBar Reducer', () => {
       }
     })
 
-    it('should modify the expected properties of state as expected', () => {
+    it('should modify state as expected', () => {
+      const expectedState = {
+        ...initialState
+        , topBarTitle: action.payload
+      }
       const r = topBarReducer(initialState, action)
-      expect(r.topBarTitle).toEqual(action.payload)
-    })
-
-    it('should not modify the rest of state', () => {
-      const r = topBarReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
+      expect(r).toEqual(expectedState)
     })
   })
 
@@ -89,15 +83,15 @@ describe('TopBar Reducer', () => {
       }
     })
 
-    it('should modify the expected properties of state as expected', () => {
+    it('should modify state as expected', () => {
+      const expectedState = {
+        ...initialState
+        , topBarTitleDisabled: action.payload
+      }
       const r = topBarReducer(initialState, action)
-      expect(r.topBarTitleDisabled).toEqual(action.payload)
+      expect(r).toEqual(expectedState)
     })
 
-    it('should not modify the rest of state', () => {
-      const r = topBarReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
-    })
   })
 
   describe('TOGGLE_TOPBAR_TITLE_FOCUS', () => {
@@ -112,15 +106,15 @@ describe('TopBar Reducer', () => {
       }
     })
 
-    it('should modify the expected properties of state as expected', () => {
+    it('should modify state as expected', () => {
+      const expectedState = {
+        ...initialState
+        , topBarFocused: action.payload
+      }
       const r = topBarReducer(initialState, action)
-      expect(r.topBarFocused).toEqual(action.payload)
+      expect(r).toEqual(expectedState)
     })
 
-    it('should not modify the rest of state', () => {
-      const r = topBarReducer(initialState, action)
-      expect(r.otherStuff).toEqual(initialState.otherStuff)
-    })
   })
 
   describe('SIGNOUT_SUCCESS', () => {
