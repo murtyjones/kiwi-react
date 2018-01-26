@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import { Layer } from 'react-konva'
-import { get, isEqual } from 'lodash'
+import { get, isEqual, isEmpty, cloneDeep } from 'lodash'
 
 import { LESSON_MAP_POINTS } from '../constants'
 import insertIf from '../utils/insertIf'
@@ -18,6 +18,41 @@ const bubbleStates = {
   AVAILABLE: 'AVAILABLE'
   , LOCKED: 'LOCKED'
 }
+
+const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities) =>
+  (mapLessons ||[]).reduce((acc, lesson, i) => {
+    const order = i + 1
+      , isSelected = selectedLessonOrder === order
+      , isHovered = hoveredLessonOrder === order
+      , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`]
+      , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
+      , wasJustCompleted = get(lesson, 'justCompleted', false)
+      , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
+      , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0) / 100
+      , percentageToUse = hasBeenCompleted ? 1.00 : completionPercentage
+      , arcFrontAngle = percentageToUse * 360
+      , bubbleAvailability = bubbleAvailabilities[i]
+      , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
+      , message = isHovered ? isAvailable ? lesson.title : 'Not unlocked yet!' : ''
+    acc.push({
+      ...lesson
+      , order
+      , isSelected
+      , isHovered
+      , x
+      , y
+      , wasJustCompleted
+      , hasBeenCompleted
+      , completionPercentage
+      , percentageToUse
+      , arcFrontAngle
+      , bubbleAvailability
+      , isAvailable
+      , message
+    })
+    return acc
+  }, [])
+
 
 const calculateBubbleAvailabilities = (mapLessons, latestActiveLessonId) => {
   let pastLatestActiveLessonId = false
@@ -40,6 +75,7 @@ class MapItems extends PureComponent {
       bubbleAvailabilities: props.mapLessons.map((_, i) => i + 1)
       , selectedLessonOrder: -1
       , hoveredLessonOrder: -1
+      , statefulMapLessons: props.mapLessons.map(_ => {})
     }
   }
 
@@ -65,12 +101,30 @@ class MapItems extends PureComponent {
 
     if(latestActiveLessonIdHasChanged || mapLessonsHasChanged)
       this.setBubbleAvailabilities(nextMapLessons, nextLatestActiveLessonId)
+    console.log('a')
   }
 
-  setStateAsync = (newState) =>
-    new Promise((resolve) => {
-      this.setState(newState, resolve)
-    })
+  componentWillUpdate(nextProps, nextState) {
+    const { mapLessons } = this.props
+    const { selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities } = this.state
+    const { mapLessons: nextMapLessons } = nextProps
+    const { selectedLessonOrder: nextSelectedLessonOrder, hoveredLessonOrder: nextHoveredLessonOrder, bubbleAvailabilities: nextBubbleAvailabilities } = nextState
+    const mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
+    const selectedLessonOrderHasChanged = !isEqual(selectedLessonOrder, nextSelectedLessonOrder)
+    const hoveredLessonOrderHasChanged = !isEqual(hoveredLessonOrder, nextHoveredLessonOrder)
+    const bubbleAvailabilitiesHasChanged = !isEqual(bubbleAvailabilities, nextBubbleAvailabilities)
+    const needsRemapping = nextState.statefulMapLessons[0] === undefined
+
+    if(needsRemapping || mapLessonsHasChanged || selectedLessonOrderHasChanged || hoveredLessonOrderHasChanged || bubbleAvailabilitiesHasChanged)
+      this.setStatefulMapLessons(nextMapLessons, nextSelectedLessonOrder, nextHoveredLessonOrder, nextBubbleAvailabilities)
+  }
+
+  setStateAsync = (newState) => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
+
+  setStatefulMapLessons = (...params) =>
+    this.setState({ statefulMapLessons: generateStatefulMapLessons(...params) })
 
   setBubbleAvailabilities = (mapLessons, latestActiveLessonId) =>
     this.setState({ bubbleAvailabilities: calculateBubbleAvailabilities(mapLessons, latestActiveLessonId) })
@@ -105,23 +159,14 @@ class MapItems extends PureComponent {
   }
 
   render() {
-    const { mapLessons, width } = this.props
-    const { selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities } = this.state
+    const { width } = this.props
+    const { statefulMapLessons } = this.state
 
-    const lessonsAssets = mapLessons.reduce((acc, lesson, i) => {
-      const order = i + 1
-        , isSelected = selectedLessonOrder === order
-        , isHovered = hoveredLessonOrder === order
-        , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`]
-        , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
-        , wasJustCompleted = get(lesson, 'justCompleted', false)
-        , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
-        , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0) / 100
-        , percentageToUse = hasBeenCompleted ? 1.00 : completionPercentage
-        , arcFrontAngle = percentageToUse * 360
-        , bubbleAvailability = bubbleAvailabilities[i]
-        , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
-        , message = isHovered ? isAvailable ? lesson.title : 'Not unlocked yet!' : ''
+    console.log(statefulMapLessons)
+    const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
+      if(isEmpty(lesson)) return null
+
+      const { order, isAvailable, isSelected, x, y, message, wasJustCompleted, hasBeenCompleted, arcFrontAngle } = lesson
 
       const clickProps = {
         onClick: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
