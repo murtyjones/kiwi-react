@@ -11,6 +11,8 @@ import LessonLabel from './LessonLabel'
 import LessonBubble from './LessonBubble'
 import LessonText from './LessonText'
 import LessonArcBack from './LessonArcBack'
+import LessonArcFront from './LessonArcFront'
+import Lock from './Lock'
 
 const scaleUp = { // for some reason, these must be destructed using '...' when passing to .to()
   scaleX: 1.3
@@ -86,16 +88,6 @@ const shapeProps = {
     , offsetX: 15
     , offsetY: 0
   },
-  defaultArcStyleArcBack: {
-    lineCap: 'round'
-    , lineJoin: 'round'
-    , innerRadius: 21
-    , outerRadius: 24
-    , fill: colors.completionArcBackColor
-    , clockwise: false
-    , angle: 0
-    , rotation: -90
-  },
   defaultArcStyleLayerTwo: {
     lineCap: 'round'
     , lineJoin: 'round'
@@ -105,12 +97,6 @@ const shapeProps = {
     , clockwise: false
     , angle: 0
     , rotation: -90
-  },
-  lockStyle: {
-    offsetX: 11.5
-    , offsetY: 13
-    , fill: colors.lockColor
-    , data: SVG_PATHS.LOCK
   }
 }
 
@@ -150,7 +136,6 @@ class MapItems extends PureComponent {
       , bubbleTextColors: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultBubbleTextColor))
       , checkMarkStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultCheckMarkStyle))
       , checkMarkPoints: props.mapLessons.map(_ => [])
-      , arcStylesArcBack: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultArcStyleArcBack))
       , arcFrontStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultArcStyleLayerTwo))
       , selectedBubbleRef: ''
       , selectedBubbleTextRef: ''
@@ -434,28 +419,6 @@ class MapItems extends PureComponent {
     this.displayMessage(order - 1, '')
   }
 
-  renderLock = (lesson, index) => {
-    const { mapDimensions, bubbleAvailabilities } = this.state
-      , order = index + 1
-      , bubbleAvailability = bubbleAvailabilities[index]
-      , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
-      , lockRef = makeLockRef(order)
-      , x = mapDimensions[`CIRCLE_${order}_X`]
-      , y = mapDimensions[`CIRCLE_${order}_Y`]
-
-    return [
-      ...insertIf(!isAvailable,
-        <Path
-          key={ lockRef }
-          ref={ c => this[lockRef] = c  }
-          x={ x }
-          y={ y }
-          { ...shapeProps.lockStyle }
-        />
-      )
-    ]
-  }
-
   renderLessonTransparentBubble = (lesson, index) => {
     const { mapDimensions, bubbleStyles, bubbleAvailabilities } = this.state
       , order = index + 1
@@ -507,25 +470,6 @@ class MapItems extends PureComponent {
     ]
   }
 
-  renderArcFront = (lesson, index) => {
-    const { mapDimensions, arcFrontStyles } = this.state
-      , order = index + 1
-      , arcFrontStyle = arcFrontStyles[index]
-      , completionArcFrontRefText = makeArcFrontRef(order)
-      , x = mapDimensions[`CIRCLE_${order}_X`]
-      , y = mapDimensions[`CIRCLE_${order}_Y`]
-
-    return [
-      <Arc
-        key={ completionArcFrontRefText }
-        ref={ c => this[completionArcFrontRefText] = c  }
-        x={ x }
-        y={ y }
-        { ...arcFrontStyle }
-      />
-    ]
-  }
-
   displayMessage = (i, message) => {
     const { textTagMessages } = this.state
       , newTextTagMessages = cloneDeep(textTagMessages)
@@ -545,6 +489,11 @@ class MapItems extends PureComponent {
 
       const wasJustCompleted = get(lesson, 'justCompleted', false)
         ,  hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
+        , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0) / 100
+        , percentageToUse = hasBeenCompleted ? 1.00 : completionPercentage
+        , arcFrontAngle = percentageToUse * 360
+        , bubbleAvailability = bubbleAvailabilities[i]
+        , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
 
       acc.push([
         <LessonLabel
@@ -566,7 +515,7 @@ class MapItems extends PureComponent {
         ,
         <LessonText
           key={ `lesson-text-${i}` }
-          bubbleText={ bubbleAvailabilities[i] === bubbleStates.AVAILABLE ? order : '' }
+          bubbleText={ isAvailable ? order : '' }
           x={ x }
           y={ y }
           isSelected={ isSelected }
@@ -575,13 +524,28 @@ class MapItems extends PureComponent {
         />
         ,
         <LessonArcBack
-          key={ `lesson-arc-${i}` }
+          key={ `lesson-arc-back-${i}` }
           x={ x }
           y={ y }
           isSelected={ isSelected }
         />
-        , ...this.renderArcFront(lesson, i)
-        , ...this.renderLock(lesson, i)
+        ,
+        <LessonArcFront
+          key={ `lesson-arc-front-${i}` }
+          x={ x }
+          y={ y }
+          isSelected={ isSelected }
+          hasBeenCompleted={ hasBeenCompleted }
+          wasJustCompleted={ wasJustCompleted }
+          angle={ arcFrontAngle }
+        />
+        ,
+        ...insertIf(!isAvailable,
+          <Lock
+            x={ x }
+            y={ y }
+          />
+        )
         , ...this.renderCheckMark(lesson, i)
         , ...this.renderLessonTransparentBubble(lesson, i)
       ])

@@ -30,10 +30,10 @@ export default class LessonArcBack extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if(!isEqual(nextProps.isSelected, this.props.isSelected))
-      this.scaleText(nextProps.isSelected)
+      this.scale(nextProps.isSelected)
   }
 
-  scaleText = (isSelected) => {
+  scale = (isSelected) => {
     const scaleX = isSelected ? 1.3 : 1.0
       ,   scaleY = isSelected ? 1.3 : 1.0
       ,   duration = 0.1
@@ -51,8 +51,10 @@ export default class LessonArcBack extends PureComponent {
       ,   duration = 1.0
 
     this.setState({
-      ...this.state.arcBackStyle
-      , angle
+      arcBackStyle: {
+        ...this.state.arcBackStyle
+        , angle
+      }
     })
     this.arcBack.to({ angle, duration })
   }

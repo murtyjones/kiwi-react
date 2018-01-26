@@ -28,12 +28,12 @@ export default class LessonText extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if(!isEqual(nextProps.isSelected, this.props.isSelected))
-      this.scaleText(nextProps.isSelected)
+      this.scale(nextProps.isSelected)
     if(!isEqual(nextProps.hasBeenCompleted, this.props.hasBeenCompleted))
       this.setState({ bubbleTextFill: '#543e80' })
   }
 
-  scaleText = (isSelected) => {
+  scale = (isSelected) => {
     const scaleX = isSelected ? 1.3 : 1.0
       ,   scaleY = isSelected ? 1.3 : 1.0
       ,   duration = 0.1
