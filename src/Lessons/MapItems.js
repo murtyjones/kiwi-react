@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { Circle, Text, Path, Arc, Line, Rect, Label, Tag, Layer } from 'react-konva'
-import { has, get, find, findIndex, cloneDeep, isEqual, isEmpty } from 'lodash'
-import update from 'immutability-helper'
+import { Layer } from 'react-konva'
+import { get, isEqual } from 'lodash'
 
 import { LESSON_MAP_POINTS } from '../constants'
 import insertIf from '../utils/insertIf'
@@ -22,8 +21,7 @@ const bubbleStates = {
 
 const calculateBubbleAvailabilities = (mapLessons, latestActiveLessonId) => {
   let pastLatestActiveLessonId = false
-  return mapLessons.map((e, i) => {
-    const order = i + 1
+  return mapLessons.map(e => {
     if(!pastLatestActiveLessonId && e._id !== latestActiveLessonId) {
       return bubbleStates.AVAILABLE
     } else if(!pastLatestActiveLessonId && e._id === latestActiveLessonId) {
@@ -40,10 +38,8 @@ class MapItems extends PureComponent {
     super(props)
     this.state = {
       bubbleAvailabilities: props.mapLessons.map((_, i) => i + 1)
-      , labels: []
-      , shouldDisplayMessage: false
-      , textTagMessages: props.mapLessons.map(_ => '')
       , selectedLessonOrder: -1
+      , hoveredLessonOrder: -1
     }
   }
 
@@ -71,11 +67,10 @@ class MapItems extends PureComponent {
       this.setBubbleAvailabilities(nextMapLessons, nextLatestActiveLessonId)
   }
 
-  setStateAsync = (newState) => {
-    return new Promise((resolve) => {
+  setStateAsync = (newState) =>
+    new Promise((resolve) => {
       this.setState(newState, resolve)
-    });
-  }
+    })
 
   setBubbleAvailabilities = (mapLessons, latestActiveLessonId) =>
     this.setState({ bubbleAvailabilities: calculateBubbleAvailabilities(mapLessons, latestActiveLessonId) })
@@ -83,6 +78,8 @@ class MapItems extends PureComponent {
   setSelectedLessonOrder = (selectedLessonOrder) =>
     this.setState({ selectedLessonOrder })
 
+  setHoveredLessonOrder = (hoveredLessonOrder) =>
+    this.setState({ hoveredLessonOrder })
 
   handleLessonBubbleClick = (e, lesson, order, isAvailable) => {
     if(isAvailable) {
@@ -91,37 +88,30 @@ class MapItems extends PureComponent {
     }
   }
 
-  handleMouseOver = (e, lesson, order, isAvailable, isSelected) => {
+  handleMouseOver = (e, order, isAvailable, isSelected) => {
     e.cancelBubble = true
     e.evt.preventDefault()
-    let message = isAvailable ? lesson.title : 'Not unlocked yet!'
     if(isAvailable)
       this.props.handleMouseOver()
     if(!isSelected)
-      this.displayMessage(order - 1, message)
+      this.setHoveredLessonOrder(order)
   }
 
-  handleMouseOut = (e, lesson, order) => {
+  handleMouseOut = (e) => {
     e.cancelBubble = true
     e.evt.preventDefault()
     this.props.handleMouseOut()
-    this.displayMessage(order - 1, '')
-  }
-
-  displayMessage = (i, message) => {
-    const { textTagMessages } = this.state
-      , newTextTagMessages = cloneDeep(textTagMessages)
-    newTextTagMessages[i] = message
-    this.setState({ textTagMessages: newTextTagMessages })
+    this.setHoveredLessonOrder(-1)
   }
 
   render() {
     const { mapLessons, width } = this.props
-    const { textTagMessages, selectedLessonOrder, bubbleAvailabilities } = this.state
+    const { selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities } = this.state
 
     const lessonsAssets = mapLessons.reduce((acc, lesson, i) => {
       const order = i + 1
         , isSelected = selectedLessonOrder === order
+        , isHovered = hoveredLessonOrder === order
         , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`]
         , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
         , wasJustCompleted = get(lesson, 'justCompleted', false)
@@ -131,12 +121,13 @@ class MapItems extends PureComponent {
         , arcFrontAngle = percentageToUse * 360
         , bubbleAvailability = bubbleAvailabilities[i]
         , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
+        , message = isHovered ? isAvailable ? lesson.title : 'Not unlocked yet!' : ''
 
       const clickProps = {
         onClick: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
         , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
-        , onMouseOver: (e) => this.handleMouseOver(e, lesson, order, isAvailable, isSelected)
-        , onMouseOut: (e) => this.handleMouseOut(e, lesson, order)
+        , onMouseOver: (e) => this.handleMouseOver(e, order, isAvailable, isSelected)
+        , onMouseOut: this.handleMouseOut
       }
 
       acc.push([
@@ -146,7 +137,7 @@ class MapItems extends PureComponent {
           width={ width }
           x={ x }
           y={ y }
-          textTagMessage={ textTagMessages[i] }
+          message={ message }
         />
         ,
         <LessonBubble
