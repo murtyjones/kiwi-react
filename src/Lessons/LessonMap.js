@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import MapBubbles from './MapBubbles'
+import MapItems from './MapItems'
 import ScaledStage from './ScaledStage'
 import { isEmpty, isEqual, get }  from 'lodash'
 
@@ -51,9 +51,8 @@ class LessonMap extends Component {
       , { mapLessons: nextMapLessons } = nextProps
       , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
 
-    if(mapLessonsHasChanged) {
+    if(mapLessonsHasChanged)
       this.setLatestActiveLessonId(nextMapLessons)
-    }
   }
 
   handleLessonSelect = (e, selectedLessonId) =>
@@ -74,7 +73,7 @@ class LessonMap extends Component {
       <div style={ { ...styles.container, cursor } }>
         { !isEmpty(mapLessons) &&
           <ScaledStage>
-            <MapBubbles
+            <MapItems
               mapLessons={ mapLessons }
               selectedLessonId={ selectedLessonId }
               selectedLessonPosition={ selectedLessonPosition }

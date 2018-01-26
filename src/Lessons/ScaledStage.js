@@ -7,7 +7,7 @@ const widthAnchor = 1680 // standard macbook screen size
 const heightAnchor = 3800
 const targetHeightWidthRatio = heightAnchor / widthAnchor
 
-function renderChildren({ children, width }) {
+function renderLayers({ children, width }) {
   return Children.map(children, child => {
     return cloneElement(child, { width })
   })
@@ -51,11 +51,10 @@ export default class LessonMap extends Component {
     const { width, height } = this.state
     const { children } = this.props
     const scaleXY = width / widthAnchor
+    console.log(width)
     return (
       <Stage width={ width } height={ height } scaleX={ scaleXY } scaleY={ scaleXY }>
-        <Layer>
-          { renderChildren({ children, height, width }) }
-        </Layer>
+        { renderLayers({ children, height, width }) }
       </Stage>
     )
   }
