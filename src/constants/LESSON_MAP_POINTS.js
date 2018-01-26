@@ -1,6 +1,4 @@
-let LESSON_MAP_POINTS
-export default LESSON_MAP_POINTS = (width, height) => {
-  return {
+const LESSON_MAP_POINTS = {
     CIRCLE_1_Y: 295
     , CIRCLE_1_X: 255
 
@@ -21,8 +19,6 @@ export default LESSON_MAP_POINTS = (width, height) => {
 
     , CIRCLE_7_Y: 3010
     , CIRCLE_7_X: 315
-
-  }
-
-
 }
+
+export default LESSON_MAP_POINTS

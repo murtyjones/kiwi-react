@@ -4,9 +4,8 @@ import { Circle, Text, Path, Arc, Line, Rect, Label, Tag, Layer } from 'react-ko
 import { has, get, find, findIndex, cloneDeep, isEqual, isEmpty } from 'lodash'
 import update from 'immutability-helper'
 
-import { LESSON_MAP_POINTS, SVG_PATHS } from '../constants'
+import { LESSON_MAP_POINTS } from '../constants'
 import insertIf from '../utils/insertIf'
-import setTimeoutAsync from '../utils/setTimeoutAsync'
 import LessonLabel from './Assets/LessonLabel'
 import LessonBubble from './Assets/LessonBubble'
 import LessonText from './Assets/LessonText'
@@ -20,8 +19,6 @@ const bubbleStates = {
   AVAILABLE: 'AVAILABLE'
   , LOCKED: 'LOCKED'
 }
-
-const makeTagRef = order => `tag-${order}`
 
 const calculateBubbleAvailabilities = (mapLessons, latestActiveLessonId) => {
   let pastLatestActiveLessonId = false
@@ -42,9 +39,7 @@ class MapItems extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      mapDimensions: LESSON_MAP_POINTS(props.width, props.height)
-      , bubbleAvailabilities: props.mapLessons.map((_, i) => i + 1)
-      , selectedTagRef: ''
+      bubbleAvailabilities: props.mapLessons.map((_, i) => i + 1)
       , labels: []
       , shouldDisplayMessage: false
       , textTagMessages: props.mapLessons.map(_ => '')
@@ -67,8 +62,8 @@ class MapItems extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { mapLessons, latestActiveLessonId, width, height } = this.props
-        , { mapLessons: nextMapLessons, latestActiveLessonId: nextLatestActiveLessonId, width: nextWidth, height: nextHeight } = nextProps
+    const { mapLessons, latestActiveLessonId } = this.props
+        , { mapLessons: nextMapLessons, latestActiveLessonId: nextLatestActiveLessonId } = nextProps
         , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
         , latestActiveLessonIdHasChanged = !isEqual(latestActiveLessonId, nextLatestActiveLessonId)
 
@@ -85,34 +80,24 @@ class MapItems extends PureComponent {
   setBubbleAvailabilities = (mapLessons, latestActiveLessonId) =>
     this.setState({ bubbleAvailabilities: calculateBubbleAvailabilities(mapLessons, latestActiveLessonId) })
 
-  setSelectedLesson = (lesson, order) =>
-    this.setState({
-      selectedLessonOrder: order
-      , selectedTagRef: makeTagRef(order)
-    })
+  setSelectedLessonOrder = (selectedLessonOrder) =>
+    this.setState({ selectedLessonOrder })
 
 
-  handleLessonBubbleClick = (e, lesson, order) => {
-    const { bubbleAvailabilities } = this.state
-      , i = order - 1
-      , isAvailable = bubbleAvailabilities[i] === bubbleStates.AVAILABLE
-
+  handleLessonBubbleClick = (e, lesson, order, isAvailable) => {
     if(isAvailable) {
       this.props.onLessonSelect(e, lesson._id)
-      this.setSelectedLesson(lesson, order)
+      this.setSelectedLessonOrder(order)
     }
   }
 
-  handleMouseOver = (e, lesson, order, isAvailable) => {
+  handleMouseOver = (e, lesson, order, isAvailable, isSelected) => {
     e.cancelBubble = true
     e.evt.preventDefault()
-    const { selectedTagRef } = this.state
-      , tagRef = makeTagRef(order)
-      , isAlreadySelected = selectedTagRef === tagRef
     let message = isAvailable ? lesson.title : 'Not unlocked yet!'
     if(isAvailable)
       this.props.handleMouseOver()
-    if(!isAlreadySelected)
+    if(!isSelected)
       this.displayMessage(order - 1, message)
   }
 
@@ -132,13 +117,13 @@ class MapItems extends PureComponent {
 
   render() {
     const { mapLessons, width } = this.props
-    const { mapDimensions, textTagMessages, selectedLessonOrder, bubbleAvailabilities } = this.state
+    const { textTagMessages, selectedLessonOrder, bubbleAvailabilities } = this.state
 
     const lessonsAssets = mapLessons.reduce((acc, lesson, i) => {
       const order = i + 1
         , isSelected = selectedLessonOrder === order
-        , x = mapDimensions[`CIRCLE_${order}_X`]
-        , y = mapDimensions[`CIRCLE_${order}_Y`]
+        , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`]
+        , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
         , wasJustCompleted = get(lesson, 'justCompleted', false)
         , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
         , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0) / 100
@@ -148,9 +133,9 @@ class MapItems extends PureComponent {
         , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
 
       const clickProps = {
-        onClick: (e) => this.handleLessonBubbleClick(e, lesson, order)
-        , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order)
-        , onMouseOver: (e) => this.handleMouseOver(e, lesson, order, isAvailable)
+        onClick: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
+        , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
+        , onMouseOver: (e) => this.handleMouseOver(e, lesson, order, isAvailable, isSelected)
         , onMouseOut: (e) => this.handleMouseOut(e, lesson, order)
       }
 
@@ -159,7 +144,6 @@ class MapItems extends PureComponent {
           key={ `lesson-label-${i}` }
           index={ i }
           width={ width }
-          mapDimensions={ mapDimensions }
           x={ x }
           y={ y }
           textTagMessage={ textTagMessages[i] }

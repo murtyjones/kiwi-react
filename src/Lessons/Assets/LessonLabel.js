@@ -2,12 +2,13 @@ import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import { Text, Label, Tag } from 'react-konva'
 import { isEqual } from 'lodash'
+import { LESSON_MAP_POINTS } from '../../constants'
 
 export default class LessonLabel extends PureComponent {
   constructor(props) {
     super(props)
     const order = props.index + 1
-      , x = props.mapDimensions[`CIRCLE_${order}_X`]
+      , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`]
       , rightOrLeftLabel = x / props.width >= 0.50 ? 'right': 'left'
     this.state = {
       tagStyle: {
