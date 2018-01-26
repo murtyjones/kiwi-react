@@ -51,7 +51,6 @@ export default class LessonMap extends Component {
     const { width, height } = this.state
     const { children } = this.props
     const scaleXY = width / widthAnchor
-    console.log(width)
     return (
       <Stage width={ width } height={ height } scaleX={ scaleXY } scaleY={ scaleXY }>
         { renderLayers({ children, height, width }) }

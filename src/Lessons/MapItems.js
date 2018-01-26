@@ -7,6 +7,10 @@ import update from 'immutability-helper'
 import { LESSON_MAP_POINTS, SVG_PATHS } from '../constants'
 import insertIf from '../utils/insertIf'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
+import LessonLabel from './LessonLabel'
+import LessonBubble from './LessonBubble'
+import LessonText from './LessonText'
+import LessonArcBack from './LessonArcBack'
 
 const scaleUp = { // for some reason, these must be destructed using '...' when passing to .to()
   scaleX: 1.3
@@ -35,7 +39,6 @@ const colors = {
   , justCompletedLayerTwoColor: '#FFFFFF'
   , completedTextColor: '#543e80'
   , checkMarkColor: '#FFFFFF'
-  , tagColor: '#443268'
   , lockColor: '#FFFFFF'
   , completionArcBackColor: '#7E5DB8'
   , completionArcFrontColor: '#FFFFFF'
@@ -108,25 +111,6 @@ const shapeProps = {
     , offsetY: 13
     , fill: colors.lockColor
     , data: SVG_PATHS.LOCK
-  },
-  tagStyle: {
-    fill: colors.tagColor
-    , lineJoin: 'round'
-    , cornerRadius: 3
-    , scaleX: 0
-    , offsetX: 0
-    , pointerDirection: 'left'
-    , pointerWidth: 0
-    , pointerHeight: 0
-  },
-  tagTextStyle: {
-    text: ''
-    , fontFamily: 'Arial'
-    , fontSize: 18
-    , padding: 7
-    , fill: 'white'
-    , scaleX: 0
-    , offsetX: 0
   }
 }
 
@@ -155,119 +139,6 @@ const calculateBubbleAvailabilities = (mapLessons, latestActiveLessonId) => {
   })
 }
 
-class LessonLabel extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      tagStyle: cloneDeep(props.tagStyle)
-      , tagTextStyle: cloneDeep(props.tagTextStyle)
-    }
-  }
-
-  static propTypes = {
-
-  }
-
-  componentDidMount() {
-    this.setTagPointerDirection()
-  }
-
-  setTagPointerDirection = () => {
-    const { tagStyle } = this.state
-    const { width, mapDimensions, index } = this.props
-      , order = index + 1
-      , x = mapDimensions[`CIRCLE_${order}_X`]
-      , rightOrLeftLabel = x / width >= 0.50 ? 'right': 'left'
-
-    this.setState({ tagStyle: { ...tagStyle, pointerDirection: rightOrLeftLabel } })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.textTagMessage.display && !this.props.textTagMessage.display) {
-      this.displayMessage(nextProps.textTagMessage.message)
-    }
-    if(!nextProps.shouldDisplayMessage && this.props.textTagMessage.display) {
-      this.undisplayMessage()
-    }
-  }
-
-  displayMessage = (message) => {
-    const { index } = this.props
-      , { tagStyle, tagTextStyle } = this.state
-      , order = index + 1
-      , tagRef = makeTagRef(order)
-      , tagTextRef = makeTagTextRef(order)
-      , offsetX = 10
-
-    this[tagTextRef].text(message)
-    this[tagRef].to({ scaleX: 1, duration: 0.1, offsetX })
-    this[tagTextRef].to({ scaleX: 1, duration: 0.1, offsetX })
-    this.setState({
-      tagStyle: {
-        ...tagStyle
-        , scaleX: 1
-        , offsetX: offsetX
-      }
-      , tagTextStyle: {
-        ...tagTextStyle
-        , scaleX: 1
-        , offsetX: offsetX
-        , text: message
-      }
-    })
-  }
-
-  undisplayMessage = () => {
-    const { index } = this.props
-    const { tagStyle, tagTextStyle } = this.state
-      , order = index + 1
-      , tagRef = makeTagRef(order)
-      , tagTextRef = makeTagTextRef(order)
-
-    this[tagTextRef].text('')
-    this[tagRef].to({ scaleX: 0, duration: 0.1 })
-    this[tagTextRef].to({ scaleX: 0, duration: 0.1 })
-    this.setState({
-      tagStyle: {
-        ...tagStyle
-        , scaleX: 0
-        , offsetX: 0
-      }
-      , tagTextStyle: {
-        ...tagTextStyle
-        , scaleX: 0
-        , offsetX: 0
-        , text: ''
-      }
-    })
-  }
-
-  render() {
-    const { index, width, x, y } = this.props
-    const { tagStyle, tagTextStyle } = this.state
-      , order = index + 1
-      , tagRef = makeTagRef(order)
-      , tagTextRef = makeTagTextRef(order)
-      , rightOrLeftLabel = x / width >= 0.50 ? 'right': 'left'
-      , labelOffsetX = rightOrLeftLabel === 'right' ? 15 : -33
-
-    return [
-      <Label key={ `label-${tagRef}` } x={ x } y={ y } offsetX={ labelOffsetX }>
-        <Tag
-          key={ tagRef }
-          ref={ c => this[tagRef] = c  }
-          { ...tagStyle }
-        />
-        <Text
-          key={ tagTextRef }
-          ref={ c => this[tagTextRef] = c  }
-          { ...tagTextStyle }
-        />
-      </Label>
-    ]
-  }
-}
-
 class MapItems extends PureComponent {
   constructor(props) {
     super(props)
@@ -279,8 +150,6 @@ class MapItems extends PureComponent {
       , bubbleTextColors: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultBubbleTextColor))
       , checkMarkStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultCheckMarkStyle))
       , checkMarkPoints: props.mapLessons.map(_ => [])
-      , tagStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.tagStyle))
-      , tagTextStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.tagTextStyle))
       , arcStylesArcBack: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultArcStyleArcBack))
       , arcFrontStyles: props.mapLessons.map(_ => cloneDeep(shapeProps.defaultArcStyleLayerTwo))
       , selectedBubbleRef: ''
@@ -291,7 +160,8 @@ class MapItems extends PureComponent {
       , selectedTagRef: ''
       , labels: []
       , shouldDisplayMessage: false
-      , textTagMessages: props.mapLessons.map(_ => { return { display: false, message: '' } })
+      , textTagMessages: props.mapLessons.map(_ => '')
+      , selectedLessonOrder: -1
     }
   }
 
@@ -313,7 +183,6 @@ class MapItems extends PureComponent {
 
   async componentDidMount() {
     const { mapLessons } = this.props
-    this.setTagPointerDirections(mapLessons)
     await this.applyLessonStates(mapLessons)
   }
 
@@ -357,23 +226,6 @@ class MapItems extends PureComponent {
     this.setState({ checkMarkPoints: newCheckMarkPoints })
   }
 
-  setTagPointerDirections = (mapLessons) => {
-    const { tagStyles } = this.state
-    let newTagStyles = cloneDeep(tagStyles)
-    newTagStyles = mapLessons.map((e, i) => {
-      const { width } = this.props
-        , { mapDimensions } = this.state
-        , order = i + 1
-        , { tagStyles, tagTextStyles } = this.state
-        , newTagStyles = cloneDeep(tagStyles)
-        , x = mapDimensions[`CIRCLE_${order}_X`]
-        , rightOrLeftLabel = x / width >= 0.50 ? 'right': 'left'
-      newTagStyles[i].pointerDirection = rightOrLeftLabel
-      return newTagStyles[i]
-    })
-    this.setState({ tagStyles: newTagStyles })
-  }
-
   setStartingBubbleTextColors = (mapLessons) => {
     const { bubbleTextStyles, bubbleTextColors, mapDimensions } = this.state
     const newBubbleTextStyles = cloneDeep(bubbleTextStyles)
@@ -398,17 +250,12 @@ class MapItems extends PureComponent {
   applyLessonStates = async(mapLessons) => {
     const { checkMarkPoints, mapDimensions } = this.state
     await setTimeoutAsync(500)
-    await this.drawArcBackForAll(mapLessons)
     mapLessons.forEach(async(lesson, index) => {
       const order = index + 1
         , x = mapDimensions[`CIRCLE_${order}_X`]
         , y = mapDimensions[`CIRCLE_${order}_Y`]
         , wasJustCompleted = get(lesson, 'justCompleted', false)
         , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
-
-      if(wasJustCompleted) {
-        await this.fadeText(lesson, order)
-      }
 
       await setTimeoutAsync(500)
       if(wasJustCompleted) {
@@ -442,37 +289,6 @@ class MapItems extends PureComponent {
 
   }
 
-  fadeText = (lesson, order) => {
-    const { bubbleTextStyles, bubbleTextColors } = this.state
-      , newBubbleTextStyles = cloneDeep(bubbleTextStyles)
-      , newBubbleTextColors = cloneDeep(bubbleTextColors)
-      , i = order - 1
-    const bubbleTextRef = makeBubbleTextRef(order)
-    this[bubbleTextRef].to({ fill: colors.completedTextColor, duration: 0.3 })
-    newBubbleTextStyles[i].fill = colors.completedTextColor
-    newBubbleTextColors[i] = colors.completedTextColor
-    this.setState({
-      bubbleTextStyles: newBubbleTextStyles
-      , bubbleTextColors: newBubbleTextColors
-    })
-  }
-
-  drawArcBackForAll = async(mapLessons) => {
-    const newArcStylesArcBack = cloneDeep(this.state.arcStylesArcBack)
-    await mapLessons.forEach(async(lesson, i) => {
-      const order = i + 1
-        , completionArcBackRefText = makeArcBackRef(order)
-        , newAngle = 360
-      await this[completionArcBackRefText].to({
-        angle: newAngle
-        , duration: 1.0
-      })
-      await this.fillInCompletionLayer(completionArcBackRefText, newAngle, 1.0)
-      newArcStylesArcBack[i].angle = newAngle
-    })
-    this.setState({ arcStylesArcBack: newArcStylesArcBack })
-  }
-
   drawLayerTwoForLesson = async(lesson, order, color) => {
     const newArcStylesLayerTwo = this.state.arcFrontStyles.slice()
       , completionArcFrontRefText = makeArcFrontRef(order)
@@ -497,12 +313,7 @@ class MapItems extends PureComponent {
 
   setSelectedLesson = (lesson, order) =>
     this.setState({
-      bubbleStyles: cloneDeep(this.state.bubbleStyles).map((_, i) =>
-        (i === order - 1) ? shapeProps.selectedBubbleStyle : shapeProps.defaultBubbleStyle
-      )
-      , bubbleTextStyles: cloneDeep(this.state.bubbleTextStyles).map((_, i) =>
-        (i === order - 1) ? shapeProps.selectedBubbleTextStyle : shapeProps.defaultBubbleTextStyle
-      )
+      selectedLessonOrder: order
       , checkMarkStyles: cloneDeep(this.state.checkMarkStyles).map((_, i) =>
         (i === order - 1) ? shapeProps.selectedCheckMarkStyle : shapeProps.defaultCheckMarkStyle
       )
@@ -599,7 +410,6 @@ class MapItems extends PureComponent {
 
     if(isAvailable) {
       this.props.onLessonSelect(e, lesson._id)
-      this.handleBubbleSelectionScaling(lesson, order)
       this.setSelectedLesson(lesson, order)
     }
   }
@@ -614,14 +424,14 @@ class MapItems extends PureComponent {
     if(isAvailable)
       this.props.handleMouseOver()
     if(!isAlreadySelected)
-      this.displayMessage(order - 1, true, message)
+      this.displayMessage(order - 1, message)
   }
 
   handleMouseOut = (e, lesson, order, isAvailable) => {
     e.cancelBubble = true
     e.evt.preventDefault()
     this.props.handleMouseOut()
-    this.displayMessage(order - 1, false, '')
+    this.displayMessage(order - 1, '')
   }
 
   renderLock = (lesson, index) => {
@@ -716,97 +526,60 @@ class MapItems extends PureComponent {
     ]
   }
 
-  renderArcBack = (lesson, index) => {
-    const { mapDimensions, arcStylesArcBack } = this.state
-      , order = index + 1
-      , arcBackStyle = arcStylesArcBack[index]
-      , completionArcBackRefText = makeArcBackRef(order)
-      , x = mapDimensions[`CIRCLE_${order}_X`]
-      , y = mapDimensions[`CIRCLE_${order}_Y`]
-
-    return [
-      <Arc
-        key={ completionArcBackRefText }
-        ref={ c => this[completionArcBackRefText] = c  }
-        x={ x }
-        y={ y }
-        { ...arcBackStyle }
-      />
-    ]
-  }
-
-  renderText = (lesson, index) => {
-    const { mapDimensions, bubbleAvailabilities, bubbleTextStyles, bubbleTextColors } = this.state
-      , order = index + 1
-      , bubbleTextStyle = bubbleTextStyles[index]
-      , bubbleAvailability = bubbleAvailabilities[index]
-      , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
-      , bubbleText = isAvailable ? order : null
-      , bubbleTextColor = bubbleTextColors[index]
-      , bubbleTextRef = makeBubbleTextRef(order)
-      , x = mapDimensions[`CIRCLE_${order}_X`]
-      , y = mapDimensions[`CIRCLE_${order}_Y`]
-
-    return [
-      <Text // Lesson Bubble Text
-        key={ bubbleTextRef }
-        ref={ c => this[bubbleTextRef] = c  }
-        x={ x }
-        y={ y }
-        text={ bubbleText }
-        { ...bubbleTextStyle }
-        fill={ bubbleTextColor }
-      />
-    ]
-  }
-
-  renderBubble = (lesson, index) => {
-    const { mapDimensions, bubbleStyles } = this.state
-      , order = index + 1
-      , bubbleStyle = bubbleStyles[index]
-      , bubbleRef = makeBubbleRef(order)
-      , x = mapDimensions[`CIRCLE_${order}_X`]
-      , y = mapDimensions[`CIRCLE_${order}_Y`]
-
-    return [
-      <Circle // Lesson Bubble
-        key={ bubbleRef }
-        ref={ c => this[bubbleRef] = c  }
-        x={ x }
-        y={ y }
-        { ...bubbleStyle }
-      />
-    ]
-  }
-
-  displayMessage = (i, bool, message) => {
+  displayMessage = (i, message) => {
     const { textTagMessages } = this.state
       , newTextTagMessages = cloneDeep(textTagMessages)
-    newTextTagMessages[i] = { display: bool, message }
+    newTextTagMessages[i] = message
     this.setState({ textTagMessages: newTextTagMessages })
   }
 
   render() {
     const { mapLessons, width } = this.props
-    const { mapDimensions, tagStyles, tagTextStyles, textTagMessages } = this.state
+    const { mapDimensions, textTagMessages, selectedLessonOrder, bubbleAvailabilities } = this.state
 
     const lessonsAssets = mapLessons.reduce((acc, lesson, i) => {
       const order = i + 1
+        , isSelected = selectedLessonOrder === order
+        , x = mapDimensions[`CIRCLE_${order}_X`]
+        , y = mapDimensions[`CIRCLE_${order}_Y`]
+
+      const wasJustCompleted = get(lesson, 'justCompleted', false)
+        ,  hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
+
       acc.push([
         <LessonLabel
           key={ `lesson-label-${i}` }
           index={ i }
           width={ width }
           mapDimensions={ mapDimensions }
-          x={ mapDimensions[`CIRCLE_${order}_X`] }
-          y={ mapDimensions[`CIRCLE_${order}_Y`] }
-          tagStyle={ tagStyles[i] }
-          tagTextStyle={ tagTextStyles[i] }
+          x={ x }
+          y={ y }
           textTagMessage={ textTagMessages[i] }
         />
-        , ...this.renderBubble(lesson, i)
-        , ...this.renderText(lesson, i)
-        , ...this.renderArcBack(lesson, i)
+        ,
+        <LessonBubble
+          key={ `lesson-bubble-${i}` }
+          x={ x }
+          y={ y }
+          isSelected={ isSelected }
+        />
+        ,
+        <LessonText
+          key={ `lesson-text-${i}` }
+          bubbleText={ bubbleAvailabilities[i] === bubbleStates.AVAILABLE ? order : '' }
+          x={ x }
+          y={ y }
+          isSelected={ isSelected }
+          wasJustCompleted={ wasJustCompleted }
+          hasBeenCompleted={ hasBeenCompleted }
+        />
+        ,
+        <LessonArcBack
+          key={ `lesson-arc-${i}` }
+          x={ x }
+          y={ y }
+          isSelected={ isSelected }
+        />
         , ...this.renderArcFront(lesson, i)
         , ...this.renderLock(lesson, i)
         , ...this.renderCheckMark(lesson, i)
