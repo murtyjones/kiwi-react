@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import { Path } from 'react-konva'
 import { isEqual } from 'lodash'
-import { SVG_PATHS } from '../constants'
+import { SVG_PATHS } from '../../constants/index'
 
 export default class Lock extends PureComponent {
   constructor(props) {

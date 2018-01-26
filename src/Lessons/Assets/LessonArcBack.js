@@ -3,6 +3,8 @@ import * as T from 'prop-types'
 import { Arc } from 'react-konva'
 import { isEqual } from 'lodash'
 
+import setTimeoutAsync from '../../utils/setTimeoutAsync'
+
 export default class LessonArcBack extends PureComponent {
   constructor(props) {
     super(props)
@@ -24,7 +26,8 @@ export default class LessonArcBack extends PureComponent {
 
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await setTimeoutAsync(2500)
     this.drawArc()
   }
 
@@ -38,25 +41,25 @@ export default class LessonArcBack extends PureComponent {
       ,   scaleY = isSelected ? 1.3 : 1.0
       ,   duration = 0.1
 
+    this.arcBack.to({ scaleX, scaleY, duration })
     this.setState({
       ...this.state.arcBackStyle
       , scaleX
       , scaleY
     })
-    this.arcBack.to({ scaleX, scaleY, duration })
   }
 
   drawArc = () => {
     const angle = 360
       ,   duration = 1.0
 
+    this.arcBack.to({ angle, duration })
     this.setState({
       arcBackStyle: {
         ...this.state.arcBackStyle
         , angle
       }
     })
-    this.arcBack.to({ angle, duration })
   }
 
   render() {

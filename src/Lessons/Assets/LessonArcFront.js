@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { Arc } from 'react-konva'
 import { isEqual } from 'lodash'
 
-import setTimeoutAsync from '../utils/setTimeoutAsync'
+import setTimeoutAsync from '../../utils/setTimeoutAsync'
 
 export default class LessonArcFront extends PureComponent {
   constructor(props) {
@@ -41,13 +41,13 @@ export default class LessonArcFront extends PureComponent {
       this.scale(nextProps.isSelected)
 
     if(hasBeenCompletedHasChanged || wasJustCompletedHasChanged) {
+      this.arcFront.to({ fill: (nextProps.hasBeenCompleted && !nextProps.wasJustCompleted) ? '#543e80' : '#FFFFFF' })
       this.setState({
         arcFrontStyle: {
           ...this.state.arcFrontStyle
           , fill: (nextProps.hasBeenCompleted && !nextProps.wasJustCompleted) ? '#543e80' : '#FFFFFF'
         }
       })
-      this.arcFront.to({ fill: (nextProps.hasBeenCompleted && !nextProps.wasJustCompleted) ? '#543e80' : '#FFFFFF' })
     }
     if(angleHasChanged) {
       await setTimeoutAsync(2500)
@@ -60,6 +60,7 @@ export default class LessonArcFront extends PureComponent {
       ,   scaleY = isSelected ? 1.3 : 1.0
       ,   duration = 0.1
 
+    this.arcFront.to({ scaleX, scaleY, duration })
     this.setState({
       arcFrontStyle: {
         ...this.state.arcFrontStyle
@@ -67,28 +68,23 @@ export default class LessonArcFront extends PureComponent {
         , scaleY
       }
     })
-    this.arcFront.to({ scaleX, scaleY, duration })
   }
 
   drawArc = (angle) => {
-    const duration = 10.0
+    const duration = 3
 
+    this.arcFront.to({ angle, duration })
     this.setState({
       arcFrontStyle: {
         ...this.state.arcFrontStyle
         , angle
       }
     })
-    this.arcFront.to({ angle, duration })
   }
 
   render() {
     const { x, y } = this.props
     const { arcFrontStyle } = this.state
-
-    // hasBeenCompleted={ hasBeenCompleted }
-    // wasJustCompleted={ wasJustCompleted }
-    // angle={ newAngle }
 
     return [
       <Arc

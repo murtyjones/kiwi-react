@@ -38,12 +38,12 @@ export default class LessonText extends PureComponent {
       ,   scaleY = isSelected ? 1.3 : 1.0
       ,   duration = 0.1
 
+    this.text.to({ scaleX, scaleY, duration })
     this.setState({
       ...this.state.bubbleTextStyle
       , scaleX
       , scaleY
     })
-    this.text.to({ scaleX, scaleY, duration })
   }
 
   render() {

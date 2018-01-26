@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { Circle } from 'react-konva'
 import { isEqual } from 'lodash'
 
-export default class LessonBubble extends PureComponent {
+export default class LessonTransparentBubble extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -11,6 +11,7 @@ export default class LessonBubble extends PureComponent {
         fill: '#664C93'
         , width: 57
         , height: 57
+        , opacity: 0
       }
     }
   }
@@ -29,24 +30,25 @@ export default class LessonBubble extends PureComponent {
       , scaleY = isSelected ? 1.3 : 1.0
       , duration = 0.1
 
+    this.bubble.to({ scaleX, scaleY, duration })
     this.setState({
       ...this.state.bubbleStyle
       , scaleX
       , scaleY
     })
-    this.bubble.to({ scaleX, scaleY, duration })
   }
 
   render() {
-    const { x, y } = this.props
+    const { x, y, clickProps } = this.props
     const { bubbleStyle } = this.state
 
     return [
-      <Circle // Lesson Bubble
+      <Circle
         key='bubble'
         ref={ c => this.bubble = c  }
         x={ x }
         y={ y }
+        { ...clickProps }
         { ...bubbleStyle }
       />
     ]
