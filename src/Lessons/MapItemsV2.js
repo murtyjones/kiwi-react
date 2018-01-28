@@ -5,18 +5,21 @@ import { get, isEqual, isEmpty, cloneDeep } from 'lodash'
 
 import { LESSON_MAP_POINTS } from '../constants'
 import insertIf from '../utils/insertIf'
-import LessonLabel from './Assets/LessonLabel'
-import LessonBubble from './Assets/LessonBubble'
-import LessonText from './Assets/LessonText'
-import LessonArcBack from './Assets/LessonArcBack'
-import LessonArcFront from './Assets/LessonArcFront'
-import Lock from './Assets/Lock'
-import CheckMark from './Assets/CheckMark'
-import LessonTransparentBubble from './Assets/LessonTransparentBubble'
 
 const bubbleStates = {
   AVAILABLE: 'AVAILABLE'
   , LOCKED: 'LOCKED'
+}
+
+const styles = {
+  container: {
+    width: '100%'
+    , minHeight: '100%'
+    , paddingBottom: '100%'
+  },
+  mapBubbleContainer: {
+    position: 'absolute'
+  }
 }
 
 const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities) =>
@@ -33,7 +36,7 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , arcFrontAngle = percentageToUse * 360
       , bubbleAvailability = bubbleAvailabilities[i]
       , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
-      , message = isHovered ? isAvailable ? lesson.title : 'Not unlocked yet!' : ''
+      , message = isAvailable ? lesson.title : 'Not unlocked yet!'
     acc.push({
       ...lesson
       , order
@@ -101,7 +104,6 @@ class MapItems extends PureComponent {
 
     if(latestActiveLessonIdHasChanged || mapLessonsHasChanged)
       this.setBubbleAvailabilities(nextMapLessons, nextLatestActiveLessonId)
-    console.log('a')
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -142,6 +144,14 @@ class MapItems extends PureComponent {
     }
   }
 
+  handleLessonBubbleBlur = (e, lesson, order, isAvailable) => {
+    console.log('hi')
+    if(isAvailable) {
+      this.props.onLessonSelect(e, null)
+      this.setSelectedLessonOrder(null)
+    }
+  }
+
   handleMouseOver = (e, order, isAvailable, isSelected) => {
     e.cancelBubble = true
     e.evt.preventDefault()
@@ -161,7 +171,7 @@ class MapItems extends PureComponent {
   render() {
     const { width } = this.props
     const { statefulMapLessons } = this.state
-    
+
     const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
       if(isEmpty(lesson)) return null
 
@@ -169,84 +179,44 @@ class MapItems extends PureComponent {
 
       const clickProps = {
         onClick: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
+        , onBlur: (e) => this.handleLessonBubbleBlur(e, lesson, order, isAvailable)
         , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
         , onMouseOver: (e) => this.handleMouseOver(e, order, isAvailable, isSelected)
         , onMouseOut: this.handleMouseOut
       }
 
       acc.push([
-        <LessonLabel
-          key={ `lesson-label-${i}` }
-          index={ i }
-          width={ width }
-          x={ x }
-          y={ y }
-          message={ message }
-        />
-        ,
-        <LessonBubble
-          key={ `lesson-bubble-${i}` }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-        />
-        ,
-        <LessonText
-          key={ `lesson-text-${i}` }
-          bubbleText={ isAvailable ? order : '' }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-          wasJustCompleted={ wasJustCompleted }
-          hasBeenCompleted={ hasBeenCompleted }
-        />
-        ,
-        <LessonArcBack
-          key={ `lesson-arc-back-${i}` }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-        />
-        ,
-        <LessonArcFront
-          key={ `lesson-arc-front-${i}` }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-          hasBeenCompleted={ hasBeenCompleted }
-          wasJustCompleted={ wasJustCompleted }
-          angle={ arcFrontAngle }
-        />
-        ,
-        ...insertIf(!isAvailable,
-          <Lock
-            key={ `lesson-lock-${i}` }
-            x={ x }
-            y={ y }
-          />
-        )
-        ,
-        ...insertIf(hasBeenCompleted,
-          <CheckMark
-            key={ `lesson-checkmark-${i}` }
-            x={ x }
-            y={ y }
-            isSelected={ isSelected }
-          />
-        )
-        ,
-        <LessonTransparentBubble
-          key={ `lesson-transparent-bubble-${i}` }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-          clickProps={ clickProps }
-        />
+        <div
+          key={ i }
+          onClick={ clickProps.onClick }
+          onBlur={ clickProps.onBlur }
+          style={ {
+            ... styles.mapBubbleContainer
+            , left: x
+            , top: y
+          } }
+        >
+          <div
+            key={ `map-bubble-container-${i}` }
+            className='map-bubble-container'
+          >
+            <div key='label' className='map-bubble-label'>
+              <h2>{ message }</h2>
+            </div>
+            <button key='map-bubble' className='map-bubble'>
+              <h1>{ order }</h1>
+            </button>
+          </div>
+        </div>
       ])
       return acc
     }, [])
 
-    return <Layer>{ lessonsAssets }</Layer>
+    return (
+      <div style={ styles.container }>
+        { lessonsAssets }
+      </div>
+    )
   }
 }
 

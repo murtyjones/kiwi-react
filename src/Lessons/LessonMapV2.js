@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import MapItems from './MapItems'
-import ScaledStage from './ScaledStage'
+import MapItems from './MapItemsV2'
 import { isEmpty, isEqual, get }  from 'lodash'
 
 const styles = {
   container: {
     width: '100vw'
-    , minHeight: '100%'
     , position: 'absolute'
     , zIndex: 1000
   },
@@ -73,17 +71,15 @@ class LessonMap extends Component {
     return (
       <div style={ { ...styles.container, cursor } }>
         { !isEmpty(mapLessons) &&
-          <ScaledStage>
-            <MapItems
-              mapLessons={ mapLessons }
-              selectedLessonId={ selectedLessonId }
-              selectedLessonPosition={ selectedLessonPosition }
-              latestActiveLessonId={ latestActiveLessonId }
-              onLessonSelect={ this.handleLessonSelect }
-              handleMouseOver={ this.handleMouseOver }
-              handleMouseOut={ this.handleMouseOut }
-            />
-          </ScaledStage>
+          <MapItems
+            mapLessons={ mapLessons }
+            selectedLessonId={ selectedLessonId }
+            selectedLessonPosition={ selectedLessonPosition }
+            latestActiveLessonId={ latestActiveLessonId }
+            onLessonSelect={ this.handleLessonSelect }
+            handleMouseOver={ this.handleMouseOver }
+            handleMouseOut={ this.handleMouseOut }
+          />
         }
       </div>
     )

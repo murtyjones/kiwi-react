@@ -33,7 +33,7 @@ const styles = {
       , paddingBottom: '150px'
       , position: 'relative'
       , background: `#A5CC83 url('http://res.cloudinary.com/kiwi-stage/image/upload/v1515428912/map-houses-pattern_kq8obi.svg')`
-      , backgroundSize: '56px 57px'
+      , backgroundSize: '3vw'
     }
     , topLeft: {
       marginRight: '-17%'
