@@ -1,22 +1,38 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { Layer } from 'react-konva'
 import { get, isEqual, isEmpty, cloneDeep } from 'lodash'
+import cns from 'classnames'
+import CircularProgressbar from 'react-circular-progressbar'
+import Check from 'material-ui-icons/Check'
 
 import { LESSON_MAP_POINTS } from '../constants'
 import insertIf from '../utils/insertIf'
-import LessonLabel from './Assets/LessonLabel'
-import LessonBubble from './Assets/LessonBubble'
-import LessonText from './Assets/LessonText'
-import LessonArcBack from './Assets/LessonArcBack'
-import LessonArcFront from './Assets/LessonArcFront'
-import Lock from './Assets/Lock'
-import CheckMark from './Assets/CheckMark'
-import LessonTransparentBubble from './Assets/LessonTransparentBubble'
+
+const checkColor = '#FFFFFF'
 
 const bubbleStates = {
   AVAILABLE: 'AVAILABLE'
   , LOCKED: 'LOCKED'
+}
+
+const styles = {
+  container: {
+    width: '100%'
+    , minHeight: '100%'
+    , paddingBottom: '100%'
+  },
+  mapBubbleContainer: {
+    position: 'absolute'
+  },
+  check: {
+    position: 'absolute'
+    , left: '50%'
+    , top: '50%'
+    , marginLeft: '-1.5vw'
+    , marginTop: '-1.5vw'
+    , width: '3vw'
+    , height: '3vw'
+  }
 }
 
 const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities) =>
@@ -28,12 +44,10 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
       , wasJustCompleted = get(lesson, 'justCompleted', false)
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
-      , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0) / 100
-      , percentageToUse = hasBeenCompleted ? 1.00 : completionPercentage
-      , arcFrontAngle = percentageToUse * 360
+      , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0)
       , bubbleAvailability = bubbleAvailabilities[i]
       , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
-      , message = isHovered ? isAvailable ? lesson.title : 'Not unlocked yet!' : ''
+      , message = isAvailable ? lesson.title : 'Not unlocked yet!'
     acc.push({
       ...lesson
       , order
@@ -44,8 +58,6 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , wasJustCompleted
       , hasBeenCompleted
       , completionPercentage
-      , percentageToUse
-      , arcFrontAngle
       , bubbleAvailability
       , isAvailable
       , message
@@ -101,7 +113,6 @@ class MapItems extends PureComponent {
 
     if(latestActiveLessonIdHasChanged || mapLessonsHasChanged)
       this.setBubbleAvailabilities(nextMapLessons, nextLatestActiveLessonId)
-    console.log('a')
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -142,6 +153,13 @@ class MapItems extends PureComponent {
     }
   }
 
+  handleLessonBubbleBlur = (e, lesson, order, isAvailable) => {
+    if(isAvailable) {
+      this.props.onLessonSelect(e, null)
+      this.setSelectedLessonOrder(null)
+    }
+  }
+
   handleMouseOver = (e, order, isAvailable, isSelected) => {
     e.cancelBubble = true
     e.evt.preventDefault()
@@ -159,94 +177,70 @@ class MapItems extends PureComponent {
   }
 
   render() {
-    const { width } = this.props
     const { statefulMapLessons } = this.state
-    
+
     const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
       if(isEmpty(lesson)) return null
 
-      const { order, isAvailable, isSelected, x, y, message, wasJustCompleted, hasBeenCompleted, arcFrontAngle } = lesson
+      const { order, isAvailable, isSelected, x, y, message, wasJustCompleted, hasBeenCompleted, completionPercentage } = lesson
 
       const clickProps = {
         onClick: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
+        , onBlur: (e) => this.handleLessonBubbleBlur(e, lesson, order, isAvailable)
         , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
         , onMouseOver: (e) => this.handleMouseOver(e, order, isAvailable, isSelected)
         , onMouseOut: this.handleMouseOut
       }
 
       acc.push([
-        <LessonLabel
-          key={ `lesson-label-${i}` }
-          index={ i }
-          width={ width }
-          x={ x }
-          y={ y }
-          message={ message }
-        />
-        ,
-        <LessonBubble
-          key={ `lesson-bubble-${i}` }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-        />
-        ,
-        <LessonText
-          key={ `lesson-text-${i}` }
-          bubbleText={ isAvailable ? order : '' }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-          wasJustCompleted={ wasJustCompleted }
-          hasBeenCompleted={ hasBeenCompleted }
-        />
-        ,
-        <LessonArcBack
-          key={ `lesson-arc-back-${i}` }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-        />
-        ,
-        <LessonArcFront
-          key={ `lesson-arc-front-${i}` }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-          hasBeenCompleted={ hasBeenCompleted }
-          wasJustCompleted={ wasJustCompleted }
-          angle={ arcFrontAngle }
-        />
-        ,
-        ...insertIf(!isAvailable,
-          <Lock
-            key={ `lesson-lock-${i}` }
-            x={ x }
-            y={ y }
-          />
-        )
-        ,
-        ...insertIf(hasBeenCompleted,
-          <CheckMark
-            key={ `lesson-checkmark-${i}` }
-            x={ x }
-            y={ y }
-            isSelected={ isSelected }
-          />
-        )
-        ,
-        <LessonTransparentBubble
-          key={ `lesson-transparent-bubble-${i}` }
-          x={ x }
-          y={ y }
-          isSelected={ isSelected }
-          clickProps={ clickProps }
-        />
+        <div
+          key={ i }
+          onClick={ clickProps.onClick }
+          onBlur={ clickProps.onBlur }
+          style={ {
+            ... styles.mapBubbleContainer
+            , left: x
+            , top: y
+          } }
+        >
+          <div
+            key={ `map-bubble-container-${i}` }
+            className='map-bubble-container'
+          >
+            <div
+              className='lesson-progress'
+              onClick={ clickProps.onClick }
+              onBlur={ clickProps.onBlur }
+            >
+              <CircularProgressbar
+                percentage={ completionPercentage }
+                initialAnimation={ true }
+              />
+            </div>
+            <div key='label' className='map-bubble-label'>
+              <h2>{ message }</h2>
+            </div>
+            <button key='map-bubble' className='map-bubble'>
+              <h1 className={ cns({ 'done': hasBeenCompleted }) }>{ order }</h1>
+            </button>
+            { hasBeenCompleted &&
+            <Check
+              className='lesson-check'
+              style={ styles.check }
+              color={ checkColor }
+            />
+            }
+          </div>
+        </div>
       ])
       return acc
     }, [])
 
-    return <Layer>{ lessonsAssets }</Layer>
+    return (
+      <div style={ styles.container }>
+        { lessonsAssets }
+      </div>
+    )
   }
 }
 

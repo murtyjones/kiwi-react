@@ -8,7 +8,7 @@ import { getManyLessons, getManyUserLessons, getLessonOrder } from '../actions'
 
 
 import LessonCard from './LessonCard'
-import LessonMap from './LessonMapV2'
+import LessonMap from './LessonMap'
 import LessonMapBackground from './LessonMapBackground'
 import insertIf from '../utils/insertIf'
 
