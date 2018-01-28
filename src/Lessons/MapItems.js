@@ -42,6 +42,7 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , isHovered = hoveredLessonOrder === order
       , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`]
       , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
+      , isLeftLabel = x > 50
       , wasJustCompleted = get(lesson, 'justCompleted', false)
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
       , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0)
@@ -55,6 +56,7 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , isHovered
       , x
       , y
+      , isLeftLabel
       , wasJustCompleted
       , hasBeenCompleted
       , completionPercentage
@@ -182,7 +184,7 @@ class MapItems extends PureComponent {
     const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
       if(isEmpty(lesson)) return null
 
-      const { order, isAvailable, isSelected, x, y, message, wasJustCompleted, hasBeenCompleted, completionPercentage } = lesson
+      const { order, isAvailable, isSelected, x, y, message, isLeftLabel, wasJustCompleted, hasBeenCompleted, completionPercentage } = lesson
 
       const clickProps = {
         onClick: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
@@ -199,8 +201,8 @@ class MapItems extends PureComponent {
           onBlur={ clickProps.onBlur }
           style={ {
             ... styles.mapBubbleContainer
-            , left: x
-            , top: y
+            , left: `${x}vw`
+            , top: `${y}vw`
           } }
         >
           <div
@@ -217,7 +219,10 @@ class MapItems extends PureComponent {
                 initialAnimation={ true }
               />
             </div>
-            <div key='label' className='map-bubble-label'>
+            <div key='label' className={ cns('map-bubble-label', {
+              'left': isLeftLabel
+              , 'right': !isLeftLabel
+            }) }>
               <h2>{ message }</h2>
             </div>
             <button key='map-bubble' className='map-bubble'>

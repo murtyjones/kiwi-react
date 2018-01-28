@@ -100,7 +100,6 @@
     position: absolute;
     display: flex;
     top: 0px;
-    left: 50%;
     align-items: center;
     margin: 0px;
     width: max-content;
@@ -113,11 +112,27 @@
     font-size: 1vw;
     letter-spacing: 3px;
     font-weight: 400;
-    padding: 0.8vw 0.8vw 0.8vw 3.7vw;
     z-index: 0;
     color: #9575C9;
     background: #3E2F61;
     border-radius: 20vw;
     transition: all .3s ease;
+}
+
+.map-bubble-label.left {
+    right: 50%;
+}
+
+.map-bubble-label.right {
+    left: 50%;
+}
+
+.map-bubble-label.left h2 {
+    transform: translateX(100%);
+    padding: 0.8vw 3.6vw 0.8vw 1.0vw;
+}
+
+.map-bubble-label.right h2 {
     transform: translateX(-100%);
+    padding: 0.8vw 1.0vw 0.8vw 3.6vw;
 }
