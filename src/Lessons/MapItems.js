@@ -177,14 +177,14 @@ class MapItems extends PureComponent {
           onClick={ e =>
             this.handleLessonBubbleClick(e, lesson, order, isAvailable)
           }
-          onBlur={ e =>
-            this.handleLessonBubbleBlur(e, lesson, order, isAvailable)
-          }
-          style={{
+          // onBlur={ e =>
+          //   this.handleLessonBubbleBlur(e, lesson, order, isAvailable)
+          // }
+          style={ {
             ...styles.mapBubbleContainer
             , left: `${x}vw`
             , top: `${y}vw`
-          }}
+          } }
         >
           <div
             key={`map-bubble-container-${i}`}
@@ -198,21 +198,29 @@ class MapItems extends PureComponent {
                 initialAnimation={true}
               />
             </div>
-            <div key='label' className={cns('map-bubble-label', {
-              'left': isLeftLabel
-              , 'right': !isLeftLabel
-            })}>
-              <h2>{message}</h2>
+            <div
+              key='label'
+              className={ cns('map-bubble-label', {
+                'left': isLeftLabel
+                , 'right': !isLeftLabel
+            } ) }
+            >
+              <h2>{ message }</h2>
             </div>
             <div key='map-bubble' className='map-bubble'>
-              <h1 className={cns({'done': hasBeenCompleted})}>{order}</h1>
+              <h1
+                className={
+                  cns({ 'done': hasBeenCompleted }) }
+              >
+                { order }
+              </h1>
             </div>
-            {hasBeenCompleted &&
-            <Check
-              className='lesson-check'
-              style={styles.check}
-              color={checkColor}
-            />
+            { hasBeenCompleted &&
+              <Check
+                className='lesson-check'
+                style={ styles.check }
+                color={ checkColor }
+              />
             }
           </div>
         </button>
