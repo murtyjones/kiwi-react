@@ -162,22 +162,6 @@ class MapItems extends PureComponent {
     }
   }
 
-  handleMouseOver = (e, order, isAvailable, isSelected) => {
-    e.cancelBubble = true
-    e.evt.preventDefault()
-    if(isAvailable)
-      this.props.handleMouseOver()
-    if(!isSelected)
-      this.setHoveredLessonOrder(order)
-  }
-
-  handleMouseOut = (e) => {
-    e.cancelBubble = true
-    e.evt.preventDefault()
-    this.props.handleMouseOut()
-    this.setHoveredLessonOrder(-1)
-  }
-
   render() {
     const { statefulMapLessons } = this.state
 
@@ -186,57 +170,52 @@ class MapItems extends PureComponent {
 
       const { order, isAvailable, isSelected, x, y, message, isLeftLabel, wasJustCompleted, hasBeenCompleted, completionPercentage } = lesson
 
-      const clickProps = {
-        onClick: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
-        , onBlur: (e) => this.handleLessonBubbleBlur(e, lesson, order, isAvailable)
-        , onTouchEnd: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
-        , onMouseOver: (e) => this.handleMouseOver(e, order, isAvailable, isSelected)
-        , onMouseOut: this.handleMouseOut
-      }
-
       acc.push([
-        <div
+        <button
           key={ i }
-          onClick={ clickProps.onClick }
-          onBlur={ clickProps.onBlur }
-          style={ {
-            ... styles.mapBubbleContainer
+          className='map-bubble-button'
+          onClick={ e =>
+            this.handleLessonBubbleClick(e, lesson, order, isAvailable)
+          }
+          onBlur={ e =>
+            this.handleLessonBubbleBlur(e, lesson, order, isAvailable)
+          }
+          style={{
+            ...styles.mapBubbleContainer
             , left: `${x}vw`
             , top: `${y}vw`
-          } }
+          }}
         >
           <div
-            key={ `map-bubble-container-${i}` }
+            key={`map-bubble-container-${i}`}
             className='map-bubble-container'
           >
             <div
               className='lesson-progress'
-              onClick={ clickProps.onClick }
-              onBlur={ clickProps.onBlur }
             >
               <CircularProgressbar
-                percentage={ completionPercentage }
-                initialAnimation={ true }
+                percentage={completionPercentage}
+                initialAnimation={true}
               />
             </div>
-            <div key='label' className={ cns('map-bubble-label', {
+            <div key='label' className={cns('map-bubble-label', {
               'left': isLeftLabel
               , 'right': !isLeftLabel
-            }) }>
-              <h2>{ message }</h2>
+            })}>
+              <h2>{message}</h2>
             </div>
-            <button key='map-bubble' className='map-bubble'>
-              <h1 className={ cns({ 'done': hasBeenCompleted }) }>{ order }</h1>
-            </button>
-            { hasBeenCompleted &&
+            <div key='map-bubble' className='map-bubble'>
+              <h1 className={cns({'done': hasBeenCompleted})}>{order}</h1>
+            </div>
+            {hasBeenCompleted &&
             <Check
               className='lesson-check'
-              style={ styles.check }
-              color={ checkColor }
+              style={styles.check}
+              color={checkColor}
             />
             }
           </div>
-        </div>
+        </button>
       ])
       return acc
     }, [])

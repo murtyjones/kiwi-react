@@ -54,6 +54,14 @@
     display: inline-block;
     z-index: 21;
 }
+.map-bubble-button {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    outline: none;
+}
 .map-bubble{
     position: inherit;
     display: inline-block;
