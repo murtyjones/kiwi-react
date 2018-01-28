@@ -6,6 +6,7 @@ import CircularProgressbar from 'react-circular-progressbar'
 import Check from 'material-ui-icons/Check'
 
 import { LESSON_MAP_POINTS } from '../constants'
+import setTimeoutAsync from '../utils/setTimeoutAsync'
 import insertIf from '../utils/insertIf'
 
 const checkColor = '#FFFFFF'
@@ -132,7 +133,7 @@ class MapItems extends PureComponent {
       this.setStatefulMapLessons(nextMapLessons, nextSelectedLessonOrder, nextHoveredLessonOrder, nextBubbleAvailabilities)
   }
 
-  setStateAsync = (newState) => new Promise((resolve) => {
+  setStateAsync = newState => new Promise((resolve) => {
     this.setState(newState, resolve)
   })
 
@@ -155,7 +156,7 @@ class MapItems extends PureComponent {
     }
   }
 
-  handleLessonBubbleBlur = (e, lesson, order, isAvailable) => {
+  handleLessonBubbleBlur = (e, isAvailable) => {
     if(isAvailable) {
       this.props.onLessonSelect(e, null)
       this.setSelectedLessonOrder(null)
@@ -178,7 +179,7 @@ class MapItems extends PureComponent {
             this.handleLessonBubbleClick(e, lesson, order, isAvailable)
           }
           // onBlur={ e =>
-          //   this.handleLessonBubbleBlur(e, lesson, order, isAvailable)
+          //   this.handleLessonBubbleBlur(e, isAvailable)
           // }
           style={ {
             ...styles.mapBubbleContainer
