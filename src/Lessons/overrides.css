@@ -25,7 +25,6 @@
 }
 
 .lesson-progress {
-    cursor: pointer;
     transition: .3s all ease;
     position: absolute;
     z-index: 20;
@@ -62,7 +61,11 @@
     box-shadow: none;
     outline: none;
 }
-.map-bubble{
+.map-bubble-button:focus > * {
+    transform: scale(1.4);
+    transition: .3s all ease;
+}
+.map-bubble {
     position: inherit;
     display: inline-block;
     background-color: #654D94;
@@ -70,7 +73,6 @@
     border: none;
     outline: none;
     padding: calc(1.2vw);
-    cursor: pointer;
     transition: .3s all ease;
     box-shadow: rgba(0,0,0,0.4) 2px 2px 8px 0px;
 }
@@ -86,7 +88,7 @@
 
 .map-bubble-container:hover .map-bubble,
 .map-bubble-container:hover .lesson-progress,
-.map-bubble-container:hover .lesson-check {
+.map-bubble-container:hover .lesson-icon {
     transform: scale(1.2);
 }
 .map-bubble h1 {
@@ -143,4 +145,8 @@
 .map-bubble-label.right h2 {
     transform: translateX(-100%);
     padding: 0.8vw 1.0vw 0.8vw 3.6vw;
+}
+
+.clickable {
+    cursor: pointer;
 }

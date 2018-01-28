@@ -4,12 +4,14 @@ import { get, isEqual, isEmpty, cloneDeep } from 'lodash'
 import cns from 'classnames'
 import CircularProgressbar from 'react-circular-progressbar'
 import Check from 'material-ui-icons/Check'
+import Lock from 'material-ui-icons/Lock'
 
 import { LESSON_MAP_POINTS } from '../constants'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 import insertIf from '../utils/insertIf'
 
 const checkColor = '#FFFFFF'
+const lockColor = '#FFFFFF'
 
 const bubbleStates = {
   AVAILABLE: 'AVAILABLE'
@@ -25,14 +27,10 @@ const styles = {
   mapBubbleContainer: {
     position: 'absolute'
   },
-  check: {
+  icon: {
     position: 'absolute'
     , left: '50%'
     , top: '50%'
-    , marginLeft: '-1.5vw'
-    , marginTop: '-1.5vw'
-    , width: '3vw'
-    , height: '3vw'
   }
 }
 
@@ -188,15 +186,15 @@ class MapItems extends PureComponent {
           } }
         >
           <div
-            key={`map-bubble-container-${i}`}
+            key={ `map-bubble-container-${i}` }
             className='map-bubble-container'
           >
             <div
-              className='lesson-progress'
+              className={ cns('lesson-progress', { 'clickable': isAvailable } ) }
             >
               <CircularProgressbar
-                percentage={completionPercentage}
-                initialAnimation={true}
+                percentage={ completionPercentage }
+                initialAnimation={ true }
               />
             </div>
             <div
@@ -204,23 +202,43 @@ class MapItems extends PureComponent {
               className={ cns('map-bubble-label', {
                 'left': isLeftLabel
                 , 'right': !isLeftLabel
-            } ) }
+              } ) }
             >
               <h2>{ message }</h2>
             </div>
             <div key='map-bubble' className='map-bubble'>
               <h1
                 className={
-                  cns({ 'done': hasBeenCompleted }) }
+                  cns({ 'done': hasBeenCompleted || !isAvailable })
+                }
               >
                 { order }
               </h1>
             </div>
             { hasBeenCompleted &&
               <Check
-                className='lesson-check'
-                style={ styles.check }
+                className='lesson-icon'
+                style={ {
+                  ...styles.icon
+                  , marginLeft: '-1.5vw'
+                  , marginTop: '-1.5vw'
+                  , width: '3vw'
+                  , height: '3vw'
+                } }
                 color={ checkColor }
+              />
+            }
+            { !isAvailable &&
+              <Lock
+                className='lesson-icon'
+                style={ {
+                  ...styles.icon
+                  , marginLeft: '-1vw'
+                  , marginTop: '-1vw'
+                  , width: '2vw'
+                  , height: '2vw'
+                } }
+                color={ lockColor }
               />
             }
           </div>
