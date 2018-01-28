@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { Layer } from 'react-konva'
 import { get, isEqual, isEmpty, cloneDeep } from 'lodash'
+import cns from 'classnames'
+import CircularProgressbar from 'react-circular-progressbar'
 
 import { LESSON_MAP_POINTS } from '../constants'
 import insertIf from '../utils/insertIf'
@@ -31,9 +32,7 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
       , wasJustCompleted = get(lesson, 'justCompleted', false)
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
-      , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0) / 100
-      , percentageToUse = hasBeenCompleted ? 1.00 : completionPercentage
-      , arcFrontAngle = percentageToUse * 360
+      , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0)
       , bubbleAvailability = bubbleAvailabilities[i]
       , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
       , message = isAvailable ? lesson.title : 'Not unlocked yet!'
@@ -47,8 +46,6 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , wasJustCompleted
       , hasBeenCompleted
       , completionPercentage
-      , percentageToUse
-      , arcFrontAngle
       , bubbleAvailability
       , isAvailable
       , message
@@ -145,7 +142,6 @@ class MapItems extends PureComponent {
   }
 
   handleLessonBubbleBlur = (e, lesson, order, isAvailable) => {
-    console.log('hi')
     if(isAvailable) {
       this.props.onLessonSelect(e, null)
       this.setSelectedLessonOrder(null)
@@ -169,13 +165,12 @@ class MapItems extends PureComponent {
   }
 
   render() {
-    const { width } = this.props
     const { statefulMapLessons } = this.state
 
     const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
       if(isEmpty(lesson)) return null
 
-      const { order, isAvailable, isSelected, x, y, message, wasJustCompleted, hasBeenCompleted, arcFrontAngle } = lesson
+      const { order, isAvailable, isSelected, x, y, message, wasJustCompleted, hasBeenCompleted, completionPercentage } = lesson
 
       const clickProps = {
         onClick: (e) => this.handleLessonBubbleClick(e, lesson, order, isAvailable)
@@ -200,11 +195,21 @@ class MapItems extends PureComponent {
             key={ `map-bubble-container-${i}` }
             className='map-bubble-container'
           >
+            <div
+              className='lesson-progress'
+              onClick={ clickProps.onClick }
+              onBlur={ clickProps.onBlur }
+            >
+              <CircularProgressbar
+                percentage={ completionPercentage }
+                initialAnimation={ true }
+              />
+            </div>
             <div key='label' className='map-bubble-label'>
               <h2>{ message }</h2>
             </div>
             <button key='map-bubble' className='map-bubble'>
-              <h1>{ order }</h1>
+              <h1 className={ cns({ 'done': hasBeenCompleted }) }>{ order }</h1>
             </button>
           </div>
         </div>
