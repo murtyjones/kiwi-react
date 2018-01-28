@@ -3,9 +3,12 @@ import * as T from 'prop-types'
 import { get, isEqual, isEmpty, cloneDeep } from 'lodash'
 import cns from 'classnames'
 import CircularProgressbar from 'react-circular-progressbar'
+import Check from 'material-ui-icons/Check'
 
 import { LESSON_MAP_POINTS } from '../constants'
 import insertIf from '../utils/insertIf'
+
+const checkColor = '#FFFFFF'
 
 const bubbleStates = {
   AVAILABLE: 'AVAILABLE'
@@ -20,6 +23,15 @@ const styles = {
   },
   mapBubbleContainer: {
     position: 'absolute'
+  },
+  check: {
+    position: 'absolute'
+    , left: '50%'
+    , top: '50%'
+    , marginLeft: '-1.5vw'
+    , marginTop: '-1.5vw'
+    , width: '3vw'
+    , height: '3vw'
   }
 }
 
@@ -211,6 +223,13 @@ class MapItems extends PureComponent {
             <button key='map-bubble' className='map-bubble'>
               <h1 className={ cns({ 'done': hasBeenCompleted }) }>{ order }</h1>
             </button>
+            { hasBeenCompleted &&
+            <Check
+              className='lesson-check'
+              style={ styles.check }
+              color={ checkColor }
+            />
+            }
           </div>
         </div>
       ])

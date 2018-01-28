@@ -76,7 +76,9 @@
     transform: translateX(0%);
 }
 
-.map-bubble-container:hover .map-bubble, .map-bubble-container:hover .lesson-progress  {
+.map-bubble-container:hover .map-bubble,
+.map-bubble-container:hover .lesson-progress,
+.map-bubble-container:hover .lesson-check {
     transform: scale(1.2);
 }
 .map-bubble h1 {
