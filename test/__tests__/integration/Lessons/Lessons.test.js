@@ -205,38 +205,6 @@ describe('Lessons', () => {
         expect(instanceComponents.at(0).props().mapLessons).toEqual(expectedMapLessons)
       })
 
-      it('should render a Label with Tag and Text children for each lesson', async () => {
-        const labels = component.find('Label')
-        expect(labels.length).toEqual(lessons.length)
-        labels.forEach(e => {
-          expect(e.childAt(0).find('Tag').length).toBe(1)
-          expect(e.childAt(0).find('Text').length).toBe(1)
-        })
-      })
-
-      it('should render two Circles for each lesson', async () => {
-        expect(component.find(`Circle`).length).toBe(lessons.length * 2)
-      })
-
-      it('should render one Text element with the order as content for each lesson that is available', async () => {
-        expect(component.find(`Text[text=${1}]`).length).toBe(1)
-        expect(component.find(`Text[text=${2}]`).length).toBe(1)
-        expect(component.find(`Text[text=${3}]`).length).toBe(1)
-        expect(component.find(`Text[text=${4}]`).length).toBe(0)
-      })
-
-      it('should render two Arcs for each lesson', async () => {
-        expect(component.find(`Arc`).length).toBe(lessons.length * 2)
-      })
-
-      it('should render one Line for the two completed lessons', async () => {
-        expect(component.find(`Line`).length).toBe(2)
-      })
-
-      it('should render one Path (lock icon) for the one locked lesson', async () => {
-        expect(component.find(`Path`).length).toBe(1)
-      })
-
     })
 
   })
