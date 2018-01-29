@@ -29,7 +29,7 @@ class LessonMap extends Component {
     , selectedLessonPosition: T.number
     , setSelectedLessonId: T.func.isRequired
     , lessonJustCompletedId: T.string.isRequired
-    , activeLessonId: T.string.isRequired
+    , activeLessonId: T.string
   }
 
   handleLessonSelect = (e, selectedLessonId) =>

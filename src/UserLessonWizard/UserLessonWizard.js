@@ -109,14 +109,13 @@ class UserLessonWizard extends Component {
     this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
 
 
-  handleFinalSlideNextClick = () => {
-    return this.props.history.push({
+  handleFinalSlideNextClick = () =>
+    this.props.history.push({
       pathname: '/lessons'
       , state: {
-        lessonJustCompletedId: this.props.userLesson.lessonId
+        lessonJustCompletedId: this.props.lesson._id
       }
     })
-  }
 
   render() {
     const { lesson, initialValues, currentValues, theme, isFetchingUserLessons } = this.props

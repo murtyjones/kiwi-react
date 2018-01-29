@@ -184,7 +184,7 @@ describe('Lessons', () => {
     })
 
     describe('render', () => {
-      it('should pass expected mapLessons to LessonMap', async () => {
+      it('should pass expected combinedMapLessons to LessonMap', async () => {
         const expectedMapLessons = [
           {
             ...lesson1
@@ -198,7 +198,10 @@ describe('Lessons', () => {
             ...lesson3
             , userLesson: userLesson3
           },
-          lesson4
+          {
+            ...lesson4
+            , userLesson: {}
+          }
         ]
         // there are multiple nodes because of cloneElement
         const instanceComponents = component.find('LessonMap')

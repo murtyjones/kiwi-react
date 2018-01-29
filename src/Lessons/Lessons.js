@@ -69,7 +69,7 @@ class Lessons extends Component {
   }
 
   setCombinedMapLessons = (orderOfPublishedLessons, lessons, userLessons) => {
-    let activeLessonId = ''
+    let activeLessonId = orderOfPublishedLessons[0] // at the very least, the first lesson should be active
       const combinedMapLessons = orderOfPublishedLessons.map((lessonId, i) => {
         const lesson = find(lessons, { _id: lessonId }) || {}
           , userLesson = find(userLessons, { lessonId }) || {}
@@ -78,21 +78,15 @@ class Lessons extends Component {
           , prevUserLesson = find(userLessons, { lessonId: prevLesson._id }) || {}
 
         if(!lesson) return {}
-        if(userLesson) {
-          lesson.userLesson = userLesson
-        }
+        lesson.userLesson = userLesson
         const hasBeenStartedButNotCompleted = !isEmpty(userLesson) && !userLesson.hasBeenCompleted
-        const hasNotBeenStartedButIsNext = isEmpty(userLesson) && !isEmpty(prevUserLesson)
-        if(hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext) {
+        const hasNotBeenStartedButIsNext = isEmpty(userLesson) && !isEmpty(prevUserLesson) && prevUserLesson.hasBeenCompleted
+        if(hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext)
           activeLessonId = lesson._id
-        }
         return lesson
       })
     
-    this.setState({
-      combinedMapLessons
-      , activeLessonId
-    })
+    this.setState({ combinedMapLessons, activeLessonId })
   }
 
   setSelectedLessonId = (selectedLessonId) => {
