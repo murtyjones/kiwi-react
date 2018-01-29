@@ -144,10 +144,8 @@ class MapItems extends PureComponent {
 
   goToLatestActiveLesson = async (latestActiveLessonId, statefulMapLessons) => {
     const lessonGoToPoint = get(find(statefulMapLessons, { _id: latestActiveLessonId }), 'goToPoint', 0)
-    console.log(statefulMapLessons)
+    // hack to force awaiting of map to load
     await setTimeoutAsync(150)
-    console.log(window.innerWidth)
-    console.log(lessonGoToPoint)
     window.scrollTo(0, window.innerWidth * lessonGoToPoint)
   }
 
