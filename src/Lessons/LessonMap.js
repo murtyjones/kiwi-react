@@ -15,22 +15,11 @@ const styles = {
   }
 }
 
-const getLatestActiveLesson = mapLessons => {
-  for (let i = 0, length = mapLessons.length; i < length; i++) {
-    const lesson = mapLessons[i]
-      , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', '')
-    if(!hasBeenCompleted)
-      return lesson._id
-  }
-  return ''
-}
-
 class LessonMap extends Component {
   constructor(props) {
     super(props)
     this.state = {
       cursor: 'auto'
-      , latestActiveLessonId: ''
     }
   }
 
@@ -39,33 +28,15 @@ class LessonMap extends Component {
     , selectedLessonId: T.string
     , selectedLessonPosition: T.number
     , setSelectedLessonId: T.func.isRequired
-  }
-
-  componentWillMount() {
-    this.setLatestActiveLessonId(this.props.mapLessons)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { mapLessons } = this.props
-      , { mapLessons: nextMapLessons } = nextProps
-      , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
-
-    if(mapLessonsHasChanged)
-      this.setLatestActiveLessonId(nextMapLessons)
+    , lessonJustCompletedId: T.string.isRequired
+    , activeLessonId: T.string.isRequired
   }
 
   handleLessonSelect = (e, selectedLessonId) =>
     this.props.setSelectedLessonId(selectedLessonId)
 
-  handleMouseOver = () => this.setState({ cursor: 'pointer' })
-
-  handleMouseOut = () => this.setState({ cursor: 'auto' })
-
-  setLatestActiveLessonId = (mapLessons) => 
-    this.setState({ latestActiveLessonId: getLatestActiveLesson(mapLessons) })
-
   render() {
-    const { mapLessons, selectedLessonId, selectedLessonPosition } = this.props
+    const { mapLessons, selectedLessonId, activeLessonId, lessonJustCompletedId, selectedLessonPosition } = this.props
     const { cursor, latestActiveLessonId } = this.state
 
     return (
@@ -74,11 +45,11 @@ class LessonMap extends Component {
           <MapItems
             mapLessons={ mapLessons }
             selectedLessonId={ selectedLessonId }
+            activeLessonId={ activeLessonId }
+            lessonJustCompletedId={ lessonJustCompletedId }
             selectedLessonPosition={ selectedLessonPosition }
             latestActiveLessonId={ latestActiveLessonId }
             onLessonSelect={ this.handleLessonSelect }
-            handleMouseOver={ this.handleMouseOver }
-            handleMouseOut={ this.handleMouseOut }
           />
         }
       </div>

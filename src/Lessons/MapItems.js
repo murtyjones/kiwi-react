@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { get, find, isEqual, isEmpty, cloneDeep } from 'lodash'
+import { get, findIndex, isEqual, isEmpty, cloneDeep } from 'lodash'
 import cns from 'classnames'
 import CircularProgressbar from 'react-circular-progressbar'
 import Check from 'material-ui-icons/Check'
 import Lock from 'material-ui-icons/Lock'
+import { animateScroll as scroll } from 'react-scroll'
+
 
 import { LESSON_MAP_POINTS } from '../constants'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
@@ -43,7 +45,6 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
       , goToPoint = LESSON_MAP_POINTS[`CIRCLE_${order}_GOTO`]
       , isLeftLabel = x > 50
-      , wasJustCompleted = get(lesson, 'justCompleted', false)
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
       , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0)
       , bubbleAvailability = bubbleAvailabilities[i]
@@ -58,7 +59,6 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , y
       , goToPoint
       , isLeftLabel
-      , wasJustCompleted
       , hasBeenCompleted
       , completionPercentage
       , bubbleAvailability
@@ -69,15 +69,15 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
   }, [])
 
 
-const calculateBubbleAvailabilities = (mapLessons, latestActiveLessonId) => {
-  let pastLatestActiveLessonId = false
+const calculateBubbleAvailabilities = (mapLessons, activeLessonId) => {
+  let pastActiveLessonId = false
   return mapLessons.map(e => {
-    if(!pastLatestActiveLessonId && e._id !== latestActiveLessonId) {
+    if(!pastActiveLessonId && e._id !== activeLessonId) {
       return bubbleStates.AVAILABLE
-    } else if(!pastLatestActiveLessonId && e._id === latestActiveLessonId) {
-      pastLatestActiveLessonId = true
+    } else if(!pastActiveLessonId && e._id === activeLessonId) {
+      pastActiveLessonId = true
       return bubbleStates.AVAILABLE
-    } else if(pastLatestActiveLessonId) {
+    } else if(pastActiveLessonId) {
       return bubbleStates.LOCKED
     }
   })
@@ -91,63 +91,79 @@ class MapItems extends PureComponent {
       , selectedLessonOrder: -1
       , hoveredLessonOrder: -1
       , statefulMapLessons: props.mapLessons.map(_ => {})
+      , applyNextAnimation: false
+      , applyJustCompletedAnimation: false
     }
   }
 
   static propTypes = {
     onLessonSelect: T.func.isRequired
-    , handleMouseOver: T.func.isRequired
-    , handleMouseOut: T.func.isRequired
     , mapLessons: T.array.isRequired
     , selectedLessonId: T.string
-    , latestActiveLessonId: T.string
+    , activeLessonId: T.string.isRequired
+    , lessonJustCompletedId: T.string.isRequired
   }
 
   componentWillMount() {
-    const { mapLessons, latestActiveLessonId } = this.props
-    this.setBubbleAvailabilities(mapLessons, latestActiveLessonId)
-  }
-
-  componentDidMount() {
-    this.goToLatestActiveLesson(this.props.atestActiveLessonId, this.state.statefulMapLessons)
+    const { mapLessons, activeLessonId } = this.props
+    this.setBubbleAvailabilities(mapLessons, activeLessonId)
   }
 
   componentWillReceiveProps(nextProps) {
-    const {mapLessons, latestActiveLessonId} = this.props
-      , {mapLessons: nextMapLessons, latestActiveLessonId: nextLatestActiveLessonId} = nextProps
+    const {mapLessons, activeLessonId} = this.props
+      , {mapLessons: nextMapLessons, activeLessonId: nextActiveLessonId} = nextProps
       , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
-      , latestActiveLessonIdHasChanged = !isEqual(latestActiveLessonId, nextLatestActiveLessonId)
+      , activeLessonIdHasChanged = !isEqual(activeLessonId, nextActiveLessonId)
 
-    if(latestActiveLessonIdHasChanged || mapLessonsHasChanged)
-      this.setBubbleAvailabilities(nextMapLessons, nextLatestActiveLessonId)
+    if(activeLessonIdHasChanged || mapLessonsHasChanged)
+      this.setBubbleAvailabilities(nextMapLessons, nextActiveLessonId)
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { mapLessons, latestActiveLessonId } = this.props
+    const { mapLessons, activeLessonId, lessonJustCompletedId } = this.props
     const { selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, statefulMapLessons } = this.state
-    const { mapLessons: nextMapLessons, latestActiveLessonId: nextLatestActiveLessonId } = nextProps
+    const { mapLessons: nextMapLessons, activeLessonId: nextActiveLessonId, lessonJustCompletedId: nextLessonJustCompletedId } = nextProps
     const { selectedLessonOrder: nextSelectedLessonOrder, hoveredLessonOrder: nextHoveredLessonOrder, bubbleAvailabilities: nextBubbleAvailabilities, statefulMapLessons: nextStatefulMapLessons } = nextState
     const mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
     const selectedLessonOrderHasChanged = !isEqual(selectedLessonOrder, nextSelectedLessonOrder)
     const hoveredLessonOrderHasChanged = !isEqual(hoveredLessonOrder, nextHoveredLessonOrder)
     const bubbleAvailabilitiesHasChanged = !isEqual(bubbleAvailabilities, nextBubbleAvailabilities)
     const needsRemapping = nextState.statefulMapLessons[0] === undefined
-    const latestActiveLessonIdHasChanged = !isEqual(latestActiveLessonId, nextLatestActiveLessonId)
+    const activeLessonIdHasChanged = !isEqual(activeLessonId, nextActiveLessonId)
+    const lessonJustCompletedIdHasChanged = !isEqual(lessonJustCompletedId, nextLessonJustCompletedId)
     const statefulMapLessonsHasChanged = !isEqual(statefulMapLessons, nextStatefulMapLessons)
 
     if(needsRemapping || mapLessonsHasChanged || selectedLessonOrderHasChanged || hoveredLessonOrderHasChanged || bubbleAvailabilitiesHasChanged)
       this.setStatefulMapLessons(nextMapLessons, nextSelectedLessonOrder, nextHoveredLessonOrder, nextBubbleAvailabilities)
 
-    if(latestActiveLessonIdHasChanged || statefulMapLessonsHasChanged)
-      this.goToLatestActiveLesson(nextLatestActiveLessonId, nextStatefulMapLessons)
+    if(activeLessonIdHasChanged || lessonJustCompletedIdHasChanged || statefulMapLessonsHasChanged)
+      this.goToActiveLesson(nextActiveLessonId, nextStatefulMapLessons, nextLessonJustCompletedId)
   }
 
-  goToLatestActiveLesson = async (latestActiveLessonId, statefulMapLessons) => {
-    const lessonGoToPoint = get(find(statefulMapLessons, { _id: latestActiveLessonId }), 'goToPoint', 0)
-    // hack to force awaiting of map to load
-    await setTimeoutAsync(150)
-    window.scrollTo(0, window.innerWidth * lessonGoToPoint)
+  goToActiveLesson = async (activeLessonId, statefulMapLessons, lessonJustCompletedId) => {
+    const i = findIndex(statefulMapLessons, { _id: activeLessonId })
+    const currLesson = statefulMapLessons[i]
+    const prevLesson = i > 0 ? statefulMapLessons[i-1] : {}
+    const prevWasJustCompleted = prevLesson._id === lessonJustCompletedId
+
+    // go to just completed lesson and trigger animation
+    if(prevWasJustCompleted) {
+      await setTimeoutAsync(150)
+      this.scrollTo(window.innerWidth * get(prevLesson, 'goToPoint', 0))
+      this.setState({ applyJustCompletedAnimation: true })
+    }
+    // go to next lesson
+    await setTimeoutAsync(prevWasJustCompleted ? 4000 : 150)
+    this.scrollTo(window.innerWidth * get(currLesson, 'goToPoint', 0))
+
+    // trigger next lesson animation
+    if(prevWasJustCompleted) {
+      await setTimeoutAsync(600)
+      this.setState({ applyNextAnimation: true })
+    }
   }
+
+  scrollTo = to => scroll.scrollTo(to)
 
   setStateAsync = newState => new Promise((resolve) => {
     this.setState(newState, resolve)
@@ -156,8 +172,8 @@ class MapItems extends PureComponent {
   setStatefulMapLessons = (...params) =>
     this.setState({ statefulMapLessons: generateStatefulMapLessons(...params) })
 
-  setBubbleAvailabilities = (mapLessons, latestActiveLessonId) =>
-    this.setState({ bubbleAvailabilities: calculateBubbleAvailabilities(mapLessons, latestActiveLessonId) })
+  setBubbleAvailabilities = (mapLessons, activeLessonId) =>
+    this.setState({ bubbleAvailabilities: calculateBubbleAvailabilities(mapLessons, activeLessonId) })
 
   setSelectedLessonOrder = (selectedLessonOrder) =>
     this.setState({ selectedLessonOrder })
@@ -180,17 +196,21 @@ class MapItems extends PureComponent {
   }
 
   render() {
-    const { statefulMapLessons } = this.state
+    const { statefulMapLessons, applyJustCompletedAnimation, applyNextAnimation } = this.state
+    const { activeLessonId, lessonJustCompletedId } = this.props
 
     const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
       if(isEmpty(lesson)) return null
 
-      const { order, isAvailable, isSelected, x, y, message, isLeftLabel, wasJustCompleted, hasBeenCompleted, completionPercentage } = lesson
+      const { _id, order, isAvailable, isSelected, x, y, message, isLeftLabel, hasBeenCompleted, completionPercentage } = lesson
+
+      const isLatestActive = activeLessonId === _id
+      const isJustCompleted = lessonJustCompletedId === _id
 
       acc.push([
         <button
           key={ i }
-          className='map-bubble-button'
+          className={ cns('map-bubble-button', { 'next': isLatestActive && applyNextAnimation } ) }
           onClick={ e =>
             this.handleLessonBubbleClick(e, lesson, order, isAvailable)
           }
@@ -211,8 +231,15 @@ class MapItems extends PureComponent {
               className={ cns('lesson-progress', { 'clickable': isAvailable } ) }
             >
               <CircularProgressbar
-                percentage={ completionPercentage }
+                percentage={
+                  isJustCompleted && !applyJustCompletedAnimation
+                    ? 0
+                    : completionPercentage
+                }
                 initialAnimation={ true }
+                className={ cns({
+                  'justCompleted': isJustCompleted && applyJustCompletedAnimation
+                }) }
               />
             </div>
             <div

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { orderBy, find, findIndex, get, cloneDeep, isEqual } from 'lodash'
+import { orderBy, find, findIndex, get, cloneDeep, isEqual, isEmpty } from 'lodash'
 
 import { getManyLessons, getManyUserLessons, getLessonOrder } from '../actions'
 
@@ -32,8 +32,9 @@ class Lessons extends Component {
     super(props)
     this.state = {
       selectedLessonId: null
-      , userLessonJustCompletedId: get(props, 'location.state.userLessonJustCompletedId', '')
-      , mapLessons: null
+      , lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', '')
+      , activeLessonId: ''
+      , combinedMapLessons: null
     }
   }
 
@@ -53,7 +54,7 @@ class Lessons extends Component {
     getManyLessons()
     getManyUserLessons({ userId })
     getLessonOrder()
-    this.setMapLessons(orderOfPublishedLessons, lessons, userLessons)
+    this.setCombinedMapLessons(orderOfPublishedLessons, lessons, userLessons)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,25 +65,35 @@ class Lessons extends Component {
       , userLessonsHasChanged = !isEqual(userLessons, nextUserLessons)
 
     if(orderHasChanged || lessonsHasChanged || userLessonsHasChanged)
-      this.setMapLessons(nextOrderOfPublishedLessons, nextLessons, nextUserLessons)
+      this.setCombinedMapLessons(nextOrderOfPublishedLessons, nextLessons, nextUserLessons)
   }
 
-  setMapLessons = (orderOfPublishedLessons, lessons, userLessons) =>
-    this.setState({
-      mapLessons: orderOfPublishedLessons.map(lessonId => {
-        const lesson = find(lessons, { _id: lessonId })
-          , userLesson = find(userLessons, { lessonId })
+  setCombinedMapLessons = (orderOfPublishedLessons, lessons, userLessons) => {
+    let activeLessonId = ''
+      const combinedMapLessons = orderOfPublishedLessons.map((lessonId, i) => {
+        const lesson = find(lessons, { _id: lessonId }) || {}
+          , userLesson = find(userLessons, { lessonId }) || {}
+          , prevLessonId = i > 0 ? orderOfPublishedLessons[i - 1] : ''
+          , prevLesson = find(lessons, { _id: prevLessonId }) || {}
+          , prevUserLesson = find(userLessons, { lessonId: prevLesson._id }) || {}
 
         if(!lesson) return {}
         if(userLesson) {
           lesson.userLesson = userLesson
         }
-        if(userLesson && this.state.userLessonJustCompletedId === userLesson._id) {
-          lesson.justCompleted = true
+        const hasBeenStartedButNotCompleted = !isEmpty(userLesson) && !userLesson.hasBeenCompleted
+        const hasNotBeenStartedButIsNext = isEmpty(userLesson) && !isEmpty(prevUserLesson)
+        if(hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext) {
+          activeLessonId = lesson._id
         }
         return lesson
       })
+    
+    this.setState({
+      combinedMapLessons
+      , activeLessonId
     })
+  }
 
   setSelectedLessonId = (selectedLessonId) => {
     this.setState({ selectedLessonId })
@@ -90,7 +101,7 @@ class Lessons extends Component {
 
   render() {
     const { lessons, orderOfPublishedLessons } = this.props
-    const { selectedLessonId, mapLessons } = this.state
+    const { selectedLessonId, lessonJustCompletedId, activeLessonId, combinedMapLessons } = this.state
     const selectedLessonPosition = selectedLessonId
       ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
       : 0
@@ -100,8 +111,10 @@ class Lessons extends Component {
       ,
       <LessonMap
         key='LessonMap'
-        mapLessons={ mapLessons }
+        mapLessons={ combinedMapLessons }
         selectedLessonId={ selectedLessonId }
+        lessonJustCompletedId={ lessonJustCompletedId }
+        activeLessonId={ activeLessonId }
         setSelectedLessonId={ this.setSelectedLessonId }
       />
       ,

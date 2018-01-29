@@ -39,6 +39,9 @@
 .CircularProgressbar .CircularProgressbar-path {
     stroke: #543e80;
 }
+.CircularProgressbar.justCompleted > .CircularProgressbar-path {
+    transition: stroke-dashoffset 4s ease 0s;
+}
 
 .CircularProgressbar .CircularProgressbar-trail {
     stroke: #9575C9;
@@ -149,4 +152,8 @@
 
 .clickable {
     cursor: pointer;
+}
+.next {
+    transform: scale(1.2);
+    transition: all 1s ease;
 }

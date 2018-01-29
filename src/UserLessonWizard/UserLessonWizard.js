@@ -113,7 +113,7 @@ class UserLessonWizard extends Component {
     return this.props.history.push({
       pathname: '/lessons'
       , state: {
-        userLessonJustCompletedId: this.props.userLesson._id
+        lessonJustCompletedId: this.props.userLesson.lessonId
       }
     })
   }
