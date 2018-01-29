@@ -78,6 +78,8 @@ export default reduxForm({
     const errors = {}
     if(!values.username) {
       errors.username = 'Required!'
+    } else if(values.username.includes('@')) {
+      errors.username = 'Email addresses are not allowed!'
     }
     if(!values.password) {
       errors.password = 'Required!'

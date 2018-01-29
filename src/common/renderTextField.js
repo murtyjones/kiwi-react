@@ -1,6 +1,8 @@
 import React from 'react'
 import { TextField } from 'material-ui'
 
+const errorColor = '#FF5472'
+
 const renderTextField = ({ showLabelAbove = true, input, label, type, meta: { touched, error }, ...rest }) =>
   <div>
     <label>
@@ -8,7 +10,7 @@ const renderTextField = ({ showLabelAbove = true, input, label, type, meta: { to
     </label>
     <div>
       <TextField { ...input } type={ type } { ...rest } />
-      { touched && error && <span>{ error }</span> }
+      { touched && error && <span style={ { color: errorColor } }>{ error }</span> }
     </div>
   </div>
 
