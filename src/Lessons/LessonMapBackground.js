@@ -5,12 +5,12 @@ import './overrides.css'
 
 const themeAssetLinks = {
   neighborhood: {
-    topLeft: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515968117/map-houses-top-left-v2_v2l1a6.svg'
-    , topRight: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515428912/map-houses-top-right_wqhkkn.svg'
-    , pattern: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515428912/map-houses-pattern_kq8obi.svg'
+    topLeft: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-houses-top-left_tzjpd7.svg'
+    , topRight: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-houses-top-right_xwqruk.svg'
+    , pattern: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197222/map-houses-pattern_li95mt.svg'
   }
   , egypt: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1516585477/map-egypt-new_u9u4ju.svg'
-  , moon: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1515620862/map-moon-optimized_v7c2mv.svg'
+  , moon: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-moon_bo03vn.svg'
 }
 
 const styles = {
