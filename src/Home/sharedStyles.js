@@ -21,7 +21,7 @@ const styles = {
   error: {
     display: 'inline-block'
     , fontWeight: 'bold'
-    , color: '#d45e75'
+    , color: '#FF5472'
     , padding: '5px 0'
   },
   forgot: {
