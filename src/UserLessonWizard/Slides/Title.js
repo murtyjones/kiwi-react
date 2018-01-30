@@ -23,13 +23,15 @@ const styles = {
     textAlign: 'center'
     , color: '#503D79'
     , fontWeight: 'bold'
-    , fontSize: '16pt'
+    , fontSize: '20pt'
+    , fontFamily: 'Arvo'
   },
   subtitle: {
     textAlign: 'center'
     , color: '#503D79'
     , fontSize: '15pt'
     , marginBottom: '20px'
+    , fontFamily: 'Arvo'
   },
   description: {
     textAlign: 'center'
