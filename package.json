@@ -81,7 +81,8 @@
     "redux-thunk": "^2.2.0",
     "render-if": "^0.1.1",
     "skulpt": "^0.11.1",
-    "validate.js": "^0.12.0"
+    "validate.js": "^0.12.0",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.2",
