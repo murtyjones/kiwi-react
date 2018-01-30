@@ -56,6 +56,11 @@ class LessonForm extends Component {
           component={ renderTextField }
         />
         <Field
+          name='imageUrl'
+          hintText='Image URL'
+          component={ renderTextField }
+        />
+        <Field
           name='minutesToComplete'
           hintText='Minutes to Complete'
           label='Minutes to Complete'

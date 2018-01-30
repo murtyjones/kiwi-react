@@ -8,8 +8,7 @@ import { KiwiLink } from '../common/KiwiLink'
 
 const mediaColor = '#808080'
 const textColor = '#A9A9A9'
-const timeSectionColor = '#000000'
-const goButtonBackgroundColor = '#CCCCCC'
+const timeSectionColor = '#CCCCCC'
 
 const styles = {
   container: {
@@ -22,15 +21,20 @@ const styles = {
   body: {
     height: '50%'
   },
-  titleStyle: {
+  title: {
     fontSize: '20px'
     , fontWeight: 'bold'
+    , display: 'block'
+  },
+  subtitle: {
+    display: 'block'
+    , marginTop: '15px'
   },
   text: {
     fontSize: '16px'
     , color: textColor
   },
-  timeToComplete: {
+  timeToCompleteContainer: {
     padding: '16px'
     , position: 'absolute'
     , bottom: '0'
@@ -50,18 +54,14 @@ const styles = {
     , right: '20px'
     , width: '66px'
     , height: '66px'
-    , backgroundColor: goButtonBackgroundColor
+    , boxShadow: 'rgba(0,0,0,0.4) 3px 3px 8px 0px'
   },
   goButton: {
     color: 'white'
     , verticalAlign: 'middle'
     , position: 'absolute'
     , top: '50%'
-    , marginTop: '-25px'
     , left: '50%'
-    , marginLeft: '-25px'
-    , width: '50px'
-    , height: '50px'
   },
   minutes: {
     paddingLeft: '5px'
@@ -72,7 +72,7 @@ const styles = {
 
 const TimeToComplete = ({ minutes }) => {
   return (
-    <div style={ styles.timeToComplete }>
+    <div style={ styles.timeToCompleteContainer }>
       <Alarm
         style={ styles.alarm }
       />
@@ -83,8 +83,12 @@ const TimeToComplete = ({ minutes }) => {
 
 const GoButton = () => {
   return (
-    <div style={ styles.circle }>
+    <div
+      className='map-card-circle'
+      style={ styles.circle }
+    >
       <ArrowForward
+        className='map-card-arrow'
         style={ styles.goButton }
       />
     </div>
@@ -94,20 +98,24 @@ const GoButton = () => {
 const LessonCard = ({ style, lesson }) => {
   return (
     <KiwiLink to={ `/lessons/${ lesson._id }` }>
-      <Card style={ style } containerStyle={ styles.container }>
+      <Card
+        className='map-card'
+        style={ style }
+        containerStyle={ styles.container }
+      >
         <CardMedia
-          style={ styles.media }
+          className='map-card-image'
+          style={ {
+            ...styles.media
+            , backgroundImage: `url(${ lesson.imageUrl })`
+          } }
         />
         <div style={ styles.body }>
-          <CardHeader
-            title={ lesson.title }
-            titleStyle={ styles.titleStyle }
-          />
-          <CardText
-            style={ styles.text }
-          >
-            { lesson.subtitle }
-          </CardText>
+          <CardHeader>
+            <h2 className='map-card-subject-header'>Lesson Subject</h2>
+            <span className='map-card-title' style={ styles.title }>{ lesson.title }</span>
+            <span className='map-card-subtitle' style={ styles.subtitle }>{ lesson.subtitle }</span>
+          </CardHeader>
           <TimeToComplete minutes={ lesson.minutesToComplete } />
         </div>
         <GoButton />

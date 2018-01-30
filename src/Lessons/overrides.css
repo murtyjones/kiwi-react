@@ -20,6 +20,50 @@
     margin-top: calc(-370px - calc(calc(100% - 1700px) / 100 * 13))
 }
 
+.map-card-subject-header {
+    margin: -10px 0 0 0;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 400;
+    color: #00BDFA;
+}
+
+.map-card-arrow {
+    width: 50px !important;
+    height: 50px !important;;
+    margin-top: -25px;
+    margin-left: -25px;
+    color: #DDDDDD !important;
+}
+
+.map-card:hover .map-card-arrow {
+    width: calc(50px * 1.1) !important;;
+    height: calc(50px * 1.1) !important;;
+    margin-top: calc(-25px * 1.1);
+    margin-left: calc(-25px * 1.1);
+    color: #00BEFA !important;
+}
+
+.map-card-circle {
+    background-color: #FFF;
+    transition: all 0.5s ease;
+}
+
+.map-card-circle:hover {
+    background-color: #00779B;
+}
+
+.map-card-image {
+    background-position: center;
+    background-size: 100%;
+    transition: all .4s ease;
+}
+
+.map-card:hover .map-card-image {
+    background-size: 110%;
+}
+
 .done {
     color: #543e80 !important;
 }
