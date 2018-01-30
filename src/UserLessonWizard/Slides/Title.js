@@ -13,17 +13,27 @@ const styles = {
     , marginLeft: '-300px'
     , marginTop: '-300px'
   },
+  titleContainer: {
+    height: '60%'
+    , position: 'absolute'
+    , top: '50%'
+    , marginTop: '-30%'
+  },
   title: {
     textAlign: 'center'
-
+    , color: '#503D79'
+    , fontWeight: 'bold'
+    , fontSize: '16pt'
   },
   subtitle: {
     textAlign: 'center'
-
+    , color: '#503D79'
+    , fontSize: '15pt'
+    , marginBottom: '20px'
   },
   description: {
     textAlign: 'center'
-
+    , fontSize: '13pt'
   },
   iconContainer: {
     textAlign: 'center'
@@ -59,7 +69,12 @@ class Title extends PureComponent {
     const { slideData, className } = this.props
     return (
       <div className={ className } style={ styles.container }>
-        <div style={ slideContent }>
+        <div
+          style={ {
+            ...slideContent
+            , ...styles.titleContainer
+          } }
+        >
           <div
             key='icon'
             id='icon'
