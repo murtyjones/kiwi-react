@@ -100,7 +100,7 @@ class MapItems extends PureComponent {
     onLessonSelect: T.func.isRequired
     , mapLessons: T.array.isRequired
     , selectedLessonId: T.string
-    , activeLessonId: T.string.isRequired
+    , activeLessonId: T.string
     , lessonJustCompletedId: T.string.isRequired
   }
 
