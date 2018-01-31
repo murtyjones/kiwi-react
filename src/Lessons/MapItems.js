@@ -49,7 +49,7 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0)
       , bubbleAvailability = bubbleAvailabilities[i]
       , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
-      , message = isAvailable ? lesson.title : 'Not unlocked yet!'
+      , message = isAvailable ? lesson.title : 'Locked!'
     acc.push({
       ...lesson
       , order
