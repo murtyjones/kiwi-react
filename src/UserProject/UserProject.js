@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { isEmpty, isEqual, get } from 'lodash'
 import renderIf from 'render-if'
 
-import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleFocus } from '../actions'
+import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleFocus, setMainThemeColor, setSecondaryThemeColor, setThemeTextColor } from '../actions'
 import CodeEditor from '../CodeEditor/CodeEditor'
 
 import '../common/flex.css'
@@ -24,8 +24,9 @@ class UserProject extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isNewProject: !props.match.params.id,
-      projectId: !!props.match.params.id ? props.match.params.id : null
+      isNewProject: !props.match.params.id
+      , projectId: !!props.match.params.id ? props.match.params.id : null
+      , color: get(props, 'location.state.color', '')
     }
   }
 
@@ -68,6 +69,12 @@ class UserProject extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.setMainThemeColor('#FFFFFF')
+    this.props.setThemeTextColor('#000000')
+    this.props.setSecondaryThemeColor('#624F8F')
+  }
+
 
   handleSave = (code) => {
     const { postUserProject, putUserProject, userProject, topBarTitle } = this.props
@@ -89,7 +96,7 @@ class UserProject extends Component {
 
   render() {
     const { userProject, userProject: { _id } } = this.props
-    const { isNewProject } = this.state
+    const { isNewProject, color } = this.state
     const isNewOrHasCode = isNewProject || (!isNewProject && !!userProject.code)
 
     return (
@@ -118,11 +125,14 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUserProject: (params) => dispatch(getUserProject(params))
-    , putUserProject: (params) => dispatch(putUserProject(params))
-    , postUserProject: (params) => dispatch(postUserProject(params))
-    , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
+    getUserProject: params => dispatch(getUserProject(params))
+    , putUserProject: params => dispatch(putUserProject(params))
+    , postUserProject: params => dispatch(postUserProject(params))
+    , setTopBarTitle: title => dispatch(setTopBarTitle(title))
     , toggleTopBarTitleFocus: (isFocused) => dispatch(toggleTopBarTitleFocus(isFocused))
+    , setMainThemeColor: params => dispatch(setMainThemeColor(params))
+    , setSecondaryThemeColor: params => dispatch(setSecondaryThemeColor(params))
+    , setThemeTextColor: params => dispatch(setThemeTextColor(params))
   }
 }
 

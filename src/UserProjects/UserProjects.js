@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import { isEmpty, isEqual, findIndex, cloneDeep } from 'lodash'
 
 import { KiwiLink } from '../common/KiwiLink'
-import { getManyUserProjects } from '../actions'
+import { colorOrder, iconOrder } from './assetAssignment'
+import { getManyUserProjects, setMainThemeColor, setSecondaryThemeColor, setThemeTextColor } from '../actions'
 import ProjectCard from './ProjectCard'
 import NewProjectCard from './NewProjectCard'
 
@@ -69,6 +70,7 @@ class UserProjects extends Component {
 
   static propTypes = {
     getManyUserProjects: T.func
+    , setMainThemeColor: T.func
     , userProjects: T.array
     , userId: T.string.isRequired
   }
@@ -117,6 +119,12 @@ class UserProjects extends Component {
     this.setState({ colorOrdering })
   }
 
+  changeTopBarColor = color => {
+    this.props.setMainThemeColor(color)
+    this.props.setThemeTextColor('#FFFFFF')
+    this.props.setSecondaryThemeColor(color)
+  }
+
 
   render() {
     const { userProjectsByUpdatedAt, colorOrdering } = this.state
@@ -131,18 +139,23 @@ class UserProjects extends Component {
 
         <div style={ styles.rowTwo }>
           <div style={ styles.projects }>
-            <NewProjectCard
-              className='projectCard'
-            />
+            <NewProjectCard className='projectCard' />
             { !isEmpty(userProjectsByUpdatedAt) && userProjectsByUpdatedAt
-              .map((each, i) =>
-                <ProjectCard
-                  className='projectCard'
-                  key={ i }
-                  project={ each }
-                  createdAtRanking={ colorOrdering[i] }
-                />
-              )
+              .map((each, i) => {
+                const createdAtRanking = colorOrdering[i]
+                  , iconName = iconOrder[createdAtRanking % iconOrder.length]
+                  , iconColor = colorOrder[createdAtRanking % colorOrder.length]
+                return (
+                  <ProjectCard
+                    className='projectCard'
+                    key={ i }
+                    project={ each }
+                    iconName={ iconName }
+                    iconColor={ iconColor }
+                    onClick={ () => this.changeTopBarColor(iconColor) }
+                  />
+                )
+              })
             }
           </div>
         </div>
@@ -164,7 +177,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getManyUserProjects: (params) => dispatch(getManyUserProjects(params))
+    getManyUserProjects: params => dispatch(getManyUserProjects(params))
+    , setMainThemeColor: params => dispatch(setMainThemeColor(params))
+    , setThemeTextColor: params => dispatch(setThemeTextColor(params))
+    , setSecondaryThemeColor: params => dispatch(setSecondaryThemeColor(params))
   }
 }
 

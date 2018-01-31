@@ -6,6 +6,7 @@ const initialState = {
   , topBarTitle: ''
   , topBarTitleDisabled: true
   , topBarFocused: false
+  , topBarColor: '#FFFFFF'
 }
 
 export default (state = initialState, action) => {

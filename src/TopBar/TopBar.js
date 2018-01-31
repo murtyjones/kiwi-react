@@ -32,8 +32,7 @@ const styles = {
     , lineHeight: '64px'
 },
   leftIcon: {
-    color: 'black'
-    , height: '30px'
+    height: '30px'
     , width: '30px'
     , fill: 'black'
     , position: 'relative'
@@ -83,7 +82,7 @@ class TopBar extends PureComponent {
   }
 
   render() {
-    const { isOpen, sideNavWidth, toggleSideNav, titleDisabled, title, backgroundColor } = this.props
+    const { isOpen, sideNavWidth, toggleSideNav, titleDisabled, title, backgroundColor, textColor } = this.props
 
 
     if(!isOpen) return null
@@ -96,7 +95,13 @@ class TopBar extends PureComponent {
           , backgroundColor: backgroundColor
         } }
         iconElementLeft={
-          <Menu onClick={ toggleSideNav } style={ styles.leftIcon } />
+          <Menu
+            onClick={ toggleSideNav }
+            style={ {
+              ...styles.leftIcon
+              , fill: textColor
+            } }
+          />
         }
         titleStyle={ styles.appBarTitleStyle }
       >
@@ -108,6 +113,7 @@ class TopBar extends PureComponent {
           style={ {
             ...styles.title
             , backgroundColor: backgroundColor
+            , color: textColor
           } }
           disabled={ titleDisabled }
         />

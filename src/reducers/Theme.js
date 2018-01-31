@@ -1,8 +1,9 @@
 import { ACTIONS } from '../constants'
 
 const initialState = {
-  secondaryThemeColor: '#624F8F'
+  textColor: '#000000'
   , mainThemeColor: '#FFFFFF'
+  , secondaryThemeColor: '#624F8F'
 }
 
 export default (state = initialState, action) => {
@@ -16,6 +17,12 @@ export default (state = initialState, action) => {
     case ACTIONS.SET_SECONDARY_COLOR: {
       const newState = Object.assign({}, state, {
         secondaryThemeColor: action.payload
+      })
+      return newState
+    }
+    case ACTIONS.SET_TEXT_COLOR: {
+      const newState = Object.assign({}, state, {
+        textColor: action.payload
       })
       return newState
     }

@@ -5,7 +5,6 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import moment from 'moment'
 
 import { KiwiLink } from '../common/KiwiLink'
-import { colorOrder, iconOrder } from './assetAssignment'
 import assets from './cardAssets'
 
 const mediaColor = '#FFFFFF'
@@ -108,16 +107,17 @@ const SVG = props =>
   </div>
 
 const ProjectCard = props => {
-  const { className, project: { title, _id, updatedAt, code }, createdAtRanking } = props
+  const { className, project: { title, _id, updatedAt, code }, iconName, iconColor, onClick } = props
     , lastEdited = moment.utc(updatedAt).from(moment.utc())
     , linesOfCode = code.split("\n").length
     , linesOrLine = linesOfCode > 1 ? 'lines' : 'line'
-    , iconName = iconOrder[createdAtRanking % iconOrder.length]
-    , iconColor = colorOrder[createdAtRanking % colorOrder.length]
 
   return (
     <div className={ className }>
-      <KiwiLink to={ `/project/${_id}` }>
+      <KiwiLink
+        to={ `/project/${_id}` }
+        onClick={ onClick }
+      >
         <Card
           className='card'
           style={ styles.projectCardContainer }
