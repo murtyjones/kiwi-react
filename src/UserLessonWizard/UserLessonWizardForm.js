@@ -281,6 +281,7 @@ class UserLessonWizardForm extends Component {
         , [asset.relativeToTopOrBottom]: `${asset.y}%`
         , [asset.relativeToLeftOrRight]: `${asset.x}%`
         , [asset.specifyWidthOrHeight]: `${asset.percentageWidthOrHeight}%`
+        , minWidth: `${asset.minWidthOrHeight ? asset.minWidthOrHeight : 0}`
       } }
     />
 

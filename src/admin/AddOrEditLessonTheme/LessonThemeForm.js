@@ -93,6 +93,11 @@ const renderAssets = ({ fields }) => (
           step={ 1 }
           max={ 100 }
         />
+        <Field
+          name={ `${assetRef}.minWidthOrHeight` }
+          placeholder='(Optional) Minimum width or height'
+          component={ renderTextField }
+        />
       </ListItem>
     ) }
   </List>
