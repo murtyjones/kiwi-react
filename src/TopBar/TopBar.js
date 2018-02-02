@@ -38,6 +38,7 @@ const styles = {
     , position: 'relative'
     , top: '50%'
     , marginTop: '-30px'
+    , cursor: 'pointer'
   },
   appBarTitleStyle: {
     display: 'none'
