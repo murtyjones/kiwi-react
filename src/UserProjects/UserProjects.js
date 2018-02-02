@@ -142,8 +142,8 @@ class UserProjects extends Component {
         <div style={ styles.rowTwo }>
           <div style={ styles.projects }>
             <NewProjectCard className='projectCard' />
-            { !isEmpty(userProjectsByUpdatedAt) && userProjectsByUpdatedAt
-              .map((each, i) => {
+            { !isEmpty(userProjectsByUpdatedAt) &&
+              userProjectsByUpdatedAt.map((each, i) => {
                 const createdAtRanking = colorOrdering[i]
                   , iconName = iconOrder[createdAtRanking % iconOrder.length]
                   , iconColor = colorOrder[createdAtRanking % colorOrder.length]

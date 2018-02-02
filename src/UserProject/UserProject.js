@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty, isEqual, get } from 'lodash'
 import renderIf from 'render-if'
+import { GLOBAL_COLORS } from '../constants'
 
 import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleFocus, setGlobalColors } from '../actions'
 import CodeEditor from '../CodeEditor/CodeEditor'
@@ -69,11 +70,7 @@ class UserProject extends Component {
   }
 
   componentWillUnmount() {
-    this.props.setGlobalColors({
-      primaryColor: '#FFFFFF'
-      , textColor: '#000000'
-      , secondaryColor: '#624F8F'
-    })
+    this.props.setGlobalColors(GLOBAL_COLORS.default)
   }
 
 

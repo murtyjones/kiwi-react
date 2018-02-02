@@ -63,12 +63,7 @@ class UserLessonWizard extends Component {
   }
 
   componentWillUnmount() {
-    this.props.setGlobalColors({
-      textColor: '#624F8F'
-      , primaryColor: '#FFFFFF'
-      , secondaryColor: '#624F8F'
-      , thirdaryThemeColor: '#624F8F'
-    })
+    this.props.setGlobalColors(GLOBAL_COLORS.default)
   }
 
   componentWillReceiveProps(nextProps) {
