@@ -9,7 +9,7 @@ const themeAssetLinks = {
     , topRight: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-houses-top-right_xwqruk.svg'
     , pattern: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197222/map-houses-pattern_li95mt.svg'
   }
-  , egypt: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1516585477/map-egypt-new_u9u4ju.svg'
+  , egypt: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517605601/map-egypt-withtexture_oqyej9.svg'
   , moon: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-moon_bo03vn.svg'
 }
 
