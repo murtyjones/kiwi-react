@@ -10,7 +10,7 @@ import { animateScroll as scroll } from 'react-scroll'
 import { LESSON_MAP_POINTS } from '../constants'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 import insertIf from '../utils/insertIf'
-import lessonThemes from './lessonThemes'
+import { LESSON_THEMES } from '../constants'
 
 const checkColor = '#FFFFFF'
 const lockColor = '#FFFFFF'
@@ -51,7 +51,7 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
       , message = isAvailable ? lesson.title : 'Locked!'
       , lessonThemeName = get(lessonThemesById, `${lesson.themeId}.name`, '').toLowerCase()
-      , lessonTheme = lessonThemes[lessonThemeName]
+      , lessonTheme = LESSON_THEMES[lessonThemeName]
 
     acc.push({
       ...lesson
@@ -208,8 +208,7 @@ class MapItems extends PureComponent {
     const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
       if(isEmpty(lesson)) return null
 
-      const { _id, order, isAvailable, isSelected, x, y, message, isLeftLabel, hasBeenCompleted, completionPercentage, lessonTheme = lessonThemes['neighborhood'] } = lesson
-      if(order === 6) console.log(isAvailable)
+      const { _id, order, isAvailable, isSelected, x, y, message, isLeftLabel, hasBeenCompleted, completionPercentage, lessonTheme = LESSON_THEMES['neighborhood'] } = lesson
       const isLatestActive = activeLessonId === _id
       const isJustCompleted = lessonJustCompletedId === _id
 

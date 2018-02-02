@@ -9,7 +9,7 @@ import { getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
 import LessonMapBackground from './LessonMapBackground'
-import lessonThemes from './lessonThemes'
+import { LESSON_THEMES } from '../constants'
 import insertIf from '../utils/insertIf'
 
 const styles = {
@@ -122,7 +122,7 @@ class Lessons extends Component {
         <LessonCard
           key='LessonCard'
           lesson={ selectedLesson }
-          lessonTheme={ lessonThemes[themeName.toLowerCase()]  }
+          lessonTheme={ LESSON_THEMES[themeName.toLowerCase()]  }
           style={ styles.lessonCardContainer }
         />
       )

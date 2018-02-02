@@ -7,7 +7,8 @@ import { connect } from 'react-redux'
 import { getFormValues } from 'redux-form'
 import BluebirdPromise from 'bluebird'
 
-import { postUserLesson, putUserLesson, getManyUserLessons, getLesson, getLessonTheme } from '../actions'
+import { postUserLesson, putUserLesson, getManyUserLessons, getLesson, getLessonTheme, setThemeColors } from '../actions'
+import { LESSON_THEMES } from '../constants'
 import UserLessonWizardForm from './UserLessonWizardForm'
 
 const getLatestCompletedSlide = (lesson, userLesson) => {
@@ -46,10 +47,10 @@ class UserLessonWizard extends Component {
   }
 
   componentWillMount() {
-    const { getManyUserLessons, getLesson, getLessonTheme, lesson, userLesson, theme, userId, match: { params: { id } } } = this.props
+    const { getManyUserLessons, getLesson, getLessonTheme, lesson, userLesson, lessonTheme, userId, match: { params: { id } } } = this.props
       , lessonIsEmpty = isEmpty(lesson)
       , userLessonIsEmpty = isEmpty(userLesson)
-      , themeIsEmpty = isEmpty(theme)
+      , themeIsEmpty = isEmpty(lessonTheme)
     if(lessonIsEmpty) getLesson({id})
     if(userLessonIsEmpty) getManyUserLessons({ lessonId: id, userId })
     if(lesson.themeId && themeIsEmpty) getLessonTheme({ id: lesson.themeId })
@@ -59,17 +60,28 @@ class UserLessonWizard extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.setThemeColors({
+      textColor: '#624F8F'
+      , mainThemeColor: '#FFFFFF'
+      , secondaryThemeColor: '#624F8F'
+      , thirdaryThemeColor: '#624F8F'
+    })
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { lesson, userLesson, userId, match: { params: { id } } } = this.props
+    const { lesson, userLesson, userId, lessonTheme, match: { params: { id } } } = this.props
     const { lessonAndUserLessonReceived } = this.state
-    const { getManyUserLessons: nextGetManyUserLessons, getLesson: nextGetLesson, getLessonTheme: nexGetLessonTheme, lesson: nextLesson, userLesson: nextUserLesson, theme: nextTheme, userId: nextUserId, match: { params: { id: nextId } } } = nextProps
+    const { getManyUserLessons: nextGetManyUserLessons, getLesson: nextGetLesson, getLessonTheme: nexGetLessonTheme, lesson: nextLesson, userLesson: nextUserLesson, lessonTheme: nextLessonTheme, theme: nextTheme, userId: nextUserId, match: { params: { id: nextId } } } = nextProps
       , lessonIdHasChanged = !isEqual(id, nextId)
       , lessonHasChanged = !isEqual(lesson, nextLesson)
       , userLessonHasChanged = !isEqual(userLesson, nextUserLesson)
       , userIdHasChanged = !isEqual(userId, nextUserId)
-      , themeIdHasChanged = !isEqual(nextTheme._id, nextLesson.themeId)
+      , themeIdHasChanged = !isEqual(nextLessonTheme._id, nextLesson.themeId)
       , lessonWasEmpty = isEmpty(lesson)
       , userLessonWasEmpty = isEmpty(userLesson)
+      , newTheme = LESSON_THEMES[(nextLessonTheme.name || 'neighborhood').toLowerCase()]
+      , themeNeedsChanging = nextTheme.mainThemeColor !== newTheme.mainThemeColor
 
     if(lessonIdHasChanged || userIdHasChanged) {
       nextGetLesson({ id: nextId })
@@ -85,6 +97,15 @@ class UserLessonWizard extends Component {
       this.setState({ activeSlideIndex, lessonAndUserLessonReceived: true })
     }
 
+    if(themeNeedsChanging) this.setTopBarColor(newTheme)
+  }
+
+  setTopBarColor = newTheme => {
+    this.props.setThemeColors({
+      mainThemeColor: newTheme.mainThemeColor
+      , textColor: '#FFFFFF'
+      , secondaryThemeColor: newTheme.mainThemeColor
+    })
   }
 
   handleSubmit = (params) => {
@@ -118,7 +139,7 @@ class UserLessonWizard extends Component {
     })
 
   render() {
-    const { lesson, initialValues, currentValues, theme, isFetchingUserLessons } = this.props
+    const { lesson, initialValues, currentValues, lessonTheme, isFetchingUserLessons } = this.props
     const { activeSlideIndex } = this.state
 
     return !isEmpty(lesson)
@@ -127,7 +148,7 @@ class UserLessonWizard extends Component {
           onSubmit={ this.handleSubmit }
           isFetchingUserLessons={ isFetchingUserLessons }
           lesson={ lesson }
-          theme={ theme }
+          lessonTheme={ lessonTheme }
           initialValues={ initialValues }
           currentValues={ currentValues }
           activeSlideIndex={ activeSlideIndex }
@@ -142,14 +163,14 @@ export const UserLessonWizardComponent = UserLessonWizard
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId, isFetching }, lessonThemes: { lessonThemesById } } = state
+  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId, isFetching }, lessonThemes: { lessonThemesById }, theme } = state
   const { match: { params: { id } } } = ownProps
 
   let initialValues = { answerData: [], lessonId: id }
 
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
-  const theme = lessonThemesById[lesson.themeId] || {}
+  const lessonTheme = lessonThemesById[lesson.themeId] || {}
   const currentValues = getFormValues('userLesson')(state) || {}
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
@@ -171,6 +192,7 @@ const mapStateToProps = (state, ownProps) => {
     , userId
     , initialValues
     , currentValues
+    , lessonTheme
     , theme
     , isFetchingUserLessons: isFetching
   }
@@ -183,6 +205,7 @@ const mapDispatchToProps = (dispatch) => {
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
     , getLesson: params => dispatch(getLesson(params))
     , getLessonTheme: params => dispatch(getLessonTheme(params))
+    , setThemeColors: params => dispatch(setThemeColors(params))
   }
 }
 

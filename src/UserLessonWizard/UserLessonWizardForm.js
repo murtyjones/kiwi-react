@@ -148,7 +148,7 @@ class UserLessonWizardForm extends Component {
     onSubmit: T.func.isRequired
     , activeSlideIndex: T.number.isRequired
     , lesson: T.object.isRequired
-    , theme: T.object.isRequired
+    , lessonTheme: T.object.isRequired
     , formValues: T.object.isRequired
     , goToNextSlide: T.func.isRequired
     , goToPrevSlide: T.func.isRequired
@@ -160,20 +160,20 @@ class UserLessonWizardForm extends Component {
   }
 
   componentWillMount() {
-    const { lesson, activeSlideIndex, theme, isFetchingUserLessons } = this.props
+    const { lesson, activeSlideIndex, lessonTheme, isFetchingUserLessons } = this.props
     this.setActiveSlideObject(activeSlideIndex, lesson)
-    if(theme) this.setThemeAssetsByQuadrant(theme)
+    if(lessonTheme) this.setThemeAssetsByQuadrant(lessonTheme)
     this.setPrevDisabled(activeSlideIndex, lesson)
     this.setNextDisabled(activeSlideIndex, lesson, isFetchingUserLessons)
     this.setIsFinal(activeSlideIndex, lesson)
   }
 
   componentWillReceiveProps(nextProps) {
-    const { lesson, activeSlideIndex, theme, isFetchingUserLessons } = this.props
-      , { lesson: nextLesson, activeSlideIndex: nextActiveSlideIndex, theme: nextTheme, isFetchingUserLessons: nextIsFetchingUserLessons } = nextProps
+    const { lesson, activeSlideIndex, lessonTheme, isFetchingUserLessons } = this.props
+      , { lesson: nextLesson, activeSlideIndex: nextActiveSlideIndex, lessonTheme: nextLessonTheme, isFetchingUserLessons: nextIsFetchingUserLessons } = nextProps
       , lessonHasChanged = !isEqual(nextLesson, lesson)
       , activeSlideIndexHasChanged = nextActiveSlideIndex !== activeSlideIndex
-      , themHasChanged = !isEqual(nextTheme, theme)
+      , themHasChanged = !isEqual(nextLessonTheme, lessonTheme)
       , isFetchingUserLessonsHasChanged = !isEqual(nextIsFetchingUserLessons, isFetchingUserLessons)
 
     if(lessonHasChanged || activeSlideIndexHasChanged) {
@@ -187,15 +187,15 @@ class UserLessonWizardForm extends Component {
     }
 
     if(themHasChanged) {
-      this.setThemeAssetsByQuadrant(nextTheme)
+      this.setThemeAssetsByQuadrant(nextLessonTheme)
     }
   }
 
   setActiveSlideObject = (activeSlideIndex, lesson) =>
     this.setState({ activeSlideObject: lesson.slides[activeSlideIndex] })
 
-  setThemeAssetsByQuadrant = (theme) =>
-    this.setState({ themeAssetsByQuadrant: this.sortAssetsByQuadrant(theme) })
+  setThemeAssetsByQuadrant = (lessonTheme) =>
+    this.setState({ themeAssetsByQuadrant: this.sortAssetsByQuadrant(lessonTheme) })
 
   setPrevDisabled = (activeSlideIndex, lesson) =>
     this.setState({ prevDisabled: isPrevDisabled(activeSlideIndex, lesson) })
@@ -283,20 +283,20 @@ class UserLessonWizardForm extends Component {
     />
 
   render() {
-    const { handleSubmit, theme } = this.props
+    const { handleSubmit, lessonTheme } = this.props
         , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
-        , hasTheme = !!theme
-        , foregroundColor = hasTheme && theme.foregroundColor || ''
-        , foregroundImage = hasTheme && theme.foregroundImageUrl || ''
-        , backgroundColor = hasTheme && theme.backgroundColor || ''
-        , backgroundImage = hasTheme && theme.backgroundImageUrl || ''
-        , backgroundImageWidth = hasTheme && theme.backgroundImageWidth || 0
-        , backgroundImageHeight = hasTheme && theme.backgroundImageHeight || 0
-        , foregroundImageWidth = hasTheme && theme.foregroundImageWidth || 0
-        , foregroundImageHeight = hasTheme && theme.foregroundImageHeight || 0
+        , hasTheme = !!lessonTheme
+        , foregroundColor = hasTheme && lessonTheme.foregroundColor || ''
+        , foregroundImage = hasTheme && lessonTheme.foregroundImageUrl || ''
+        , backgroundColor = hasTheme && lessonTheme.backgroundColor || ''
+        , backgroundImage = hasTheme && lessonTheme.backgroundImageUrl || ''
+        , backgroundImageWidth = hasTheme && lessonTheme.backgroundImageWidth || 0
+        , backgroundImageHeight = hasTheme && lessonTheme.backgroundImageHeight || 0
+        , foregroundImageWidth = hasTheme && lessonTheme.foregroundImageWidth || 0
+        , foregroundImageHeight = hasTheme && lessonTheme.foregroundImageHeight || 0
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
 
@@ -349,7 +349,7 @@ class UserLessonWizardForm extends Component {
         className={ activeSlideBackgroundClassName }
       />
       ,
-      // Render theme if it exists
+      // Render lessonTheme if it exists
       hasTheme &&
         <div key='lessonTheme' style={ styles.themeTable }>
           <div
@@ -361,7 +361,7 @@ class UserLessonWizardForm extends Component {
               , background: `${backgroundColor} url('${backgroundImage}')`
               , backgroundSize: `${backgroundImageWidth}px ${backgroundImageHeight}px`
               , backgroundRepeat: 'repeat'
-              , height: `${theme.horizonY}%`
+              , height: `${lessonTheme.horizonY}%`
               , width: '100%'
               , zIndex: -2
             } }
@@ -370,13 +370,13 @@ class UserLessonWizardForm extends Component {
             key='background-foreground'
             style={ {
               position: 'absolute'
-              , top: `${theme.horizonY}%`
+              , top: `${lessonTheme.horizonY}%`
               , left: 0
               , background: `${foregroundColor} url('${foregroundImage}')`
               , backgroundSize: `${foregroundImageWidth}px ${foregroundImageHeight}px`
               , backgroundRepeat: 'repeat'
               , width: '100%'
-              , height: `${100-theme.horizonY}%`
+              , height: `${100-lessonTheme.horizonY}%`
               , zIndex: -2
             } }
           />
@@ -384,7 +384,7 @@ class UserLessonWizardForm extends Component {
             key='top-row'
             style={ {
               ...styles.themeTableRow
-              , height: `${theme.horizonY}%`
+              , height: `${lessonTheme.horizonY}%`
             } }
           >
             <div key='top-row-column-left' style={ styles.themeQuadrant }>
@@ -405,7 +405,7 @@ class UserLessonWizardForm extends Component {
             key='bottom-row'
             style={ {
               ...styles.themeTableRow,
-              height: `${100 - theme.horizonY}%`
+              height: `${100 - lessonTheme.horizonY}%`
             } }
           >
             <div key='bottom-row-column-left' style={ styles.themeQuadrant }>
