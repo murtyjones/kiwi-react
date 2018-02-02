@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import AuthService from './utils/AuthService'
-import { closeSideNav, openSideNav, setTopBarTitle, toggleTopBarTitleIsDisabled, setMainThemeColor, setThemeTextColor } from './actions'
+import { closeSideNav, openSideNav, setTopBarTitle, toggleTopBarTitleIsDisabled, setThemeColors } from './actions'
 
 
 const authService = new AuthService()
@@ -76,16 +76,16 @@ class App extends Component {
     , topBarTitle: T.string.isRequired
     , topBarTitleDisabled: T.bool.isRequired
     , setTopBarTitle: T.func.isRequired
-    , setMainThemeColor: T.func.isRequired
+    , setThemeColors: T.func.isRequired
   }
 
   toggleSideNav = () =>
     this.props.isSideNavOpen ? this.props.closeSideNav() : this.props.openSideNav()
 
   render() {
-    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setMainThemeColor, setThemeTextColor, topBarFocused, mainThemeColor, secondaryThemeColor, textColor } = this.props
+    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setThemeColors, topBarFocused, mainThemeColor, secondaryThemeColor, textColor } = this.props
     const topBarWidthString = `${topBarHeight}px`
-    const extras = { isLoggedIn, isAdmin, setTopBarTitle, setMainThemeColor, setThemeTextColor, mainThemeColor, secondaryThemeColor, textColor, toggleTopBarTitleIsDisabled }
+    const extras = { isLoggedIn, isAdmin, setTopBarTitle, setThemeColors, mainThemeColor, secondaryThemeColor, textColor, toggleTopBarTitleIsDisabled }
 
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
@@ -190,8 +190,7 @@ const mapDispatchToProps = (dispatch) => {
     , openSideNav: () => dispatch(openSideNav())
     , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
     , toggleTopBarTitleIsDisabled: isDisabled => dispatch(toggleTopBarTitleIsDisabled(isDisabled))
-    , setMainThemeColor: (color) => dispatch(setMainThemeColor(color))
-    , setThemeTextColor: (color) => dispatch(setThemeTextColor(color))
+    , setThemeColors: params => dispatch(setThemeColors(params))
   }
 }
 

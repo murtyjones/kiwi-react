@@ -7,10 +7,10 @@ import Check from 'material-ui-icons/Check'
 import Lock from 'material-ui-icons/Lock'
 import { animateScroll as scroll } from 'react-scroll'
 
-
 import { LESSON_MAP_POINTS } from '../constants'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 import insertIf from '../utils/insertIf'
+import lessonThemes from './lessonThemes'
 
 const checkColor = '#FFFFFF'
 const lockColor = '#FFFFFF'
@@ -36,7 +36,7 @@ const styles = {
   }
 }
 
-const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities) =>
+const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById) =>
   (mapLessons ||[]).reduce((acc, lesson, i) => {
     const order = i + 1
       , isSelected = selectedLessonOrder === order
@@ -50,6 +50,9 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , bubbleAvailability = bubbleAvailabilities[i]
       , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
       , message = isAvailable ? lesson.title : 'Locked!'
+      , lessonThemeName = get(lessonThemesById, `${lesson.themeId}.name`, '').toLowerCase()
+      , lessonTheme = lessonThemes[lessonThemeName]
+
     acc.push({
       ...lesson
       , order
@@ -64,6 +67,7 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , bubbleAvailability
       , isAvailable
       , message
+      , lessonTheme
     })
     return acc
   }, [])
@@ -102,6 +106,7 @@ class MapItems extends PureComponent {
     , selectedLessonId: T.string
     , activeLessonId: T.string
     , lessonJustCompletedId: T.string.isRequired
+    , lessonThemesById: T.object
   }
 
   componentWillMount() {
@@ -120,21 +125,22 @@ class MapItems extends PureComponent {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { mapLessons, activeLessonId, lessonJustCompletedId } = this.props
+    const { mapLessons, activeLessonId, lessonJustCompletedId, lessonThemesById } = this.props
     const { selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, statefulMapLessons } = this.state
-    const { mapLessons: nextMapLessons, activeLessonId: nextActiveLessonId, lessonJustCompletedId: nextLessonJustCompletedId } = nextProps
+    const { mapLessons: nextMapLessons, activeLessonId: nextActiveLessonId, lessonJustCompletedId: nextLessonJustCompletedId, lessonThemesById: nextLessonThemesById } = nextProps
     const { selectedLessonOrder: nextSelectedLessonOrder, hoveredLessonOrder: nextHoveredLessonOrder, bubbleAvailabilities: nextBubbleAvailabilities, statefulMapLessons: nextStatefulMapLessons } = nextState
     const mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
     const selectedLessonOrderHasChanged = !isEqual(selectedLessonOrder, nextSelectedLessonOrder)
     const hoveredLessonOrderHasChanged = !isEqual(hoveredLessonOrder, nextHoveredLessonOrder)
     const bubbleAvailabilitiesHasChanged = !isEqual(bubbleAvailabilities, nextBubbleAvailabilities)
+    const lessonThemesByIdHasChanged = !isEqual(lessonThemesById, nextLessonThemesById)
     const needsRemapping = nextState.statefulMapLessons[0] === undefined
     const activeLessonIdHasChanged = !isEqual(activeLessonId, nextActiveLessonId)
     const lessonJustCompletedIdHasChanged = !isEqual(lessonJustCompletedId, nextLessonJustCompletedId)
     const statefulMapLessonsHasChanged = !isEqual(statefulMapLessons, nextStatefulMapLessons)
 
-    if(needsRemapping || mapLessonsHasChanged || selectedLessonOrderHasChanged || hoveredLessonOrderHasChanged || bubbleAvailabilitiesHasChanged)
-      this.setStatefulMapLessons(nextMapLessons, nextSelectedLessonOrder, nextHoveredLessonOrder, nextBubbleAvailabilities)
+    if(needsRemapping || mapLessonsHasChanged || selectedLessonOrderHasChanged || hoveredLessonOrderHasChanged || bubbleAvailabilitiesHasChanged || lessonThemesByIdHasChanged)
+      this.setStatefulMapLessons(nextMapLessons, nextSelectedLessonOrder, nextHoveredLessonOrder, nextBubbleAvailabilities, nextLessonThemesById)
 
     if(activeLessonIdHasChanged || lessonJustCompletedIdHasChanged || statefulMapLessonsHasChanged)
       this.goToActiveLesson(nextActiveLessonId, nextStatefulMapLessons, nextLessonJustCompletedId)
@@ -196,14 +202,14 @@ class MapItems extends PureComponent {
   }
 
   render() {
-    const { statefulMapLessons, applyJustCompletedAnimation, applyNextAnimation } = this.state
+    const { statefulMapLessons, applyJustCompletedAnimation, applyNextAnimation, lessonThemesById } = this.state
     const { activeLessonId, lessonJustCompletedId } = this.props
 
     const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
       if(isEmpty(lesson)) return null
 
-      const { _id, order, isAvailable, isSelected, x, y, message, isLeftLabel, hasBeenCompleted, completionPercentage } = lesson
-
+      const { _id, order, isAvailable, isSelected, x, y, message, isLeftLabel, hasBeenCompleted, completionPercentage, lessonTheme = lessonThemes['neighborhood'] } = lesson
+      if(order === 6) console.log(isAvailable)
       const isLatestActive = activeLessonId === _id
       const isJustCompleted = lessonJustCompletedId === _id
 
@@ -240,6 +246,16 @@ class MapItems extends PureComponent {
                 className={ cns({
                   'justCompleted': isJustCompleted && applyJustCompletedAnimation
                 }) }
+                styles={ {
+                  path: {
+                    stroke: lessonTheme.pathThemeColor
+                    , strokeOpacity: 100
+                  },
+                  trail: {
+                    stroke: lessonTheme.trailThemeColor
+                    , strokeOpacity: 100
+                  }
+                } }
               />
             </div>
             <div
@@ -249,13 +265,23 @@ class MapItems extends PureComponent {
                 , 'right': !isLeftLabel
               } ) }
             >
-              <h2>{ message }</h2>
+              <h2
+                style={ {
+                  color: lessonTheme.trailThemeColor
+                  , backgroundColor: lessonTheme.pathThemeColor
+                } }
+              >
+                { message }
+                </h2>
             </div>
-            <div key='map-bubble' className='map-bubble'>
+            <div
+              key='map-bubble'
+              className='map-bubble'
+              style={ { backgroundColor: lessonTheme.mainThemeColor } }
+            >
               <h1
-                className={
-                  cns({ 'done': hasBeenCompleted || !isAvailable })
-                }
+                className={cns({'done': hasBeenCompleted || !isAvailable})}
+                style={ { opacity: isAvailable ? 100 : 0 } }
               >
                 { order }
               </h1>

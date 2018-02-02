@@ -30,13 +30,14 @@ class LessonMap extends Component {
     , setSelectedLessonId: T.func.isRequired
     , lessonJustCompletedId: T.string.isRequired
     , activeLessonId: T.string
+    , lessonThemesById: T.object
   }
 
   handleLessonSelect = (e, selectedLessonId) =>
     this.props.setSelectedLessonId(selectedLessonId)
 
   render() {
-    const { mapLessons, selectedLessonId, activeLessonId, lessonJustCompletedId, selectedLessonPosition } = this.props
+    const { mapLessons, selectedLessonId, activeLessonId, lessonJustCompletedId, lessonThemesById, selectedLessonPosition } = this.props
     const { cursor, latestActiveLessonId } = this.state
 
     return (
@@ -49,6 +50,7 @@ class LessonMap extends Component {
             lessonJustCompletedId={ lessonJustCompletedId }
             selectedLessonPosition={ selectedLessonPosition }
             latestActiveLessonId={ latestActiveLessonId }
+            lessonThemesById={ lessonThemesById }
             onLessonSelect={ this.handleLessonSelect }
           />
         }

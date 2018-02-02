@@ -26,7 +26,6 @@
     font-size: 12px;
     letter-spacing: 3px;
     font-weight: 400;
-    color: #00BDFA;
 }
 
 .map-card-arrow {
@@ -37,21 +36,24 @@
     color: #DDDDDD !important;
 }
 
-.map-card:hover .map-card-arrow {
+.map-card:hover .map-card-arrow, {
     width: calc(50px * 1.1) !important;;
     height: calc(50px * 1.1) !important;;
     margin-top: calc(-25px * 1.1);
     margin-left: calc(-25px * 1.1);
-    color: #00BEFA !important;
 }
+
+.map-card-circle.neighborhood-arrow-container:hover { background-color: #9575C9 !important; }
+.map-card-circle.egypt-arrow-container:hover { background-color: #9575C9 !important; }
+.map-card-circle.moon-arrow-container:hover { background-color: #99E6FD !important; }
+
+.map-card:hover .neighborhood-arrow { color: #624F8F !important; }
+.map-card:hover .egypt-arrow { color: #624F8F !important; }
+.map-card:hover .moon-arrow { color: #00BEFA !important; }
 
 .map-card-circle {
     background-color: #FFF;
     transition: all 0.5s ease;
-}
-
-.map-card-circle:hover {
-    background-color: #00779B;
 }
 
 .map-card-image {
@@ -80,15 +82,8 @@
     top: 50%;
 }
 
-.CircularProgressbar .CircularProgressbar-path {
-    stroke: #543e80;
-}
 .CircularProgressbar.justCompleted > .CircularProgressbar-path {
     transition: stroke-dashoffset 4s ease 0s;
-}
-
-.CircularProgressbar .CircularProgressbar-trail {
-    stroke: #9575C9;
 }
 
 .CircularProgressbar .CircularProgressbar-text {
@@ -115,7 +110,6 @@
 .map-bubble {
     position: inherit;
     display: inline-block;
-    background-color: #654D94;
     border-radius: 50%;
     border: none;
     outline: none;
@@ -170,8 +164,7 @@
     letter-spacing: 3px;
     font-weight: 400;
     z-index: 0;
-    color: #9575C9;
-    background: #3E2F61;
+
     border-radius: 20vw;
     transition: all .3s ease;
 }

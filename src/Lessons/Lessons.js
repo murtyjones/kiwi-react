@@ -4,12 +4,12 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { orderBy, find, findIndex, get, cloneDeep, isEqual, isEmpty } from 'lodash'
 
-import { getManyLessons, getManyUserLessons, getLessonOrder } from '../actions'
-
+import { getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, setThemeColors } from '../actions'
 
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
 import LessonMapBackground from './LessonMapBackground'
+import lessonThemes from './lessonThemes'
 import insertIf from '../utils/insertIf'
 
 const styles = {
@@ -43,6 +43,7 @@ class Lessons extends Component {
     , getManyUserLessons: T.func
     , getLessonOrder: T.func
     , userLessons: T.array
+    , lessonThemesById: T.object
     , lessons: T.array
     , orderOfPublishedLessons: T.array
     , userId: T.string.isRequired
@@ -50,10 +51,11 @@ class Lessons extends Component {
   }
 
   componentWillMount() {
-    const { closeSideNav, getManyLessons, getManyUserLessons, getLessonOrder, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
+    const { closeSideNav, getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
     getManyLessons()
     getManyUserLessons({ userId })
     getLessonOrder()
+    getManyLessonThemes()
     this.setCombinedMapLessons(orderOfPublishedLessons, lessons, userLessons)
   }
 
@@ -89,16 +91,19 @@ class Lessons extends Component {
     this.setState({ combinedMapLessons, activeLessonId })
   }
 
-  setSelectedLessonId = (selectedLessonId) => {
-    this.setState({ selectedLessonId })
-  }
+  setSelectedLessonId = selectedLessonId => this.setState({ selectedLessonId })
 
   render() {
-    const { lessons, orderOfPublishedLessons } = this.props
+    const { lessons, orderOfPublishedLessons, lessonThemesById } = this.props
     const { selectedLessonId, lessonJustCompletedId, activeLessonId, combinedMapLessons } = this.state
     const selectedLessonPosition = selectedLessonId
       ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
       : 0
+    const selectedLesson = {
+      ...find(lessons, { _id: selectedLessonId })
+      , order: selectedLessonPosition
+    }
+    const themeName = (lessonThemesById[selectedLesson.themeId] || {}).name || ''
 
     return [
       <LessonMapBackground key='LessonMapBackground' />
@@ -109,17 +114,15 @@ class Lessons extends Component {
         selectedLessonId={ selectedLessonId }
         lessonJustCompletedId={ lessonJustCompletedId }
         activeLessonId={ activeLessonId }
+        lessonThemesById={ lessonThemesById }
         setSelectedLessonId={ this.setSelectedLessonId }
       />
       ,
       ...insertIf(selectedLessonId,
         <LessonCard
           key='LessonCard'
-          lesson={ {
-              ...find(lessons, { _id: selectedLessonId })
-              , order: selectedLessonPosition
-            }
-          }
+          lesson={ selectedLesson }
+          lessonTheme={ lessonThemes[themeName.toLowerCase()]  }
           style={ styles.lessonCardContainer }
         />
       )
@@ -129,7 +132,7 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth: { userId },lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById } } = state
+  const { auth: { userId },lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById }, lessonThemes: { lessonThemesById } } = state
 
   const userLessons = cloneDeep(Object.values(userLessonsById))
     , lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
@@ -140,14 +143,17 @@ const mapStateToProps = (state) => {
     , userLessons
     , orderOfPublishedLessons
     , userId
+    , lessonThemesById
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getManyLessons: (params) => dispatch(getManyLessons(params))
+    getManyLessons: params => dispatch(getManyLessons(params))
     , getLessonOrder: () => dispatch(getLessonOrder())
-    , getManyUserLessons: (params) => dispatch(getManyUserLessons(params))
+    , getManyLessonThemes: params => dispatch(getManyLessonThemes(params))
+    , getManyUserLessons: params => dispatch(getManyUserLessons(params))
+    , setThemeColors: params => dispatch(setThemeColors(params))
   }
 }
 

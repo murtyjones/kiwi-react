@@ -7107,9 +7107,9 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-circular-progressbar@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-0.6.0.tgz#ce0e6e2c1b1ed5a9e447db9b4efb99d81bf36bcf"
+react-circular-progressbar@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-0.7.0.tgz#771796fed448c2c0586fdd630f4a63aaa7c645ae"
   dependencies:
     prop-types "^15.5.10"
 
