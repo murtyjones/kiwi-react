@@ -31,13 +31,6 @@
     z-index: 3;
 }
 
-.leftArrow, .rightArrow {
-    color: #000000 !important;
-}
-.leftArrow.disabled, .rightArrow.disabled {
-    color: #CCCCCC !important;
-}
-
 .backButton:hover, .nextButton:hover {
     cursor: pointer;
 }

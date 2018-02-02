@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { isEmpty, isEqual, get } from 'lodash'
 import renderIf from 'render-if'
 
-import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleFocus, setThemeColors } from '../actions'
+import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleFocus, setGlobalColors } from '../actions'
 import CodeEditor from '../CodeEditor/CodeEditor'
 
 import '../common/flex.css'
@@ -37,7 +37,6 @@ class UserProject extends Component {
     , postUserProject: T.func.isRequired
     , setTopBarTitle: T.func.isRequired
     , toggleTopBarTitleFocus: T.func.isRequired
-    , toggleTopBarTitleIsDisabled: T.func.isRequired
   }
 
   componentWillMount() {
@@ -70,10 +69,10 @@ class UserProject extends Component {
   }
 
   componentWillUnmount() {
-    this.props.setThemeColors({
-      mainThemeColor: '#FFFFFF'
+    this.props.setGlobalColors({
+      primaryColor: '#FFFFFF'
       , textColor: '#000000'
-      , secondaryThemeColor: '#624F8F'
+      , secondaryColor: '#624F8F'
     })
   }
 
@@ -132,7 +131,7 @@ const mapDispatchToProps = (dispatch) => {
     , postUserProject: params => dispatch(postUserProject(params))
     , setTopBarTitle: title => dispatch(setTopBarTitle(title))
     , toggleTopBarTitleFocus: (isFocused) => dispatch(toggleTopBarTitleFocus(isFocused))
-    , setThemeColors: params => dispatch(setThemeColors(params))
+    , setGlobalColors: params => dispatch(setGlobalColors(params))
   }
 }
 

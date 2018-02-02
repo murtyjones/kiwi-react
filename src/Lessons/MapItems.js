@@ -10,7 +10,7 @@ import { animateScroll as scroll } from 'react-scroll'
 import { LESSON_MAP_POINTS } from '../constants'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 import insertIf from '../utils/insertIf'
-import { LESSON_THEMES } from '../constants'
+import { GLOBAL_COLORS } from '../constants'
 
 const checkColor = '#FFFFFF'
 const lockColor = '#FFFFFF'
@@ -51,7 +51,7 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
       , message = isAvailable ? lesson.title : 'Locked!'
       , lessonThemeName = get(lessonThemesById, `${lesson.themeId}.name`, '').toLowerCase()
-      , lessonTheme = LESSON_THEMES[lessonThemeName]
+      , lessonTheme = GLOBAL_COLORS[lessonThemeName]
 
     acc.push({
       ...lesson
@@ -208,7 +208,7 @@ class MapItems extends PureComponent {
     const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
       if(isEmpty(lesson)) return null
 
-      const { _id, order, isAvailable, isSelected, x, y, message, isLeftLabel, hasBeenCompleted, completionPercentage, lessonTheme = LESSON_THEMES['neighborhood'] } = lesson
+      const { _id, order, isAvailable, isSelected, x, y, message, isLeftLabel, hasBeenCompleted, completionPercentage, lessonTheme = GLOBAL_COLORS['neighborhood'] } = lesson
       const isLatestActive = activeLessonId === _id
       const isJustCompleted = lessonJustCompletedId === _id
 
@@ -247,11 +247,11 @@ class MapItems extends PureComponent {
                 }) }
                 styles={ {
                   path: {
-                    stroke: lessonTheme.pathThemeColor
+                    stroke: lessonTheme.quaternaryColor
                     , strokeOpacity: 100
                   },
                   trail: {
-                    stroke: lessonTheme.trailThemeColor
+                    stroke: lessonTheme.tertiaryColor
                     , strokeOpacity: 100
                   }
                 } }
@@ -266,8 +266,8 @@ class MapItems extends PureComponent {
             >
               <h2
                 style={ {
-                  color: lessonTheme.trailThemeColor
-                  , backgroundColor: lessonTheme.pathThemeColor
+                  color: lessonTheme.tertiaryColor
+                  , backgroundColor: lessonTheme.quaternaryColor
                 } }
               >
                 { message }
@@ -276,7 +276,7 @@ class MapItems extends PureComponent {
             <div
               key='map-bubble'
               className='map-bubble'
-              style={ { backgroundColor: lessonTheme.mainThemeColor } }
+              style={ { backgroundColor: lessonTheme.primaryColor } }
             >
               <h1
                 className={cns({'done': hasBeenCompleted || !isAvailable})}

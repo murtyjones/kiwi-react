@@ -11,7 +11,7 @@ import lessonMetadata from './LessonMetadata'
 import userLessons from './UserLessons'
 import sideNav from './SideNav'
 import topBar from './TopBar'
-import theme from './Theme'
+import globalColors from './GlobalColors'
 
 // Export combined reducers
 export const notCombined = {
@@ -25,7 +25,7 @@ export const notCombined = {
   , sideNav
   , topBar
   , lessonMetadata
-  , theme
+  , globalColors
 }
 
 export default combineReducers(notCombined)

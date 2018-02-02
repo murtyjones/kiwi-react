@@ -68,7 +68,7 @@ class SideNav extends PureComponent {
   }
 
   render() {
-    const { isOpen, isAdmin, isLoggedIn, secondaryThemeColor, toggleSideNav } = this.props
+    const { isOpen, isAdmin, isLoggedIn, secondaryColor, toggleSideNav } = this.props
 
     return (
       <Drawer
@@ -77,7 +77,7 @@ class SideNav extends PureComponent {
         onRequestChange={ toggleSideNav }
       >
         <Menu style={ styles.menu } listStyle={ styles.menu } autoWidth={ false }>
-          <div style={ { ...styles.header,  backgroundColor: secondaryThemeColor } }>
+          <div style={ { ...styles.header,  backgroundColor: secondaryColor } }>
             <div style={ styles.logo } />
             <MenuItem
               key={ 'name' }

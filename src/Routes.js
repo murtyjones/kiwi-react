@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import AuthService from './utils/AuthService'
-import { closeSideNav, openSideNav, setTopBarTitle, toggleTopBarTitleIsDisabled, setThemeColors } from './actions'
+import { closeSideNav, openSideNav, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors } from './actions'
 
 
 const authService = new AuthService()
@@ -76,16 +76,16 @@ class App extends Component {
     , topBarTitle: T.string.isRequired
     , topBarTitleDisabled: T.bool.isRequired
     , setTopBarTitle: T.func.isRequired
-    , setThemeColors: T.func.isRequired
+    , setGlobalColors: T.func.isRequired
   }
 
   toggleSideNav = () =>
     this.props.isSideNavOpen ? this.props.closeSideNav() : this.props.openSideNav()
 
   render() {
-    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setThemeColors, topBarFocused, mainThemeColor, secondaryThemeColor, textColor } = this.props
+    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, topBarFocused, primaryColor, secondaryColor, textColor } = this.props
     const topBarWidthString = `${topBarHeight}px`
-    const extras = { isLoggedIn, isAdmin, setTopBarTitle, setThemeColors, mainThemeColor, secondaryThemeColor, textColor, toggleTopBarTitleIsDisabled }
+    const extras = { isLoggedIn, isAdmin, setTopBarTitle, setGlobalColors, primaryColor, secondaryColor, textColor, toggleTopBarTitleIsDisabled }
 
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
@@ -100,7 +100,7 @@ class App extends Component {
           />
           <TopBar
             isOpen={ isTopBarOpen }
-            backgroundColor={ mainThemeColor }
+            backgroundColor={ primaryColor }
             textColor={ textColor }
             isFocused={ topBarFocused }
             title={ topBarTitle }
@@ -164,7 +164,7 @@ const mapStateToProps = (state) => {
     auth: { isLoggedIn, isAdmin },
     sideNav: {sideNavWidth, isSideNavOpen },
     topBar: { topBarHeight, isTopBarOpen, topBarTitle, topBarTitleDisabled, topBarFocused },
-    theme: { mainThemeColor, secondaryThemeColor, textColor }
+    globalColors: { primaryColor, secondaryColor, textColor }
   } = state
 
   return {
@@ -177,8 +177,8 @@ const mapStateToProps = (state) => {
     , topBarTitle
     , topBarTitleDisabled
     , topBarFocused
-    , mainThemeColor
-    , secondaryThemeColor
+    , primaryColor
+    , secondaryColor
     , textColor
   }
 }
@@ -190,7 +190,7 @@ const mapDispatchToProps = (dispatch) => {
     , openSideNav: () => dispatch(openSideNav())
     , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
     , toggleTopBarTitleIsDisabled: isDisabled => dispatch(toggleTopBarTitleIsDisabled(isDisabled))
-    , setThemeColors: params => dispatch(setThemeColors(params))
+    , setGlobalColors: params => dispatch(setGlobalColors(params))
   }
 }
 

@@ -81,21 +81,21 @@ const TimeToComplete = ({ minutes }) => {
   )
 }
 
-const GoButton = ({ lessonTheme }) => {
+const GoButton = ({ colors }) => {
   return (
     <div
-      className={ `map-card-circle ${lessonTheme.name}-arrow-container` }
+      className={ `map-card-circle ${colors.name}-arrow-container` }
       style={ styles.circle }
     >
       <ArrowForward
-        className={ `map-card-arrow ${lessonTheme.name}-arrow` }
+        className={ `map-card-arrow ${colors.name}-arrow` }
         style={ styles.goButton }
       />
     </div>
   )
 }
 
-const LessonCard = ({ style, lesson, lessonTheme }) => {
+const LessonCard = ({ style, lesson, colors }) => {
   return (
     <KiwiLink to={ `/lessons/${ lesson._id }` }>
       <Card
@@ -115,7 +115,7 @@ const LessonCard = ({ style, lesson, lessonTheme }) => {
             <h2
               className='map-card-subject-header'
               style={ {
-                color: lessonTheme.mainThemeColor
+                color: colors.primaryColor
               } }
             >
               Lesson Subject
@@ -125,7 +125,7 @@ const LessonCard = ({ style, lesson, lessonTheme }) => {
           </CardHeader>
           <TimeToComplete minutes={ lesson.minutesToComplete } />
         </div>
-        <GoButton lessonTheme={ lessonTheme } />
+        <GoButton colors={ colors } />
       </Card>
     </KiwiLink>
   )

@@ -6,7 +6,7 @@ import { isEmpty, isEqual, findIndex, cloneDeep } from 'lodash'
 
 import { KiwiLink } from '../common/KiwiLink'
 import { colorOrder, iconOrder } from './assetAssignment'
-import { getManyUserProjects, setThemeColors } from '../actions'
+import { getManyUserProjects, setGlobalColors } from '../actions'
 import ProjectCard from './ProjectCard'
 import NewProjectCard from './NewProjectCard'
 
@@ -70,7 +70,7 @@ class UserProjects extends Component {
 
   static propTypes = {
     getManyUserProjects: T.func
-    , setThemeColors: T.func
+    , setGlobalColors: T.func
     , userProjects: T.array
     , userId: T.string.isRequired
   }
@@ -120,10 +120,10 @@ class UserProjects extends Component {
   }
 
   changeTopBarColor = color => {
-    this.props.setThemeColors({
-      mainThemeColor: color
+    this.props.setGlobalColors({
+      primaryColor: color
       , textColor: '#FFFFFF'
-      , secondaryThemeColor: color
+      , secondaryColor: color
     })
   }
 
@@ -180,7 +180,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getManyUserProjects: params => dispatch(getManyUserProjects(params))
-    , setThemeColors: params => dispatch(setThemeColors(params))
+    , setGlobalColors: params => dispatch(setGlobalColors(params))
   }
 }
 

@@ -12,21 +12,6 @@ import { setupIntegrationTest } from '../../../integrationSetup'
 
 import ApiFetch from '../../../../src/utils/ApiFetch'
 
-jest.mock('react-konva', () => {
-  return {
-    Stage: (props) => <div>{props.children}</div>
-    , Layer: (props) => <div>{props.children}</div>
-    , Circle: (props) => <div>{props.children}</div>
-    , Text: (props) => <div>{props.children}</div>
-    , Path: (props) => <div>{props.children}</div>
-    , Arc: (props) => <div>{props.children}</div>
-    , Line: (props) => <div>{props.children}</div>
-    , Rect: (props) => <div>{props.children}</div>
-    , Label: (props) => <div>{props.children}</div>
-    , Tag: (props) => <div>{props.children}</div>
-  }
-})
-
 export function flushAllPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
@@ -36,8 +21,10 @@ describe('Lessons', () => {
     , chesterAdminUserId = '5a262f3cd799747b257ace41'
     , lesson1, lesson2, lesson3, lesson4
     , userLesson1, userLesson2, userLesson3
+    , themeId1, themeId2
     , lessons
     , userLessons
+    , manyLessonThemes
     , lessonOrder
     , router = {}
     , props = {}
@@ -48,6 +35,7 @@ describe('Lessons', () => {
     , component
 
   beforeEach(() => {
+    themeId1 = 'themeId1'; themeId2 = 'themeId2'
     lesson1 = {
       _id: 'lesson1'
       , isPublished: true
@@ -56,6 +44,7 @@ describe('Lessons', () => {
       , minutesToComplete: 15
       , slides: []
       , updatedAt: "2017-12-08T04:40:08Z"
+      , themeId: themeId1
     }
     lesson2 = {
       _id: 'lesson2'
@@ -65,6 +54,7 @@ describe('Lessons', () => {
       , minutesToComplete: 15
       , slides: []
       , updatedAt: "2017-12-08T04:40:08Z"
+      , themeId: themeId1
     }
     lesson3 = {
       _id: 'lesson3'
@@ -74,6 +64,7 @@ describe('Lessons', () => {
       , minutesToComplete: 15
       , slides: []
       , updatedAt: "2017-12-08T04:40:08Z"
+      , themeId: themeId2
     }
     lesson4 = {
       _id: 'lesson4'
@@ -83,6 +74,7 @@ describe('Lessons', () => {
       , minutesToComplete: 15
       , slides: []
       , updatedAt: "2017-12-08T04:40:08Z"
+      , themeId: themeId2
     }
     lessons = [ lesson1, lesson2, lesson3, lesson4 ]
     userLesson1 = {
@@ -101,6 +93,7 @@ describe('Lessons', () => {
     }
     userLessons = [ userLesson1, userLesson2, userLesson3 ]
     lessonOrder = { order: [ lesson1._id, lesson2._id, lesson3._id, lesson4._id ] }
+    manyLessonThemes = [ { _id: themeId1 }, { _id: themeId2 } ]
     setupStore = () => {
       ({store, dispatchSpy} = setupIntegrationTest(notCombined, router))
       store.dispatch({
@@ -141,6 +134,7 @@ describe('Lessons', () => {
       ApiFetch.mockImplementationOnce(() => Promise.resolve(lessons)) // getManyLessons response
       ApiFetch.mockImplementationOnce(() => Promise.resolve(userLessons)) // getManyUserLessons response
       ApiFetch.mockImplementationOnce(() => Promise.resolve(lessonOrder)) // getLessonOrder response
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(manyLessonThemes)) // getManyLessonThemes response
       component = mountWithStore(props, store) // mount component
       await flushAllPromises() // wait for requests to resolve
       component.update() // update component after having resolved requests

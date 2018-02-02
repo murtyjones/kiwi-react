@@ -4,12 +4,12 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { orderBy, find, findIndex, get, cloneDeep, isEqual, isEmpty } from 'lodash'
 
-import { getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, setThemeColors } from '../actions'
+import { getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, setGlobalColors } from '../actions'
 
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
 import LessonMapBackground from './LessonMapBackground'
-import { LESSON_THEMES } from '../constants'
+import { GLOBAL_COLORS } from '../constants'
 import insertIf from '../utils/insertIf'
 
 const styles = {
@@ -103,7 +103,7 @@ class Lessons extends Component {
       ...find(lessons, { _id: selectedLessonId })
       , order: selectedLessonPosition
     }
-    const themeName = (lessonThemesById[selectedLesson.themeId] || {}).name || ''
+    const themeName = (lessonThemesById[selectedLesson.themeId] || {}).name || 'default'
 
     return [
       <LessonMapBackground key='LessonMapBackground' />
@@ -122,7 +122,7 @@ class Lessons extends Component {
         <LessonCard
           key='LessonCard'
           lesson={ selectedLesson }
-          lessonTheme={ LESSON_THEMES[themeName.toLowerCase()]  }
+          colors={ GLOBAL_COLORS[themeName.toLowerCase()]  }
           style={ styles.lessonCardContainer }
         />
       )
@@ -132,7 +132,7 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth: { userId },lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById }, lessonThemes: { lessonThemesById } } = state
+  const { auth: { userId }, lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById }, lessonThemes: { lessonThemesById } } = state
 
   const userLessons = cloneDeep(Object.values(userLessonsById))
     , lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
@@ -153,7 +153,7 @@ const mapDispatchToProps = (dispatch) => {
     , getLessonOrder: () => dispatch(getLessonOrder())
     , getManyLessonThemes: params => dispatch(getManyLessonThemes(params))
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
-    , setThemeColors: params => dispatch(setThemeColors(params))
+    , setGlobalColors: params => dispatch(setGlobalColors(params))
   }
 }
 

@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 import { getFormValues } from 'redux-form'
 import BluebirdPromise from 'bluebird'
 
-import { postUserLesson, putUserLesson, getManyUserLessons, getLesson, getLessonTheme, setThemeColors } from '../actions'
-import { LESSON_THEMES } from '../constants'
+import { postUserLesson, putUserLesson, getManyUserLessons, getLesson, getLessonTheme, setGlobalColors, setTopBarTitle } from '../actions'
+import { GLOBAL_COLORS } from '../constants'
 import UserLessonWizardForm from './UserLessonWizardForm'
 
 const getLatestCompletedSlide = (lesson, userLesson) => {
@@ -36,6 +36,7 @@ class UserLessonWizard extends Component {
     postUserLesson: T.func.isRequired
     , putUserLesson: T.func.isRequired
     , getManyUserLessons: T.func.isRequired
+    , setTopBarTitle: T.func.isRequired
     , getLesson: T.func.isRequired
     , lesson: T.object.isRequired
     , userId: T.string.isRequired
@@ -58,13 +59,14 @@ class UserLessonWizard extends Component {
       const activeSlideIndex = getLatestCompletedSlide(lesson, userLesson)
       return this.setState({ activeSlideIndex, lessonAndUserLessonReceived: true })
     }
+    if(!lessonIsEmpty) this.props.setTopBarTitle(lesson.title)
   }
 
   componentWillUnmount() {
-    this.props.setThemeColors({
+    this.props.setGlobalColors({
       textColor: '#624F8F'
-      , mainThemeColor: '#FFFFFF'
-      , secondaryThemeColor: '#624F8F'
+      , primaryColor: '#FFFFFF'
+      , secondaryColor: '#624F8F'
       , thirdaryThemeColor: '#624F8F'
     })
   }
@@ -72,7 +74,7 @@ class UserLessonWizard extends Component {
   componentWillReceiveProps(nextProps) {
     const { lesson, userLesson, userId, lessonTheme, match: { params: { id } } } = this.props
     const { lessonAndUserLessonReceived } = this.state
-    const { getManyUserLessons: nextGetManyUserLessons, getLesson: nextGetLesson, getLessonTheme: nexGetLessonTheme, lesson: nextLesson, userLesson: nextUserLesson, lessonTheme: nextLessonTheme, theme: nextTheme, userId: nextUserId, match: { params: { id: nextId } } } = nextProps
+    const { getManyUserLessons: nextGetManyUserLessons, getLesson: nextGetLesson, getLessonTheme: nexGetLessonTheme, lesson: nextLesson, userLesson: nextUserLesson, lessonTheme: nextLessonTheme, globalColors: nextGlobalColors, userId: nextUserId, topBarTitle: nextTopBarTitle, match: { params: { id: nextId } } } = nextProps
       , lessonIdHasChanged = !isEqual(id, nextId)
       , lessonHasChanged = !isEqual(lesson, nextLesson)
       , userLessonHasChanged = !isEqual(userLesson, nextUserLesson)
@@ -80,8 +82,9 @@ class UserLessonWizard extends Component {
       , themeIdHasChanged = !isEqual(nextLessonTheme._id, nextLesson.themeId)
       , lessonWasEmpty = isEmpty(lesson)
       , userLessonWasEmpty = isEmpty(userLesson)
-      , newTheme = LESSON_THEMES[(nextLessonTheme.name || 'neighborhood').toLowerCase()]
-      , themeNeedsChanging = nextTheme.mainThemeColor !== newTheme.mainThemeColor
+      , newGlobalColors = GLOBAL_COLORS[(nextLessonTheme.name || 'default').toLowerCase()]
+      , globalColorsNeedsChanging = nextGlobalColors.primaryColor !== newGlobalColors.primaryColor
+      , titleNeedsSetting = !isEqual(nextTopBarTitle, nextLesson.title)
 
     if(lessonIdHasChanged || userIdHasChanged) {
       nextGetLesson({ id: nextId })
@@ -97,14 +100,16 @@ class UserLessonWizard extends Component {
       this.setState({ activeSlideIndex, lessonAndUserLessonReceived: true })
     }
 
-    if(themeNeedsChanging) this.setTopBarColor(newTheme)
+    if(globalColorsNeedsChanging) this.setTopBarColor(newGlobalColors)
+
+    if(titleNeedsSetting) this.props.setTopBarTitle(nextLesson.title)
   }
 
-  setTopBarColor = newTheme => {
-    this.props.setThemeColors({
-      mainThemeColor: newTheme.mainThemeColor
+  setTopBarColor = newGlobalColors => {
+    this.props.setGlobalColors({
+      primaryColor: newGlobalColors.primaryColor
       , textColor: '#FFFFFF'
-      , secondaryThemeColor: newTheme.mainThemeColor
+      , secondaryColor: newGlobalColors.primaryColor
     })
   }
 
@@ -139,7 +144,7 @@ class UserLessonWizard extends Component {
     })
 
   render() {
-    const { lesson, initialValues, currentValues, lessonTheme, isFetchingUserLessons } = this.props
+    const { lesson, initialValues, currentValues, lessonTheme, isFetchingUserLessons, globalColors } = this.props
     const { activeSlideIndex } = this.state
 
     return !isEmpty(lesson)
@@ -149,6 +154,7 @@ class UserLessonWizard extends Component {
           isFetchingUserLessons={ isFetchingUserLessons }
           lesson={ lesson }
           lessonTheme={ lessonTheme }
+          globalColors={ globalColors }
           initialValues={ initialValues }
           currentValues={ currentValues }
           activeSlideIndex={ activeSlideIndex }
@@ -163,7 +169,14 @@ export const UserLessonWizardComponent = UserLessonWizard
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth: { userId }, lessons: { lessonsById }, userLessons: { userLessonsByLessonId, isFetching }, lessonThemes: { lessonThemesById }, theme } = state
+  const {
+    auth: { userId }
+    , lessons: { lessonsById }
+    , userLessons: { userLessonsByLessonId, isFetching }
+    , lessonThemes: { lessonThemesById }
+    , globalColors
+    , topBar: { topBarTitle }
+  } = state
   const { match: { params: { id } } } = ownProps
 
   let initialValues = { answerData: [], lessonId: id }
@@ -193,7 +206,8 @@ const mapStateToProps = (state, ownProps) => {
     , initialValues
     , currentValues
     , lessonTheme
-    , theme
+    , globalColors
+    , topBarTitle
     , isFetchingUserLessons: isFetching
   }
 }
@@ -205,7 +219,8 @@ const mapDispatchToProps = (dispatch) => {
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
     , getLesson: params => dispatch(getLesson(params))
     , getLessonTheme: params => dispatch(getLessonTheme(params))
-    , setThemeColors: params => dispatch(setThemeColors(params))
+    , setGlobalColors: params => dispatch(setGlobalColors(params))
+    , setTopBarTitle: params => dispatch(setTopBarTitle(params))
   }
 }
 

@@ -73,6 +73,7 @@ const styles = {
     , top: '50%'
     , marginTop: `-${circleSize/2}px`
   },
+  disabledColor: '#CCCCCC',
   themeContainer: {
     height: '100%'
     , width: '100%'
@@ -149,6 +150,7 @@ class UserLessonWizardForm extends Component {
     , activeSlideIndex: T.number.isRequired
     , lesson: T.object.isRequired
     , lessonTheme: T.object.isRequired
+    , globalColors: T.object.isRequired
     , formValues: T.object.isRequired
     , goToNextSlide: T.func.isRequired
     , goToPrevSlide: T.func.isRequired
@@ -283,7 +285,7 @@ class UserLessonWizardForm extends Component {
     />
 
   render() {
-    const { handleSubmit, lessonTheme } = this.props
+    const { handleSubmit, lessonTheme, globalColors } = this.props
         , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
@@ -325,7 +327,8 @@ class UserLessonWizardForm extends Component {
         <KeyboardArrowLeft
           className={ cns('leftArrow', { 'disabled': prevDisabled }) }
           style={ styles.leftArrowStyle }
-          onClick={ (e) => e.preventDefault() && onPrevClick() }
+          color={ prevDisabled ? styles.disabledColor : globalColors.primaryColor }
+          onClick={ e => e.preventDefault() && onPrevClick() }
         />
       </div>
       ,
@@ -339,7 +342,8 @@ class UserLessonWizardForm extends Component {
         <KeyboardArrowRight
           className={ cns('rightArrow', { 'disabled': nextDisabled }) }
           style={ styles.rightArrowStyle }
-          onClick={ (e) => e.preventDefault() && onNextClick() }
+          color={ nextDisabled ? styles.disabledColor : globalColors.primaryColor}
+          onClick={ e => e.preventDefault() && onNextClick() }
         />
       </div>
       ,
