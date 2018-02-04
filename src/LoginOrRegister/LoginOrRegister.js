@@ -71,7 +71,7 @@ class LoginOrRegister extends PureComponent {
         this.props.history.push("/welcome")
       }).catch(e => {
         if(JSON.stringify(e).includes('User already exists')) {
-          throw new SubmissionError({ username: 'Username is already in use!', _error: 'Registration failed!' })
+          throw new SubmissionError({ username: 'Username taken!', _error: 'Registration failed!' })
         }
       })
     } catch (e) {
