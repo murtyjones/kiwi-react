@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { get, findIndex, isEqual, isEmpty, cloneDeep } from 'lodash'
+import { get, find, findIndex, isEqual, isEmpty, cloneDeep } from 'lodash'
 import cns from 'classnames'
 import CircularProgressbar from 'react-circular-progressbar'
 import Check from 'material-ui-icons/Check'
@@ -97,6 +97,7 @@ class MapItems extends PureComponent {
       , statefulMapLessons: props.mapLessons.map(_ => {})
       , applyNextAnimation: false
       , applyJustCompletedAnimation: false
+      , isAnimatingToSelected: false
     }
   }
 
@@ -125,9 +126,9 @@ class MapItems extends PureComponent {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { mapLessons, activeLessonId, lessonJustCompletedId, lessonThemesById } = this.props
+    const { mapLessons, activeLessonId, lessonJustCompletedId, lessonThemesById, selectedLessonId } = this.props
     const { selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, statefulMapLessons } = this.state
-    const { mapLessons: nextMapLessons, activeLessonId: nextActiveLessonId, lessonJustCompletedId: nextLessonJustCompletedId, lessonThemesById: nextLessonThemesById } = nextProps
+    const { mapLessons: nextMapLessons, activeLessonId: nextActiveLessonId, lessonJustCompletedId: nextLessonJustCompletedId, lessonThemesById: nextLessonThemesById, selectedLessonId: nextSelectedLessonId } = nextProps
     const { selectedLessonOrder: nextSelectedLessonOrder, hoveredLessonOrder: nextHoveredLessonOrder, bubbleAvailabilities: nextBubbleAvailabilities, statefulMapLessons: nextStatefulMapLessons } = nextState
     const mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
     const selectedLessonOrderHasChanged = !isEqual(selectedLessonOrder, nextSelectedLessonOrder)
@@ -138,12 +139,22 @@ class MapItems extends PureComponent {
     const activeLessonIdHasChanged = !isEqual(activeLessonId, nextActiveLessonId)
     const lessonJustCompletedIdHasChanged = !isEqual(lessonJustCompletedId, nextLessonJustCompletedId)
     const statefulMapLessonsHasChanged = !isEqual(statefulMapLessons, nextStatefulMapLessons)
+    const selectedLessonIdHasChanged = !isEqual(selectedLessonId, nextSelectedLessonId)
 
     if(needsRemapping || mapLessonsHasChanged || selectedLessonOrderHasChanged || hoveredLessonOrderHasChanged || bubbleAvailabilitiesHasChanged || lessonThemesByIdHasChanged)
       this.setStatefulMapLessons(nextMapLessons, nextSelectedLessonOrder, nextHoveredLessonOrder, nextBubbleAvailabilities, nextLessonThemesById)
-
-    if(activeLessonIdHasChanged || lessonJustCompletedIdHasChanged || statefulMapLessonsHasChanged)
+    if(selectedLessonIdHasChanged)
+      this.goToSelectedLesson(nextSelectedLessonId, nextStatefulMapLessons)
+    else if(!nextState.isAnimatingToSelected && (activeLessonIdHasChanged || lessonJustCompletedIdHasChanged || statefulMapLessonsHasChanged))
       this.goToActiveLesson(nextActiveLessonId, nextStatefulMapLessons, nextLessonJustCompletedId)
+  }
+
+  goToSelectedLesson = async (selectedLessonId, statefulMapLessons) => {
+    await this.setStateAsync({ isAnimatingToSelected: true })
+    const lesson = find(statefulMapLessons, { _id: selectedLessonId })
+    await setTimeoutAsync(100)
+    this.scrollTo(window.innerWidth * get(lesson, 'goToPoint', 0))
+    await this.setStateAsync({ isAnimatingToSelected: false })
   }
 
   goToActiveLesson = async (activeLessonId, statefulMapLessons, lessonJustCompletedId) => {
