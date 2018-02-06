@@ -123,7 +123,12 @@ class LoginOrRegister extends PureComponent {
 
     return (
       <div>
-        <span onClick={ this.switchTabs }>{ switchText }</span>
+        <span
+          className='switchText'
+          onClick={ this.switchTabs }
+        >
+          { switchText }
+        </span>
         <ComponentToRender />
       </div>
     )
