@@ -3,7 +3,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { FlatButton, RaisedButton } from 'material-ui'
 import { Link } from 'react-router-dom'
 
-import { styles, inactiveColor, activeColor } from './sharedStyles'
+import { activeColor, inactiveColor, styles } from './sharedStyles'
 
 import renderTextField from '../common/renderTextField'
 
@@ -11,19 +11,20 @@ class LoginForm extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      usernameHintColorWhite: false
+      usernameFieldActive: false
+      , passwordFieldActive: false
     }
   }
 
-  setUsernameHintColorWhite = bool =>
-    this.setState({ usernameHintColorWhite: bool })
+  setUsernameStatus = bool =>
+    this.setState({ usernameFieldActive: bool })
 
-  setPasswordHintColorWhite = bool =>
-    this.setState({ passwordHintColorWhite: bool })
+  setPasswordStatus = bool =>
+    this.setState({ passwordFieldActive: bool })
 
   render() {
     const { error, handleSubmit, pristine, reset, submitting } = this.props
-    const { usernameHintColorWhite, passwordHintColorWhite } = this.state
+    const { usernameFieldActive, passwordFieldActive } = this.state
     return (
       <form onSubmit={ handleSubmit }>
         <Field
@@ -34,14 +35,15 @@ class LoginForm extends PureComponent {
           hintText={ <div className='username'>username</div> }
           inputStyle={ styles.input }
           style={ styles.field }
-          hintStyle={ {
-            ...styles.hintStyle
-            , color: usernameHintColorWhite ? activeColor : inactiveColor
+          hintStyle={ styles.hintStyle }
+          floatingLabelStyle={ {
+            fontWeight: 'bold'
+            , color: usernameFieldActive ? activeColor : inactiveColor
           } }
           underlineStyle={ styles.underlineStyle }
           underlineFocusStyle={ styles.underlineFocusStyle }
-          onClick={ () => this.setUsernameHintColorWhite(true) }
-          onBlur={ () => this.setUsernameHintColorWhite(false) }
+          onFocus={ () => this.setUsernameStatus(true) }
+          onBlur={ () => this.setUsernameStatus(false) }
         />
         <Field
           name='password'
@@ -51,14 +53,15 @@ class LoginForm extends PureComponent {
           hintText={ <div className='password'>password</div> }
           inputStyle={ styles.input }
           style={ styles.field }
-          hintStyle={ {
-            ...styles.hintStyle
-            , color: passwordHintColorWhite ? activeColor : inactiveColor
+          hintStyle={ styles.hintStyle }
+          floatingLabelStyle={ {
+            fontWeight: 'bold'
+            , color: passwordFieldActive ? activeColor : inactiveColor
           } }
           underlineStyle={ styles.underlineStyle }
           underlineFocusStyle={ styles.underlineFocusStyle }
-          onClick={ () => this.setPasswordHintColorWhite(true) }
-          onBlur={ () => this.setPasswordHintColorWhite(false) }
+          onFocus={ () => this.setPasswordStatus(true) }
+          onBlur={ () => this.setPasswordStatus(false) }
         />
         <div>
           {/*<button*/}

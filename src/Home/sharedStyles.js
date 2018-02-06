@@ -17,6 +17,7 @@ const styles = {
   },
   hintStyle: {
     fontWeight: 'bold'
+    , display: 'none'
   },
   error: {
     display: 'inline-block'
