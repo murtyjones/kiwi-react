@@ -235,8 +235,10 @@ class UserLessonWizardForm extends Component {
   }
 
   renderSlide = ({ fields }) => {
-    // this function should be kept outside the render method! otherwise child components will remount!!!
-    const { activeSlideIndex, lesson } = this.props
+    // this method should be kept outside of
+    // the render method! otherwise child
+    // components will remount on each rendering!
+    const { activeSlideIndex, lesson, globalColors } = this.props
         , { activeSlideObject } = this.state
         , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
 
@@ -248,6 +250,7 @@ class UserLessonWizardForm extends Component {
           component={ ActiveSlideComponent }
           handleCodeSave={ this.handleCodeSave }
           className='lessonWizardFormContent flexZeroOneAuto'
+          globalColors={ globalColors }
           slideData={ activeSlideObject }
           setToViewed={ () => this.setToViewed(name) }
         />
@@ -343,7 +346,7 @@ class UserLessonWizardForm extends Component {
         <KeyboardArrowRight
           className={ cns('rightArrow', { 'disabled': nextDisabled }) }
           style={ styles.rightArrowStyle }
-          color={ nextDisabled ? styles.disabledColor : globalColors.primaryColor}
+          color={ nextDisabled ? styles.disabledColor : globalColors.primaryColor }
           onClick={ e => e.preventDefault() && onNextClick() }
         />
       </div>

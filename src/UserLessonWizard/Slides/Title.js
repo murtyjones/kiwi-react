@@ -21,14 +21,12 @@ const styles = {
   },
   title: {
     textAlign: 'center'
-    , color: '#503D79'
     , fontWeight: 'bold'
     , fontSize: '20pt'
     , fontFamily: 'Arvo'
   },
   subtitle: {
     textAlign: 'center'
-    , color: '#503D79'
     , fontSize: '15pt'
     , marginBottom: '20px'
     , fontFamily: 'Arvo'
@@ -68,7 +66,8 @@ class Title extends PureComponent {
   }
 
   render() {
-    const { slideData, className } = this.props
+    const { slideData, className, globalColors } = this.props
+
     return (
       <div className={ className } style={ styles.container }>
         <div
@@ -87,14 +86,20 @@ class Title extends PureComponent {
           <div
             key='title'
             id='title'
-            style={ styles.title }
+            style={ {
+              ...styles.title
+              , color: globalColors.primaryColor
+            } }
           >
             { slideData.title }
           </div>
           <div
             key='subtitle'
             id='subtitle'
-            style={ styles.subtitle }
+            style={ {
+              ...styles.subtitle
+              , color: globalColors.primaryColor
+            } }
           >
             { slideData.subtitle }
           </div>
