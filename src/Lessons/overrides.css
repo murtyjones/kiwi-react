@@ -111,12 +111,12 @@
     outline: none;
     padding: calc(1.2vw);
     transition: .3s all ease;
-    box-shadow: rgba(0,0,0,0.4) 2px 2px 8px 0px;
+    box-shadow: rgba(0,0,0,0.4) 2px 2px 8px 0;
 }
 .map-bubble:hover{
     transform: scale(1.2);
     transition: .3s all cubic-bezier(0, 1.07, 0.78, 2.39);
-    box-shadow: rgba(0,0,0,0.4) 3px 3px 8px 0px;
+    box-shadow: rgba(0,0,0,0.4) 3px 3px 8px 0;
 }
 
 .map-bubble-container:hover .map-bubble-label h2 {
@@ -132,7 +132,7 @@
     font-family: 'Roboto', serif;
     font-weight: 600;
     font-size: calc(2.0vw);
-    margin: 0px;
+    margin: 0;
     /*padding: 15px;*/
     color: #fff;
     /*border: #9575C9 solid 3px;*/
@@ -146,15 +146,15 @@
 .map-bubble-label {
     position: absolute;
     display: flex;
-    top: 0px;
+    top: 0;
     align-items: center;
-    margin: 0px;
+    margin: 0;
     width: max-content;
     height: 100%;
     overflow: hidden;
 }
 .map-bubble-label h2 {
-    margin: 0px;
+    margin: 0;
     text-transform: uppercase;
     font-size: 1vw;
     letter-spacing: 3px;
