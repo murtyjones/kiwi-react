@@ -36,7 +36,7 @@
     color: #DDDDDD !important;
 }
 
-.map-card:hover .map-card-arrow, {
+.map-card:hover .map-card-arrow {
     width: calc(50px * 1.1) !important;;
     height: calc(50px * 1.1) !important;;
     margin-top: calc(-25px * 1.1);

@@ -48,7 +48,7 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
       , completionPercentage = get(lesson, 'userLesson.trueCompletionPercentage', 0)
       , bubbleAvailability = bubbleAvailabilities[i]
-      , isAvailable = bubbleAvailability === bubbleStates.AVAILABLE
+      , isAvailable = hasBeenCompleted || bubbleAvailability === bubbleStates.AVAILABLE
       , message = isAvailable ? lesson.title : 'Locked!'
       , lessonThemeName = get(lessonThemesById, `${lesson.themeId}.name`, '').toLowerCase()
       , lessonTheme = GLOBAL_COLORS[lessonThemeName]
@@ -290,8 +290,11 @@ class MapItems extends PureComponent {
               style={ { backgroundColor: lessonTheme.primaryColor } }
             >
               <h1
-                className={cns({'done': hasBeenCompleted || !isAvailable})}
-                style={ { opacity: isAvailable ? 100 : 0 } }
+                //className={ cns({'done': hasBeenCompleted || !isAvailable}) }
+                style={ {
+                  opacity: isAvailable ? 100 : 0
+                  , color: hasBeenCompleted || !isAvailable ? lessonTheme.quaternaryColor : '#FFFFFF'
+                } }
               >
                 { order }
               </h1>
