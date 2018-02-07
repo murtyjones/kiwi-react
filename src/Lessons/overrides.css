@@ -66,10 +66,6 @@
     background-size: 110%;
 }
 
-.done {
-    color: #543e80 !important;
-}
-
 .lesson-progress {
     transition: .3s all ease;
     position: absolute;

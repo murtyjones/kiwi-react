@@ -290,7 +290,6 @@ class MapItems extends PureComponent {
               style={ { backgroundColor: lessonTheme.primaryColor } }
             >
               <h1
-                //className={ cns({'done': hasBeenCompleted || !isAvailable}) }
                 style={ {
                   opacity: isAvailable ? 100 : 0
                   , color: hasBeenCompleted || !isAvailable ? lessonTheme.quaternaryColor : '#FFFFFF'
