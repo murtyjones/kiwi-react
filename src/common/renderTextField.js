@@ -4,7 +4,7 @@ import { TextField } from 'material-ui'
 const errorColor = '#FF5472'
 const floatingStyleDefault = { color: '#CCCCCC' }
 
-const renderTextField = ({ showLabelAbove = true, input, label, type, meta: { touched, error }, ...rest }) =>
+const renderTextField = ({ showLabelAbove = true, includeFloatingLabel = true, input, label, type, meta: { touched, error }, ...rest }) =>
   <div>
     <label>
       { label }
@@ -15,9 +15,10 @@ const renderTextField = ({ showLabelAbove = true, input, label, type, meta: { to
         type={ type }
         { ...rest }
         floatingLabelText={
-          <span style={ rest.floatingLabelStyle || floatingStyleDefault }>
-            { rest.hintText }
-          </span>
+          includeFloatingLabel &&
+            <span style={ rest.floatingLabelStyle || floatingStyleDefault }>
+              { rest.hintText }
+            </span>
         }
       />
       { touched && error && <span style={ { color: errorColor } }>{ error }</span> }

@@ -20,7 +20,13 @@ const styles = {
 
 const renderPasswordField = ({ attemptsRemaining, guessFailed, /*<-- to silence react warnings*/ ...props }) =>
   <div style={ styles.container }>
-    { renderTextField({ ...props, underlineShow: false, style: styles.textField }) }
+    { renderTextField({
+      ...props
+      , underlineShow: false
+      , includeFloatingLabel: false
+      , type: 'password'
+      , style: styles.textField
+    }) }
   </div>
 
 

@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Transition from 'react-transition-group'
 
-import { checkPasswordRecoveryCorrectness, resetPassword, openSideNav, closeSideNav, openTopBar, closeTopBar } from '../actions'
+import { checkPasswordRecoveryCorrectness, resetPassword, openSideNav, closeSideNav, openTopBar, closeTopBar, login } from '../actions'
 import ForgotPasswordWizardForm  from './ForgotPasswordWizardForm'
 import slides from './slides'
 
@@ -49,6 +49,15 @@ class ForgotPasswordWizard extends Component {
     }
   }
 
+  handleResetPassword = async (response, v) => {
+    try {
+      const success = await this.props.login({ username: v.username, password: v.password })
+      this.props.history.push("/lessons")
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
   handleSubmit = async (v) => {
     const { activeSlideIndex: i, recoveryCode } = this.state
     const actionType = slides[i].action
@@ -57,17 +66,17 @@ class ForgotPasswordWizard extends Component {
     if(actionType) {
       const success = await this.props[actionType](params)
       const successHandlerType = slides[i].handleSuccessMethod
-      if(successHandlerType) this[successHandlerType](success)
+      if(successHandlerType) this[successHandlerType](success, v)
     }
-    if(slides.length - 1 === i) this.props.history.push("/lessons")
+    //if(slides.length - 1 === i) this.props.history.push("/lessons")
   }
 
   goToNextSlide = () =>
-    this.setState({ activeSlideIndex: this.state.activeSlideIndex + 1 })
+    this.state.activeSlideIndex !== slides.length - 1 && this.setState({ activeSlideIndex: this.state.activeSlideIndex + 1 })
 
 
   goToPrevSlide = () =>
-    this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
+    this.state.activeSlideIndex !== 0 && this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
 
   render() {
     const { activeSlideIndex, attemptsRemaining, guessFailed } = this.state
@@ -96,6 +105,7 @@ const mapDispatchToProps = (dispatch) => {
     , closeTopBar: () => dispatch(closeTopBar())
     , checkPasswordRecoveryCorrectness: params => dispatch(checkPasswordRecoveryCorrectness(params))
     , resetPassword: params => dispatch(resetPassword(params))
+    , login: params => dispatch(login(params))
   }
 }
 

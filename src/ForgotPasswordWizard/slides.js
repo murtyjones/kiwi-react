@@ -25,6 +25,7 @@ const slides = [
     , fieldName: 'password'
     , fieldType: Field
     , action: 'resetPassword'
+    , handleSuccessMethod: 'handleResetPassword'
   }
 ]
 
