@@ -68,7 +68,6 @@ class ForgotPasswordWizard extends Component {
       const successHandlerType = slides[i].handleSuccessMethod
       if(successHandlerType) this[successHandlerType](success, v)
     }
-    //if(slides.length - 1 === i) this.props.history.push("/lessons")
   }
 
   goToNextSlide = () =>
