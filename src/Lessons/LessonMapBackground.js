@@ -32,7 +32,7 @@ const styles = {
       , display: 'table'
       , paddingBottom: '150px'
       , position: 'relative'
-      , background: `#A5CC83 url('http://res.cloudinary.com/kiwi-stage/image/upload/v1515428912/map-houses-pattern_kq8obi.svg')`
+      , background: `#A5CC83 url(${themeAssetLinks.neighborhood.pattern})`
       , backgroundSize: '3vw'
     }
     , topLeft: {
