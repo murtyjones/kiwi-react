@@ -41,6 +41,7 @@ import SideNav from './SideNav/SideNav'
 import TopBar from './TopBar/TopBar'
 import SignOut from './SignOut/SignOut'
 import ForgotPasswordWizard from './ForgotPasswordWizard/ForgotPasswordWizard'
+import StandaloneEditor from './StandaloneEditor/StandaloneEditor'
 
 
 
@@ -109,11 +110,14 @@ class App extends Component {
             handleTitleChange={ setTopBarTitle }
             toggleSideNav={ this.toggleSideNav }
           />
-          <div className={ cns('baseAppStyles') } style={{
-            ...baseAppStyle
-            , top: topBarWidthString
+          <div
+            className={ cns('baseAppStyles') }
+            style={ {
+              ...baseAppStyle
+              , top: topBarWidthString
+              }
             }
-          }>
+          >
             <div style={ nonMenuStyle }>
               <Switch>
                 {/* ----------------- */}
@@ -130,6 +134,7 @@ class App extends Component {
                 <Route path='/register' exact component={ LoginOrRegister } />
                 <Route path='/signout' exact component={ SignOut } />
                 <Route path='/password' exact component={ ForgotPasswordWizard } />
+                <Route path='/python' exact component={ StandaloneEditor } />
                 {/* ----------------- */}
                 {/* Logged in routes  */}
                 {/* ----------------- */}
