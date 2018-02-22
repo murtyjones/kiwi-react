@@ -2,6 +2,10 @@ import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import { Drawer, Menu, MenuItem, Subheader, Divider } from 'material-ui'
 import Circle from 'material-ui-icons/FiberManualRecord'
+import Map from 'material-ui-icons/Map'
+import Work from 'material-ui-icons/Work'
+import PowerSettingsNew from 'material-ui-icons/PowerSettingsNew'
+import Description from 'material-ui-icons/Description'
 import { KiwiLink } from "../common/KiwiLink"
 
 const p = 20
@@ -9,17 +13,19 @@ const p = 20
 const styles = {
   header: {
     backgroundColor: '#808080'
-    , height: '200px'
+    , height: '90px'
     , width: '100%'
     , paddingTop: `${p}px`
     , position: 'relative'
   },
   logo: {
-    backgroundColor: '#FFFFFF'
-    , height: '70px'
+    height: '60px'
     , width: `${256 - (p*2)}px`
     , margin: 'auto'
-  },
+    , backgroundImage: 'url(../../assets/images/landing-logo.svg)'
+    , backgroundRepeat: 'no-repeat'
+    , backgroundPosition: 'center'
+},
   menu: {
     paddingTop: 0
     , width: '256px'
@@ -79,15 +85,15 @@ class SideNav extends PureComponent {
         <Menu style={ styles.menu } listStyle={ styles.menu } autoWidth={ false }>
           <div style={ { ...styles.header,  backgroundColor: secondaryColor } }>
             <div style={ styles.logo } />
-            <MenuItem
-              key={ 'name' }
-              style={ { color: '#FFFFFF', ...styles.menuItem, ...styles.menuItemBottom } }
-              leftIcon={
-                <Circle style={ styles.circle } color={ 'white' } viewBox={ '4 4 16 16' } />
-              }
-              primaryText={ 'First name' }
-              onClick={ toggleSideNav }
-            />
+            {/*<MenuItem*/}
+              {/*key={ 'name' }*/}
+              {/*style={ { color: '#FFFFFF', ...styles.menuItem, ...styles.menuItemBottom } }*/}
+              {/*leftIcon={*/}
+                {/*<Circle style={ styles.circle } color={ 'white' } viewBox={ '4 4 16 16' } />*/}
+              {/*}*/}
+              {/*primaryText={ 'First name' }*/}
+              {/*onClick={ toggleSideNav }*/}
+            {/*/>*/}
           </div>
           <div style={ styles.body }>
             <KiwiLink to='/lessons'>
@@ -95,7 +101,7 @@ class SideNav extends PureComponent {
                 key={ 'lessons' }
                 style={ styles.menuItem }
                 leftIcon={
-                  <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                  <Map style={ styles.circle } color={ secondaryColor } viewBox={ '1 1 21 21' } />
                 }
                 primaryText={ 'Lessons' }
                 onClick={ toggleSideNav }
@@ -106,7 +112,7 @@ class SideNav extends PureComponent {
                 key={ 'projects' }
                 style={ styles.menuItem }
                 leftIcon={
-                  <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                  <Work style={ styles.circle } color={ secondaryColor } viewBox={ '1 1 21 21' } />
                 }
                 primaryText={ 'Projects' }
                 onClick={ toggleSideNav }
@@ -131,7 +137,7 @@ class SideNav extends PureComponent {
                     key={ 'admin/lessons' }
                     style={ styles.menuItem }
                     leftIcon={
-                      <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                      <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
                     }
                     primaryText={ 'Add/Edit Lessons' }
                     onClick={ toggleSideNav }
@@ -146,7 +152,7 @@ class SideNav extends PureComponent {
                     key={ 'admin/lessons/themes' }
                     style={ styles.menuItem }
                     leftIcon={
-                      <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                      <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
                     }
                     primaryText={ 'Add/Edit Themes' }
                     onClick={ toggleSideNav }
@@ -160,7 +166,7 @@ class SideNav extends PureComponent {
                   key={ 'signout' }
                   style={ { color: '#000000', ...styles.menuItem, ...styles.menuItemBottomUp } }
                   leftIcon={
-                    <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                    <PowerSettingsNew style={ styles.circle } color={ secondaryColor } viewBox={ '1 1 21 21' } />
                   }
                   primaryText={ 'Sign out' }
                 />
@@ -171,7 +177,7 @@ class SideNav extends PureComponent {
                 key={ 'legal' }
                 style={ { color: '#000000', ...styles.menuItem, ...styles.menuItemBottom } }
                 leftIcon={
-                  <Circle style={ styles.circle } color={ '#CCCCCC' } viewBox={ '4 4 16 16' } />
+                  <Description style={ styles.circle } color={ secondaryColor } viewBox={ '1 1 21 21' } />
                 }
                 primaryText={ 'Legal' }
               />
