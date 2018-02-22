@@ -50,7 +50,7 @@ const styles = {
   },
   salesH1: {
     textAlign: 'center'
-    , fontSize: 'calc(10px + 3.6vw)'
+    , fontSize: 'calc(10px + 2.3vw)'
     , fontWeight: 'bold'
     , padding: '0 20%'
   },
@@ -282,7 +282,7 @@ class Home extends Component {
                   color={ styles.bulletPointIconColor }
                 />
                 <div style={ styles.bulletPointText }>
-                  Lorem ipsum dolor sit amet consectetuer.
+                  Start your student with foundational coding concepts
                 </div>
               </div>
 
@@ -293,7 +293,7 @@ class Home extends Component {
                   color={ styles.bulletPointIconColor }
                 />
                 <div style={ styles.bulletPointText }>
-                  Lorem ipsum dolor sit amet consectetuer.
+                  All concepts and lessons geared towards middle school
                 </div>
               </div>
 
@@ -304,7 +304,7 @@ class Home extends Component {
                   color={ styles.bulletPointIconColor }
                 />
                 <div style={ styles.bulletPointText }>
-                  Lorem ipsum dolor sit amet consectetuer.
+                  Includes independent projects to practice coding concepts
                 </div>
               </div>
 
