@@ -67,8 +67,8 @@ const styles = {
   sellingPointBody: {
     textAlign: 'center'
     , fontSize: 'calc(10px + 0.4vw)'
-    , color: '#818181'
-    , fontFamily: 'helvetica'
+    //, color: '#818181'
+    // , fontFamily: 'helvetica'
   },
   sellingPointIcon: {
     height: '8vw'
@@ -238,7 +238,9 @@ class Home extends Component {
 
         <div key='homePageTwo' style={ styles.homePageTwo }>
           <div key='salesBox' style={ styles.salesBox }>
-            <h1 style={ styles.salesH1 }>Lorem ipsum dolor sit amet consectetuer</h1>
+            <h1 style={ styles.salesH1 }>
+              The Path to Python: Every kid needs the opportunity to code.
+            </h1>
 
             <div className='sellingPointContainer' style={ styles.sellingPointContainer }>
               <CropSquare
@@ -246,8 +248,8 @@ class Home extends Component {
                 style={ styles.sellingPointIcon }
                 color={ styles.sellingPointIconColor }
               />
-              <div style={ styles.sellingPointHeader }>Lorem ipsum.</div>
-              <div style={ styles.sellingPointBody }>Lorem ipsum doret sit amet.</div>
+              <div style={ styles.sellingPointHeader }>Kid-Friendly</div>
+              <div style={ styles.sellingPointBody }>to make coding simple</div>
             </div>
 
             <div className='sellingPointContainer' style={ styles.sellingPointContainer }>
@@ -256,8 +258,8 @@ class Home extends Component {
                 style={ styles.sellingPointIcon }
                 color={ styles.sellingPointIconColor }
               />
-              <div style={ styles.sellingPointHeader }>Lorem ipsum.</div>
-              <div style={ styles.sellingPointBody }>Lorem ipsum doret sit amet.</div>
+              <div style={ styles.sellingPointHeader }>Accessible</div>
+              <div style={ styles.sellingPointBody }>from any computer</div>
             </div>
 
             <div className='sellingPointContainer' style={ styles.sellingPointContainer }>
@@ -265,8 +267,8 @@ class Home extends Component {
                 style={ styles.sellingPointIcon }
                 color={ styles.sellingPointIconColor }
               />
-              <div style={ styles.sellingPointHeader }>Lorem ipsum.</div>
-              <div style={ styles.sellingPointBody }>Lorem ipsum doret sit amet.</div>
+              <div style={ styles.sellingPointHeader }>Free</div>
+              <div style={ styles.sellingPointBody }>for all kids</div>
             </div>
 
             <div style={ styles.laptopImage } />
