@@ -7,6 +7,9 @@ import { GridList, GridTile } from 'material-ui'
 import { Drawer, Menu, MenuItem, Subheader, Divider } from 'material-ui'
 import CropSquare from 'material-ui-icons/CropSquare'
 import Add from 'material-ui-icons/Add'
+import Extension from 'material-ui-icons/Extension'
+import LaptopMac from 'material-ui-icons/LaptopMac'
+import MonetizationOn from 'material-ui-icons/MonetizationOn'
 
 
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } from '../actions'
@@ -243,7 +246,7 @@ class Home extends Component {
             </h1>
 
             <div className='sellingPointContainer' style={ styles.sellingPointContainer }>
-              <CropSquare
+              <Extension
                 className='sellingPointIcon'
                 style={ styles.sellingPointIcon }
                 color={ styles.sellingPointIconColor }
@@ -253,7 +256,7 @@ class Home extends Component {
             </div>
 
             <div className='sellingPointContainer' style={ styles.sellingPointContainer }>
-              <CropSquare
+              <LaptopMac
                 className='sellingPointIcon'
                 style={ styles.sellingPointIcon }
                 color={ styles.sellingPointIconColor }
@@ -263,7 +266,7 @@ class Home extends Component {
             </div>
 
             <div className='sellingPointContainer' style={ styles.sellingPointContainer }>
-              <CropSquare
+              <MonetizationOn
                 style={ styles.sellingPointIcon }
                 color={ styles.sellingPointIconColor }
               />
