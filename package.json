@@ -10,6 +10,7 @@
     "lint": "./node_modules/.bin/gulp lint",
     "deploy": "./node_modules/.bin/gulp deploy --env local",
     "build": "./node_modules/.bin/gulp build",
+    "build:dev": "./node_modules/.bin/gulp build:dev",
     "postinstall": "npm rebuild node-sass",
     "test": "jest",
     "minify-svg": "./node_modules/.bin/svgo",
