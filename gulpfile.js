@@ -12,7 +12,8 @@ const historyApiFallback = require('connect-history-api-fallback')
 const del = require('del')
 
 
-const webpackConfig = require('./webpack/webpack.config.local.js')
+const webpackLocalConfig = require('./webpack/webpack.config.local.js')
+const webpackDevConfig = require('./webpack/webpack.config.dev.js')
 const webpackProdConfig = require('./webpack/webpack.config.prod.js')
 
 const browserSync = require('browser-sync').create()
@@ -45,14 +46,14 @@ gulp.task('default', [], () => {
       }))
   })
 
-  const myWebpack = webpack(webpackConfig)
+  const myWebpack = webpack(webpackLocalConfig)
   browserSync.init({
     server: {
       baseDir: './',
       middleware: [
         historyApiFallback(),
         webpackDevMiddleware(myWebpack, {
-          publicPath: webpackConfig.output.publicPath,
+          publicPath: webpackLocalConfig.output.publicPath,
           stats: {
             modules: false,
             chunks: false,
@@ -139,7 +140,7 @@ gulp.task("webpack:build", function(callback) {
 
 gulp.task("webpack:build:dev", function(callback) {
   // modify some webpack config options
-  const myConfig = Object.create(webpackConfig);
+  const myConfig = Object.create(webpackDevConfig);
 
   // run webpack
   webpack(myConfig, function(err, stats) {
