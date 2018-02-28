@@ -8,7 +8,7 @@ const usernameAvailability = (values/*, dispatch*/) => {
     method: 'GET'
   }
 
-  return ApiFetch(`${config.api}/api/usernames/${values.username}`, options)
+  return ApiFetch(`${config.api}/usernames/${values.username}`, options)
   .then(result => {
     if(result.isUsernameReserved)
       throw { username: 'Username is taken!' }

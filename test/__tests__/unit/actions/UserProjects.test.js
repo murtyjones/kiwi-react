@@ -37,7 +37,7 @@ describe('UserProject Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/userprojects`
+      const expectedUrl = `${config.api}/user-projects`
       const expectedBody = {
         method: "GET"
       }
@@ -48,7 +48,7 @@ describe('UserProject Themes Actions', () => {
 
     it('should include query params if included in request', async () => {
       const params = { userId: '123' }
-      const expectedUrl = `${config.api}/api/userprojects?userId=${params.userId}`
+      const expectedUrl = `${config.api}/user-projects?userId=${params.userId}`
       const expectedBody = {
         method: "GET"
       }
@@ -111,7 +111,7 @@ describe('UserProject Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/userprojects/${params.id}`
+      const expectedUrl = `${config.api}/user-projects/${params.id}`
       const expectedBody = {
         method: "GET"
       }
@@ -175,7 +175,7 @@ describe('UserProject Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/userprojects/${params.id}`
+      const expectedUrl = `${config.api}/user-projects/${params.id}`
       const expectedBody = {
         method: "PUT"
         , body: params
@@ -240,7 +240,7 @@ describe('UserProject Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/userprojects`
+      const expectedUrl = `${config.api}/user-projects`
       const expectedBody = {
         method: "POST"
         , body: params

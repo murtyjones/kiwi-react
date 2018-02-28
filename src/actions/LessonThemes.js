@@ -8,7 +8,7 @@ export const getManyLessonThemes = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_MANY_LESSON_THEMES_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/themes`, options)
+    return ApiFetch(`${config.api}/lesson-themes`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_MANY_LESSON_THEMES_SUCCESS, payload: res })
         return res
@@ -26,7 +26,7 @@ export const deleteLessonTheme = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.DELETE_LESSON_THEME_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/themes/${id}`, options)
+    return ApiFetch(`${config.api}/lesson-themes/${id}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.DELETE_LESSON_THEME_SUCCESS, payload: res})
         return res
@@ -44,7 +44,7 @@ export const getLessonTheme = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_LESSON_THEME_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/themes/${id}`, options)
+    return ApiFetch(`${config.api}/lesson-themes/${id}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_LESSON_THEME_SUCCESS, payload: res })
         return res
@@ -63,7 +63,7 @@ export const putLessonTheme = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.PUT_LESSON_THEME_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/themes/${id}`, options)
+    return ApiFetch(`${config.api}/lesson-themes/${id}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.PUT_LESSON_THEME_SUCCESS, payload: res})
         return res
@@ -81,7 +81,7 @@ export const postLessonTheme = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.POST_LESSON_THEME_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/themes`, options)
+    return ApiFetch(`${config.api}/lesson-themes`, options)
       .then(res => {
         dispatch({ type: ACTIONS.POST_LESSON_THEME_SUCCESS, payload: res })
         return res

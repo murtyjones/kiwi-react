@@ -10,7 +10,7 @@ export const getManyUserProjects = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_MANY_USER_PROJECTS_REQUEST })
-    return ApiFetch(`${config.api}/api/userprojects${query}`, options)
+    return ApiFetch(`${config.api}/user-projects${query}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_MANY_USER_PROJECTS_SUCCESS, payload: res })
       return res
@@ -28,7 +28,7 @@ export const getUserProject = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_USER_PROJECT_REQUEST })
-    return ApiFetch(`${config.api}/api/userprojects/${id}`, options)
+    return ApiFetch(`${config.api}/user-projects/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_USER_PROJECT_SUCCESS, payload: res })
       return res
@@ -47,7 +47,7 @@ export const putUserProject = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.PUT_USER_PROJECT_REQUEST })
-    return ApiFetch(`${config.api}/api/userprojects/${id}`, options)
+    return ApiFetch(`${config.api}/user-projects/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.PUT_USER_PROJECT_SUCCESS, payload: res})
       return res
@@ -65,7 +65,7 @@ export const postUserProject = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.POST_USER_PROJECT_REQUEST })
-    return ApiFetch(`${config.api}/api/userprojects`, options)
+    return ApiFetch(`${config.api}/user-projects`, options)
     .then(res => {
       dispatch({ type: ACTIONS.POST_USER_PROJECT_SUCCESS, payload: res })
       return res

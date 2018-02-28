@@ -37,7 +37,7 @@ describe('Lesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/lessons/themes`
+      const expectedUrl = `${config.api}/lesson-themes`
       const expectedBody = {
         method: "GET"
       }
@@ -101,7 +101,7 @@ describe('Lesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/lessons/themes/${params.id}`
+      const expectedUrl = `${config.api}/lesson-themes/${params.id}`
       const expectedBody = {
         method: "DELETE"
       }
@@ -165,7 +165,7 @@ describe('Lesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/lessons/themes/${params.id}`
+      const expectedUrl = `${config.api}/lesson-themes/${params.id}`
       const expectedBody = {
         method: "GET"
       }
@@ -229,7 +229,7 @@ describe('Lesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/lessons/themes/${params.id}`
+      const expectedUrl = `${config.api}/lesson-themes/${params.id}`
       const expectedBody = {
         method: "PUT"
         , body: params
@@ -294,7 +294,7 @@ describe('Lesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/lessons/themes`
+      const expectedUrl = `${config.api}/lesson-themes`
       const expectedBody = {
         method: "POST"
         , body: params

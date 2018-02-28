@@ -33,7 +33,7 @@ describe('Lesson Metadata Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/lessons/order`
+      const expectedUrl = `${config.api}/lesson-order`
       const expectedBody = {
         method: "GET"
       }
@@ -95,7 +95,7 @@ describe('Lesson Metadata Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/lessons/order`
+      const expectedUrl = `${config.api}/lesson-order`
       const expectedBody = {
         body: params
         , method: "PUT"

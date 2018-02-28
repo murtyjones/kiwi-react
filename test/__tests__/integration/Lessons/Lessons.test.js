@@ -167,11 +167,11 @@ describe('Lessons', () => {
       })
 
       it('should call ApiFetch with expected params', () => {
-        expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/api/lessons`)
+        expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/lessons`)
         expect(ApiFetch.mock.calls[0][1]).toEqual({ method: "GET" })
-        expect(ApiFetch.mock.calls[1][0]).toBe(`http://localhost:8080/api/userlessons?userId=${chesterAdminUserId}`)
+        expect(ApiFetch.mock.calls[1][0]).toBe(`http://localhost:8080/user-lessons?userId=${chesterAdminUserId}`)
         expect(ApiFetch.mock.calls[1][1]).toEqual({ method: "GET" })
-        expect(ApiFetch.mock.calls[2][0]).toBe(`http://localhost:8080/api/lessons/order`)
+        expect(ApiFetch.mock.calls[2][0]).toBe(`http://localhost:8080/lesson-order`)
         expect(ApiFetch.mock.calls[2][1]).toEqual({ method: "GET" })
       })
 

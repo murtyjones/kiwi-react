@@ -28,7 +28,7 @@ export const register = (params) => {
       method: 'POST',
       body: { username, password }
     }
-    return ApiFetch(`${config.api}/api/register`, params)
+    return ApiFetch(`${config.api}/register`, params)
     .then(success => {
       dispatch({ type: ACTIONS.REGISTER_SUCCESS, payload: success })
       return success
@@ -68,7 +68,7 @@ export const upsertPasswordRecoveryImages = (params) => {
       method: 'PUT',
       body: { images }
     }
-    return ApiFetch(`${config.api}/api/user/recovery/${username}`, params)
+    return ApiFetch(`${config.api}/password/change-recovery/${username}`, params)
       .then(success => {
         dispatch({ type: ACTIONS.UPSERT_PASSWORD_RECOVERY_SUCCESS, payload: success })
         return success
@@ -88,7 +88,7 @@ export const checkPasswordRecoveryCorrectness = (params) => {
       method: 'POST',
       body: params
     }
-    return ApiFetch(`${config.api}/api/user/recovery/${username}`, options)
+    return ApiFetch(`${config.api}/password/check-recovery/${username}`, options)
       .then(success => {
         dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_SUCCESS, payload: success })
         return success
@@ -108,7 +108,7 @@ export const resetPassword = params => {
       method: 'POST',
       body: { password, recoveryCode }
     }
-    return ApiFetch(`${config.api}/api/user/password/${username}`, options)
+    return ApiFetch(`${config.api}/password/change/${username}`, options)
       .then(success => {
         dispatch({ type: ACTIONS.RESET_PASSWORD_SUCCESS, payload: success })
         return success

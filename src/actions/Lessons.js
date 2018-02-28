@@ -8,7 +8,7 @@ export const getManyLessons = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_MANY_LESSONS_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons`, options)
+    return ApiFetch(`${config.api}/lessons`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_MANY_LESSONS_SUCCESS, payload: res })
       return res
@@ -26,7 +26,7 @@ export const deleteLesson = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.DELETE_LESSON_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/${id}`, options)
+    return ApiFetch(`${config.api}/lessons/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.DELETE_LESSON_SUCCESS, payload: res})
       return res
@@ -44,7 +44,7 @@ export const getLesson = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_LESSON_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/${id}`, options)
+    return ApiFetch(`${config.api}/lessons/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_LESSON_SUCCESS, payload: res })
       return res
@@ -63,7 +63,7 @@ export const putLesson = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.PUT_LESSON_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/${id}`, options)
+    return ApiFetch(`${config.api}/lessons/${id}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.PUT_LESSON_SUCCESS, payload: res})
       return res
@@ -81,7 +81,7 @@ export const postLesson = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.POST_LESSON_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons`, options)
+    return ApiFetch(`${config.api}/lessons`, options)
     .then(res => {
       dispatch({ type: ACTIONS.POST_LESSON_SUCCESS, payload: res })
       return res

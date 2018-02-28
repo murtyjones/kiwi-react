@@ -9,7 +9,7 @@ export const getLessonOrder = () => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_LESSON_ORDER_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/order`, options)
+    return ApiFetch(`${config.api}/lesson-order`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_LESSON_ORDER_SUCCESS, payload: res })
       return res
@@ -28,7 +28,7 @@ export const putLessonOrder = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.PUT_LESSON_ORDER_REQUEST })
-    return ApiFetch(`${config.api}/api/lessons/order`, options)
+    return ApiFetch(`${config.api}/lesson-order`, options)
     .then(res => {
       dispatch({ type: ACTIONS.PUT_LESSON_ORDER_SUCCESS, payload: res})
       return res

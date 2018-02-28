@@ -10,7 +10,7 @@ export const getManyUserLessons = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_MANY_USER_LESSONS_REQUEST })
-    return ApiFetch(`${config.api}/api/userlessons${query}`, options)
+    return ApiFetch(`${config.api}/user-lessons${query}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_MANY_USER_LESSONS_SUCCESS, payload: res })
         return res
@@ -28,7 +28,7 @@ export const getUserLesson = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_USER_LESSON_REQUEST })
-    return ApiFetch(`${config.api}/api/userlessons/${id}`, options)
+    return ApiFetch(`${config.api}/user-lessons/${id}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_USER_LESSON_SUCCESS, payload: res })
         return res
@@ -47,7 +47,7 @@ export const putUserLesson = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.PUT_USER_LESSON_REQUEST })
-    return ApiFetch(`${config.api}/api/userlessons/${id}`, options)
+    return ApiFetch(`${config.api}/user-lessons/${id}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.PUT_USER_LESSON_SUCCESS, payload: res })
         return res
@@ -65,7 +65,7 @@ export const postUserLesson = (params) => {
   }
   return dispatch => {
     dispatch({ type: ACTIONS.POST_USER_LESSON_REQUEST })
-    return ApiFetch(`${config.api}/api/userlessons`, options)
+    return ApiFetch(`${config.api}/user-lessons`, options)
       .then(res => {
         dispatch({ type: ACTIONS.POST_USER_LESSON_SUCCESS, payload: res })
         return res

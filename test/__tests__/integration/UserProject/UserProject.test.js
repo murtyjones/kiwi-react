@@ -218,7 +218,7 @@ describe('UserProject', () => {
       })
 
       it('should pass the userProjectId and userId when making requests', () => {
-        expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/api/userprojects/${userProjectId}`)
+        expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/user-projects/${userProjectId}`)
         expect(ApiFetch.mock.calls[0][1]).toEqual({ method: "GET" })
       })
 

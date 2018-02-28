@@ -37,7 +37,7 @@ describe('UserLesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/userlessons`
+      const expectedUrl = `${config.api}/user-lessons`
       const expectedBody = {
         method: "GET"
       }
@@ -101,7 +101,7 @@ describe('UserLesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/userlessons/${params.id}`
+      const expectedUrl = `${config.api}/user-lessons/${params.id}`
       const expectedBody = {
         method: "GET"
       }
@@ -165,7 +165,7 @@ describe('UserLesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/userlessons/${params.id}`
+      const expectedUrl = `${config.api}/user-lessons/${params.id}`
       const expectedBody = {
         method: "PUT"
         , body: params
@@ -230,7 +230,7 @@ describe('UserLesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/api/userlessons`
+      const expectedUrl = `${config.api}/user-lessons`
       const expectedBody = {
         method: "POST"
         , body: params
