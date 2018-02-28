@@ -101,7 +101,7 @@ gulp.task('lint', () => {
 gulp.task("build", ["clean", "copy-html", "copy-assets", "webpack:build"]);
 
 // Dev build
-gulp.task("build", ["clean", "copy-html", "copy-assets", "webpack:build:dev"]);
+gulp.task("build-dev", ["clean", "copy-html", "copy-assets", "webpack:build:dev"]);
 
 gulp.task("copy-html", function() {
   return gulp
