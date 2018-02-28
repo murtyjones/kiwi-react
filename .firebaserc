@@ -1,5 +1,6 @@
 {
   "projects": {
     "default": "kiwi-react"
+    "dev": "kiwi-react-dev"
   }
 }

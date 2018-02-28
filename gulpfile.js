@@ -100,6 +100,9 @@ gulp.task('lint', () => {
 // Production build
 gulp.task("build", ["clean", "copy-html", "copy-assets", "webpack:build"]);
 
+// Dev build
+gulp.task("build", ["clean", "copy-html", "copy-assets", "webpack:build:dev"]);
+
 gulp.task("copy-html", function() {
   return gulp
     .src(['./index.html'])
@@ -123,6 +126,20 @@ gulp.task("clean", function() {
 gulp.task("webpack:build", function(callback) {
   // modify some webpack config options
   const myConfig = Object.create(webpackProdConfig);
+
+  // run webpack
+  webpack(myConfig, function(err, stats) {
+    if(err) throw new gutil.PluginError("webpack:build", err);
+    gutil.log("[webpack:build]", stats.toString({
+      colors: true
+    }));
+    callback();
+  });
+});
+
+gulp.task("webpack:build:dev", function(callback) {
+  // modify some webpack config options
+  const myConfig = Object.create(webpackConfig);
 
   // run webpack
   webpack(myConfig, function(err, stats) {
