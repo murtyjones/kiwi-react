@@ -2,7 +2,7 @@
 
 const path = require('path')
 const webpack = require('webpack')
-const prodConfig = require('../config/prod.json')
+const devConfig = require('../config/development.json')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('dev')
+        'NODE_ENV': JSON.stringify('development')
       }
     }),
     new UglifyJSPlugin(),
@@ -40,7 +40,7 @@ module.exports = {
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/)
   ],
   externals: {
-    config: JSON.stringify(prodConfig)
+    config: JSON.stringify(devConfig)
   },
   node: {
     fs: "empty"
