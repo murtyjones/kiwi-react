@@ -9,6 +9,6 @@
     "namespace": "https://stage.kiwicompute.com",
     "realm": "Username-Password-Authentication"
   },
-  "api" : "http://api.dev.kiwicompute.com",
-  "host" : "http://dev.kiwicompute.com"
+  "api" : "https://api.dev.kiwicompute.com",
+  "host" : "https://dev.kiwicompute.com"
 }
