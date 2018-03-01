@@ -28,7 +28,7 @@ export const register = (params) => {
       method: 'POST',
       body: { username, password }
     }
-    return ApiFetch(`${config.api}/register`, params)
+    return ApiFetch(`${config.api}/auth/register`, params)
     .then(success => {
       dispatch({ type: ACTIONS.REGISTER_SUCCESS, payload: success })
       return success
