@@ -14,6 +14,7 @@ import MonetizationOn from 'material-ui-icons/MonetizationOn'
 
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login, postMessage } from '../actions'
 import { ApiFetch } from '../utils/ApiFetch'
+import { styles as sharedStyles } from './sharedStyles'
 import LoginOrRegister from './LoginOrRegister'
 import isMobile from '../utils/userAgentUtils'
 import ContactForm from './ContactForm'
@@ -42,6 +43,7 @@ const styles = {
     , width: '100%'
     , position: 'relative'
     , overflow: 'hidden'
+    , zIndex: 20
   },
   homePageThree: {
     height: '100vh'
@@ -49,6 +51,7 @@ const styles = {
     , position: 'relative'
     , overflow: 'hidden'
     , backgroundColor: '#5D4781'
+    , marginTop: '-2vw'
   },
   salesBox: {
     backgroundColor: '#FFFFFF'
@@ -71,7 +74,7 @@ const styles = {
     , fontSize: 'calc(10px + 1vw)'
     , fontWeight: 'bold'
     , color: '#3E2E61'
-    , paddingTop: '20%'
+    , paddingTop: '10%'
     , paddingBottom: '2.5%'
     , fontFamily: 'Palatino'
     , textTransform: 'uppercase'
@@ -110,14 +113,14 @@ const styles = {
   laptopImage: {
     backgroundImage: `url(${laptopImageUrl})`
     , backgroundSize: '100% 100%'
-    , width: '65vw'
-    , height: 'calc(65vw * 0.736667)' // maintains aspect ratio
-    , marginLeft: '-5vw'
+    , width: '30vw'
+    , height: 'calc(30vw * 0.736667)' // maintains aspect ratio
+    , marginLeft: '5vw'
     , marginTop: '20px'
   },
   bulletPoints: {
     position: 'relative'
-    , top: 'calc(-65vw * 0.736667)'
+    , top: 'calc(-30vw * 0.736667)'
     , left: '55vw'
     , width: '30vw'
     , marginLeft: '-10vw'
@@ -220,7 +223,6 @@ class Home extends Component {
   }
 
   handleMessageSubmit = (params) => {
-    console.log('here')
     this.props.postMessage(params)
   }
 
@@ -268,6 +270,18 @@ class Home extends Component {
           />
           <div style={ styles.titleContainer } >
             <span style={ styles.titleStyle }>Start your coding<br />adventure today</span>
+            <div style={ sharedStyles.buttonContainer }>
+              <button
+                style={ {
+                  ...sharedStyles.greenButton
+                  , width: '100px'
+                  , marginTop: '30px'
+                } }
+                onClick={ () => this.openDrawer() }
+              >
+                Let's go!
+              </button>
+            </div>
           </div>
         </div>
 

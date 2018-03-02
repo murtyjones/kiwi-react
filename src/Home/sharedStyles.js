@@ -20,16 +20,39 @@ const styles = {
     , display: 'none'
   },
   error: {
-    display: 'inline-block'
+    display: 'block'
     , fontWeight: 'bold'
     , color: '#FF5472'
     , padding: '5px 0'
+  },
+  sent: {
+    display: 'block'
+    , fontWeight: 'bold'
+    , color: '#FFFFFF'
+    , textAlign: 'center'
   },
   forgot: {
     display: 'block'
     , marginTop: '10px'
     , fontSize: '12px'
     , color: '#bbbbbb'
+  },
+  buttonContainer: {
+    textAlign: 'center'
+  },
+  greenButton: {
+    borderImage: 'url(../../assets/images/landing-button_border-green.svg)'
+    , borderImageSlice: '24'
+    , borderImageWidth: '9px'
+    , borderImageOutset: '9'
+    , borderImageRepeat: 'stretch'
+    , height: '31px'
+    , backgroundColor: '#99BE41'
+    , fontSize: '14pt'
+    , fontWeight: 'bold'
+    , color: 'white'
+    , cursor: 'pointer'
+    , margin: '15px 0'
   }
 }
 

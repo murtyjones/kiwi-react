@@ -4,7 +4,7 @@ import renderTextField from '../common/renderTextField'
 import { FlatButton, RaisedButton } from 'material-ui'
 import asyncValidate from './usernameAvailability'
 
-import { styles, inactiveColor, activeColor } from './sharedStyles'
+import { inactiveColor, activeColor, styles as sharedStyles } from './sharedStyles'
 
 class RegisterForm extends PureComponent {
   constructor(props) {
@@ -30,11 +30,11 @@ class RegisterForm extends PureComponent {
           type='text'
           component={ renderTextField }
           hintText='username'
-          inputStyle={ styles.input }
-          style={ styles.field }
-          hintStyle={ styles.hintStyle }
-          underlineStyle={ styles.underlineStyle }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          inputStyle={ sharedStyles.input }
+          style={ sharedStyles.field }
+          hintStyle={ sharedStyles.hintStyle }
+          underlineStyle={ sharedStyles.underlineStyle }
+          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           floatingLabelStyle={ {
             fontWeight: 'bold'
             , color: usernameFieldActive ? activeColor : inactiveColor
@@ -47,11 +47,11 @@ class RegisterForm extends PureComponent {
           type='password'
           component={ renderTextField }
           hintText='password'
-          inputStyle={ styles.input }
-          style={ styles.field }
-          hintStyle={ styles.hintStyle }
-          underlineStyle={ styles.underlineStyle }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          inputStyle={ sharedStyles.input }
+          style={ sharedStyles.field }
+          hintStyle={ sharedStyles.hintStyle }
+          underlineStyle={ sharedStyles.underlineStyle }
+          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           floatingLabelStyle={ {
             fontWeight: 'bold'
             , color: passwordFieldActive ? activeColor : inactiveColor
@@ -60,14 +60,24 @@ class RegisterForm extends PureComponent {
           onBlur={ () => this.setPasswordStatus(false) }
         />
         <div>
-          <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting && !error }>
+          <button
+            type='submit'
+            onClick={ handleSubmit }
+            disabled={ submitting && !error }
+            style={ {
+              ...sharedStyles.greenButton
+              , width: '85px'
+              , marginLeft: '10px'
+              , marginRight: '15px'
+            } }
+          >
             Register
-          </RaisedButton>
+          </button>
           <FlatButton type='button' onClick={ reset } disabled={ pristine || submitting }>
             Clear Values
           </FlatButton>
         </div>
-        { error && <span style={ styles.error }>{ error }</span> }
+        { error && <span style={ sharedStyles.error }>{ error }</span> }
       </form>
     )
   }

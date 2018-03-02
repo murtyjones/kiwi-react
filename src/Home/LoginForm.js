@@ -3,7 +3,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { FlatButton, RaisedButton } from 'material-ui'
 import { Link } from 'react-router-dom'
 
-import { activeColor, inactiveColor, styles } from './sharedStyles'
+import { activeColor, inactiveColor, styles as sharedStyles } from './sharedStyles'
 
 import renderTextField from '../common/renderTextField'
 
@@ -33,15 +33,15 @@ class LoginForm extends PureComponent {
           type='text'
           component={ renderTextField }
           hintText={ <div className='username'>username</div> }
-          inputStyle={ styles.input }
-          style={ styles.field }
-          hintStyle={ styles.hintStyle }
+          inputStyle={ sharedStyles.input }
+          style={ sharedStyles.field }
+          hintStyle={ sharedStyles.hintStyle }
           floatingLabelStyle={ {
             fontWeight: 'bold'
             , color: usernameFieldActive ? activeColor : inactiveColor
           } }
-          underlineStyle={ styles.underlineStyle }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          underlineStyle={ sharedStyles.underlineStyle }
+          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           onFocus={ () => this.setUsernameStatus(true) }
           onBlur={ () => this.setUsernameStatus(false) }
         />
@@ -51,15 +51,15 @@ class LoginForm extends PureComponent {
           className='password'
           component={ renderTextField }
           hintText={ <div className='password'>password</div> }
-          inputStyle={ styles.input }
-          style={ styles.field }
-          hintStyle={ styles.hintStyle }
+          inputStyle={ sharedStyles.input }
+          style={ sharedStyles.field }
+          hintStyle={ sharedStyles.hintStyle }
           floatingLabelStyle={ {
             fontWeight: 'bold'
             , color: passwordFieldActive ? activeColor : inactiveColor
           } }
-          underlineStyle={ styles.underlineStyle }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          underlineStyle={ sharedStyles.underlineStyle }
+          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           onFocus={ () => this.setPasswordStatus(true) }
           onBlur={ () => this.setPasswordStatus(false) }
         />
@@ -72,15 +72,25 @@ class LoginForm extends PureComponent {
           {/*>*/}
             {/*Login*/}
           {/*</button>*/}
-          <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting && !error }>
+          <button
+            type='submit'
+            onClick={ handleSubmit }
+            disabled={ submitting && !error }
+            style={ {
+              ...sharedStyles.greenButton
+              , width: '85px'
+              , marginLeft: '10px'
+              , marginRight: '15px'
+            } }
+          >
               Login
-          </RaisedButton>
+          </button>
           <FlatButton onClick={ reset } disabled={ pristine || submitting }>
             Clear Values
           </FlatButton>
         </div>
-        { error && <span style={ styles.error }>{ error }</span> }
-        <Link style={ styles.forgot } to='/password'>Forgot password?</Link>
+        { error && <span style={ sharedStyles.error }>{ error }</span> }
+        <Link style={ sharedStyles.forgot } to='/password'>Forgot password?</Link>
       </form>
     )
   }

@@ -3,7 +3,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { FlatButton, RaisedButton } from 'material-ui'
 import { Link } from 'react-router-dom'
 
-import { activeColor, inactiveColor, styles } from './sharedStyles'
+import { activeColor, inactiveColor, styles as sharedStyles } from './sharedStyles'
 
 import renderTextField from '../common/renderTextField'
 
@@ -37,7 +37,8 @@ class ContactForm extends PureComponent {
     this.setState({ messageFieldActive: bool })
 
   render() {
-    const { error, handleSubmit, pristine, reset, submitting } = this.props
+    const { error, handleSubmit, pristine, reset, submitting, submitSucceeded } = this.props
+    console.log(this.props)
     const { usernameFieldActive, passwordFieldActive, messageFieldActive } = this.state
     return (
       <form style={ contactFormStyles.formStyle } onSubmit={ handleSubmit }>
@@ -47,15 +48,15 @@ class ContactForm extends PureComponent {
           type='text'
           component={ renderTextField }
           hintText={ <div className='name'>name</div> }
-          inputStyle={ styles.input }
-          style={ styles.field }
-          hintStyle={ styles.hintStyle }
+          inputStyle={ sharedStyles.input }
+          style={ sharedStyles.field }
+          hintStyle={ sharedStyles.hintStyle }
           floatingLabelStyle={ {
             fontWeight: 'bold'
             , color: usernameFieldActive ? activeColor : inactiveColor
           } }
-          underlineStyle={ styles.underlineStyle }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          underlineStyle={ sharedStyles.underlineStyle }
+          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           onFocus={ () => this.setUsernameStatus(true) }
           onBlur={ () => this.setUsernameStatus(false) }
         />
@@ -65,15 +66,15 @@ class ContactForm extends PureComponent {
           className='email'
           component={ renderTextField }
           hintText={ <div className='email'>email</div> }
-          inputStyle={ styles.input }
-          style={ styles.field }
-          hintStyle={ styles.hintStyle }
+          inputStyle={ sharedStyles.input }
+          style={ sharedStyles.field }
+          hintStyle={ sharedStyles.hintStyle }
           floatingLabelStyle={ {
             fontWeight: 'bold'
             , color: passwordFieldActive ? activeColor : inactiveColor
           } }
-          underlineStyle={ styles.underlineStyle }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          underlineStyle={ sharedStyles.underlineStyle }
+          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           onFocus={ () => this.setPasswordStatus(true) }
           onBlur={ () => this.setPasswordStatus(false) }
         />
@@ -83,24 +84,33 @@ class ContactForm extends PureComponent {
           className='message'
           component={ renderTextField }
           hintText={ <div className='message'>message</div> }
-          inputStyle={ styles.input }
-          style={ styles.field }
-          hintStyle={ styles.hintStyle }
+          inputStyle={ sharedStyles.input }
+          style={ sharedStyles.field }
+          hintStyle={ sharedStyles.hintStyle }
           floatingLabelStyle={ {
             fontWeight: 'bold'
             , color: messageFieldActive ? activeColor : inactiveColor
           } }
-          underlineStyle={ styles.underlineStyle }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          underlineStyle={ sharedStyles.underlineStyle }
+          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           onFocus={ () => this.setMessageStatus(true) }
           onBlur={ () => this.setMessageStatus(false) }
         />
-        <div>
-          <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting && !error }>
+        <div style={ sharedStyles.buttonContainer }>
+          <button
+            type='submit'
+            onClick={ handleSubmit }
+            disabled={ submitting && !error }
+            style={ {
+              ...sharedStyles.greenButton
+              , width: '85px'
+            } }
+          >
             Send
-          </RaisedButton>
+          </button>
+        { error && <span style={ sharedStyles.error }>{ error }</span> }
+        { submitSucceeded && <span style={ sharedStyles.sent }>Sent!</span> }
         </div>
-        { error && <span style={ styles.error }>{ error }</span> }
       </form>
     )
   }
