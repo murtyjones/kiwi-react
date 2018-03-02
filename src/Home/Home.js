@@ -12,10 +12,11 @@ import LaptopMac from 'material-ui-icons/LaptopMac'
 import MonetizationOn from 'material-ui-icons/MonetizationOn'
 
 
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } from '../actions'
+import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login, postMessage } from '../actions'
 import { ApiFetch } from '../utils/ApiFetch'
 import LoginOrRegister from './LoginOrRegister'
 import isMobile from '../utils/userAgentUtils'
+import ContactForm from './ContactForm'
 
 import '../close.css'
 import './overrides.css'
@@ -37,9 +38,17 @@ const styles = {
     , overflow: 'hidden'
   },
   homePageTwo: {
-    width: '100%'
+    height: '100vh'
+    , width: '100%'
     , position: 'relative'
     , overflow: 'hidden'
+  },
+  homePageThree: {
+    height: '100vh'
+    , width: '100%'
+    , position: 'relative'
+    , overflow: 'hidden'
+    , backgroundColor: '#5D4781'
   },
   salesBox: {
     backgroundColor: '#FFFFFF'
@@ -56,6 +65,24 @@ const styles = {
     , fontSize: 'calc(10px + 2.3vw)'
     , fontWeight: 'bold'
     , padding: '0 20%'
+  },
+  questionsTitle: {
+    textAlign: 'center'
+    , fontSize: 'calc(10px + 1vw)'
+    , fontWeight: 'bold'
+    , color: '#3E2E61'
+    , paddingTop: '20%'
+    , paddingBottom: '2.5%'
+    , fontFamily: 'Palatino'
+    , textTransform: 'uppercase'
+  },
+  questionsSubtitle: {
+    textAlign: 'center'
+    , fontSize: 'calc(10px + 2.3vw)'
+    , fontWeight: 'bold'
+    , color: '#FFFFFF'
+    , margin: 0
+    , paddingBottom: '2.5%'
   },
   sellingPointContainer: {
     margin: '20px 0'
@@ -192,6 +219,11 @@ class Home extends Component {
     this.setState({ drawerIsOpen: false })
   }
 
+  handleMessageSubmit = (params) => {
+    console.log('here')
+    this.props.postMessage(params)
+  }
+
   render() {
     const { drawerIsOpen } = this.state
 
@@ -316,6 +348,18 @@ class Home extends Component {
           </div>
         </div>
 
+        <div className='homePageThree' style={ styles.homePageThree }>
+          <h1 style={ styles.questionsTitle }>
+            Questions?
+          </h1>
+          <h2 style={ styles.questionsSubtitle }>
+            We want to hear from you!
+          </h2>
+          <ContactForm
+            onSubmit={ this.handleMessageSubmit }
+          />
+        </div>
+
         <div style={ styles.loginButtonContainer } >
           <span
             onClick={ this.openDrawer }
@@ -354,11 +398,12 @@ export const HomeComponent = Home
 const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout())
-    , login: (params) => dispatch(login(params))
+    , login: params => dispatch(login(params))
     , openSideNav: () => dispatch(openSideNav())
     , closeSideNav: () => dispatch(closeSideNav())
     , openTopBar: () => dispatch(openTopBar())
     , closeTopBar: () => dispatch(closeTopBar())
+    , postMessage: params => dispatch(postMessage(params))
   }
 }
 
