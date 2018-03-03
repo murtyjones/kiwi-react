@@ -67,14 +67,16 @@ const EnvironmentReminder = props =>
     , top: 0
     , left: 0
     , zIndex: 20
-    , backgroundColor: '#3fc7ff'
+    , backgroundColor: process.env.NODE_ENV === 'local'
+      ? '#ff3f79'
+      : '#32a8ff'
     , width: '100%'
     , height: '20px'
     , margin: 0
     , textTransform: 'uppercase'
     , fontFamily: 'Arial'
     , fontWeight: 'bold'
-    , color: '#393939'
+    , color: '#FFFFFF'
     , textAlign: 'center'
   } }>
     { process.env.NODE_ENV } environment
