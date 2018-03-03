@@ -61,6 +61,24 @@ const nonMenuStyle = {
   , height: '100%'
 }
 
+const EnvironmentReminder = props =>
+  <div style={ {
+    position: 'absolute'
+    , top: 0
+    , left: 0
+    , zIndex: 20
+    , backgroundColor: '#3fc7ff'
+    , width: '100%'
+    , height: '20px'
+    , margin: 0
+    , textTransform: 'uppercase'
+    , fontFamily: 'Arial'
+    , color: '#393939'
+    , textAlign: 'center'
+  } }>
+    { process.env.NODE_ENV } environment
+  </div>
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -91,6 +109,9 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
         <div>
+          { process.env.NODE_ENV !== "production" &&
+              <EnvironmentReminder />
+          }
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
