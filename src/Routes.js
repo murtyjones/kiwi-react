@@ -73,6 +73,7 @@ const EnvironmentReminder = props =>
     , margin: 0
     , textTransform: 'uppercase'
     , fontFamily: 'Arial'
+    , fontWeight: 'bold'
     , color: '#393939'
     , textAlign: 'center'
   } }>
