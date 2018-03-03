@@ -63,10 +63,10 @@ const nonMenuStyle = {
 
 const EnvironmentReminder = props =>
   <div style={ {
-    position: 'absolute'
+    position: 'fixed'
     , top: 0
     , left: 0
-    , zIndex: 20
+    , zIndex: 1200
     , backgroundColor: process.env.NODE_ENV === 'local'
       ? '#ff3f79'
       : '#32a8ff'
