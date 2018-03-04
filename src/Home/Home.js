@@ -29,7 +29,7 @@ const styles = {
     width: '100%'
     , backgroundColor: '#3E2E61'
     , color: '#FFFFFF'
-    , fontFamily: 'Trebuchet MS'
+    , fontFamily: 'Arvo'
     , position: 'relative' // needed for abs children
   },
   homePageOne: {
@@ -60,7 +60,6 @@ const styles = {
     , width: '80%'
     , marginLeft: '-40%'
     , color: '#2F2864'
-    , fontFamily: 'Palatino'
     , paddingTop: '20px'
   },
   salesH1: {
@@ -76,7 +75,6 @@ const styles = {
     , color: '#3E2E61'
     , paddingTop: '10%'
     , paddingBottom: '2.5%'
-    , fontFamily: 'Palatino'
     , textTransform: 'uppercase'
   },
   questionsSubtitle: {
@@ -269,7 +267,7 @@ class Home extends Component {
             src='../../assets/images/landing-bg_04.svg'
           />
           <div style={ styles.titleContainer } >
-            <span style={ styles.titleStyle }>Start your coding<br />adventure today</span>
+            <span style={ styles.titleStyle }>start your coding<br />adventure today.</span>
             <div style={ sharedStyles.buttonContainer }>
               <button
                 style={ {
