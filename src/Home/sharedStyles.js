@@ -43,8 +43,8 @@ const styles = {
   greenButton: {
     borderImage: 'url(../../assets/images/landing-button_border-green.svg)'
     , borderImageSlice: '24'
-    , borderImageWidth: '9px'
-    , borderImageOutset: '9'
+    , borderImageWidth: '10px'
+    , borderImageOutset: '5'
     , borderImageRepeat: 'stretch'
     , height: '31px'
     , backgroundColor: '#99BE41'
