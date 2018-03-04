@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { FlatButton, RaisedButton } from 'material-ui'
 import { Link } from 'react-router-dom'
+import { Checkbox } from 'redux-form-material-ui'
 
 import { activeColor, inactiveColor, styles as sharedStyles } from './sharedStyles'
 
@@ -14,6 +15,13 @@ const contactFormStyles = {
     , left: '50%'
     , marginLeft: `calc( calc(-200px - 15vw) / 2 )`
     //, minWidth: '200px'
+  },
+  label: {
+    color: inactiveColor
+    , fontWeight: 'bold'
+  },
+  checkbox: {
+    fill: inactiveColor
   }
 }
 
@@ -38,7 +46,6 @@ class ContactForm extends PureComponent {
 
   render() {
     const { error, handleSubmit, pristine, reset, submitting, submitSucceeded } = this.props
-    console.log(this.props)
     const { usernameFieldActive, passwordFieldActive, messageFieldActive } = this.state
     return (
       <form style={ contactFormStyles.formStyle } onSubmit={ handleSubmit }>
@@ -95,6 +102,13 @@ class ContactForm extends PureComponent {
           underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           onFocus={ () => this.setMessageStatus(true) }
           onBlur={ () => this.setMessageStatus(false) }
+        />
+        <Field
+          name='subscribe'
+          component={ Checkbox }
+          label='Subscribe me to updates about Kiwi!'
+          labelStyle={ contactFormStyles.label }
+          iconStyle={ contactFormStyles.checkbox }
         />
         <div style={ sharedStyles.buttonContainer }>
           <button

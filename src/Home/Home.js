@@ -50,7 +50,7 @@ const styles = {
     , width: '100%'
     , position: 'relative'
     , overflow: 'hidden'
-    , backgroundColor: '#5D4781'
+    , backgroundColor: '#765C9F'
     , marginTop: '-2vw'
   },
   salesBox: {
