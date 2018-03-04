@@ -155,12 +155,13 @@ const styles = {
     fontSize: 'calc(10px + 3.6vw)'
     , fontWeight: 'bold'
     , borderBottom: '3px #9AC045 solid'
+    , paddingBottom: '2px'
   },
   loginButtonContainer: {
     position: 'absolute'
     , top: '20px'
     , right: '0'
-    , width: '50px'
+    , width: '60px'
     , textAlign: 'center'
     , paddingTop: '10px'
     , paddingRight: '15px'
@@ -170,6 +171,7 @@ const styles = {
     borderBottom: '2px #FFFFFF solid'
     , paddingBottom: '3px'
     , cursor: 'pointer'
+    , fontSize: '16pt'
   },
   closeDrawerButton: {
     marginTop: '10px'
