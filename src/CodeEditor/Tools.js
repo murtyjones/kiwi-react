@@ -14,6 +14,7 @@ const styles = {
     , width: '50%'
     , height: '200px'
     , bottom: '20px'
+    , zIndex: 1000
   },
   circle: {
     borderRadius: '50%'
