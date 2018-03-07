@@ -11,9 +11,10 @@ const buttonColor = '#4D4D4D'
 const styles = {
   container: {
     position: 'absolute'
-    , width: '50%'
+    , width: '160px'
     , height: '200px'
     , bottom: '20px'
+    , left: 'calc(50% - 160px)'
     , zIndex: 1000
   },
   circle: {
