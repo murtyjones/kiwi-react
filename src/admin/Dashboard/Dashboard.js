@@ -17,7 +17,7 @@ class ManageLessons extends Component {
 
   componentWillMount() {
     const { getManyLessons } = this.props
-    getManyLessons()
+    getManyLessons({ getPublishedOnly: false })
   }
 
 
@@ -43,7 +43,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getManyLessons: (params) => dispatch(getManyLessons(params))
+    getManyLessons: params => dispatch(getManyLessons(params))
   }
 }
 

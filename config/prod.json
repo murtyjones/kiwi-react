@@ -9,5 +9,5 @@
     "namespace": "https://prod.kiwicompute.com",
     "realm": "Username-Password-Authentication"
   },
-  "api" : "https://api.app.kiwicompute.com"
+  "api" : "https://api.kiwicompute.com"
 }

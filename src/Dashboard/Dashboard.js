@@ -74,7 +74,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getManyUserProjects: (params) => dispatch(getManyUserProjects(params))
+    getManyUserProjects: params => dispatch(getManyUserProjects(params))
   }
 }
 

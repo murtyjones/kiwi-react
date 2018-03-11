@@ -2,13 +2,15 @@ import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
 import config from 'config'
 
-export const getManyLessons = (params) => {
+export const getManyLessons = (params = {}) => {
+  const { getPublishedOnly = true } = params
+  const append = getPublishedOnly ? 'published' : ''
   const options = {
     method: 'GET',
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_MANY_LESSONS_REQUEST })
-    return ApiFetch(`${config.api}/lessons`, options)
+    return ApiFetch(`${config.api}/lessons/${append}`, options)
     .then(res => {
       dispatch({ type: ACTIONS.GET_MANY_LESSONS_SUCCESS, payload: res })
       return res

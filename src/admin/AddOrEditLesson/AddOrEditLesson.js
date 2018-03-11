@@ -90,10 +90,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    putLesson: (params) => dispatch(putLesson(params))
-    , postLesson: (params) => dispatch(postLesson(params))
-    , getLesson: (params) => dispatch(getLesson(params))
-    , getManyLessonThemes: (params) => dispatch(getManyLessonThemes(params))
+    putLesson: params => dispatch(putLesson(params))
+    , postLesson: params => dispatch(postLesson(params))
+    , getLesson: params => dispatch(getLesson(params))
+    , getManyLessonThemes: params => dispatch(getManyLessonThemes(params))
   }
 }
 

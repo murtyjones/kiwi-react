@@ -56,8 +56,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getManyLessonThemes: (params) => dispatch(getManyLessonThemes(params))
-    , deleteLessonTheme: (params) => dispatch(deleteLessonTheme(params))
+    getManyLessonThemes: params => dispatch(getManyLessonThemes(params))
+    , deleteLessonTheme: params => dispatch(deleteLessonTheme(params))
   }
 }
 

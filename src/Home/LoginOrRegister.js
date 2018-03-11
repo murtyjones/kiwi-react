@@ -151,8 +151,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (params) => dispatch(login(params))
-    , register: (params) => dispatch(register(params))
+    login: params => dispatch(login(params))
+    , register: params => dispatch(register(params))
     , openSideNav: () => dispatch(openSideNav())
     , closeSideNav: () => dispatch(closeSideNav())
     , openTopBar: () => dispatch(openTopBar())

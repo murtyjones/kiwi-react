@@ -94,9 +94,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    putLessonTheme: (params) => dispatch(putLessonTheme(params))
-    , postLessonTheme: (params) => dispatch(postLessonTheme(params))
-    , getLessonTheme: (params) => dispatch(getLessonTheme(params))
+    putLessonTheme: params => dispatch(putLessonTheme(params))
+    , postLessonTheme: params => dispatch(postLessonTheme(params))
+    , getLessonTheme: params => dispatch(getLessonTheme(params))
   }
 }
 

@@ -96,9 +96,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getManyLessons: (params) => dispatch(getManyLessons(params))
-    , putLesson: (params) => dispatch(putLesson(params))
-    , putLessonOrder: (params) => dispatch(putLessonOrder(params))
+    getManyLessons: params => dispatch(getManyLessons(params))
+    , putLesson: params => dispatch(putLesson(params))
+    , putLessonOrder: params => dispatch(putLessonOrder(params))
     , getLessonOrder: () => dispatch(getLessonOrder())
   }
 }
