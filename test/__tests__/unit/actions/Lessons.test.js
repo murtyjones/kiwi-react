@@ -37,7 +37,7 @@ describe('Lesson Themes Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/lessons`
+      const expectedUrl = `${config.api}/lessons/published`
       const expectedBody = {
         method: "GET"
       }
