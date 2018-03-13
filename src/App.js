@@ -7,6 +7,7 @@ import 'raf/polyfill' // polyfill
 import WebFont from 'webfontloader'
 
 import Routes from './Routes'
+import loadFullStory from './utils/loadFullStory'
 
 WebFont.load({
   google: {
@@ -26,6 +27,7 @@ class App extends Component {
 
   render() {
     const { store } = this.props
+    loadFullStory(store)
     return (
       <Provider store={ store }>
         <Router onUpdate={ () => window.scrollTo(0, 0) }>
