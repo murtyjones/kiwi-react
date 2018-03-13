@@ -1,20 +1,18 @@
+import moment from 'moment'
+
 const loadFullStory = store => {
+  //only load full story on kiwi sites
+  if(window.location.host.indexOf('kiwicompute.com') === -1) {
+    return
+  }
 
-  // //only load full story on kiwi sites
-  // if(window.location.host.indexOf('kiwicompute.com') === -1) {
-  //   return
-  // }
-  //
-  // //we don't want to load full story on dev.kiwi.compute.com
-  // if(window.location.host.indexOf('dev.kiwicompute.com') >= 0) {
-  //   return
-  // }
-
-  //ignore full story for users who pass special queryString
-  // const parsedQueryString = queryString.parse(window.location.search)
-  // if('test' in parsedQueryString && parsedQueryString['test'] === 'test') {
-  //   return
-  // }
+  //we don't want to load full story on any staging environment
+  if(window.location.host.indexOf('dev.kiwicompute.com') >= 0
+    || window.location.host.indexOf('integration.kiwicompute.com') >= 0
+    || window.location.host.indexOf('stage.kiwicompute.com') >= 0
+  ) {
+    return
+  }
 
   window['_fs_debug'] = false
   window['_fs_host'] = 'fullstory.com'
@@ -74,13 +72,12 @@ const loadFullStory = store => {
   const initialUserId = initialState.auth.userId
   const unsubscribe = store.subscribe(() => {
     if(window.FS) {
-      const { auth: { isLoggedIn, userId, username }/*, session: { sessionId }*/ } = store.getState()
-      let sessionId = 'fake'
+      const { auth: { isLoggedIn, userId, username } } = store.getState()
       if(isLoggedIn && initialUserId !== userId) {
-        console.log('hello')
-        console.log(isLoggedIn)
+        const sessionTime = moment.utc().format()
+        const sessionId = `${userId}-${sessionTime}`
         window.FS.identify(userId, {
-          username: username,
+          displayName: username,
           sessionId_str: sessionId
         })
         unsubscribe()
