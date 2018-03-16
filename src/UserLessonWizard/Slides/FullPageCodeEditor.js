@@ -44,15 +44,18 @@ class FullPageCodeEditor extends PureComponent {
   }
 
   render() {
-    const { slideData, className, input } = this.props
+    const { slideData, className, input, globalColors } = this.props
 
     return [
       <div key={ className } style={ slideContent } className={ className }>
         <div
           key='title'
           id='title'
-          style={ titleStyle }
-        >
+          style={ {
+            ...titleStyle
+            , color: globalColors.quaternaryColor
+          } }
+          >
           { slideData.title }
         </div>
         <div

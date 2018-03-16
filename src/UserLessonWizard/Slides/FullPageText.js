@@ -30,13 +30,19 @@ class FullPageText extends PureComponent {
   }
 
   render() {
-    const { slideData, className } = this.props
+    const { slideData, className, globalColors } = this.props
     return (
-      <div style={ slideContent } className={ className }>
+      <div
+        style={ slideContent }
+        className={ className }
+      >
         <div
           key='title'
           id='title'
-          style={ titleStyle }
+          style={ {
+            ...titleStyle
+            , color: globalColors.quaternaryColor
+          } }
         >
           { slideData.title }
         </div>

@@ -1,6 +1,6 @@
 const titleStyle = {
-  fontSize: '12pt'
-  , textTransform: 'uppercase'
+  fontFamily: 'Arvo'
+  , fontSize: '17pt'
   , color: '#6B6B6B'
   , paddingBottom: '10px'
   , marginBottom: '10px'
@@ -10,6 +10,8 @@ const titleStyle = {
 const slideContent = {
   position: 'relative' // needed for absolute children
   , paddingTop: '30px'
+  , paddingLeft: '50px'
+  , paddingRight: '50px'
 }
 
 const example = {

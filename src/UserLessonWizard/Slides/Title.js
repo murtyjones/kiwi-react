@@ -20,7 +20,7 @@ const styles = {
     , top: '50%'
     , marginTop: '-30%'
     , left: '50%'
-    , marginLeft: '-40%'
+    , marginLeft: 'calc(-40% - 50px)' // offsets the paddingLeft of 50px in commonSlideStyles
   },
   title: {
     textAlign: 'center'
