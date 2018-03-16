@@ -3,6 +3,7 @@ import * as T from 'prop-types'
 import Alarm  from 'material-ui-icons/Alarm'
 import ArrowForward  from 'material-ui-icons/ArrowForward'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui'
+import cns from 'classnames'
 
 import { KiwiLink } from '../common/KiwiLink'
 
@@ -84,7 +85,9 @@ const TimeToComplete = ({ minutes }) => {
 const GoButton = ({ colors }) => {
   return (
     <div
-      className={ `map-card-circle ${colors.name}-arrow-container` }
+      className={
+        cns(`map-card-circle ${colors.name}-arrow-container`, 'hvr-pulse-inverse')
+      }
       style={ styles.circle }
     >
       <ArrowForward
