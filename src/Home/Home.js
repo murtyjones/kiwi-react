@@ -304,6 +304,7 @@ class Home extends Component {
 
           <div
             style={ styles.learnMore }
+            className='hvr-wobble-vertical'
             onClick={ () => this.scrollTo(window.innerHeight) }
           >
             <div>Learn More</div>
@@ -391,6 +392,7 @@ class Home extends Component {
 
             <div
               style={ styles.learnMore }
+              className='hvr-wobble-vertical'
               onClick={ () => this.scrollTo(window.innerHeight * 2) }
             >
               <div>Get in touch</div>
