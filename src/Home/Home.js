@@ -10,6 +10,9 @@ import Add from 'material-ui-icons/Add'
 import Extension from 'material-ui-icons/Extension'
 import LaptopMac from 'material-ui-icons/LaptopMac'
 import MonetizationOn from 'material-ui-icons/MonetizationOn'
+import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown'
+import { animateScroll as scroll } from 'react-scroll'
+
 
 
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login, postMessage } from '../actions'
@@ -58,6 +61,7 @@ const styles = {
     , position: 'relative'
     , left: '50%'
     , width: '80%'
+    , height: '100vh'
     , marginLeft: '-40%'
     , color: '#2F2864'
     , paddingTop: '20px'
@@ -126,7 +130,7 @@ const styles = {
   },
   bulletPointContainer: {
     width: '100%'
-    , marginTop: '40px'
+    , marginTop: '1vw'
   },
   bulletPointIcon: {
     display: 'inline-block'
@@ -180,7 +184,23 @@ const styles = {
   loginDrawer: {
     backgroundColor: '#765C9F'
   },
-  loginDrawerWidth: 400 // px
+  loginDrawerWidth: 400, // px
+  learnMore: {
+    cursor: 'pointer'
+    , fontWeight: 'bold'
+    , fontSize: '14pt'
+    , position: 'absolute'
+    , width: '200px'
+    , bottom: 0
+    , left: '50%'
+    , marginLeft: '-100px'
+    , zIndex: 1000
+    , textAlign: 'center'
+  },
+  learnMoreArrow: {
+    height: 50
+    , width: 50
+  }
 }
 
 class Home extends Component {
@@ -225,6 +245,8 @@ class Home extends Component {
   handleMessageSubmit = (params) => {
     this.props.postMessage(params)
   }
+
+  scrollTo = to => scroll.scrollTo(to)
 
   render() {
     const { drawerIsOpen } = this.state
@@ -279,6 +301,18 @@ class Home extends Component {
               </div>
             </div>
           </div>
+
+          <div
+            style={ styles.learnMore }
+            onClick={ () => this.scrollTo(window.innerHeight) }
+          >
+            <div>Learn More</div>
+            <KeyboardArrowDown
+              color='#9AC045'
+              style={ styles.learnMoreArrow }
+            />
+          </div>
+
         </div>
 
         <div key='homePageTwo' style={ styles.homePageTwo }>
@@ -353,6 +387,17 @@ class Home extends Component {
                 </div>
               </div>
 
+            </div>
+
+            <div
+              style={ styles.learnMore }
+              onClick={ () => this.scrollTo(window.innerHeight * 2) }
+            >
+              <div>Get in touch</div>
+              <KeyboardArrowDown
+                color='#9AC045'
+                style={ styles.learnMoreArrow }
+              />
             </div>
 
           </div>
