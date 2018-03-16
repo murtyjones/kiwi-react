@@ -209,11 +209,6 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[id="subtitle"]').text()).toEqual(lesson.slides[0].subtitle)
         })
 
-        it('should render first slide description', async () => {
-          expect(component.find('div[id="description"]').length).toBe(1)
-          expect(component.find('div[id="description"]').text()).toEqual(lesson.slides[0].description)
-        })
-
         it('should set slide 1 to viewed', async () => {
           expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[0].isViewed).toEqual(true)
         })
