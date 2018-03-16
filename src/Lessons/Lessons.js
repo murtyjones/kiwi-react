@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { orderBy, find, findIndex, get, cloneDeep, isEqual, isEmpty } from 'lodash'
 
-import { getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, setGlobalColors } from '../actions'
+import { getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, setGlobalColors, closeSideNav } from '../actions'
 
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
@@ -56,6 +56,7 @@ class Lessons extends Component {
     getManyUserLessons({ userId })
     getLessonOrder()
     getManyLessonThemes()
+    closeSideNav()
     this.setCombinedMapLessons(orderOfPublishedLessons, lessons, userLessons)
   }
 
@@ -154,6 +155,7 @@ const mapDispatchToProps = (dispatch) => {
     , getManyLessonThemes: params => dispatch(getManyLessonThemes(params))
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
     , setGlobalColors: params => dispatch(setGlobalColors(params))
+    , closeSideNav: () => dispatch(closeSideNav())
   }
 }
 
