@@ -188,7 +188,7 @@ const styles = {
   learnMore: {
     cursor: 'pointer'
     , fontWeight: 'bold'
-    , fontSize: '14pt'
+    , fontSize: 'calc(12pt + 0.4vw)'
     , position: 'absolute'
     , width: '200px'
     , bottom: 0
@@ -198,8 +198,8 @@ const styles = {
     , textAlign: 'center'
   },
   learnMoreArrow: {
-    height: 50
-    , width: 50
+    height: '4vw'
+    , width: '4vw'
   }
 }
 
