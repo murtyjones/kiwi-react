@@ -271,16 +271,17 @@ class Home extends Component {
           <div style={ styles.titleContainer } >
             <span style={ styles.titleStyle }>start your coding<br />adventure today.</span>
             <div style={ sharedStyles.buttonContainer }>
-              <button
-                style={ {
-                  ...sharedStyles.greenButton
-                  , width: '100px'
-                  , marginTop: '30px'
-                } }
+              <div
+                className='greenButton hvr-grow'
+                // style={ {
+                  // ...sharedStyles.greenButton
+                  // , width: '100px'
+                  // , marginTop: '30px'
+                // } }
                 onClick={ () => this.openDrawer() }
               >
                 Let's go!
-              </button>
+              </div>
             </div>
           </div>
         </div>

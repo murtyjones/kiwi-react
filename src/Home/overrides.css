@@ -73,3 +73,14 @@
         display: block;
     }
 }
+
+.greenButton {
+    cursor: pointer;
+    border: 16px solid;
+    margin: 29px;
+    border-image-source: url(/../../assets/images/landing-button_border-green.svg);
+    border-image-slice: 29;
+    border-image-width: 10px;
+    border-image-outset: 7px;
+    border-image-repeat: repeat;
+}

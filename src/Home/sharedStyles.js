@@ -39,20 +39,6 @@ const styles = {
   },
   buttonContainer: {
     textAlign: 'center'
-  },
-  greenButton: {
-    borderImage: 'url(../../assets/images/landing-button_border-green.svg)'
-    , borderImageSlice: '19'
-    , borderImageWidth: '10px'
-    , borderImageOutset: '4'
-    , borderImageRepeat: 'stretch'
-    , height: '31px'
-    , backgroundColor: '#99BE41'
-    , fontSize: '14pt'
-    , fontWeight: 'bold'
-    , color: 'white'
-    , cursor: 'pointer'
-    , margin: '15px 0'
   }
 }
 
