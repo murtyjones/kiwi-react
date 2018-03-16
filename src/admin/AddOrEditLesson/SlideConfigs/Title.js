@@ -38,13 +38,6 @@ class Title extends Component {
           component={ renderTextField }
         />
         <Field
-          name={ `${slideRef}.description` }
-          placeholder={ 'Description' }
-          component={ renderTextField }
-          multiLine={ true }
-          rows={ 5 }
-        />
-        <Field
           name={ `${slideRef}.iconUrl` }
           placeholder={ 'Link to Icon URL' }
           component={ renderTextField }

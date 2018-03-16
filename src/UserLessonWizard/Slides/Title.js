@@ -15,32 +15,32 @@ const styles = {
   },
   titleContainer: {
     height: '60%'
+    , width: '80%'
     , position: 'absolute'
     , top: '50%'
     , marginTop: '-30%'
+    , left: '50%'
+    , marginLeft: '-40%'
   },
   title: {
     textAlign: 'center'
     , fontWeight: 'bold'
-    , fontSize: '20pt'
+    , fontSize: '24pt'
     , fontFamily: 'Arvo'
+    , marginTop: '20px'
   },
   subtitle: {
     textAlign: 'center'
-    , fontSize: '15pt'
+    , fontSize: '17pt'
     , marginBottom: '20px'
     , fontFamily: 'Arvo'
-  },
-  description: {
-    textAlign: 'center'
-    , fontSize: '13pt'
   },
   iconContainer: {
     textAlign: 'center'
   },
   icon: {
-    height: '50px'
-    , width: '50px'
+    height: '100px'
+    , width: '100px'
   }
 }
 
@@ -88,7 +88,7 @@ class Title extends PureComponent {
             id='title'
             style={ {
               ...styles.title
-              , color: globalColors.primaryColor
+              , color: globalColors.quaternaryColor
             } }
           >
             { slideData.title }
@@ -98,17 +98,10 @@ class Title extends PureComponent {
             id='subtitle'
             style={ {
               ...styles.subtitle
-              , color: globalColors.primaryColor
+              , color: globalColors.quaternaryColor
             } }
           >
             { slideData.subtitle }
-          </div>
-          <div
-            key='description'
-            id='description'
-            style={ styles.description }
-          >
-            { slideData.description }
           </div>
         </div>
       </div>
