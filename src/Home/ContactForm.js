@@ -113,11 +113,11 @@ class ContactForm extends PureComponent {
         <div style={ sharedStyles.buttonContainer }>
           <button
             type='submit'
+            className='greenButton hvr-grow'
             onClick={ handleSubmit }
             disabled={ submitting && !error }
             style={ {
-              ...sharedStyles.greenButton
-              , width: '85px'
+              width: '85px'
             } }
           >
             Send

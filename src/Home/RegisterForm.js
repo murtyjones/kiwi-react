@@ -62,12 +62,11 @@ class RegisterForm extends PureComponent {
         <div>
           <button
             type='submit'
+            className='greenButton hvr-grow'
             onClick={ handleSubmit }
             disabled={ submitting && !error }
             style={ {
-              ...sharedStyles.greenButton
-              , width: '85px'
-              , marginLeft: '10px'
+              marginLeft: '10px'
               , marginRight: '15px'
             } }
           >
