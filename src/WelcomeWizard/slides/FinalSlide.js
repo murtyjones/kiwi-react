@@ -27,7 +27,7 @@ export default class RecoveryImages extends Component {
   render() {
     return (
       <div style={ styles.container }>
-        <h1 style={ styles.h1 }>Okay, let's code!</h1>
+        <h1 style={ styles.h1 }>Your images are saved.</h1>
       </div>
     )
   }

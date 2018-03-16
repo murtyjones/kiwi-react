@@ -10,11 +10,13 @@ const slides = [
     , fieldName: 'images'
     , fieldType: FieldArray
     , action: 'upsertPasswordRecoveryImages'
+    , nextText: 'Done!'
   },
   {
     component: FinalSlide
     , fieldName: '_'
     , fieldType: Field
+    , nextText: "Let's Code!"
   }
 ]
 

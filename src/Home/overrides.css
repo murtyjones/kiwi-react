@@ -73,18 +73,3 @@
         display: block;
     }
 }
-
-.greenButton {
-    cursor: pointer;
-    border: 10px solid;
-    margin: 29px;
-    background: transparent;
-    border-image-source: url(/../../assets/images/border-green-hollow.svg);
-    border-image-slice: 103;
-    border-image-width: 7px;
-    border-image-outset: 2px;
-    border-image-repeat: repeat;
-    font-size: 16pt;
-    font-weight: bold;
-    color: white;
-}

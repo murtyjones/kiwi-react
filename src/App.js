@@ -5,7 +5,12 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import 'babel-polyfill'
 import 'raf/polyfill' // polyfill
 import WebFont from 'webfontloader'
+
+// hover css library
 import './hover.css'
+
+// hover css library
+import './general.css'
 
 import Routes from './Routes'
 

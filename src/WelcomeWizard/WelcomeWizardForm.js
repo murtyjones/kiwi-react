@@ -24,16 +24,6 @@ const styles = {
     , backgroundColor: '#765C9F'
     , color: '#FFFFFF'
   },
-  welcomePrevButton: {
-    height: `${circleSize*2}px`
-    , width: `${circleSize}px`
-    , borderBottomRightRadius: `${circleSize*2}px`
-    , borderTopRightRadius: `${circleSize*2}px`
-    , position: 'absolute'
-    , left: 0
-    , top: '50%'
-    , marginTop: `-${circleSize}px`
-  },
   leftArrowStyle: {
     height: iconSize
     , width: iconSize
@@ -43,25 +33,13 @@ const styles = {
     , marginTop: `-${circleSize/2}px`
   },
   welcomeNextButton: {
-    height: `${circleSize*2}px`
-    , width: `${circleSize}px`
-    , borderBottomLeftRadius: `${circleSize*2}px`
-    , borderTopLeftRadius: `${circleSize*2}px`
-    , position: 'absolute'
-    , right: 0
-    , top: '50%'
-    , marginTop: `-${circleSize}px`
+    position: 'absolute'
+    , width: '110px'
+    , bottom: '10%'
+    , left: '50%'
+    , marginLeft: '-55px'
+    , textAlign: 'center'
   },
-  rightArrowStyle: {
-    height: iconSize
-    , width: iconSize
-    , position: 'absolute'
-    , right: 0
-    , top: '50%'
-    , marginTop: `-${circleSize/2}px`
-  }
-  , rightArrowColor: '#3E2E61'
-  , leftArrowColor: '#3E2E61',
   title: {
     marginTop: 0
     , paddingTop: '5%'
@@ -132,7 +110,8 @@ class WelcomeWizardForm extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit, activeSlideIndex } = this.props
+      , activeSlide = slides[activeSlideIndex]
       , prevDisabled = false
       , nextDisabled = false
       , isFinal = false
@@ -150,35 +129,16 @@ class WelcomeWizardForm extends Component {
         { this.renderActiveSlide() }
       </form>
       ,
-      // Render buttons
-      <div
-        key='welcomeBackButton'
-        id='welcomeBackButton'
-        className={ cns('welcomeBackButton', { 'disabled': prevDisabled }) }
-        style={ styles.welcomePrevButton }
-        onClick={ onPrevClick }
-      >
-        <KeyboardArrowLeft
-          className={ cns('leftArrow', { 'disabled': prevDisabled }) }
-          style={ styles.leftArrowStyle }
-          color={ styles.leftArrowColor }
-          onClick={ e => e.preventDefault() && onPrevClick() }
-        />
-      </div>
-      ,
       <div
         key='welcomeNextButton'
         id='welcomeNextButton'
-        className={ cns('welcomeNextButton', { 'disabled': nextDisabled }) }
+        className={ cns('greenButton hvr-grow', {
+          'disabled': nextDisabled
+        }) }
         style={ styles.welcomeNextButton }
         onClick={ onNextClick }
       >
-        <KeyboardArrowRight
-          className={ cns('rightArrow', { 'disabled': nextDisabled }) }
-          style={ styles.rightArrowStyle }
-          color={ styles.rightArrowColor }
-          onClick={ e => e.preventDefault() && onNextClick() }
-        />
+        { activeSlide.nextText }
       </div>
     ]
   }
