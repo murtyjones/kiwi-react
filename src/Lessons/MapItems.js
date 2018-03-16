@@ -226,7 +226,10 @@ class MapItems extends PureComponent {
       acc.push([
         <button
           key={ i }
-          className={ cns('map-bubble-button', { 'next': isLatestActive && applyNextAnimation } ) }
+          className={ cns('map-bubble-button', {
+            'next': isLatestActive && applyNextAnimation
+            , 'hvr-pulse-inverse': isLatestActive
+          } ) }
           onClick={ e =>
             this.handleLessonBubbleClick(e, lesson, order, isAvailable)
           }
