@@ -11,6 +11,16 @@ const styles = {
     , paddingLeft: '20px'
     , marginTop: '20px'
   },
+  container: {
+    width: '600px'
+    , height: '600px'
+    , position: 'absolute'
+    , top: '50%'
+    , left: '50%'
+    , marginLeft: '-300px'
+    , marginTop: '-300px'
+    , paddingTop: '5%'
+  },
   exampleLabel: {
     display: 'inline-block'
     , position: 'absolute'
@@ -52,7 +62,7 @@ class FullPageCodeExample extends PureComponent {
   render() {
     const { slideData, className, globalColors } = this.props
     return (
-      <div style={ slideContent } className={ className }>
+      <div style={ styles.container } className={ className }>
         <div
           key='title'
           id='title'

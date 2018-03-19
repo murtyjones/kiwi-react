@@ -35,7 +35,7 @@
     cursor: pointer;
 }
 
-.lessonFullBackground {
+.lessonLargeBackground {
     width: 100%;
     left: 0;
     background-color: white;
@@ -45,7 +45,7 @@
     z-index: -1;
 }
 
-.lessonTitleBackground {
+.lessonSmallBackground {
     background-color: white;
     width: 600px;
     height: 600px;
@@ -73,7 +73,7 @@
         background-color: #FFFFFF;
     }
 
-    .lessonFullBackground {
+    .lessonLargeBackground {
         width: 1000px;
         margin-left: -500px;
         left: 50%;

@@ -3,6 +3,16 @@ import * as T from 'prop-types'
 import { titleStyle, slideContent } from './commonSlideStyles'
 
 const styles = {
+  container: {
+    width: '600px'
+    , height: '600px'
+    , position: 'absolute'
+    , top: '50%'
+    , left: '50%'
+    , marginLeft: '-300px'
+    , marginTop: '-300px'
+    , paddingTop: '5%'
+  },
   instructions: {
     overflow: 'hidden'
   }
@@ -33,8 +43,8 @@ class FullPageText extends PureComponent {
     const { slideData, className, globalColors } = this.props
     return (
       <div
-        style={ slideContent }
         className={ className }
+        style={ styles.container }
       >
         <div
           key='title'

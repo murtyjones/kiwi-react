@@ -22,7 +22,7 @@ import '../common/flex.css'
 
 const formName = 'userLesson'
 
-const defaultBackgroundClassName = 'lessonFullBackground'
+const defaultBackgroundClassName = 'lessonLargeBackground'
 const defaultWidth = '600px'
 
 const circleSize = 60
@@ -108,28 +108,23 @@ const styles = {
 const availableSlideTypes = {
   [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
     component: FullPageText
-    , backgroundClassName: 'lessonFullBackground'
-    , width: '1000px'
+    , backgroundClassName: 'lessonSmallBackground'
+    , width: '600px' // redundant, but needed for background assets width
   },
-  // [LESSON_SLIDE_TYPES.HALF_HALF]: {
-  //   component: HalfHalf
-  //   , backgroundClassName: 'lessonFullBackground'
-  //   , width: '1000px'
-  // },
   [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EXAMPLE]: {
     component: FullPageCodeExample
-    , backgroundClassName: 'lessonFullBackground'
-    , width: '1000px'
+    , backgroundClassName: 'lessonSmallBackground'
+    , width: '600px' // redundant, but needed for background assets width
   },
   [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR]: {
     component: FullPageCodeEditor
-    , backgroundClassName: 'lessonFullBackground'
-    , width: '1000px'
+    , backgroundClassName: 'lessonLargeBackground'
+    , width: '1000px' // redundant, but needed for background assets width
   },
   [LESSON_SLIDE_TYPES.TITLE]: {
     component: Title
-    , backgroundClassName: 'lessonTitleBackground'
-    , width: '600px'
+    , backgroundClassName: 'lessonSmallBackground'
+    , width: '600px' // redundant, but needed for background assets width
   }
 }
 
