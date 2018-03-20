@@ -12,7 +12,7 @@ const contactFormStyles = {
   formStyle: {
     position: 'absolute'
     , width: 'calc(200px + 15vw)'
-    , bottom: '10%'
+    , bottom: '15%'
     , left: '50%'
     , marginLeft: `calc( calc(-200px - 15vw) / 2 )`
   },

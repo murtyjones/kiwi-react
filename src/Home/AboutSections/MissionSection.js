@@ -19,7 +19,7 @@ const styles = {
   }
 }
 
-const SectionThree = () =>
+const MissionSection = () =>
   <div style={ styles.sectionThree }>
     <h2 style={ styles.sectionThreeH2 }>Our Mission</h2>
     <h3 style={ styles.sectionThreeH3 }>To make you proud of us.</h3>
@@ -27,4 +27,4 @@ const SectionThree = () =>
     <h3 style={ styles.sectionThreeH3 }>By any means necessary.</h3>
   </div>
 
-export default SectionThree
+export default MissionSection

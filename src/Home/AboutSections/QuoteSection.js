@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import SubscribeForm from '../SubscribeForm'
+import NextArrow from './NextArrow'
 
 const styles = {
   sectionFour: {
@@ -21,10 +22,11 @@ const styles = {
   }
 }
 
-const SectionFour = () =>
+const QuoteSection = () =>
   <div style={ styles.sectionFour }>
     <blockquote style={ styles.quote }>This is just super neat. It's so interesting.</blockquote>
     <div style={ styles.signature }>– Billy</div>
+    <NextArrow to={ window.innerHeight * 2 } />
   </div>
 
-export default SectionFour
+export default QuoteSection

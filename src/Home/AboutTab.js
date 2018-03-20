@@ -6,11 +6,11 @@ import LaptopMac from 'material-ui-icons/LaptopMac'
 import MonetizationOn from 'material-ui-icons/MonetizationOn'
 import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown'
 import { styles as sharedStyles } from './sharedStyles'
-import SectionOne from './AboutSections/SectionOne'
-import SectionTwo from './AboutSections/SectionTwo'
-import SectionThree from './AboutSections/SectionThree'
-import SectionFour from './AboutSections/SectionFour'
-import SectionFive from './AboutSections/SectionFive'
+import LogoSection from './AboutSections/LogoSection'
+import SubscribeSection from './AboutSections/SubscribeSection'
+import MissionSection from './AboutSections/MissionSection'
+import QuoteSection from './AboutSections/QuoteSection'
+import TeamSection from './AboutSections/TeamSection'
 import Footer from './AboutSections/Footer'
 
 import '../close.css'
@@ -42,11 +42,11 @@ export default class AboutTab extends Component {
   render() {
     return (
       <div key='aboutContent' style={ styles.container }>
-        <SectionOne />
-        <SectionTwo handleMessageSubmit={ this.props.handleMessageSubmit }/>
-        <SectionThree />
-        <SectionFour />
-        <SectionFive />
+        <LogoSection />
+        <SubscribeSection handleMessageSubmit={ this.props.handleMessageSubmit }/>
+        <MissionSection />
+        <QuoteSection />
+        <TeamSection />
         <Footer />
       </div>
     )

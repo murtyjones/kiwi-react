@@ -35,11 +35,14 @@ const TeamMember = ({ name }) =>
     <img src='../../../assets/images/placeholder.svg' />
     <div style={ styles.teamMemberName }>{ name }</div>
     <p style={ styles.paragraph }>
-      This is my information section. There are many like it, but this one is mine. I am nothing without my information section.
+      This is my description. There are many like it, but this one is mine.
+      My description is my best friend. It is my life. I must master it as I must master my life.
+
+      Without me, my description is useless. Without my description, I am useless. I must fire my description true. I must shoot straighter than my enemy who is trying to kill me. I must shoot him before he shoots me. I will…
     </p>
   </div>
 
-const SectionFive = () =>
+const TeamSection = () =>
   <div style={ styles.sectionFive }>
     <h2 style={ styles.sectionFiveH2 }>The Team</h2>
     <TeamMember name='Julia Lamorelle' />
@@ -47,4 +50,4 @@ const SectionFive = () =>
     <TeamMember name='Ben Poppel' />
   </div>
 
-export default SectionFive
+export default TeamSection
