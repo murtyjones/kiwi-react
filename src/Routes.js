@@ -154,6 +154,7 @@ class App extends Component {
                     <Home />
                   )
                 )} />
+                <Route path='/about' exact component={ Home } />
                 <Route path='/login' exact component={ LoginOrRegister } />
                 <Route path='/register' exact component={ LoginOrRegister } />
                 <Route path='/signout' exact component={ SignOut } />

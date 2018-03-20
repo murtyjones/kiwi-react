@@ -1,0 +1,23 @@
+.teamMember {
+    width: 33%;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.teamMember > img {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .teamMember {
+        display: block;
+        width: 100%;
+    }
+}

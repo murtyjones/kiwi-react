@@ -10,11 +10,11 @@ import renderTextField from '../common/renderTextField'
 
 const contactFormStyles = {
   formStyle: {
-    position: 'relative'
+    position: 'absolute'
     , width: 'calc(200px + 15vw)'
+    , bottom: '10%'
     , left: '50%'
     , marginLeft: `calc( calc(-200px - 15vw) / 2 )`
-    //, minWidth: '200px'
   },
   label: {
     color: inactiveColor
@@ -50,24 +50,6 @@ class ContactForm extends PureComponent {
     return (
       <form style={ contactFormStyles.formStyle } onSubmit={ handleSubmit }>
         <Field
-          name='name'
-          className='name'
-          type='text'
-          component={ renderTextField }
-          hintText={ <div className='name'>name</div> }
-          inputStyle={ sharedStyles.input }
-          style={ sharedStyles.field }
-          hintStyle={ sharedStyles.hintStyle }
-          floatingLabelStyle={ {
-            fontWeight: 'bold'
-            , color: usernameFieldActive ? activeColor : inactiveColor
-          } }
-          underlineStyle={ sharedStyles.underlineStyle }
-          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
-          onFocus={ () => this.setUsernameStatus(true) }
-          onBlur={ () => this.setUsernameStatus(false) }
-        />
-        <Field
           name='email'
           type='text'
           className='email'
@@ -85,31 +67,6 @@ class ContactForm extends PureComponent {
           onFocus={ () => this.setPasswordStatus(true) }
           onBlur={ () => this.setPasswordStatus(false) }
         />
-        <Field
-          name='message'
-          type='text'
-          className='message'
-          component={ renderTextField }
-          hintText={ <div className='message'>message</div> }
-          inputStyle={ sharedStyles.input }
-          style={ sharedStyles.field }
-          hintStyle={ sharedStyles.hintStyle }
-          floatingLabelStyle={ {
-            fontWeight: 'bold'
-            , color: messageFieldActive ? activeColor : inactiveColor
-          } }
-          underlineStyle={ sharedStyles.underlineStyle }
-          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
-          onFocus={ () => this.setMessageStatus(true) }
-          onBlur={ () => this.setMessageStatus(false) }
-        />
-        <Field
-          name='subscribe'
-          component={ Checkbox }
-          label='Subscribe me to updates about Kiwi!'
-          labelStyle={ contactFormStyles.label }
-          iconStyle={ contactFormStyles.checkbox }
-        />
         <div style={ sharedStyles.buttonContainer }>
           <button
             type='submit'
@@ -117,7 +74,7 @@ class ContactForm extends PureComponent {
             onClick={ handleSubmit }
             disabled={ submitting && !error }
           >
-            Send
+            Subscribe
           </button>
         { error && <span style={ sharedStyles.error }>{ error }</span> }
         { submitSucceeded && <span style={ sharedStyles.sent }>Sent!</span> }
