@@ -66,6 +66,11 @@
     padding-left: 50px;
 }
 
+.lessonWizardFormContent {
+    box-sizing: border-box;
+    padding-left: 25px;
+    padding-right: 25px;
+}
 
 @media screen and (min-width: 1306px /* 1050 + 256px SideNav */) {
     .backButton, .nextButton {
@@ -100,10 +105,5 @@
         width: 1050px;
         margin-left: -525px;
         left: 50%;
-    }
-    .lessonWizardFormContent {
-        box-sizing: border-box;
-        padding-left: 25px;
-        padding-right: 25px;
     }
 }
