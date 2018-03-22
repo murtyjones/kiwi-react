@@ -12,7 +12,7 @@ const styles = {
   },
   missionSectionH2: {
     fontSize: 'calc(8px + 1.8vw)'
-    , margin: '10vh 10vw 0 10vw'
+    , margin: '8vh 10vw 0 10vw'
     , textDecoration: 'underline'
   },
   missionSectionH3: {
@@ -25,7 +25,7 @@ const MissionSection = () =>
   <div style={ styles.missionSection }>
     <h2 style={ styles.missionSectionH2 }>Our Mission</h2>
     <h3 style={ styles.missionSectionH3 }>To make you proud of us.</h3>
-    <h2 style={ styles.missionSectionH2 }>How we do it</h2>
+    <h2 style={ styles.missionSectionH2 }>How We Do It</h2>
     <h3 style={ styles.missionSectionH3 }>By any means necessary.</h3>
     <NextArrow to={ window.innerHeight } />
   </div>

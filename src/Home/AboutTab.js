@@ -29,9 +29,11 @@ const styles = {
   },
   backHome: {
     position: 'fixed'
+    , fontWeight: 'bold'
     , top: '20px'
     , left: '5px'
     , zIndex: 2
+    , textShadow: '1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff'
   }
 }
 
