@@ -3,25 +3,25 @@ import SubscribeForm from '../SubscribeForm'
 import NextArrow from './NextArrow'
 
 const styles = {
-  sectionTwo: {
-    height: '65vh'
+  subscribeSection: {
+    height: '100vh'
     , backgroundColor: '#765C9F'
     , position: 'relative'
     , overflow: 'auto'
   },
-  sectionTwoH1: {
+  subscribeSectionH1: {
     fontSize: 'calc(10px + 2.3vw)'
     , margin: '18vh 10vw 0 10vw'
   }
 }
 
 const SubscribeSection = ({handleMessageSubmit}) =>
-  <div style={ styles.sectionTwo }>
-    <h1 style={ styles.sectionTwoH1 }>Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</h1>
+  <div style={ styles.subscribeSection }>
+    <h1 style={ styles.subscribeSectionH1 }>Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</h1>
     <SubscribeForm
       onSubmit={ (p) => handleMessageSubmit({ subscribe: true, ...p }) }
     />
-    <NextArrow to={ window.innerHeight } />
+    <NextArrow to={ window.innerHeight * 2 } />
   </div>
 
 export default SubscribeSection

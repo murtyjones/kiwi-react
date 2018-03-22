@@ -1,30 +1,33 @@
 import React, { Component } from 'react'
 import SubscribeForm from '../SubscribeForm'
+import NextArrow from './NextArrow'
 
 const styles = {
-  sectionThree: {
-    height: '45vh'
-    , backgroundColor: '#624F8F'
+  missionSection: {
+    height: '60vh'
+    , backgroundColor: '#FFFFFF'
     , position: 'relative'
     , overflow: 'auto'
+    , color: '#624F8F'
   },
-  sectionThreeH2: {
+  missionSectionH2: {
     fontSize: 'calc(8px + 1.8vw)'
-    , margin: '12.5vh 10vw 0 10vw'
+    , margin: '10vh 10vw 0 10vw'
     , textDecoration: 'underline'
   },
-  sectionThreeH3: {
+  missionSectionH3: {
     fontSize: 'calc(7px + 1.6vw)'
     , margin: '0 10vw'
   }
 }
 
 const MissionSection = () =>
-  <div style={ styles.sectionThree }>
-    <h2 style={ styles.sectionThreeH2 }>Our Mission</h2>
-    <h3 style={ styles.sectionThreeH3 }>To make you proud of us.</h3>
-    <h2 style={ styles.sectionThreeH2 }>How we do it</h2>
-    <h3 style={ styles.sectionThreeH3 }>By any means necessary.</h3>
+  <div style={ styles.missionSection }>
+    <h2 style={ styles.missionSectionH2 }>Our Mission</h2>
+    <h3 style={ styles.missionSectionH3 }>To make you proud of us.</h3>
+    <h2 style={ styles.missionSectionH2 }>How we do it</h2>
+    <h3 style={ styles.missionSectionH3 }>By any means necessary.</h3>
+    <NextArrow to={ window.innerHeight } />
   </div>
 
 export default MissionSection

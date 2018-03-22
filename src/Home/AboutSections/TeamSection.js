@@ -2,16 +2,15 @@ import React, { Component } from 'react'
 import './teamOverrides.css'
 
 const styles = {
-  sectionFive: {
-    height: '100vh'
-    , backgroundColor: '#FFFFFF'
+  teamSection: {
+    backgroundColor: '#FFFFFF'
     , position: 'relative'
     , overflow: 'auto'
     , color: '#000000'
   },
-  sectionFiveH2: {
+  teamSectionH2: {
     fontSize: 'calc(8px + 1.8vw)'
-    , margin: '12.5vh 10vw 5vw 10vw'
+    , margin: '10vh 10vw 5vw 10vw'
     , textDecoration: 'underline'
     , color: '#9575C9'
   },
@@ -43,8 +42,8 @@ const TeamMember = ({ name }) =>
   </div>
 
 const TeamSection = () =>
-  <div style={ styles.sectionFive }>
-    <h2 style={ styles.sectionFiveH2 }>The Team</h2>
+  <div style={ styles.teamSection }>
+    <h2 style={ styles.teamSectionH2 }>The Team</h2>
     <TeamMember name='Julia Lamorelle' />
     <TeamMember name='Marty Jones' />
     <TeamMember name='Ben Poppel' />

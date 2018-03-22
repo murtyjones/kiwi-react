@@ -12,6 +12,8 @@ import MissionSection from './AboutSections/MissionSection'
 import QuoteSection from './AboutSections/QuoteSection'
 import TeamSection from './AboutSections/TeamSection'
 import Footer from './AboutSections/Footer'
+import { Link } from 'react-router-dom'
+
 
 import '../close.css'
 import './overrides.css'
@@ -24,8 +26,17 @@ const styles = {
     , fontFamily: 'Arvo'
     , position: 'relative' // needed for abs children
     , textAlign: 'center'
+  },
+  backHome: {
+    position: 'fixed'
+    , top: '20px'
+    , left: '5px'
+    , zIndex: 2
   }
 }
+
+const BackHome = () =>
+  <Link style={ styles.backHome } to='/'>&lt; Home</Link>
 
 
 export default class AboutTab extends Component {
@@ -42,9 +53,10 @@ export default class AboutTab extends Component {
   render() {
     return (
       <div key='aboutContent' style={ styles.container }>
+        <BackHome />
         <LogoSection />
-        <SubscribeSection handleMessageSubmit={ this.props.handleMessageSubmit }/>
         <MissionSection />
+        <SubscribeSection handleMessageSubmit={ this.props.handleMessageSubmit }/>
         <QuoteSection />
         <TeamSection />
         <Footer />

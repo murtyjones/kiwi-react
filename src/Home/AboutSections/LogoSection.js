@@ -4,8 +4,8 @@ const styles = {
   container: {
     position: 'relative'
   },
-  sectionOne: {
-    height: '35vh'
+  logoSection: {
+    height: '40vh'
     , position: 'relative'
     , overflow: 'auto'
   }
@@ -16,7 +16,7 @@ const LogoSection = () =>
     <img
       key={ 1 }
       src='../../../assets/images/kiwi_logo_large_color.svg'
-      style={ styles.sectionOne }
+      style={ styles.logoSection }
     />
   </div>
 

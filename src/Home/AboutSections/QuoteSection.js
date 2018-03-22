@@ -3,11 +3,15 @@ import SubscribeForm from '../SubscribeForm'
 import NextArrow from './NextArrow'
 
 const styles = {
-  sectionFour: {
-    height: '55vh'
-    , backgroundColor: '#9575C9'
+  quoteSection: {
+    height: '100vh'
+    , backgroundColor: '#624F8F'
     , position: 'relative'
     , overflow: 'auto'
+  },
+  quoteSectionH1: {
+    fontSize: 'calc(10px + 2.3vw)'
+    , margin: '18vh 10vw 0 10vw'
   },
   signature: {
     fontSize: 'calc(8px + 2.0vw)'
@@ -23,10 +27,11 @@ const styles = {
 }
 
 const QuoteSection = () =>
-  <div style={ styles.sectionFour }>
+  <div style={ styles.quoteSection }>
+    <h2 style={ styles.quoteSectionH1 }>What students think</h2>
     <blockquote style={ styles.quote }>This is just super neat. It's so interesting.</blockquote>
     <div style={ styles.signature }>– Billy</div>
-    <NextArrow to={ window.innerHeight * 2 } />
+    <NextArrow to={ window.innerHeight * 3 } />
   </div>
 
 export default QuoteSection
