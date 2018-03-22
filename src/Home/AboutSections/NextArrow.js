@@ -15,7 +15,7 @@ const styles = {
     , fontSize: 'calc(12pt + 0.4vw)'
     , width: size
     , height: size
-    , bottom: '15px'
+    , bottom: '30px'
     , left: '50%'
     , marginLeft: marginOffset
     , zIndex: 1000

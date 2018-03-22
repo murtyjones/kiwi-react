@@ -5,7 +5,8 @@ import NextArrow from './NextArrow'
 const styles = {
   subscribeSection: {
     height: '100vh'
-    , backgroundColor: '#624F8F'
+    , color: '#624F8F'
+    , backgroundColor: '#FFFFFF'
     , position: 'relative'
     , overflow: 'auto'
   },

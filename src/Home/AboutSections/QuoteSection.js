@@ -5,14 +5,14 @@ import NextArrow from './NextArrow'
 const styles = {
   quoteSection: {
     height: '100vh'
-    , backgroundColor: '#FFFFFF'
+    , backgroundColor: '#624F8F'
     , position: 'relative'
     , overflow: 'auto'
-    , color: '#624F8F'
+    , color: '#FFFFFF'
   },
   quoteSectionH1: {
     fontSize: 'calc(10px + 2.3vw)'
-    , margin: '5vh 10vw 13vw 10vw'
+    , margin: '18vh 10vw 2.5vh 10vw'
   },
   signature: {
     fontSize: 'calc(8px + 2.0vw)'
@@ -25,7 +25,6 @@ const styles = {
     , marginLeft: '-25vw'
     , padding: '4vw 1vw 4vw 1vw'
     , boxSizing: 'border-box'
-    , backgroundColor: '#624F8F'
   },
   quote: {
     fontSize: 'calc(8px + 1.8vw)'

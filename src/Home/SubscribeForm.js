@@ -14,10 +14,11 @@ const contactFormStyles = {
     , width: 'calc(200px + 15vw)'
     , bottom: '30%'
     , left: '50%'
+    , color: '#624F8F'
     , marginLeft: `calc( calc(-200px - 15vw) / 2 )`
   },
   label: {
-    color: inactiveColor
+    color: '#624F8F'
     , fontWeight: 'bold'
   },
   checkbox: {
@@ -28,25 +29,10 @@ const contactFormStyles = {
 class ContactForm extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      usernameFieldActive: false
-      , passwordFieldActive: false
-      , messageFieldActive: false
-    }
   }
-
-  setUsernameStatus = bool =>
-    this.setState({ usernameFieldActive: bool })
-
-  setPasswordStatus = bool =>
-    this.setState({ passwordFieldActive: bool })
-
-  setMessageStatus = bool =>
-    this.setState({ messageFieldActive: bool })
 
   render() {
     const { error, handleSubmit, pristine, reset, submitting, submitSucceeded } = this.props
-    const { usernameFieldActive, passwordFieldActive, messageFieldActive } = this.state
     return (
       <form style={ contactFormStyles.formStyle } onSubmit={ handleSubmit }>
         <Field
@@ -55,22 +41,21 @@ class ContactForm extends PureComponent {
           className='email'
           component={ renderTextField }
           hintText={ <div className='email'>email</div> }
-          inputStyle={ sharedStyles.input }
+          inputStyle={ { ...sharedStyles.input, color: '#624F8F' } }
           style={ sharedStyles.field }
           hintStyle={ sharedStyles.hintStyle }
           floatingLabelStyle={ {
             fontWeight: 'bold'
-            , color: passwordFieldActive ? activeColor : inactiveColor
+            , color: '#624F8F'
           } }
-          underlineStyle={ sharedStyles.underlineStyle }
-          underlineFocusStyle={ sharedStyles.underlineFocusStyle }
-          onFocus={ () => this.setPasswordStatus(true) }
-          onBlur={ () => this.setPasswordStatus(false) }
+          underlineStyle={ { ...sharedStyles.underlineStyle, borderBottom: '3px solid #624F8F' } }
+          underlineFocusStyle={ { ...sharedStyles.underlineFocusStyle, borderBottom: '3px solid #624F8F' } }
         />
         <div style={ sharedStyles.buttonContainer }>
           <button
             type='submit'
             className='greenButton hvr-grow'
+            style={ { color: '#624F8F' } }
             onClick={ handleSubmit }
             disabled={ submitting && !error }
           >
