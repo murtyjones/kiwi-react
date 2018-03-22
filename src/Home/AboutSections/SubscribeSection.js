@@ -12,12 +12,17 @@ const styles = {
   subscribeSectionH1: {
     fontSize: 'calc(10px + 2.3vw)'
     , margin: '18vh 10vw 0 10vw'
+  },
+  subscribeSectionH2: {
+    fontSize: 'calc(9px + 1.4vw)'
+    , margin: '2vh 10vw 0 10vw'
   }
 }
 
 const SubscribeSection = ({handleMessageSubmit}) =>
   <div style={ styles.subscribeSection }>
-    <h1 style={ styles.subscribeSectionH1 }>Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</h1>
+    <h1 style={ styles.subscribeSectionH1 }>We love building our Kiwi community!</h1>
+    <h1 style={ styles.subscribeSectionH2 }>Let’s stay in touch.</h1>
     <SubscribeForm
       onSubmit={ (p) => handleMessageSubmit({ subscribe: true, ...p }) }
     />
