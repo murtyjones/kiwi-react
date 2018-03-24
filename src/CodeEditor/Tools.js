@@ -119,7 +119,7 @@ class Tools extends Component {
   static propTypes = {
     className: T.string
     , onSave: T.func
-    , onRun: T.func.isRequired
+    , onRun: T.func
   }
 
   mouseAction = (newState) => {

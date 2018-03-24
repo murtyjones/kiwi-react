@@ -96,7 +96,7 @@ class CodeEditor extends Component {
     if(this.props.editorInput !== nextProps.editorInput) {
       this.updateInput(nextProps.editorInput)
     }
-    
+
     if(!this.props.runCode && nextProps.runCode) {
       this.runCode()
       nextProps.afterRunCode()
