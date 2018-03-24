@@ -100,13 +100,7 @@ class UserLessonWizard extends Component {
     if(titleNeedsSetting) this.props.setTopBarTitle(nextLesson.title)
   }
 
-  setTopBarColor = newGlobalColors => {
-    this.props.setGlobalColors({
-      primaryColor: newGlobalColors.primaryColor
-      , textColor: '#FFFFFF'
-      , secondaryColor: newGlobalColors.primaryColor
-    })
-  }
+  setTopBarColor = newGlobalColors => this.props.setGlobalColors(newGlobalColors)
 
   handleSubmit = (params) => {
     const { postUserLesson, putUserLesson } = this.props
