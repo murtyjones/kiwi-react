@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import { connect } from 'react-redux'
-import { get, isEqual } from 'lodash'
+import { isEqual } from 'lodash'
 import cns from 'classnames'
 
-import { isPrevDisabled, isNextDisabled, isFinalSlide } from "../utils/lessonWizardUtils"
+import { isPrevDisabled, isNextDisabled, isFinalSlide } from '../utils/lessonWizardUtils'
 import { LESSON_SLIDE_TYPES } from '../constants'
+import ActionBar from './ActionBar'
+import { LessonTheme, LessonThemeBackground, sortAssetsByQuadrant } from './LessonTheme'
 
 // import slides
 import FullPageText from './Slides/FullPageText'
-import HalfHalf from './Slides/HalfHalf'
 import FullPageCodeEditor from './Slides/FullPageCodeEditor'
 import FullPageCodeExample from './Slides/FullPageCodeExample'
 import Title from './Slides/Title'
@@ -25,83 +26,12 @@ const formName = 'userLesson'
 const defaultBackgroundClassName = 'lessonLargeBackground'
 const defaultWidth = '600px'
 
-const circleSize = 60
-
 const styles = {
-  header: {
-    width: '100%'
-  },
   lessonWizardForm: {
     height:'100%'
     , overflow: 'auto'
     , position: 'absolute'
     , top: 0
-  },
-  prevButton: {
-    height: `${circleSize*2}px`
-    , width: `${circleSize}px`
-    , borderBottomRightRadius: `${circleSize*2}px`
-    , borderTopRightRadius: `${circleSize*2}px`
-    , position: 'absolute'
-    , left: 0
-    , top: '50%'
-    , marginTop: `-${circleSize}px`
-  },
-  leftArrowStyle: {
-    height: 50
-    , width: 50
-    , position: 'absolute'
-    , left: 0
-    , top: '50%'
-    , marginTop: `-${circleSize/2}px`
-  },
-  nextButton: {
-    height: `${circleSize*2}px`
-    , width: `${circleSize}px`
-    , borderBottomLeftRadius: `${circleSize*2}px`
-    , borderTopLeftRadius: `${circleSize*2}px`
-    , position: 'absolute'
-    , right: 0
-    , top: '50%'
-    , marginTop: `-${circleSize}px`
-  },
-  rightArrowStyle: {
-    height: 50
-    , width: 50
-    , position: 'absolute'
-    , right: 0
-    , top: '50%'
-    , marginTop: `-${circleSize/2}px`
-  },
-  disabledColor: '#CCCCCC',
-  themeContainer: {
-    height: '100%'
-    , width: '100%'
-  },
-  themeTable: {
-    height: '100%'
-    , position: 'relative'
-    , width: '100%'
-    , zIndex: -2
-  },
-  themeTableRow: {
-    height: '50%'
-    , position: 'relative'
-    , width: '100%'
-    , display: 'table'
-    , zIndex: -2
-  },
-  themeQuadrant: {
-    display: 'table-cell'
-    , position: 'relative'
-    , height: '100%'
-    , overflow: 'visible'
-    , zIndex: -1
-  },
-  asset: {
-    display: 'inline-block'
-    , position: 'absolute'
-    , zIndex: 0
   }
 }
 
@@ -120,6 +50,7 @@ const availableSlideTypes = {
     component: FullPageCodeEditor
     , backgroundClassName: 'lessonLargeBackground'
     , width: '1000px' // redundant, but needed for background assets width
+    , includeRunButton: true
   },
   [LESSON_SLIDE_TYPES.TITLE]: {
     component: Title
@@ -137,6 +68,7 @@ class UserLessonWizardForm extends Component {
       , prevDisabled: null
       , nextDisabled: null
       , isFinal: null
+      , runCode: false
     }
   }
 
@@ -170,20 +102,21 @@ class UserLessonWizardForm extends Component {
       , { lesson: nextLesson, activeSlideIndex: nextActiveSlideIndex, lessonTheme: nextLessonTheme, isFetchingUserLessons: nextIsFetchingUserLessons } = nextProps
       , lessonHasChanged = !isEqual(nextLesson, lesson)
       , activeSlideIndexHasChanged = nextActiveSlideIndex !== activeSlideIndex
-      , themHasChanged = !isEqual(nextLessonTheme, lessonTheme)
+      , themeHasChanged = !isEqual(nextLessonTheme, lessonTheme)
       , isFetchingUserLessonsHasChanged = !isEqual(nextIsFetchingUserLessons, isFetchingUserLessons)
 
     if(lessonHasChanged || activeSlideIndexHasChanged) {
       this.setActiveSlideObject(nextActiveSlideIndex, nextLesson)
       this.setIsFinal(nextActiveSlideIndex, nextLesson)
       this.setPrevDisabled(nextActiveSlideIndex, nextLesson)
+      this.setRunCode(false)
     }
 
     if(lessonHasChanged || activeSlideIndexHasChanged || isFetchingUserLessonsHasChanged) {
       this.setNextDisabled(nextActiveSlideIndex, nextLesson, nextIsFetchingUserLessons)
     }
 
-    if(themHasChanged) {
+    if(themeHasChanged) {
       this.setThemeAssetsByQuadrant(nextLessonTheme)
     }
   }
@@ -191,8 +124,8 @@ class UserLessonWizardForm extends Component {
   setActiveSlideObject = (activeSlideIndex, lesson) =>
     this.setState({ activeSlideObject: lesson.slides[activeSlideIndex] })
 
-  setThemeAssetsByQuadrant = (lessonTheme) =>
-    this.setState({ themeAssetsByQuadrant: this.sortAssetsByQuadrant(lessonTheme) })
+  setThemeAssetsByQuadrant = lessonTheme =>
+    this.setState({ themeAssetsByQuadrant: sortAssetsByQuadrant(lessonTheme) })
 
   setPrevDisabled = (activeSlideIndex, lesson) =>
     this.setState({ prevDisabled: isPrevDisabled(activeSlideIndex, lesson) })
@@ -203,7 +136,9 @@ class UserLessonWizardForm extends Component {
   setIsFinal = (activeSlideIndex, lesson) =>
     this.setState({ isFinal: isFinalSlide(activeSlideIndex, lesson) })
 
-  setToViewed = (ref) => {
+  setRunCode = flag => this.setState({ runCode: flag })
+
+  setToViewed = ref => {
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
   }
 
@@ -212,21 +147,16 @@ class UserLessonWizardForm extends Component {
     goToPrevSlide()
   }
 
-  onNext = (params) => {
+  onNext = params => {
     const { goToNextSlide, onSubmit, currentValues } = this.props
     goToNextSlide()
     onSubmit(currentValues)
   }
 
-  onFinalNext = (params) => {
+  onFinalNext = params => {
     const { onFinalSlideNextClick, currentValues, onSubmit } = this.props
     onSubmit(currentValues)
     onFinalSlideNextClick()
-  }
-
-  handleCodeSave = (v) => {
-    const { onSubmit, currentValues } = this.props
-    onSubmit(currentValues)
   }
 
   renderSlide = ({ fields }) => {
@@ -234,195 +164,64 @@ class UserLessonWizardForm extends Component {
     // the render method! otherwise child
     // components will remount on each rendering!
     const { activeSlideIndex, lesson, globalColors } = this.props
-        , { activeSlideObject } = this.state
+        , { activeSlideObject, runCode } = this.state
         , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
-
-    return fields.map((name, i) => {
-      return (i === activeSlideIndex) ? (
-        <Field
-          key={ `${name}.answer` }
-          name={ `${name}.answer` }
-          component={ ActiveSlideComponent }
-          handleCodeSave={ this.handleCodeSave }
-          className='lessonWizardFormContent flexZeroOneAuto'
-          globalColors={ globalColors }
-          slideData={ activeSlideObject }
-          setToViewed={ () => this.setToViewed(name) }
-        />
-      ) : null
-    })
+    return fields.map((name, i) =>
+      i === activeSlideIndex
+        ? (
+          <Field
+            key={ `${name}.answer` }
+            name={ `${name}.answer` }
+            component={ ActiveSlideComponent }
+            runCode={ runCode }
+            afterRunCode={ () => this.setRunCode(false) }
+            className='lessonWizardFormContent flexZeroOneAuto'
+            globalColors={ globalColors }
+            slideData={ activeSlideObject }
+            setToViewed={ () => this.setToViewed(name) }
+          />
+        ) : null
+    )
   }
-
-  sortAssetsByQuadrant = (theme) => {
-    const assets = get(theme, 'assets', [])
-    return assets.reduce((acc, asset) => {
-      const renderedAsset = this.renderAsset(asset)
-      if     (asset.quadrant === 'topLeft')     acc.topLeft.push(renderedAsset)
-      else if(asset.quadrant === 'topRight')    acc.topRight.push(renderedAsset)
-      else if(asset.quadrant === 'bottomLeft')  acc.bottomLeft.push(renderedAsset)
-      else if(asset.quadrant === 'bottomRight') acc.bottomRight.push(renderedAsset)
-      return acc
-    }, {
-      topLeft: []
-      , topRight: []
-      , bottomLeft: []
-      , bottomRight: []
-    })
-  }
-
-  renderAsset = (asset) =>
-    <img
-      key={ asset.url }
-      src={ asset.url }
-      style={ {
-        ...styles.asset
-        , [asset.relativeToTopOrBottom]: `${asset.y}%`
-        , [asset.relativeToLeftOrRight]: `${asset.x}%`
-        , [asset.specifyWidthOrHeight]: `${asset.percentageWidthOrHeight}%`
-        , minWidth: `${asset.minWidthOrHeight ? asset.minWidthOrHeight : 0}`
-      } }
-    />
 
   render() {
     const { handleSubmit, lessonTheme, globalColors } = this.props
-        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal } = this.state
+        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
-        , hasTheme = !!lessonTheme
-        , foregroundColor = hasTheme && lessonTheme.foregroundColor || ''
-        , foregroundImage = hasTheme && lessonTheme.foregroundImageUrl || ''
-        , backgroundColor = hasTheme && lessonTheme.backgroundColor || ''
-        , backgroundImage = hasTheme && lessonTheme.backgroundImageUrl || ''
-        , backgroundImageWidth = hasTheme && lessonTheme.backgroundImageWidth || 0
-        , backgroundImageHeight = hasTheme && lessonTheme.backgroundImageHeight || 0
-        , foregroundImageWidth = hasTheme && lessonTheme.foregroundImageWidth || 0
-        , foregroundImageHeight = hasTheme && lessonTheme.foregroundImageHeight || 0
+        , includeRunButton = availableSlideTypes[activeSlideObject.type].includeRunButton
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
 
     return [
-      // Render form
-      <form
-        key='lessonWizardForm'
-        className='lessonWizardForm flex flexFlowColumn'
-        style={ styles.lessonWizardForm }
-        onSubmit={ handleSubmit }
-      >
-        <FieldArray
-          name='answerData'
-          component={ this.renderSlide }
-        />
-      </form>
-      ,
-      // Render buttons
-      <div
-        key='backButton'
-        id='backButton'
-        className={ cns('backButton', { 'disabled': prevDisabled }) }
-        style={ styles.prevButton }
-        onClick={ onPrevClick }
-      >
-        <KeyboardArrowLeft
-          className={ cns('leftArrow', { 'disabled': prevDisabled }) }
-          style={ styles.leftArrowStyle }
-          color={ prevDisabled ? styles.disabledColor : globalColors.primaryColor }
-          onClick={ e => e.preventDefault() && onPrevClick() }
-        />
-      </div>
-      ,
-      <div
-        key='nextButton'
-        id='nextButton'
-        className={ cns('nextButton', { 'disabled': nextDisabled }) }
-        style={ styles.nextButton }
-        onClick={ onNextClick }
-      >
-        <KeyboardArrowRight
-          className={ cns('rightArrow', { 'disabled': nextDisabled }) }
-          style={ styles.rightArrowStyle }
-          color={ nextDisabled ? styles.disabledColor : globalColors.primaryColor }
-          onClick={ e => e.preventDefault() && onNextClick() }
-        />
-      </div>
-      ,
-      // Render white background
-      <div
-        key={ activeSlideBackgroundClassName }
-        className={ activeSlideBackgroundClassName }
-      />
-      ,
-      // Render lessonTheme if it exists
-      hasTheme &&
-        <div key='lessonTheme' style={ styles.themeTable }>
-          <div
-            key='background-background'
-            style={ {
-              position: 'absolute'
-              , top: 0
-              , left: 0
-              , background: `${backgroundColor} url('${backgroundImage}')`
-              , backgroundSize: `${backgroundImageWidth}px ${backgroundImageHeight}px`
-              , backgroundRepeat: 'repeat'
-              , height: `${lessonTheme.horizonY}%`
-              , width: '100%'
-              , zIndex: -2
-            } }
+      <Fragment key='userLessonWizardForm'>
+        <form
+          className='lessonWizardForm flex flexFlowColumn'
+          style={ styles.lessonWizardForm }
+          onSubmit={ handleSubmit }
+        >
+          <FieldArray
+            name='answerData'
+            component={ this.renderSlide }
+            // this line is needed so that child components
+            // update when run code is set to true
+            runCode={ runCode }
           />
-          <div
-            key='background-foreground'
-            style={ {
-              position: 'absolute'
-              , top: `${lessonTheme.horizonY}%`
-              , left: 0
-              , background: `${foregroundColor} url('${foregroundImage}')`
-              , backgroundSize: `${foregroundImageWidth}px ${foregroundImageHeight}px`
-              , backgroundRepeat: 'repeat'
-              , width: '100%'
-              , height: `${100-lessonTheme.horizonY}%`
-              , zIndex: -2
-            } }
-          />
-          <div
-            key='top-row'
-            style={ {
-              ...styles.themeTableRow
-              , height: `${lessonTheme.horizonY}%`
-            } }
-          >
-            <div key='top-row-column-left' style={ styles.themeQuadrant }>
-              { themeAssetsByQuadrant.topLeft }
-            </div>
-            <div
-              key='top-row-column-middle'
-              style={ {
-                ...styles.themeQuadrant
-                , width: activeSlideWidth
-              } }
-            />
-            <div key='top-row-column-right' style={ styles.themeQuadrant }>
-              { themeAssetsByQuadrant.topRight }
-            </div>
-          </div>
-          <div
-            key='bottom-row'
-            style={ {
-              ...styles.themeTableRow,
-              height: `${100 - lessonTheme.horizonY}%`
-            } }
-          >
-            <div key='bottom-row-column-left' style={ styles.themeQuadrant }>
-              { themeAssetsByQuadrant.bottomLeft }
-            </div>
-            <div
-              key='bottom-row-column-middle'
-              style={ { ...styles.themeQuadrant, width: activeSlideWidth } }
-            />
-            <div key='bottom-row-column-right' style={ styles.themeQuadrant }>
-              { themeAssetsByQuadrant.bottomRight }
-            </div>
-          </div>
-        </div>
+        </form>
+        <ActionBar
+          onPrevClick={ onPrevClick }
+          onNextClick={ onNextClick }
+          onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
+          globalColors={ globalColors }
+        />
+        <LessonThemeBackground className={ activeSlideBackgroundClassName } />
+        <LessonTheme
+          lessonTheme={ lessonTheme }
+          themeAssetsByQuadrant={ themeAssetsByQuadrant }
+          activeSlideWidth={ activeSlideWidth }
+        />
+      </Fragment>
     ]
   }
 }

@@ -31,7 +31,7 @@ const defaultCodeEditorStyles = {
   },
   editorContainerStyle: {
     position: 'absolute'
-    , bottom: '20px'
+    , bottom: 'calc(20px + 50px)' // leave room for ActionBar
     , right: '0'
     , left: '0'
     , top: '0'
@@ -87,11 +87,19 @@ class CodeEditor extends Component {
     , className: T.string
     , onSave: T.func
     , onChange: T.func
+    , runCode: T.bool
+    , afterRunCode: T.func
+    , showRunButton: T.bool
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.editorInput !== nextProps.editorInput) {
       this.updateInput(nextProps.editorInput)
+    }
+    console.log(nextProps.runCode)
+    if(!this.props.runCode && nextProps.runCode) {
+      this.runCode()
+      nextProps.afterRunCode()
     }
   }
 
@@ -214,7 +222,7 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { className, options, onSave, editorStyle = defaultCodeEditorStyles, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
+    const { className, options, onSave, editorStyle = defaultCodeEditorStyles, showRunButton = true, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
       , isFullSized = layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR
 
@@ -249,7 +257,7 @@ class CodeEditor extends Component {
         </div>
         <Tools
           onSave={ onSave ? this.handleSave : null }
-          onRun={ this.runCode }
+          onRun={ showRunButton ? this.runCode : null }
         />
       </div>
     )

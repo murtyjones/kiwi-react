@@ -26,7 +26,6 @@ class FullPageCodeEditor extends PureComponent {
     , className: T.string
     , input: T.object
     , setToViewed: T.func.isRequired
-    , handleCodeSave: T.func.isRequired
   }
 
   componentDidMount() {
@@ -39,12 +38,8 @@ class FullPageCodeEditor extends PureComponent {
     }
   }
 
-  handleSave = (v) => {
-    this.props.handleCodeSave(v)
-  }
-
   render() {
-    const { slideData, className, input, globalColors } = this.props
+    const { slideData, className, input, runCode, afterRunCode, globalColors } = this.props
 
     return [
       <div key={ className } style={ slideContent } className={ className }>
@@ -84,7 +79,9 @@ class FullPageCodeEditor extends PureComponent {
         className='lessonFullSizeEditor flexOneOneAuto'
         editorInput={ input.value || slideData.editorInput }
         onChange={ input.onChange }
-        onSave={ this.handleSave }
+        runCode={ runCode }
+        afterRunCode={ afterRunCode }
+        showRunButton={ false }
       />
     ]
   }

@@ -1,6 +1,18 @@
-.disabled:hover {
-    cursor: default !important;
+.actionBar {
+    position: fixed;
+    height: 60px;
+    width: 100vw;
+    bottom: 0;
+    opacity: 0.95;
 }
+
+.actionBar:hover, .actionBar:focus, .actionBar:active {
+    opacity: 1.0;
+}
+
+.prevButton, .nextButton, .runCodeButton {  opacity: 1.0;  }
+.prevButton:hover, .nextButton:hover, .runCodeButton:hover {  opacity: 0.9;  }
+.prevButton.disabled:hover, .nextButton.disabled:hover, .runCodeButton.disabled:hover {  opacity: 1.0;  }
 
 .lessonFullSizeEditor {
     margin-left: 50px;
