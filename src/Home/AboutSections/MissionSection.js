@@ -32,7 +32,9 @@ const MissionSection = () =>
       <h3 style={ { textAlign: 'center', ...styles.missionSectionH3 } }>To create a comfortable and fun place for kids to improve their coding skills.</h3>
     </div>
     <h2 style={ styles.missionSectionH2 }>How We Do It</h2>
-    <h3 style={ { textAlign: 'justify', ...styles.missionSectionH3 } }>It's easy to get kids started on coding – but difficult to keep them interested. Middle schoolers today know that coding is important, but struggle with finding the best platform on which to learn. Kiwi has taught coding in Austin for the last two years, reaching hundreds of students. Using its curriculum, Kiwi developed an initial platform with support from the National Science Foundation, US Ignite and the City of Austin. Our goal is to provide an engaging environment where kids are excited to learn coding and improve their technical fluency! The platform teaches coding and balances game-based and academic learning. As the student’s coding skills advance, the lessons increase technical components and slowly introduce new concept.</h3>
+    <h3 style={ { textAlign: 'justify', ...styles.missionSectionH3 } }>
+      Kiwi has taught coding in Austin over the last two years, reaching hundreds of kids. Using its curriculum, Kiwi built a learning platform with support from the National Science Foundation, US Ignite and the City of Austin. The tool uses game-based and academic learning, increasing technical aspects as coding skills advance. Students will move through the program to become a self-taught programmer. Through Kiwi, kids will enjoy coding while improving their technical fluency!
+    </h3>
     <NextArrow to={ window.innerHeight } />
   </div>
 

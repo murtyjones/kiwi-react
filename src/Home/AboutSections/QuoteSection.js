@@ -34,8 +34,8 @@ const styles = {
 
 const Quote = () =>
   <div style={ styles.quoteContainer }>
-    <blockquote style={ styles.quote }>This is just super neat. It's so interesting.</blockquote>
-    <div style={ styles.signature }>– Billy</div>
+    <blockquote style={ styles.quote }>It’s fun to follow along with the stories while also learning coding through clearly explained directions.</blockquote>
+    <div style={ styles.signature }>– Sasha</div>
   </div>
 
 const QuoteSection = () =>

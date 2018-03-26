@@ -43,9 +43,9 @@ const placeholderDescription = "This is my description. There are many like it, 
 My description is my best friend. It is my life. I must master it as I must master my life.\
 Without me, my description is useless. Without my description, I am useless. I must fire my description true. I must shoot straighter than my enemy who is trying to kill me. I must shoot him before he shoots me. I will…"
 
-const TeamMember = ({ name, position, description }) =>
+const TeamMember = ({ name, position, imageUrl, description }) =>
   <div className='teamMember'>
-    <img src='../../../assets/images/placeholder.svg' />
+    <img src={ imageUrl } />
     <div style={ styles.teamMemberName }>{ name }</div>
     <div style={ styles.teamMemberPosition }>{ position }</div>
     <p style={ styles.paragraph }>
@@ -59,17 +59,20 @@ const TeamSection = () =>
     <TeamMember
       name='Julia Lamorelle'
       position='Chief Executive Officer'
-      description='Julia loves working with youth and is passionate about creative learning. After graduating with a Business Degree from Indiana University, she worked as a Strategy Consultant before moving into education. She believes that a strong, diverse education is the.'
+      imageUrl='http://res.cloudinary.com/kiwi-stage/image/upload/v1522032620/julia_ayw2yd.jpg'
+      description='Julia drives Kiwi’s strategic vision and partnerships. Her background includes consulting, education programs and STEM committees. Julia is passionate about mentoring youth and creative solutions in education. She loves reading, art museums and copious amounts of coffee.'
     />
     <TeamMember
       name='Marty Jones'
       position='Chief Technical Officer'
-      description='Marty is a self-taught software developer in Austin with a passion for teaching kids to code. After graduating with a degree in Business Economics, he spent time at Goldman Sachs before moving into Software Development as a self-taught.'
+      imageUrl='http://res.cloudinary.com/kiwi-stage/image/upload/v1522032620/murty_jyfotu.jpg'
+      description='Marty leads the Kiwi Development Team. After working at Goldman Sachs, he moved into Software Development as a self-taught programmer. Marty is an advocate for independent learning and wants to share that with kids. He loves hiking, traveling and teaching himself new programming concepts.'
     />
     <TeamMember
       name='Ben Poppel'
       position='Chief Product Officer'
-      description='Ben graduated from Harvard and has extensive experience as a Product Owner. He is passionate about building teams and products by combining diverse perspectives.'
+      imageUrl='http://res.cloudinary.com/kiwi-stage/image/upload/v1522032621/ben_znisgj.jpg'
+      description='Ben oversees Kiwi’s product strategy, product growth and user experience. After graduating from Harvard, he worked with numerous startups as a Product Owner. He is passionate about data, user experience and startups. In his free time, he loves exploring Austin and urban gardening.'
     />
   </div>
 
