@@ -233,9 +233,6 @@ class MapItems extends PureComponent {
           onClick={ e =>
             this.handleLessonBubbleClick(e, lesson, order, isAvailable)
           }
-          // onBlur={ e =>
-          //   this.handleLessonBubbleBlur(e, isAvailable)
-          // }
           style={ {
             ...styles.mapBubbleContainer
             , left: `${x}vw`
