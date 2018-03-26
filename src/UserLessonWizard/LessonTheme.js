@@ -21,6 +21,11 @@ const styles = {
     , height: '100%'
     , overflow: 'visible'
     , zIndex: -1
+  },
+  asset: {
+    display: 'inline-block'
+    , position: 'absolute'
+    , zIndex: 0
   }
 }
 
