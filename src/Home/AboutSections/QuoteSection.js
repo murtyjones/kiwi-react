@@ -35,7 +35,7 @@ const styles = {
 const Quote = () =>
   <div style={ styles.quoteContainer }>
     <blockquote style={ styles.quote }>It’s fun to follow along with the stories while also learning coding through clearly explained directions.</blockquote>
-    <div style={ styles.signature }>– Sasha</div>
+    <div style={ styles.signature }>– Sasha, 13 years old</div>
   </div>
 
 const QuoteSection = () =>
