@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import WelcomeSection from './HomeSections/WelcomeSection'
 import SalesSection from './HomeSections/SalesSection'
 import ContactSection from './HomeSections/ContactSection'
-import LoginLink from './HomeSections/LoginLink'
+import { LoginLink, AboutLink } from './HomeSections/Links'
 
 import '../close.css'
 import './overrides.css'
@@ -42,6 +42,7 @@ export default class HomeTab extends Component {
         <LoginLink
           openDrawer={ this.props.openDrawer }
         />
+        <AboutLink />
       </div>
     )
   }

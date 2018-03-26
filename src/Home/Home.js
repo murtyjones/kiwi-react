@@ -85,7 +85,6 @@ class Home extends Component {
     const { drawerIsOpen } = this.state
     const { location } = this.props
     const currentPath = location.pathname
-    const switchText = currentPath === '/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
 
     const availableRoutes = [
       {
