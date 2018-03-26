@@ -1,19 +1,14 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import { get, find, findIndex, isEqual, isEmpty, cloneDeep } from 'lodash'
-import cns from 'classnames'
-import CircularProgressbar from 'react-circular-progressbar'
-import Check from 'material-ui-icons/Check'
-import Lock from 'material-ui-icons/Lock'
+
 import { animateScroll as scroll } from 'react-scroll'
 
 import { LESSON_MAP_POINTS } from '../constants'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 import insertIf from '../utils/insertIf'
 import { GLOBAL_COLORS } from '../constants'
-
-const checkColor = '#FFFFFF'
-const lockColor = '#FFFFFF'
+import MapBubble from './MapBubble'
 
 const bubbleStates = {
   AVAILABLE: 'AVAILABLE'
@@ -25,14 +20,6 @@ const styles = {
     width: '100%'
     , minHeight: '100%'
     , paddingBottom: '100%'
-  },
-  mapBubbleContainer: {
-    position: 'absolute'
-  },
-  icon: {
-    position: 'absolute'
-    , left: '50%'
-    , top: '50%'
   }
 }
 
@@ -219,113 +206,21 @@ class MapItems extends PureComponent {
     const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
       if(isEmpty(lesson)) return null
 
-      const { _id, order, isAvailable, isSelected, x, y, message, isLeftLabel, hasBeenCompleted, completionPercentage, lessonTheme = GLOBAL_COLORS['neighborhood'] } = lesson
-      const isLatestActive = activeLessonId === _id
-      const isJustCompleted = lessonJustCompletedId === _id
+      const { lessonTheme = GLOBAL_COLORS['neighborhood'] } = lesson
+      const isLatestActive = activeLessonId === lesson._id
+      const isJustCompleted = lessonJustCompletedId === lesson._id
 
       acc.push([
-        <button
-          key={ i }
-          className={ cns('map-bubble-button', {
-            'next': isLatestActive && applyNextAnimation
-            , 'hvr-pulse-inverse': isLatestActive
-          } ) }
-          onClick={ e =>
-            this.handleLessonBubbleClick(e, lesson, order, isAvailable)
-          }
-          style={ {
-            ...styles.mapBubbleContainer
-            , left: `${x}vw`
-            , top: `${y}vw`
-          } }
-        >
-          <div
-            key={ `map-bubble-container-${i}` }
-            className='map-bubble-container'
-          >
-            <div
-              className={ cns('lesson-progress', { 'clickable': isAvailable } ) }
-            >
-              <CircularProgressbar
-                percentage={
-                  isJustCompleted && !applyJustCompletedAnimation
-                    ? 0
-                    : completionPercentage
-                }
-                initialAnimation={ true }
-                className={ cns({
-                  'justCompleted': isJustCompleted && applyJustCompletedAnimation
-                }) }
-                styles={ {
-                  path: {
-                    stroke: lessonTheme.quaternaryColor
-                    , strokeOpacity: 100
-                  },
-                  trail: {
-                    stroke: lessonTheme.tertiaryColor
-                    , strokeOpacity: 100
-                  }
-                } }
-              />
-            </div>
-            <div
-              key='label'
-              className={ cns('map-bubble-label', {
-                'left': isLeftLabel
-                , 'right': !isLeftLabel
-              } ) }
-            >
-              <h2
-                style={ {
-                  color: lessonTheme.tertiaryColor
-                  , backgroundColor: lessonTheme.quaternaryColor
-                } }
-              >
-                { message }
-                </h2>
-            </div>
-            <div
-              key='map-bubble'
-              className='map-bubble'
-              style={ { backgroundColor: lessonTheme.primaryColor } }
-            >
-              <h1
-                style={ {
-                  opacity: isAvailable ? 100 : 0
-                  , color: hasBeenCompleted || !isAvailable ? lessonTheme.quaternaryColor : '#FFFFFF'
-                } }
-              >
-                { order }
-              </h1>
-            </div>
-            { hasBeenCompleted &&
-              <Check
-                className='lesson-icon'
-                style={ {
-                  ...styles.icon
-                  , marginLeft: '-1.5vw'
-                  , marginTop: '-1.5vw'
-                  , width: '3vw'
-                  , height: '3vw'
-                } }
-                color={ checkColor }
-              />
-            }
-            { !isAvailable &&
-              <Lock
-                className='lesson-icon'
-                style={ {
-                  ...styles.icon
-                  , marginLeft: '-1vw'
-                  , marginTop: '-1vw'
-                  , width: '2vw'
-                  , height: '2vw'
-                } }
-                color={ lockColor }
-              />
-            }
-          </div>
-        </button>
+        <MapBubble
+          lesson={ lesson }
+          lessonTheme={ lessonTheme }
+          isLatestActive={ isLatestActive }
+          isJustCompleted={ isJustCompleted }
+          applyNextAnimation={ applyNextAnimation }
+          applyJustCompletedAnimation={ applyJustCompletedAnimation }
+          i={ i }
+          handleLessonBubbleClick={ this.handleLessonBubbleClick }
+        />
       ])
       return acc
     }, [])
