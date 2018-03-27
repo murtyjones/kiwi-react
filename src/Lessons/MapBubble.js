@@ -18,20 +18,20 @@ const styles = {
   }
 }
 
-const MapBubble = ({ lesson, lessonTheme, isLatestActive, isJustCompleted, applyNextAnimation, applyJustCompletedAnimation, i, handleLessonBubbleClick }) =>
+const MapBubble = ({ i, statefulLesson, applyNextAnimation, applyJustCompletedAnimation, handleLessonBubbleClick }) =>
   <button
     key={ i }
     className={ cns('map-bubble-button', {
-      'next': isLatestActive && applyNextAnimation
-      , 'hvr-pulse-inverse': isLatestActive
+      'next': statefulLesson.isLatestActive && applyNextAnimation
+      , 'hvr-pulse-inverse': statefulLesson.isLatestActive
     } ) }
     onClick={ e =>
-      handleLessonBubbleClick(e, lesson, lesson.order, lesson.isAvailable)
+      handleLessonBubbleClick(e, statefulLesson, statefulLesson.order, statefulLesson.isAvailable)
     }
     style={ {
       ...styles.mapBubbleContainer
-      , left: `${lesson.x}vw`
-      , top: `${lesson.y}vw`
+      , left: `${statefulLesson.x}vw`
+      , top: `${statefulLesson.y}vw`
     } }
   >
     <div
@@ -39,25 +39,25 @@ const MapBubble = ({ lesson, lessonTheme, isLatestActive, isJustCompleted, apply
       className='map-bubble-container'
     >
       <div
-        className={ cns('lesson-progress', { 'clickable': lesson.isAvailable } ) }
+        className={ cns('lesson-progress', { 'clickable': statefulLesson.isAvailable } ) }
       >
         <CircularProgressbar
           percentage={
-            isJustCompleted && !applyJustCompletedAnimation
+            statefulLesson.isJustCompleted && !applyJustCompletedAnimation
               ? 0
-              : lesson.completionPercentage
+              : statefulLesson.completionPercentage
           }
           initialAnimation={ true }
           className={ cns({
-            'justCompleted': isJustCompleted && applyJustCompletedAnimation
+            'justCompleted': statefulLesson.isJustCompleted && applyJustCompletedAnimation
           }) }
           styles={ {
             path: {
-              stroke: lessonTheme.quaternaryColor
+              stroke: statefulLesson.lessonTheme.quaternaryColor
               , strokeOpacity: 100
             },
             trail: {
-              stroke: lessonTheme.tertiaryColor
+              stroke: statefulLesson.lessonTheme.tertiaryColor
               , strokeOpacity: 100
             }
           } }
@@ -66,34 +66,34 @@ const MapBubble = ({ lesson, lessonTheme, isLatestActive, isJustCompleted, apply
       <div
         key='label'
         className={ cns('map-bubble-label', {
-          'left': lesson.isLeftLabel
-          , 'right': !lesson.isLeftLabel
+          'left': statefulLesson.isLeftLabel
+          , 'right': !statefulLesson.isLeftLabel
         } ) }
       >
         <h2
           style={ {
-            color: lessonTheme.tertiaryColor
-            , backgroundColor: lessonTheme.quaternaryColor
+            color: statefulLesson.lessonTheme.tertiaryColor
+            , backgroundColor: statefulLesson.lessonTheme.quaternaryColor
           } }
         >
-          { lesson.message }
+          { statefulLesson.message }
         </h2>
       </div>
       <div
         key='map-bubble'
         className='map-bubble'
-        style={ { backgroundColor: lessonTheme.primaryColor } }
+        style={ { backgroundColor: statefulLesson.lessonTheme.primaryColor } }
       >
         <h1
           style={ {
-            opacity: lesson.isAvailable ? 100 : 0
-            , color: lesson.hasBeenCompleted || !lesson.isAvailable ? lessonTheme.quaternaryColor : '#FFFFFF'
+            opacity: statefulLesson.isAvailable ? 100 : 0
+            , color: statefulLesson.hasBeenCompleted || !statefulLesson.isAvailable ? statefulLesson.lessonTheme.quaternaryColor : '#FFFFFF'
           } }
         >
-          { lesson.order }
+          { statefulLesson.order }
         </h1>
       </div>
-      { lesson.hasBeenCompleted &&
+      { statefulLesson.hasBeenCompleted &&
         <Check
           className='lesson-icon'
           style={ {
@@ -106,7 +106,7 @@ const MapBubble = ({ lesson, lessonTheme, isLatestActive, isJustCompleted, apply
           color={ checkColor }
         />
       }
-      { !lesson.isAvailable &&
+      { !statefulLesson.isAvailable &&
         <Lock
           className='lesson-icon'
           style={ {

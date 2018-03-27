@@ -23,7 +23,7 @@ const styles = {
   }
 }
 
-const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById) =>
+const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId) =>
   (mapLessons ||[]).reduce((acc, lesson, i) => {
     const order = i + 1
       , isSelected = selectedLessonOrder === order
@@ -37,8 +37,10 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , bubbleAvailability = bubbleAvailabilities[i]
       , isAvailable = hasBeenCompleted || bubbleAvailability === bubbleStates.AVAILABLE
       , message = isAvailable ? lesson.title : 'Locked!'
-      , lessonThemeName = get(lessonThemesById, `${lesson.themeId}.name`, '').toLowerCase()
+      , lessonThemeName = get(lessonThemesById, `${lesson.themeId}.name`, '').toLowerCase() || 'neighborhood'
       , lessonTheme = GLOBAL_COLORS[lessonThemeName]
+      , isLatestActive = activeLessonId === lesson._id
+      , isJustCompleted = lessonJustCompletedId === lesson._id
 
     acc.push({
       ...lesson
@@ -55,6 +57,8 @@ const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLess
       , isAvailable
       , message
       , lessonTheme
+      , isLatestActive
+      , isJustCompleted
     })
     return acc
   }, [])
@@ -128,8 +132,8 @@ class MapItems extends PureComponent {
     const statefulMapLessonsHasChanged = !isEqual(statefulMapLessons, nextStatefulMapLessons)
     const selectedLessonIdHasChanged = !isEqual(selectedLessonId, nextSelectedLessonId)
 
-    if(needsRemapping || mapLessonsHasChanged || selectedLessonOrderHasChanged || hoveredLessonOrderHasChanged || bubbleAvailabilitiesHasChanged || lessonThemesByIdHasChanged)
-      this.setStatefulMapLessons(nextMapLessons, nextSelectedLessonOrder, nextHoveredLessonOrder, nextBubbleAvailabilities, nextLessonThemesById)
+    if(needsRemapping || mapLessonsHasChanged || selectedLessonOrderHasChanged || hoveredLessonOrderHasChanged || bubbleAvailabilitiesHasChanged || lessonThemesByIdHasChanged || activeLessonIdHasChanged || lessonJustCompletedIdHasChanged)
+      this.setStatefulMapLessons(nextMapLessons, nextSelectedLessonOrder, nextHoveredLessonOrder, nextBubbleAvailabilities, nextLessonThemesById, nextActiveLessonId, nextLessonJustCompletedId)
     if(selectedLessonIdHasChanged)
       this.goToSelectedLesson(nextSelectedLessonId, nextStatefulMapLessons)
     else if(!nextState.isAnimatingToSelected && (activeLessonIdHasChanged || lessonJustCompletedIdHasChanged || statefulMapLessonsHasChanged))
@@ -200,34 +204,25 @@ class MapItems extends PureComponent {
   }
 
   render() {
-    const { statefulMapLessons, applyJustCompletedAnimation, applyNextAnimation, lessonThemesById } = this.state
-    const { activeLessonId, lessonJustCompletedId } = this.props
-
-    const lessonsAssets = statefulMapLessons.reduce((acc, lesson, i) => {
-      if(isEmpty(lesson)) return null
-
-      const { lessonTheme = GLOBAL_COLORS['neighborhood'] } = lesson
-      const isLatestActive = activeLessonId === lesson._id
-      const isJustCompleted = lessonJustCompletedId === lesson._id
-
-      acc.push([
-        <MapBubble
-          lesson={ lesson }
-          lessonTheme={ lessonTheme }
-          isLatestActive={ isLatestActive }
-          isJustCompleted={ isJustCompleted }
-          applyNextAnimation={ applyNextAnimation }
-          applyJustCompletedAnimation={ applyJustCompletedAnimation }
-          i={ i }
-          handleLessonBubbleClick={ this.handleLessonBubbleClick }
-        />
-      ])
-      return acc
-    }, [])
+    const { statefulMapLessons, applyJustCompletedAnimation, applyNextAnimation } = this.state
 
     return (
       <div style={ styles.container }>
-        { lessonsAssets }
+        { statefulMapLessons.reduce((acc, statefulLesson, i) => {
+          if(isEmpty(statefulLesson))
+            return null
+
+          acc.push([
+            <MapBubble
+              i={ i }
+              statefulLesson={ statefulLesson }
+              applyNextAnimation={ applyNextAnimation }
+              applyJustCompletedAnimation={ applyJustCompletedAnimation }
+              handleLessonBubbleClick={ this.handleLessonBubbleClick }
+            />
+          ])
+          return acc
+        }, []) }
       </div>
     )
   }
