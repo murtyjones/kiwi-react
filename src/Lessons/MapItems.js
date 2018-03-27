@@ -214,7 +214,7 @@ class MapItems extends PureComponent {
 
           acc.push([
             <MapBubble
-              i={ i }
+              key={ i }
               statefulLesson={ statefulLesson }
               applyNextAnimation={ applyNextAnimation }
               applyJustCompletedAnimation={ applyJustCompletedAnimation }

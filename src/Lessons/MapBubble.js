@@ -18,9 +18,8 @@ const styles = {
   }
 }
 
-const MapBubble = ({ i, statefulLesson, applyNextAnimation, applyJustCompletedAnimation, handleLessonBubbleClick }) =>
+const MapBubble = ({ statefulLesson, applyNextAnimation, applyJustCompletedAnimation, handleLessonBubbleClick }) =>
   <button
-    key={ i }
     className={ cns('map-bubble-button', {
       'next': statefulLesson.isLatestActive && applyNextAnimation
       , 'hvr-pulse-inverse': statefulLesson.isLatestActive
@@ -35,7 +34,6 @@ const MapBubble = ({ i, statefulLesson, applyNextAnimation, applyJustCompletedAn
     } }
   >
     <div
-      key={ `map-bubble-container-${i}` }
       className='map-bubble-container'
     >
       <div
