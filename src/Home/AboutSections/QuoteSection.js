@@ -18,6 +18,10 @@ const styles = {
     fontSize: 'calc(8px + 2.0vw)'
     , fontWeight: 'bold'
   },
+  age: {
+    fontSize: 'calc(7px + 0.75vw)'
+    , fontWeight: 'bold'
+  },
   quoteContainer: {
     position: 'relative'
     , width: '50vw'
@@ -35,7 +39,8 @@ const styles = {
 const Quote = () =>
   <div style={ styles.quoteContainer }>
     <blockquote style={ styles.quote }>It’s fun to follow along with the stories while also learning coding through clearly explained directions.</blockquote>
-    <div style={ styles.signature }>– Sasha, 13 years old</div>
+    <div style={ styles.signature }>– Sasha</div>
+    <div style={ styles.age }>14 years old</div>
   </div>
 
 const QuoteSection = () =>
