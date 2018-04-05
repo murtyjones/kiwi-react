@@ -2,6 +2,7 @@ import FullPageText from './SlideConfigs/FullPageText'
 import HalfTextHalfCode from './SlideConfigs/HalfTextHalfCode'
 import FullPageCode from './SlideConfigs/FullPageCode'
 import Title from './SlideConfigs/Title'
+import MultipleChoice from './SlideConfigs/MultipleChoice'
 import FullPageCodeExample from './SlideConfigs/FullPageCodeExample'
 
 
@@ -34,6 +35,11 @@ slideTypes = [
     label: 'Title'
     , value: LESSON_SLIDE_TYPES.TITLE
     , component: Title
+  },
+  {
+    label: 'Multiple Choice'
+    , value: LESSON_SLIDE_TYPES.MULTIPLE_CHOICE
+    , component: MultipleChoice
   }
 ]
 
