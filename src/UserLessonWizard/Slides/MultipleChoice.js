@@ -1,18 +1,11 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { titleStyle, slideContentFlexibleHeight } from './commonSlideStyles'
+import { titleStyle, slideContentFullHeight } from './commonSlideStyles'
+import cns from 'classnames'
+
+import './overrides.css'
 
 const styles = {
-  container: {
-    width: '600px'
-    , height: '600px'
-    , position: 'absolute'
-    , top: '50%'
-    , left: '50%'
-    , marginLeft: '-300px'
-    , marginTop: '-300px'
-    , paddingTop: '5%'
-  },
   instructions: {
     overflow: 'hidden'
   }
@@ -42,10 +35,7 @@ class FullPageText extends PureComponent {
   render() {
     const { slideData, className, globalColors } = this.props
     return (
-      <div
-        className={ className }
-        style={ styles.container }
-      >
+      <div key={ className } style={ slideContentFullHeight } className={ className }>
         <div
           key='title'
           id='title'
@@ -63,6 +53,16 @@ class FullPageText extends PureComponent {
           style={ styles.instructions }
           dangerouslySetInnerHTML={ { __html: slideData.instructions } }
         />
+        <div className='choices'>
+          { slideData.choices.map((e, i) =>
+            <div
+              className={ cns('choice', `choice${i}`) }
+              onClick={ () => this.props.setChosenAnswerIndex(i) }
+            >
+              { e }
+            </div>
+          ) }
+        </div>
       </div>
     )
   }

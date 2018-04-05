@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import cns from 'classnames'
 
-
+const isNumeric = n => !isNaN(parseFloat(n)) && isFinite(n)
 
 const styles = {
   button: {
     display: 'inline-block'
     , position: 'absolute'
-    , width: '130px'
+    , width: '140px'
     , height: '40px'
     , top: '11px'
     , borderRadius: '98px'
@@ -23,10 +23,8 @@ const styles = {
     , color: '#000000'
     , backgroundColor: '#FFFFFF'
   },
-  runCodeButton: {
+  actionButton: {
     right: '200px'
-    , color: '#FFFFFF'
-    , backgroundColor: '#9ABF42'
   }
 }
 
@@ -64,42 +62,57 @@ export const NextButton = ({ onNextClick, globalColors }) =>
   </div>
 
 
-export const RunCodeButton = ({ onRunCode }) =>
+export const ActionButton = ({ onAction, actionButtonText }) =>
   <div
-    key='runCodeButton'
-    id='runCodeButton'
-    className={ cns('runCodeButton', { 'disabled': !onRunCode }) }
+    key='actionButton'
+    id='actionButton'
+    className={ cns('actionButton', { 'disabled': !onAction }) }
     style={ {
       ...styles.button
-      , ...styles.runCodeButton
-      , cursor: onRunCode ? 'pointer': ''
+      , ...styles.actionButton
+      , cursor: onAction ? 'pointer': ''
     } }
-    onClick={ onRunCode }
+    onClick={ onAction }
   >
-    Run Code
+    { actionButtonText }
   </div>
 
 
-const ActionBar = ({ onRunCode, onPrevClick, onNextClick, globalColors }) =>
-  <div
-    className='actionBar'
-    style={ {
-      backgroundColor: globalColors.primaryColor
-    } }
-  >
-    { onPrevClick &&
-      <PrevButton
-        onPrevClick={ onPrevClick }
+const ActionBar = ({ onRunCode, onCheckAnswer, onPrevClick, onNextClick, chosenAnswerIndex, globalColors }) => {
+  let onAction, actionButtonText
+  if(onRunCode) {
+    onAction = onRunCode
+    actionButtonText = 'Run Code'
+  } else if(onCheckAnswer) {
+    onAction = isNumeric(chosenAnswerIndex) ? onCheckAnswer : null
+    actionButtonText = 'Check Answer'
+  }
+
+  return (
+    <div
+      className='actionBar'
+      style={ {
+        backgroundColor: globalColors.primaryColor
+      } }
+    >
+      { onPrevClick &&
+        <PrevButton
+          onPrevClick={ onPrevClick }
+          globalColors={ globalColors }
+        />
+      }
+      { !!actionButtonText &&
+        <ActionButton
+          onAction={ onAction }
+          actionButtonText={ actionButtonText }
+        />
+      }
+      <NextButton
         globalColors={ globalColors }
+        onNextClick={ onNextClick }
       />
-    }
-    { onRunCode &&
-      <RunCodeButton onRunCode={ onRunCode } />
-    }
-    <NextButton
-      globalColors={ globalColors }
-      onNextClick={ onNextClick }
-    />
-  </div>
+    </div>
+    )
+}
 
 export default ActionBar

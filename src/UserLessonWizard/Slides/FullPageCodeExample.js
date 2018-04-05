@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { slideContent, titleStyle, example } from './commonSlideStyles'
+import { slideContentFlexibleHeight, titleStyle, example } from './commonSlideStyles'
 
 const styles = {
   fullPageExampleContainer: {

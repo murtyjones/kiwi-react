@@ -5,24 +5,6 @@ import renderRichTextEditor from '../../../common/renderRichTextEditor'
 import { RaisedButton, List, ListItem, MenuItem } from 'material-ui'
 import { SelectField } from 'redux-form-material-ui'
 
-const styles = {
-  prompt: {
-    border: '1px solid #ccc',
-    height: '100px',
-    width: '100%'
-  },
-  textArea: {
-    border: '1px solid #ccc',
-    height: '500px',
-    width: '100%'
-  },
-  codeEditorContainer: {
-    height: '500px'
-    , width: '100%'
-    , overflow: 'auto'
-  }
-}
-
 const renderChoices = ({ fields }) =>
   <List>
     <ListItem>
@@ -52,9 +34,21 @@ class MultipleChoice extends Component {
     return (
       <div>
         <Field
-          name={ `${slideRef}.prompt` }
-          label='Prompt'
+          name={ `${slideRef}.instructions` }
+          label='Instructions'
           component={ renderRichTextEditor }
+        />
+        <Field
+          name={ `${slideRef}.successMessage` }
+          placeholder='Success Message'
+          component={ renderTextField }
+          hintText='Success Message'
+        />
+        <Field
+          name={ `${slideRef}.failureHint` }
+          placeholder='Failure Hint'
+          component={ renderTextField }
+          hintText='Failure Hint'
         />
         <Field
           name={ `${slideRef}.correctAnswerIndex` }

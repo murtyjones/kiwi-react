@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
 import { LESSON_SLIDE_TYPES } from '../../constants'
-import { titleStyle, slideContent } from './commonSlideStyles'
+import { titleStyle, slideContentFlexibleHeight } from './commonSlideStyles'
 
 const styles = {
   left: {
@@ -66,7 +66,7 @@ class HalfHalf extends PureComponent {
     const { slideData, className, input } = this.props
     return [
       <div key='halfhalf-title-container' className={ className }>
-        <div style={ slideContent }>
+        <div style={ slideContentFlexibleHeight }>
           <div
             key='title'
             id='title'

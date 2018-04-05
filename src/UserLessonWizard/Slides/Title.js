@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
-import { titleStyle, slideContent } from './commonSlideStyles'
+import { titleStyle, slideContentFlexibleHeight } from './commonSlideStyles'
 
 const styles = {
   container: {
@@ -72,7 +72,7 @@ class Title extends PureComponent {
       <div className={ className } style={ styles.container }>
         <div
           style={ {
-            ...slideContent
+            ...slideContentFlexibleHeight
             , ...styles.titleContainer
           } }
         >

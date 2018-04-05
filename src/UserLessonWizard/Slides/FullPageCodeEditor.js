@@ -4,7 +4,7 @@ import cns from 'classnames'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
 import { LESSON_SLIDE_TYPES } from '../../constants'
-import { titleStyle, slideContent, example } from './commonSlideStyles'
+import { titleStyle, slideContentFlexibleHeight, example } from './commonSlideStyles'
 
 import './overrides.css'
 
@@ -42,7 +42,7 @@ class FullPageCodeEditor extends PureComponent {
     const { slideData, className, input, runCode, afterRunCode, globalColors } = this.props
 
     return [
-      <div key={ className } style={ slideContent } className={ className }>
+      <div key={ className } style={ slideContentFlexibleHeight } className={ className }>
         <div
           key='title'
           id='title'

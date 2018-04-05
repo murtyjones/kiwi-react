@@ -17,6 +17,7 @@ import FullPageText from './Slides/FullPageText'
 import FullPageCodeEditor from './Slides/FullPageCodeEditor'
 import FullPageCodeExample from './Slides/FullPageCodeExample'
 import Title from './Slides/Title'
+import MultipleChoice from './Slides/MultipleChoice'
 
 import './overrides.css'
 import '../common/flex.css'
@@ -56,6 +57,12 @@ const availableSlideTypes = {
     component: Title
     , backgroundClassName: 'lessonSmallBackground'
     , width: '600px' // redundant, but needed for background assets width
+  },
+  [LESSON_SLIDE_TYPES.MULTIPLE_CHOICE]: {
+    component: MultipleChoice
+    , backgroundClassName: 'lessonLargeBackground'
+    , width: '1000px' // redundant, but needed for background assets width
+    , includeCheckAnswerButton: true
   }
 }
 
@@ -69,6 +76,7 @@ class UserLessonWizardForm extends Component {
       , nextDisabled: null
       , isFinal: null
       , runCode: false
+      , setChosenAnswerIndex: null
     }
   }
 
@@ -138,6 +146,8 @@ class UserLessonWizardForm extends Component {
 
   setRunCode = flag => this.setState({ runCode: flag })
 
+  setCheckAnswer = flag => this.setState({ checkAnswer: flag })
+
   setToViewed = ref => {
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
   }
@@ -147,16 +157,20 @@ class UserLessonWizardForm extends Component {
     goToPrevSlide()
   }
 
-  onNext = params => {
-    const { goToNextSlide, onSubmit, currentValues } = this.props
-    goToNextSlide()
+  submitCurrentValues = () => {
+    const { onSubmit, currentValues } = this.props
     onSubmit(currentValues)
   }
 
+
+  onNext = params => {
+    this.props.goToNextSlide()
+    this.submitCurrentValues()
+  }
+
   onFinalNext = params => {
-    const { onFinalSlideNextClick, currentValues, onSubmit } = this.props
-    onSubmit(currentValues)
-    onFinalSlideNextClick()
+    this.submitCurrentValues()
+    this.props.onFinalSlideNextClick()
   }
 
   renderSlide = ({ fields }) => {
@@ -179,18 +193,22 @@ class UserLessonWizardForm extends Component {
             globalColors={ globalColors }
             slideData={ activeSlideObject }
             setToViewed={ () => this.setToViewed(name) }
+            setChosenAnswerIndex={ this.setChosenAnswerIndex }
           />
         ) : null
     )
   }
 
+  setChosenAnswerIndex = chosenAnswerIndex => this.setState({ chosenAnswerIndex })
+
   render() {
     const { handleSubmit, lessonTheme, globalColors } = this.props
-        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode } = this.state
+        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, chosenAnswerIndex } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
         , includeRunButton = availableSlideTypes[activeSlideObject.type].includeRunButton
+        , includeCheckAnswerButton = availableSlideTypes[activeSlideObject.type].includeCheckAnswerButton
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
 
@@ -213,6 +231,8 @@ class UserLessonWizardForm extends Component {
           onPrevClick={ onPrevClick }
           onNextClick={ onNextClick }
           onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
+          onCheckAnswer={ includeCheckAnswerButton ? this.submitCurrentValues : null }
+          chosenAnswerIndex={ chosenAnswerIndex }
           globalColors={ globalColors }
         />
         <LessonThemeBackground className={ activeSlideBackgroundClassName } />

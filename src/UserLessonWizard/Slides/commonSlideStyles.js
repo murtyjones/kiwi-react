@@ -1,4 +1,4 @@
-const titleStyle = {
+export const titleStyle = {
   fontFamily: 'Arvo'
   , fontSize: '17pt'
   , color: '#6B6B6B'
@@ -7,21 +7,23 @@ const titleStyle = {
   , borderBottom: '0px solid #CCCCCC'
 }
 
-const slideContent = {
+export const slideContentFlexibleHeight = {
   position: 'relative' // needed for absolute children
   , paddingTop: '30px'
   , paddingLeft: '50px'
   , paddingRight: '50px'
 }
 
-const example = {
+export const slideContentFullHeight = {
+  position: 'absolute' // needed for absolute children
+  , top: 0
+  , left: '50px'
+  , right: '50px'
+  , bottom: '60px' // accounts for ActionBar
+}
+
+export const example = {
   overflow: 'hidden'
     , fontFamily: 'monospace'
     , fontSize: '16pt'
-}
-
-export {
-  titleStyle
-  , slideContent
-  , example
 }

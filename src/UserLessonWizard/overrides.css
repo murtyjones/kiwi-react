@@ -10,9 +10,18 @@
     opacity: 1.0;
 }
 
-.prevButton, .nextButton, .runCodeButton {  opacity: 1.0;  }
-.prevButton:hover, .nextButton:hover, .runCodeButton:hover {  opacity: 0.9;  }
-.prevButton.disabled:hover, .nextButton.disabled:hover, .runCodeButton.disabled:hover {  opacity: 1.0;  }
+.prevButton, .nextButton, .actionButton {  opacity: 1.0;  }
+.prevButton:hover, .nextButton:hover, .actionButton:hover {  opacity: 0.9;  }
+.prevButton.disabled:hover, .nextButton.disabled:hover, .actionButton.disabled:hover {  opacity: 1.0;  }
+
+.actionButton {
+    background-color: #9ABF42;
+    color: #FFFFFF;
+}
+.actionButton.disabled {
+    background-color: #b4b4b4;
+    color: #DDDDDD;
+}
 
 .lessonFullSizeEditor {
     margin-left: 50px;
