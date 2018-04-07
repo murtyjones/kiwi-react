@@ -54,7 +54,7 @@ class TopBar extends PureComponent {
     toggleSideNav: T.func.isRequired
     , sideNavWidth: T.number.isRequired
     , isOpen: T.bool.isRequired
-    , title: T.string.isRequired
+    , title: T.string
     , titleDisabled: T.bool.isRequired
     , backgroundColor: T.string
   }

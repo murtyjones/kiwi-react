@@ -7,20 +7,19 @@ import { SelectField } from 'redux-form-material-ui'
 
 const renderChoices = ({ fields }) =>
   <List>
-    <ListItem>
-      <RaisedButton onClick={ () => fields.push({}) }>Add Choice</RaisedButton>
-    </ListItem>
-    { fields.map((assetRef, i) =>
-      <ListItem key={ i }>
-        <RaisedButton onClick={ () => fields.remove(i) }>Remove Choice</RaisedButton>
-        <h3>Choice #{i + 1}</h3>
-        <Field
-          name={ `${assetRef}` }
-          hintText='Choice Text'
-          component={ renderTextField }
-        />
-      </ListItem>
-    ) }
+    { [...Array(4)].map((x, i) => {
+      const assetRef = `${fields.name}[${i}]`
+      return (
+        <ListItem key={ i }>
+          <h3>Choice #{i + 1}</h3>
+          <Field
+            name={ `${assetRef}` }
+            hintText='Choice Text'
+            component={ renderTextField }
+          />
+        </ListItem>
+      )
+    }) }
   </List>
 
 class MultipleChoice extends Component {
@@ -39,22 +38,29 @@ class MultipleChoice extends Component {
           component={ renderRichTextEditor }
         />
         <Field
-          name={ `${slideRef}.successMessage` }
-          placeholder='Success Message'
+          name={ `${slideRef}.successHeadline` }
+          hintText='Success Headline'
           component={ renderTextField }
-          hintText='Success Message'
         />
         <Field
-          name={ `${slideRef}.failureHint` }
-          placeholder='Failure Hint'
+          name={ `${slideRef}.successExplanation` }
+          hintText='Success Explanation'
           component={ renderTextField }
-          hintText='Failure Hint'
         />
+        <Field
+          name={ `${slideRef}.failureHeadline` }
+          hintText='Failure Headline'
+          component={ renderTextField }
+        />
+        <Field
+          name={ `${slideRef}.failureExplanation` }
+          hintText='Failure Explanation'
+          component={ renderTextField }
+        />
+        <label>Correct Answer<br/></label>
         <Field
           name={ `${slideRef}.correctAnswerIndex` }
-          placeholder='Correct Answer'
           component={ SelectField }
-          hintText='Correct Answer'
         >
           { choices.map((e, i) =>
             <MenuItem key={ i } value={ i } primaryText={ e } />

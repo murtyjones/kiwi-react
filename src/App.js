@@ -6,10 +6,16 @@ import 'babel-polyfill'
 import 'raf/polyfill' // polyfill
 import WebFont from 'webfontloader'
 
-// hover css library
+// hover.css library
 import './hover.css'
 
-// hover css library
+// animate.css library
+import './animate.css'
+
+// animate.css transition stuff
+import './animate-transitions.css'
+
+// general css stuff to be reused
 import './general.css'
 
 import Routes from './Routes'

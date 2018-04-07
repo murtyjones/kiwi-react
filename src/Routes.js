@@ -95,7 +95,7 @@ class App extends Component {
     , sideNavWidth: T.number.isRequired
     , isTopBarOpen: T.bool.isRequired
     , topBarHeight: T.number.isRequired
-    , topBarTitle: T.string.isRequired
+    , topBarTitle: T.string
     , topBarTitleDisabled: T.bool.isRequired
     , setTopBarTitle: T.func.isRequired
     , setGlobalColors: T.func.isRequired

@@ -16,7 +16,7 @@ export const slideContentFlexibleHeight = {
 
 export const slideContentFullHeight = {
   position: 'absolute' // needed for absolute children
-  , top: 0
+  , top: '30px'
   , left: '50px'
   , right: '50px'
   , bottom: '60px' // accounts for ActionBar

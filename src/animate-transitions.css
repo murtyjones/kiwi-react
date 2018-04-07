@@ -1,0 +1,19 @@
+.slideRight-enter {
+    animation-name: slideInRight;
+    animation-duration: 400ms;
+}
+
+.slideRight-enter.slideRight-enter-active {
+    animation-name: slideInRight;
+    animation-duration: 400ms;
+}
+
+.slideRight-exit {
+    animation-name: slideOutRight;
+    animation-duration: 400ms;
+}
+
+.slideRight-exit.slideRight-exit-active {
+    animation-name: slideOutRight;
+    animation-duration: 400ms;
+}

@@ -1,0 +1,13 @@
+.resultCard {
+    border-radius: 5px 0 0 5px;
+    padding-left: 25px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 5px #CCCCCC;
+}
+.resultCard.correct { background: #9ABF42; }
+.resultCard.correct > * { color: #558B2F; }
+
+.resultCard.incorrect { background: #D95B72; }
+.resultCard.incorrect > * { color: #9B0909; }
+
+

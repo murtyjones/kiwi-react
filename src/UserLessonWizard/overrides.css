@@ -14,6 +14,12 @@
 .prevButton:hover, .nextButton:hover, .actionButton:hover {  opacity: 0.9;  }
 .prevButton.disabled:hover, .nextButton.disabled:hover, .actionButton.disabled:hover {  opacity: 1.0;  }
 
+.nextButton.disabled, .prevButton.disabled {
+    /* !important needed to override react inline styles*/
+    background-color: #EEEEEE !important;
+    color: #CCCCCC !important;
+}
+
 .actionButton {
     background-color: #9ABF42;
     color: #FFFFFF;

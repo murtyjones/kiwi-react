@@ -69,35 +69,35 @@ class UserLessonWizard extends Component {
   componentWillReceiveProps(nextProps) {
     const { lesson, userLesson, userId, lessonTheme, match: { params: { id } } } = this.props
     const { lessonAndUserLessonReceived } = this.state
-    const { getManyUserLessons: nextGetManyUserLessons, getLesson: nextGetLesson, getLessonTheme: nexGetLessonTheme, lesson: nextLesson, userLesson: nextUserLesson, lessonTheme: nextLessonTheme, globalColors: nextGlobalColors, userId: nextUserId, topBarTitle: nextTopBarTitle, match: { params: { id: nextId } } } = nextProps
+    const { match: { params: { id: nextId } } } = nextProps
       , lessonIdHasChanged = !isEqual(id, nextId)
-      , lessonHasChanged = !isEqual(lesson, nextLesson)
-      , userLessonHasChanged = !isEqual(userLesson, nextUserLesson)
-      , userIdHasChanged = !isEqual(userId, nextUserId)
-      , themeIdHasChanged = !isEqual(nextLessonTheme._id, nextLesson.themeId)
+      , lessonHasChanged = !isEqual(lesson, nextProps.lesson)
+      , userLessonHasChanged = !isEqual(userLesson, nextProps.userLesson)
+      , userIdHasChanged = !isEqual(userId, nextProps.userId)
+      , lessonThemeIdHasChanged = !isEqual(nextProps.lesson.themeId, lesson.themeId)
       , lessonWasEmpty = isEmpty(lesson)
       , userLessonWasEmpty = isEmpty(userLesson)
-      , newGlobalColors = GLOBAL_COLORS[(nextLessonTheme.name || 'default').toLowerCase()]
-      , globalColorsNeedsChanging = nextGlobalColors.primaryColor !== newGlobalColors.primaryColor
-      , titleNeedsSetting = !isEqual(nextTopBarTitle, nextLesson.title)
+      , newGlobalColors = GLOBAL_COLORS[(nextProps.lessonTheme.name || 'default').toLowerCase()]
+      , globalColorsNeedsChanging = nextProps.globalColors.primaryColor !== newGlobalColors.primaryColor
+      , titleNeedsSetting = !isEqual(nextProps.topBarTitle, nextProps.lesson.title)
 
     if(lessonIdHasChanged || userIdHasChanged) {
-      nextGetLesson({ id: nextId })
-      nextGetManyUserLessons({ lessonId: nextId, userId: nextUserId })
+      nextProps.getLesson({ id: nextId })
+      nextProps.getManyUserLessons({ lessonId: nextId, userId: nextProps.userId })
     }
 
-    if(themeIdHasChanged) {
-      nexGetLessonTheme({ id: nextLesson.themeId })
+    if(lessonThemeIdHasChanged) {
+      nextProps.getLessonTheme({ id: nextProps.lesson.themeId })
     }
 
     if(lessonHasChanged || userLessonHasChanged && !lessonAndUserLessonReceived) {
-      const activeSlideIndex = getLatestCompletedSlide(nextLesson, nextUserLesson)
+      const activeSlideIndex = getLatestCompletedSlide(nextProps.lesson, nextProps.userLesson)
       this.setState({ activeSlideIndex, lessonAndUserLessonReceived: true })
     }
 
     if(globalColorsNeedsChanging) this.setTopBarColor(newGlobalColors)
 
-    if(titleNeedsSetting) this.props.setTopBarTitle(nextLesson.title)
+    if(titleNeedsSetting) this.props.setTopBarTitle(nextProps.lesson.title)
   }
 
   setTopBarColor = newGlobalColors => this.props.setGlobalColors(newGlobalColors)

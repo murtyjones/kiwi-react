@@ -1,16 +1,14 @@
 import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
-import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
-import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import { connect } from 'react-redux'
-import { isEqual } from 'lodash'
-import cns from 'classnames'
+import { isEqual, get, has } from 'lodash'
 
 import { isPrevDisabled, isNextDisabled, isFinalSlide } from '../utils/lessonWizardUtils'
 import { LESSON_SLIDE_TYPES } from '../constants'
 import ActionBar from './ActionBar'
 import { LessonTheme, LessonThemeBackground, sortAssetsByQuadrant } from './LessonTheme'
+import ResultCard from '../common/ResultCard/ResultCard'
 
 // import slides
 import FullPageText from './Slides/FullPageText'
@@ -35,6 +33,7 @@ const styles = {
     , top: 0
   }
 }
+
 
 const availableSlideTypes = {
   [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
@@ -77,6 +76,9 @@ class UserLessonWizardForm extends Component {
       , isFinal: null
       , runCode: false
       , setChosenAnswerIndex: null
+      , isAnsweredCorrectly: null
+      , showResultCard: false
+      , checkAnswer: false
     }
   }
 
@@ -97,36 +99,54 @@ class UserLessonWizardForm extends Component {
   }
 
   componentWillMount() {
-    const { lesson, activeSlideIndex, lessonTheme, isFetchingUserLessons } = this.props
+    const { lesson, activeSlideIndex, lessonTheme, formValues, isFetchingUserLessons } = this.props
     this.setActiveSlideObject(activeSlideIndex, lesson)
     if(lessonTheme) this.setThemeAssetsByQuadrant(lessonTheme)
     this.setPrevDisabled(activeSlideIndex, lesson)
-    this.setNextDisabled(activeSlideIndex, lesson, isFetchingUserLessons)
+    this.setNextDisabled(activeSlideIndex, lesson, isFetchingUserLessons, formValues)
     this.setIsFinal(activeSlideIndex, lesson)
   }
 
   componentWillReceiveProps(nextProps) {
-    const { lesson, activeSlideIndex, lessonTheme, isFetchingUserLessons } = this.props
-      , { lesson: nextLesson, activeSlideIndex: nextActiveSlideIndex, lessonTheme: nextLessonTheme, isFetchingUserLessons: nextIsFetchingUserLessons } = nextProps
-      , lessonHasChanged = !isEqual(nextLesson, lesson)
-      , activeSlideIndexHasChanged = nextActiveSlideIndex !== activeSlideIndex
-      , themeHasChanged = !isEqual(nextLessonTheme, lessonTheme)
-      , isFetchingUserLessonsHasChanged = !isEqual(nextIsFetchingUserLessons, isFetchingUserLessons)
+    const lessonHasChanged = !isEqual(nextProps.lesson, this.props.lesson)
+      , activeSlideIndexHasChanged = !isEqual(nextProps.activeSlideIndex, this.props.activeSlideIndex)
+      , themeHasChanged = !isEqual(nextProps.lessonTheme, this.props.lessonTheme)
+      , isFetchingUserLessonsHasChanged = !isEqual(nextProps.isFetchingUserLessons, this.props.isFetchingUserLessons)
+      , formValuesHasChanged = !isEqual(nextProps.formValues, this.props.formValues)
 
     if(lessonHasChanged || activeSlideIndexHasChanged) {
-      this.setActiveSlideObject(nextActiveSlideIndex, nextLesson)
-      this.setIsFinal(nextActiveSlideIndex, nextLesson)
-      this.setPrevDisabled(nextActiveSlideIndex, nextLesson)
+      this.setActiveSlideObject(nextProps.activeSlideIndex, nextProps.lesson)
+      this.setIsFinal(nextProps.activeSlideIndex, nextProps.lesson)
+      this.setPrevDisabled(nextProps.activeSlideIndex, nextProps.lesson)
       this.setRunCode(false)
     }
 
-    if(lessonHasChanged || activeSlideIndexHasChanged || isFetchingUserLessonsHasChanged) {
-      this.setNextDisabled(nextActiveSlideIndex, nextLesson, nextIsFetchingUserLessons)
+    if(lessonHasChanged || activeSlideIndexHasChanged || isFetchingUserLessonsHasChanged || formValuesHasChanged) {
+      this.setNextDisabled(nextProps.activeSlideIndex, nextProps.lesson, nextProps.isFetchingUserLessons, nextProps.formValues)
     }
 
     if(themeHasChanged) {
-      this.setThemeAssetsByQuadrant(nextLessonTheme)
+      this.setThemeAssetsByQuadrant(nextProps.lessonTheme)
     }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    const slideCurrentValues = get(nextProps.currentValues, `answerData[${nextProps.activeSlideIndex}]`)
+    const slideOldValues = get(this.props.currentValues, `answerData[${nextProps.activeSlideIndex}]`)
+    const slideHasUpdated = has(slideOldValues, 'updatedAt') && slideCurrentValues.updatedAt !== slideOldValues.updatedAt
+
+    if(nextState.checkAnswer && slideHasUpdated) {
+      this.checkAnswer(slideCurrentValues)
+    }
+  }
+
+  setStateAsync = newState => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
+
+  checkAnswer = slideCurrentValues => {
+    const isAnsweredCorrectly = slideCurrentValues.isAnsweredCorrectly
+    this.setState({ showResultCard: true, isAnsweredCorrectly })
   }
 
   setActiveSlideObject = (activeSlideIndex, lesson) =>
@@ -138,30 +158,28 @@ class UserLessonWizardForm extends Component {
   setPrevDisabled = (activeSlideIndex, lesson) =>
     this.setState({ prevDisabled: isPrevDisabled(activeSlideIndex, lesson) })
 
-  setNextDisabled = (activeSlideIndex, lesson, isFetchingUserLessons) =>
-    this.setState({ nextDisabled: isNextDisabled(activeSlideIndex, lesson, isFetchingUserLessons) })
+  setNextDisabled = (...args) =>
+    this.setState({ nextDisabled: isNextDisabled(...args) })
 
   setIsFinal = (activeSlideIndex, lesson) =>
     this.setState({ isFinal: isFinalSlide(activeSlideIndex, lesson) })
 
   setRunCode = flag => this.setState({ runCode: flag })
 
-  setCheckAnswer = flag => this.setState({ checkAnswer: flag })
-
-  setToViewed = ref => {
+  setToViewed = ref =>
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
-  }
 
   onPrev = () => {
     const { goToPrevSlide } = this.props
     goToPrevSlide()
   }
 
-  submitCurrentValues = () => {
+  submitCurrentValues = async (checkAnswer = false) => {
     const { onSubmit, currentValues } = this.props
     onSubmit(currentValues)
+    this.setState({ checkAnswer })
+    await this.setStateAsync({ showResultCard: false })
   }
-
 
   onNext = params => {
     this.props.goToNextSlide()
@@ -203,7 +221,7 @@ class UserLessonWizardForm extends Component {
 
   render() {
     const { handleSubmit, lessonTheme, globalColors } = this.props
-        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, chosenAnswerIndex } = this.state
+        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, chosenAnswerIndex, showResultCard, isAnsweredCorrectly } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
@@ -214,6 +232,12 @@ class UserLessonWizardForm extends Component {
 
     return [
       <Fragment key='userLessonWizardForm'>
+        <ResultCard
+          isAnsweredCorrectly={ isAnsweredCorrectly }
+          currentLessonSlide={ activeSlideObject }
+          showResultCard={ showResultCard }
+          toggleShowResultCard={ () => this.setState({ showResultCard: false }) }
+        />
         <form
           className='lessonWizardForm flex flexFlowColumn'
           style={ styles.lessonWizardForm }
@@ -231,7 +255,7 @@ class UserLessonWizardForm extends Component {
           onPrevClick={ onPrevClick }
           onNextClick={ onNextClick }
           onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
-          onCheckAnswer={ includeCheckAnswerButton ? this.submitCurrentValues : null }
+          onCheckAnswer={ includeCheckAnswerButton ? () => this.submitCurrentValues(true) : null }
           chosenAnswerIndex={ chosenAnswerIndex }
           globalColors={ globalColors }
         />
@@ -245,9 +269,6 @@ class UserLessonWizardForm extends Component {
     ]
   }
 }
-
-
-
 
 
 UserLessonWizardForm = connect(

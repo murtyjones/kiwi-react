@@ -11,6 +11,26 @@ const styles = {
   }
 }
 
+const Choices = ({ slideData, input, setChosenAnswerIndex }) =>
+  <div className='choices'>
+    { slideData.choices.map((choice, i) => {
+      const selected = input.value === i
+      return (
+        <div
+          key={ i }
+          className={ cns('choice', `choice${i}`, { 'selected': selected }) }
+          onClick={ () => {
+            if(!selected) input.onChange(i)
+            setChosenAnswerIndex(i)
+          } }
+        >
+          { choice }
+        </div>
+      )
+    }
+    ) }
+  </div>
+
 class FullPageText extends PureComponent {
   constructor(props) {
     super(props)
@@ -33,7 +53,8 @@ class FullPageText extends PureComponent {
   }
 
   render() {
-    const { slideData, className, globalColors } = this.props
+    const { slideData, className, globalColors, setChosenAnswerIndex, input } = this.props
+
     return (
       <div key={ className } style={ slideContentFullHeight } className={ className }>
         <div
@@ -53,16 +74,11 @@ class FullPageText extends PureComponent {
           style={ styles.instructions }
           dangerouslySetInnerHTML={ { __html: slideData.instructions } }
         />
-        <div className='choices'>
-          { slideData.choices.map((e, i) =>
-            <div
-              className={ cns('choice', `choice${i}`) }
-              onClick={ () => this.props.setChosenAnswerIndex(i) }
-            >
-              { e }
-            </div>
-          ) }
-        </div>
+        <Choices
+          slideData={ slideData }
+          input={ input }
+          setChosenAnswerIndex={ setChosenAnswerIndex }
+        />
       </div>
     )
   }
