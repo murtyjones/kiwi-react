@@ -658,45 +658,6 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').length).toBe(1)
         })
 
-        it('should show the user the ResultBox if an answer is selected and submitted', async () => {
-          const correctAnswerResponse = {
-            before: cloneDeep(userLesson)
-            , after: cloneDeep(userLesson)
-          }
-
-          correctAnswerResponse.after.answerData[slide5Id].isAnsweredCorrectly = true
-          correctAnswerResponse.after.answerData[slide5Id].updatedAt = 'newValue!'
-
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-
-          // make choice
-          component.find('div[className="choice choice1"]').at(0).simulate('click')
-          await flushAllPromises()
-
-          ApiFetch.mockImplementationOnce(() => Promise.resolve(correctAnswerResponse)) // response from kiwi-api when updating a lesson
-
-          // send choice to server
-          component.find('div[id="actionButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          console.log(component.find('ResultCard').props().showResultCard)
-
-          expect(component.find('UserLessonWizardForm').length).toBe(1)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          // The component will unmount if this is the last slide and next is clicked.
-          // NOTE: This test will break if a slide is added to the lesson object,
-          // but can be fixed by changing it to be based on activeSlideIndex
-          //expect(component.find('UserLessonWizardForm').length).toBe(0)
-
-        })
-
       })
 
 
