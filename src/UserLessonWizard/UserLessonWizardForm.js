@@ -75,8 +75,6 @@ class UserLessonWizardForm extends Component {
       , nextDisabled: null
       , isFinal: null
       , runCode: false
-      , setChosenAnswerIndex: null
-      , isAnsweredCorrectly: null
       , showResultCard: false
       , checkAnswer: false
     }
@@ -140,13 +138,8 @@ class UserLessonWizardForm extends Component {
     }
   }
 
-  setStateAsync = newState => new Promise((resolve) => {
-    this.setState(newState, resolve)
-  })
-
   checkAnswer = slideCurrentValues => {
-    const isAnsweredCorrectly = slideCurrentValues.isAnsweredCorrectly
-    this.setState({ showResultCard: true, isAnsweredCorrectly })
+    this.setState({ showResultCard: true })
   }
 
   setActiveSlideObject = (activeSlideIndex, lesson) =>
@@ -174,11 +167,11 @@ class UserLessonWizardForm extends Component {
     goToPrevSlide()
   }
 
-  submitCurrentValues = async (checkAnswer = false) => {
+  submitCurrentValues = (checkAnswer = false) => {
     const { onSubmit, currentValues } = this.props
     onSubmit(currentValues)
     this.setState({ checkAnswer })
-    await this.setStateAsync({ showResultCard: false })
+    this.setState({ showResultCard: false })
   }
 
   onNext = params => {
@@ -211,17 +204,14 @@ class UserLessonWizardForm extends Component {
             globalColors={ globalColors }
             slideData={ activeSlideObject }
             setToViewed={ () => this.setToViewed(name) }
-            setChosenAnswerIndex={ this.setChosenAnswerIndex }
           />
         ) : null
     )
   }
 
-  setChosenAnswerIndex = chosenAnswerIndex => this.setState({ chosenAnswerIndex })
-
   render() {
-    const { handleSubmit, lessonTheme, globalColors } = this.props
-        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, chosenAnswerIndex, showResultCard, isAnsweredCorrectly } = this.state
+    const { handleSubmit, lessonTheme, globalColors, activeSlideIndex, formValues } = this.props
+        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, showResultCard } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
@@ -229,14 +219,23 @@ class UserLessonWizardForm extends Component {
         , includeCheckAnswerButton = availableSlideTypes[activeSlideObject.type].includeCheckAnswerButton
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
+        , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
 
     return [
       <Fragment key='userLessonWizardForm'>
         <ResultCard
-          isAnsweredCorrectly={ isAnsweredCorrectly }
+          slideAnswerData={ slideAnswerData }
           currentLessonSlide={ activeSlideObject }
           showResultCard={ showResultCard }
           toggleShowResultCard={ () => this.setState({ showResultCard: false }) }
+        />
+        <ActionBar
+          onPrevClick={ onPrevClick }
+          onNextClick={ onNextClick }
+          onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
+          onCheckAnswer={ includeCheckAnswerButton ? () => this.submitCurrentValues(true) : null }
+          globalColors={ globalColors }
+          slideAnswerData={ slideAnswerData }
         />
         <form
           className='lessonWizardForm flex flexFlowColumn'
@@ -251,14 +250,6 @@ class UserLessonWizardForm extends Component {
             runCode={ runCode }
           />
         </form>
-        <ActionBar
-          onPrevClick={ onPrevClick }
-          onNextClick={ onNextClick }
-          onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
-          onCheckAnswer={ includeCheckAnswerButton ? () => this.submitCurrentValues(true) : null }
-          chosenAnswerIndex={ chosenAnswerIndex }
-          globalColors={ globalColors }
-        />
         <LessonThemeBackground className={ activeSlideBackgroundClassName } />
         <LessonTheme
           lessonTheme={ lessonTheme }

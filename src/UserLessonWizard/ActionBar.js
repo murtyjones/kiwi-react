@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import cns from 'classnames'
+import { has } from 'lodash'
 
 const isNumeric = n => !isNaN(parseFloat(n)) && isFinite(n)
 
@@ -78,13 +79,13 @@ export const ActionButton = ({ onAction, actionButtonText }) =>
   </div>
 
 
-const ActionBar = ({ onRunCode, onCheckAnswer, onPrevClick, onNextClick, chosenAnswerIndex, globalColors }) => {
+const ActionBar = ({ onRunCode, onCheckAnswer, onPrevClick, onNextClick, globalColors, slideAnswerData = {} }) => {
   let onAction, actionButtonText
   if(onRunCode) {
     onAction = onRunCode
     actionButtonText = 'Run Code'
   } else if(onCheckAnswer) {
-    onAction = isNumeric(chosenAnswerIndex) ? onCheckAnswer : null
+    onAction = has(slideAnswerData, 'answer') && isNumeric(slideAnswerData.answer) ? onCheckAnswer : null
     actionButtonText = 'Check Answer'
   }
 

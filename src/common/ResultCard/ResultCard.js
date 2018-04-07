@@ -29,8 +29,9 @@ class ResultCard extends Component {
   }
 
   render() {
-    const { isAnsweredCorrectly, currentLessonSlide, toggleShowResultCard, showResultCard = false } = this.props
+    const { slideAnswerData, currentLessonSlide, toggleShowResultCard, showResultCard = false } = this.props
     const { successHeadline, successExplanation, failureHeadline, failureExplanation } = currentLessonSlide
+    const { isAnsweredCorrectly } = slideAnswerData
 
     let headline = isAnsweredCorrectly ? 'Correct!' : 'Wrong!'
     let explanation

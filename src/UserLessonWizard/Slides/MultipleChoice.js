@@ -11,7 +11,7 @@ const styles = {
   }
 }
 
-const Choices = ({ slideData, input, setChosenAnswerIndex }) =>
+const Choices = ({ slideData, input }) =>
   <div className='choices'>
     { slideData.choices.map((choice, i) => {
       const selected = input.value === i
@@ -19,10 +19,7 @@ const Choices = ({ slideData, input, setChosenAnswerIndex }) =>
         <div
           key={ i }
           className={ cns('choice', `choice${i}`, { 'selected': selected }) }
-          onClick={ () => {
-            if(!selected) input.onChange(i)
-            setChosenAnswerIndex(i)
-          } }
+          onClick={ () => { if(!selected) input.onChange(i) } }
         >
           { choice }
         </div>
@@ -53,7 +50,7 @@ class FullPageText extends PureComponent {
   }
 
   render() {
-    const { slideData, className, globalColors, setChosenAnswerIndex, input } = this.props
+    const { slideData, className, globalColors, input } = this.props
 
     return (
       <div key={ className } style={ slideContentFullHeight } className={ className }>
@@ -77,7 +74,6 @@ class FullPageText extends PureComponent {
         <Choices
           slideData={ slideData }
           input={ input }
-          setChosenAnswerIndex={ setChosenAnswerIndex }
         />
       </div>
     )
