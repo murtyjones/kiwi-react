@@ -165,12 +165,11 @@ const mapStateToProps = (state, ownProps) => {
     , topBar: { topBarTitle }
   } = state
   const { match: { params: { id } } } = ownProps
-
-  let initialValues = { answerData: [], lessonId: id }
-
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
   const lessonTheme = lessonThemesById[lesson.themeId] || {}
+
+  let initialValues = { answerData: [], lessonId: id }
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
     initialValues.answerData = []
