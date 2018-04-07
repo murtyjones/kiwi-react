@@ -130,8 +130,7 @@ class UserLessonWizardForm extends Component {
   componentWillUpdate(nextProps, nextState) {
     const slideCurrentValues = get(nextProps.formValues, `answerData[${nextProps.activeSlideIndex}]`)
     const slideOldValues = get(this.props.formValues, `answerData[${nextProps.activeSlideIndex}]`)
-    const slideHasUpdated = has(slideOldValues, 'updatedAt') && slideCurrentValues.updatedAt !== slideOldValues.updatedAt
-
+    const slideHasUpdated = slideCurrentValues.updatedAt !== slideOldValues.updatedAt
     if(nextState.checkAnswer && slideHasUpdated) {
       this.checkAnswer(slideCurrentValues)
     }
