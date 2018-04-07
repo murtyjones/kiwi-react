@@ -22,7 +22,7 @@ describe('UserLessonWizard', () => {
     , chesterAdminUserId = '5a262f3cd799747b257ace41'
     , lessonId
     , userLessonId
-    , slide2Id, slide3Id, slide4Id, slide1Id
+    , slide1Id, slide2Id, slide3Id, slide4Id, slide5Id
     , lesson
     , userLesson
     , lessonTheme
@@ -39,6 +39,7 @@ describe('UserLessonWizard', () => {
     slide2Id = 'id2'
     slide3Id = 'id3'
     slide4Id = 'id4'
+    slide5Id = 'id5'
     lessonId = 'fakeLessonId'
     userLessonId = 'fakeUserLessonId'
     lesson = {
@@ -73,6 +74,13 @@ describe('UserLessonWizard', () => {
           , explanation: "<p>slide4Explanation</p>"
           , example: "slide4Example"
           , id: slide4Id
+        },
+        {
+          type: LESSON_SLIDE_TYPES.MULTIPLE_CHOICE
+          , instructions: "<p>slide5Instructions</p>"
+          , choices: [ 'choice #1', 'choice #2', 'choice #3', 'choice #4' ]
+          , correctAnswerIndex: 2 // choice #3
+          , id: slide5Id
         }
       ],
       updatedAt: "2017-12-08T04:40:08Z"
@@ -86,6 +94,7 @@ describe('UserLessonWizard', () => {
         , [slide2Id]: { answer: "" }
         , [slide3Id]: { answer: "slide3Answer" }
         , [slide4Id]: { answer: "" }
+        , [slide5Id]: { answer: "" }
       }
     }
     lessonTheme = {
@@ -192,6 +201,7 @@ describe('UserLessonWizard', () => {
         ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
         ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
         ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
+        ApiFetch.mockImplementationOnce(() => Promise.resolve(putLessonPayloadApiResponse)) // response from Kiwi-Api when updating a lesson
       })
 
       describe('slide 1', () => {
@@ -263,6 +273,7 @@ describe('UserLessonWizard', () => {
                   , userLesson.answerData[slide2Id]
                   , userLesson.answerData[slide3Id]
                   , userLesson.answerData[slide4Id]
+                  , userLesson.answerData[slide5Id]
                 ],
                 id: userLessonId
               },
@@ -356,7 +367,7 @@ describe('UserLessonWizard', () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
         })
 
-        it('should be able to progress to slide 4', async () => {
+        it('should be able to progress to slide 4 and back', async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
@@ -412,6 +423,105 @@ describe('UserLessonWizard', () => {
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').props().formValues.answerData[3].isViewed).toEqual(true)
+        })
+
+      })
+
+      describe('slides 1 - 5', () => {
+        it("should dispatch PUT request after clicking next button four times", async () => {
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(dispatchSpy).toBeCalledWith({
+            type: ACTIONS.PUT_USER_LESSON_SUCCESS,
+            payload: putLessonPayloadApiResponse
+          })
+        })
+
+        it("should change activeSlideIndex by 4 when clicking next button four times", async () => {
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(4)
+        })
+
+        it('should be able to progress to slide 5 and back', async () => {
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(4)
+          component.find('div[id="prevButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
+          component.find('div[id="prevButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
+          component.find('div[id="prevButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
+          component.find('div[id="prevButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
+        })
+
+        it('should have expected slide 5 content', async () => {
+          expect(component.find('div[className="choices"]').length).toBe(0)
+          expect(component.find('div[className="instructions"]').length).toBe(0)
+          expect(component.find('div[className="choice choice0"]').length).toBe(0)
+          expect(component.find('div[className="choice choice1"]').length).toBe(0)
+          expect(component.find('div[className="choice choice2"]').length).toBe(0)
+          expect(component.find('div[className="choice choice3"]').length).toBe(0)
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('div[className="choices"]').length).toBe(1)
+          expect(component.find('div[className="instructions"]').length).toBe(1)
+          expect(component.find('div[className="choice choice0"]').length).toBe(1)
+          expect(component.find('div[className="choice choice1"]').length).toBe(1)
+          expect(component.find('div[className="choice choice2"]').length).toBe(1)
+          expect(component.find('div[className="choice choice3"]').length).toBe(1)
+
+          expect(component.find('div[className="choice choice0"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[0]))
+          expect(component.find('div[className="choice choice1"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[1]))
+          expect(component.find('div[className="choice choice2"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[2]))
+          expect(component.find('div[className="choice choice3"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[3]))
+        })
+
+        it('should set slide 5 to viewed', async () => {
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          expect(component.find('UserLessonWizardForm').props().formValues.answerData[4].isViewed).toEqual(true)
         })
 
       })
