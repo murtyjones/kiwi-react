@@ -206,7 +206,7 @@ describe('UserLessonWizard', () => {
         })
 
         it('should set slide 1 to viewed', async () => {
-          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[0].isViewed).toEqual(true)
+          expect(component.find('UserLessonWizardForm').props().formValues.answerData[0].isViewed).toEqual(true)
         })
 
       })
@@ -243,10 +243,10 @@ describe('UserLessonWizard', () => {
         })
 
         it('should set slide 2 to viewed', async () => {
-          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[1].isViewed).toEqual(undefined)
+          expect(component.find('UserLessonWizardForm').props().formValues.answerData[1].isViewed).toEqual(undefined)
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[1].isViewed).toEqual(true)
+          expect(component.find('UserLessonWizardForm').props().formValues.answerData[1].isViewed).toEqual(true)
         })
 
         it('should call ApiFetch with expected params on next click', async () => {
@@ -326,7 +326,7 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[2].isViewed).toEqual(true)
+          expect(component.find('UserLessonWizardForm').props().formValues.answerData[2].isViewed).toEqual(true)
         })
 
       })
@@ -411,7 +411,7 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          expect(component.find('UserLessonWizardForm').props('initialValues').currentValues.answerData[3].isViewed).toEqual(true)
+          expect(component.find('UserLessonWizardForm').props().formValues.answerData[3].isViewed).toEqual(true)
         })
 
       })

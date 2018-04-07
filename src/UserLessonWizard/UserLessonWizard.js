@@ -42,7 +42,6 @@ class UserLessonWizard extends Component {
     , userId: T.string.isRequired
     , userLesson: T.object.isRequired
     , initialValues: T.object
-    , currentValues: T.object
     , history: T.any.isRequired
     , isFetchingUserLessons: T.bool.isRequired
   }
@@ -133,7 +132,7 @@ class UserLessonWizard extends Component {
     })
 
   render() {
-    const { lesson, initialValues, currentValues, lessonTheme, isFetchingUserLessons, globalColors } = this.props
+    const { lesson, initialValues, lessonTheme, isFetchingUserLessons, globalColors } = this.props
     const { activeSlideIndex } = this.state
 
     return !isEmpty(lesson)
@@ -145,7 +144,6 @@ class UserLessonWizard extends Component {
           lessonTheme={ lessonTheme }
           globalColors={ globalColors }
           initialValues={ initialValues }
-          currentValues={ currentValues }
           activeSlideIndex={ activeSlideIndex }
           goToNextSlide={ this.goToNextSlide }
           goToPrevSlide={ this.goToPrevSlide }
@@ -173,12 +171,13 @@ const mapStateToProps = (state, ownProps) => {
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
   const lessonTheme = lessonThemesById[lesson.themeId] || {}
-  const currentValues = getFormValues('userLesson')(state) || {}
   if(!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
     initialValues.answerData = []
   }
 
+  // this is very important: we want to organize the userLesson answerData
+  // by the latest and most up-to-date order of slides in the lesson.
   get(lesson, 'slides', []).forEach((each, i) => {
     const answer = get(userLesson, `answerData[${each.id}]`, {})
     if(!isEmpty(answer)) {
@@ -193,7 +192,6 @@ const mapStateToProps = (state, ownProps) => {
     , userLesson
     , userId
     , initialValues
-    , currentValues
     , lessonTheme
     , globalColors
     , topBarTitle

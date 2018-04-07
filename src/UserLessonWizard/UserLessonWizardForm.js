@@ -92,7 +92,6 @@ class UserLessonWizardForm extends Component {
     , handleSubmit: T.func.isRequired
     , dispatch: T.func.isRequired
     , onFinalSlideNextClick: T.func.isRequired
-    , currentValues: T.object.isRequired
     , isFetchingUserLessons: T.bool.isRequired
   }
 
@@ -129,8 +128,8 @@ class UserLessonWizardForm extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const slideCurrentValues = get(nextProps.currentValues, `answerData[${nextProps.activeSlideIndex}]`)
-    const slideOldValues = get(this.props.currentValues, `answerData[${nextProps.activeSlideIndex}]`)
+    const slideCurrentValues = get(nextProps.formValues, `answerData[${nextProps.activeSlideIndex}]`)
+    const slideOldValues = get(this.props.formValues, `answerData[${nextProps.activeSlideIndex}]`)
     const slideHasUpdated = has(slideOldValues, 'updatedAt') && slideCurrentValues.updatedAt !== slideOldValues.updatedAt
 
     if(nextState.checkAnswer && slideHasUpdated) {
@@ -168,8 +167,8 @@ class UserLessonWizardForm extends Component {
   }
 
   submitCurrentValues = (checkAnswer = false) => {
-    const { onSubmit, currentValues } = this.props
-    onSubmit(currentValues)
+    const { onSubmit, formValues } = this.props
+    onSubmit(formValues)
     this.setState({ checkAnswer })
     this.setState({ showResultCard: false })
   }
