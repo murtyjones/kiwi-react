@@ -120,7 +120,7 @@ class MapItems extends PureComponent {
     const activeLessonIdHasChanged = !isEqual(activeLessonId, prevProps.activeLessonId)
     const lessonJustCompletedIdHasChanged = !isEqual(lessonJustCompletedId, prevProps.lessonJustCompletedId)
     const mapLessonsHasChanged = !isEqual(mapLessons, prevProps.mapLessons)
-    const selectedLessonIdHasChanged = !isEqual(selectedLessonId, prevProps.mapLessons)
+    const selectedLessonIdHasChanged = !isEqual(selectedLessonId, prevProps.selectedLessonId)
 
     if(selectedLessonIdHasChanged)
       await this.goToSelectedLesson(selectedLessonId)
