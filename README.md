@@ -2,7 +2,7 @@
 
 # kiwi-react
 
-This is the front-end server for the Kiwi app.
+This is the front-end of the Kiwi app.
 ## Getting started
 ### Mac
 1. Install `nvm` ([instructions](https://www.codementor.io/mercurial/how-to-install-node-js-on-macos-sierra-mphz41ekk))
