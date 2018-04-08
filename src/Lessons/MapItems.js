@@ -23,7 +23,8 @@ const styles = {
   }
 }
 
-const generateStatefulMapLessons = (mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId) =>
+const generateStatefulMapLessons = params =>
+  const { mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId } = params
   (mapLessons ||[]).reduce((acc, lesson, i) => {
     const order = i + 1
       , isSelected = selectedLessonOrder === order
@@ -85,7 +86,6 @@ class MapItems extends PureComponent {
       bubbleAvailabilities: props.mapLessons.map((_, i) => i + 1)
       , selectedLessonOrder: -1
       , hoveredLessonOrder: -1
-      , statefulMapLessons: props.mapLessons.map(_ => {})
       , applyNextAnimation: false
       , applyJustCompletedAnimation: false
       , isAnimatingToSelected: false
@@ -116,31 +116,22 @@ class MapItems extends PureComponent {
       this.setBubbleAvailabilities(nextMapLessons, nextActiveLessonId)
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    const { mapLessons, activeLessonId, lessonJustCompletedId, lessonThemesById, selectedLessonId } = this.props
-    const { selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, statefulMapLessons } = this.state
-    const { mapLessons: nextMapLessons, activeLessonId: nextActiveLessonId, lessonJustCompletedId: nextLessonJustCompletedId, lessonThemesById: nextLessonThemesById, selectedLessonId: nextSelectedLessonId } = nextProps
-    const { selectedLessonOrder: nextSelectedLessonOrder, hoveredLessonOrder: nextHoveredLessonOrder, bubbleAvailabilities: nextBubbleAvailabilities, statefulMapLessons: nextStatefulMapLessons } = nextState
-    const mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)
-    const selectedLessonOrderHasChanged = !isEqual(selectedLessonOrder, nextSelectedLessonOrder)
-    const hoveredLessonOrderHasChanged = !isEqual(hoveredLessonOrder, nextHoveredLessonOrder)
-    const bubbleAvailabilitiesHasChanged = !isEqual(bubbleAvailabilities, nextBubbleAvailabilities)
-    const lessonThemesByIdHasChanged = !isEqual(lessonThemesById, nextLessonThemesById)
-    const needsRemapping = nextState.statefulMapLessons[0] === undefined
-    const activeLessonIdHasChanged = !isEqual(activeLessonId, nextActiveLessonId)
-    const lessonJustCompletedIdHasChanged = !isEqual(lessonJustCompletedId, nextLessonJustCompletedId)
-    const statefulMapLessonsHasChanged = !isEqual(statefulMapLessons, nextStatefulMapLessons)
-    const selectedLessonIdHasChanged = !isEqual(selectedLessonId, nextSelectedLessonId)
+  async componentDidUpdate(prevProps, prevState) {
+    const { mapLessons, activeLessonId, lessonJustCompletedId, selectedLessonId } = this.props
+    const { mapLessons: prevMapLessons, activeLessonId: prevActiveLessonId, lessonJustCompletedId: prevLessonJustCompletedId, selectedLessonId: prevSelectedLessonId } = prevProps
+    const activeLessonIdHasChanged = !isEqual(activeLessonId, prevActiveLessonId)
+    const lessonJustCompletedIdHasChanged = !isEqual(lessonJustCompletedId, prevLessonJustCompletedId)
+    const mapLessonsHasChanged = !isEqual(mapLessons, prevMapLessons)
+    const selectedLessonIdHasChanged = !isEqual(selectedLessonId, prevSelectedLessonId)
 
-    if(needsRemapping || mapLessonsHasChanged || selectedLessonOrderHasChanged || hoveredLessonOrderHasChanged || bubbleAvailabilitiesHasChanged || lessonThemesByIdHasChanged || activeLessonIdHasChanged || lessonJustCompletedIdHasChanged)
-      this.setStatefulMapLessons(nextMapLessons, nextSelectedLessonOrder, nextHoveredLessonOrder, nextBubbleAvailabilities, nextLessonThemesById, nextActiveLessonId, nextLessonJustCompletedId)
     if(selectedLessonIdHasChanged)
-      this.goToSelectedLesson(nextSelectedLessonId, nextStatefulMapLessons)
-    else if(!nextState.isAnimatingToSelected && (activeLessonIdHasChanged || lessonJustCompletedIdHasChanged || statefulMapLessonsHasChanged))
-      this.goToActiveLesson(nextActiveLessonId, nextStatefulMapLessons, nextLessonJustCompletedId)
+      await this.goToSelectedLesson(selectedLessonId)
+    else if(!this.state.isAnimatingToSelected && (activeLessonIdHasChanged || lessonJustCompletedIdHasChanged || mapLessonsHasChanged))
+      await this.goToActiveLesson(activeLessonId, lessonJustCompletedId)
   }
 
-  goToSelectedLesson = async (selectedLessonId, statefulMapLessons) => {
+  goToSelectedLesson = async (selectedLessonId) => {
+    const statefulMapLessons = this.generateStatefulMapLessons()
     await this.setStateAsync({ isAnimatingToSelected: true })
     const lesson = find(statefulMapLessons, { _id: selectedLessonId })
     await setTimeoutAsync(100)
@@ -148,7 +139,8 @@ class MapItems extends PureComponent {
     await this.setStateAsync({ isAnimatingToSelected: false })
   }
 
-  goToActiveLesson = async (activeLessonId, statefulMapLessons, lessonJustCompletedId) => {
+  goToActiveLesson = async (activeLessonId, lessonJustCompletedId) => {
+    const statefulMapLessons = this.generateStatefulMapLessons()
     const i = findIndex(statefulMapLessons, { _id: activeLessonId })
     const currLesson = statefulMapLessons[i]
     const prevLesson = i > 0 ? statefulMapLessons[i-1] : {}
@@ -169,6 +161,12 @@ class MapItems extends PureComponent {
       await setTimeoutAsync(600)
       this.setState({ applyNextAnimation: true })
     }
+  }
+
+  generateStatefulMapLessons = () => {
+    const { mapLessons, lessonThemesById, activeLessonId, lessonJustCompletedId } = this.props
+    const { selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities } = this.state
+    return generateStatefulMapLessons({ mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId })
   }
 
   scrollTo = to => scroll.scrollTo(to)
@@ -204,7 +202,8 @@ class MapItems extends PureComponent {
   }
 
   render() {
-    const { statefulMapLessons, applyJustCompletedAnimation, applyNextAnimation } = this.state
+    const { applyJustCompletedAnimation, applyNextAnimation } = this.state
+    const statefulMapLessons = this.generateStatefulMapLessons()
 
     return (
       <div style={ styles.container }>
