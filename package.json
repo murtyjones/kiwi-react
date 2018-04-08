@@ -102,8 +102,6 @@
     "gulp-eslint": "^4.0.0",
     "gulp-istanbul": "^1.1.2",
     "gulp-postcss": "^7.0.0",
-    "gulp-sass": "^3.2.1",
-    "gulp-sass-variables": "^1.1.1",
     "gulp-util": "^3.0.8",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.3",
