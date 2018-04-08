@@ -79,7 +79,6 @@
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-eslint": "^8.2.2",
-    "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-lodash": "^3.3.2",
     "babel-plugin-syntax-async-functions": "^6.13.0",
@@ -99,24 +98,18 @@
     "enzyme-adapter-react-16": "^1.1.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-plugin-react": "^7.7.0",
-    "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-eslint": "^4.0.0",
     "gulp-istanbul": "^1.1.2",
-    "gulp-jest": "^3.0.1",
     "gulp-postcss": "^7.0.0",
     "gulp-sass": "^3.2.1",
     "gulp-sass-variables": "^1.1.1",
-    "gulp-spawn-mocha": "^5.0.1",
     "gulp-util": "^3.0.8",
     "identity-obj-proxy": "^3.0.0",
-    "isomorphic-fetch": "^2.2.1",
-    "isparta": "^4.0.0",
     "jest": "^22.4.3",
     "jest-cli": "^22.4.3",
     "jest-localstorage-mock": "^2.1.0",
     "jsdom-no-contextify": "^3.1.0",
-    "parse-filepath": "^1.0.1",
     "react-hot-loader": "^3.1.3",
     "react-router-redux": "^4.0.8",
     "redux-mock-store": "^1.5.1",
@@ -127,8 +120,7 @@
     "webpack": "^3.11.0",
     "webpack-bundle-size-analyzer": "^2.7.0",
     "webpack-dev-middleware": "^2.0.6",
-    "webpack-hot-middleware": "^2.21.2",
-    "yargs": "^11.1.0"
+    "webpack-hot-middleware": "^2.21.2"
   },
   "optionalDependencies": {
     "fsevents": "^1.1.3"
