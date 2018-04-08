@@ -23,8 +23,7 @@ const styles = {
   }
 }
 
-const generateStatefulMapLessons = params =>
-  const { mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId } = params
+const generateStatefulMapLessons = ({ mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId }) =>
   (mapLessons ||[]).reduce((acc, lesson, i) => {
     const order = i + 1
       , isSelected = selectedLessonOrder === order
@@ -118,11 +117,10 @@ class MapItems extends PureComponent {
 
   async componentDidUpdate(prevProps, prevState) {
     const { mapLessons, activeLessonId, lessonJustCompletedId, selectedLessonId } = this.props
-    const { mapLessons: prevMapLessons, activeLessonId: prevActiveLessonId, lessonJustCompletedId: prevLessonJustCompletedId, selectedLessonId: prevSelectedLessonId } = prevProps
-    const activeLessonIdHasChanged = !isEqual(activeLessonId, prevActiveLessonId)
-    const lessonJustCompletedIdHasChanged = !isEqual(lessonJustCompletedId, prevLessonJustCompletedId)
-    const mapLessonsHasChanged = !isEqual(mapLessons, prevMapLessons)
-    const selectedLessonIdHasChanged = !isEqual(selectedLessonId, prevSelectedLessonId)
+    const activeLessonIdHasChanged = !isEqual(activeLessonId, prevProps.activeLessonId)
+    const lessonJustCompletedIdHasChanged = !isEqual(lessonJustCompletedId, prevProps.lessonJustCompletedId)
+    const mapLessonsHasChanged = !isEqual(mapLessons, prevProps.mapLessons)
+    const selectedLessonIdHasChanged = !isEqual(selectedLessonId, prevProps.mapLessons)
 
     if(selectedLessonIdHasChanged)
       await this.goToSelectedLesson(selectedLessonId)
