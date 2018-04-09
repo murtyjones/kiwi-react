@@ -43,7 +43,7 @@ export const PrevButton = ({ onPrevClick, globalColors }) =>
     } }
     onClick={ onPrevClick }
   >
-    Go Back
+    Previous
   </div>
 
 export const NextButton = ({ onNextClick, globalColors }) =>
