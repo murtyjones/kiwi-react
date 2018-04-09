@@ -54,7 +54,7 @@ const styles = {
     height: '100%'
   },
   baseEditorStyle: {
-    backgroundColor: '#e6e6e6'
+    backgroundColor: 'rgb(246, 246, 246)'
     , boxShadow: 'none'
     , borderRadius: 0
   }
@@ -245,7 +245,10 @@ class CodeEditor extends Component {
           </div>
           <div style={ editorStyle.editorOutputContainerStyle }>
             <EditorOutput
-              style={ { ...styles.baseEditorStyle, ...editorStyle.editorOutputStyle } }
+              style={ {
+                ...styles.baseEditorStyle,
+                ...editorStyle.editorOutputStyle
+              } }
               editorOutput={ editorOutput }
               errorMsg={ errorMsg }
               prompt={ prompt }

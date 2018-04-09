@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Card, CardText } from 'material-ui/Card'
 
 import ErrorMessage from './ErrorMessage'
@@ -8,22 +8,26 @@ const styles = {
   base: {
     height: '100%'
     , overflowX: 'scroll'
+    , boxSizing: 'border-box'
   },
-}
-
-const textareaStyle = {
-  padding: '0px'
-  , border: '0px'
-  , fontSize: '14px'
-  , color: 'rgb(253, 220, 255)'
-  , margin: '0px'
-  , height: '16px'
-  , fontFamily: 'monospace'
-  , width: '179px'
-  , background: 'transparent'
-  , resize: 'none'
-  , outline: 'none'
-  , overflow: 'hidden'
+  textareaStyle: {
+    padding: '0px'
+    , border: '0px'
+    , color: 'rgb(253, 220, 255)'
+    , margin: '0px'
+    , height: '16px'
+    , fontFamily: 'monospace'
+    , width: '179px'
+    , background: 'transparent'
+    , resize: 'none'
+    , outline: 'none'
+    , overflow: 'hidden'
+    , fontSize: '15px' // should match the editorOverrides.css number too
+  },
+  pre: {
+    padding: '15px 0 0 15px'
+    , margin: 0
+  }
 }
 
 export default class EditorOutput extends Component {
@@ -48,41 +52,32 @@ export default class EditorOutput extends Component {
   render() {
     const { editorOutput, errorMsg, setInputRef, style, prompt = '' } = this.props
     const { value } = this.state
-    const cardDisplay = !!errorMsg ? { display: 'none' } : {}
-    return [
-      <Card
-        key='output'
-        style={ {
-          ...styles.base
-          , ...style
-          , ...cardDisplay
-        } }
-      >
-        <CardText>
-          <pre id="editorOutput">
-            { editorOutput }
-            <textarea
-              style={ textareaStyle }
-              className='rawInput'
-              ref={ setInputRef }
-              onChange={ this.handleChange }
-              value={ value }
-            />
-          </pre>
-        </CardText>
-      </Card>
-      ,
-      ...insertIf(errorMsg,
-        <ErrorMessage
-          key='error'
-          style={ {
-            ...styles.base
-            , ...style
-          } }
-          errorMsg={ errorMsg }
-        />
-      )
-    ]
+    const cardDisplay = !!errorMsg ? { display: 'none' } : {  }
+    return (
+      <Fragment>
+        <div style={ { ...styles.base, ...style, ...cardDisplay } }>
+          <div>
+            <pre id='editorOutput' style={ styles.pre }>
+              { editorOutput }
+              <textarea
+                style={ styles.textareaStyle }
+                className='rawInput'
+                ref={ setInputRef }
+                onChange={ this.handleChange }
+                value={ value }
+              />
+            </pre>
+          </div>
+        </div>
+        { errorMsg &&
+          <ErrorMessage
+            key='error'
+            style={ { ...styles.base, ...style } }
+            errorMsg={ errorMsg }
+          />
+        }
+      </Fragment>
+    )
   }
 
 }
