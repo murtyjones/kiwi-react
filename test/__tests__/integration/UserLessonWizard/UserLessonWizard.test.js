@@ -317,12 +317,12 @@ describe('UserLessonWizard', () => {
         })
 
         it('should change the focus to slide 3 (full sized editor) when clicking next twice', async () => {
-          expect(component.find('div[className="flex lessonFullSizeEditor flexOneOneAuto"]').length).toBe(0)
+          expect(component.find('div[className="lessonFullSizeEditor flexOneOneAuto"]').length).toBe(0)
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="flex lessonFullSizeEditor flexOneOneAuto"]').length).toBe(1)
+          expect(component.find('div[className="lessonFullSizeEditor flexOneOneAuto"]').length).toBe(1)
         })
 
         it('should have the expected beginning slide 3 content when clicking next twice', async () => {
@@ -330,7 +330,7 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="flex lessonFullSizeEditor flexOneOneAuto"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
+          expect(component.find('div[className="lessonFullSizeEditor flexOneOneAuto"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
         })
 
         it('should set slide 3 to viewed', async () => {
