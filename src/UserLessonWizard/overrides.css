@@ -90,10 +90,6 @@
     left: 0;
 }
 
-.halfHalfLeftSide {
-    padding-left: 50px;
-}
-
 .lessonWizardFormContent {
     box-sizing: border-box;
     padding-left: 25px;
@@ -123,10 +119,6 @@
 
     .toolbarLabel {
         right: 75px;
-    }
-
-    .halfHalfLeftSide {
-        padding-left: 75px;
     }
 
     .lessonWizardForm {

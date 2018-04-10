@@ -94,7 +94,7 @@ describe('UserProject', () => {
 
     describe('render', () => {
       it('should render expected divs', () => {
-        expect(component.find('div[className="lessonFullSizeEditor flexOneOneAuto"]').length).toBe(1)
+        expect(component.find('div[className="flex lessonFullSizeEditor flexOneOneAuto"]').length).toBe(1)
         expect(component.find('CodeEditor').html()).toContain('CodeMirror cm-s-default')
         expect(component.find('CodeEditor').html()).toContain('react-codemirror2 CodeMirrorFull')
         expect(component.find('div[className="toolbarLabel bringLabelOut"]').length).toBe(2)

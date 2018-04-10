@@ -1,47 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
-import { GridList, GridTile } from 'material-ui'
-import { Controlled as CodeMirror } from 'react-codemirror2'
 import skulpt from 'skulpt'
 import EditorOutput from './EditorOutput'
+import EditorInput from './EditorInput'
 import Tools from './Tools'
 
-import { LESSON_SLIDE_TYPES } from '../constants'
-
-
-require('./editorOverrides.css')
+import './overrides.css'
 import '../common/flex.css'
-
-const defaultCodeEditorStyles = {
-  editorInputContainerStyle: {
-    position: 'absolute'
-    , bottom: '0'
-    , right: '50%'
-    , left: '0'
-    , top: '0'
-  },
-  editorOutputContainerStyle: {
-    position: 'absolute'
-    , bottom: '0'
-    , right: '0'
-    , left: '50%'
-    , top: '0'
-  },
-  editorContainerStyle: {
-    position: 'absolute'
-    , bottom: 'calc(20px + 50px)' // leave room for ActionBar
-    , right: '0'
-    , left: '0'
-    , top: '0'
-  },
-  editorOutputStyle: {
-    border: '1px solid #CCC'
-    , borderLeft: 0
-    , borderTopRightRadius: '10px'
-    , borderBottomRightRadius: '10px'
-  }
-}
 
 const defaultOptions = {
   lineNumbers: true
@@ -50,13 +16,12 @@ const defaultOptions = {
 }
 
 const styles = {
-  editor: {
-    height: '100%'
-  },
-  baseEditorStyle: {
-    backgroundColor: 'rgb(246, 246, 246)'
-    , boxShadow: 'none'
-    , borderRadius: 0
+  container: {
+    position: 'absolute'
+    , bottom: 'calc(20px + 50px)' // leave room for ActionBar
+    , right: '0'
+    , left: '0'
+    , top: '0'
   }
 }
 
@@ -80,9 +45,7 @@ class CodeEditor extends Component {
 
   static propTypes = {
     editorInput: T.string.isRequired
-    , editorStyle: T.object
     , options: T.object
-    , layoutType: T.string
     , className: T.string
     , onSave: T.func
     , onChange: T.func
@@ -152,7 +115,6 @@ class CodeEditor extends Component {
 
   }
 
-
   handleBeforeChange = (v) => {
     this.setState({
       errorMsg: ''
@@ -221,46 +183,36 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { className, options, onSave, editorStyle = defaultCodeEditorStyles, showRunButton = true, layoutType = LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR } = this.props
+    const { className, options, onSave, showRunButton = true } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
-      , isFullSized = layoutType === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR
 
     return (
-      <div className={ className }>
-        <div style={ editorStyle.editorContainerStyle } className={ cns({ flex: isFullSized }) }>
-          <div style={ editorStyle.editorInputContainerStyle }>
-            <CodeMirror
-              editorDidMount={ editor => { this.codeMirror = editor } }
-              className={ isFullSized ? 'CodeMirrorFull' : 'CodeMirrorHalf' }
-              style={ styles.editor }
-              value={ editorInput }
-              onBeforeChange={ (editor, data, value) => {
-                this.handleBeforeChange(value)
-              } }
-              onChange={ (editor, data, value) => {
-                this.handleChange(value)
-              } }
-              options={ options || defaultOptions }
-            />
-          </div>
-          <div style={ editorStyle.editorOutputContainerStyle }>
-            <EditorOutput
-              style={ {
-                ...styles.baseEditorStyle,
-                ...editorStyle.editorOutputStyle
-              } }
-              editorOutput={ editorOutput }
-              errorMsg={ errorMsg }
-              prompt={ prompt }
-              value={ rawInputValue }
-              setInputRef={ this.getChildRef }
-            />
-          </div>
+      <div className={ className } >
+        <div className='flex' style={ styles.container }>
+          <EditorInput
+            editorDidMount={ editor => { this.codeMirror = editor } }
+            className={ cns('CodeMirrorFull', { 'error': errorMsg }) }
+            value={ editorInput }
+            onBeforeChange={ (editor, data, value) => {
+              this.handleBeforeChange(value)
+            } }
+            onChange={ (editor, data, value) => {
+              this.handleChange(value)
+            } }
+            options={ options || defaultOptions }
+          />
+          <EditorOutput
+            editorOutput={ editorOutput }
+            errorMsg={ errorMsg }
+            prompt={ prompt }
+            value={ rawInputValue }
+            setInputRef={ this.getChildRef }
+          />
+          <Tools
+            onSave={ onSave ? this.handleSave : null }
+            onRun={ showRunButton ? this.runCode : null }
+          />
         </div>
-        <Tools
-          onSave={ onSave ? this.handleSave : null }
-          onRun={ showRunButton ? this.runCode : null }
-        />
       </div>
     )
   }

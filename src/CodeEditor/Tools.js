@@ -13,7 +13,7 @@ const styles = {
     position: 'absolute'
     , width: '160px'
     , height: '200px'
-    , bottom: 'calc(20px + 50px)' // leave room for ActionBar
+    , bottom: '20px'
     , left: 'calc(50% - 160px)'
     , zIndex: 1000
   },

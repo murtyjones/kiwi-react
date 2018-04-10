@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CSSTransition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group'
 
 import cns from 'classnames'
 

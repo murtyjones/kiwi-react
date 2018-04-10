@@ -1,0 +1,81 @@
+.CodeMirrorFull {
+    height: 100%;
+    width: 100%;
+}
+.lessonFullSizeEditor {
+    /* should match the textareaStyle font size for the editor */
+    font-size: 15px !important;
+}
+
+.CodeMirrorFull > .CodeMirror {
+    height: 100%;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid #CCC;
+    box-sizing: border-box;
+}
+
+.CodeMirrorFull.error > .CodeMirror {
+    border: 2px solid #ff0000 !important;
+    border-right: none !important;
+    box-sizing: border-box;
+}
+
+.outputError {
+    border-radius: 0 10px 10px 0;
+    border: 2px solid #ff0000 !important;
+}
+
+.CodeMirror-scroll  {  border-radius: 10px 0 0 10px;  }
+.CodeMirror-gutters {  background: transparent !important; border-radius: 10px 0 0 10px;  }
+.CodeMirror-gutter  {  background: #f6f6f6 !important;; border-radius: 10px 0 0 10px;  }
+
+
+.rawInput {
+    color: #000000 !important;
+}
+
+.errorLine {
+    background-color: #7fa1d3;
+    color: #FFFFFF
+}
+
+.bringLabelOut {
+    transition: all 0.4s ease;
+}
+
+.hint {
+    font-family: Arvo;
+    width: 85%;
+}
+
+.hintExampleCode {
+    font-family: Monospace;
+    padding: 7px 12px;
+    margin: 10px 0;
+    border: 1px solid #0000002e;
+    border-radius: 5px;
+}
+
+.hintCheckmark {  display: inline;  }
+.hintCheckmark:before {
+    position: relative;
+    top: 2px;
+    content:  "\2713 ";
+    color: #81ef85;
+    font-size: 15px;
+}
+
+.hintX {  display: inline;  }
+.hintX:before {
+    position: relative;
+    top: 2px;
+    content:  "\2715 ";
+    color: #e85750;
+    font-size: 15px;
+}
+
+.hintComment {
+    display: inline;
+    color: #000000;
+    opacity: 0.35;
+}

@@ -1,7 +1,7 @@
 .slideRight-enter {
-    animation-name: slideInRight;
-    animation-duration: 400ms;
-}
+     animation-name: slideInRight;
+     animation-duration: 400ms;
+ }
 
 .slideRight-enter.slideRight-enter-active {
     animation-name: slideInRight;
@@ -15,5 +15,27 @@
 
 .slideRight-exit.slideRight-exit-active {
     animation-name: slideOutRight;
+    animation-duration: 400ms;
+}
+
+
+
+.slideUp-enter {
+    animation-name: slideInUp;
+    animation-duration: 400ms;
+}
+
+.slideUp-enter.slideUp-enter-active {
+    animation-name: slideInUp;
+    animation-duration: 400ms;
+}
+
+.slideUp-exit {
+    animation-name: slideOutDown;
+    animation-duration: 400ms;
+}
+
+.slideUp-exit.slideUp-exit-active {
+    animation-name: slideOutDown;
     animation-duration: 400ms;
 }
