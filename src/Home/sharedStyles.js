@@ -28,7 +28,7 @@ const styles = {
   sent: {
     display: 'block'
     , fontWeight: 'bold'
-    , color: '#FFFFFF'
+    , color: '#000000'
     , textAlign: 'center'
   },
   forgot: {

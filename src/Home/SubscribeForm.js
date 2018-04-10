@@ -57,12 +57,12 @@ class ContactForm extends PureComponent {
             className='greenButton hvr-grow'
             style={ { color: '#624F8F' } }
             onClick={ handleSubmit }
-            disabled={ submitting && !error }
+            disabled={ (submitting && !error) || submitSucceeded }
           >
             Subscribe
           </button>
         { error && <span style={ sharedStyles.error }>{ error }</span> }
-        { submitSucceeded && <span style={ sharedStyles.sent }>Sent!</span> }
+        { submitSucceeded && <span style={ sharedStyles.sent }>You're subscribed!</span> }
         </div>
       </form>
     )
