@@ -50,32 +50,33 @@ class LoginOrRegister extends PureComponent {
   handleLoginSubmit = async(v) => {
     const { login } = this.props
     const { username, password } = v
-    return login({ username, password })
-    .then(result => {
+
+    try {
+      await login({ username, password })
       this.props.history.push("/lessons")
-    }).catch(e => {
+    } catch(e) {
+      console.error(e)
       if(JSON.stringify(e).includes('invalid_grant')) {
         throw new SubmissionError({ password: '', _error: 'Wrong username or password.' })
       }
-    })
+    }
   }
 
   handleRegisterSubmit = async(v) => {
     const { register, login } = this.props
     const { username, password } = v
+
     try {
-      return register({ username, password })
-      .then(res => {
-        return login({ username, password })
-      }).then(res => {
-        this.props.history.push("/welcome")
-      }).catch(e => {
-        if(JSON.stringify(e).includes('User already exists')) {
-          throw new SubmissionError({ username: 'Username taken!', _error: 'Registration failed!' })
-        }
-      })
+      await register({ username, password })
+      await login({ username, password })
+      this.props.history.push("/welcome")
     } catch (e) {
       console.error(e)
+      if(JSON.stringify(e).includes('User already exists')) {
+        throw new SubmissionError({ username: 'Username taken!', _error: 'Registration failed!' })
+      } else if(e.message && JSON.stringify(e.message).toLowerCase().includes('username')) {
+        throw new SubmissionError({ username: e.message, _error: 'Registration failed!' })
+      }
     }
   }
 

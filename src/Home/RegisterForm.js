@@ -3,6 +3,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 import renderTextField from '../common/renderTextField'
 import { FlatButton, RaisedButton } from 'material-ui'
 import asyncValidate from './usernameAvailability'
+import setTimeoutAsync from '../utils/setTimeoutAsync'
 
 import { inactiveColor, activeColor, styles as sharedStyles } from './sharedStyles'
 
@@ -11,8 +12,23 @@ class RegisterForm extends PureComponent {
     super(props)
     this.state = {
       usernameFieldActive: false
+      , preventSpamming: false
     }
   }
+
+  async componentWillReceiveProps(nextProps) {
+    if(nextProps.submitSucceeded && !this.props.submitSucceeded) {
+      // prevent the user from spamming the button,
+      // even if the attempt failed.
+      await this.setState({ preventSpamming: true })
+      await setTimeoutAsync(1500)
+      await this.setState({ preventSpamming: false })
+    }
+  }
+
+  setStateAsync = newState => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
 
   setUsernameStatus = bool =>
     this.setState({ usernameFieldActive: bool })
@@ -22,7 +38,8 @@ class RegisterForm extends PureComponent {
 
   render() {
     const { error, handleSubmit, pristine, reset, submitting } = this.props
-    const { usernameFieldActive, passwordFieldActive } = this.state
+    const { usernameFieldActive, passwordFieldActive, preventSpamming } = this.state
+
     return (
       <form onSubmit={ handleSubmit }>
         <Field
@@ -64,7 +81,7 @@ class RegisterForm extends PureComponent {
             type='submit'
             className='greenButton hvr-grow'
             onClick={ handleSubmit }
-            disabled={ submitting && !error }
+            disabled={ (submitting && !error) || preventSpamming }
             style={ {
               marginLeft: '10px'
               , marginRight: '15px'
@@ -86,11 +103,14 @@ export default reduxForm({
   // a unique name for the form
   form: 'register',
   validate: values => {
+    if(values.username) values.username = values.username.trim()
     const errors = {}
     if(!values.username) {
       errors.username = 'Required!'
     } else if(values.username.includes('@')) {
       errors.username = 'Email addresses are not allowed!'
+    } else if(values.username.includes(' ')) {
+      errors.username = 'Spaces are not allowed!'
     }
     if(!values.password) {
       errors.password = 'Required!'
