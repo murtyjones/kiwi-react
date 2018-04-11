@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export const COMMON_ERRORS = {
+export default {
   'ZeroDivisionError': {
     html: `
       <div class='hint'>

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import cns from 'classnames'
 import { CSSTransition } from 'react-transition-group'
-import { COMMON_ERRORS } from './commonErrors'
+import COMMON_ERRORS from './commonErrors'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 
 const styles = {
