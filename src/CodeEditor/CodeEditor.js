@@ -203,6 +203,7 @@ class CodeEditor extends Component {
           />
           <EditorOutput
             editorOutput={ editorOutput }
+            editorInput={ editorInput }
             errorMsg={ errorMsg }
             prompt={ prompt }
             value={ rawInputValue }

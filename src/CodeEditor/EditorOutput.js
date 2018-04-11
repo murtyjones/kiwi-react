@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import cns from 'classnames'
 import { CSSTransition } from 'react-transition-group'
-import COMMON_ERRORS from './commonErrors'
+import { COMMON_ERRORS, CUSTOM_ERRORS } from './syntaxErrors'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 
 const styles = {
@@ -66,9 +66,17 @@ const styles = {
   }
 }
 
-const getHint = errorMsg => Object.keys(COMMON_ERRORS).reduce((hintHTML, each) => {
-  if(errorMsg && errorMsg.toLowerCase().includes(each.toLowerCase()))
-    hintHTML = COMMON_ERRORS[each].html
+const getCommonErrorHint = errorMsg => Object.keys(COMMON_ERRORS).reduce((hintHTML, errorSubstring) => {
+  if(errorMsg && errorMsg.toLowerCase().includes(errorSubstring.toLowerCase()))
+    hintHTML = COMMON_ERRORS[errorSubstring].html
+  return hintHTML
+}, null)
+
+const getCustomErrorHint = editorInput => Object.keys(CUSTOM_ERRORS).reduce((hintHTML, key) => {
+  const testFunction = CUSTOM_ERRORS[key].test
+  const testPasses = testFunction(editorInput)
+  if(testPasses)
+    hintHTML = CUSTOM_ERRORS[key].html
   return hintHTML
 }, null)
 
@@ -130,9 +138,11 @@ export default class EditorOutput extends Component {
   }
 
   render() {
-    const { editorOutput, errorMsg, setInputRef } = this.props
+    const { editorOutput, editorInput, errorMsg, setInputRef } = this.props
     const { value, showHint } = this.state
-    const errorHintHTML = getHint(errorMsg)
+    const errorHintHTML = errorMsg
+      ? getCommonErrorHint(errorMsg) || getCustomErrorHint(editorInput)
+      : null
 
     return (
       <div

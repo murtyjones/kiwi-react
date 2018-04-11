@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default {
+export const COMMON_ERRORS = {
   'ZeroDivisionError': {
     html: `
       <div class='hint'>
@@ -104,7 +104,7 @@ export default {
   'must be a': {
     html: `
       <div class='hint'>
-        You tried to use the wrong type of object in a function.
+        You tried to use the wrong type of item in a function.
         <br /><br />
         <b>Example:</b>
         <div class='hintExampleCode'>
@@ -144,16 +144,9 @@ export default {
         <br />
         Instead, when you need to add a number to a string, do this: 
         <div class='hintExampleCode'>
-          <div class='hintCheckmark'></div>print 'this is a string' + str(1)<br/>
+          <div class='hintCheckmark'></div>print 'this is a string' + str(1)<br />
           <div class='hintComment'># prints this is a string1</div><br />
         </div>
-      </div>
-    `
-  },
-  'does not match any outer indentation level': {
-    html: `
-      <div class='hint'>
-        Check the indents in your code!
       </div>
     `
   },
@@ -164,18 +157,73 @@ export default {
         <br /><br />
         <b><div style="margin-right: 5px" class='hintX'></div>Example:</b>
         <div class='hintExampleCode'>
-          print """<br/>
-          this is a string<br/>
+          print """<br />
+          this is a string<br />
           "
         </div>
         <br />
         <b><div style="margin-right: 5px" class='hintCheckmark'></div>Example:</b> 
         <div class='hintExampleCode'>
-          print """<br/>
-          this is a string<br/>
+          print """<br />
+          this is a string<br />
           """
         </div>
       </div>
     `
+  },
+  'is not defined': {
+    html: `
+      <div class='hint'>
+        You tried to use a variable or function that does not exist!
+        <br /><br />
+        <b><div style="margin-right: 5px" class='hintX'></div>Example:</b>
+        <div class='hintExampleCode'>
+          print name # doesn't work!
+        </div>
+        <br />
+        <b><div style="margin-right: 5px" class='hintCheckmark'></div>Example:</b> 
+        <div class='hintExampleCode'>
+          name = 'Marty'<br />
+          print name # prints Marty<br />
+        </div>
+      </div>
+    `
   }
+}
+
+export const CUSTOM_ERRORS = {
+  capitalPrint: {
+    test: input => input && (input.includes('Print') || input.includes('PRINT')),
+    html: `
+      <div class='hint'>
+        Make sure that all of your print statements are lowercase! 
+        <br /><br />
+        <b>Example:</b>
+        <div class='hintExampleCode'>
+          <div class='hintCheckmark'></div>print 'Hello!' <div class='hintComment'># prints Hello!</div><br />
+          <div class='hintX'></div>Print 'Hello!' <div class='hintComment'># doesn't work!</div><br />      
+        </div>
+      </div>
+    `
+  },
+  capitalIf: {
+    test: input => input && (input.includes('If') || input.includes('IF')),
+    html: `
+      <div class='hint'>
+        Make sure that all of your if statements are lowercase! 
+        <br /><br />
+        <b><div style="margin-right: 5px" class='hintX'></div>Example:</b>
+        <div class='hintExampleCode'>
+          If 1 == 1:<br />
+            print "Hello!" # doesn't work<br />
+        </div>
+        <br />
+        <b><div style="margin-right: 5px" class='hintCheckmark'></div>Example:</b> 
+        <div class='hintExampleCode'>
+          if 1 == 1:<br />
+            print "Hello!" # prints Hello!<br />
+        </div>
+      </div>
+    `
+  },
 }
