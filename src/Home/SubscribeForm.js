@@ -48,8 +48,14 @@ class ContactForm extends PureComponent {
             fontWeight: 'bold'
             , color: '#624F8F'
           } }
-          underlineStyle={ { ...sharedStyles.underlineStyle, borderBottom: '3px solid #624F8F' } }
-          underlineFocusStyle={ { ...sharedStyles.underlineFocusStyle, borderBottom: '3px solid #624F8F' } }
+          underlineStyle={ {
+            ...sharedStyles.underlineStyle
+            , borderBottom: '3px solid #624F8F'
+          } }
+          underlineFocusStyle={ {
+            ...sharedStyles.underlineFocusStyle
+            , borderBottom: '3px solid #624F8F'
+          } }
         />
         <div style={ sharedStyles.buttonContainer }>
           <button
@@ -61,8 +67,16 @@ class ContactForm extends PureComponent {
           >
             Subscribe
           </button>
-        { error && <span style={ sharedStyles.error }>{ error }</span> }
-        { submitSucceeded && <span style={ sharedStyles.sent }>You're subscribed!</span> }
+        { error &&
+          <span style={ sharedStyles.error }>
+            { error }
+          </span>
+        }
+        { submitSucceeded &&
+          <span style={ sharedStyles.sent }>
+            You're subscribed!
+          </span>
+        }
         </div>
       </form>
     )
