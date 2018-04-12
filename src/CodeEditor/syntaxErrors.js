@@ -188,6 +188,20 @@ export const COMMON_ERRORS = {
         </div>
       </div>
     `
+  },
+  'bad token': {
+    html: `
+      <div class='hint'>
+        Did you forget a quotation mark at the end of one of your print statements?
+      </div>
+    `
+  },
+  'bad input': {
+    html: `
+      <div class='hint'>
+        Did you forget a quotation mark at the beginning of one of your print statements?
+      </div>
+    `
   }
 }
 
