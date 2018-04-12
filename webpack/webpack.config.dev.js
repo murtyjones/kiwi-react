@@ -3,7 +3,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const devConfig = require('../config/development.json')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   mode: 'development',
