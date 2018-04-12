@@ -125,11 +125,8 @@ gulp.task("clean", function() {
 })
 
 gulp.task("webpack:build", function(callback) {
-  // modify some webpack config options
-  const myConfig = Object.create(webpackProdConfig);
-
   // run webpack
-  webpack(myConfig, function(err, stats) {
+  webpack(webpackProdConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack:build", err);
     gutil.log("[webpack:build]", stats.toString({
       colors: true
@@ -139,11 +136,8 @@ gulp.task("webpack:build", function(callback) {
 });
 
 gulp.task("webpack:build:dev", function(callback) {
-  // modify some webpack config options
-  const myConfig = Object.create(webpackDevConfig);
-
   // run webpack
-  webpack(myConfig, function(err, stats) {
+  webpack(webpackDevConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack:build", err);
     gutil.log("[webpack:build]", stats.toString({
       colors: true

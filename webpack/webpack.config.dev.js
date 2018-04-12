@@ -6,6 +6,7 @@ const devConfig = require('../config/development.json')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
+  mode: 'development',
   devtool: 'cheap-module-source-map',
   context: path.join(__dirname, '../'),
   entry: [
@@ -30,11 +31,6 @@ module.exports = {
     }]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('development')
-      }
-    }),
     new UglifyJSPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/)

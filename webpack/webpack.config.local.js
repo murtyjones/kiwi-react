@@ -7,6 +7,7 @@ const localConfig = require('../config/default.json')
 
 process.env.BABEL_ENV = 'local-webpack'
 module.exports = {
+  mode: 'development',
   devtool: 'cheap-module-source-map',
   devServer: {
     historyApiFallback: true,
@@ -37,10 +38,7 @@ module.exports = {
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('local')
-    })
+    new webpack.HotModuleReplacementPlugin()
   ],
   externals: {
     config: JSON.stringify(localConfig)
