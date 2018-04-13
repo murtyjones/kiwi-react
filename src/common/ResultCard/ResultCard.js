@@ -9,7 +9,7 @@ const styles = {
   container: {
     fontFamily: 'Arvo'
     , position: 'fixed'
-    , top: 'calc(60px + 10vh)' // includes space for top bar
+    , bottom: 'calc(60px + 10vh)' // includes space for top bar
     , right: 0
     , width: '400px'
     , minHeight: '180px'
