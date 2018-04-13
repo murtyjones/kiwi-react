@@ -76,6 +76,10 @@ class LoginOrRegister extends PureComponent {
         throw new SubmissionError({ username: 'Username taken!', _error: 'Registration failed!' })
       } else if(e.message && JSON.stringify(e.message).toLowerCase().includes('username')) {
         throw new SubmissionError({ username: e.message, _error: 'Registration failed!' })
+      } else if(e.message && JSON.stringify(e.message).toLowerCase().includes('pass validation for format email')) {
+        throw new SubmissionError({ username: "Your username can only contain alphanumeric characters and '_', '+', '-', or '.'", _error: 'Registration failed!' })
+      } else {
+        throw new SubmissionError({ username: e.message, _error: 'Registration failed!' })
       }
     }
   }
