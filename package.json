@@ -13,6 +13,8 @@
     "build:dev": "./node_modules/.bin/gulp build:dev",
     "postinstall": "npm rebuild node-sass",
     "test": "jest",
+    "test-new": "jest --coverage --changedSince=master",
+    "test-one-example": "npm test -- Lessons.test.js",
     "minify-svg": "./node_modules/.bin/svgo",
     "analyzeBundleSize": "./node_modules/.bin/webpack --config gulpConfigs/webpack.config.production.js --json | ./node_modules/.bin/webpack-bundle-size-analyzer"
   },

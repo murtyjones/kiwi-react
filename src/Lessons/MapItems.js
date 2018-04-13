@@ -23,11 +23,9 @@ const styles = {
   }
 }
 
-const generateStatefulMapLessons = ({ mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId }) =>
+const generateStatefulMapLessons = ({ mapLessons, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId }) =>
   (mapLessons ||[]).reduce((acc, lesson, i) => {
     const order = i + 1
-      , isSelected = selectedLessonOrder === order
-      , isHovered = hoveredLessonOrder === order
       , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`]
       , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
       , goToPoint = LESSON_MAP_POINTS[`CIRCLE_${order}_GOTO`]
@@ -45,8 +43,6 @@ const generateStatefulMapLessons = ({ mapLessons, selectedLessonOrder, hoveredLe
     acc.push({
       ...lesson
       , order
-      , isSelected
-      , isHovered
       , x
       , y
       , goToPoint
@@ -83,8 +79,6 @@ class MapItems extends PureComponent {
     super(props)
     this.state = {
       bubbleAvailabilities: props.mapLessons.map((_, i) => i + 1)
-      , selectedLessonOrder: -1
-      , hoveredLessonOrder: -1
       , applyNextAnimation: false
       , applyJustCompletedAnimation: false
       , isAnimatingToSelected: false
@@ -163,8 +157,8 @@ class MapItems extends PureComponent {
 
   generateStatefulMapLessons = () => {
     const { mapLessons, lessonThemesById, activeLessonId, lessonJustCompletedId } = this.props
-    const { selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities } = this.state
-    return generateStatefulMapLessons({ mapLessons, selectedLessonOrder, hoveredLessonOrder, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId })
+    const { bubbleAvailabilities } = this.state
+    return generateStatefulMapLessons({ mapLessons, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId })
   }
 
   scrollTo = to => scroll.scrollTo(to)
@@ -173,29 +167,12 @@ class MapItems extends PureComponent {
     this.setState(newState, resolve)
   })
 
-  setStatefulMapLessons = (...params) =>
-    this.setState({ statefulMapLessons: generateStatefulMapLessons(...params) })
-
   setBubbleAvailabilities = (mapLessons, activeLessonId) =>
     this.setState({ bubbleAvailabilities: calculateBubbleAvailabilities(mapLessons, activeLessonId) })
-
-  setSelectedLessonOrder = (selectedLessonOrder) =>
-    this.setState({ selectedLessonOrder })
-
-  setHoveredLessonOrder = (hoveredLessonOrder) =>
-    this.setState({ hoveredLessonOrder })
 
   handleLessonBubbleClick = (e, lesson, order, isAvailable) => {
     if(isAvailable) {
       this.props.onLessonSelect(e, lesson._id)
-      this.setSelectedLessonOrder(order)
-    }
-  }
-
-  handleLessonBubbleBlur = (e, isAvailable) => {
-    if(isAvailable) {
-      this.props.onLessonSelect(e, null)
-      this.setSelectedLessonOrder(null)
     }
   }
 
@@ -215,7 +192,7 @@ class MapItems extends PureComponent {
               statefulLesson={ statefulLesson }
               applyNextAnimation={ applyNextAnimation }
               applyJustCompletedAnimation={ applyJustCompletedAnimation }
-              handleLessonBubbleClick={ this.handleLessonBubbleClick }
+              handleLessonBubbleClick ={ this.handleLessonBubbleClick }
             />
           ])
           return acc

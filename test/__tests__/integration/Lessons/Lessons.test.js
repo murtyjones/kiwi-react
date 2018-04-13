@@ -208,6 +208,9 @@ describe('Lessons', () => {
           const bubbles = component.find('div[className="map-bubble"]')
           expect(bubbleContainers.length).toEqual(lessons.length)
           expect(bubbles.length).toEqual(lessons.length)
+
+          expect(component.find('button[className="map-bubble-button"]'))
+
         })
 
         it('should render a pulse for the one active lesson', async () => {
@@ -235,31 +238,66 @@ describe('Lessons', () => {
         })
 
         it('should generate LessonCard if lesson 2 clicked', async () => {
-          let LessonCard = component.find('LessonCard')
-          expect(LessonCard.length).toEqual(0)
+          // before action
+          expect(component.find('LessonCard').length).toEqual(0)
+          expect(component.find(`KiwiLink[to="/lessons/${lesson2._id}"]`).length).toEqual(0)
+          expect(component.find('Card[className="map-card"]').length).toEqual(0)
+          expect(component.find('CardMedia').length).toEqual(0)
+          expect(component.find('CardHeader').length).toEqual(0)
+          expect(component.find('span[className="map-card-title"]').length).toEqual(0)
+          expect(component.find('span[className="map-card-subtitle"]').length).toEqual(0)
+          expect(component.find('TimeToComplete').length).toEqual(0)
+          expect(component.find('GoButton').length).toEqual(0)
+
+          // action
           const element = component.find('button[className="map-bubble-button"]').at(1)
           element.simulate('click')
-          LessonCard = component.find('LessonCard')
-          expect(LessonCard.length).toEqual(1)
-          expect(LessonCard.props().lesson).toEqual({
-            ...lesson2,
-            order: 2,
-            userLesson: userLesson2
+          // after action
+          expect(component.find('LessonCard').length).toEqual(1)
+          expect(component.find('LessonCard').props().lesson).toEqual({
+            ...lesson2, order: 2, userLesson: userLesson2
           })
+          expect(component.find(`KiwiLink[to="/lessons/${lesson2._id}"]`).length).toEqual(1)
+          expect(component.find('Card[className="map-card"]').length).toEqual(1)
+          expect(component.find('CardMedia').length).toEqual(1)
+          expect(component.find('CardHeader').length).toEqual(1)
+          expect(component.find('span[className="map-card-title"]').length).toEqual(1)
+          expect(component.find('span[className="map-card-subtitle"]').length).toEqual(1)
+          expect(component.find('TimeToComplete').length).toEqual(1)
+          expect(component.find('GoButton').length).toEqual(1)
         })
 
         it('should generate LessonCard if lesson 3 clicked', async () => {
-          let LessonCard = component.find('LessonCard')
-          expect(LessonCard.length).toEqual(0)
+          // before action
+          expect(component.find('LessonCard').length).toEqual(0)
+          expect(component.find(`KiwiLink[to="/lessons/${lesson3._id}"]`).length).toEqual(0)
+          expect(component.find('Card[className="map-card"]').length).toEqual(0)
+          expect(component.find('CardMedia').length).toEqual(0)
+          expect(component.find('CardHeader').length).toEqual(0)
+          expect(component.find('span[className="map-card-title"]').length).toEqual(0)
+          expect(component.find('span[className="map-card-subtitle"]').length).toEqual(0)
+          expect(component.find('TimeToComplete').length).toEqual(0)
+          expect(component.find('GoButton').length).toEqual(0)
+
+          // action
           const element = component.find('button[className="map-bubble-button hvr-pulse-inverse"]')
           element.simulate('click')
-          LessonCard = component.find('LessonCard')
-          expect(LessonCard.length).toEqual(1)
-          expect(LessonCard.props().lesson).toEqual({
+
+          // after action
+          expect(component.find('LessonCard').length).toEqual(1)
+          expect(component.find('LessonCard').props().lesson).toEqual({
             ...lesson3,
             order: 3,
             userLesson: userLesson3
           })
+          expect(component.find(`KiwiLink[to="/lessons/${lesson3._id}"]`).length).toEqual(1)
+          expect(component.find('Card[className="map-card"]').length).toEqual(1)
+          expect(component.find('CardMedia').length).toEqual(1)
+          expect(component.find('CardHeader').length).toEqual(1)
+          expect(component.find('span[className="map-card-title"]').length).toEqual(1)
+          expect(component.find('span[className="map-card-subtitle"]').length).toEqual(1)
+          expect(component.find('TimeToComplete').length).toEqual(1)
+          expect(component.find('GoButton').length).toEqual(1)
         })
 
         it('should NOT generate LessonCard if lesson 4 clicked', async () => {
@@ -269,8 +307,39 @@ describe('Lessons', () => {
           element.simulate('click')
           LessonCard = component.find('LessonCard')
           expect(LessonCard.length).toEqual(0)
+          expect(component.find('LessonCard').length).toEqual(0)
+          expect(component.find(`KiwiLink[to="/lessons/${lesson4._id}"]`).length).toEqual(0)
+          expect(component.find('Card[className="map-card"]').length).toEqual(0)
+          expect(component.find('CardMedia').length).toEqual(0)
+          expect(component.find('CardHeader').length).toEqual(0)
+          expect(component.find('span[className="map-card-title"]').length).toEqual(0)
+          expect(component.find('span[className="map-card-subtitle"]').length).toEqual(0)
+          expect(component.find('TimeToComplete').length).toEqual(0)
+          expect(component.find('GoButton').length).toEqual(0)
         })
 
+      })
+    })
+
+    describe('with no lessons or lesson order', () => {
+      beforeEach(async () => {
+        lessons = []
+        lessonOrder = { order: [ ] }
+        setupStore()
+        ApiFetch.mockImplementationOnce(() => Promise.resolve([])) // getManyLessons response
+        ApiFetch.mockImplementationOnce(() => Promise.resolve(userLessons)) // getManyUserLessons response
+        ApiFetch.mockImplementationOnce(() => Promise.resolve(lessonOrder)) // getLessonOrder response
+        ApiFetch.mockImplementationOnce(() => Promise.resolve(manyLessonThemes)) // getManyLessonThemes response
+        component = mountWithStore(props, store) // mount component
+        await flushAllPromises() // wait for requests to resolve
+        component.update() // update component after having resolved requests
+      })
+
+      it('should render 0 lessons bubbles', async () => {
+        const bubbleContainers = component.find('div[className="map-bubble-container"]')
+        const bubbles = component.find('div[className="map-bubble"]')
+        expect(bubbleContainers.length).toEqual(0)
+        expect(bubbles.length).toEqual(0)
       })
     })
 

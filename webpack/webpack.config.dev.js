@@ -30,7 +30,6 @@ module.exports = {
     }]
   },
   plugins: [
-    new UglifyJSPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/)
   ],
