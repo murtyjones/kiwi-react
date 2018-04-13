@@ -96,7 +96,7 @@ const Hint = ({ errorHintHTML, showHint, closeHint }) =>
       unmountOnExit={ true }
     >
       <div style={ styles.hint }>
-        <h3 style={ styles.hintH3 }>Having Trouble?</h3>
+        <h3 style={ styles.hintH3 }>Here's a Hint:</h3>
         <div dangerouslySetInnerHTML={ { __html: errorHintHTML } } />
         <div
           className='x-sm'
@@ -127,7 +127,7 @@ export default class EditorOutput extends Component {
 
     if(nextProps.errorMsg && !this.state.showHint) {
       // wait for 2 sec
-      await setTimeoutAsync(2000)
+      await setTimeoutAsync(500)
       // show hint
       this.setState({ showHint: true })
     }
