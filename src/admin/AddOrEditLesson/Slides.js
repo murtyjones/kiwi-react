@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import update from 'immutability-helper'
 import * as T from 'prop-types'
 import { Field } from 'redux-form'
@@ -186,15 +186,15 @@ class Slides extends Component {
     const { localSlideTypes, deleteDialogOpen, activeSlideIndex } = this.state
 
     return (
-      <List>
-        <ListItem>
+      <Fragment>
+        <div>
           <RaisedButton onClick={ () => fields.push({}) }>
             Add Slide to End
           </RaisedButton>
           <RaisedButton onClick={ this.addSlideAfterCurrent }>
             Add Slide after Slide #{activeSlideIndex + 1}
           </RaisedButton>
-        </ListItem>
+        </div>
         <Tabs value={ activeSlideIndex }>
           { fields.map((eachSlideRef, i) =>
             <Tab
@@ -234,7 +234,7 @@ class Slides extends Component {
             </Tab>
           ) }
         </Tabs>
-      </List>
+      </Fragment>
     )
   }
 }
