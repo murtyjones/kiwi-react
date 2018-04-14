@@ -99,10 +99,10 @@ gulp.task('lint', () => {
 
 
 // Production build
-gulp.task("build", ["clean", "copy-html", "copy-assets", "webpack:build"]);
+gulp.task("build:production", ["clean", "copy-html", "copy-assets", "webpack:build"]);
 
 // Dev build
-gulp.task("build:dev", ["clean", "copy-html", "copy-assets", "webpack:build:dev"]);
+gulp.task("build:development", ["clean", "copy-html", "copy-assets", "webpack:build:development"]);
 
 gulp.task("copy-html", function() {
   return gulp
@@ -124,10 +124,10 @@ gulp.task("clean", function() {
   ])
 })
 
-gulp.task("webpack:build", function(callback) {
+gulp.task("webpack:build:production", function(callback) {
   // run webpack
   webpack(webpackProdConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack:build", err);
+    if(err) throw new gutil.PluginError("webpack:build:production", err);
     gutil.log("[webpack:build]", stats.toString({
       colors: true
     }));
@@ -135,10 +135,10 @@ gulp.task("webpack:build", function(callback) {
   });
 });
 
-gulp.task("webpack:build:dev", function(callback) {
+gulp.task("webpack:build:development", function(callback) {
   // run webpack
   webpack(webpackDevConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack:build", err);
+    if(err) throw new gutil.PluginError("webpack:build:development", err);
     gutil.log("[webpack:build]", stats.toString({
       colors: true
     }));
