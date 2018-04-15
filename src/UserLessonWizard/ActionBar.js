@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import cns from 'classnames'
 import { has } from 'lodash'
 
-const isNumeric = n => !isNaN(parseFloat(n)) && isFinite(n)
+import isNumeric from '../utils/isNumeric'
 
 const styles = {
   button: {

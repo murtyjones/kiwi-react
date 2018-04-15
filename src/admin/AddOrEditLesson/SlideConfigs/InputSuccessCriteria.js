@@ -30,7 +30,7 @@ const comparisonTypeOptions = [
   , { label: 'No more than:', value: COMPARISON_TYPES.NO_MORE_THAN }
 ]
 
-const isCustomCompType = type =>
+export const isCustomCompType = type =>
   type === COMPARISON_TYPES.AT_LEAST ||
   type === COMPARISON_TYPES.ONLY ||
   type === COMPARISON_TYPES.NO_MORE_THAN
@@ -162,7 +162,7 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
         name={ `${eachSlideRef}.numberOfTimes` }
         label='&nbsp;' // maintains spacing
         labelStyle={ styles.label }
-        component={ renderTextField }
+        component={ renderTextField } // is validated in LessonForm.js
         style={ {
           height: '35px', width: '100%'
         } }
