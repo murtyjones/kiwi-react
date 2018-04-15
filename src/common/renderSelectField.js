@@ -1,26 +1,26 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { SelectField, MenuItem } from 'material-ui'
 
-const renderSelectField = ({ children, input, label, type, meta: { touched, error }, onSelectCustom, ...custom }) => {
+const defaultLabelStyle = { display: 'block' }
+
+const renderSelectField = ({ children, containerStyle, input, label, labelStyle, type, meta: { touched, error }, onSelectCustom, ...custom }) => {
   return (
-    <div>
-      <label>
+    <div style={ containerStyle }>
+      <label style={ labelStyle || defaultLabelStyle }>
         { label }
       </label>
-      <div>
-        <SelectField
-          { ...input }
-          onChange={
-            (event, index, value) => {
-              input.onChange(value)
-              if (onSelectCustom) onSelectCustom(value)
-            }
+      <SelectField
+        { ...input }
+        onChange={
+          (event, index, value) => {
+            input.onChange(value)
+            if (onSelectCustom) onSelectCustom(value)
           }
-          errorText={ touched && error }
-          children={ children }
-          { ...custom }
-        />
-      </div>
+        }
+        errorText={ touched && error }
+        children={ children }
+        { ...custom }
+      />
     </div>
   )
 }

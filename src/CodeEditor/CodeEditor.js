@@ -182,8 +182,12 @@ class CodeEditor extends Component {
     this.props.onSave(this.state.editorInput)
   }
 
+  handleCheckAnswer = () => {
+
+  }
+
   render() {
-    const { className, options, onSave, showRunButton = true } = this.props
+    const { className, options, onSave, includeCheckAnswer = false, showRunButton = true } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
 
     return (
@@ -212,6 +216,7 @@ class CodeEditor extends Component {
           <Tools
             onSave={ onSave ? this.handleSave : null }
             onRun={ showRunButton ? this.runCode : null }
+            onCheckAnswer={ includeCheckAnswer ? this.handleCheckAnswer : null }
           />
         </div>
       </div>

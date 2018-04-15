@@ -3,6 +3,8 @@ import LESSON_MAP_POINTS from './LESSON_MAP_POINTS'
 import LESSON_SLIDE_TYPES from './LESSON_SLIDE_TYPES'
 import SVG_PATHS from './SVG_PATHS'
 import GLOBAL_COLORS from './GLOBAL_COLORS'
+export * from './SUCCESS_CRITERIA'
+
 
 export {
   ACTIONS

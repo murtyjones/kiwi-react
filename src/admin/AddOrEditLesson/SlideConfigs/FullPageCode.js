@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Field } from 'redux-form'
+import React, { Component, Fragment } from 'react'
+import { Field, FieldArray } from 'redux-form'
 import renderTextField from '../../../common/renderTextField'
 import renderRichTextEditor from '../../../common/renderRichTextEditor'
 import renderRichCodeTextEditor from '../../../common/renderRichCodeTextEditor'
@@ -7,16 +7,18 @@ import CodeEditor from '../../../CodeEditor/CodeEditor'
 import { LESSON_SLIDE_TYPES } from '../../../constants'
 import insertIf from '../../../utils/insertIf'
 import { Toggle } from 'redux-form-material-ui'
+import InputSuccessCriteria from './InputSuccessCriteria'
 
 import '../../../common/flex.css'
 
-const renderCodeEditor = ({input}) =>
+const renderCodeEditor = ({ input, ...rest }) =>
   <div className='flex flexFlowColumn' style={ styles.codeEditorContainer }>
     <CodeEditor
       key='lessonFullSizeEditor'
       className='lessonFullSizeEditor flexOneOneAuto'
       editorInput={ input.value || '' }
       onChange={ input.onChange }
+      { ...rest }
     />
   </div>
 
@@ -57,6 +59,7 @@ class FullPageCode extends Component {
           name={`${slideRef}.hasExample` }
           label='Include example?'
           component={ Toggle }
+          style={ { width: 'auto' } }
         />
         { slideValues.hasExample &&
           <Field
@@ -66,13 +69,31 @@ class FullPageCode extends Component {
           />
         }
         <Field
+          name={`${slideRef}.shouldIncludeSuccessCriteria` }
+          label="Include Success Criteria?"
+          component={ Toggle }
+          style={ { width: 'auto' } }
+        />
+        { slideValues.shouldIncludeSuccessCriteria &&
+          <Fragment>
+            <FieldArray
+              name={`${slideRef}.inputSuccessCriteria` }
+              label='Input Success Criteria'
+              component={ InputSuccessCriteria }
+              slideValues={ slideValues }
+            />
+            {/*<Field*/}
+              {/*name={`${slideRef}.outputSuccessCriteria` }*/}
+              {/*label='Example Code'*/}
+              {/*component={ renderRichCodeTextEditor }*/}
+            {/*/>*/}
+          </Fragment>
+        }
+        <Field
           name={ `${slideRef}.editorInput` }
           label={ 'Editor Input' }
           component={ renderCodeEditor }
-          multiLine={ true }
-          underlineShow={ false }
-          rows={ 20 }
-          style={ styles.textArea }
+          includeCheckAnswer={ slideValues.shouldIncludeSuccessCriteria }
         />
       </div>
     )
