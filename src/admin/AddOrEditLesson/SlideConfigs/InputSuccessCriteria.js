@@ -41,6 +41,7 @@ const styles = {
     , border: '1px solid #CCCCCC'
     , display: 'inline-block'
     , padding: '15px'
+    , boxSizing: 'border-box'
   },
   addButton: {
     marginBottom: '10px'
