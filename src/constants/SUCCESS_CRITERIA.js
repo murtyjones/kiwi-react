@@ -4,7 +4,7 @@ export const CODE_CONCEPTS = { // must match backend
   , WHILE_LOOP: 'WHILE_LOOP'
   , CONDITIONAL: 'CONDITIONAL'
   , IF: 'IF'
-  , ELSE_IF: 'ELSE_IF'
+  , ELIF: 'ELIF'
   , ELSE: 'ELSE'
 }
 

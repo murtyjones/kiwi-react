@@ -14,7 +14,7 @@ const inputCriteriaOptions = [
   , { label: 'while loop', value: CODE_CONCEPTS.WHILE_LOOP }
   , { header: 'Conditional' }
   , { label: 'if', value: CODE_CONCEPTS.IF }
-  , { label: 'else if', value: CODE_CONCEPTS.ELSE_IF }
+  , { label: 'elif', value: CODE_CONCEPTS.ELIF }
   , { label: 'else', value: CODE_CONCEPTS.ELSE }
 ]
 
