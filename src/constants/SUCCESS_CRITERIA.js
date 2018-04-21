@@ -10,9 +10,9 @@ export const CODE_CONCEPTS = { // must match backend
 export const COMPARISON_TYPES = { // must match backend
   NEVER: 'NEVER'
   , AT_LEAST_ONCE: 'AT_LEAST_ONCE'
-  , ONLY_ONCE: 'ONLY_ONCE'
+  , EXACTLY_ONCE: 'EXACTLY_ONCE'
   , ONCE_MAX: 'ONCE_MAX'
   , AT_LEAST: 'AT_LEAST'
-  , ONLY: 'ONLY'
+  , EXACTLY: 'EXACTLY'
   , NO_MORE_THAN: 'NO_MORE_THAN'
 }

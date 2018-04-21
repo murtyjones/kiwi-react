@@ -24,17 +24,17 @@ const comparisonTypeOptions = [
   { header: 'Preset' }
   , { label: 'Never', value: COMPARISON_TYPES.NEVER }
   , { label: 'At least once', value: COMPARISON_TYPES.AT_LEAST_ONCE }
-  , { label: 'Only once', value: COMPARISON_TYPES.ONLY_ONCE }
+  , { label: 'Exactly once', value: COMPARISON_TYPES.EXACTLY_ONCE }
   , { label: 'No more than once', value: COMPARISON_TYPES.ONCE_MAX }
   , { header: 'Custom' }
   , { label: 'At least:', value: COMPARISON_TYPES.AT_LEAST }
-  , { label: 'Only:', value: COMPARISON_TYPES.ONLY }
+  , { label: 'Exactly:', value: COMPARISON_TYPES.EXACTLY }
   , { label: 'No more than:', value: COMPARISON_TYPES.NO_MORE_THAN }
 ]
 
 export const isCustomCompType = type =>
   type === COMPARISON_TYPES.AT_LEAST ||
-  type === COMPARISON_TYPES.ONLY ||
+  type === COMPARISON_TYPES.EXACTLY ||
   type === COMPARISON_TYPES.NO_MORE_THAN
 
 const styles = {

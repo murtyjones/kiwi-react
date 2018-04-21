@@ -189,7 +189,6 @@ class CodeEditor extends Component {
   render() {
     const { className, options, onSave, includeCheckAnswer = false, showRunButton = true } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
-    console.log(editorInput)
 
     return (
       <div className={ className } >
