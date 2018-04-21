@@ -45,7 +45,7 @@ const styles = {
 }
 
 const SuccessCriteria = ({ slideRef, slideValues }) =>
-  <div style={ { position: 'relative', minHeight: '200px' } }>
+  <div style={ { alignItems: 'stretch', display: 'flex', minHeight: '200px' } }>
     <FieldArray
       name={`${slideRef}.inputSuccessCriteria` }
       label='Input Success Criteria'

@@ -43,13 +43,11 @@ const styles = {
     , borderWidth: '1px 1px 1px 0'
     , borderStyle: 'solid'
     , borderColor: '#CCC'
-    , display: 'inline-block'
     , padding: '15px'
     , boxSizing: 'border-box'
-    , position: 'absolute'
-    , top: 0
-    , bottom: 0
-    , right: 0
+    , alignItems: 'center'
+    , display: 'flex'
+    , flexDirection: 'column'
   },
   addButton: {
     marginBottom: '10px'

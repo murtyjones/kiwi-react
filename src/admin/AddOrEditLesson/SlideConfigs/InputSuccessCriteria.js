@@ -41,13 +41,11 @@ const styles = {
   container: {
     width: '50%'
     , border: '1px solid #CCCCCC'
-    , display: 'inline-block'
     , padding: '15px'
     , boxSizing: 'border-box'
-    , position: 'absolute'
-    , top: 0
-    , bottom: 0
-    , left: 0
+    , alignItems: 'center'
+    , display: 'flex'
+    , flexDirection: 'column'
   },
   addButton: {
     marginBottom: '10px'
