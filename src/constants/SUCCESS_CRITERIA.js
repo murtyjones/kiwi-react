@@ -2,7 +2,6 @@ export const CODE_CONCEPTS = { // must match backend
   LOOP: 'LOOP'
   , FOR_LOOP: 'FOR_LOOP'
   , WHILE_LOOP: 'WHILE_LOOP'
-  , CONDITIONAL: 'CONDITIONAL'
   , IF: 'IF'
   , ELIF: 'ELIF'
   , ELSE: 'ELSE'
