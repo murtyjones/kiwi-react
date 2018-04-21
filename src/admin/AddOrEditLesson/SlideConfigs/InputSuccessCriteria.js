@@ -60,7 +60,7 @@ const styles = {
     , cursor: 'pointer'
   },
   criterion: {
-    width: '90%'
+    width: '95%'
     , position: 'relative' // needed for abs children
     , border: '1px solid #CCCCCC'
     , borderRadius: '3px'
