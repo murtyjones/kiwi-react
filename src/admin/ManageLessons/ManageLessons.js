@@ -25,7 +25,7 @@ class ManageLessons extends Component {
 
   componentWillMount() {
     const { getManyLessons, getLessonOrder } = this.props
-    getManyLessons({ getPublishedOnly: false })
+    getManyLessons()
     getLessonOrder()
   }
 
