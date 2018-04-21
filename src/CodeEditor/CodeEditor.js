@@ -5,6 +5,8 @@ import skulpt from 'skulpt'
 import EditorOutput from './EditorOutput'
 import EditorInput from './EditorInput'
 import Tools from './Tools'
+import BluebirdPromise from 'bluebird'
+
 
 import './overrides.css'
 import '../common/flex.css'
@@ -74,11 +76,9 @@ class CodeEditor extends Component {
     }
   }
 
-  setStateAsync = (newState) => {
-    return new Promise((resolve) => {
-      this.setState(newState, resolve)
-    });
-  }
+  setStateAsync = newState => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
 
   getChildRef = (c) => {
     this.inputText = c
@@ -138,42 +138,40 @@ class CodeEditor extends Component {
 
   runCode = () => {
     const { editorInput, editorOutput } = this.state
-    codeOutput = '' // reset each time
-    skulpt.canvas = 'mycanvas'
-    skulpt.pre = 'output'
-    skulpt.configure({
-      inputfun: (prompt) => {
-        if(prompt) {
-          this.addToOutput(`${prompt} `)
+    return new BluebirdPromise((resolve, reject) => {
+      codeOutput = '' // reset each time
+      skulpt.canvas = 'mycanvas'
+      skulpt.pre = 'output'
+      skulpt.configure({
+        inputfun: (prompt) => {
+          if (prompt) {
+            this.addToOutput(`${prompt} `)
+          }
+          this.setState({editorOutput: codeOutput})
+          return new Promise(async (resolve, reject) => {
+            this.setState({prompt, rawInputResolve: resolve})
+            const elem = this.inputText
+            this.inputText.focus()
+            // When adding the event listener, to prevent multiple
+            // firings, the callback argument below should be done
+            // without including any args, which is why we
+            // pass the resolve function to state.
+            // reference:  https://stackoverflow.com/questions/26146108/addeventlistener-firing-multiple-times-for-the-same-handle-when-passing-in-argum
+            elem.addEventListener('keyup', this.rawInputListener, true)
+          })
         }
-        this.setState({ editorOutput: codeOutput })
-        return new Promise(async(resolve, reject) => {
-          this.setState({ prompt, rawInputResolve: resolve })
-          const elem = this.inputText
-          this.inputText.focus()
-          // When adding the event listener, to prevent multiple
-          // firings, the callback argument below should be done
-          // without including any args, which is why we
-          // pass the resolve function to state.
-          // reference:  https://stackoverflow.com/questions/26146108/addeventlistener-firing-multiple-times-for-the-same-handle-when-passing-in-argum
-          elem.addEventListener('keyup', this.rawInputListener, true)
-        })
-      }
-      , inputfunTakesPrompt: true
-      , output: this.addToOutput
-      , read: this.builtinRead
-    })
-
-    const myPromise = skulpt.misceval.asyncToPromise(() => skulpt.importMainWithBody("<stdin>", false, editorInput, true))
-    myPromise.then(() => {
-      this.setState({
-        editorOutput: codeOutput
+        , inputfunTakesPrompt: true
+        , output: this.addToOutput
+        , read: this.builtinRead
       })
-    }, (e) => {
-      this.setState({
-        errorMsg: e.toString()
-        , errorLine: e.traceback[0].lineno
-        , editorOutput: ''
+
+      const myPromise = skulpt.misceval.asyncToPromise(() => skulpt.importMainWithBody("<stdin>", false, editorInput, true))
+      myPromise.then(async () => {
+        await this.setStateAsync({ editorOutput: codeOutput })
+        return resolve()
+      }, async (e) => {
+        await this.setState({ errorMsg: e.toString(), errorLine: e.traceback[0].lineno, editorOutput: '' })
+        return reject()
       })
     })
   }
@@ -182,7 +180,8 @@ class CodeEditor extends Component {
     this.props.onSave(this.state.editorInput)
   }
 
-  handleCheckAnswer = () => {
+  handleCheckAnswer = async () => {
+    await this.runCode()
     const { editorInput, editorOutput } = this.state
     this.props.onCheckAnswer(editorInput, editorOutput)
   }
@@ -190,6 +189,7 @@ class CodeEditor extends Component {
   render() {
     const { className, options, onSave, includeCheckAnswer = false, showRunButton = true } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
+    console.log(editorInput)
 
     return (
       <div className={ className } >

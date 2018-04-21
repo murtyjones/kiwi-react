@@ -25,7 +25,7 @@ const comparisonTypeOptions = [
   , { label: 'Never', value: COMPARISON_TYPES.NEVER }
   , { label: 'At least once', value: COMPARISON_TYPES.AT_LEAST_ONCE }
   , { label: 'Only once', value: COMPARISON_TYPES.ONLY_ONCE }
-  , { label: 'No more than once', value: COMPARISON_TYPES.ONLY_ONCE }
+  , { label: 'No more than once', value: COMPARISON_TYPES.ONCE_MAX }
   , { header: 'Custom' }
   , { label: 'At least:', value: COMPARISON_TYPES.AT_LEAST }
   , { label: 'Only:', value: COMPARISON_TYPES.ONLY }
