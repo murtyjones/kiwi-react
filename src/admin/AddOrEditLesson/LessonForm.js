@@ -8,8 +8,6 @@ import { Toggle, SelectField } from 'redux-form-material-ui'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
-import { isCustomCompType } from './SlideConfigs/InputSuccessCriteria'
-import isNumeric from '../../utils/isNumeric'
 
 import Slides from './Slides'
 
@@ -104,26 +102,9 @@ class LessonForm extends Component {
   }
 }
 
-const ensureNumberOfTimesIsNumeric = eachSlide => {
-  if(eachSlide.shouldIncludeSuccessCriteria && eachSlide.inputSuccessCriteria) {
-    eachSlide.inputSuccessCriteria.forEach(eachCriterion => {
-      if(eachCriterion.numberOfTimes && !isNumeric(eachCriterion.numberOfTimes)) {
-        eachCriterion.numberOfTimes = ''
-      }
-    })
-  }
-}
-
 LessonForm = reduxForm({
   form: formName
   , enableReinitialize: true
-  , validate: values => {
-    if(values && values.slides) {
-      values.slides.forEach((eachSlide, i) => {
-        ensureNumberOfTimesIsNumeric(eachSlide)
-      })
-    }
-  }
 })(LessonForm)
 
 const selector = formValueSelector(formName)

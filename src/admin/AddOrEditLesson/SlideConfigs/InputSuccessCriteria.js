@@ -2,6 +2,8 @@ import React, { Fragment } from 'react'
 import { Field } from 'redux-form'
 import { List, ListItem, Divider, RaisedButton, FlatButton, MenuItem, Tabs, Tab, Dialog } from 'material-ui'
 import Delete from 'material-ui-icons/Delete'
+import { TextField } from 'redux-form-material-ui'
+
 
 import { CODE_CONCEPTS, COMPARISON_TYPES } from '../../../constants'
 import renderTextField from '../../../common/renderTextField'
@@ -163,13 +165,15 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
         name={ `${eachSlideRef}.numberOfTimes` }
         label='&nbsp;' // maintains spacing
         labelStyle={ styles.label }
-        component={ renderTextField } // is validated in LessonForm.js
+        component={ renderTextField }
+        parse={ v => Number(v) } // convert string to number
         style={ {
           height: '35px', width: '100%'
         } }
         inputStyle={ { marginTop: '7px', textAlign: 'center' } }
         underlineStyle={ { bottom: '-5px' } }
         containerStyle={ styles.numTimesContainer }
+        type='number'
       />
       <span style={ { position: 'relative', bottom: '25px' } }>times</span>
     </Fragment>
