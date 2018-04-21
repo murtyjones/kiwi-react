@@ -9,7 +9,7 @@ import { CODE_CONCEPTS, COMPARISON_TYPES } from '../../../constants'
 import renderTextField from '../../../common/renderTextField'
 import renderSelectField from '../../../common/renderSelectField'
 
-const inputCriteriaOptions = [
+const outputCriteriaOptions = [
   { header: 'Control Flow' }
   , { label: 'any loop', value: CODE_CONCEPTS.LOOP }
   , { label: 'for loop', value: CODE_CONCEPTS.FOR_LOOP }
@@ -25,7 +25,7 @@ const comparisonTypeOptions = [
   , { label: 'Never', value: COMPARISON_TYPES.NEVER }
   , { label: 'At least once', value: COMPARISON_TYPES.AT_LEAST_ONCE }
   , { label: 'Only once', value: COMPARISON_TYPES.ONLY_ONCE }
-  , { label: 'No more than once', value: COMPARISON_TYPES.ONLY_ONCE }
+  , { label: 'Once or less', value: COMPARISON_TYPES.ONCE_MAX }
   , { header: 'Custom' }
   , { label: 'At least:', value: COMPARISON_TYPES.AT_LEAST }
   , { label: 'Only:', value: COMPARISON_TYPES.ONLY }
@@ -40,14 +40,16 @@ export const isCustomCompType = type =>
 const styles = {
   container: {
     width: '50%'
-    , border: '1px solid #CCCCCC'
+    , borderWidth: '1px 1px 1px 0'
+    , borderStyle: 'solid'
+    , borderColor: '#CCC'
     , display: 'inline-block'
     , padding: '15px'
     , boxSizing: 'border-box'
     , position: 'absolute'
     , top: 0
     , bottom: 0
-    , left: 0
+    , right: 0
   },
   addButton: {
     marginBottom: '10px'
@@ -67,13 +69,14 @@ const styles = {
     , padding: '15px 15px 5px 15px'
     , marginBottom: '15px'
   },
-  codingConceptContainer: {
+  comparisonTypeContainer: {
     width: '25%'
     , display: 'inline-block'
     , marginRight: '10px'
+    , verticalAlign: 'top'
   },
-  comparisonTypeContainer: {
-    width: '35%'
+  textToFindContainer: {
+    width: '50%'
     , display: 'inline-block'
     , marginRight: '10px'
     , verticalAlign: 'top'
@@ -114,30 +117,15 @@ const MenuItemHeader = ({ headerText }) =>
 const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
   <div style={ styles.criterion }>
     <Field
-      name={ `${eachSlideRef}.codingConcept` }
-      hintText='Select One'
-      label='Coding Concept'
+      name={ `${eachSlideRef}.textToFind` }
+      label='Text' // maintains spacing
       labelStyle={ styles.label }
-      component={ renderSelectField }
-      style={ { width: '100%' } }
-      containerStyle={ styles.codingConceptContainer }
-    >
-      { inputCriteriaOptions.map((eachOption, i) =>
-        eachOption.header
-          ? (
-            <MenuItemHeader
-              key={ i }
-              headerText={ eachOption.header }
-            />
-          ) : (
-            <MenuItem
-              key={ i }
-              primaryText={ eachOption.label }
-              value={ eachOption.value }
-            />
-          )
-      ) }
-    </Field>
+      component={ renderTextField }
+      style={ { height: '35px', width: '100%' } }
+      inputStyle={ { marginTop: '7px' } }
+      underlineStyle={ { bottom: '-5px' } }
+      containerStyle={ styles.textToFindContainer }
+    />
     <Field
       name={ `${eachSlideRef}.comparisonType` }
       hintText='Select One'
@@ -171,24 +159,25 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
           labelStyle={ styles.label }
           component={ renderTextField }
           parse={ v => Number(v) } // convert string to number
-          type='number'
           style={ {
             height: '35px', width: '100%'
           } }
           inputStyle={ { marginTop: '7px', textAlign: 'center' } }
           underlineStyle={ { bottom: '-5px' } }
           containerStyle={ styles.numTimesContainer }
+          type='number'
         />
-        <span style={ { position: 'relative', bottom: '25px' } }>times</span>
+        <span style={ { position: 'relative', top: '29px' } }>times</span>
       </Fragment>
     }
     <DeleteButton onClick={ onDeleteCrition } />
   </div>
 
-const InputSuccessCriteria = ({ fields, slideValues }) =>
+
+const OutputSuccessCriteria = ({ fields, slideValues }) =>
   <div style={ styles.container }>
     <RaisedButton style={ styles.addButton } onClick={ () => fields.push({}) }>
-      Add Input Success Criterion
+      Add Output Success Criterion
     </RaisedButton>
     <Fragment>
       { fields.map((eachSlideRef, i) => {
@@ -197,11 +186,11 @@ const InputSuccessCriteria = ({ fields, slideValues }) =>
             key={ i }
             eachSlideRef={ eachSlideRef }
             onDeleteCrition={ () => fields.remove(i) }
-            isCustom={ isCustomCompType(slideValues.inputSuccessCriteria[i].comparisonType) }
+            isCustom={ isCustomCompType(slideValues.outputSuccessCriteria[i].comparisonType) }
           />
         )
       }) }
     </Fragment>
   </div>
 
-export default InputSuccessCriteria
+export default OutputSuccessCriteria

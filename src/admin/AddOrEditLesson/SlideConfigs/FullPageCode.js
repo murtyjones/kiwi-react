@@ -8,6 +8,7 @@ import { LESSON_SLIDE_TYPES } from '../../../constants'
 import insertIf from '../../../utils/insertIf'
 import { Toggle } from 'redux-form-material-ui'
 import InputSuccessCriteria from './InputSuccessCriteria'
+import OutputSuccessCriteria from './OutputSuccessCriteria'
 
 import '../../../common/flex.css'
 
@@ -40,6 +41,23 @@ const styles = {
     , overflow: 'auto'
   }
 }
+
+const SuccessCriteria = ({ slideRef, slideValues }) =>
+  <div style={ { position: 'relative', minHeight: '200px' } }>
+    <FieldArray
+      name={`${slideRef}.inputSuccessCriteria` }
+      label='Input Success Criteria'
+      component={ InputSuccessCriteria }
+      slideValues={ slideValues }
+    />
+    <FieldArray
+      name={`${slideRef}.outputSuccessCriteria` }
+      label='Output Success Criteria'
+      component={ OutputSuccessCriteria }
+      slideValues={ slideValues }
+    />
+  </div>
+
 
 class FullPageCode extends Component {
   constructor(props) {
@@ -75,19 +93,10 @@ class FullPageCode extends Component {
           style={ { width: 'auto' } }
         />
         { slideValues.shouldIncludeSuccessCriteria &&
-          <Fragment>
-            <FieldArray
-              name={`${slideRef}.inputSuccessCriteria` }
-              label='Input Success Criteria'
-              component={ InputSuccessCriteria }
-              slideValues={ slideValues }
-            />
-            {/*<Field*/}
-              {/*name={`${slideRef}.outputSuccessCriteria` }*/}
-              {/*label='Example Code'*/}
-              {/*component={ renderRichCodeTextEditor }*/}
-            {/*/>*/}
-          </Fragment>
+          <SuccessCriteria
+            slideRef={ slideRef }
+            slideValues={ slideValues }
+          />
         }
         <Field
           name={ `${slideRef}.editorInput` }
