@@ -165,7 +165,7 @@ class App extends Component {
                 {/* ----------------- */}
                 <AuthenticatedRoute path='/welcome' exact component={ Welcome } { ...extras } />
                 <AuthenticatedRoute path='/projects' exact component={ UserProjects } title='Projects' { ...extras } />
-                <AuthenticatedRoute path='/project/new' exact component={ UserProject } title='Name Me!' topBarTitleDisabled={ false } { ...extras } />
+                <AuthenticatedRoute path='/project/new' exact component={ UserProject } title='name me!' topBarTitleDisabled={ false } { ...extras } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } topBarTitleDisabled={ false } { ...extras } />
                 <AuthenticatedRoute path='/lessons' exact component={ Lessons } title='Lessons' { ...extras } />
                 <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...extras } />
