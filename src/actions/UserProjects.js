@@ -42,7 +42,7 @@ export const getUserProject = (params) => {
 export const putUserProject = (params) => {
   const { id } = params
   const options = {
-    method: "PUT",
+    method: 'PUT',
     body: params
   }
   return dispatch => {
@@ -60,7 +60,7 @@ export const putUserProject = (params) => {
 
 export const postUserProject = (params) => {
   const options = {
-    method: "POST",
+    method: 'POST',
     body: params
   }
   return dispatch => {

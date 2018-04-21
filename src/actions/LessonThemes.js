@@ -58,7 +58,7 @@ export const getLessonTheme = (params) => {
 export const putLessonTheme = (params) => {
   const { id } = params
   const options = {
-    method: "PUT",
+    method: 'PUT',
     body: params
   }
   return dispatch => {
@@ -76,7 +76,7 @@ export const putLessonTheme = (params) => {
 
 export const postLessonTheme = (params) => {
   const options = {
-    method: "POST",
+    method: 'POST',
     body: params
   }
   return dispatch => {

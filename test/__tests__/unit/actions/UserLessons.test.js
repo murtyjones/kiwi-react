@@ -39,7 +39,7 @@ describe('UserLesson Themes Actions', () => {
     it('should pass expected params to ApiFetch', async () => {
       const expectedUrl = `${config.api}/user-lessons`
       const expectedBody = {
-        method: "GET"
+        method: 'GET'
       }
       const result = await store.dispatch(getManyUserLessons())
       expect(mockApiFetch.mock.calls[0][0]).toEqual(expectedUrl)
@@ -103,7 +103,7 @@ describe('UserLesson Themes Actions', () => {
     it('should pass expected params to ApiFetch', async () => {
       const expectedUrl = `${config.api}/user-lessons/${params.id}`
       const expectedBody = {
-        method: "GET"
+        method: 'GET'
       }
       const result = await store.dispatch(getUserLesson(params))
       expect(mockApiFetch.mock.calls[0][0]).toEqual(expectedUrl)
@@ -167,7 +167,7 @@ describe('UserLesson Themes Actions', () => {
     it('should pass expected params to ApiFetch', async () => {
       const expectedUrl = `${config.api}/user-lessons/${params.id}`
       const expectedBody = {
-        method: "PUT"
+        method: 'PUT'
         , body: params
       }
       const result = await store.dispatch(putUserLesson(params))
@@ -232,7 +232,7 @@ describe('UserLesson Themes Actions', () => {
     it('should pass expected params to ApiFetch', async () => {
       const expectedUrl = `${config.api}/user-lessons`
       const expectedBody = {
-        method: "POST"
+        method: 'POST'
         , body: params
       }
       const result = await store.dispatch(postUserLesson(params))

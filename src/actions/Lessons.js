@@ -58,7 +58,7 @@ export const getLesson = (params) => {
 export const putLesson = (params) => {
   const { id } = params
   const options = {
-    method: "PUT",
+    method: 'PUT',
     body: params
   }
   return dispatch => {
@@ -76,7 +76,7 @@ export const putLesson = (params) => {
 
 export const postLesson = (params) => {
   const options = {
-    method: "POST",
+    method: 'POST',
     body: params
   }
   return dispatch => {

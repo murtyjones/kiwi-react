@@ -39,7 +39,7 @@ describe('UserProject Themes Actions', () => {
     it('should pass expected params to ApiFetch', async () => {
       const expectedUrl = `${config.api}/user-projects`
       const expectedBody = {
-        method: "GET"
+        method: 'GET'
       }
       const result = await store.dispatch(getManyUserProjects())
       expect(mockApiFetch.mock.calls[0][0]).toEqual(expectedUrl)
@@ -50,7 +50,7 @@ describe('UserProject Themes Actions', () => {
       const params = { userId: '123' }
       const expectedUrl = `${config.api}/user-projects?userId=${params.userId}`
       const expectedBody = {
-        method: "GET"
+        method: 'GET'
       }
       const result = await store.dispatch(getManyUserProjects(params))
       expect(mockApiFetch.mock.calls[0][0]).toEqual(expectedUrl)
@@ -113,7 +113,7 @@ describe('UserProject Themes Actions', () => {
     it('should pass expected params to ApiFetch', async () => {
       const expectedUrl = `${config.api}/user-projects/${params.id}`
       const expectedBody = {
-        method: "GET"
+        method: 'GET'
       }
       const result = await store.dispatch(getUserProject(params))
       expect(mockApiFetch.mock.calls[0][0]).toEqual(expectedUrl)
@@ -177,7 +177,7 @@ describe('UserProject Themes Actions', () => {
     it('should pass expected params to ApiFetch', async () => {
       const expectedUrl = `${config.api}/user-projects/${params.id}`
       const expectedBody = {
-        method: "PUT"
+        method: 'PUT'
         , body: params
       }
       const result = await store.dispatch(putUserProject(params))
@@ -242,7 +242,7 @@ describe('UserProject Themes Actions', () => {
     it('should pass expected params to ApiFetch', async () => {
       const expectedUrl = `${config.api}/user-projects`
       const expectedBody = {
-        method: "POST"
+        method: 'POST'
         , body: params
       }
       const result = await store.dispatch(postUserProject(params))

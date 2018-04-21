@@ -87,7 +87,7 @@ describe('Auth Actions', () => {
       const expectedUrl = `${config.api}/auth/register`
       const expectedBody = {
         body: params,
-        method: "POST"
+        method: 'POST'
       }
       const result = await store.dispatch(register(params))
       expect(mockApiFetch.mock.calls[0][0]).toEqual(expectedUrl)

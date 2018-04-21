@@ -23,7 +23,7 @@ export const getLessonOrder = () => {
 
 export const putLessonOrder = (params) => {
   const options = {
-    method: "PUT",
+    method: 'PUT',
     body: params
   }
   return dispatch => {

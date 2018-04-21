@@ -35,7 +35,7 @@ describe('Lesson Metadata Actions', () => {
     it('should pass expected params to ApiFetch', async () => {
       const expectedUrl = `${config.api}/lesson-order`
       const expectedBody = {
-        method: "GET"
+        method: 'GET'
       }
       const result = await store.dispatch(getLessonOrder())
       expect(mockApiFetch.mock.calls[0][0]).toEqual(expectedUrl)
@@ -98,7 +98,7 @@ describe('Lesson Metadata Actions', () => {
       const expectedUrl = `${config.api}/lesson-order`
       const expectedBody = {
         body: params
-        , method: "PUT"
+        , method: 'PUT'
       }
       const result = await store.dispatch(putLessonOrder(params))
       expect(mockApiFetch.mock.calls[0][0]).toEqual(expectedUrl)
