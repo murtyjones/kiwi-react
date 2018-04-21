@@ -183,7 +183,8 @@ class CodeEditor extends Component {
   }
 
   handleCheckAnswer = () => {
-
+    const { editorInput, editorOutput } = this.state
+    this.props.onCheckAnswer(editorInput, editorOutput)
   }
 
   render() {

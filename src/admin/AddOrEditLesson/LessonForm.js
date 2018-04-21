@@ -41,7 +41,7 @@ class LessonForm extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting, allSlideValues, themeOptions } = this.props
+    const { handleSubmit, submitting, allSlideValues, themeOptions, postTestCheckAnswer } = this.props
 
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
@@ -89,11 +89,12 @@ class LessonForm extends Component {
           ) }
         </Field>
         <FieldArray
-          name="slides"
+          name='slides'
           component={ Slides }
           allSlideValues={ allSlideValues }
+          postTestCheckAnswer={ postTestCheckAnswer }
         />
-        <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
+        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting }>
           Save
         </RaisedButton>
         { submitting && <span>Saving...</span> }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { postLesson, putLesson, getLesson, getManyLessonThemes } from '../../actions'
+import { postLesson, putLesson, getLesson, getManyLessonThemes, postTestCheckAnswer } from '../../actions'
 import { has, isEmpty, isEqual } from 'lodash'
 import LessonForm from './LessonForm'
 
@@ -21,6 +21,7 @@ class AddOrEditLesson extends Component {
     getLesson: T.func.isRequired
     , postLesson: T.func.isRequired
     , putLesson: T.func.isRequired
+    , postTestCheckAnswer: T.func.isRequired
     , initialValues: T.object.isRequired
 
   }
@@ -58,7 +59,7 @@ class AddOrEditLesson extends Component {
   }
 
   render() {
-    const { initialValues, lessonThemes } = this.props
+    const { initialValues, lessonThemes, postTestCheckAnswer } = this.props
     const { needsLesson, isNewLesson } = this.state
     return (
       <div>
@@ -69,6 +70,7 @@ class AddOrEditLesson extends Component {
               initialValues={ initialValues }
               themeOptions={ lessonThemes }
               onSubmit={ this.handleSubmit }
+              postTestCheckAnswer={ postTestCheckAnswer }
             />
         }
       </div>
@@ -94,6 +96,7 @@ const mapDispatchToProps = (dispatch) => {
     , postLesson: params => dispatch(postLesson(params))
     , getLesson: params => dispatch(getLesson(params))
     , getManyLessonThemes: params => dispatch(getManyLessonThemes(params))
+    , postTestCheckAnswer: params => dispatch(postTestCheckAnswer(params))
   }
 }
 

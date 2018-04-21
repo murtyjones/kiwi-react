@@ -42,7 +42,7 @@ export const getUserLesson = (params) => {
 export const putUserLesson = (params) => {
   const { id } = params
   const options = {
-    method: "PUT",
+    method: 'PUT',
     body: params
   }
   return dispatch => {
@@ -60,7 +60,7 @@ export const putUserLesson = (params) => {
 
 export const postUserLesson = (params) => {
   const options = {
-    method: "POST",
+    method: 'POST',
     body: params
   }
   return dispatch => {
@@ -72,6 +72,24 @@ export const postUserLesson = (params) => {
       })
       .catch(e => {
         dispatch({ type: ACTIONS.POST_USER_LESSON_FAILURE, payload: e })
+      })
+  }
+}
+
+export const postTestCheckAnswer = (params) => {
+  const options = {
+    method: 'POST',
+    body: params
+  }
+  return dispatch => {
+    dispatch({ type: ACTIONS.POST_TEST_CRITERIA_REQUEST })
+    return ApiFetch(`${config.api}/user-lessons/test-criteria`, options)
+      .then(res => {
+        dispatch({ type: ACTIONS.POST_TEST_CRITERIA_SUCCESS, payload: res })
+        return res
+      })
+      .catch(e => {
+        dispatch({ type: ACTIONS.POST_TEST_CRITERIA_FAILURE, payload: e })
       })
   }
 }

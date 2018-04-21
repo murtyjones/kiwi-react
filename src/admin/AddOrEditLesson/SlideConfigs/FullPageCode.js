@@ -7,8 +7,10 @@ import CodeEditor from '../../../CodeEditor/CodeEditor'
 import { LESSON_SLIDE_TYPES } from '../../../constants'
 import insertIf from '../../../utils/insertIf'
 import { Toggle } from 'redux-form-material-ui'
+
 import InputSuccessCriteria from './InputSuccessCriteria'
 import OutputSuccessCriteria from './OutputSuccessCriteria'
+import ResultCard from '../../../common/ResultCard/ResultCard'
 
 import '../../../common/flex.css'
 
@@ -62,12 +64,45 @@ const SuccessCriteria = ({ slideRef, slideValues }) =>
 class FullPageCode extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      showResultCard: false
+      , isAnsweredCorrectly: null
+    }
+  }
+
+  setStateAsync = newState => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
+
+  handleCheckAnswer = async (input, output) => {
+    const { slideValues: { inputSuccessCriteria, outputSuccessCriteria } } = this.props
+    const params = { input, output }
+    if(inputSuccessCriteria)
+      params.inputSuccessCriteria = inputSuccessCriteria
+    if(outputSuccessCriteria)
+      params.outputSuccessCriteria = outputSuccessCriteria
+    this.setStateAsync({ showResultCard: false })
+    const result = await this.props.postTestCheckAnswer(params)
+    this.setState({ showResultCard: true, isAnsweredCorrectly: result.success })
   }
 
   render() {
     const { slideRef, slideValues } = this.props
+    const { showResultCard, isAnsweredCorrectly } = this.state
+    const currentLessonSlide = {
+      successHeadline: slideValues.successHeadline
+      , successExplanation: slideValues.successExplanation
+      , failureHeadline: slideValues.failureHeadline
+      , failureExplanation: slideValues.failureExplanation
+    }
     return (
       <div>
+        <ResultCard
+          slideAnswerData={ { isAnsweredCorrectly } }
+          currentLessonSlide={ currentLessonSlide }
+          showResultCard={ showResultCard }
+          toggleShowResultCard={ () => this.setState({ showResultCard: false }) }
+        />
         <Field
           name={ `${slideRef}.prompt` }
           label='Prompt'
@@ -93,16 +128,25 @@ class FullPageCode extends Component {
           style={ { width: 'auto' } }
         />
         { slideValues.shouldIncludeSuccessCriteria &&
-          <SuccessCriteria
-            slideRef={ slideRef }
-            slideValues={ slideValues }
-          />
+          <Fragment>
+            <Field
+              name={ `${slideRef}.successHeadline` }
+              label='Success Headline'
+              labelStyle={ styles.label }
+              component={ renderTextField }
+            />
+            <SuccessCriteria
+              slideRef={ slideRef }
+              slideValues={ slideValues }
+            />
+          </Fragment>
         }
         <Field
           name={ `${slideRef}.editorInput` }
           label={ 'Editor Input' }
           component={ renderCodeEditor }
           includeCheckAnswer={ slideValues.shouldIncludeSuccessCriteria }
+          onCheckAnswer={ this.handleCheckAnswer }
         />
       </div>
     )
