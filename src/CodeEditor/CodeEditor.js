@@ -60,19 +60,19 @@ class CodeEditor extends Component {
     if(this.props.editorInput !== nextProps.editorInput) {
       this.updateInput(nextProps.editorInput)
     }
-
-    if(!this.props.runCode && nextProps.runCode) {
-      this.runCode()
-      nextProps.afterRunCode()
-    }
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  async componentWillUpdate(nextProps, nextState) {
     if(this.state.errorLine) {
       this.codeMirror.removeLineClass((this.state.errorLine - 1), 'wrap', 'errorLine')
     }
     if(nextState.errorLine) {
       this.codeMirror.addLineClass((nextState.errorLine - 1), 'wrap', 'errorLine')
+    }
+    if(!this.props.runCode && nextProps.runCode) {
+      await this.runCode()
+      const { editorOutput } = this.state
+      nextProps.afterRunCode(editorOutput)
     }
   }
 
@@ -86,9 +86,6 @@ class CodeEditor extends Component {
 
   updateInput = (v) => {
     const { onChange } = this.props
-    // state should be fully up to date before
-    // hitting shouldComponentUpdate.
-    // Hence the 'await' statement here
     this.setEditorInput(v)
     if(onChange) onChange(v)
   }

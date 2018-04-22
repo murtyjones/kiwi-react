@@ -610,7 +610,7 @@ describe('UserLessonWizard', () => {
           ApiFetch.mockImplementationOnce(() => Promise.resolve(correctAnswerResponse)) // response from kiwi-api when updating a lesson
 
           // send choice to server
-          component.find('div[id="actionButton"]').at(0).simulate('click')
+          component.find('div[id="checkAnswerButton"]').at(0).simulate('click')
           await flushAllPromises()
 
 
@@ -645,7 +645,7 @@ describe('UserLessonWizard', () => {
           ApiFetch.mockImplementationOnce(() => Promise.resolve(incorrectAnswerResponse)) // response from kiwi-api when updating a lesson
 
           // send choice to server
-          component.find('div[id="actionButton"]').at(0).simulate('click')
+          component.find('div[id="checkAnswerButton"]').at(0).simulate('click')
           await flushAllPromises()
 
 

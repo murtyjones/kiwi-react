@@ -160,6 +160,9 @@ class UserLessonWizardForm extends Component {
   setToViewed = ref =>
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
 
+  setCodeOutput = (ref, codeOutput) =>
+    this.props.dispatch(change(formName, `${ref}.codeOutput`, codeOutput))
+
   onPrev = () => {
     const { goToPrevSlide } = this.props
     goToPrevSlide()
@@ -189,19 +192,22 @@ class UserLessonWizardForm extends Component {
     const { activeSlideIndex, lesson, globalColors } = this.props
         , { activeSlideObject, runCode } = this.state
         , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
-    return fields.map((name, i) =>
+    return fields.map((ref, i) =>
       i === activeSlideIndex
         ? (
           <Field
-            key={ `${name}.answer` }
-            name={ `${name}.answer` }
+            key={ `${ref}.answer` }
+            name={ `${ref}.answer` }
             component={ ActiveSlideComponent }
             runCode={ runCode }
-            afterRunCode={ () => this.setRunCode(false) }
+            afterRunCode={ codeOutput => {
+              this.setRunCode(false)
+              this.setCodeOutput(ref, codeOutput)
+            } }
             className='lessonWizardFormContent flexZeroOneAuto'
             globalColors={ globalColors }
             slideData={ activeSlideObject }
-            setToViewed={ () => this.setToViewed(name) }
+            setToViewed={ () => this.setToViewed(ref) }
           />
         ) : null
     )

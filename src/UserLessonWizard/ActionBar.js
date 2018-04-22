@@ -24,7 +24,7 @@ const styles = {
     , color: '#000000'
     , backgroundColor: '#FFFFFF'
   },
-  actionButton: {
+  checkAnswerButton: {
     right: '200px'
   }
 }
@@ -63,55 +63,54 @@ export const NextButton = ({ onNextClick, globalColors }) =>
   </div>
 
 
-export const ActionButton = ({ onAction, actionButtonText }) =>
+export const RunCodeButton = ({ onClick }) =>
   <div
-    key='actionButton'
-    id='actionButton'
-    className={ cns('actionButton', { 'disabled': !onAction }) }
+    key='checkAnswerButton'
+    id='checkAnswerButton'
+    className={ cns('checkAnswerButton', { 'disabled': !onClick }) }
     style={ {
       ...styles.button
-      , ...styles.actionButton
-      , cursor: onAction ? 'pointer': ''
+      , ...styles.checkAnswerButton
+      , cursor: onClick ? 'pointer': ''
     } }
-    onClick={ onAction }
+    onClick={ onClick }
   >
-    { actionButtonText }
+    Run Code
+  </div>
+export const CheckAnswerButton = ({ onClick }) =>
+  <div
+    key='checkAnswerButton'
+    id='checkAnswerButton'
+    className={ cns('checkAnswerButton', { 'disabled': !onClick }) }
+    style={ {
+      ...styles.button
+      , ...styles.checkAnswerButton
+      , cursor: onClick ? 'pointer': ''
+    } }
+    onClick={ onClick }
+  >
+    Check Answer
   </div>
 
 
 const ActionBar = ({ onRunCode, onCheckAnswer, onPrevClick, onNextClick, globalColors, slideAnswerData = {} }) => {
-  let onAction, actionButtonText
-  if(onRunCode) {
-    onAction = onRunCode
-    actionButtonText = 'Run Code'
-  } else if(onCheckAnswer) {
-    onAction = has(slideAnswerData, 'answer') && isNumeric(slideAnswerData.answer) ? onCheckAnswer : null
-    actionButtonText = 'Check Answer'
-  }
+  let onCheckAnswerClick = has(slideAnswerData, 'answer') && onCheckAnswer ? onCheckAnswer : null
 
   return (
     <div
       className='actionBar'
-      style={ {
-        backgroundColor: globalColors.primaryColor
-      } }
+      style={ { backgroundColor: globalColors.primaryColor } }
     >
       { onPrevClick &&
-        <PrevButton
-          onPrevClick={ onPrevClick }
-          globalColors={ globalColors }
-        />
+        <PrevButton onPrevClick={ onPrevClick } globalColors={ globalColors } />
       }
-      { !!actionButtonText &&
-        <ActionButton
-          onAction={ onAction }
-          actionButtonText={ actionButtonText }
-        />
+      { !!onRunCode &&
+        <RunCodeButton onClick={ onRunCode } />
       }
-      <NextButton
-        globalColors={ globalColors }
-        onNextClick={ onNextClick }
-      />
+      { !!onCheckAnswerClick &&
+        <CheckAnswerButton onClick={ onCheckAnswerClick } />
+      }
+      <NextButton globalColors={ globalColors } onNextClick={ onNextClick } />
     </div>
     )
 }

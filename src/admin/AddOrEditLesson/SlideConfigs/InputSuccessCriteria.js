@@ -62,9 +62,11 @@ const styles = {
     , position: 'relative' // needed for abs children
     , border: '1px solid #CCCCCC'
     , borderRadius: '3px'
-    , padding: '15px 15px 5px 15px'
+    , padding: '15px'
     , marginBottom: '15px'
   },
+  row1: {},
+  row2: {},
   codingConceptContainer: {
     width: '25%'
     , display: 'inline-block'
@@ -111,76 +113,89 @@ const MenuItemHeader = ({ headerText }) =>
 
 const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
   <div style={ styles.criterion }>
-    <Field
-      name={ `${eachSlideRef}.codingConcept` }
-      hintText='Select One'
-      label='Coding Concept'
-      labelStyle={ styles.label }
-      component={ renderSelectField }
-      style={ { width: '100%' } }
-      containerStyle={ styles.codingConceptContainer }
-    >
-      { inputCriteriaOptions.map((eachOption, i) =>
-        eachOption.header
-          ? (
-            <MenuItemHeader
-              key={ i }
-              headerText={ eachOption.header }
-            />
-          ) : (
-            <MenuItem
-              key={ i }
-              primaryText={ eachOption.label }
-              value={ eachOption.value }
-            />
-          )
-      ) }
-    </Field>
-    <Field
-      name={ `${eachSlideRef}.comparisonType` }
-      hintText='Select One'
-      label='Should Appear'
-      labelStyle={ styles.label }
-      component={ renderSelectField }
-      style={ { width: '100%' } }
-      containerStyle={ styles.comparisonTypeContainer }
-    >
-      { comparisonTypeOptions.map((eachOption, i) =>
-        eachOption.header
-          ? (
-            <MenuItemHeader
-              key={ i }
-              headerText={ eachOption.header }
-            />
-          ) : (
-            <MenuItem
-              key={ i }
-              primaryText={ eachOption.label }
-              value={ eachOption.value }
-            />
-          )
-      ) }
-    </Field>
-    { isCustom &&
-      <Fragment>
-        <Field
-          name={ `${eachSlideRef}.numberOfTimes` }
-          label='&nbsp;' // maintains spacing
-          labelStyle={ styles.label }
-          component={ renderTextField }
-          parse={ v => Number(v) } // convert string to number
-          type='number'
-          style={ {
-            height: '35px', width: '100%'
-          } }
-          inputStyle={ { marginTop: '7px', textAlign: 'center' } }
-          underlineStyle={ { bottom: '-5px' } }
-          containerStyle={ styles.numTimesContainer }
-        />
-        <span style={ { position: 'relative', bottom: '25px' } }>times</span>
-      </Fragment>
-    }
-    <DeleteButton onClick={ onDeleteCrition } />
+    <div style={ styles.row1 }>
+      <Field
+        name={ `${eachSlideRef}.codingConcept` }
+        hintText='Select One'
+        label='Coding Concept'
+        labelStyle={ styles.label }
+        component={ renderSelectField }
+        style={ { width: '100%' } }
+        containerStyle={ styles.codingConceptContainer }
+      >
+        { inputCriteriaOptions.map((eachOption, i) =>
+          eachOption.header
+            ? (
+              <MenuItemHeader
+                key={ i }
+                headerText={ eachOption.header }
+              />
+            ) : (
+              <MenuItem
+                key={ i }
+                primaryText={ eachOption.label }
+                value={ eachOption.value }
+              />
+            )
+        ) }
+      </Field>
+      <Field
+        name={ `${eachSlideRef}.comparisonType` }
+        hintText='Select One'
+        label='Should Appear'
+        labelStyle={ styles.label }
+        component={ renderSelectField }
+        style={ { width: '100%' } }
+        containerStyle={ styles.comparisonTypeContainer }
+      >
+        { comparisonTypeOptions.map((eachOption, i) =>
+          eachOption.header
+            ? (
+              <MenuItemHeader
+                key={ i }
+                headerText={ eachOption.header }
+              />
+            ) : (
+              <MenuItem
+                key={ i }
+                primaryText={ eachOption.label }
+                value={ eachOption.value }
+              />
+            )
+        ) }
+      </Field>
+      { isCustom &&
+        <Fragment>
+          <Field
+            name={ `${eachSlideRef}.numberOfTimes` }
+            label='&nbsp;' // maintains spacing
+            labelStyle={ styles.label }
+            component={ renderTextField }
+            parse={ v => Number(v) } // convert string to number
+            type='number'
+            style={ {
+              height: '35px', width: '100%'
+            } }
+            inputStyle={ { marginTop: '7px', textAlign: 'center' } }
+            underlineStyle={ { bottom: '-5px' } }
+            containerStyle={ styles.numTimesContainer }
+          />
+          <span style={ { position: 'relative', bottom: '25px' } }>times</span>
+        </Fragment>
+      }
+      <DeleteButton onClick={ onDeleteCrition } />
+    </div>
+    <div style={ styles.row2 }>
+      <Field
+        name={ `${eachSlideRef}.failureHint` }
+        label='Failure Hint'
+        labelStyle={ styles.label }
+        component={ renderTextField }
+        inputStyle={ { marginTop: 0 } }
+        style={ { width: '100%', height: '40px' } }
+        containerStyle={ { display: 'block', height: '40px' } }
+      />
+    </div>
   </div>
 
 const InputSuccessCriteria = ({ fields, slideValues }) =>
