@@ -9,16 +9,15 @@ const styles = {
   container: {
     fontFamily: 'Arvo'
     , position: 'fixed'
-    , bottom: 'calc(60px + 10vh)' // includes space for top bar
+    , bottom: 0
+    , left: 0
     , right: 0
-    , width: '400px'
     , minHeight: '180px'
-    , zIndex: '1000' // makes selecting with the inspector easier
+    , zIndex: '1001' /* should be behind of the resultCard*/
   },
   h4: {
     textDecoration: 'underline'
-    , position: 'absolute'
-    , bottom: 0
+    , marginTop: '20px'
     , cursor: 'pointer'
   }
 }
@@ -29,7 +28,7 @@ class ResultCard extends Component {
   }
 
   render() {
-    const { slideAnswerData, currentLessonSlide, toggleShowResultCard, showResultCard = false } = this.props
+    const { slideAnswerData, currentLessonSlide, toggleShowResultCard, includePaddingForActionBar = true, showResultCard = false } = this.props
     const { successHeadline, successExplanation, failureHeadline, failureExplanation } = currentLessonSlide
     const { isAnsweredCorrectly } = slideAnswerData
 
@@ -46,14 +45,17 @@ class ResultCard extends Component {
     return (
       <CSSTransition
         in={ showResultCard }
-        classNames='slideRight'
+        classNames='slideUp'
         timeout={ 300 }
         mountOnEnter={ true }
         unmountOnExit={ true }
       >
         <div
           className={cns('resultCard', isAnsweredCorrectly ? 'correct' : 'incorrect')}
-          style={ styles.container }
+          style={ {
+            ...styles.container
+            , paddingBottom: includePaddingForActionBar ? '60px' : 0
+          } }
         >
           <h2>{ headline }</h2>
           <h3>{ explanation }</h3>

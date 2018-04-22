@@ -100,6 +100,7 @@ class FullPageCode extends Component {
         <ResultCard
           slideAnswerData={ { isAnsweredCorrectly } }
           currentLessonSlide={ currentLessonSlide }
+          includePaddingForActionBar={ false }
           showResultCard={ showResultCard }
           toggleShowResultCard={ () => this.setState({ showResultCard: false }) }
         />

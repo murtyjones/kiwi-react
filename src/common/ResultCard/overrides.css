@@ -1,13 +1,11 @@
 .resultCard {
-    border-radius: 5px 0 0 5px;
     padding-left: 25px;
-    box-sizing: border-box;
     box-shadow: 2px 2px 5px #CCCCCC;
 }
-.resultCard.correct { background: #9ABF42; }
-.resultCard.correct > * { color: #558B2F; }
+.resultCard.correct { background: #DFF2BF; }
+.resultCard.correct > * { color: #4F8A10; }
 
-.resultCard.incorrect { background: #D95B72; }
-.resultCard.incorrect > * { color: #9B0909; }
+.resultCard.incorrect { background: #FFBABA; }
+.resultCard.incorrect > * { color: #D8000C; }
 
 
