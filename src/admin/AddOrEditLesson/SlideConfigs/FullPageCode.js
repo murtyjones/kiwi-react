@@ -74,9 +74,9 @@ class FullPageCode extends Component {
     this.setState(newState, resolve)
   })
 
-  handleCheckAnswer = async (input, output) => {
+  handleCheckAnswer = async (answer, codeOutput) => {
     const { slideValues: { inputSuccessCriteria, outputSuccessCriteria } } = this.props
-    const params = { input, output }
+    const params = { answer, codeOutput }
     if(inputSuccessCriteria)
       params.inputSuccessCriteria = inputSuccessCriteria
     if(outputSuccessCriteria)
