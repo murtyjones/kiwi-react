@@ -178,9 +178,11 @@ const mapStateToProps = (state, ownProps) => {
   // this is very important: we want to organize the userLesson answerData
   // by the latest and most up-to-date order of slides in the lesson.
   get(lesson, 'slides', []).forEach((each, i) => {
-    const answer = get(userLesson, `answerData[${each.id}]`, {})
-    if(!isEmpty(answer)) {
-      initialValues.answerData[i] = answer
+    const answerData = get(userLesson, `answerData[${each.id}]`, {})
+    if(!isEmpty(answerData)) {
+      initialValues.answerData[i] = answerData
+    } else if(!!each.editorInput) {
+      initialValues.answerData[i] = { answer: each.editorInput, id: each.id, isViewed: false }
     } else {
       initialValues.answerData[i] = { answer: '', id: each.id, isViewed: false }
     }

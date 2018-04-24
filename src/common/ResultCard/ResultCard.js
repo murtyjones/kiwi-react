@@ -51,7 +51,7 @@ class ResultCard extends Component {
         unmountOnExit={ true }
       >
         <div
-          className={cns('resultCard', isAnsweredCorrectly ? 'correct' : 'incorrect')}
+          className={ cns('resultCard', isAnsweredCorrectly ? 'correct' : 'incorrect') }
           style={ {
             ...styles.container
             , paddingBottom: includePaddingForActionBar ? '60px' : 0

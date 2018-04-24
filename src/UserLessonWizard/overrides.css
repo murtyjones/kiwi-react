@@ -11,9 +11,9 @@
     opacity: 1.0;
 }
 
-.prevButton, .nextButton, .checkAnswerButton {  opacity: 1.0;  }
-.prevButton:hover, .nextButton:hover, .checkAnswerButton:hover {  opacity: 0.9;  }
-.prevButton.disabled:hover, .nextButton.disabled:hover, .checkAnswerButton.disabled:hover {  opacity: 1.0;  }
+.prevButton, .nextButton, .runCodeButton:hover, .checkAnswerButton {  opacity: 1.0;  }
+.prevButton:hover, .nextButton:hover, .runCodeButton:hover, .checkAnswerButton:hover {  opacity: 0.9;  }
+.prevButton.disabled:hover, .nextButton.disabled:hover, .runCodeButton.disabled:hover, .checkAnswerButton.disabled:hover {  opacity: 1.0;  }
 
 .nextButton.disabled, .prevButton.disabled {
     /* !important needed to override react inline styles*/
@@ -21,11 +21,17 @@
     color: #CCCCCC !important;
 }
 
+.runCodeButton {
+    background-color: #FFF;
+    color: #AED15D;
+}
+
 .checkAnswerButton {
-    background-color: #aed15d;
+    background-color: #AED15D;
     color: #FFFFFF;
 }
-.checkAnswerButton.disabled {
+
+.checkAnswerButton.disabled, .runCodeButton.disabled {
     background-color: #b4b4b4;
     color: #DDDDDD;
 }

@@ -24,6 +24,9 @@ const styles = {
     , color: '#000000'
     , backgroundColor: '#FFFFFF'
   },
+  runCodeButton: {
+    right: '380px'
+  },
   checkAnswerButton: {
     right: '200px'
   }
@@ -65,12 +68,12 @@ export const NextButton = ({ onNextClick, globalColors }) =>
 
 export const RunCodeButton = ({ onClick }) =>
   <div
-    key='checkAnswerButton'
-    id='checkAnswerButton'
-    className={ cns('checkAnswerButton', { 'disabled': !onClick }) }
+    key='runCodeButton'
+    id='runCodeButton'
+    className={ cns('runCodeButton', { 'disabled': !onClick }) }
     style={ {
       ...styles.button
-      , ...styles.checkAnswerButton
+      , ...styles.runCodeButton
       , cursor: onClick ? 'pointer': ''
     } }
     onClick={ onClick }

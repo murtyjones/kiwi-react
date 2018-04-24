@@ -94,6 +94,7 @@ class FullPageCode extends Component {
       , successExplanation: slideValues.successExplanation
       , failureHeadline: slideValues.failureHeadline
       , failureExplanation: slideValues.failureExplanation
+      , hintToDisplay: slideValues.hintToDisplay
     }
     return (
       <div>
@@ -132,8 +133,22 @@ class FullPageCode extends Component {
           <Fragment>
             <Field
               name={ `${slideRef}.successHeadline` }
-              label='Success Headline'
-              labelStyle={ styles.label }
+              hintText='Success Headline'
+              component={ renderTextField }
+            />
+            <Field
+              name={ `${slideRef}.successExplanation` }
+              hintText='Success Explanation'
+              component={ renderTextField }
+            />
+            <Field
+              name={ `${slideRef}.failureHeadline` }
+              hintText='Failure Headline'
+              component={ renderTextField }
+            />
+            <Field
+              name={ `${slideRef}.failureExplanation` }
+              hintText='Failure Explanation'
               component={ renderTextField }
             />
             <SuccessCriteria

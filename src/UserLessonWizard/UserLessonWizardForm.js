@@ -4,7 +4,7 @@ import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
 import { connect } from 'react-redux'
 import { isEqual, get, has } from 'lodash'
 
-import { isPrevDisabled, isNextDisabled, isFinalSlide } from '../utils/lessonWizardUtils'
+import { isPrevDisabled, isNextDisabled, isFinalSlide, viewedEqualsComplete } from '../utils/lessonWizardUtils'
 import { LESSON_SLIDE_TYPES } from '../constants'
 import ActionBar from './ActionBar'
 import { LessonTheme, LessonThemeBackground, sortAssetsByQuadrant } from './LessonTheme'
@@ -61,7 +61,6 @@ const availableSlideTypes = {
     component: MultipleChoice
     , backgroundClassName: 'lessonLargeBackground'
     , width: '1000px' // redundant, but needed for background assets width
-    , includeCheckAnswerButton: true
   }
 }
 
@@ -155,7 +154,7 @@ class UserLessonWizardForm extends Component {
   setIsFinal = (activeSlideIndex, lesson) =>
     this.setState({ isFinal: isFinalSlide(activeSlideIndex, lesson) })
 
-  setRunCode = flag => this.setState({ runCode: flag })
+  setRunCode = async flag => await this.setStateAsync({ runCode: flag })
 
   setToViewed = ref =>
     this.props.dispatch(change(formName, `${ref}.isViewed`, true))
@@ -168,7 +167,15 @@ class UserLessonWizardForm extends Component {
     goToPrevSlide()
   }
 
-  submitCurrentValues = (checkAnswer = false) => {
+  setStateAsync = newState => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
+
+  submitCurrentValues = async (checkAnswer = false) => {
+    const { activeSlideObject } = this.state
+    if(activeSlideObject.shouldIncludeSuccessCriteria) {
+      await this.setRunCode(true)
+    }
     const { onSubmit, formValues } = this.props
     onSubmit(formValues)
     this.setState({ checkAnswer })
@@ -220,7 +227,7 @@ class UserLessonWizardForm extends Component {
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
         , includeRunButton = availableSlideTypes[activeSlideObject.type].includeRunButton
-        , includeCheckAnswerButton = availableSlideTypes[activeSlideObject.type].includeCheckAnswerButton
+        , includeCheckAnswerButton = !viewedEqualsComplete(activeSlideObject)
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
         , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})

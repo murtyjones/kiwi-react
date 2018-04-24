@@ -77,7 +77,7 @@ class FullPageCodeEditor extends PureComponent {
       <CodeEditor
         key='lessonFullSizeEditor'
         className='lessonFullSizeEditor flexOneOneAuto'
-        editorInput={ input.value || slideData.editorInput }
+        editorInput={ input.value }
         onChange={ answer => input.onChange(answer) }
         runCode={ runCode }
         afterRunCode={ codeOutput => afterRunCode(codeOutput) }

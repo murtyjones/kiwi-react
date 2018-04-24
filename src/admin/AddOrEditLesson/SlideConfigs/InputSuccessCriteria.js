@@ -173,9 +173,7 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
             component={ renderTextField }
             parse={ v => Number(v) } // convert string to number
             type='number'
-            style={ {
-              height: '35px', width: '100%'
-            } }
+            style={ { height: '35px', width: '100%' } }
             inputStyle={ { marginTop: '7px', textAlign: 'center' } }
             underlineStyle={ { bottom: '-5px' } }
             containerStyle={ styles.numTimesContainer }
