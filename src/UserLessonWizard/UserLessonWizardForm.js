@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
 import { connect } from 'react-redux'
-import { isEqual, get, has } from 'lodash'
+import { isEqual, get, has, find, cloneDeep } from 'lodash'
 
 import { isPrevDisabled, isNextDisabled, isFinalSlide, viewedEqualsComplete } from '../utils/lessonWizardUtils'
 import { LESSON_SLIDE_TYPES } from '../constants'
@@ -172,14 +172,23 @@ class UserLessonWizardForm extends Component {
   })
 
   submitCurrentValues = async (checkAnswer = false) => {
-    const { activeSlideObject } = this.state
-    if(activeSlideObject.shouldIncludeSuccessCriteria) {
+    const { activeSlideObject, activeSlideObject:  { shouldIncludeSuccessCriteria } } = this.state
+
+    // if the codeOutput field will be graded, make sure it's the latest
+    // by triggering runCode in the CodeEditor
+    if(shouldIncludeSuccessCriteria) {
       await this.setRunCode(true)
     }
+
+    // the output will be in the latest formValues
     const { onSubmit, formValues } = this.props
-    onSubmit(formValues)
-    this.setState({ checkAnswer })
-    this.setState({ showResultCard: false })
+    const answerData = cloneDeep(find(formValues.answerData, { id: activeSlideObject.id }))
+
+    const shouldSubmitForm = !shouldIncludeSuccessCriteria || (!!answerData.codeOutput && shouldIncludeSuccessCriteria)
+    if(shouldSubmitForm) {
+      onSubmit(formValues)
+      this.setState({ checkAnswer, showResultCard: false })
+    }
   }
 
   onNext = params => {

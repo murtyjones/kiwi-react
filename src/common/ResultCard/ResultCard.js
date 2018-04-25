@@ -42,6 +42,7 @@ class ResultCard extends Component {
       explanation = failureExplanation
     }
 
+
     return (
       <CSSTransition
         in={ showResultCard }
@@ -58,7 +59,13 @@ class ResultCard extends Component {
           } }
         >
           <h2>{ headline }</h2>
-          <h3>{ explanation }</h3>
+          <h3>
+            {
+              slideAnswerData.hintToDisplay
+                ? slideAnswerData.hintToDisplay
+                : explanation
+            }
+          </h3>
           <h4
             style={ styles.h4 }
             onClick={ toggleShowResultCard }

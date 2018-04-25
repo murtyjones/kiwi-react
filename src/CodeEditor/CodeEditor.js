@@ -63,16 +63,25 @@ class CodeEditor extends Component {
   }
 
   async componentWillUpdate(nextProps, nextState) {
+    const { afterRunCode } = nextProps
     if(this.state.errorLine) {
       this.codeMirror.removeLineClass((this.state.errorLine - 1), 'wrap', 'errorLine')
     }
+
     if(nextState.errorLine) {
       this.codeMirror.addLineClass((nextState.errorLine - 1), 'wrap', 'errorLine')
+      // when UserLessonWizard sees that there is no codeOutput,
+      // it will know to NOT submitCurrentValues for checking
+      // correctness, because there was an error.
+      if(afterRunCode) afterRunCode('')
     }
+
+    // if runCode prop was turned on, run code, get the new output,
+    // and bubble it up to the UserLessonWizard to populate the codeOutput field
     if(!this.props.runCode && nextProps.runCode) {
       await this.runCode()
       const { editorOutput } = this.state
-      nextProps.afterRunCode(editorOutput)
+      if(afterRunCode) afterRunCode(editorOutput)
     }
   }
 

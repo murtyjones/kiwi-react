@@ -20,7 +20,7 @@ const inputCriteriaOptions = [
   , { label: 'else', value: CODE_CONCEPTS.ELSE }
 ]
 
-const comparisonTypeOptions = [
+const occuranceTypeOptions = [
   { header: 'Preset' }
   , { label: 'Never', value: COMPARISON_TYPES.NEVER }
   , { label: 'At least once', value: COMPARISON_TYPES.AT_LEAST_ONCE }
@@ -72,7 +72,7 @@ const styles = {
     , display: 'inline-block'
     , marginRight: '10px'
   },
-  comparisonTypeContainer: {
+  occuranceTypeContainer: {
     width: '35%'
     , display: 'inline-block'
     , marginRight: '10px'
@@ -140,15 +140,15 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
         ) }
       </Field>
       <Field
-        name={ `${eachSlideRef}.comparisonType` }
+        name={ `${eachSlideRef}.occuranceType` }
         hintText='Select One'
         label='Should Appear'
         labelStyle={ styles.label }
         component={ renderSelectField }
         style={ { width: '100%' } }
-        containerStyle={ styles.comparisonTypeContainer }
+        containerStyle={ styles.occuranceTypeContainer }
       >
-        { comparisonTypeOptions.map((eachOption, i) =>
+        { occuranceTypeOptions.map((eachOption, i) =>
           eachOption.header
             ? (
               <MenuItemHeader
@@ -208,7 +208,7 @@ const InputSuccessCriteria = ({ fields, slideValues }) =>
             key={ i }
             eachSlideRef={ eachSlideRef }
             onDeleteCrition={ () => fields.remove(i) }
-            isCustom={ isCustomCompType(slideValues.inputSuccessCriteria[i].comparisonType) }
+            isCustom={ isCustomCompType(slideValues.inputSuccessCriteria[i].occuranceType) }
           />
         )
       }) }
