@@ -83,23 +83,27 @@ class FullPageCode extends Component {
       params.outputSuccessCriteria = outputSuccessCriteria
     this.setStateAsync({ showResultCard: false })
     const result = await this.props.postTestCheckAnswer(params)
-    this.setState({ showResultCard: true, isAnsweredCorrectly: result.success })
+    this.setState({
+      showResultCard: true,
+      isAnsweredCorrectly: result.success,
+      hintToDisplay: result.hintToDisplay
+    })
   }
 
   render() {
     const { slideRef, slideValues } = this.props
-    const { showResultCard, isAnsweredCorrectly } = this.state
+    const { showResultCard, isAnsweredCorrectly, hintToDisplay } = this.state
+
     const currentLessonSlide = {
       successHeadline: slideValues.successHeadline
       , successExplanation: slideValues.successExplanation
       , failureHeadline: slideValues.failureHeadline
       , failureExplanation: slideValues.failureExplanation
-      , hintToDisplay: slideValues.hintToDisplay
     }
     return (
       <div>
         <ResultCard
-          slideAnswerData={ { isAnsweredCorrectly } }
+          slideAnswerData={ { isAnsweredCorrectly, hintToDisplay } }
           currentLessonSlide={ currentLessonSlide }
           includePaddingForActionBar={ false }
           showResultCard={ showResultCard }
