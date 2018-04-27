@@ -19,6 +19,7 @@ const styles = {
     , height: '100%'
     , padding: '10px'
     , background: '#FFFFFF'
+    , paddingBottom: '60px'
   }
 }
 
