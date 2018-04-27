@@ -1,11 +1,34 @@
-.resultCard {
-    padding-left: 25px;
+.resultCardContainer {
     box-shadow: 2px 2px 5px #CCCCCC;
+    text-align: center;
 }
-.resultCard.correct { background: #DFF2BF; }
-.resultCard.correct > * { color: #4F8A10; }
+.resultCardContainer.correct { background: #DFF2BF; }
+.resultCardContainer.correct > * { color: #4F8A10; }
 
-.resultCard.incorrect { background: #FFBABA; }
-.resultCard.incorrect > * { color: #D8000C; }
+.resultCardContainer.incorrect { background: #FFBABA; }
+.resultCardContainer.incorrect > * { color: #D8000C; }
 
+.resultCard {
+    position: relative;
+    width: 600px;
+    left: 50%;
+    margin-left: -300px;
+    text-align: center;
+}
 
+.result {
+    text-align: justify;
+    text-align-last: center;
+}
+
+.headline {
+    display: inline;
+    font-weight: bold;
+    font-size: 16pt;
+}
+
+.explanationOrHint {
+    display: inline;
+    font-weight: normal;
+    font-size: 14pt;
+}

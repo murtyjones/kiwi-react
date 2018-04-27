@@ -25,7 +25,8 @@ const styles = {
     , backgroundColor: '#FFFFFF'
   },
   runCodeButton: {
-    right: '380px'
+    left: '50%'
+    , marginLeft: '-140px'
   },
   checkAnswerButton: {
     right: '200px'

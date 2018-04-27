@@ -12,15 +12,21 @@ const styles = {
     , bottom: 0
     , left: 0
     , right: 0
-    , minHeight: '180px'
     , zIndex: '1001' /* should be behind of the resultCard*/
   },
-  h4: {
+  close: {
     textDecoration: 'underline'
-    , marginTop: '20px'
     , cursor: 'pointer'
+    , position: 'absolute'
+    , right: '10px'
+    , top: '10px'
+    , color: 'black'
   }
 }
+
+const Dash = () => <div style={ { display: 'inline', padding: '0 5px' } }> – </div>
+
+const Close = ({ onClick }) => <div className='x-sm x-black' style={ styles.close } onClick={ onClick } />
 
 class ResultCard extends Component {
   constructor(props) {
@@ -52,26 +58,26 @@ class ResultCard extends Component {
         unmountOnExit={ true }
       >
         <div
-          className={ cns('resultCard', isAnsweredCorrectly ? 'correct' : 'incorrect') }
+          className={ cns('resultCardContainer', isAnsweredCorrectly ? 'correct' : 'incorrect') }
           style={ {
             ...styles.container
             , paddingBottom: includePaddingForActionBar ? '60px' : 0
           } }
         >
-          <h2>{ headline }</h2>
-          <h3>
-            {
-              slideAnswerData.hintToDisplay
-                ? slideAnswerData.hintToDisplay
-                : explanation
-            }
-          </h3>
-          <h4
-            style={ styles.h4 }
-            onClick={ toggleShowResultCard }
-          >
-            Got it!
-          </h4>
+          <div className='resultCard'>
+            <p className='result'>
+              <div className='headline'>{ headline }</div>
+              <Dash />
+              <div className='explanationOrHint'>
+                {
+                  slideAnswerData.hintToDisplay
+                    ? slideAnswerData.hintToDisplay
+                    : explanation
+                }
+              </div>
+            </p>
+          </div>
+          <Close onClick={ toggleShowResultCard } />
         </div>
       </CSSTransition>
     )

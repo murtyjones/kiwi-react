@@ -15,6 +15,13 @@
     width: 22px;  content: "";  position: absolute;  display: block;  margin: auto;  left: 0;  right: 0;  top: 0;  bottom: 0;  height: 0;  border-top: 2px solid rgba(256,256,256,0.5);  -webkit-transform: rotate(-45deg);  -ms-transform: rotate(-45deg);  transform: rotate(-45deg);  transform-origin: center;
 }
 
+/**
+ * SMALL X - BLACK
+ */
+
+.x-sm.x-black:before { border-top: 2px solid rgba(0,0,0,0.5); }
+.x-sm.x-black:after  { border-top: 2px solid rgba(0,0,0,0.5); }
+
 
 /**
  * MEDIUM X
