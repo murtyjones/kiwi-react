@@ -75,19 +75,19 @@ class UserProject extends Component {
 
 
   handleSave = (code) => {
-    const { postUserProject, putUserProject, userProject, topBarTitle } = this.props
+    const { postUserProject, putUserProject, userProject, userId, topBarTitle } = this.props
     const { isNewProject } = this.state
 
     const id = isNewProject ? null : this.state.projectId
       , title = topBarTitle
 
     if(isNewProject) {
-      postUserProject({ code, title })
+      postUserProject({ code, title, userId })
       .then(res => {
         this.props.history.push(`/project/${res._id}`)
       })
     } else {
-      putUserProject({ ...userProject, id, code, title })
+      putUserProject({ ...userProject, id, code, title, userId })
     }
   }
 
@@ -112,12 +112,13 @@ class UserProject extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { userProjects: { userProjectsById }, topBar: { topBarTitle } } = state
+  const { auth: { userId }, userProjects: { userProjectsById }, topBar: { topBarTitle } } = state
   const { match: { params: { id } } } = ownProps
 
   return {
     userProject: userProjectsById[id] || {}
     , topBarTitle
+    , userId
   }
 }
 

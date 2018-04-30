@@ -188,6 +188,8 @@ const mapStateToProps = (state, ownProps) => {
     }
   })
 
+  initialValues.userId = userId
+
   return {
     lesson
     , userLesson
