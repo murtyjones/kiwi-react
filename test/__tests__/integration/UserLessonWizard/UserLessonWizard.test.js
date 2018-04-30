@@ -276,7 +276,8 @@ describe('UserLessonWizard', () => {
                   , userLesson.answerData[slide4Id]
                   , userLesson.answerData[slide5Id]
                 ],
-                id: userLessonId
+                id: userLessonId,
+                userId: chesterAdminUserId
               },
               method: 'PUT'
             }
