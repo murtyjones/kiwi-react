@@ -98,7 +98,7 @@ class Slides extends Component {
 
 
   renderSlideConfigure = (slideRef, i) => {
-    const { allSlideValues, postTestCheckAnswer } = this.props
+    const { allSlideValues, ...rest } = this.props
       , { localSlideTypes } = this.state
       , value = localSlideTypes[i]
       , SlideConfigComponent = find(allSlideTypes, { value }).component
@@ -107,7 +107,7 @@ class Slides extends Component {
       <SlideConfigComponent
         slideRef={ slideRef }
         slideValues={ allSlideValues[i] }
-        postTestCheckAnswer={ postTestCheckAnswer }
+        { ...rest }
       />
     )
   }

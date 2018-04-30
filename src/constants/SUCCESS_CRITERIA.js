@@ -5,6 +5,7 @@ export const CODE_CONCEPTS = { // must match backend
   , IF: 'IF'
   , ELIF: 'ELIF'
   , ELSE: 'ELSE'
+  , USER_GLOBAL_VARIABLE: 'USER_GLOBAL_VARIABLE'
 }
 
 export const COMPARISON_TYPES = { // must match backend

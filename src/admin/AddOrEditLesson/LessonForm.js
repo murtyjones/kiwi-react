@@ -37,13 +37,15 @@ class LessonForm extends Component {
   }
 
   static propTypes = {
-    initialValues: T.object
+    initialValues: T.object.isRequired
     , allSlideValues: T.array
+    , variableOptions: T.array.isRequired
+    , themeOptions: T.array.isRequired
+    , postTestCheckAnswer: T.func.isRequired
   }
 
   render() {
-    const { handleSubmit, submitting, allSlideValues, themeOptions, postTestCheckAnswer } = this.props
-
+    const { handleSubmit, submitting, allSlideValues, themeOptions, variableOptions, postTestCheckAnswer } = this.props
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
@@ -94,6 +96,7 @@ class LessonForm extends Component {
           component={ Slides }
           allSlideValues={ allSlideValues }
           postTestCheckAnswer={ postTestCheckAnswer }
+          variableOptions={ variableOptions }
         />
         <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting }>
           Save

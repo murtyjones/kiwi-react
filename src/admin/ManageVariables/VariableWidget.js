@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import Delete from 'material-ui-icons/Delete'
 
 const styles = {
   delete: {
@@ -18,21 +17,20 @@ const styles = {
 
 import { KiwiLink } from '../../common/KiwiLink'
 
-class LessonThemeWidget extends Component {
+class VariableWidget extends Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-    const { item, onDelete } = this.props
+    const { item } = this.props
     return (
-      <KiwiLink to={ `/admin/lessons/themes/${item._id}` }>
+      <KiwiLink to={ `/admin/variables/${item._id}` }>
         <Card key={ item.name }>
           <CardHeader
             title={ item.name }
             style={ styles.card }
           />
-          <Delete style={ styles.delete } onClick={ (e) => onDelete(e, item._id) } />
         </Card>
       </KiwiLink>
 
@@ -40,4 +38,4 @@ class LessonThemeWidget extends Component {
   }
 }
 
-export default LessonThemeWidget
+export default VariableWidget

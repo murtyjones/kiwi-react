@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { postLesson, putLesson, getLesson, getManyLessonThemes, postTestCheckAnswer } from '../../actions'
+import { postLesson, putLesson, getLesson, getManyLessonThemes, getManyVariables, postTestCheckAnswer } from '../../actions'
 import { has, isEmpty, isEqual } from 'lodash'
 import LessonForm from './LessonForm'
 
@@ -23,17 +23,20 @@ class AddOrEditLesson extends Component {
     , putLesson: T.func.isRequired
     , postTestCheckAnswer: T.func.isRequired
     , initialValues: T.object.isRequired
+    , lessonThemes: T.array.isRequired
+    , variables: T.array.isRequired
 
   }
 
   componentWillMount() {
-    const { getLesson, getManyLessonThemes, match: { params: { id } } } = this.props
+    const { getLesson, getManyLessonThemes, getManyVariables, match: { params: { id } } } = this.props
     const { needsLesson } = this.state
     if(needsLesson) {
       getLesson({ id })
 
     }
     getManyLessonThemes()
+    getManyVariables()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,8 +62,9 @@ class AddOrEditLesson extends Component {
   }
 
   render() {
-    const { initialValues, lessonThemes, postTestCheckAnswer } = this.props
+    const { initialValues, lessonThemes, variables, postTestCheckAnswer } = this.props
     const { needsLesson, isNewLesson } = this.state
+
     return (
       <div>
         { needsLesson && isNewLesson
@@ -71,6 +75,7 @@ class AddOrEditLesson extends Component {
               themeOptions={ lessonThemes }
               onSubmit={ this.handleSubmit }
               postTestCheckAnswer={ postTestCheckAnswer }
+              variableOptions={ variables }
             />
         }
       </div>
@@ -80,13 +85,15 @@ class AddOrEditLesson extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { lessons: { lessonsById }, lessonThemes: { lessonThemesById } } = state
+  const { lessons: { lessonsById }, lessonThemes: { lessonThemesById }, variables: { variablesById } } = state
   const { match: { params: { id } } } = ownProps
   const lessonThemes = Object.values(lessonThemesById)
+  const variables = Object.values(variablesById)
 
   return {
     initialValues: lessonsById[id] || {}
     , lessonThemes
+    , variables
   }
 }
 
@@ -97,6 +104,7 @@ const mapDispatchToProps = (dispatch) => {
     , getLesson: params => dispatch(getLesson(params))
     , getManyLessonThemes: params => dispatch(getManyLessonThemes(params))
     , postTestCheckAnswer: params => dispatch(postTestCheckAnswer(params))
+    , getManyVariables: params => dispatch(getManyVariables(params))
   }
 }
 

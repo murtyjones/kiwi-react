@@ -44,13 +44,14 @@ const styles = {
   }
 }
 
-const SuccessCriteria = ({ slideRef, slideValues }) =>
+const SuccessCriteria = ({ slideRef, slideValues, variableOptions }) =>
   <div style={ { alignItems: 'stretch', display: 'flex', minHeight: '200px' } }>
     <FieldArray
       name={`${slideRef}.inputSuccessCriteria` }
       label='Input Success Criteria'
       component={ InputSuccessCriteria }
       slideValues={ slideValues }
+      variableOptions={ variableOptions }
     />
     <FieldArray
       name={`${slideRef}.outputSuccessCriteria` }
@@ -91,7 +92,7 @@ class FullPageCode extends Component {
   }
 
   render() {
-    const { slideRef, slideValues } = this.props
+    const { slideRef, slideValues, variableOptions } = this.props
     const { showResultCard, isAnsweredCorrectly, hintToDisplay } = this.state
 
     const currentLessonSlide = {
@@ -158,6 +159,7 @@ class FullPageCode extends Component {
             <SuccessCriteria
               slideRef={ slideRef }
               slideValues={ slideValues }
+              variableOptions={ variableOptions }
             />
           </Fragment>
         }

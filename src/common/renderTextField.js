@@ -11,9 +11,7 @@ const defaultInputStyle = {  }
 const defaultUnderlineStyle = {  }
 
 const renderTextField = params => {
-  const { includeFloatingLabel = true, input, label, type, meta: { touched, error }, ...rest } = params
-  const containerStyle = params.containerStyle || defaultContainerStyle
-  const labelStyle = params.labelStyle || defaultLabelStyle
+  const { containerStyle = defaultContainerStyle, labelStyle = defaultLabelStyle, includeFloatingLabel = true, input, label, type, meta: { touched, error }, ...rest } = params
   const style = params.style || defaultStyle
   const inputStyle = params.inputStyle || defaultInputStyle
   const underlineStyle = params.underlineStyle || defaultUnderlineStyle

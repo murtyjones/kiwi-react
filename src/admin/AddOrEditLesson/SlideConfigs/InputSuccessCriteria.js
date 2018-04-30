@@ -18,6 +18,8 @@ const inputCriteriaOptions = [
   , { label: 'if', value: CODE_CONCEPTS.IF }
   , { label: 'elif', value: CODE_CONCEPTS.ELIF }
   , { label: 'else', value: CODE_CONCEPTS.ELSE }
+  , { header: 'Custom' }
+  , { label: 'User Global Variable', value: CODE_CONCEPTS.USER_GLOBAL_VARIABLE }
 ]
 
 const occuranceTypeOptions = [
@@ -36,6 +38,9 @@ export const isCustomCompType = type =>
   type === COMPARISON_TYPES.AT_LEAST ||
   type === COMPARISON_TYPES.EXACTLY ||
   type === COMPARISON_TYPES.NO_MORE_THAN
+
+export const isGlobalVariableType = concept =>
+  concept === CODE_CONCEPTS.USER_GLOBAL_VARIABLE
 
 const styles = {
   container: {
@@ -68,11 +73,17 @@ const styles = {
   row1: {},
   row2: {},
   codingConceptContainer: {
-    width: '25%'
+    width: '40%'
     , display: 'inline-block'
     , marginRight: '10px'
   },
   occuranceTypeContainer: {
+    width: '35%'
+    , display: 'inline-block'
+    , marginRight: '10px'
+    , verticalAlign: 'top'
+  },
+  variable: {
     width: '35%'
     , display: 'inline-block'
     , marginRight: '10px'
@@ -97,12 +108,14 @@ const styles = {
   },
 }
 
+
 const DeleteButton = ({ onClick }) =>
   <div onClick={ onClick } style={ styles.deleteButton }>
     <Delete
       style={ { fill: '#CCCCCC' } }
     />
   </div>
+
 
 const MenuItemHeader = ({ headerText }) =>
   <Fragment>
@@ -111,34 +124,49 @@ const MenuItemHeader = ({ headerText }) =>
   </Fragment>
 
 
-const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
+const CodingConceptField = ({ eachSlideRef }) =>
+  <Field
+    name={ `${eachSlideRef}.codingConcept` }
+    hintText='Select One'
+    label='Coding Concept'
+    labelStyle={ styles.label }
+    component={ renderSelectField }
+    style={ { width: '100%' } }
+    containerStyle={ styles.codingConceptContainer }
+  >
+    { inputCriteriaOptions.map((eachOption, i) =>
+      eachOption.header
+        ? (
+          <MenuItemHeader
+            key={ i }
+            headerText={ eachOption.header }
+          />
+        ) : (
+          <MenuItem
+            key={ i }
+            primaryText={ eachOption.label }
+            value={ eachOption.value }
+          />
+        )
+    ) }
+  </Field>
+
+const FailureHint = ({ eachSlideRef }) =>
+  <Field
+    name={ `${eachSlideRef}.failureHint` }
+    label='Failure Hint'
+    labelStyle={ styles.label }
+    component={ renderTextField }
+    inputStyle={ { marginTop: 0 } }
+    style={ { width: '100%', height: '40px' } }
+    containerStyle={ { display: 'block', height: '40px' } }
+  />
+
+
+const Criterion = ({ eachSlideRef, slideValues, isCustomOccurance, onDeleteCrition }) =>
   <div style={ styles.criterion }>
     <div style={ styles.row1 }>
-      <Field
-        name={ `${eachSlideRef}.codingConcept` }
-        hintText='Select One'
-        label='Coding Concept'
-        labelStyle={ styles.label }
-        component={ renderSelectField }
-        style={ { width: '100%' } }
-        containerStyle={ styles.codingConceptContainer }
-      >
-        { inputCriteriaOptions.map((eachOption, i) =>
-          eachOption.header
-            ? (
-              <MenuItemHeader
-                key={ i }
-                headerText={ eachOption.header }
-              />
-            ) : (
-              <MenuItem
-                key={ i }
-                primaryText={ eachOption.label }
-                value={ eachOption.value }
-              />
-            )
-        ) }
-      </Field>
+      <CodingConceptField eachSlideRef={ eachSlideRef } />
       <Field
         name={ `${eachSlideRef}.occuranceType` }
         hintText='Select One'
@@ -164,7 +192,7 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
             )
         ) }
       </Field>
-      { isCustom &&
+      { isCustomOccurance &&
         <Fragment>
           <Field
             name={ `${eachSlideRef}.numberOfTimes` }
@@ -184,35 +212,73 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
       <DeleteButton onClick={ onDeleteCrition } />
     </div>
     <div style={ styles.row2 }>
-      <Field
-        name={ `${eachSlideRef}.failureHint` }
-        label='Failure Hint'
-        labelStyle={ styles.label }
-        component={ renderTextField }
-        inputStyle={ { marginTop: 0 } }
-        style={ { width: '100%', height: '40px' } }
-        containerStyle={ { display: 'block', height: '40px' } }
-      />
+      <FailureHint eachSlideRef={ eachSlideRef } />
     </div>
   </div>
 
-const InputSuccessCriteria = ({ fields, slideValues }) =>
-  <div style={ styles.container }>
-    <RaisedButton style={ styles.addButton } onClick={ () => fields.push({}) }>
-      Add Input Success Criterion
-    </RaisedButton>
-    <Fragment>
-      { fields.map((eachSlideRef, i) => {
-        return (
-          <Criterion
+
+const UserDefinedVariable = ({ eachSlideRef, variableOptions, onDeleteCrition }) =>
+  <div style={ styles.criterion }>
+    <div style={ styles.row1 }>
+      <CodingConceptField eachSlideRef={ eachSlideRef } />
+      <Field
+        name={ `${eachSlideRef}.variableId` }
+        hintText='Select One'
+        label='Variable'
+        labelStyle={ styles.label }
+        component={ renderSelectField }
+        style={ { width: '100%' } }
+        containerStyle={ styles.variable }
+      >
+        { variableOptions.map((eachOption, i) =>
+          <MenuItem
             key={ i }
-            eachSlideRef={ eachSlideRef }
-            onDeleteCrition={ () => fields.remove(i) }
-            isCustom={ isCustomCompType(slideValues.inputSuccessCriteria[i].occuranceType) }
+            primaryText={ eachOption.name }
+            value={ eachOption._id }
           />
-        )
-      }) }
-    </Fragment>
+        ) }
+      </Field>
+      <DeleteButton onClick={ onDeleteCrition } />
+    </div>
+    <div style={ styles.row2 }>
+      <FailureHint eachSlideRef={ eachSlideRef } />
+    </div>
   </div>
+
+
+const InputSuccessCriteria = ({ fields, slideValues, variableOptions }) => {
+
+  return (
+    <div style={ styles.container }>
+      <RaisedButton style={ styles.addButton } onClick={ () => fields.push({}) }>
+        Add Input Success Criterion
+      </RaisedButton>
+      <Fragment>
+        { fields.map((eachSlideRef, i) => {
+          const isGlobalVariable = isGlobalVariableType(slideValues.inputSuccessCriteria[i].codingConcept)
+          const isCustomOccurance = isCustomCompType(slideValues.inputSuccessCriteria[i].occuranceType)
+          const onDeleteCrition = () => fields.remove(i)
+
+          return !isGlobalVariable ? (
+            <Criterion
+              key={ i }
+              eachSlideRef={ eachSlideRef }
+              onDeleteCrition={ onDeleteCrition }
+              isCustomOccurance={ isCustomOccurance }
+            />
+          ) : (
+            <UserDefinedVariable
+              key={ i }
+              eachSlideRef={ eachSlideRef }
+              variableOptions={ variableOptions }
+              onDeleteCrition={ onDeleteCrition }
+        />
+          )
+        }) }
+      </Fragment>
+    </div>
+  )
+}
+
 
 export default InputSuccessCriteria

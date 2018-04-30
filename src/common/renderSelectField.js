@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
 import { SelectField, MenuItem } from 'material-ui'
 
+const defaultContainerStyle = {  }
 const defaultLabelStyle = { display: 'block' }
 
 const renderSelectField = ({ children, containerStyle, input, label, labelStyle, type, meta: { touched, error }, onSelectCustom, ...custom }) => {
   return (
-    <div style={ containerStyle }>
+    <div style={ containerStyle || defaultContainerStyle }>
       <label style={ labelStyle || defaultLabelStyle }>
         { label }
       </label>

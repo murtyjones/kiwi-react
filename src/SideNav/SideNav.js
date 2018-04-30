@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import * as T from 'prop-types'
 import { Drawer, Menu, MenuItem, Subheader, Divider } from 'material-ui'
 import Circle from 'material-ui-icons/FiberManualRecord'
@@ -103,7 +103,7 @@ class SideNav extends PureComponent {
                 leftIcon={
                   <Map style={ styles.circle } color={ secondaryColor } viewBox={ '1 1 21 21' } />
                 }
-                primaryText={ 'Lessons' }
+                primaryText='Lessons'
                 onClick={ toggleSideNav }
               />
             </KiwiLink>
@@ -114,56 +114,49 @@ class SideNav extends PureComponent {
                 leftIcon={
                   <Work style={ styles.circle } color={ secondaryColor } viewBox={ '1 1 21 21' } />
                 }
-                primaryText={ 'Projects' }
+                primaryText='Projects'
                 onClick={ toggleSideNav }
               />
             </KiwiLink>
             { isAdmin &&
-              [
-                <Divider key={ 0 } />
-                ,
-                <Subheader
-                  key={ 1 }
-                  style={ styles.subheader }
-                >
-                  Admin
-                </Subheader>
-                ,
-                <KiwiLink
-                  key={ 2 }
-                  to='/admin/lessons'
-                >
+              <Fragment>
+                <Divider />
+                <Subheader style={ styles.subheader }>Admin</Subheader>
+                <KiwiLink to='/admin/lessons'>
                   <MenuItem
-                    key={ 'admin/lessons' }
                     style={ styles.menuItem }
                     leftIcon={
                       <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
                     }
-                    primaryText={ 'Add/Edit Lessons' }
+                    primaryText='Add/Edit Lessons'
                     onClick={ toggleSideNav }
                   />
                 </KiwiLink>
-                ,
-                <KiwiLink
-                  key={ 3 }
-                  to='/admin/lessons/themes'
-                >
+                <KiwiLink to='/admin/lessons/themes'>
                   <MenuItem
-                    key={ 'admin/lessons/themes' }
                     style={ styles.menuItem }
                     leftIcon={
                       <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
                     }
-                    primaryText={ 'Add/Edit Themes' }
+                    primaryText='Add/Edit Themes'
                     onClick={ toggleSideNav }
                   />
                 </KiwiLink>
-              ]
+                <KiwiLink to='/admin/variables'>
+                  <MenuItem
+                    style={ styles.menuItem }
+                    leftIcon={
+                      <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
+                    }
+                    primaryText='Add/Edit Variables'
+                    onClick={ toggleSideNav }
+                  />
+                </KiwiLink>
+              </Fragment>
             }
             { isLoggedIn &&
               <KiwiLink to='/signout'>
                 <MenuItem
-                  key={ 'signout' }
                   style={ { color: '#000000', ...styles.menuItem, ...styles.menuItemBottomUp } }
                   leftIcon={
                     <PowerSettingsNew style={ styles.circle } color={ secondaryColor } viewBox={ '1 1 21 21' } />
@@ -174,7 +167,6 @@ class SideNav extends PureComponent {
             }
             <KiwiLink to='/legal'>
               <MenuItem
-                key={ 'legal' }
                 style={ { color: '#000000', ...styles.menuItem, ...styles.menuItemBottom } }
                 leftIcon={
                   <Description style={ styles.circle } color={ secondaryColor } viewBox={ '1 1 21 21' } />
