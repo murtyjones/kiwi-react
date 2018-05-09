@@ -106,7 +106,7 @@ class FullPageCode extends Component {
     })
   }
 
-  setGlobalVariable = ({ variableId, value }) => {
+  setGlobalVariable = (_, { variableId, value }) => {
     const { globalVariables } = this.state
     const position = (globalVariables.variables || []).length
     this.setState({
@@ -198,6 +198,7 @@ class FullPageCode extends Component {
           component={ renderCodeEditor }
           includeCheckAnswer={ slideValues.shouldIncludeSuccessCriteria }
           onCheckAnswer={ this.handleCheckAnswer }
+          variableOptions={ variableOptions }
           variablesToComplete={ variablesToComplete }
           setGlobalVariable={ this.setGlobalVariable }
         />

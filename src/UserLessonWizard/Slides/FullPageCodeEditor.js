@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import cns from 'classnames'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
-import { LESSON_SLIDE_TYPES } from '../../constants'
+import { CODE_CONCEPTS, LESSON_SLIDE_TYPES } from '../../constants'
 import { titleStyle, slideContentFlexibleHeight, example } from './commonSlideStyles'
 
 import './overrides.css'
@@ -26,6 +26,7 @@ class FullPageCodeEditor extends PureComponent {
     , className: T.string
     , input: T.object
     , setToViewed: T.func.isRequired
+    , setGlobalVariable: T.func.isRequired
   }
 
   componentDidMount() {
@@ -39,7 +40,10 @@ class FullPageCodeEditor extends PureComponent {
   }
 
   render() {
-    const { slideData, className, input, runCode, afterRunCode, globalColors } = this.props
+    const { slideData, className, input, runCode, afterRunCode, globalColors, variableOptions, setGlobalVariable } = this.props
+
+    const variablesToComplete = (slideData.inputSuccessCriteria || [])
+      .filter(each => each.codingConcept === CODE_CONCEPTS.USER_GLOBAL_VARIABLE)
 
     return [
       <div key={ className } style={ slideContentFlexibleHeight } className={ className }>
@@ -82,7 +86,9 @@ class FullPageCodeEditor extends PureComponent {
         runCode={ runCode }
         afterRunCode={ codeOutput => afterRunCode(codeOutput) }
         showRunButton={ false }
-        variables={ slideData.variables ? slideData.variables : [] }
+        variablesToComplete={ variablesToComplete }
+        variableOptions={ variableOptions }
+        setGlobalVariable={ setGlobalVariable }
       />
     ]
   }

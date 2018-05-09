@@ -92,6 +92,7 @@ class UserLessonWizardForm extends Component {
     , dispatch: T.func.isRequired
     , onFinalSlideNextClick: T.func.isRequired
     , isFetchingUserLessons: T.bool.isRequired
+    , variableOptions: T.array.isRequired
   }
 
   componentWillMount() {
@@ -162,6 +163,11 @@ class UserLessonWizardForm extends Component {
   setCodeOutput = (ref, codeOutput) =>
     this.props.dispatch(change(formName, `${ref}.codeOutput`, codeOutput))
 
+  setGlobalVariable = (ref, { variableId, value }) => {
+    this.props.dispatch(change(formName, `${ref}.variableId`, variableId))
+    this.props.dispatch(change(formName, `${ref}.value`, value))
+  }
+
   onPrev = () => {
     const { goToPrevSlide } = this.props
     goToPrevSlide()
@@ -205,7 +211,7 @@ class UserLessonWizardForm extends Component {
     // this method should be kept outside of
     // the render method! otherwise child
     // components will remount on each rendering!
-    const { activeSlideIndex, lesson, globalColors } = this.props
+    const { activeSlideIndex, globalColors, variableOptions } = this.props
         , { activeSlideObject, runCode } = this.state
         , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
 
@@ -225,13 +231,15 @@ class UserLessonWizardForm extends Component {
             globalColors={ globalColors }
             slideData={ activeSlideObject }
             setToViewed={ () => this.setToViewed(ref) }
+            setGlobalVariable={ (varRef, v) => this.setGlobalVariable(`${ref}.${varRef}`, v) }
+            variableOptions={ variableOptions }
           />
         ) : null
     )
   }
 
   render() {
-    const { handleSubmit, lessonTheme, globalColors, activeSlideIndex, formValues } = this.props
+    const { handleSubmit, lessonTheme, globalColors, activeSlideIndex, formValues, variableOptions } = this.props
         , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, showResultCard } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName

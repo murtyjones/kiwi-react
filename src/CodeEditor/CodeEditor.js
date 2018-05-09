@@ -7,7 +7,7 @@ import EditorOutput from './EditorOutput'
 import EditorInput from './EditorInput'
 import Tools from './Tools'
 import BluebirdPromise from 'bluebird'
-import { cloneDeep } from 'lodash'
+import { find, get, cloneDeep } from 'lodash'
 
 
 import './overrides.css'
@@ -57,6 +57,7 @@ class CodeEditor extends Component {
     , runCode: T.bool
     , afterRunCode: T.func
     , showRunButton: T.bool
+    , variableOptions: T.array
     , variablesToComplete: T.array
     , setGlobalVariable: T.func
   }
@@ -149,15 +150,24 @@ class CodeEditor extends Component {
   }
 
   handleVariableAnswer = async value => {
-    const { variablesCompleted } = this.state
-    const { variablesToComplete, setGlobalVariable } = this.props
+    const { variablesCompleted, editorInput } = this.state
+    const { variablesToComplete, setGlobalVariable, variableOptions } = this.props
 
     // allows answering multiple times.
     const variablesCompletedLengthMod = variablesCompleted.length % variablesToComplete.length
 
-    const { variableId } = variablesToComplete[variablesCompletedLengthMod]
+    // sorts variables by appearance in the editorInput
+    const sortedVariablesToComplete = variablesToComplete.sort((a, b) => {
+      const aName = get(find(variableOptions, { _id: a.variableId }), 'name', '')
+      const bName = get(find(variableOptions, { _id: b.variableId }), 'name', '')
+      return editorInput.indexOf(aName) > editorInput.indexOf(bName)
+    })
+
+    const { variableId } = sortedVariablesToComplete[variablesCompletedLengthMod]
+
     if(variableId) {
-      setGlobalVariable({ variableId, value })
+      const varRef = `variables[${variablesCompletedLengthMod}]`
+      setGlobalVariable(varRef, { variableId, value })
       await this.addCompletedVariable(variablesCompleted.length, 0, { variableId, value })
     }
   }

@@ -44,6 +44,7 @@ class UserLessonWizard extends Component {
     , initialValues: T.object
     , history: T.any.isRequired
     , isFetchingUserLessons: T.bool.isRequired
+    , variables: T.array.isRequired
   }
 
   componentWillMount() {
@@ -132,7 +133,7 @@ class UserLessonWizard extends Component {
     })
 
   render() {
-    const { lesson, initialValues, lessonTheme, isFetchingUserLessons, globalColors } = this.props
+    const { lesson, initialValues, lessonTheme, isFetchingUserLessons, globalColors, variables } = this.props
     const { activeSlideIndex } = this.state
 
     return !isEmpty(lesson)
@@ -148,6 +149,7 @@ class UserLessonWizard extends Component {
           goToNextSlide={ this.goToNextSlide }
           goToPrevSlide={ this.goToPrevSlide }
           onFinalSlideNextClick={ this.handleFinalSlideNextClick }
+          variableOptions={ variables }
         />
       ) : null
   }
@@ -163,7 +165,9 @@ const mapStateToProps = (state, ownProps) => {
     , lessonThemes: { lessonThemesById }
     , globalColors
     , topBar: { topBarTitle }
+    , variables: { variablesById }
   } = state
+  const variables = Object.values(variablesById)
   const { match: { params: { id } } } = ownProps
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
@@ -199,6 +203,7 @@ const mapStateToProps = (state, ownProps) => {
     , globalColors
     , topBarTitle
     , isFetchingUserLessons: isFetching
+    , variables
   }
 }
 
