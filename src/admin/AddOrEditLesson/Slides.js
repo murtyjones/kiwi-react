@@ -231,7 +231,9 @@ class Slides extends Component {
                 hintText='Title'
                 component={ renderTextField }
               />
-              { localSlideTypes[i] && this.renderSlideConfigure(eachSlideRef, i) }
+              { (localSlideTypes[i] && i === activeSlideIndex) &&
+                this.renderSlideConfigure(eachSlideRef, i)
+              }
             </Tab>
           ) }
         </Tabs>

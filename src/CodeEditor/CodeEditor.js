@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
+import update from 'immutability-helper'
 import cns from 'classnames'
 import skulpt from 'skulpt'
 import EditorOutput from './EditorOutput'
 import EditorInput from './EditorInput'
 import Tools from './Tools'
 import BluebirdPromise from 'bluebird'
+import { cloneDeep } from 'lodash'
 
 
 import './overrides.css'
@@ -41,6 +43,7 @@ class CodeEditor extends Component {
       , prompt: ''
       , rawInputValue: ''
       , rawInputResolve: null
+      , variablesCompleted: []
     }
     this.codeMirror = null
   }
@@ -54,6 +57,8 @@ class CodeEditor extends Component {
     , runCode: T.bool
     , afterRunCode: T.func
     , showRunButton: T.bool
+    , variablesToComplete: T.array
+    , setGlobalVariable: T.func
   }
 
   componentWillReceiveProps(nextProps) {
@@ -130,7 +135,7 @@ class CodeEditor extends Component {
     this.setEditorInput(v)
   }
 
-  rawInputListener = (e) => {
+  rawInputListener = async (e) => {
     const { rawInputResolve } = this.state
     if((e.keyCode || e.which) === 13) {
       const answerArray = e.target.value.split("\n")
@@ -138,8 +143,30 @@ class CodeEditor extends Component {
       this.setState({ prompt: '', rawInputValue: '', rawInputResolve: null })
       this.inputText.blur()
       this.addToOutput(answer + "\n")
+      await this.handleVariableAnswer(answer)
       rawInputResolve(answer)
     }
+  }
+
+  handleVariableAnswer = async value => {
+    const { variablesCompleted } = this.state
+    const { variablesToComplete, setGlobalVariable } = this.props
+
+    // allows answering multiple times.
+    const variablesCompletedLengthMod = variablesCompleted.length % variablesToComplete.length
+
+    const { variableId } = variablesToComplete[variablesCompletedLengthMod]
+    if(variableId) {
+      setGlobalVariable({ variableId, value })
+      await this.addCompletedVariable(variablesCompleted.length, 0, { variableId, value })
+    }
+  }
+
+  addCompletedVariable = async (slideIndex, spliceBy, value) => {
+    const { variablesCompleted } = this.state
+    await this.setState({
+      variablesCompleted: update(variablesCompleted, { $splice: [[slideIndex, spliceBy, value]] })
+    })
   }
 
   runCode = () => {
@@ -153,9 +180,9 @@ class CodeEditor extends Component {
           if (prompt) {
             this.addToOutput(`${prompt} `)
           }
-          this.setState({editorOutput: codeOutput})
+          this.setState({ editorOutput: codeOutput })
           return new Promise(async (resolve, reject) => {
-            this.setState({prompt, rawInputResolve: resolve})
+            this.setState({ prompt, rawInputResolve: resolve })
             const elem = this.inputText
             this.inputText.focus()
             // When adding the event listener, to prevent multiple
@@ -193,7 +220,7 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { className, options, onSave, includeCheckAnswer = false, showRunButton = true } = this.props
+    const { className, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
 
     return (
@@ -218,6 +245,7 @@ class CodeEditor extends Component {
             prompt={ prompt }
             value={ rawInputValue }
             setInputRef={ this.getChildRef }
+            variablesToComplete={ variablesToComplete }
           />
           <Tools
             onSave={ onSave ? this.handleSave : null }

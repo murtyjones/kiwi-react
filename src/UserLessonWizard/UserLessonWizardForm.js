@@ -208,6 +208,7 @@ class UserLessonWizardForm extends Component {
     const { activeSlideIndex, lesson, globalColors } = this.props
         , { activeSlideObject, runCode } = this.state
         , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
+
     return fields.map((ref, i) =>
       i === activeSlideIndex
         ? (

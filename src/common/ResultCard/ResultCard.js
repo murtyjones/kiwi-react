@@ -65,7 +65,7 @@ class ResultCard extends Component {
           } }
         >
           <div className='resultCard'>
-            <p className='result'>
+            <div className='result'>
               <div className='headline'>{ headline }</div>
               <Dash />
               <div className='explanationOrHint'>
@@ -75,7 +75,7 @@ class ResultCard extends Component {
                     : explanation
                 }
               </div>
-            </p>
+            </div>
           </div>
           <Close onClick={ toggleShowResultCard } />
         </div>

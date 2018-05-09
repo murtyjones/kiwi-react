@@ -82,6 +82,7 @@ class FullPageCodeEditor extends PureComponent {
         runCode={ runCode }
         afterRunCode={ codeOutput => afterRunCode(codeOutput) }
         showRunButton={ false }
+        variables={ slideData.variables ? slideData.variables : [] }
       />
     ]
   }

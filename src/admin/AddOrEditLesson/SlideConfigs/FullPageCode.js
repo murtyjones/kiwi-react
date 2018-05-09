@@ -1,11 +1,15 @@
 import React, { Component, Fragment } from 'react'
+import * as T from 'prop-types'
 import { Field, FieldArray } from 'redux-form'
+import update from 'immutability-helper'
+import { isEmpty } from 'lodash'
+
+
 import renderTextField from '../../../common/renderTextField'
 import renderRichTextEditor from '../../../common/renderRichTextEditor'
 import renderRichCodeTextEditor from '../../../common/renderRichCodeTextEditor'
 import CodeEditor from '../../../CodeEditor/CodeEditor'
-import { LESSON_SLIDE_TYPES } from '../../../constants'
-import insertIf from '../../../utils/insertIf'
+import {CODE_CONCEPTS, LESSON_SLIDE_TYPES} from '../../../constants'
 import { Toggle } from 'redux-form-material-ui'
 
 import InputSuccessCriteria from './InputSuccessCriteria'
@@ -68,7 +72,14 @@ class FullPageCode extends Component {
     this.state = {
       showResultCard: false
       , isAnsweredCorrectly: null
+      , globalVariables: []
     }
+  }
+
+  static propTypes = {
+    slideRef: T.string.isRequired
+    , slideValues: T.object.isRequired
+    , variableOptions: T.array.isRequired
   }
 
   setStateAsync = newState => new Promise((resolve) => {
@@ -77,17 +88,31 @@ class FullPageCode extends Component {
 
   handleCheckAnswer = async (answer, codeOutput) => {
     const { slideValues: { inputSuccessCriteria, outputSuccessCriteria } } = this.props
+    const { globalVariables } = this.state
     const params = { answer, codeOutput }
     if(inputSuccessCriteria)
       params.inputSuccessCriteria = inputSuccessCriteria
     if(outputSuccessCriteria)
       params.outputSuccessCriteria = outputSuccessCriteria
+    if(!isEmpty(globalVariables))
+      params.variables = globalVariables
     this.setStateAsync({ showResultCard: false })
     const result = await this.props.postTestCheckAnswer(params)
     this.setState({
       showResultCard: true,
       isAnsweredCorrectly: result.success,
-      hintToDisplay: result.hintToDisplay
+      hintToDisplay: result.hintToDisplay,
+      globalVariables: []
+    })
+  }
+
+  setGlobalVariable = ({ variableId, value }) => {
+    const { globalVariables } = this.state
+    const position = (globalVariables.variables || []).length
+    this.setState({
+      globalVariables: update(globalVariables, {
+        $splice: [[ position, 0, { value, variableId } ]]
+      })
     })
   }
 
@@ -101,6 +126,10 @@ class FullPageCode extends Component {
       , failureHeadline: slideValues.failureHeadline
       , failureExplanation: slideValues.failureExplanation
     }
+
+    const variablesToComplete = (slideValues.inputSuccessCriteria || [])
+      .filter(each => each.codingConcept === CODE_CONCEPTS.USER_GLOBAL_VARIABLE)
+
     return (
       <div>
         <ResultCard
@@ -169,6 +198,8 @@ class FullPageCode extends Component {
           component={ renderCodeEditor }
           includeCheckAnswer={ slideValues.shouldIncludeSuccessCriteria }
           onCheckAnswer={ this.handleCheckAnswer }
+          variablesToComplete={ variablesToComplete }
+          setGlobalVariable={ this.setGlobalVariable }
         />
       </div>
     )
