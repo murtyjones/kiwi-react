@@ -31,7 +31,12 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/)
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('stage')
+      },
+    })
   ],
   externals: {
     config: JSON.stringify(stageConfig)
