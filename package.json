@@ -11,6 +11,7 @@
     "deploy": "./node_modules/.bin/gulp deploy --env local",
     "build:production": "./node_modules/.bin/gulp build:production",
     "build:development": "./node_modules/.bin/gulp build:development",
+    "build:stage": "./node_modules/.bin/gulp build:stage",
     "postinstall": "npm rebuild node-sass",
     "test": "jest",
     "test-new": "jest --coverage --changedSince=master",
