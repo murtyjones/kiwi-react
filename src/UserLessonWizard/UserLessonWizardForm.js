@@ -127,17 +127,27 @@ class UserLessonWizardForm extends Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  async componentWillUpdate(nextProps, nextState) {
     const slideCurrentValues = get(nextProps.formValues, `answerData[${nextProps.activeSlideIndex}]`)
     const slideOldValues = get(this.props.formValues, `answerData[${nextProps.activeSlideIndex}]`)
     const slideHasUpdated = slideCurrentValues.updatedAt !== slideOldValues.updatedAt
-    if(nextState.checkAnswer && slideHasUpdated) {
-      this.checkAnswer(slideCurrentValues)
-    }
-  }
+    const codeHasRun = !nextState.runCode && this.state.runCode
 
-  checkAnswer = slideCurrentValues => {
-    this.setState({ showResultCard: true })
+    // if an answer was graded, show the result
+    if(nextState.checkAnswer && slideHasUpdated) {
+      this.setState({ checkAnswer: false, showResultCard: true })
+    }
+
+    // if an answer needs to be graded and code editor has run the code,
+    // submit current values and switch off submit current values
+    if(nextState.checkAnswer && nextState.submitCurrentValues && codeHasRun) {
+      nextProps.onSubmit(nextProps.formValues)
+      this.setState({ submitCurrentValues: false, showResultCard: false })
+    }
+
+    if(nextProps.activeSlideIndex !== this.props.activeSlideIndex) {
+      await this.setStateAsync({ showResultCard: false })
+    }
   }
 
   setActiveSlideObject = (activeSlideIndex, lesson) =>
@@ -177,34 +187,15 @@ class UserLessonWizardForm extends Component {
     this.setState(newState, resolve)
   })
 
-  submitCurrentValues = async (checkAnswer = false) => {
-    const { activeSlideObject, activeSlideObject:  { shouldIncludeSuccessCriteria } } = this.state
-
-    // if the codeOutput field will be graded, make sure it's the latest
-    // by triggering runCode in the CodeEditor
-    if(shouldIncludeSuccessCriteria) {
-      await this.setRunCode(true)
-    }
-
-    // the output will be in the latest formValues
-    const { onSubmit, formValues } = this.props
-    const answerData = cloneDeep(find(formValues.answerData, { id: activeSlideObject.id }))
-
-    const shouldSubmitForm = !shouldIncludeSuccessCriteria || (!!answerData.codeOutput && shouldIncludeSuccessCriteria)
-    if(shouldSubmitForm) {
-      onSubmit(formValues)
-      this.setState({ checkAnswer, showResultCard: false })
-    }
-  }
-
-  onNext = params => {
+  onNext = async () => {
     this.props.goToNextSlide()
-    this.submitCurrentValues()
+    this.props.onSubmit(this.props.formValues)
+    this.setState({ showResultCard: false, submitCurrentValues: false, checkAnswer: false })
   }
 
-  onFinalNext = params => {
-    this.submitCurrentValues()
+  onFinalNext = async () => {
     this.props.onFinalSlideNextClick()
+    this.setState({ showResultCard: false, submitCurrentValues: false, checkAnswer: false })
   }
 
   renderSlide = ({ fields }) => {
@@ -262,7 +253,9 @@ class UserLessonWizardForm extends Component {
           onPrevClick={ onPrevClick }
           onNextClick={ onNextClick }
           onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
-          onCheckAnswer={ includeCheckAnswerButton ? () => this.submitCurrentValues(true) : null }
+          onCheckAnswer={ includeCheckAnswerButton ? () => this.setState({
+            runCode: true, checkAnswer: true, submitCurrentValues: true
+          }) : null }
           globalColors={ globalColors }
           slideAnswerData={ slideAnswerData }
         />

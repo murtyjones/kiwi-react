@@ -48,6 +48,8 @@ class ResultCard extends Component {
       explanation = failureExplanation
     }
 
+    const correctOrIncorrectClass = isAnsweredCorrectly
+      ? 'correct' : 'incorrect'
 
     return (
       <CSSTransition
@@ -58,10 +60,11 @@ class ResultCard extends Component {
         unmountOnExit={ true }
       >
         <div
-          className={ cns('resultCardContainer', isAnsweredCorrectly ? 'correct' : 'incorrect') }
+          className={ cns('resultCardContainer', correctOrIncorrectClass) }
           style={ {
             ...styles.container
             , paddingBottom: includePaddingForActionBar ? '60px' : 0
+            , display: showResultCard ? 'block' : 'none'
           } }
         >
           <div className='resultCard'>
