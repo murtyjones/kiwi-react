@@ -1,7 +1,7 @@
 {
   "auth": {
     "domain": "kiwi-dev.auth0.com",
-    "clientID": "ixKBxpoRiGfp2Hro9V6rtI6S0tYynU6Y-XP3g",
+    "clientID": "ixKBxpoRiGfp2Hro9V6rtI6S0tYynU6Y",
     "redirectUri": "http://dev.kiwicompute.com/auth/callback",
     "audience": "https://kiwi-dev.auth0.com/userinfo",
     "responseType": "token id_token",
