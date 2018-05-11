@@ -14,6 +14,7 @@ const del = require('del')
 
 const webpackLocalConfig = require('./webpack/webpack.config.local.js')
 const webpackDevConfig = require('./webpack/webpack.config.dev.js')
+const webpackStageConfig = require('./webpack/webpack.config.stage.js')
 const webpackProdConfig = require('./webpack/webpack.config.prod.js')
 
 const browserSync = require('browser-sync').create()
@@ -151,7 +152,7 @@ gulp.task("webpack:build:development", function(callback) {
 
 gulp.task("webpack:build:stage", function(callback) {
   // run webpack
-  webpack(webpackDevConfig, function(err, stats) {
+  webpack(webpackStageConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack:build:stage", err);
     gutil.log("[webpack:build:stage]", stats.toString({
       colors: true
