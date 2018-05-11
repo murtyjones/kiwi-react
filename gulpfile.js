@@ -104,6 +104,9 @@ gulp.task("build:production", ["clean", "copy-html", "copy-assets", "webpack:bui
 // Dev build
 gulp.task("build:development", ["clean", "copy-html", "copy-assets", "webpack:build:development"]);
 
+// Stage build
+gulp.task("build:stage", ["clean", "copy-html", "copy-assets", "webpack:build:stage"]);
+
 gulp.task("copy-html", function() {
   return gulp
     .src(['./index.html'])
@@ -140,6 +143,17 @@ gulp.task("webpack:build:development", function(callback) {
   webpack(webpackDevConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack:build:development", err);
     gutil.log("[webpack:build:development]", stats.toString({
+      colors: true
+    }));
+    callback();
+  });
+});
+
+gulp.task("webpack:build:stage", function(callback) {
+  // run webpack
+  webpack(webpackDevConfig, function(err, stats) {
+    if(err) throw new gutil.PluginError("webpack:build:stage", err);
+    gutil.log("[webpack:build:stage]", stats.toString({
       colors: true
     }));
     callback();
