@@ -1,12 +1,12 @@
 {
   "auth": {
-    "domain": "kiwi-stage.auth0.com",
-    "clientID": "O9T0UDFJVxqFgOouZyVfrfbBzoq-XP3g",
-    "redirectUri": "http://localhost:3000/auth/callback",
-    "audience": "https://kiwi-stage.auth0.com/userinfo",
+    "domain": "kiwi-dev.auth0.com",
+    "clientID": "ixKBxpoRiGfp2Hro9V6rtI6S0tYynU6Y",
+    "redirectUri": "http://dev.kiwicompute.com/auth/callback",
+    "audience": "https://kiwi-dev.auth0.com/userinfo",
     "responseType": "token id_token",
     "scope": "openid profile offline_access",
-    "namespace": "https://stage.kiwicompute.com",
+    "namespace": "https://dev.kiwicompute.com",
     "realm": "Username-Password-Authentication"
   },
   "api" : "https://api.dev.kiwicompute.com",

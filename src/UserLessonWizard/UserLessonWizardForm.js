@@ -132,7 +132,8 @@ class UserLessonWizardForm extends Component {
     const slideOldValues = get(this.props.formValues, `answerData[${nextProps.activeSlideIndex}]`)
     const slideHasUpdated = slideCurrentValues.updatedAt !== slideOldValues.updatedAt
     const codeHasRun = !nextState.runCode && this.state.runCode
-
+    const noCodeRunNeeded = !nextState.runCode && !this.state.runCode
+    
     // if an answer was graded, show the result
     if(nextState.checkAnswer && slideHasUpdated) {
       this.setState({ checkAnswer: false, showResultCard: true })
@@ -140,7 +141,7 @@ class UserLessonWizardForm extends Component {
 
     // if an answer needs to be graded and code editor has run the code,
     // submit current values and switch off submit current values
-    if(nextState.checkAnswer && nextState.submitCurrentValues && codeHasRun) {
+    if(nextState.checkAnswer && nextState.submitCurrentValues && (codeHasRun || noCodeRunNeeded)) {
       nextProps.onSubmit(nextProps.formValues)
       this.setState({ submitCurrentValues: false, showResultCard: false })
     }
@@ -240,6 +241,7 @@ class UserLessonWizardForm extends Component {
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
         , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
+        , includesCodeSuccessCriteria = activeSlideObject.shouldIncludeSuccessCriteria
 
     return [
       <Fragment key='userLessonWizardForm'>
@@ -254,7 +256,7 @@ class UserLessonWizardForm extends Component {
           onNextClick={ onNextClick }
           onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
           onCheckAnswer={ includeCheckAnswerButton ? () => this.setState({
-            runCode: true, checkAnswer: true, submitCurrentValues: true
+            runCode: includesCodeSuccessCriteria, checkAnswer: true, submitCurrentValues: true
           }) : null }
           globalColors={ globalColors }
           slideAnswerData={ slideAnswerData }
