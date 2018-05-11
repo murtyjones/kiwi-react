@@ -69,9 +69,12 @@ const EnvironmentReminder = props =>
     , top: 0
     , left: 0
     , zIndex: 1200
-    , backgroundColor: process.env.NODE_ENV === 'local'
-      ? '#ff3f79'
-      : '#32a8ff'
+    , backgroundColor:
+      process.env.NODE_ENV === 'local'
+        ? '#ff3f79'
+        : process.env.NODE_ENV === 'development'
+        ? '#32a8ff'
+        : '#d9af21' // stage
     , width: '100%'
     , height: '20px'
     , margin: 0
