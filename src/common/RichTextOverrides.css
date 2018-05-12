@@ -1,0 +1,28 @@
+body {
+    background: #f3f1f2;
+}
+
+.ql-container {
+    border: 1px solid #CCC;
+    border-top: 0;
+    min-height: 10em;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    background: #fefcfc;
+}
+
+.ql-toolbar {
+    border: 1px solid #CCC;
+    border-bottom: 0;
+    background: #eaecec;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+}
+
+.ql-toolbar > button, .ql-toolbar > select {
+    margin: 5px 10px;
+}
+
+.ql-toolbar > select {
+    background: transparent;
+}

@@ -13,6 +13,7 @@ import sideNav from './SideNav'
 import topBar from './TopBar'
 import globalColors from './GlobalColors'
 import variables from './Variables'
+import userVariables from './UserVariables'
 
 // Export combined reducers
 export const notCombined = {
@@ -28,6 +29,7 @@ export const notCombined = {
   , lessonMetadata
   , globalColors
   , variables
+  , userVariables
 }
 
 export default combineReducers(notCombined)

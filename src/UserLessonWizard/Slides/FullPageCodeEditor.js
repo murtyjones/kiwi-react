@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
+import template from 'es6-template-strings'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
 import { CODE_CONCEPTS, LESSON_SLIDE_TYPES } from '../../constants'
 import { titleStyle, slideContentFlexibleHeight, example } from './commonSlideStyles'
+import { createVariableNameValuePair } from '../../utils/templateUtils'
 
 import './overrides.css'
 
@@ -40,7 +42,11 @@ class FullPageCodeEditor extends PureComponent {
   }
 
   render() {
-    const { slideData, className, input, runCode, afterRunCode, globalColors, variableOptions, setGlobalVariable } = this.props
+    const { slideData, className, input, runCode, afterRunCode, globalColors, variablesWithUserValues, setGlobalVariable } = this.props
+
+    const variableValues = createVariableNameValuePair(variablesWithUserValues)
+    const prompt = template(slideData.prompt, variableValues)
+    const example = template(slideData.example, variableValues)
 
     const variablesToComplete = (slideData.inputSuccessCriteria || [])
       .filter(each => each.codingConcept === CODE_CONCEPTS.USER_GLOBAL_VARIABLE)
@@ -61,7 +67,7 @@ class FullPageCodeEditor extends PureComponent {
           key='prompt'
           id='prompt'
           className='prompt'
-          dangerouslySetInnerHTML={ { __html: slideData.prompt } }
+          dangerouslySetInnerHTML={ { __html: prompt } }
         />
         { slideData.hasExample &&
           <div
@@ -72,7 +78,7 @@ class FullPageCodeEditor extends PureComponent {
             <div
               className="exampleText"
               style={ example }
-              dangerouslySetInnerHTML={ { __html: slideData.example } }
+              dangerouslySetInnerHTML={ { __html: example } }
             />
           </div>
         }
@@ -87,7 +93,7 @@ class FullPageCodeEditor extends PureComponent {
         afterRunCode={ codeOutput => afterRunCode(codeOutput) }
         showRunButton={ false }
         variablesToComplete={ variablesToComplete }
-        variableOptions={ variableOptions }
+        variableOptions={ variablesWithUserValues }
         setGlobalVariable={ setGlobalVariable }
       />
     ]

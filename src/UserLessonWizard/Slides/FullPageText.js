@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
+import template from 'es6-template-strings'
+
 import { titleStyle, slideContentFlexibleHeight } from './commonSlideStyles'
+import { createVariableNameValuePair } from '../../utils/templateUtils'
 
 const styles = {
   container: {
@@ -40,7 +43,10 @@ class FullPageText extends PureComponent {
   }
 
   render() {
-    const { slideData, className, globalColors } = this.props
+    const { slideData, className, variablesWithUserValues, globalColors } = this.props
+    const variableValues = createVariableNameValuePair(variablesWithUserValues)
+    const prompt = template(slideData.prompt, variableValues)
+
     return (
       <div
         className={ className }
@@ -61,7 +67,7 @@ class FullPageText extends PureComponent {
           id='instructions'
           className='instructions'
           style={ styles.instructions }
-          dangerouslySetInnerHTML={ { __html: slideData.instructions } }
+          dangerouslySetInnerHTML={ { __html: prompt } }
         />
       </div>
     )

@@ -92,7 +92,7 @@ class UserLessonWizardForm extends Component {
     , dispatch: T.func.isRequired
     , onFinalSlideNextClick: T.func.isRequired
     , isFetchingUserLessons: T.bool.isRequired
-    , variableOptions: T.array.isRequired
+    , variablesWithUserValues: T.array.isRequired
   }
 
   componentWillMount() {
@@ -133,7 +133,7 @@ class UserLessonWizardForm extends Component {
     const slideHasUpdated = slideCurrentValues.updatedAt !== slideOldValues.updatedAt
     const codeHasRun = !nextState.runCode && this.state.runCode
     const noCodeRunNeeded = !nextState.runCode && !this.state.runCode
-    
+
     // if an answer was graded, show the result
     if(nextState.checkAnswer && slideHasUpdated) {
       this.setState({ checkAnswer: false, showResultCard: true })
@@ -203,7 +203,7 @@ class UserLessonWizardForm extends Component {
     // this method should be kept outside of
     // the render method! otherwise child
     // components will remount on each rendering!
-    const { activeSlideIndex, globalColors, variableOptions } = this.props
+    const { activeSlideIndex, globalColors, variablesWithUserValues } = this.props
         , { activeSlideObject, runCode } = this.state
         , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
 
@@ -224,14 +224,14 @@ class UserLessonWizardForm extends Component {
             slideData={ activeSlideObject }
             setToViewed={ () => this.setToViewed(ref) }
             setGlobalVariable={ (varRef, v) => this.setGlobalVariable(`${ref}.${varRef}`, v) }
-            variableOptions={ variableOptions }
+            variablesWithUserValues={ variablesWithUserValues }
           />
         ) : null
     )
   }
 
   render() {
-    const { handleSubmit, lessonTheme, globalColors, activeSlideIndex, formValues, variableOptions } = this.props
+    const { handleSubmit, lessonTheme, globalColors, activeSlideIndex, formValues } = this.props
         , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, showResultCard } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName

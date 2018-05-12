@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { titleStyle, slideContentFullHeight } from './commonSlideStyles'
 import cns from 'classnames'
+import template from 'es6-template-strings'
+
+import { titleStyle, slideContentFullHeight } from './commonSlideStyles'
+import { createVariableNameValuePair } from '../../utils/templateUtils'
 
 import './overrides.css'
 
@@ -51,6 +54,8 @@ class FullPageText extends PureComponent {
 
   render() {
     const { slideData, className, globalColors, input } = this.props
+    const variableValues = createVariableNameValuePair(variablesWithUserValues)
+    const instructions = template(slideData.instructions, variableValues)
 
     return (
       <div key={ className } style={ slideContentFullHeight } className={ className }>
@@ -69,7 +74,7 @@ class FullPageText extends PureComponent {
           id='instructions'
           className='instructions'
           style={ styles.instructions }
-          dangerouslySetInnerHTML={ { __html: slideData.instructions } }
+          dangerouslySetInnerHTML={ { __html: instructions } }
         />
         <Choices
           slideData={ slideData }

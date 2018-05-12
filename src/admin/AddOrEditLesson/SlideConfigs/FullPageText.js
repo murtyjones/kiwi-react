@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
-import renderRichTextEditor from '../../../common/renderRichTextEditor'
+import RichTextEditor from '../../../common/RichTextEditor'
 
 class FullPageText extends Component {
   constructor(props) {
@@ -8,12 +8,13 @@ class FullPageText extends Component {
   }
 
   render() {
-    const { slideRef } = this.props
+    const { slideRef, variableOptions } = this.props
     return (
       <div>
         <Field
           name={ `${slideRef}.instructions` }
-          component={ renderRichTextEditor }
+          component={ RichTextEditor }
+          variableOptions={ variableOptions }
         />
       </div>
     )

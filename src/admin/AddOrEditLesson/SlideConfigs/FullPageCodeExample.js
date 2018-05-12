@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
-import renderRichTextEditor from '../../../common/renderRichTextEditor'
-import renderRichCodeTextEditor from '../../../common/renderRichCodeTextEditor'
+import RichTextEditor from '../../../common/RichTextEditor'
 
 class FullPageCodeExample extends Component {
   constructor(props) {
@@ -9,18 +8,20 @@ class FullPageCodeExample extends Component {
   }
 
   render() {
-    const { slideRef } = this.props
+    const { slideRef, variableOptions } = this.props
     return (
       <div>
         <Field
           name={ `${slideRef}.explanation` }
           label='Explanation'
-          component={ renderRichTextEditor }
+          component={ RichTextEditor }
+          variableOptions={ variableOptions }
         />
         <Field
           name={ `${slideRef}.example` }
           label='Code Example'
-          component={ renderRichCodeTextEditor }
+          component={ RichTextEditor }
+          variableOptions={ variableOptions }
         />
       </div>
     )

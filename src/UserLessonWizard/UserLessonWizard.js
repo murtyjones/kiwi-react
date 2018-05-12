@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { getFormValues } from 'redux-form'
 import BluebirdPromise from 'bluebird'
 
-import { postUserLesson, putUserLesson, getManyUserLessons, getLesson, getLessonTheme, setGlobalColors, setTopBarTitle } from '../actions'
+import { postUserLesson, putUserLesson, getManyUserLessons, getManyUserVariables, getManyVariables, getLesson, getLessonTheme, setGlobalColors, setTopBarTitle } from '../actions'
 import { GLOBAL_COLORS } from '../constants'
 import UserLessonWizardForm from './UserLessonWizardForm'
 
@@ -36,6 +36,8 @@ class UserLessonWizard extends Component {
     postUserLesson: T.func.isRequired
     , putUserLesson: T.func.isRequired
     , getManyUserLessons: T.func.isRequired
+    , getManyUserVariables: T.func.isRequired
+    , getManyVariables: T.func.isRequired
     , setTopBarTitle: T.func.isRequired
     , getLesson: T.func.isRequired
     , lesson: T.object.isRequired
@@ -44,17 +46,19 @@ class UserLessonWizard extends Component {
     , initialValues: T.object
     , history: T.any.isRequired
     , isFetchingUserLessons: T.bool.isRequired
-    , variables: T.array.isRequired
+    , variablesWithUserValues: T.array.isRequired
   }
 
   componentWillMount() {
-    const { getManyUserLessons, getLesson, getLessonTheme, lesson, userLesson, lessonTheme, userId, match: { params: { id } } } = this.props
+    const { lesson, userLesson, lessonTheme, userId, match: { params: { id } } } = this.props
       , lessonIsEmpty = isEmpty(lesson)
       , userLessonIsEmpty = isEmpty(userLesson)
       , themeIsEmpty = isEmpty(lessonTheme)
-    if(lessonIsEmpty) getLesson({id})
-    if(userLessonIsEmpty) getManyUserLessons({ lessonId: id, userId })
-    if(lesson.themeId && themeIsEmpty) getLessonTheme({ id: lesson.themeId })
+    this.props.getManyUserVariables()
+    this.props.getManyVariables()
+    if(lessonIsEmpty) this.props.getLesson({id})
+    if(userLessonIsEmpty) this.props.getManyUserLessons({ lessonId: id, userId })
+    if(lesson.themeId && themeIsEmpty) this.props.getLessonTheme({ id: lesson.themeId })
     if(!lessonIsEmpty && !userLessonIsEmpty) {
       const activeSlideIndex = getLatestCompletedSlide(lesson, userLesson)
       return this.setState({ activeSlideIndex, lessonAndUserLessonReceived: true })
@@ -133,7 +137,7 @@ class UserLessonWizard extends Component {
     })
 
   render() {
-    const { lesson, initialValues, lessonTheme, isFetchingUserLessons, globalColors, variables } = this.props
+    const { lesson, initialValues, lessonTheme, isFetchingUserLessons, globalColors, variablesWithUserValues } = this.props
     const { activeSlideIndex } = this.state
 
     return !isEmpty(lesson)
@@ -149,7 +153,7 @@ class UserLessonWizard extends Component {
           goToNextSlide={ this.goToNextSlide }
           goToPrevSlide={ this.goToPrevSlide }
           onFinalSlideNextClick={ this.handleFinalSlideNextClick }
-          variableOptions={ variables }
+          variablesWithUserValues={ variablesWithUserValues }
         />
       ) : null
   }
@@ -166,6 +170,7 @@ const mapStateToProps = (state, ownProps) => {
     , globalColors
     , topBar: { topBarTitle }
     , variables: { variablesById }
+    , userVariables: { userVariablesById }
   } = state
   const variables = Object.values(variablesById)
   const { match: { params: { id } } } = ownProps
@@ -193,7 +198,11 @@ const mapStateToProps = (state, ownProps) => {
   })
 
   initialValues.userId = userId
-
+  
+  const variablesWithUserValues = cloneDeep(variables).map(each => {
+    const userVariable = get(userVariablesById, 'value', '')
+    return { ...each, value: userVariable.value }
+  })
   return {
     lesson
     , userLesson
@@ -203,7 +212,7 @@ const mapStateToProps = (state, ownProps) => {
     , globalColors
     , topBarTitle
     , isFetchingUserLessons: isFetching
-    , variables
+    , variablesWithUserValues
   }
 }
 
@@ -212,6 +221,8 @@ const mapDispatchToProps = (dispatch) => {
     postUserLesson: params => dispatch(postUserLesson(params))
     , putUserLesson: params => dispatch(putUserLesson(params))
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
+    , getManyUserVariables: params => dispatch(getManyUserVariables(params))
+    , getManyVariables: params => dispatch(getManyVariables(params))
     , getLesson: params => dispatch(getLesson(params))
     , getLessonTheme: params => dispatch(getLessonTheme(params))
     , setGlobalColors: params => dispatch(setGlobalColors(params))

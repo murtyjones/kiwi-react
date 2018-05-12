@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Field, FieldArray } from 'redux-form'
 import renderTextField from '../../../common/renderTextField'
-import renderRichTextEditor from '../../../common/renderRichTextEditor'
+import RichTextEditor from '../../../common/RichTextEditor'
 import { RaisedButton, List, ListItem, MenuItem } from 'material-ui'
 import { SelectField } from 'redux-form-material-ui'
 
@@ -28,14 +28,16 @@ class MultipleChoice extends Component {
   }
 
   render() {
-    const { slideRef, slideValues } = this.props
+    const { slideRef, slideValues, variableOptions } = this.props
     const choices = slideValues.choices || []
+
     return (
       <div>
         <Field
           name={ `${slideRef}.instructions` }
           label='Instructions'
-          component={ renderRichTextEditor }
+          component={ RichTextEditor }
+          variableOptions={ variableOptions }
         />
         <Field
           name={ `${slideRef}.successHeadline` }

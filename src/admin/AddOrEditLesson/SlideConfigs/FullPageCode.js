@@ -6,8 +6,7 @@ import { isEmpty } from 'lodash'
 
 
 import renderTextField from '../../../common/renderTextField'
-import renderRichTextEditor from '../../../common/renderRichTextEditor'
-import renderRichCodeTextEditor from '../../../common/renderRichCodeTextEditor'
+import RichTextEditor from '../../../common/RichTextEditor'
 import CodeEditor from '../../../CodeEditor/CodeEditor'
 import {CODE_CONCEPTS, LESSON_SLIDE_TYPES} from '../../../constants'
 import { Toggle } from 'redux-form-material-ui'
@@ -142,7 +141,8 @@ class FullPageCode extends Component {
         <Field
           name={ `${slideRef}.prompt` }
           label='Prompt'
-          component={ renderRichTextEditor }
+          component={ RichTextEditor }
+          variableOptions={ variableOptions }
         />
         <Field
           name={`${slideRef}.hasExample` }
@@ -154,7 +154,8 @@ class FullPageCode extends Component {
           <Field
             name={`${slideRef}.example` }
             label='Example Code'
-            component={ renderRichCodeTextEditor }
+            component={ RichTextEditor }
+            variableOptions={ variableOptions }
           />
         }
         <Field
