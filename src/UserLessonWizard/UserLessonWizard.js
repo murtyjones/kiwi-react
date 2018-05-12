@@ -173,6 +173,7 @@ const mapStateToProps = (state, ownProps) => {
     , userVariables: { userVariablesById }
   } = state
   const variables = Object.values(variablesById)
+  const userVariables = Object.values(userVariablesById)
   const { match: { params: { id } } } = ownProps
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
@@ -198,11 +199,12 @@ const mapStateToProps = (state, ownProps) => {
   })
 
   initialValues.userId = userId
-  
+
   const variablesWithUserValues = cloneDeep(variables).map(each => {
-    const userVariable = get(userVariablesById, 'value', '')
+    const userVariable = find(userVariables, { variableId: each._id })
     return { ...each, value: userVariable.value }
   })
+
   return {
     lesson
     , userLesson

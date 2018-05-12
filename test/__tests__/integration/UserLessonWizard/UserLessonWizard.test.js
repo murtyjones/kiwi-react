@@ -24,6 +24,8 @@ describe('UserLessonWizard', () => {
     , lessonId
     , userLessonId
     , slide1Id, slide2Id, slide3Id, slide4Id, slide5Id
+    , variables
+    , userVariables
     , lesson
     , userLesson
     , lessonTheme
@@ -43,6 +45,8 @@ describe('UserLessonWizard', () => {
     slide5Id = 'id5'
     lessonId = 'fakeLessonId'
     userLessonId = 'fakeUserLessonId'
+    variables = []
+    userVariables = []
     lesson = {
       _id: lessonId
       , isPublished: true
@@ -135,6 +139,8 @@ describe('UserLessonWizard', () => {
   describe('with no lesson or userLesson yet loaded, but both exist', () => {
     beforeEach(async() => {
       setupStore()
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(variables)) // getManyVariables response
+      ApiFetch.mockImplementationOnce(() => Promise.resolve(userVariables)) // getManyUserVariables response
       ApiFetch.mockImplementationOnce(() => Promise.resolve(lesson)) // getLesson response
       ApiFetch.mockImplementationOnce(() => Promise.resolve([userLesson])) // getManyUserLessons response
       component = mountWithStore(props, store) // mount component
@@ -148,20 +154,28 @@ describe('UserLessonWizard', () => {
 
     describe('componentWillMount', () => {
       it('should dispatch the appropriate requests', () => {
+        expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_USER_VARIABLES_REQUEST })
+        expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_VARIABLES_REQUEST })
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_LESSON_REQUEST })
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_USER_LESSONS_REQUEST })
       })
 
       it('should dispatch success methods with resolved payloads', () => {
-        expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_LESSON_SUCCESS, payload: lesson })
-        expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_USER_LESSONS_SUCCESS, payload: [userLesson] })
+        expect(dispatchSpy).toBeCalledWith({ payload: variables, type: ACTIONS.GET_MANY_USER_VARIABLES_SUCCESS })
+        expect(dispatchSpy).toBeCalledWith({ payload: userVariables, type: ACTIONS.GET_MANY_VARIABLES_SUCCESS })
+        expect(dispatchSpy).toBeCalledWith({ payload: lesson, type: ACTIONS.GET_LESSON_SUCCESS })
+        expect(dispatchSpy).toBeCalledWith({ payload: [userLesson], type: ACTIONS.GET_MANY_USER_LESSONS_SUCCESS })
       })
 
       it('should pass the lessonId and userId when making requests', () => {
-        expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/lessons/${lessonId}`)
+        expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/user-variables`)
         expect(ApiFetch.mock.calls[0][1]).toEqual({ method: 'GET' })
-        expect(ApiFetch.mock.calls[1][0]).toBe(`http://localhost:8080/user-lessons?lessonId=${lessonId}&userId=${chesterAdminUserId}`)
+        expect(ApiFetch.mock.calls[1][0]).toBe(`http://localhost:8080/variables`)
         expect(ApiFetch.mock.calls[1][1]).toEqual({ method: 'GET' })
+        expect(ApiFetch.mock.calls[2][0]).toBe(`http://localhost:8080/lessons/${lessonId}`)
+        expect(ApiFetch.mock.calls[2][1]).toEqual({ method: 'GET' })
+        expect(ApiFetch.mock.calls[3][0]).toBe(`http://localhost:8080/user-lessons?lessonId=${lessonId}&userId=${chesterAdminUserId}`)
+        expect(ApiFetch.mock.calls[3][1]).toEqual({ method: 'GET' })
       })
 
     })

@@ -53,7 +53,7 @@ class FullPageText extends PureComponent {
   }
 
   render() {
-    const { slideData, className, globalColors, input } = this.props
+    const { slideData, className, globalColors, variablesWithUserValues, input } = this.props
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
     const instructions = template(slideData.instructions, variableValues)
 

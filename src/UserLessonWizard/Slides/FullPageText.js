@@ -44,8 +44,9 @@ class FullPageText extends PureComponent {
 
   render() {
     const { slideData, className, variablesWithUserValues, globalColors } = this.props
+
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
-    const prompt = template(slideData.prompt, variableValues)
+    const instructions = template(slideData.instructions, variableValues)
 
     return (
       <div
@@ -67,7 +68,7 @@ class FullPageText extends PureComponent {
           id='instructions'
           className='instructions'
           style={ styles.instructions }
-          dangerouslySetInnerHTML={ { __html: prompt } }
+          dangerouslySetInnerHTML={ { __html: instructions } }
         />
       </div>
     )

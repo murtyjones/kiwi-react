@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import template from 'es6-template-strings'
 
-import { slideContentFlexibleHeight, titleStyle, example } from './commonSlideStyles'
+import { slideContentFlexibleHeight, titleStyle, example as exampleStyle } from './commonSlideStyles'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 
 const styles = {
@@ -105,7 +105,7 @@ class FullPageCodeExample extends PureComponent {
             key='fullPageExample'
             id='fullPageExample'
             className='fullPageExample'
-            style={ example }
+            style={ exampleStyle }
             dangerouslySetInnerHTML={ { __html: example } }
           />
         </div>
