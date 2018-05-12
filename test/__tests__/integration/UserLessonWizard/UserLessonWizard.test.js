@@ -144,8 +144,12 @@ describe('UserLessonWizard', () => {
       ApiFetch.mockImplementationOnce(() => Promise.resolve(lesson)) // getLesson response
       ApiFetch.mockImplementationOnce(() => Promise.resolve([userLesson])) // getManyUserLessons response
       component = mountWithStore(props, store) // mount component
-      await flushAllPromises() // wait for requests to resolve
-      component.update() // update component after having resolved requests
+      // wait for initial mounting to complete:
+      await flushAllPromises()
+      component.update()
+      // wait for requests to resolve so that component can render:
+      await flushAllPromises()
+      component.update()
     })
 
     afterEach(() => {
