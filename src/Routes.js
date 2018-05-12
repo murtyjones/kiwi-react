@@ -34,9 +34,11 @@ import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
 import AddOrEditLessonTheme from './admin/AddOrEditLessonTheme/AddOrEditLessonTheme'
 import AddOrEditVariable from './admin/AddOrEditVariable/AddOrEditVariable'
+import AddOrEditSubscription from './admin/AddOrEditSubscription/AddOrEditSubscription'
 import ManageLessons from './admin/ManageLessons/ManageLessons'
 import ManageLessonThemes from './admin/ManageLessonThemes/ManageLessonThemes'
 import ManageVariables from './admin/ManageVariables/ManageVariables'
+import ManageSubscriptions from './admin/ManageSubscriptions/ManageSubscriptions'
 import Lessons from './Lessons/Lessons'
 import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
 import SideNav from './SideNav/SideNav'
@@ -189,6 +191,10 @@ class App extends Component {
                 <AuthorizedRoute path='/admin/variables' exact component={ ManageVariables } title='Manage Variables' { ...extras } />
                 <AuthorizedRoute path='/admin/variables/new' exact component={ AddOrEditVariable } title='Create new Variable' { ...extras } />
                 <AuthorizedRoute path='/admin/variables/:id' exact component={ AddOrEditVariable } title='Edit Variable' { ...extras } />
+
+                <AuthorizedRoute path='/admin/subscriptions' exact component={ ManageSubscriptions } title='Manage Subscriptions' { ...extras } />
+                <AuthorizedRoute path='/admin/subscriptions/new' exact component={ AddOrEditSubscription } title='Create new Subscription' { ...extras } />
+                <AuthorizedRoute path='/admin/subscriptions/:id' exact component={ AddOrEditSubscription } title='Edit Subscription' { ...extras } />
               </Switch>
               </div>
           </div>

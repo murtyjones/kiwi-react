@@ -14,6 +14,8 @@ import topBar from './TopBar'
 import globalColors from './GlobalColors'
 import variables from './Variables'
 import userVariables from './UserVariables'
+import subscriptions from './Subscriptions'
+import profiles from './Profiles'
 
 // Export combined reducers
 export const notCombined = {
@@ -30,6 +32,8 @@ export const notCombined = {
   , globalColors
   , variables
   , userVariables
+  , subscriptions
+  , profiles
 }
 
 export default combineReducers(notCombined)

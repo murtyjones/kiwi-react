@@ -128,7 +128,7 @@ class SideNav extends PureComponent {
                     leftIcon={
                       <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
                     }
-                    primaryText='Add/Edit Lessons'
+                    primaryText='Lessons'
                     onClick={ toggleSideNav }
                   />
                 </KiwiLink>
@@ -138,7 +138,7 @@ class SideNav extends PureComponent {
                     leftIcon={
                       <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
                     }
-                    primaryText='Add/Edit Themes'
+                    primaryText='Themes'
                     onClick={ toggleSideNav }
                   />
                 </KiwiLink>
@@ -148,7 +148,17 @@ class SideNav extends PureComponent {
                     leftIcon={
                       <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
                     }
-                    primaryText='Add/Edit Variables'
+                    primaryText='Variables'
+                    onClick={ toggleSideNav }
+                  />
+                </KiwiLink>
+                <KiwiLink to='/admin/subscriptions'>
+                  <MenuItem
+                    style={ styles.menuItem }
+                    leftIcon={
+                      <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
+                    }
+                    primaryText='Subscriptions'
                     onClick={ toggleSideNav }
                   />
                 </KiwiLink>

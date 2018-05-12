@@ -7,10 +7,10 @@ const initialState = {
 function userVariables(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.PUT_USER_VARIABLE_SUCCESS: {
-      const newVariablesById = Object.assign({}, state.userVariablesById, {
+      const newUserVariablesById = Object.assign({}, state.userVariablesById, {
         [action.payload.after["_id"]]: action.payload.after
       })
-      const userVariablesById = Object.assign({}, state.userVariablesById, newVariablesById)
+      const userVariablesById = Object.assign({}, state.userVariablesById, newUserVariablesById)
       const newState = Object.assign({}, state, {
         userVariablesById
       })

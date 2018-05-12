@@ -1,0 +1,4 @@
+export const SUBSCRIPTIONS = {
+  ACTIVE: 'ACTIVE'
+  , INACTIVE: 'INACTIVE'
+}

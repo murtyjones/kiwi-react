@@ -4,6 +4,7 @@ import LESSON_SLIDE_TYPES from './LESSON_SLIDE_TYPES'
 import SVG_PATHS from './SVG_PATHS'
 import GLOBAL_COLORS from './GLOBAL_COLORS'
 export * from './SUCCESS_CRITERIA'
+export * from './SUBSCRIPTIONS'
 
 
 export {
@@ -13,3 +14,4 @@ export {
   , SVG_PATHS
   , GLOBAL_COLORS
 }
+
