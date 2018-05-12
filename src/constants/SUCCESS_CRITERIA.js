@@ -5,7 +5,8 @@ export const CODE_CONCEPTS = { // must match backend
   , IF: 'IF'
   , ELIF: 'ELIF'
   , ELSE: 'ELSE'
-  , RAW_INPUT: 'RAW_INPUT'
+  , INPUT: 'INPUT'
+  , PRINT_STATEMENT: 'PRINT_STATEMENT'
   , USER_GLOBAL_VARIABLE: 'USER_GLOBAL_VARIABLE'
 }
 
