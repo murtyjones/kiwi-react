@@ -73,7 +73,7 @@ class ManageSubscriptions extends Component {
         { subscriptionsByProviderId.map((byProviderIdObject, i) => {
           const providerProfile = find(profiles, { _id: byProviderIdObject.providerId }) || {}
           return (
-            <Fragment>
+            <Fragment key={ i }>
               <h4>{ providerProfile.username }</h4>
               { byProviderIdObject.subscriptions.map((subscription, j) =>
                 <SubscriptionWidget
