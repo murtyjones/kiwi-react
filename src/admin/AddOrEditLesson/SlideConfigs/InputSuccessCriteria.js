@@ -10,8 +10,8 @@ import renderTextField from '../../../common/renderTextField'
 import renderSelectField from '../../../common/renderSelectField'
 
 const inputCriteriaOptions = [
-  { header: 'Ouput' }
-  , { label: 'print statement', value: CODE_CONCEPTS.PRINT_STATEMENT }
+  { header: 'Functions' }
+  , { label: 'print statement', value: CODE_CONCEPTS.PRINT }
   , { header: 'Control Flow' }
   , { label: 'any loop', value: CODE_CONCEPTS.LOOP }
   , { label: 'for loop', value: CODE_CONCEPTS.FOR_LOOP }
