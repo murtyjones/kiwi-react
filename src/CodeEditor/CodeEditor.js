@@ -59,7 +59,8 @@ class CodeEditor extends Component {
     , showRunButton: T.bool
     , variableOptions: T.array
     , variablesToComplete: T.array
-    , setGlobalVariable: T.func
+    , setFormGlobalVariable: T.func
+    , upsertUserVariable: T.func
   }
 
   componentWillReceiveProps(nextProps) {
@@ -151,7 +152,7 @@ class CodeEditor extends Component {
 
   handleVariableAnswer = async value => {
     const { variablesCompleted, editorInput } = this.state
-    const { variablesToComplete, setGlobalVariable, variableOptions } = this.props
+    const { variablesToComplete, setFormGlobalVariable, variableOptions, upsertUserVariable } = this.props
 
     // allows answering multiple times.
     const variablesCompletedLengthMod = variablesCompleted.length % variablesToComplete.length
@@ -167,8 +168,9 @@ class CodeEditor extends Component {
 
     if(variableId) {
       const varRef = `variables[${variablesCompletedLengthMod}]`
-      setGlobalVariable(varRef, { variableId, value })
+      setFormGlobalVariable(varRef, { variableId, value })
       await this.addCompletedVariable(variablesCompleted.length, 0, { variableId, value })
+      if(upsertUserVariable) upsertUserVariable({ variableId, value })
     }
   }
 

@@ -105,7 +105,7 @@ class FullPageCode extends Component {
     })
   }
 
-  setGlobalVariable = (_, { variableId, value }) => {
+  setFormGlobalVariable = (_, { variableId, value }) => {
     const { globalVariables } = this.state
     const position = (globalVariables.variables || []).length
     this.setState({
@@ -201,7 +201,7 @@ class FullPageCode extends Component {
           onCheckAnswer={ this.handleCheckAnswer }
           variableOptions={ variableOptions }
           variablesToComplete={ variablesToComplete }
-          setGlobalVariable={ this.setGlobalVariable }
+          setFormGlobalVariable={ this.setFormGlobalVariable }
         />
       </div>
     )

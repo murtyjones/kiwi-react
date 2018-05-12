@@ -11,7 +11,7 @@ import { postUserLesson, putUserLesson, getManyUserLessons, getManyUserVariables
 import { GLOBAL_COLORS } from '../constants'
 import UserLessonWizardForm from './UserLessonWizardForm'
 
-const getLatestCompletedSlide = (lesson, userLesson) => {
+const getLatestCompletedSlide = (lesson = {}, userLesson = {}) => {
   const slides = lesson.slides || []
   for (let i = 0, len = slides.length; i < len; i++) {
     const slide = lesson.slides[i]
@@ -28,7 +28,8 @@ class UserLessonWizard extends Component {
     super(props)
     this.state = {
       activeSlideIndex: 0
-      , lessonAndUserLessonReceived: false
+      , isInitialSlideIndexSet: false
+      , hasLoaded: false
     }
   }
 
@@ -38,32 +39,33 @@ class UserLessonWizard extends Component {
     , getManyUserLessons: T.func.isRequired
     , getManyUserVariables: T.func.isRequired
     , getManyVariables: T.func.isRequired
+    , getLessonTheme: T.func.isRequired
     , setTopBarTitle: T.func.isRequired
+    , setGlobalColors: T.func.isRequired
     , getLesson: T.func.isRequired
     , lesson: T.object.isRequired
     , userId: T.string.isRequired
     , userLesson: T.object.isRequired
     , initialValues: T.object
     , history: T.any.isRequired
+    , globalColors: T.any.isRequired
     , isFetchingUserLessons: T.bool.isRequired
     , variablesWithUserValues: T.array.isRequired
   }
 
-  componentWillMount() {
-    const { lesson, userLesson, lessonTheme, userId, match: { params: { id } } } = this.props
-      , lessonIsEmpty = isEmpty(lesson)
-      , userLessonIsEmpty = isEmpty(userLesson)
-      , themeIsEmpty = isEmpty(lessonTheme)
-    this.props.getManyUserVariables()
-    this.props.getManyVariables()
-    if(lessonIsEmpty) this.props.getLesson({id})
-    if(userLessonIsEmpty) this.props.getManyUserLessons({ lessonId: id, userId })
-    if(lesson.themeId && themeIsEmpty) this.props.getLessonTheme({ id: lesson.themeId })
-    if(!lessonIsEmpty && !userLessonIsEmpty) {
-      const activeSlideIndex = getLatestCompletedSlide(lesson, userLesson)
-      return this.setState({ activeSlideIndex, lessonAndUserLessonReceived: true })
-    }
-    if(!lessonIsEmpty) this.props.setTopBarTitle(lesson.title)
+  async componentWillMount() {
+    const { userId, match: { params: { id } } } = this.props
+    const promises = [
+      this.props.getManyUserVariables()
+      , this.props.getManyVariables()
+      , this.props.getLesson({id})
+      , this.props.getManyUserLessons({ lessonId: id, userId })
+    ]
+    await BluebirdPromise.all(promises)
+    this.setState({ hasLoaded: true })
+
+    const { lesson } = this.props
+    if(lesson.themeId) this.props.getLessonTheme({ id: lesson.themeId })
   }
 
   componentWillUnmount() {
@@ -71,32 +73,28 @@ class UserLessonWizard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { lesson, userLesson, userId, lessonTheme, match: { params: { id } } } = this.props
-    const { lessonAndUserLessonReceived } = this.state
-    const { match: { params: { id: nextId } } } = nextProps
-      , lessonIdHasChanged = !isEqual(id, nextId)
-      , lessonHasChanged = !isEqual(lesson, nextProps.lesson)
-      , userLessonHasChanged = !isEqual(userLesson, nextProps.userLesson)
-      , userIdHasChanged = !isEqual(userId, nextProps.userId)
-      , lessonThemeIdHasChanged = !isEqual(nextProps.lesson.themeId, lesson.themeId)
-      , lessonWasEmpty = isEmpty(lesson)
-      , userLessonWasEmpty = isEmpty(userLesson)
+    const { isInitialSlideIndexSet } = this.state
+      , lessonIdHasChanged = !isEqual(this.props.match.params.id, nextProps.match.params.id)
+      , lessonHasChanged = !isEqual(nextProps.lesson, this.props.lesson)
+      , userLessonHasChanged = !isEqual(nextProps.userLesson, this.props.userLesson)
+      , userIdHasChanged = !isEqual(nextProps.userId, this.props.userId)
+      , lessonThemeIdHasChanged = !isEqual(nextProps.lesson.themeId, this.props.lesson.themeId)
       , newGlobalColors = GLOBAL_COLORS[(nextProps.lessonTheme.name || 'default').toLowerCase()]
       , globalColorsNeedsChanging = nextProps.globalColors.primaryColor !== newGlobalColors.primaryColor
       , titleNeedsSetting = !isEqual(nextProps.topBarTitle, nextProps.lesson.title)
 
     if(lessonIdHasChanged || userIdHasChanged) {
-      nextProps.getLesson({ id: nextId })
-      nextProps.getManyUserLessons({ lessonId: nextId, userId: nextProps.userId })
+      nextProps.getLesson({ id: nextProps.match.params.id })
+      nextProps.getManyUserLessons({ lessonId: nextProps.match.params.id, userId: nextProps.userId })
     }
 
     if(lessonThemeIdHasChanged) {
       nextProps.getLessonTheme({ id: nextProps.lesson.themeId })
     }
 
-    if(lessonHasChanged || userLessonHasChanged && !lessonAndUserLessonReceived) {
+    if(lessonHasChanged || userLessonHasChanged && !isInitialSlideIndexSet) {
       const activeSlideIndex = getLatestCompletedSlide(nextProps.lesson, nextProps.userLesson)
-      this.setState({ activeSlideIndex, lessonAndUserLessonReceived: true })
+      this.setState({ activeSlideIndex, isInitialSlideIndexSet: true })
     }
 
     if(globalColorsNeedsChanging) this.setTopBarColor(newGlobalColors)
@@ -138,9 +136,9 @@ class UserLessonWizard extends Component {
 
   render() {
     const { lesson, initialValues, lessonTheme, isFetchingUserLessons, globalColors, variablesWithUserValues } = this.props
-    const { activeSlideIndex } = this.state
+    const { activeSlideIndex, hasLoaded } = this.state
 
-    return !isEmpty(lesson)
+    return hasLoaded
       ? (
         <UserLessonWizardForm
           onSubmit={ this.handleSubmit }
@@ -201,7 +199,7 @@ const mapStateToProps = (state, ownProps) => {
   initialValues.userId = userId
 
   const variablesWithUserValues = cloneDeep(variables).map(each => {
-    const userVariable = find(userVariables, { variableId: each._id })
+    const userVariable = find(userVariables, { variableId: each._id }) || {}
     return { ...each, value: userVariable.value }
   })
 

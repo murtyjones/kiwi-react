@@ -174,7 +174,7 @@ class UserLessonWizardForm extends Component {
   setCodeOutput = (ref, codeOutput) =>
     this.props.dispatch(change(formName, `${ref}.codeOutput`, codeOutput))
 
-  setGlobalVariable = (ref, { variableId, value }) => {
+  setFormGlobalVariable = (ref, { variableId, value }) => {
     this.props.dispatch(change(formName, `${ref}.variableId`, variableId))
     this.props.dispatch(change(formName, `${ref}.value`, value))
   }
@@ -223,7 +223,7 @@ class UserLessonWizardForm extends Component {
             globalColors={ globalColors }
             slideData={ activeSlideObject }
             setToViewed={ () => this.setToViewed(ref) }
-            setGlobalVariable={ (varRef, v) => this.setGlobalVariable(`${ref}.${varRef}`, v) }
+            setFormGlobalVariable={ (varRef, v) => this.setFormGlobalVariable(`${ref}.${varRef}`, v) }
             variablesWithUserValues={ variablesWithUserValues }
           />
         ) : null

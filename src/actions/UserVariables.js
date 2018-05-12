@@ -56,14 +56,14 @@ export const getUserVariable = (params) => {
 }
 
 export const putUserVariable = (params) => {
-  const { id } = params
+  const { _id } = params
   const options = {
     method: 'PUT',
     body: params
   }
   return dispatch => {
     dispatch({ type: ACTIONS.PUT_USER_VARIABLE_REQUEST })
-    return ApiFetch(`${config.api}/user-variables/${id}`, options)
+    return ApiFetch(`${config.api}/user-variables/${_id}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.PUT_USER_VARIABLE_SUCCESS, payload: res})
         return res

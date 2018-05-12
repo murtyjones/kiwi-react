@@ -2,11 +2,15 @@ import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
 import template from 'es6-template-strings'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { find } from 'lodash'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
 import { CODE_CONCEPTS, LESSON_SLIDE_TYPES } from '../../constants'
 import { titleStyle, slideContentFlexibleHeight, example } from './commonSlideStyles'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
+import { postUserVariable, putUserVariable } from '../../actions'
 
 import './overrides.css'
 
@@ -28,21 +32,29 @@ class FullPageCodeEditor extends PureComponent {
     , className: T.string
     , input: T.object
     , setToViewed: T.func.isRequired
-    , setGlobalVariable: T.func.isRequired
+    , setFormGlobalVariable: T.func.isRequired
+    , postUserVariable: T.func.isRequired
+    , putUserVariable: T.func.isRequired
+    , userId: T.string.isRequired
   }
 
   componentDidMount() {
     this.props.setToViewed()
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(!nextProps.input.isViewed) {
-      nextProps.setToViewed()
-    }
+  upsertUserVariable = ({ variableId, value }) => {
+    const { userVariables, userId } = this.props
+    const userVariable = find(userVariables, { variableId }) || {}
+    const params = Object.assign({}, userVariable, {
+      value, variableId, userId
+    })
+    return params._id
+      ? this.props.putUserVariable(params)
+      : this.props.postUserVariable(params)
   }
 
   render() {
-    const { slideData, className, input, runCode, afterRunCode, globalColors, variablesWithUserValues, setGlobalVariable } = this.props
+    const { slideData, className, input, runCode, afterRunCode, globalColors, variablesWithUserValues, setFormGlobalVariable } = this.props
 
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
     const prompt = template(slideData.prompt, variableValues)
@@ -94,10 +106,28 @@ class FullPageCodeEditor extends PureComponent {
         showRunButton={ false }
         variablesToComplete={ variablesToComplete }
         variableOptions={ variablesWithUserValues }
-        setGlobalVariable={ setGlobalVariable }
+        setFormGlobalVariable={ setFormGlobalVariable }
+        upsertUserVariable={ this.upsertUserVariable }
       />
     ]
   }
 }
 
-export default FullPageCodeEditor
+const mapStateToProps = (state, ownProps) => {
+  const { auth: { userId }, userVariables: { userVariablesById } } = state
+  const userVariables = Object.values(userVariablesById)
+
+  return {
+    userVariables
+    , userId
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    postUserVariable: params => dispatch(postUserVariable(params))
+    , putUserVariable: params => dispatch(putUserVariable(params))
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FullPageCodeEditor))
