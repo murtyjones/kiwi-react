@@ -35,6 +35,7 @@ const renderAssets = ({ fields }) => (
           name={ `${assetRef}.quadrant` }
           hintText='Quadrant'
           component={ SelectField }
+          floatingLabelText='Quadrant'
         >
           <MenuItem key='topLeft'     value='topLeft'     primaryText='Top left (Sky)' />
           <MenuItem key='topRight'    value='topRight'    primaryText='Top right (Sky)' />
@@ -42,10 +43,10 @@ const renderAssets = ({ fields }) => (
           <MenuItem key='bottomRight' value='bottomRight' primaryText='Bottom right (Ground)' />
         </Field>
         <h4>Where to place the asset in the quadrant</h4>
-        <label>Position relative to...<br/></label>
         <Field
           name={ `${assetRef}.relativeToLeftOrRight` }
           component={ SelectField }
+          floatingLabelText='Relative to left or right...'
         >
           <MenuItem key='right' value='right' primaryText='Right edge of quadrant' />
           <MenuItem key='left'  value='left'  primaryText='Left edge of quadrant' />
@@ -53,6 +54,7 @@ const renderAssets = ({ fields }) => (
         <Field
           name={ `${assetRef}.relativeToTopOrBottom` }
           component={ SelectField }
+          floatingLabelText='Relative to top or bottom...'
         >
           <MenuItem key='top'    value='top'    primaryText='Top edge of quadrant' />
           <MenuItem key='bottom' value='bottom' primaryText='Bottom edge of quadrant' />
@@ -76,10 +78,10 @@ const renderAssets = ({ fields }) => (
           max={ 100 }
         />
         <h4>How wide or tall the asset should be compared to the quadrant</h4>
-        <label>Do you want to specify the assets width or its height?<br /></label>
         <Field
           name={ `${assetRef}.specifyWidthOrHeight` }
           component={ SelectField }
+          floatingLabelText='Do you want to specify the assets width or its height?'
         >
           <MenuItem key='width'  value='width'  primaryText='Specify desired width' />
           <MenuItem key='height' value='height' primaryText='Specify desired height' />

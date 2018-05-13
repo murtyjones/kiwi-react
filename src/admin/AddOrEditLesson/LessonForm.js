@@ -82,6 +82,7 @@ class LessonForm extends Component {
           name='themeId'
           hintText='Lesson Theme'
           component={ SelectField }
+          floatingLabelText='Lesson Theme'
         >
           { themeOptions.map(theme =>
             <MenuItem

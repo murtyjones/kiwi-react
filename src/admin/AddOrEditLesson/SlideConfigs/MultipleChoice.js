@@ -59,10 +59,10 @@ class MultipleChoice extends Component {
           hintText='Failure Explanation'
           component={ renderTextField }
         />
-        <label>Correct Answer<br/></label>
         <Field
           name={ `${slideRef}.correctAnswerIndex` }
           component={ SelectField }
+          floatingLabelText='Correct Answer'
         >
           { choices.map((e, i) =>
             <MenuItem key={ i } value={ i } primaryText={ e } />

@@ -1,4 +1,4 @@
-export const SUBSCRIPTIONS = {
+export const SUBSCRIPTION_STATUSES = {
   ACTIVE: 'ACTIVE'
   , INACTIVE: 'INACTIVE'
 }

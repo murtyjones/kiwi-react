@@ -25,7 +25,7 @@ class SubscriptionWidget extends Component {
   render() {
     const { subscription, providee = {} } = this.props
     return (
-      <KiwiLink to={ `/admin/variables/${subscription._id}` }>
+      <KiwiLink to={ `/admin/subscriptions/${subscription._id}` }>
         <Card key={ subscription._id }>
           <CardHeader
             title={ providee.username }

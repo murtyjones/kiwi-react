@@ -10,10 +10,10 @@ class AddOrEditSubscription extends Component {
   constructor(props) {
     super(props)
     const isNewSubscription = props.match.path.includes('new')
-    const variableIsLoaded = !isEmpty(props.initialValues)
+    const subscriptionIsLoaded = !isEmpty(props.initialValues)
     this.state = {
       isNewSubscription
-      , needsSubscription: !isNewSubscription && !variableIsLoaded
+      , needsSubscription: !isNewSubscription && !subscriptionIsLoaded
     }
   }
 
@@ -51,7 +51,7 @@ class AddOrEditSubscription extends Component {
       return putSubscription(params)
     }
     return postSubscription(params).then(res => {
-      this.props.history.push(`/admin/variables/${res._id}`)
+      this.props.history.push(`/admin/subscriptions/${res._id}`)
     })
   }
 
@@ -75,11 +75,11 @@ class AddOrEditSubscription extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { variables: { variablesById } } = state
+  const { subscriptions: { subscriptionsById } } = state
   const { match: { params: { id } } } = ownProps
-  const variable = variablesById[id] || {}
-  const initialValues = cloneDeep(variable)
-
+  const subscription = subscriptionsById[id] || {}
+  const initialValues = cloneDeep(subscription)
+  console.log(subscription)
   return {
     initialValues
   }

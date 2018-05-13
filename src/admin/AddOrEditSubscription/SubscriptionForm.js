@@ -9,6 +9,7 @@ import { RaisedButton, List, ListItem, MenuItem } from 'material-ui'
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
 import { Toggle, SelectField } from 'redux-form-material-ui'
+import { SUBSCRIPTION_STATUSES } from '../../constants'
 
 let formName = 'lessonTheme'
 
@@ -22,7 +23,7 @@ const noSpecialCharacters = value => new RegExp(/^[a-zA-Z0-9_]*$/gm).test(value)
 class SubscriptionForm extends Component {
   constructor(props) {
     super(props)
-    // if variable has been named and saved,
+    // if subscription has been named and saved,
     // don't allow it to be edited
     const lockVariableName = !!get(props,'initialValues.name')
     this.state = {
@@ -37,21 +38,40 @@ class SubscriptionForm extends Component {
 
   render() {
     const { handleSubmit, submitting } = this.props
-    const { lockVariableName } = this.state
     return (
       <form onSubmit={ handleSubmit } style={ { width: "100%", height: "100%" } }>
         <Field
-          name='name'
-          hintText='Variable Name'
+          name='providerId'
+          hintText='Provider ID'
           component={ renderTextField }
-          validate={[ notEmpty, noSpecialCharacters ]}
-          disabled={ lockVariableName }
+          disabled={ true }
         />
         <Field
-          name='defaultValue'
-          hintText='Default Value'
+          name='provideeId'
+          hintText='Providee ID'
           component={ renderTextField }
+          disabled={ true }
         />
+        <Field
+          name='stripeCreditCardToken'
+          hintText='Stripe Credit Card Token'
+          component={ renderTextField }
+          disabled={ true }
+        />
+        <Field
+          name='status'
+          component={ SelectField }
+          hintText='Subscription Status'
+          floatingLabelText='Subscription Status'
+        >
+          { Object.values(SUBSCRIPTION_STATUSES).map(status =>
+            <MenuItem
+              key={ status }
+              value={ status }
+              primaryText={ status }
+            />
+          ) }
+        </Field>
         <RaisedButton type="submit" onClick={ handleSubmit } disabled={ submitting }>
           Save
         </RaisedButton>

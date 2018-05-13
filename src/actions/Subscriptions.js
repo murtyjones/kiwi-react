@@ -56,14 +56,14 @@ export const getSubscription = (params) => {
 }
 
 export const putSubscription = (params) => {
-  const { _id } = params
+  const { id } = params
   const options = {
     method: 'PUT',
     body: params
   }
   return dispatch => {
     dispatch({ type: ACTIONS.PUT_SUBSCRIPTION_REQUEST })
-    return ApiFetch(`${config.api}/subscriptions/${_id}`, options)
+    return ApiFetch(`${config.api}/subscriptions/${id}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.PUT_SUBSCRIPTION_SUCCESS, payload: res})
         return res

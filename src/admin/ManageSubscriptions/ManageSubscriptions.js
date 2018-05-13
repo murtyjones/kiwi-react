@@ -8,7 +8,7 @@ import { Toggle } from 'material-ui'
 import SubscriptionWidget from '../ManageSubscriptions/SubscriptionWidget'
 import { KiwiLink } from '../../common/KiwiLink'
 import { getManySubscriptions, deleteSubscription, getManyProfiles } from '../../actions/index'
-import { SUBSCRIPTIONS } from '../../constants'
+import { SUBSCRIPTION_STATUSES } from '../../constants'
 
 const defaultShowActive = true
 const defaultShowInactive = true
@@ -39,8 +39,8 @@ class ManageSubscriptions extends Component {
 
     const subscriptionsByProviderId = subscriptions.reduce((acc, each) => {
       if(
-        each.status === SUBSCRIPTIONS.ACTIVE && !showActive ||
-        each.status === SUBSCRIPTIONS.INACTIVE && !showInactive
+        each.status === SUBSCRIPTION_STATUSES.ACTIVE && !showActive ||
+        each.status === SUBSCRIPTION_STATUSES.INACTIVE && !showInactive
       ) { return acc }
 
       const providerSubscriptionsObject = find(acc, { providerId: each.providerId })
@@ -54,9 +54,6 @@ class ManageSubscriptions extends Component {
 
     return (
       <div>
-        <KiwiLink to='/admin/subscriptions/new'>
-          New Subscription
-        </KiwiLink>
         <Toggle
           defaultToggled={ defaultShowActive }
           label='Show Active'
