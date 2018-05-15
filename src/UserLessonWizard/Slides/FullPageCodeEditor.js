@@ -8,7 +8,7 @@ import { find } from 'lodash'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
 import { CODE_CONCEPTS, LESSON_SLIDE_TYPES } from '../../constants'
-import { titleStyle, slideContentFlexibleHeight, example } from './commonSlideStyles'
+import { titleStyle, slideContentFlexibleHeight, example as exampleStyle } from './commonSlideStyles'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 import { postUserVariable, putUserVariable } from '../../actions'
 
@@ -88,7 +88,7 @@ class FullPageCodeEditor extends PureComponent {
             <div className="exampleHeader">Example</div>
             <div
               className="exampleText"
-              style={ example }
+              style={ exampleStyle }
               dangerouslySetInnerHTML={ { __html: example } }
             />
           </div>
