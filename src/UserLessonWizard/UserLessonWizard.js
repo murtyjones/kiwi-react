@@ -28,7 +28,6 @@ class UserLessonWizard extends Component {
     super(props)
     this.state = {
       activeSlideIndex: 0
-      , isInitialSlideIndexSet: false
       , hasLoaded: false
     }
   }
@@ -64,8 +63,11 @@ class UserLessonWizard extends Component {
     await BluebirdPromise.all(promises)
     this.setState({ hasLoaded: true })
 
-    const { lesson } = this.props
+    // get newest props:
+    const { lesson, userLesson } = this.props
     if(lesson.themeId) this.props.getLessonTheme({ id: lesson.themeId })
+
+    this.setState({ activeSlideIndex: getLatestCompletedSlide(lesson, userLesson) })
   }
 
   componentWillUnmount() {
@@ -73,10 +75,7 @@ class UserLessonWizard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isInitialSlideIndexSet } = this.state
-      , lessonIdHasChanged = !isEqual(this.props.match.params.id, nextProps.match.params.id)
-      , lessonHasChanged = !isEqual(nextProps.lesson, this.props.lesson)
-      , userLessonHasChanged = !isEqual(nextProps.userLesson, this.props.userLesson)
+    const lessonIdHasChanged = !isEqual(this.props.match.params.id, nextProps.match.params.id)
       , userIdHasChanged = !isEqual(nextProps.userId, this.props.userId)
       , lessonThemeIdHasChanged = !isEqual(nextProps.lesson.themeId, this.props.lesson.themeId)
       , newGlobalColors = GLOBAL_COLORS[(nextProps.lessonTheme.name || 'default').toLowerCase()]
@@ -90,11 +89,6 @@ class UserLessonWizard extends Component {
 
     if(lessonThemeIdHasChanged) {
       nextProps.getLessonTheme({ id: nextProps.lesson.themeId })
-    }
-
-    if(lessonHasChanged || userLessonHasChanged && !isInitialSlideIndexSet) {
-      const activeSlideIndex = getLatestCompletedSlide(nextProps.lesson, nextProps.userLesson)
-      this.setState({ activeSlideIndex, isInitialSlideIndexSet: true })
     }
 
     if(globalColorsNeedsChanging) this.setTopBarColor(newGlobalColors)
