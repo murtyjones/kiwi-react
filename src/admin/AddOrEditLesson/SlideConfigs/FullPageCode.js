@@ -126,6 +126,8 @@ class FullPageCode extends Component {
       , failureExplanation: slideValues.failureExplanation
     }
 
+    // this differs from the methodology in the student version of this slide,
+    // because we want to account for the local changes not saved to the server.
     const variablesToComplete = (slideValues.inputSuccessCriteria || [])
       .filter(each => each.codingConcept === CODE_CONCEPTS.USER_GLOBAL_VARIABLE)
 

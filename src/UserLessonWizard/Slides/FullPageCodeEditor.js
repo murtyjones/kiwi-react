@@ -60,8 +60,7 @@ class FullPageCodeEditor extends PureComponent {
     const prompt = template(slideData.prompt, variableValues)
     const example = template(slideData.example, variableValues)
 
-    const variablesToComplete = (slideData.inputSuccessCriteria || [])
-      .filter(each => each.codingConcept === CODE_CONCEPTS.USER_GLOBAL_VARIABLE)
+    const variablesToComplete = slideData.variablesToComplete || []
 
     return [
       <div key={ className } style={ slideContentFlexibleHeight } className={ className }>
