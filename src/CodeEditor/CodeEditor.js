@@ -7,7 +7,7 @@ import EditorOutput from './EditorOutput'
 import EditorInput from './EditorInput'
 import Tools from './Tools'
 import BluebirdPromise from 'bluebird'
-import { find, get, cloneDeep } from 'lodash'
+import { find, get, isEmpty, cloneDeep } from 'lodash'
 
 
 import './overrides.css'
@@ -152,25 +152,22 @@ class CodeEditor extends Component {
 
   handleVariableAnswer = async value => {
     const { variablesCompleted, editorInput } = this.state
-    const { variablesToComplete, setFormGlobalVariable, variableOptions, upsertUserVariable } = this.props
+    const { setFormGlobalVariable, variableOptions, upsertUserVariable, variablesToComplete = [] } = this.props
 
-    // allows answering multiple times.
-    const variablesCompletedLengthMod = variablesCompleted.length % variablesToComplete.length
-
-    // sorts variables by appearance in the editorInput
-    const sortedVariablesToComplete = variablesToComplete.sort((a, b) => {
-      const aName = get(find(variableOptions, { _id: a.variableId }), 'name', '')
-      const bName = get(find(variableOptions, { _id: b.variableId }), 'name', '')
-      return editorInput.indexOf(aName) > editorInput.indexOf(bName)
-    })
-
-    const { variableId } = sortedVariablesToComplete[variablesCompletedLengthMod]
-
-    if(variableId) {
+    if(!isEmpty(variablesToComplete)) {
+      // allows answering multiple times.
+      const variablesCompletedLengthMod = variablesCompleted.length % variablesToComplete.length
+      // sorts variables by appearance in the editorInput
+      const sortedVariablesToComplete = variablesToComplete.sort((a, b) => {
+        const aName = get(find(variableOptions, { _id: a.variableId }), 'name', '')
+        const bName = get(find(variableOptions, { _id: b.variableId }), 'name', '')
+        return editorInput.indexOf(aName) > editorInput.indexOf(bName)
+      })
+      const { variableId } = sortedVariablesToComplete[variablesCompletedLengthMod]
       const varRef = `variables[${variablesCompletedLengthMod}]`
-      setFormGlobalVariable(varRef, { variableId, value })
+      setFormGlobalVariable(varRef, {variableId, value})
       await this.addCompletedVariable(variablesCompleted.length, 0, { variableId, value })
-      if(upsertUserVariable) upsertUserVariable({ variableId, value })
+      if (upsertUserVariable) upsertUserVariable({variableId, value})
     }
   }
 
