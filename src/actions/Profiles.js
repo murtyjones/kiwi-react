@@ -91,3 +91,21 @@ export const postProfile = (params) => {
       })
   }
 }
+
+export const checkProfileEmailVerification = (params) => {
+  const options = {
+    method: 'POST',
+    body: params
+  }
+  return dispatch => {
+    dispatch({ type: ACTIONS.POST_CHECK_EMAIL_VERIFICATION_REQUEST })
+    return ApiFetch(`${config.api}/profiles/email-verification`, options)
+      .then(res => {
+        dispatch({ type: ACTIONS.POST_CHECK_EMAIL_VERIFICATION_SUCCESS, payload: res })
+        return res
+      })
+      .catch(e => {
+        dispatch({ type: ACTIONS.POST_CHECK_EMAIL_VERIFICATION_FAILURE, payload: e })
+      })
+  }
+}

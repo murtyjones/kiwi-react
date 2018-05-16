@@ -1,8 +1,8 @@
 import React, { Component, PureComponent } from 'react'
 import * as T from 'prop-types'
 import { withRouter, Redirect, Route } from 'react-router-dom'
-import { get, find } from 'lodash'
 import { connect } from 'react-redux'
+import { get, find } from 'lodash'
 import { closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } from '../actions'
 import ProviderMenu from './ProviderMenu'
 
