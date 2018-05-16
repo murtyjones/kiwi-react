@@ -2,12 +2,18 @@ import React, {PropTypes} from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import WithTheme from '../hocs/WithTheme'
 
-function AuthorizedRoute ({component: Component, isLoggedIn, isAdmin, setTopBarTitle, topBarTitleDisabled, toggleTopBarTitleIsDisabled, title, ...rest}) {
+const authorizer = ({ path, isLoggedIn, isAdmin, isProvider }) =>
+  path.includes('provider')
+    ? isLoggedIn && (isProvider || isAdmin)
+    : isLoggedIn && isAdmin
+
+
+function AuthorizedRoute ({component: Component, path, isLoggedIn, isAdmin, isProvider, setTopBarTitle, topBarTitleDisabled, toggleTopBarTitleIsDisabled, title, ...rest}) {
   return (
     <Route
       { ...rest }
       render={
-        (props) => isLoggedIn && isAdmin
+        (props) => authorizer({ path, isLoggedIn, isAdmin, isProvider })
           ?
           <WithTheme
             WrappedComponent={ Component }

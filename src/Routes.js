@@ -31,6 +31,7 @@ import Dashboard from './Dashboard/Dashboard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
+import ProviderLoginOrRegister from './ProviderLoginOrRegister/ProviderLoginOrRegister'
 import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
 import AddOrEditLessonTheme from './admin/AddOrEditLessonTheme/AddOrEditLessonTheme'
 import AddOrEditVariable from './admin/AddOrEditVariable/AddOrEditVariable'
@@ -46,7 +47,8 @@ import TopBar from './TopBar/TopBar'
 import SignOut from './SignOut/SignOut'
 import ForgotPasswordWizard from './ForgotPasswordWizard/ForgotPasswordWizard'
 import StandaloneEditor from './StandaloneEditor/StandaloneEditor'
-
+import ProviderDashboard from './ProviderDashboard/ProviderDashboard'
+import EmailVerification from './EmailVerification/EmailVerification'
 
 
 let baseAppStyle = {
@@ -112,9 +114,9 @@ class App extends Component {
     this.props.isSideNavOpen ? this.props.closeSideNav() : this.props.openSideNav()
 
   render() {
-    const { isLoggedIn, isAdmin, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, topBarFocused, primaryColor, secondaryColor, textColor } = this.props
+    const { isLoggedIn, isAdmin, isProvider, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, topBarFocused, primaryColor, secondaryColor, textColor } = this.props
     const topBarWidthString = `${topBarHeight}px`
-    const extras = { isLoggedIn, isAdmin, setTopBarTitle, setGlobalColors, primaryColor, secondaryColor, textColor, toggleTopBarTitleIsDisabled }
+    const extras = { isLoggedIn, isAdmin, isProvider, setTopBarTitle, setGlobalColors, primaryColor, secondaryColor, textColor, toggleTopBarTitleIsDisabled }
 
     return (
       <MuiThemeProvider muiTheme={ getMuiTheme() }>
@@ -164,9 +166,12 @@ class App extends Component {
                 <Route path='/about' exact component={ Home } />
                 <Route path='/login' exact component={ LoginOrRegister } />
                 <Route path='/register' exact component={ LoginOrRegister } />
+                <Route path='/provider/login' exact component={ ProviderLoginOrRegister } />
+                <Route path='/provider/register' exact component={ ProviderLoginOrRegister } />
                 <Route path='/signout' exact component={ SignOut } />
                 <Route path='/password' exact component={ ForgotPasswordWizard } />
                 <Route path='/python' exact component={ StandaloneEditor } />
+                <Route path='/email-verification' exact component={ EmailVerification } />
                 {/* ----------------- */}
                 {/* Logged in routes  */}
                 {/* ----------------- */}
@@ -195,6 +200,10 @@ class App extends Component {
                 <AuthorizedRoute path='/admin/subscriptions' exact component={ ManageSubscriptions } title='Manage Subscriptions' { ...extras } />
                 <AuthorizedRoute path='/admin/subscriptions/new' exact component={ AddOrEditSubscription } title='Create new Subscription' { ...extras } />
                 <AuthorizedRoute path='/admin/subscriptions/:id' exact component={ AddOrEditSubscription } title='Edit Subscription' { ...extras } />
+                {/* ----------------- */}
+                {/* Provider routes */}
+                {/* ----------------- */}
+                <AuthorizedRoute path='/provider/dashboard' exact component={ ProviderDashboard } title='Dashboard' { ...extras } />
               </Switch>
               </div>
           </div>
@@ -208,8 +217,8 @@ export const AppComponent = App
 
 const mapStateToProps = (state) => {
   const {
-    auth: { isLoggedIn, isAdmin },
-    sideNav: {sideNavWidth, isSideNavOpen },
+    auth: { isLoggedIn, isAdmin, isProvider },
+    sideNav: { sideNavWidth, isSideNavOpen },
     topBar: { topBarHeight, isTopBarOpen, topBarTitle, topBarTitleDisabled, topBarFocused },
     globalColors: { primaryColor, secondaryColor, textColor }
   } = state
@@ -217,6 +226,7 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn
     , isAdmin
+    , isProvider
     , isSideNavOpen
     , sideNavWidth
     , isTopBarOpen

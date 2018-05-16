@@ -38,13 +38,13 @@ export const deleteProfile = (params) => {
 }
 
 export const getProfile = (params) => {
-  const { id } = params
+  const { userId } = params
   const options = {
     method: 'GET',
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_PROFILE_REQUEST })
-    return ApiFetch(`${config.api}/profiles/${id}`, options)
+    return ApiFetch(`${config.api}/profiles/${userId}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_PROFILE_SUCCESS, payload: res })
         return res

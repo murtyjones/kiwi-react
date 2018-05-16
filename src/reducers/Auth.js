@@ -6,6 +6,7 @@ const initialState = {
   , token: AuthService.getToken()
   , exp: AuthService.getTokenExp()
   , isAdmin: AuthService.getIsAdmin()
+  , isProvider: AuthService.getIsProvider()
   , userId: AuthService.getUserId()
   , username: AuthService.getUsername()
   , refreshToken: AuthService.getRefreshToken()
@@ -21,6 +22,7 @@ function authReducer(state = initialState, action) {
       AuthService.setToken(idToken)
       AuthService.setTokenExp(decodedExp)
       AuthService.setIsAdmin(decodedToken)
+      AuthService.setIsProvider(decodedToken)
       AuthService.setUserId(decodedToken)
       AuthService.setUsername(decodedToken)
       AuthService.setRefreshToken(action.payload.refreshToken)
@@ -29,6 +31,7 @@ function authReducer(state = initialState, action) {
         , token: AuthService.getToken()
         , exp: AuthService.getTokenExp()
         , isAdmin: AuthService.getIsAdmin()
+        , isProvider: AuthService.getIsProvider()
         , userId: AuthService.getUserId()
         , username: AuthService.getUsername()
         , refreshToken: AuthService.getRefreshToken()
@@ -41,6 +44,7 @@ function authReducer(state = initialState, action) {
         , token: null
         , exp: null
         , isAdmin: false
+        , isProvider: false
         , userId: null
         , username: null
         , refreshToken: null

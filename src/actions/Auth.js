@@ -5,11 +5,13 @@ import config from 'config'
 
 const authService = new AuthService()
 
-export const login = (params) => {
-  const { username, password } = params
+export const login = ({ username, email, password }) => {
   return dispatch => {
     dispatch({ type: ACTIONS.LOGIN_REQUEST })
-    return authService.login({ username, password })
+    const params = { password }
+    if(email) params.email = email
+    if(username) params.username = username
+    return authService.login(params)
     .then(success => {
       dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
       return success
@@ -20,15 +22,18 @@ export const login = (params) => {
   }
 }
 
-export const register = (params) => {
-  const { username, password } = params
+export const register = ({ username, email, password }) => {
   return dispatch => {
     dispatch({ type: ACTIONS.REGISTER_REQUEST })
     const params = {
       method: 'POST',
-      body: { username, password }
+      body: { password }
     }
-    return ApiFetch(`${config.api}/auth/register`, params)
+    if(email) params.body.email = email
+    if(username) params.body.username = username
+
+    const maybeProviderPath = email ? 'provider' : ''
+    return ApiFetch(`${config.api}/auth/register/${maybeProviderPath}`, params)
     .then(success => {
       dispatch({ type: ACTIONS.REGISTER_SUCCESS, payload: success })
       return success

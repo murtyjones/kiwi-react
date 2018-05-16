@@ -20,11 +20,12 @@ export default class AuthService {
   }
 
 
-  login({ username, password }) {
+  login({ username, email, password }) {
+    const derivedUsername = email ? this.makePlaceholderUsername(email) : username
     return new Promise((resolve, reject) => {
       return this.auth0.client.login({
         realm: config.auth.realm
-        , username
+        , username: derivedUsername
         , password
         , scope: config.auth.scope
       }, (err, result) => {
@@ -78,6 +79,9 @@ export default class AuthService {
       return resolve('done!')
     })
   }
+
+  // must match kiwi-node:
+  makePlaceholderUsername = email => email.replace(/[\@]/gm, 'AT')
 
   static logout() {
     window.localStorage.removeItem('token')
@@ -144,10 +148,27 @@ export default class AuthService {
     return window.localStorage.setItem('isAdmin', isAdmin)
   }
 
+  static setIsProvider(decodedToken) {
+    const app_metadata = get(decodedToken, `${config.auth.namespace}/app_metadata`)
+    const isProvider = get(app_metadata, 'roles', []).reduce((acc, role) => {
+      if(role.isProvider) {
+        acc = true
+      }
+      return acc
+    }, false)
+    return window.localStorage.setItem('isProvider', isProvider)
+  }
+
   static getIsAdmin() {
     let isAdmin = window.localStorage.getItem('isAdmin')
     isAdmin = JSON.parse(isAdmin) === true
     return isAdmin
+  }
+
+  static getIsProvider() {
+    let isProvider = window.localStorage.getItem('isProvider')
+    isProvider = JSON.parse(isProvider) === true
+    return isProvider
   }
 
   static setTokenExp(tokenExpTimestamp) {
