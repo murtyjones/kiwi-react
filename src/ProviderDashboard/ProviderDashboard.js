@@ -2,7 +2,7 @@ import React, { Component, PureComponent } from 'react'
 import * as T from 'prop-types'
 import { withRouter, Redirect, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { get, find } from 'lodash'
+import { get, find, has } from 'lodash'
 import { closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } from '../actions'
 import ProviderMenu from './ProviderMenu'
 
@@ -65,6 +65,14 @@ class ProviderDashboard extends PureComponent {
   componentWillUnmount() {
     this.props.openSideNav()
     this.props.openTopBar()
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if(has(nextState, 'activeIndex') && nextState.activeIndex !== this.state.activeIndex) {
+      const base = this.props.match.path
+      const append = MENU_ITEMS[nextState.activeIndex].url
+      this.props.history.replace(base + append)
+    }
   }
 
   switchTabs = () => {
