@@ -69,6 +69,6 @@ ProfileForm = connect(
 export default reduxForm({
   form: formName
   , enableReinitialize: true
-  , asyncValidate: asyncDebounce((...p) => validateEmailAvailability(...p), 1000)
+  , asyncValidate: asyncDebounce((...p) => validateEmailAvailability(...p), 500)
   , asyncChangeFields: ['email']
 })(ProfileForm)

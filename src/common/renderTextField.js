@@ -16,7 +16,8 @@ const renderTextField = params => {
   const style = params.style || defaultStyle
   const inputStyle = params.inputStyle || defaultInputStyle
   const underlineStyle = params.underlineStyle || defaultUnderlineStyle
-  const asyncValidated = params.meta.touched && !params.meta.asyncValidating && params.meta.valid
+  console.log(params.meta.touched, !params.meta.asyncValidating, params.meta.valid)
+  const asyncValidated = params.meta.touched/* && !params.meta.asyncValidating*/ && params.meta.valid
   return (
     <div style={ containerStyle }>
       <label style={ labelStyle }>
