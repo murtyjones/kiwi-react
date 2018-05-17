@@ -55,7 +55,7 @@ export const getProfile = (params) => {
   }
 }
 
-export const putProfile = (params) => {
+export const updateProfile = (params) => {
   const { _id } = params
   const options = {
     method: 'PUT',

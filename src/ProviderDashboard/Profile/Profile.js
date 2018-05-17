@@ -3,7 +3,10 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { getProfile } from '../../actions'
+import ProfileForm from './ProfileForm'
+import { getProfile, updateProfile } from '../../actions'
+
+import './overrides.css'
 
 class Profile extends Component {
   constructor(props) {
@@ -11,19 +14,29 @@ class Profile extends Component {
   }
 
   static propTypes = {
-    profile: T.object.isRequired,
-    userId: T.string.isRequired,
+    initialValues: T.object.isRequired,
+    updateProfile: T.func.isRequired,
     getProfile: T.func.isRequired,
   }
 
   componentWillMount() {
     const { userId, getProfile } = this.props
-    getProfile({userId})
+    getProfile({ userId })
+  }
+
+  handleSubmit = async (params) => {
+    console.log(params)
+
   }
 
   render() {
+    const { initialValues } = this.props
+
     return (
-      <div>hi</div>
+      <ProfileForm
+        initialValues={ initialValues }
+        onSubmit={ this.handleSubmit }
+      />
     )
   }
 }
@@ -31,16 +44,16 @@ class Profile extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, profiles: { profilesById } } = state
   const profile = profilesById[userId] || {}
-
   return {
-    profile
-    , userId
+    initialValues: profile,
+    userId
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProfile: params => dispatch(getProfile(params))
+    updateProfile: params => dispatch(updateProfile(params))
+    , getProfile: params => dispatch(getProfile(params))
   }
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { TextField } from 'material-ui'
 
 const errorColor = '#FF5472'
+const successColor = '#52cc4a'
 const floatingStyleDefault = { color: '#CCCCCC' }
 
 const defaultContainerStyle = {  }
@@ -11,11 +12,11 @@ const defaultInputStyle = {  }
 const defaultUnderlineStyle = {  }
 
 const renderTextField = params => {
-  const { containerStyle = defaultContainerStyle, labelStyle = defaultLabelStyle, includeFloatingLabel = true, input, label, type, meta: { touched, error }, ...rest } = params
+  const { containerStyle = defaultContainerStyle, labelStyle = defaultLabelStyle, includeFloatingLabel = true, input, label, type, meta: { touched, error }, asyncValidMessage, ...rest } = params
   const style = params.style || defaultStyle
   const inputStyle = params.inputStyle || defaultInputStyle
   const underlineStyle = params.underlineStyle || defaultUnderlineStyle
-
+  const asyncValidated = params.meta.touched && !params.meta.asyncValidating && params.meta.valid
   return (
     <div style={ containerStyle }>
       <label style={ labelStyle }>
@@ -35,7 +36,12 @@ const renderTextField = params => {
             </span>
         }
       />
-      { touched && error && <span style={ { color: errorColor } }>{ error }</span> }
+      { touched && error &&
+        <span style={ { color: errorColor } }>{ error }</span>
+      }
+      { asyncValidated && asyncValidMessage &&
+        <span style={ { color: successColor } }>{ asyncValidMessage }</span>
+      }
     </div>
   )
 }

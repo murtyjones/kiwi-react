@@ -62,19 +62,6 @@ class ProviderDashboard extends PureComponent {
     this.props.openTopBar()
   }
 
-
-  renderLoginForm = () => {
-    return (
-      <div>Hello 1</div>
-    )
-  }
-
-  renderRegisterForm = () => {
-    return (
-      <div>Hello 2</div>
-    )
-  }
-
   switchTabs = () => {
     const { location, history } = this.props
     const to = location.pathname === '/login' ? '/register' : '/login'
@@ -94,7 +81,7 @@ class ProviderDashboard extends PureComponent {
         <LeftSide>
           <ProviderMenu
             activeIndex={ activeIndex }
-            onSelect={ (i) => { this.setState({ activeIndex: i }) } }
+            onSelect={ i => { this.setState({ activeIndex: i }) } }
           />
         </LeftSide>
         <RightSide>
