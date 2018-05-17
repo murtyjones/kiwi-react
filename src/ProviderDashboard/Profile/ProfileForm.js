@@ -69,6 +69,25 @@ ProfileForm = connect(
 export default reduxForm({
   form: formName
   , enableReinitialize: true
+  , shouldAsyncValidate: (params) => {
+    if (!params.syncValidationPasses) {
+      return false
+    }
+    switch (params.trigger) {
+      case 'blur':
+      case 'change':
+        // blurring or changing
+        return true
+      case 'submit':
+        // submitting, so only async validate if form is dirty or was never initialized
+        // conversely, DON'T async validate if the form is pristine just as it was
+        // initialized
+        // return !params.pristine || !params.initialized
+        return false
+      default:
+        return false
+    }
+  }
   , asyncValidate: asyncDebounce((...p) => validateEmailAvailability(...p), 1000)
   , asyncChangeFields: ['email']
 })(ProfileForm)
