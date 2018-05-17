@@ -24,7 +24,7 @@ const styles = {
   }
 }
 
-class ProfileForm extends Component {
+class ResetPasswordForm extends Component {
   constructor(props) {
     super(props)
   }
@@ -39,17 +39,25 @@ class ProfileForm extends Component {
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
-          name='name'
-          hintText='Name'
+          name='currentPassword'
+          type='password'
+          hintText='Current Password'
           component={ renderTextField }
           style={ { width: '100%' } }
         />
         <Field
-          name='email'
-          hintText='Email'
+          name='newPassword'
+          type='password'
+          hintText='New Password'
           component={ renderTextField }
           style={ { width: '100%' } }
-          asyncValidMessage='Good to go!'
+        />
+        <Field
+          name='confirmNewPassword'
+          type='password'
+          hintText='Confirm New Password'
+          component={ renderTextField }
+          style={ { width: '100%' } }
         />
         <RaisedButton type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
           Save
@@ -60,34 +68,24 @@ class ProfileForm extends Component {
   }
 }
 
-ProfileForm = connect(
+ResetPasswordForm = connect(
   state => ({
     formValues: getFormValues(formName)(state)
   })
-)(ProfileForm)
+)(ResetPasswordForm)
 
 export default reduxForm({
   form: formName
   , enableReinitialize: true
-  , shouldAsyncValidate: (params) => {
-    if (!params.syncValidationPasses) {
-      return false
+  , validate: values => {
+    const errors = {}
+    if(!values.currentPassword) {
+      errors.currentPassword = 'Required'
     }
-    switch (params.trigger) {
-      case 'blur':
-      case 'change':
-        // blurring or changing
-        return true
-      case 'submit':
-        // submitting, so only async validate if form is dirty or was never initialized
-        // conversely, DON'T async validate if the form is pristine just as it was
-        // initialized
-        // return !params.pristine || !params.initialized
-        return false
-      default:
-        return false
+    console.log(values.confirmNewPassword, values.newPassword !== values.confirmNewPassword)
+    if(values.confirmNewPassword && values.newPassword !== values.confirmNewPassword) {
+      errors.confirmNewPassword = 'Passwords do not match!'
     }
+    return errors
   }
-  , asyncValidate: asyncDebounce((...p) => validateEmailAvailability(...p), 1000)
-  , asyncChangeFields: ['email']
-})(ProfileForm)
+})(ResetPasswordForm)

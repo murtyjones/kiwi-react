@@ -203,7 +203,7 @@ class App extends Component {
                 {/* ----------------- */}
                 {/* Provider routes */}
                 {/* ----------------- */}
-                <AuthorizedRoute path='/provider/dashboard' exact component={ ProviderDashboard } title='Dashboard' { ...extras } />
+                <AuthorizedRoute path='/provider/dashboard' component={ ProviderDashboard } title='Dashboard' { ...extras } />
               </Switch>
               </div>
           </div>

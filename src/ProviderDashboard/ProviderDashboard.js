@@ -7,13 +7,14 @@ import { closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } f
 import ProviderMenu from './ProviderMenu'
 
 import Profile from './Profile/Profile'
+import ResetPassword from './ResetPassword/ResetPassword'
 
 import './overrides.css'
 
 export const MENU_ITEMS = [
-  { label: 'Profile', component: Profile },
-  { label: 'Subscription', component: null },
-  { label: 'Other', component: null }
+  { label: 'Profile', url: '/profile', component: Profile },
+  { label: 'Reset Password', url: '/reset-password', component: ResetPassword },
+  { label: 'Subscriptions', url: '/subscriptions', component: null }
 ]
 
 const LeftSide = props =>
@@ -29,9 +30,13 @@ const RightSide = props =>
 class ProviderDashboard extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      activeIndex: 0 // default
-    }
+    const activeIndex = MENU_ITEMS.reduce((acc, each, idx) => {
+      if(props.location.pathname.includes(each.url))
+        acc = idx
+      return acc
+    }, 0)
+    console.log(activeIndex)
+    this.state = { activeIndex }
   }
 
   static propTypes = {
