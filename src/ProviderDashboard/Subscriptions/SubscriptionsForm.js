@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm, getFormValues } from 'redux-form'
 import { RaisedButton, MenuItem } from 'material-ui'
 import { Toggle, SelectField } from 'redux-form-material-ui'
-import { isEmpty, get } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
@@ -21,15 +21,10 @@ const styles = {
     , padding: '10px'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
-  },
-  result: {
-    paddingTop: '10px'
-  },
-  failure: { color: '#cc5040' },
-  success: { color: '#66cc52' }
+  }
 }
 
-class ResetPasswordForm extends Component {
+class SubscriptionsForm extends Component {
   constructor(props) {
     super(props)
   }
@@ -40,8 +35,7 @@ class ResetPasswordForm extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error } = this.props
-
+    const { handleSubmit, pristine, submitting } = this.props
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
@@ -69,26 +63,23 @@ class ResetPasswordForm extends Component {
           Save
         </RaisedButton>
         { submitting && <span>Saving...</span> }
-        <div style={ styles.result }>
-          { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }
-          { submitSucceeded && <span style={ styles.success }>Your password has been changed!</span> }
-        </div>
       </form>
     )
   }
 }
 
-ResetPasswordForm = connect(
+SubscriptionsForm = connect(
   state => ({
     formValues: getFormValues(formName)(state)
   })
-)(ResetPasswordForm)
+)(SubscriptionsForm)
 
 export default reduxForm({
   form: formName
   , enableReinitialize: true
   , validate: values => {
     const errors = {}
+    console.log(values)
     if(!values.currentPassword) {
       errors.currentPassword = 'Required'
     }
@@ -103,4 +94,4 @@ export default reduxForm({
     }
     return errors
   }
-})(ResetPasswordForm)
+})(SubscriptionsForm)

@@ -8,24 +8,19 @@ import ProviderMenu from './ProviderMenu'
 
 import Profile from './Profile/Profile'
 import ResetPassword from './ResetPassword/ResetPassword'
+import Subscriptions from './Subscriptions/Subscriptions'
 
 import './overrides.css'
 
 export const MENU_ITEMS = [
   { label: 'Profile', url: '/profile', component: Profile },
   { label: 'Reset Password', url: '/reset-password', component: ResetPassword },
-  { label: 'Subscriptions', url: '/subscriptions', component: null }
+  { label: 'Subscriptions', url: '/subscriptions', component: Subscriptions }
 ]
 
-const LeftSide = props =>
-  <div className='providerDashboard-left'>
-    { props.children }
-  </div>
+const LeftSide = props => <div className='providerDashboard-left'>{ props.children }</div>
+const RightSide = props => <div className='providerDashboard-right'>{ props.children }</div>
 
-const RightSide = props =>
-  <div className='providerDashboard-right'>
-    { props.children }
-  </div>
 
 class ProviderDashboard extends PureComponent {
   constructor(props) {
@@ -35,7 +30,6 @@ class ProviderDashboard extends PureComponent {
         acc = idx
       return acc
     }, 0)
-    console.log(activeIndex)
     this.state = { activeIndex }
   }
 

@@ -49,7 +49,7 @@ class ProfileForm extends Component {
           hintText='Email'
           component={ renderTextField }
           style={ { width: '100%' } }
-          asyncValidMessage='Good to go!'
+          asyncValidMessage='That email is available!'
         />
         <RaisedButton type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
           Save

@@ -12,11 +12,12 @@ const defaultInputStyle = {  }
 const defaultUnderlineStyle = {  }
 
 const renderTextField = params => {
-  const { containerStyle = defaultContainerStyle, labelStyle = defaultLabelStyle, includeFloatingLabel = true, input, label, type, meta: { touched, error }, asyncValidMessage, ...rest } = params
+  const { containerStyle = defaultContainerStyle, labelStyle = defaultLabelStyle, includeFloatingLabel = true, input, label, type, meta: { valid, touched, error, pristine, asyncValidating }, asyncValidMessage, ...rest } = params
   const style = params.style || defaultStyle
   const inputStyle = params.inputStyle || defaultInputStyle
   const underlineStyle = params.underlineStyle || defaultUnderlineStyle
-  const asyncValidated = params.meta.touched && !params.meta.asyncValidating && params.meta.valid
+  const asyncValidated = touched && !pristine && !asyncValidating && valid
+
   return (
     <div style={ containerStyle }>
       <label style={ labelStyle }>

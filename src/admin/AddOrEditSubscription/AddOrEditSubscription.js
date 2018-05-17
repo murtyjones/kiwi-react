@@ -79,7 +79,6 @@ const mapStateToProps = (state, ownProps) => {
   const { match: { params: { id } } } = ownProps
   const subscription = subscriptionsById[id] || {}
   const initialValues = cloneDeep(subscription)
-  console.log(subscription)
   return {
     initialValues
   }

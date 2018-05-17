@@ -3,12 +3,12 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import ProfileForm from './ProfileForm'
+import SubscriptionsForm from './SubscriptionsForm'
 import { getProfile, updateProfile } from '../../actions'
 
 import './overrides.css'
 
-class Profile extends Component {
+class Subscriptions extends Component {
   constructor(props) {
     super(props)
   }
@@ -24,20 +24,16 @@ class Profile extends Component {
     getProfile({ userId })
   }
 
-  handleSubmit = async (v) => {
-    const { userId, updateProfile } = this.props
-    const params = {
-      ...v,
-      _id: userId
-    }
-    return updateProfile(params)
+  handleSubmit = async (params) => {
+    console.log(params)
+
   }
 
   render() {
     const { initialValues } = this.props
 
     return (
-      <ProfileForm
+      <SubscriptionsForm
         initialValues={ initialValues }
         onSubmit={ this.handleSubmit }
       />
@@ -62,4 +58,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Subscriptions))

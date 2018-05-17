@@ -2,36 +2,43 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { SubmissionError } from 'redux-form'
 
 import ResetPasswordForm from './ResetPasswordForm'
-import { getProfile, updateProfile } from '../../actions'
+import { changePassword } from '../../actions'
 
 import './overrides.css'
 
 class ResetPassword extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      success: false,
+      submitted: false
+    }
   }
 
   static propTypes = {
     initialValues: T.object.isRequired,
-    updateProfile: T.func.isRequired,
-    getProfile: T.func.isRequired,
-  }
-
-  componentWillMount() {
-    const { userId, getProfile } = this.props
-    getProfile({ userId })
+    changePassword: T.func.isRequired
   }
 
   handleSubmit = async (params) => {
-    console.log(params)
-
+    try {
+      const result = await this.props.changePassword(params)
+      if(result.success) {
+        throw { message: 'Could not be done right now. Please try again later.' }
+      }
+    } catch(err) {
+      if(err.message && err.message.error && err.message.error.invalid_grant) {
+        throw new SubmissionError({ _error: 'Wrong password!' })
+      }
+      throw new SubmissionError({ _error: err.message })
+    }
   }
 
   render() {
     const { initialValues } = this.props
-
     return (
       <ResetPasswordForm
         initialValues={ initialValues }
@@ -52,8 +59,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProfile: params => dispatch(updateProfile(params))
-    , getProfile: params => dispatch(getProfile(params))
+    changePassword: params => dispatch(changePassword(params))
   }
 }
 
