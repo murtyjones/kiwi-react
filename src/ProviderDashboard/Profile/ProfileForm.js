@@ -21,7 +21,12 @@ const styles = {
     , padding: '10px'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
-  }
+  },
+  result: {
+    paddingTop: '10px'
+  },
+  failure: { color: '#cc5040' },
+  success: { color: '#66cc52' }
 }
 
 class ProfileForm extends Component {
@@ -35,7 +40,7 @@ class ProfileForm extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting } = this.props
+    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error } = this.props
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
@@ -55,6 +60,10 @@ class ProfileForm extends Component {
           Save
         </RaisedButton>
         { submitting && <span>Saving...</span> }
+        <div style={ styles.result }>
+          { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }
+          { submitSucceeded && <span style={ styles.success }>Your profile has been updated!</span> }
+        </div>
       </form>
     )
   }

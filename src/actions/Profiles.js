@@ -1,14 +1,19 @@
-import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
 import config from 'config'
+import queryString from 'query-string'
+import ApiFetch from '../utils/ApiFetch'
+
 
 export const getManyProfiles = (params) => {
+  const append = queryString.stringify(params)
+  console.log(append)
+  console.log(queryString.parse(params))
   const options = {
-    method: 'GET',
+    method: 'GET'
   }
   return dispatch => {
     dispatch({ type: ACTIONS.GET_MANY_PROFILES_REQUEST })
-    return ApiFetch(`${config.api}/profiles`, options)
+    return ApiFetch(`${config.api}/profiles?${append}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_MANY_PROFILES_SUCCESS, payload: res })
         return res
@@ -37,7 +42,7 @@ export const deleteProfile = (params) => {
   }
 }
 
-export const getProfile = (params) => {
+export const getProfileDetails = (params) => {
   const { userId } = params
   const options = {
     method: 'GET',

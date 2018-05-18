@@ -5,14 +5,11 @@ import { connect } from 'react-redux'
 import { Field, reduxForm, getFormValues } from 'redux-form'
 import { RaisedButton, MenuItem } from 'material-ui'
 import { Toggle, SelectField } from 'redux-form-material-ui'
-import { isEmpty } from 'lodash'
+import { isEmpty, get } from 'lodash'
 
 import renderTextField from '../../common/renderTextField'
-import KiwiSliderField from '../../common/renderSliderField'
-import validateEmailAvailability from './validateEmailAvailability'
-import asyncDebounce from 'debounce-promise'
 
-export const formName = 'profile'
+export const formName = 'subscriptions'
 
 const styles = {
   form: {
@@ -21,12 +18,18 @@ const styles = {
     , padding: '10px'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
-  }
+  },
+  result: {
+    paddingTop: '10px'
+  },
+  failure: { color: '#cc5040' },
+  success: { color: '#66cc52' }
 }
 
-class SubscriptionsForm extends Component {
+class SubscriptionForm extends Component {
   constructor(props) {
     super(props)
+
   }
 
   static propTypes = {
@@ -35,9 +38,15 @@ class SubscriptionsForm extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting } = this.props
+    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error } = this.props
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
+        <Field
+          name='username'
+          hintText='Username'
+          component={ renderTextField }
+          style={ { width: '100%' } }
+        />
         <Field
           name='currentPassword'
           type='password'
@@ -63,23 +72,26 @@ class SubscriptionsForm extends Component {
           Save
         </RaisedButton>
         { submitting && <span>Saving...</span> }
+        <div style={ styles.result }>
+          { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }
+          { submitSucceeded && <span style={ styles.success }>Your password has been changed!</span> }
+        </div>
       </form>
     )
   }
 }
 
-SubscriptionsForm = connect(
+SubscriptionForm = connect(
   state => ({
     formValues: getFormValues(formName)(state)
   })
-)(SubscriptionsForm)
+)(SubscriptionForm)
 
 export default reduxForm({
   form: formName
   , enableReinitialize: true
   , validate: values => {
     const errors = {}
-    console.log(values)
     if(!values.currentPassword) {
       errors.currentPassword = 'Required'
     }
@@ -94,4 +106,4 @@ export default reduxForm({
     }
     return errors
   }
-})(SubscriptionsForm)
+})(SubscriptionForm)

@@ -1,21 +1,24 @@
-import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
 import config from 'config'
+import queryString from 'query-string'
+
+import ApiFetch from '../utils/ApiFetch'
+
 
 export const getManySubscriptions = (params) => {
+  const append = queryString.stringify(params)
   const options = {
     method: 'GET',
   }
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: ACTIONS.GET_MANY_SUBSCRIPTIONS_REQUEST })
-    return ApiFetch(`${config.api}/subscriptions`, options)
-      .then(res => {
-        dispatch({ type: ACTIONS.GET_MANY_SUBSCRIPTIONS_SUCCESS, payload: res })
-        return res
-      })
-      .catch(e => {
+    try {
+      const res = await ApiFetch(`${config.api}/subscriptions?${append}`, options)
+      dispatch({ type: ACTIONS.GET_MANY_SUBSCRIPTIONS_SUCCESS, payload: res })
+      return res
+    } catch (e) {
         dispatch({ type: ACTIONS.GET_MANY_SUBSCRIPTIONS_FAILURE, payload: e })
-      })
+    }
   }
 }
 

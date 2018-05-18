@@ -45,3 +45,11 @@ div[role='menu'] {
     border-color: #EEEEEE;
     border-style: solid;
 }
+
+.subscription-row {
+    cursor: pointer;
+}
+
+.subscription-row:hover {
+    /*background: #f5f5f5;*/
+}

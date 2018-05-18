@@ -4,12 +4,12 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
-import ResetPasswordForm from './ResetPasswordForm'
+import ChangePasswordForm from './ChangePasswordForm'
 import { changePassword } from '../../actions'
 
 import './overrides.css'
 
-class ResetPassword extends Component {
+class ChangePassword extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -40,7 +40,7 @@ class ResetPassword extends Component {
   render() {
     const { initialValues } = this.props
     return (
-      <ResetPasswordForm
+      <ChangePasswordForm
         initialValues={ initialValues }
         onSubmit={ this.handleSubmit }
       />
@@ -64,4 +64,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResetPassword))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChangePassword))

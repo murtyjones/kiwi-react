@@ -1,21 +1,23 @@
 import React, { Component, PureComponent } from 'react'
 import * as T from 'prop-types'
+import BluebirdPromise from 'bluebird'
 import { withRouter, Redirect, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { get, find, has } from 'lodash'
-import { closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } from '../actions'
+import ObjectID from 'bson-objectid'
+import { getProfileDetails, getManyProfiles, getManySubscriptions, closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } from '../actions'
 import ProviderMenu from './ProviderMenu'
 
 import Profile from './Profile/Profile'
-import ResetPassword from './ResetPassword/ResetPassword'
+import ChangePassword from './ChangePassword/ChangePassword'
 import Subscriptions from './Subscriptions/Subscriptions'
 
 import './overrides.css'
 
 export const MENU_ITEMS = [
-  { label: 'Profile', url: '/profile', component: Profile },
-  { label: 'Reset Password', url: '/reset-password', component: ResetPassword },
-  { label: 'Subscriptions', url: '/subscriptions', component: Subscriptions }
+  { label: 'Profile', section: 'profile', component: Profile },
+  { label: 'Reset Password', section: 'reset-password', component: ChangePassword },
+  { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions }
 ]
 
 const LeftSide = props => <div className='providerDashboard-left'>{ props.children }</div>
@@ -26,7 +28,7 @@ class ProviderDashboard extends PureComponent {
   constructor(props) {
     super(props)
     const activeIndex = MENU_ITEMS.reduce((acc, each, idx) => {
-      if(props.location.pathname.includes(each.url))
+      if(props.match.params.section === each.section)
         acc = idx
       return acc
     }, 0)
@@ -44,11 +46,21 @@ class ProviderDashboard extends PureComponent {
     , closeTopBar: T.func
     , history: T.any
     , location: T.any
+    , getProfileDetails: T.func.isRequired
+    , getManySubscriptions: T.func.isRequired
+    , getManyProfiles: T.func.isRequired
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     this.props.closeSideNav()
     this.props.closeTopBar()
+    const { userId, getProfileDetails, getManySubscriptions, getManyProfiles } = this.props
+    const promises = [
+      getProfileDetails({ userId }),
+      getManySubscriptions({ providerId: userId }),
+      getManyProfiles()
+    ]
+    await BluebirdPromise.all(promises)
   }
 
   componentWillReceiveProps() {
@@ -63,16 +75,10 @@ class ProviderDashboard extends PureComponent {
 
   componentWillUpdate(nextProps, nextState) {
     if(has(nextState, 'activeIndex') && nextState.activeIndex !== this.state.activeIndex) {
-      const base = this.props.match.path
-      const append = MENU_ITEMS[nextState.activeIndex].url
+      const base = '/provider'
+      const append = `/${MENU_ITEMS[nextState.activeIndex].section}`
       this.props.history.replace(base + append)
     }
-  }
-
-  switchTabs = () => {
-    const { location, history } = this.props
-    const to = location.pathname === '/login' ? '/register' : '/login'
-    history.push(to)
   }
 
   render() {
@@ -99,6 +105,13 @@ class ProviderDashboard extends PureComponent {
   }
 }
 
+const mapStateToProps = (state, ownProps) => {
+  const { auth: { userId } } = state
+  return {
+    userId
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     login: params => dispatch(login(params))
@@ -107,8 +120,11 @@ const mapDispatchToProps = (dispatch) => {
     , closeSideNav: () => dispatch(closeSideNav())
     , openTopBar: () => dispatch(openTopBar())
     , closeTopBar: () => dispatch(closeTopBar())
+    , getProfileDetails: params => dispatch(getProfileDetails(params))
+    , getManySubscriptions: params => dispatch(getManySubscriptions(params))
+    , getManyProfiles: params => dispatch(getManyProfiles(params))
   }
 }
 
 
-export default withRouter(connect(null, mapDispatchToProps)(ProviderDashboard))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderDashboard))

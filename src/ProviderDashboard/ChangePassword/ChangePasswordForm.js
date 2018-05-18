@@ -12,7 +12,7 @@ import KiwiSliderField from '../../common/renderSliderField'
 import validateEmailAvailability from './validateEmailAvailability'
 import asyncDebounce from 'debounce-promise'
 
-export const formName = 'profile'
+export const formName = 'changePassword'
 
 const styles = {
   form: {
@@ -29,7 +29,7 @@ const styles = {
   success: { color: '#66cc52' }
 }
 
-class ResetPasswordForm extends Component {
+class ChangePasswordForm extends Component {
   constructor(props) {
     super(props)
   }
@@ -78,11 +78,11 @@ class ResetPasswordForm extends Component {
   }
 }
 
-ResetPasswordForm = connect(
+ChangePasswordForm = connect(
   state => ({
     formValues: getFormValues(formName)(state)
   })
-)(ResetPasswordForm)
+)(ChangePasswordForm)
 
 export default reduxForm({
   form: formName
@@ -103,4 +103,4 @@ export default reduxForm({
     }
     return errors
   }
-})(ResetPasswordForm)
+})(ChangePasswordForm)

@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { isEmpty } from 'lodash'
 
 import ProfileForm from './ProfileForm'
-import { getProfile, updateProfile } from '../../actions'
+import { updateProfile } from '../../actions'
 
 import './overrides.css'
 
@@ -16,12 +17,6 @@ class Profile extends Component {
   static propTypes = {
     initialValues: T.object.isRequired,
     updateProfile: T.func.isRequired,
-    getProfile: T.func.isRequired,
-  }
-
-  componentWillMount() {
-    const { userId, getProfile } = this.props
-    getProfile({ userId })
   }
 
   handleSubmit = async (v) => {
@@ -35,7 +30,6 @@ class Profile extends Component {
 
   render() {
     const { initialValues } = this.props
-
     return (
       <ProfileForm
         initialValues={ initialValues }
@@ -57,7 +51,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     updateProfile: params => dispatch(updateProfile(params))
-    , getProfile: params => dispatch(getProfile(params))
   }
 }
 
