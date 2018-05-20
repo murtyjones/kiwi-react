@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/murtyjones/kiwi-react#readme",
   "dependencies": {
+    "@material-ui/core": "^1.0.0",
     "auth0-js": "^9.5.1",
     "babel-polyfill": "^6.26.0",
     "bluebird": "^3.5.0",
@@ -73,7 +74,7 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-scroll": "^1.7.9",
-    "react-sortable-hoc": "^0.7.0",
+    "react-sortable-hoc": "^0.7.2",
     "react-transition-group": "^2.3.1",
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
