@@ -6,8 +6,6 @@ import ApiFetch from '../utils/ApiFetch'
 
 export const getManyProfiles = (params) => {
   const append = queryString.stringify(params)
-  console.log(append)
-  console.log(queryString.parse(params))
   const options = {
     method: 'GET'
   }

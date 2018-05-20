@@ -2,9 +2,15 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Table, TableBody, TableCell, TableHeader, TableHeaderColumn, TableRowColumn, TableRow } from 'material-ui'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
 
-import SubscriptionForm from './SubscriptionForm'
+import ProvideeProfileForm from './ProvideeProfileForm'
+import { updateProfile } from '../../actions'
 
 import './overrides.css'
 
@@ -17,55 +23,54 @@ class Subscriptions extends Component {
   static propTypes = {
     profiles: T.array.isRequired,
     subscriptions: T.array.isRequired,
+    updateProfile: T.func.isRequired,
   }
 
-  handleClick = (event, subcriptionId) => {
-    console.log(subcriptionId)
+  handleSubscriptionClick = (event, subcriptionId) => {
+    this.props.history.push(`/provider/subscriptions/${subcriptionId}`)
   }
 
-  handleSubmit = async (params) => {
-
+  handleSubmit = async (v) => {
+    const { updateProfile } = this.props
+    return updateProfile(v)
   }
 
   render() {
     const { profiles, subscriptions, subscriptionsById, profilesById, match: { params } } = this.props
     const selectedSubscription = subscriptionsById[params.id] || {}
-    const selectedSubscriptionProvidee = profilesById[selectedSubscription.provideeId] || {}
-    const initialValues = {
-      ...selectedSubscription,
-      username: selectedSubscriptionProvidee.username
-    }
+    const selectedSubscriptionProvideeProfile = profilesById[selectedSubscription.provideeId] || {}
     return params.id
       ?
-      <SubscriptionForm
-        initialValues={initialValues}
-        onSubmit={this.handleSubmit}
-      />
+      <Fragment>
+        <ProvideeProfileForm
+          initialValues={ selectedSubscriptionProvideeProfile }
+          onSubmit={ this.handleSubmit }
+        />
+        {/* Add subscription form as needed */}
+      </Fragment>
       :
-      <Table selectable={true} multiSelectable={false}>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+      <Table>
+        <TableHead>
           <TableRow>
-            <TableHeaderColumn>Username</TableHeaderColumn>
-            <TableHeaderColumn>Status</TableHeaderColumn>
+            <TableCell>Username</TableCell>
+            <TableCell>Status</TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody displayRowCheckbox={false}>
+        </TableHead>
+        <TableBody>
           { subscriptions.map((each, i) => {
             const providee = profilesById[each.provideeId] || {}
             return (
               <TableRow
-                //hover
+                hover
                 key={ i }
                 className='subscription-row'
-                onClick={ event => this.handleClick(event, each._id) }
+                onClick={ e => this.handleSubscriptionClick(e, each._id) }
               >
-                <TableRowColumn>{ providee.username }</TableRowColumn>
-                <TableRowColumn>Employed</TableRowColumn>
+                <TableCell>{ providee.username }</TableCell>
+                <TableCell>{ each.status }</TableCell>
               </TableRow>
             )
-          }
-
-          ) }
+          }) }
           </TableBody>
       </Table>
   }
@@ -81,8 +86,10 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    updateProfile: params => dispatch(updateProfile(params))
+  }
 }
 
 
-export default withRouter(connect(mapStateToProps, null)(Subscriptions))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Subscriptions))

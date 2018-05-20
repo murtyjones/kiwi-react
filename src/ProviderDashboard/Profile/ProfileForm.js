@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Field, reduxForm, getFormValues } from 'redux-form'
-import { RaisedButton, MenuItem } from 'material-ui'
+import { Field, reduxForm } from 'redux-form'
+import Button from '@material-ui/core/Button'
 import { Toggle, SelectField } from 'redux-form-material-ui'
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
@@ -41,6 +41,7 @@ class ProfileForm extends Component {
 
   render() {
     const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error } = this.props
+
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
@@ -56,9 +57,9 @@ class ProfileForm extends Component {
           style={ { width: '100%' } }
           asyncValidMessage='That email is available!'
         />
-        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
+        <Button variant='outlined' type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
           Save
-        </RaisedButton>
+        </Button>
         { submitting && <span>Saving...</span> }
         <div style={ styles.result }>
           { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }
@@ -68,12 +69,6 @@ class ProfileForm extends Component {
     )
   }
 }
-
-ProfileForm = connect(
-  state => ({
-    formValues: getFormValues(formName)(state)
-  })
-)(ProfileForm)
 
 export default reduxForm({
   form: formName

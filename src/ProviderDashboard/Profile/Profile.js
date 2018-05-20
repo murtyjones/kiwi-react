@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 
 import ProfileForm from './ProfileForm'
 import { updateProfile } from '../../actions'
@@ -30,6 +30,7 @@ class Profile extends Component {
 
   render() {
     const { initialValues } = this.props
+
     return (
       <ProfileForm
         initialValues={ initialValues }

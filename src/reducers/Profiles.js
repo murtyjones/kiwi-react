@@ -1,3 +1,4 @@
+import { isEmpty, get } from 'lodash'
 import { ACTIONS } from '../constants'
 
 const initialState = {
@@ -27,14 +28,19 @@ function profiles(state = initialState, action) {
       return newState
     }
     case ACTIONS.GET_MANY_PROFILES_SUCCESS: {
-      const payloadProfilesById = action.payload.reduce((acc, each) => {
-        acc[each._id] = each
-        return acc
-      }, {})
+      const payloadProfiles = action.payload
       const newState = Object.assign({}, state, {
         profilesById: {
           ...state.profilesById
-          , ...payloadProfilesById
+          , ...payloadProfiles.reduce((acc, each) => {
+            const oldProfile = get(state, `profilesById[${each._id}]`, {})
+            // only replace if profile object does not exist
+            // or is out of date
+            if(isEmpty(oldProfile) || oldProfile.v <  each.v) {
+              acc[each._id] = each
+            }
+            return acc
+          }, {})
         }
       })
       return newState

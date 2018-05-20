@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, reduxForm, getFormValues } from 'redux-form'
-import { RaisedButton, MenuItem } from 'material-ui'
+import Button from '@material-ui/core/Button'
 import { Toggle, SelectField } from 'redux-form-material-ui'
 import { isEmpty, get } from 'lodash'
 
@@ -65,9 +65,9 @@ class ChangePasswordForm extends Component {
           component={ renderTextField }
           style={ { width: '100%' } }
         />
-        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
+        <Button variant='outlined' type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
           Save
-        </RaisedButton>
+        </Button>
         { submitting && <span>Saving...</span> }
         <div style={ styles.result }>
           { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }

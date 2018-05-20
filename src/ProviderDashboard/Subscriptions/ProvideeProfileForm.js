@@ -3,13 +3,15 @@ import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, reduxForm, getFormValues } from 'redux-form'
-import { RaisedButton, MenuItem } from 'material-ui'
+import Button from '@material-ui/core/Button'
 import { Toggle, SelectField } from 'redux-form-material-ui'
 import { isEmpty, get } from 'lodash'
+import asyncDebounce from 'debounce-promise'
 
 import renderTextField from '../../common/renderTextField'
+import validateUsernameAvailability from './validateUsernameAvailability'
 
-export const formName = 'subscriptions'
+export const formName = 'subscription'
 
 const styles = {
   form: {
@@ -26,7 +28,7 @@ const styles = {
   success: { color: '#66cc52' }
 }
 
-class SubscriptionForm extends Component {
+class ProvideeProfileForm extends Component {
   constructor(props) {
     super(props)
 
@@ -46,6 +48,7 @@ class SubscriptionForm extends Component {
           hintText='Username'
           component={ renderTextField }
           style={ { width: '100%' } }
+          asyncValidMessage='That username is available!'
         />
         <Field
           name='currentPassword'
@@ -68,37 +71,31 @@ class SubscriptionForm extends Component {
           component={ renderTextField }
           style={ { width: '100%' } }
         />
-        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
+        <Button variant='outlined' type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
           Save
-        </RaisedButton>
+        </Button>
         { submitting && <span>Saving...</span> }
         <div style={ styles.result }>
           { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }
-          { submitSucceeded && <span style={ styles.success }>Your password has been changed!</span> }
+          { submitSucceeded && <span style={ styles.success }>Profile updated!</span> }
         </div>
       </form>
     )
   }
 }
 
-SubscriptionForm = connect(
-  state => ({
-    formValues: getFormValues(formName)(state)
-  })
-)(SubscriptionForm)
-
 export default reduxForm({
   form: formName
   , enableReinitialize: true
   , validate: values => {
     const errors = {}
-    if(!values.currentPassword) {
+    if(!values.currentPassword && (values.newPassword || values.confirmNewPassword)) {
       errors.currentPassword = 'Required'
     }
-    if(!values.newPassword) {
+    if(!values.newPassword && (values.currentPassword || values.confirmNewPassword)) {
       errors.newPassword = 'Required'
     }
-    if(!values.confirmNewPassword) {
+    if(!values.confirmNewPassword && (values.currentPassword || values.newPassword)) {
       errors.confirmNewPassword = 'Required'
     }
     if(values.confirmNewPassword && values.newPassword !== values.confirmNewPassword) {
@@ -106,4 +103,25 @@ export default reduxForm({
     }
     return errors
   }
-})(SubscriptionForm)
+  , shouldAsyncValidate: (params) => {
+    if (!params.syncValidationPasses) {
+      return false
+    }
+    switch (params.trigger) {
+      case 'blur':
+      case 'change':
+        // blurring or changing
+        return true
+      case 'submit':
+        // submitting, so only async validate if form is dirty or was never initialized
+        // conversely, DON'T async validate if the form is pristine just as it was
+        // initialized
+        // return !params.pristine || !params.initialized
+        return false
+      default:
+        return false
+    }
+  }
+  , asyncValidate: asyncDebounce((...p) => validateUsernameAvailability(...p), 1000)
+  , asyncChangeFields: ['username']
+})(ProvideeProfileForm)
