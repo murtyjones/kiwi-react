@@ -30,6 +30,7 @@ describe('Auth Reducer', () => {
         , token: mockAuthService.getToken()
         , exp: mockAuthService.getTokenExp()
         , isAdmin: mockAuthService.getIsAdmin()
+        , isProvider: mockAuthService.getIsProvider()
         , userId: mockAuthService.getUserId()
         , username: mockAuthService.getUsername()
         , refreshToken: mockAuthService.getRefreshToken()
@@ -107,6 +108,7 @@ describe('Auth Reducer', () => {
         , token: null
         , exp: null
         , isAdmin: false
+        , isProvider: false
         , userId: null
         , username: null
         , refreshToken: null

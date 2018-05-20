@@ -84,7 +84,7 @@ describe('Auth Actions', () => {
     })
 
     it('should pass expected params to ApiFetch', async () => {
-      const expectedUrl = `${config.api}/auth/register`
+      const expectedUrl = `${config.api}/auth/register/`
       const expectedBody = {
         body: params,
         method: 'POST'
