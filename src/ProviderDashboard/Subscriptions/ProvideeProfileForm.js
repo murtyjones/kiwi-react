@@ -51,13 +51,6 @@ class ProvideeProfileForm extends Component {
           asyncValidMessage='That username is available!'
         />
         <Field
-          name='currentPassword'
-          type='password'
-          hintText='Current Password'
-          component={ renderTextField }
-          style={ { width: '100%' } }
-        />
-        <Field
           name='newPassword'
           type='password'
           hintText='New Password'

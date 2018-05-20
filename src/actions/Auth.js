@@ -113,7 +113,7 @@ export const resetPassword = params => {
       method: 'POST',
       body: { password, recoveryCode }
     }
-    return ApiFetch(`${config.api}/password/change/${username}`, options)
+    return ApiFetch(`${config.api}/password/recover/${username}`, options)
       .then(success => {
         dispatch({ type: ACTIONS.RESET_PASSWORD_SUCCESS, payload: success })
         return success
@@ -126,14 +126,14 @@ export const resetPassword = params => {
 }
 
 export const changePassword = params => {
-  const { currentPassword, newPassword } = params
+  const { _id, currentPassword, newPassword } = params
   return dispatch => {
     dispatch({ type: ACTIONS.RESET_PASSWORD_REQUEST })
     const options = {
       method: 'POST',
       body: { currentPassword, newPassword }
     }
-    return ApiFetch(`${config.api}/password/change`, options)
+    return ApiFetch(`${config.api}/password/change/${_id}`, options)
       .then(success => {
         dispatch({ type: ACTIONS.RESET_PASSWORD_SUCCESS, payload: success })
         return success

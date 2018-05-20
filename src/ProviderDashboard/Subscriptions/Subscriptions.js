@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import BluebirdPromise from 'bluebird'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,7 +11,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
 import ProvideeProfileForm from './ProvideeProfileForm'
-import { updateProfile } from '../../actions'
+import { updateProfile, changePassword } from '../../actions'
 
 import './overrides.css'
 
@@ -24,6 +25,7 @@ class Subscriptions extends Component {
     profiles: T.array.isRequired,
     subscriptions: T.array.isRequired,
     updateProfile: T.func.isRequired,
+    changePassword: T.func.isRequired,
   }
 
   handleSubscriptionClick = (event, subcriptionId) => {
@@ -31,8 +33,10 @@ class Subscriptions extends Component {
   }
 
   handleSubmit = async (v) => {
-    const { updateProfile } = this.props
-    return updateProfile(v)
+    const { updateProfile, changePassword } = this.props
+    let promises = [ updateProfile(v) ]
+    if(v.newPassword) promises.push(changePassword(v))
+    await BluebirdPromise.all(promises)
   }
 
   render() {
@@ -87,7 +91,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProfile: params => dispatch(updateProfile(params))
+    updateProfile: params => dispatch(updateProfile(params)),
+    changePassword: params => dispatch(changePassword(params)),
   }
 }
 
