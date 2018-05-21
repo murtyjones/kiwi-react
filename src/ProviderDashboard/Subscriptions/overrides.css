@@ -1,0 +1,16 @@
+.subscription-head {
+
+}
+
+
+.subscription-head > tr > th {
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+
+.subscription-row:hover  > * {
+    color: #0074D9;
+    background: #f8f8f8;
+    text-decoration: underline;
+}

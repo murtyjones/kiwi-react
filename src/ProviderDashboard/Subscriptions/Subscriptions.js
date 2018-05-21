@@ -54,7 +54,7 @@ class Subscriptions extends Component {
       </Fragment>
       :
       <Table>
-        <TableHead>
+        <TableHead className='subscription-head'>
           <TableRow>
             <TableCell>Username</TableCell>
             <TableCell>Status</TableCell>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import Button from '@material-ui/core/Button'
@@ -37,10 +38,15 @@ class ProfileForm extends Component {
   static propTypes = {
     initialValues: T.object.isRequired
     , handleSubmit: T.func.isRequired
+    , onVerificationEmailClick: T.func.isRequired
+  }
+
+  resendVerificationEmail = () => {
+    this.props.onVerificationEmailClick()
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error } = this.props
+    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, initialValues, error } = this.props
 
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
@@ -57,6 +63,17 @@ class ProfileForm extends Component {
           style={ { width: '100%' } }
           asyncValidMessage='That email is available!'
         />
+        { initialValues && !initialValues.isEmailVerified &&
+          <div className='email-verification-line'>
+            Your email needs to be verified.&nbsp;
+          <Link
+            to='#'
+            onClick={ this.resendVerificationEmail }
+          >
+            Click here to resend verification email.
+          </Link>
+          </div>
+        }
         <Button variant='outlined' type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
           Save
         </Button>

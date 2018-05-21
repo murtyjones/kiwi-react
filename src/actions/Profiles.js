@@ -112,3 +112,17 @@ export const checkProfileEmailVerification = (params) => {
       })
   }
 }
+
+export const resendVerificationEmail = (userId) => {
+  const options = { method: 'GET' }
+  return async dispatch => {
+    dispatch({ type: ACTIONS.GET_RESEND_EMAIL_VERIFICATION_REQUEST })
+    try {
+      const res = await ApiFetch(`${config.api}/profiles/send-email-verification/${userId}`, options)
+      dispatch({ type: ACTIONS.GET_RESEND_EMAIL_VERIFICATION_SUCCESS, payload: res })
+      return res
+    } catch (e) {
+      dispatch({ type: ACTIONS.GET_RESEND_EMAIL_VERIFICATION_FAILURE, payload: e })
+    }
+  }
+}

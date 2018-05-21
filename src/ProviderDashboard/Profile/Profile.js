@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { isEmpty, isEqual } from 'lodash'
 
 import ProfileForm from './ProfileForm'
-import { updateProfile } from '../../actions'
+import { updateProfile, resendVerificationEmail } from '../../actions'
 
 import './overrides.css'
 
@@ -28,6 +28,11 @@ class Profile extends Component {
     return updateProfile(params)
   }
 
+  handleVerificationEmailClick = () => {
+    const { userId, resendVerificationEmail } = this.props
+    return resendVerificationEmail(userId)
+  }
+
   render() {
     const { initialValues } = this.props
 
@@ -35,6 +40,7 @@ class Profile extends Component {
       <ProfileForm
         initialValues={ initialValues }
         onSubmit={ this.handleSubmit }
+        onVerificationEmailClick={ this.handleVerificationEmailClick }
       />
     )
   }
@@ -51,7 +57,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProfile: params => dispatch(updateProfile(params))
+    updateProfile: params => dispatch(updateProfile(params)),
+    resendVerificationEmail: params => dispatch(resendVerificationEmail(params)),
   }
 }
 
