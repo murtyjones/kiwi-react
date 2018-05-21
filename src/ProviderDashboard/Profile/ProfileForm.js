@@ -46,7 +46,7 @@ class ProfileForm extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, initialValues, error } = this.props
+    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error, isEmailVerified = true } = this.props
 
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
@@ -63,15 +63,15 @@ class ProfileForm extends Component {
           style={ { width: '100%' } }
           asyncValidMessage='That email is available!'
         />
-        { initialValues && !initialValues.isEmailVerified &&
+        { !isEmailVerified &&
           <div className='email-verification-line'>
             Your email needs to be verified.&nbsp;
-          <Link
-            to='#'
-            onClick={ this.resendVerificationEmail }
-          >
-            Click here to resend verification email.
-          </Link>
+            <Link
+              to='#'
+              onClick={ this.resendVerificationEmail }
+            >
+              Click here to resend verification email.
+            </Link>
           </div>
         }
         <Button variant='outlined' type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>

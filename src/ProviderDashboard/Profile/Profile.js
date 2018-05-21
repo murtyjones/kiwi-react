@@ -39,6 +39,7 @@ class Profile extends Component {
     return (
       <ProfileForm
         initialValues={ initialValues }
+        isEmailVerified={ initialValues.isEmailVerified }
         onSubmit={ this.handleSubmit }
         onVerificationEmailClick={ this.handleVerificationEmailClick }
       />
