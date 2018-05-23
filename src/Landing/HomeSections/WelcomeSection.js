@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { styles as sharedStyles } from '../sharedStyles'
 import NextArrow from './NextArrow'
+import DynamicCTA from './DynamicCTA/DynamicCTA'
 
 const styles = {
   homePageOne: {
@@ -10,11 +11,10 @@ const styles = {
     , overflow: 'hidden'
   },
   titleContainer: {
-    textAlign: 'left'
+    textAlign: 'center'
     , position: 'absolute'
     , top: '35%'
-    , left: '15%'
-    , zIndex: 20
+    , width: '100%'
   },
   titleStyle: {
     fontSize: 'calc(10px + 3.6vw)'
@@ -32,11 +32,7 @@ export default class WelcomeSection extends Component {
   render() {
     return (
       <div key='homePageOne' style={ styles.homePageOne }>
-        <img
-          key='homeLogo'
-          className='homeLogo'
-          src='../../../assets/images/landing-logo.svg'
-        />
+
 
         <img
           key='homeDragon'
@@ -67,8 +63,12 @@ export default class WelcomeSection extends Component {
           className='homeBackgroundLayer4'
           src='../../../assets/images/landing-bg_04.svg'
         />
+        <DynamicCTA
+          text='start your coding adventure today.'
+          smallText='start coding today.'
+          fixPoint={ 2.4 }
+        />
         <div style={ styles.titleContainer } >
-          <span style={ styles.titleStyle }>start your coding<br />adventure today.</span>
           <div style={ sharedStyles.buttonContainer }>
             <div
               className='greenButton hvr-grow'

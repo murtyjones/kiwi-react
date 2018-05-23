@@ -1,8 +1,6 @@
 .homeLogo {
-    width: 150px;
-    position: absolute;
-    top: 20px;
-    left: 20px;
+    height: 100%;
+    margin: auto 0;
     z-index: 20;
 }
 

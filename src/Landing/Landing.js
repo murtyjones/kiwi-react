@@ -2,23 +2,11 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Field, reduxForm, SubmissionError } from 'redux-form'
-import { GridList, GridTile } from 'material-ui'
-import { Drawer, Menu, MenuItem, Subheader, Divider } from 'material-ui'
-import CropSquare from 'material-ui-icons/CropSquare'
-import Add from 'material-ui-icons/Add'
-import Extension from 'material-ui-icons/Extension'
-import LaptopMac from 'material-ui-icons/LaptopMac'
-import MonetizationOn from 'material-ui-icons/MonetizationOn'
-import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown'
 import { animateScroll as scroll } from 'react-scroll'
 
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login, postMessage } from '../actions'
 import { ApiFetch } from '../utils/ApiFetch'
 import { find } from 'lodash'
-import { styles as sharedStyles } from './sharedStyles'
-import LoginOrRegister from './LoginOrRegister'
-import isMobile from '../utils/userAgentUtils'
 import HomeTab from './HomeTab'
 import AboutTab from './AboutTab'
 
@@ -36,12 +24,9 @@ const styles = {
   loginDrawerWidth: 400, // px
 }
 
-class Home extends Component {
+class Landing extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      drawerIsOpen: false
-    }
   }
 
   static propTypes = {
@@ -67,14 +52,6 @@ class Home extends Component {
     this.props.openTopBar()
   }
 
-  openDrawer = () => {
-    this.setState({ drawerIsOpen: true })
-  }
-
-  closeDrawer = () => {
-    this.setState({ drawerIsOpen: false })
-  }
-
   handleMessageSubmit = (params) => {
     this.props.postMessage(params)
   }
@@ -82,7 +59,6 @@ class Home extends Component {
   scrollTo = to => scroll.scrollTo(to)
 
   render() {
-    const { drawerIsOpen } = this.state
     const { location } = this.props
     const currentPath = location.pathname
 
@@ -99,34 +75,17 @@ class Home extends Component {
     const currentTab = find(availableRoutes, { path: currentPath }) || availableRoutes[0]
     const ActiveTabComponent = currentTab.component
 
-    return [
+    return (
       <ActiveTabComponent
         key='activeTab'
-        openDrawer={ this.openDrawer }
         scrollTo={ this.scrollTo }
         handleMessageSubmit={ this.handleMessageSubmit }
       />
-      ,
-      <Drawer
-        key='loginDrawer'
-        containerClassName='loginDrawer'
-        containerStyle={ styles.loginDrawer }
-        width={ isMobile() ? '100%' : styles.loginDrawerWidth }
-        open={ drawerIsOpen }
-        openSecondary={ true }
-      >
-        <div
-          onClick={ this.closeDrawer }
-          className='x'
-          style={ styles.closeDrawerButton }
-        />
-        <LoginOrRegister />
-      </Drawer>
-    ]
+    )
   }
 }
 
-export const HomeComponent = Home
+export const HomeComponent = Landing
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -141,4 +100,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(Home))
+export default withRouter(connect(null, mapDispatchToProps)(Landing))

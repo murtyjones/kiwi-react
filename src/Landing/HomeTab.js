@@ -7,6 +7,7 @@ import { LoginLink, AboutLink } from './HomeSections/Links'
 
 import '../close.css'
 import './overrides.css'
+import DynamicHeader from "./DynamicHeader"
 
 const styles = {
   homeContentContainer: {
@@ -32,6 +33,7 @@ export default class HomeTab extends Component {
   render() {
     return (
       <div key='homeContent' style={ styles.homeContentContainer }>
+        <DynamicHeader />
         <WelcomeSection
           openDrawer={ this.props.openDrawer }
         />

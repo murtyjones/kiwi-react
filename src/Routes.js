@@ -25,7 +25,7 @@ import AuthorizedRoute from './Routes/AuthorizedRoute'
 /**
  * Route Components/Containers
  */
-import Home from './Home/Home'
+import Landing from './Landing/Landing'
 import Welcome from './WelcomeWizard/WelcomeWizard'
 import Dashboard from './Dashboard/Dashboard'
 import UserProjects from './UserProjects/UserProjects'
@@ -163,7 +163,7 @@ class App extends Component {
                     <Home />
                   )
                 )} />
-                <Route path='/about' exact component={ Home } />
+                <Route path='/about' exact component={ Landing } />
                 <Route path='/login' exact component={ LoginOrRegister } />
                 <Route path='/register' exact component={ LoginOrRegister } />
                 <Route path='/provider/login' exact component={ ProviderLoginOrRegister } />

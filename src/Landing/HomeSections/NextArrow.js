@@ -14,7 +14,7 @@ const styles = {
     , bottom: 0
     , left: '50%'
     , marginLeft: '-100px'
-    , zIndex: 1000
+    , zIndex: 50
     , textAlign: 'center'
   },
   learnMoreArrow: {
