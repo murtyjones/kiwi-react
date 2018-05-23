@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import Route from 'react-router-dom/Route'
+import Redirect from 'react-router-dom/Redirect'
 import WithTheme from '../hocs/WithTheme'
 
 const authorizer = ({ path, isLoggedIn, isAdmin, isProvider }) =>

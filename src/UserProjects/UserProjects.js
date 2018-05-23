@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import { isEmpty, isEqual, findIndex, cloneDeep } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
+import findIndex from 'lodash/findIndex'
+import cloneDeep from 'lodash/cloneDeep'
 
 import { KiwiLink } from '../common/KiwiLink'
 import { colorOrder, iconOrder } from './assetAssignment'

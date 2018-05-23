@@ -1,7 +1,12 @@
 import React from 'react'
 import Alarm  from 'material-ui-icons/Alarm'
 import ArrowForward  from 'material-ui-icons/ArrowForward'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui'
+import Card from 'material-ui/Card'
+import CardActions from 'material-ui/Card/CardActions'
+import CardHeader from 'material-ui/Card/CardHeader'
+import CardMedia from 'material-ui/Card/CardMedia'
+import CardTitle from 'material-ui/Card/CardTitle'
+import CardText from 'material-ui/Card/CardText'
 import moment from 'moment'
 
 import { KiwiLink } from '../common/KiwiLink'

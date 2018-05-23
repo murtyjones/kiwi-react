@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { SelectField, MenuItem } from 'material-ui'
+import SelectField from 'material-ui/SelectField'
 
 const defaultContainerStyle = {  }
 const defaultLabelStyle = { display: 'block' }

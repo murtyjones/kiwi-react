@@ -7,7 +7,9 @@ import EditorOutput from './EditorOutput'
 import EditorInput from './EditorInput'
 import Tools from './Tools'
 import BluebirdPromise from 'bluebird'
-import { find, get, isEmpty, cloneDeep } from 'lodash'
+import find from 'lodash/find'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 
 
 import './overrides.css'

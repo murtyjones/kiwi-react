@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import { isEmpty, find, get } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
+import get from 'lodash/get'
 
 import VariableWidget from '../ManageVariables/VariableWidget'
 import { KiwiLink } from '../../common/KiwiLink'

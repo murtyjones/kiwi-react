@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import { Field, FieldArray } from 'redux-form'
 import update from 'immutability-helper'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 
 import renderTextField from '../../../common/renderTextField'

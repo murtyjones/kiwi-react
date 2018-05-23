@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import MapItems from './MapItems'
-import { isEmpty, isEqual, get }  from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 const styles = {
   container: {

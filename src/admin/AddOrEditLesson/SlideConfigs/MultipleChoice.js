@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { Field, FieldArray } from 'redux-form'
 import renderTextField from '../../../common/renderTextField'
 import RichTextEditor from '../../../common/RichTextEditor'
-import { RaisedButton, List, ListItem, MenuItem } from 'material-ui'
+import List from 'material-ui/List'
+import ListItem from 'material-ui/List/ListItem'
+import MenuItem from 'material-ui/MenuItem'
+
 import { SelectField } from 'redux-form-material-ui'
 
 const renderChoices = ({ fields }) =>

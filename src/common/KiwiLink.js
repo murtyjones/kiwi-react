@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'react-router-dom/Link'
 import { cyan500, cyan100 } from 'material-ui/styles/colors'
 
 const kiwiLinkStyle = {

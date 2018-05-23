@@ -1,5 +1,5 @@
 import LESSON_SLIDE_TYPES from '../constants/LESSON_SLIDE_TYPES'
-import { get } from 'lodash'
+import get from 'lodash/get'
 
 export const viewedEqualsComplete = ({ type, shouldIncludeSuccessCriteria }) =>
   // must match the version in kiwi-node exactly.

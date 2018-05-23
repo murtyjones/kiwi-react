@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter, Link } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
+import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 
 const recoveryUri = '../assets/images/recovery'

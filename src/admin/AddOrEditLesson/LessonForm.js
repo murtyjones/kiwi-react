@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, formValueSelector } from 'redux-form'
-import { RaisedButton, MenuItem } from 'material-ui'
+import RaisedButton from 'material-ui/RaisedButton'
+import MenuItem from 'material-ui/MenuItem'
 import { Toggle, SelectField } from 'redux-form-material-ui'
 
 import renderTextField from '../../common/renderTextField'

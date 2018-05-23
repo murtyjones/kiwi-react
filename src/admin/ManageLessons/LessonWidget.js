@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import * as T from 'prop-types'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import Card from 'material-ui/Card'
+import CardHeader from 'material-ui/Card/CardHeader'
 import Reorder from 'material-ui-icons/Reorder'
 
 const styles = {
@@ -19,7 +19,7 @@ const styles = {
 
 import { KiwiLink } from '../../common/KiwiLink'
 
-class LessonWidget extends Component {
+class LessonWidget extends Component {F
   constructor(props) {
     super(props)
   }

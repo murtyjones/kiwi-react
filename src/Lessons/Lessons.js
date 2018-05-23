@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import { orderBy, find, findIndex, get, cloneDeep, isEqual, isEmpty } from 'lodash'
+import orderBy from 'lodash/orderBy'
+import find from 'lodash/find'
+import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 
 import { getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, setGlobalColors, closeSideNav } from '../actions'
 

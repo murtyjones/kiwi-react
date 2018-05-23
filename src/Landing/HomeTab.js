@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import WelcomeSection from './HomeSections/WelcomeSection'
-import SalesSection from './HomeSections/SalesSection'
-import ContactSection from './HomeSections/ContactSection'
-import { LoginLink, AboutLink } from './HomeSections/Links'
+import StripedSection from './HomeSections/StripedSection'
+import { AboutLink } from './HomeSections/Links'
 
 import '../close.css'
 import './overrides.css'
@@ -34,16 +32,7 @@ export default class HomeTab extends Component {
     return (
       <div key='homeContent' style={ styles.homeContentContainer }>
         <DynamicHeader />
-        <WelcomeSection
-          openDrawer={ this.props.openDrawer }
-        />
-        <SalesSection />
-        <ContactSection
-          handleMessageSubmit={ this.props.handleMessageSubmit }
-        />
-        <LoginLink
-          openDrawer={ this.props.openDrawer }
-        />
+        <StripedSection />
         <AboutLink />
       </div>
     )

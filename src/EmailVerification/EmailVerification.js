@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { checkProfileEmailVerification } from '../actions'
 
 const styles = {

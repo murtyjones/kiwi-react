@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { AppBar, TextField } from 'material-ui'
+import AppBar from 'material-ui/AppBar'
 import Menu from 'material-ui-icons/Menu'
 import cns from 'classnames'
 

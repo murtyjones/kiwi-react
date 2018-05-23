@@ -12,7 +12,7 @@ import MissionSection from './AboutSections/MissionSection'
 import QuoteSection from './AboutSections/QuoteSection'
 import TeamSection from './AboutSections/TeamSection'
 import Footer from './AboutSections/Footer'
-import { Link } from 'react-router-dom'
+import Link from 'react-router-dom/Link'
 
 
 import '../close.css'

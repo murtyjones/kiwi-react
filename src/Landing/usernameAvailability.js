@@ -1,6 +1,5 @@
 import ApiFetch from '../utils/ApiFetch'
 import config from 'config'
-import { debounce }  from 'lodash'
 
 
 const usernameAvailability = (values/*, dispatch*/) => {

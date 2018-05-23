@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { Route, Link, MemoryRouter } from 'react-router-dom'
+import Route from 'react-router-dom/Route'
+import Link from 'react-router-dom/Link'
+import MemoryRouter from 'react-router-dom/MemoryRouter'
 
 import { notCombined } from '../../../../src/reducers/index'
 // make sure to import your connected component

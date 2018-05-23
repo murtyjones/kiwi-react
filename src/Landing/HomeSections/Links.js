@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'react-router-dom/Link'
 
 
 const styles = {
@@ -20,30 +20,6 @@ const styles = {
   }
 }
 
-export class LoginLink extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <div style={ {
-        ...styles.linkContainerStyle
-        , top: '20px'
-        , right: '0'
-        , width: '60px'
-      } }
-      >
-          <span
-            onClick={ this.props.openDrawer }
-            style={ styles.linkStyle }
-          >
-            log in
-          </span>
-      </div>
-    )
-  }
-}
 
 export class AboutLink extends Component {
   constructor(props) {

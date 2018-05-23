@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import renderTextField from '../common/renderTextField'
-import { FlatButton, RaisedButton } from 'material-ui'
+import FlatButton from 'material-ui/FlatButton'
 import asyncValidate from './usernameAvailability'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 

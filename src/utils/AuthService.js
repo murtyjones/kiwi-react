@@ -2,7 +2,7 @@ import auth0 from 'auth0-js'
 import config from 'config'
 import jwt_decode from 'jwt-decode'
 import BluebirdPromise from 'bluebird'
-import { get } from 'lodash'
+import get from 'lodash/get'
 
 import { hasTokenExpired } from './timeUtils'
 

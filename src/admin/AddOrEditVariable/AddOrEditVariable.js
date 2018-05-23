@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { postVariable, putVariable, getVariable } from '../../actions'
-import { has, isEmpty, isEqual, cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
+
 import VariableForm from './VariableForm'
 
 class AddOrEditVariable extends Component {

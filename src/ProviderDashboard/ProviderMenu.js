@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { List, ListItem, makeSelectable } from 'material-ui'
+import List from 'material-ui/List'
+import ListItem from 'material-ui/List/ListItem'
+import makeSelectable from 'material-ui/List/makeSelectable'
 import ChevronRight from 'material-ui-icons/ChevronRight'
 
 import { insertIntoObjectIf } from '../utils/insertIf'

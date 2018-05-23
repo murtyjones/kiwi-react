@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { postLesson, putLesson, getLesson, getManyLessonThemes, getManyVariables, postTestCheckAnswer } from '../../actions'
-import { has, isEmpty, isEqual } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import LessonForm from './LessonForm'
 
 class AddOrEditLesson extends Component {

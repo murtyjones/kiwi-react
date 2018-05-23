@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter, Link } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
+import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import { animateScroll as scroll } from 'react-scroll'
 
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login, postMessage } from '../actions'
 import { ApiFetch } from '../utils/ApiFetch'
-import { find } from 'lodash'
+import find from 'lodash/find'
 import HomeTab from './HomeTab'
 import AboutTab from './AboutTab'
 

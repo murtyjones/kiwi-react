@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { postSubscription, putSubscription, getSubscription } from '../../actions'
-import { has, isEmpty, isEqual, cloneDeep } from 'lodash'
+import has from 'lodash/has'
+import cloneDeep from 'lodash/cloneDeep'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 import SubscriptionForm from './SubscriptionForm'
 
 class AddOrEditSubscription extends Component {

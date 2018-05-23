@@ -1,6 +1,11 @@
 import React from 'react'
 import NoteAdd  from 'material-ui-icons/NoteAdd'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui'
+import Card from 'material-ui/Card'
+import CardActions from 'material-ui/Card/CardActions'
+import CardHeader from 'material-ui/Card/CardHeader'
+import CardMedia from 'material-ui/Card/CardMedia'
+import CardTitle from 'material-ui/Card/CardTitle'
+import CardText from 'material-ui/Card/CardText'
 
 import { KiwiLink } from '../common/KiwiLink'
 

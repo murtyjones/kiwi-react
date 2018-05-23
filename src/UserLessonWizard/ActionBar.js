@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import cns from 'classnames'
-import { has } from 'lodash'
+import has from 'lodash/has'
 
 import isNumeric from '../utils/isNumeric'
 

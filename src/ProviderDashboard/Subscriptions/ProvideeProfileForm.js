@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { Field, reduxForm, getFormValues } from 'redux-form'
 import Button from '@material-ui/core/Button'
 import { Toggle, SelectField } from 'redux-form-material-ui'
-import { isEmpty, get } from 'lodash'
+import get from 'lodash/get'
 import asyncDebounce from 'debounce-promise'
 
 import renderTextField from '../../common/renderTextField'

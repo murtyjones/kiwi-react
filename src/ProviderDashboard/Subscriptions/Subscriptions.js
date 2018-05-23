@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import BluebirdPromise from 'bluebird'
 import Table from '@material-ui/core/Table';

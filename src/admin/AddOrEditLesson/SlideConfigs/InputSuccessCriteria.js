@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react'
 import { Field } from 'redux-form'
-import { List, ListItem, Divider, RaisedButton, FlatButton, MenuItem, Tabs, Tab, Dialog } from 'material-ui'
+import RaisedButton from 'material-ui/RaisedButton'
+import Divider from 'material-ui/Divider'
+import MenuItem from 'material-ui/MenuItem'
+
+
 import Delete from 'material-ui-icons/Delete'
 import { TextField } from 'redux-form-material-ui'
 

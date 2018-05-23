@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
-import { FlatButton, RaisedButton } from 'material-ui'
-import { Link } from 'react-router-dom'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import Link from 'react-router-dom/Link'
 import { Checkbox } from 'redux-form-material-ui'
 
 import { activeColor, inactiveColor, styles as sharedStyles } from './sharedStyles'

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Slider } from 'material-ui'
+import Slider from 'material-ui/Slider'
 
 
 class renderSliderField extends Component {

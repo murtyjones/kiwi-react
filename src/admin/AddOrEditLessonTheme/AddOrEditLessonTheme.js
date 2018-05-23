@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import { postLessonTheme, putLessonTheme, getLessonTheme } from '../../actions'
-import { has, isEmpty, isEqual, cloneDeep } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import cloneDeep from 'lodash/cloneDeep'
+
 import LessonThemeForm from './LessonThemeForm'
+import { postLessonTheme, putLessonTheme, getLessonTheme } from '../../actions'
 
 class AddOrEditLessonTheme extends Component {
   constructor(props) {

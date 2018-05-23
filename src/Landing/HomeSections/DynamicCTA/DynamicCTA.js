@@ -1,6 +1,4 @@
 import React, { PureComponent, Fragment } from 'react'
-import cns from 'classnames'
-import {styles as sharedStyles} from "../../sharedStyles"
 
 import './overrides.css'
 

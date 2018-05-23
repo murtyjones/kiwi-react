@@ -1,6 +1,11 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import { get, find, findIndex, isEqual, isEmpty, cloneDeep } from 'lodash'
+import get from 'lodash/get'
+import find from 'lodash/find'
+import findIndex from 'lodash/findIndex'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
+
 
 import { animateScroll as scroll } from 'react-scroll'
 

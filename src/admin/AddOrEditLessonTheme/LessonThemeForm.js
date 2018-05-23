@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, formValueSelector } from 'redux-form'
 
-import { RaisedButton, List, ListItem, MenuItem } from 'material-ui'
+import RaisedButton from 'material-ui/RaisedButton'
+import List from 'material-ui/List'
+import ListItem from 'material-ui/List/ListItem'
+import MenuItem from 'material-ui/MenuItem'
 
 import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'

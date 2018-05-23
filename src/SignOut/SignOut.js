@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter, Redirect, Route } from 'react-router-dom'
-import { get, find } from 'lodash'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 

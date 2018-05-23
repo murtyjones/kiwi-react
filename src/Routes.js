@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { Route, Switch, Redirect, withRouter, Link } from 'react-router-dom'
+import Route from 'react-router-dom/Route'
+import Switch from 'react-router-dom/Switch'
+import Redirect from 'react-router-dom/Redirect'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
@@ -160,7 +163,7 @@ class App extends Component {
                   isLoggedIn ? (
                     <Redirect to="/lessons"/>
                   ) : (
-                    <Home />
+                    <Landing />
                   )
                 )} />
                 <Route path='/about' exact component={ Landing } />

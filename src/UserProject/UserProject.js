@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import { isEmpty, isEqual, get } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 import renderIf from 'render-if'
 import { GLOBAL_COLORS } from '../constants'
 

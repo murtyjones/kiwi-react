@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import CodeEditor from '../CodeEditor/CodeEditor'
 import { openSideNav, closeSideNav, openTopBar, closeTopBar } from '../actions'
-import { withRouter } from 'react-router-dom'
+import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 
 import '../common/flex.css'
