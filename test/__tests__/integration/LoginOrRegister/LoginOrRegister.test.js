@@ -40,13 +40,13 @@ describe('integration tests', () => {
   })
 
   it('should start with the login text rendered since we specified /login', () => {
-    expect(component.find('span[className="switchText"]').prop('children')).toEqual('No account? Register here!')
+    expect(component.find('span[className="switchText"]').prop('children')).toEqual('No account? Click here to register!')
   })
 
   it('should change the login text to register on click', () => {
-    expect(component.find('span[className="switchText"]').prop('children')).toEqual('No account? Register here!')
+    expect(component.find('span[className="switchText"]').prop('children')).toEqual('No account? Click here to register!')
     component.find('span[className="switchText"]').simulate('click')
-    expect(component.find('span[className="switchText"]').prop('children')).toEqual('Already registered? Sign in here!')
+    expect(component.find('span[className="switchText"]').prop('children')).toEqual('Already registered? Click here to sign in!')
   })
 
   it('should click submit', () => {

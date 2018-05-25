@@ -137,7 +137,7 @@ class LoginOrRegister extends PureComponent {
     return (
       <div className='loginOrRegister'>
         <div className='loginHeader'>
-          <h1>{ headerText }</h1>
+          <h1 style={ { margin: '0 0 10px 0' } }>{ headerText }</h1>
           <span
             className='switchText'
             onClick={ this.switchTabs }
