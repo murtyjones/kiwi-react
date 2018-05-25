@@ -82,6 +82,7 @@ export default class StripedSections extends PureComponent {
       <div className='stripedContainer'>
         { sections.map((each, idx) =>
           <StripedSection
+            key={ idx }
             style={ each.style }
             headerText={ each.headerText }
             bodyText={ each.bodyText }
