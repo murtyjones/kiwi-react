@@ -18,8 +18,8 @@ const styles = {
     , textAlign: 'center'
   },
   learnMoreArrow: {
-    height: '4vw'
-    , width: '4vw'
+    height: 'calc(36px + 3vw)'
+    , width: 'calc(36px + 3vw)'
   }
 }
 

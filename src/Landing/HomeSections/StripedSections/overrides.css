@@ -1,0 +1,56 @@
+.stripedContainer {
+    color: #666666;
+}
+
+.stripedSectionContainer {
+    padding: 30px;
+    box-sizing: border-box;
+    min-height: 250px;
+}
+
+.stripedSection {
+    max-width: 980px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.stripedSectionText {
+    display: inline-block;
+    max-width: 600px;
+}
+
+.stripedSectionText > p {
+    font-family: sans-serif;
+    line-height: 28px;
+    color: #999999;
+}
+
+.stripedSectionImage {
+    display: inline-block;
+    width: 300px;
+    position: absolute;
+    right: 0;
+    top: -30px;
+}
+
+.stripedSectionContainer:nth-child(even) { background-color: #FFFFFF; text-align: right; }
+.stripedSectionContainer:nth-child(odd)  { background-color: #F1F1F1; text-align: left; }
+
+.stripedHeader { display: inline-block; }
+.stripedHeader.one { font-size: 24px; }
+.stripedHeader.two { font-size: 17px; }
+
+@media screen and (max-width: 980px) {
+    .stripedSectionText {
+        display: block;
+        max-width: 100%;
+    }
+    .stripedSectionImage {
+        display: inline-block;
+        width: 300px;
+        position: relative;
+        left: 50%;
+        margin-left: -150px;
+
+    }
+}

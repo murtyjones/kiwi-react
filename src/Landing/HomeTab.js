@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import StripedSection from './HomeSections/StripedSection'
+import StripedSections from './HomeSections/StripedSections/StripedSections'
 import { AboutLink } from './HomeSections/Links'
 
 import '../close.css'
@@ -34,7 +34,7 @@ export default class HomeTab extends Component {
       <div key='homeContent' style={ styles.homeContentContainer }>
         <DynamicHeader />
         <WelcomeSection />
-        <StripedSection />
+        <StripedSections />
         <AboutLink />
       </div>
     )

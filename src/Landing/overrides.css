@@ -1,15 +1,3 @@
-.stripedSection {
-    min-height: 200px;
-}
-
-.stripedSection:nth-child(even) {
-    background-color: #f4f4f4;
-}
-.stripedSection:nth-child(odd) {
-    background-color: white;
-}
-
-
 .dynamicHeader {
     position: fixed;
     top: 0;

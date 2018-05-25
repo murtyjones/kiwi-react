@@ -81,7 +81,6 @@ export default class WelcomeSection extends Component {
 
         <NextArrow
           to={ window.innerHeight }
-          text='Learn More'
           textColor='#FFFFFF'
         />
 
