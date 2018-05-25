@@ -31,7 +31,7 @@ export class AboutLink extends Component {
       <div style={ {
         ...styles.linkContainerStyle
         , top: '20px'
-        , right: '100px'
+        , right: '10px'
         , width: '100px'
       } }
       >
