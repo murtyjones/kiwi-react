@@ -8,7 +8,9 @@ export default class StripedSection extends PureComponent {
   render() {
     return (
       <Fragment>
-
+        <div className='stripedSection'>Hello</div>
+        <div className='stripedSection'>Hiya</div>
+        <div className='stripedSection'>Hey there</div>
       </Fragment>
     )
   }

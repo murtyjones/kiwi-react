@@ -65,14 +65,6 @@ class LoginForm extends PureComponent {
           onBlur={ () => this.setPasswordStatus(false) }
         />
         <div>
-          {/*<button*/}
-            {/*className='submit'*/}
-            {/*type='submit'*/}
-            {/*onClick={ handleSubmit }*/}
-            {/*disabled={ submitting && !error }*/}
-          {/*>*/}
-            {/*Login*/}
-          {/*</button>*/}
           <button
             type='submit'
             onClick={ handleSubmit }

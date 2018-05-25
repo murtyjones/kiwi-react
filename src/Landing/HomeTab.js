@@ -5,7 +5,8 @@ import { AboutLink } from './HomeSections/Links'
 
 import '../close.css'
 import './overrides.css'
-import DynamicHeader from "./DynamicHeader"
+import DynamicHeader from './DynamicHeader'
+import WelcomeSection from './HomeSections/WelcomeSection'
 
 const styles = {
   homeContentContainer: {
@@ -32,6 +33,7 @@ export default class HomeTab extends Component {
     return (
       <div key='homeContent' style={ styles.homeContentContainer }>
         <DynamicHeader />
+        <WelcomeSection />
         <StripedSection />
         <AboutLink />
       </div>

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import renderTextField from '../common/renderTextField'
 import FlatButton from 'material-ui/FlatButton'
-import asyncValidate from './usernameAvailability'
+import asyncValidate from '../LoginOrRegister/usernameAvailability'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 
 import { inactiveColor, activeColor, styles as sharedStyles } from './sharedStyles'

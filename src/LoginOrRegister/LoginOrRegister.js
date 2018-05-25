@@ -13,7 +13,7 @@ import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } f
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
-import renderIf from 'render-if'
+import './overrides.css'
 
 
 class LoginOrRegister extends PureComponent {
@@ -113,7 +113,12 @@ class LoginOrRegister extends PureComponent {
   render() {
     const { location } = this.props
     const currentPath = location.pathname
-    const switchText = currentPath === '/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
+    const switchText = currentPath === '/login'
+      ? 'No account? Click here to register!'
+      : 'Already registered? Click here to sign in!'
+    const headerText = currentPath === '/login'
+      ? 'Sign in'
+      : 'Register'
 
     const availableRoutes = [
       {
@@ -130,14 +135,19 @@ class LoginOrRegister extends PureComponent {
     const ComponentToRender = () => { return currentRoute.component() }
 
     return (
-      <div>
-        <span
-          className='switchText'
-          onClick={ this.switchTabs }
-        >
-          { switchText }
-        </span>
-        <ComponentToRender />
+      <div className='loginOrRegister'>
+        <div className='loginHeader'>
+          <h1>{ headerText }</h1>
+          <span
+            className='switchText'
+            onClick={ this.switchTabs }
+          >
+            { switchText }
+          </span>
+        </div>
+        <div className='componentWrapper'>
+          <ComponentToRender />
+        </div>
       </div>
     )
   }

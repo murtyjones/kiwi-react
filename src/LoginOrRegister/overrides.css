@@ -1,0 +1,29 @@
+.loginOrRegister {
+    background-color: #654E93;
+    width: 100vw;
+    height: 100vh;
+}
+
+.componentWrapper {
+    max-width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+    width: 500px;
+    height: 274px;
+    margin: auto;
+    position: relative;
+    top: 25%;
+}
+
+.switchText {
+    color: white;
+    cursor: pointer;
+    align-content: center;
+}
+
+.loginHeader {
+    color: white;
+    text-align: center;
+    position: relative;
+    top: 20%;
+}
