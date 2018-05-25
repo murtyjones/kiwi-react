@@ -22,13 +22,10 @@
     background: transparent;
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 768px) {
     .dynamicCTAButton {
         top: 15px;
     }
-}
-
-@media screen and (max-width: 768px) {
     .dynamicHeader {
         height: 60px;
         padding: 15px;

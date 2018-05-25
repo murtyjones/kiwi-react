@@ -80,7 +80,7 @@ export default class WelcomeSection extends Component {
         </div>
 
         <NextArrow
-          to={ window.innerHeight }
+          to={ window.innerHeight - 60 }
           textColor='#FFFFFF'
         />
 

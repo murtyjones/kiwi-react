@@ -29,18 +29,22 @@
     display: inline-block;
     width: 300px;
     position: absolute;
-    right: 0;
-    top: -30px;
 }
+
+.stripedSectionImage.right { right: 0; }
+.stripedSectionImage.left  { left: 0; }
+
+.stripedSectionImage {}
 
 .stripedSectionContainer:nth-child(even) { background-color: #FFFFFF; text-align: right; }
 .stripedSectionContainer:nth-child(odd)  { background-color: #F1F1F1; text-align: left; }
 
-.stripedHeader { display: inline-block; }
-.stripedHeader.one { font-size: 24px; }
-.stripedHeader.two { font-size: 17px; }
+.stripedHeader { font-size: 24px; display: inline-block; }
 
 @media screen and (max-width: 980px) {
+    .stripedSectionContainer {
+        text-align: left !important;
+    }
     .stripedSectionText {
         display: block;
         max-width: 100%;
@@ -49,8 +53,7 @@
         display: inline-block;
         width: 300px;
         position: relative;
-        left: 50%;
+        left: 50% !important;
         margin-left: -150px;
-
     }
 }
