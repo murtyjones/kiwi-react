@@ -30,10 +30,10 @@ export default class DynamicHeader extends PureComponent {
 
     const minTopMass = 2.5
     const topMass = Math.max(mass, 0)
-    const textMass = Math.max(topMass / 2 + 1, fixPoint)
+    const textMass = Math.max(topMass / 10 + 2.5, fixPoint)
     const topSlogan = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass)
     const topButtonMass = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass) + 10
-
+    
     const sloganStyle = {
       fontSize: `calc( 3px + ${textMass}vw)`
       , lineHeight: `${textMass}vw`
