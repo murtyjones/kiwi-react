@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import StripedSections from './HomeSections/StripedSections/StripedSections'
 import { AboutLink } from './HomeSections/Links'
 
 import '../close.css'
 import './overrides.css'
 import DynamicHeader from './DynamicHeader'
 import WelcomeSection from './HomeSections/WelcomeSection'
+import StripedSections from './HomeSections/StripedSections/StripedSections'
+import LetsGoSection from './HomeSections/LetsGoSection/LetsGoSection'
 
 const styles = {
   homeContentContainer: {
@@ -32,10 +33,11 @@ export default class HomeTab extends Component {
   render() {
     return (
       <div key='homeContent' style={ styles.homeContentContainer }>
+        <AboutLink />
         <DynamicHeader />
         <WelcomeSection />
         <StripedSections />
-        <AboutLink />
+        <LetsGoSection />
       </div>
     )
   }

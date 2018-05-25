@@ -1,0 +1,11 @@
+.letsGoContainer {
+    background-color: #3e2e61;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+.letsGo {
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: center;
+}
