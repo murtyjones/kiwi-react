@@ -27,10 +27,13 @@ export default class DynamicHeader extends PureComponent {
   render() {
     const { text = '', smallText = '', fixPoint } = this.props
     const { mass } = this.state
-    const textMass = Math.max(mass, fixPoint)
+
+    const minTopMass = 2.5
     const topMass = Math.max(mass, 0)
-    const topSlogan = topMass * 5 + 2.5
-    const topButton = topMass * 5 + 12.5
+    const textMass = Math.max(topMass / 2 + 1, fixPoint)
+    const topSlogan = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass)
+    const topButtonMass = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass) + 10
+
     const sloganStyle = {
       fontSize: `calc( 3px + ${textMass}vw)`
       , lineHeight: `${textMass}vw`
@@ -39,7 +42,7 @@ export default class DynamicHeader extends PureComponent {
     }
 
     let buttonStyle = {
-      top: `${topButton}vh`,
+      top: `${topButtonMass}vh`,
       left: '50%',
       transform: 'translateX(-50%)',
       backgroundColor: 'white',
@@ -49,7 +52,7 @@ export default class DynamicHeader extends PureComponent {
       fontSize: '13pt'
     }
 
-    if(textMass === fixPoint) {
+    if(textMass <= fixPoint) {
       buttonStyle = {
         right: '15px',
         color: 'white',
@@ -66,7 +69,7 @@ export default class DynamicHeader extends PureComponent {
           className='dynamicSlogan'
           style={ sloganStyle }
         >
-          { textMass === fixPoint ? smallText : text }
+          { textMass <= fixPoint ? smallText : text }
         </span>
 
 

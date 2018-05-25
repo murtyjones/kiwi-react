@@ -66,7 +66,7 @@ export default class WelcomeSection extends Component {
         <DynamicCTA
           text='start your coding adventure today.'
           smallText='start coding today.'
-          fixPoint={ 2.4 }
+          fixPoint={ 2.685 }
         />
         <div style={ styles.titleContainer } >
           <div style={ sharedStyles.buttonContainer }>
