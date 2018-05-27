@@ -1,22 +1,15 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import Add from 'material-ui-icons/Add'
-import Extension from 'material-ui-icons/Extension'
-import LaptopMac from 'material-ui-icons/LaptopMac'
-import MonetizationOn from 'material-ui-icons/MonetizationOn'
-import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown'
-import { styles as sharedStyles } from './sharedStyles'
-import LogoSection from './AboutSections/LogoSection'
-import SubscribeSection from './AboutSections/SubscribeSection'
-import MissionSection from './AboutSections/MissionSection'
-import QuoteSection from './AboutSections/QuoteSection'
-import TeamSection from './AboutSections/TeamSection'
-import Footer from './AboutSections/Footer'
+import LogoSection from './LogoSection'
+import SubscribeSection from './SubscribeSection'
+import MissionSection from './MissionSection'
+import QuoteSection from './QuoteSection'
+import TeamSection from './TeamSection'
+import Footer from './Footer'
 import Link from 'react-router-dom/Link'
 
 
-import '../close.css'
-import './overrides.css'
+import '../../close.css'
 
 const styles = {
   container: {
@@ -41,7 +34,7 @@ const BackHome = () =>
   <Link style={ styles.backHome } to='/'>&lt; Home</Link>
 
 
-export default class AboutTab extends Component {
+export default class About extends Component {
   constructor(props) {
     super(props)
   }

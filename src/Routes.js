@@ -139,7 +139,7 @@ class App extends Component {
             isOpen={ modal.isOpen }
             onRequestClose={ this.props.closeModal }
             className={ modal.className }
-            overlayClassName={ modal.overlayClassName }
+            overlayClassName={ modal.overlayClassName ? modal.overlayClassName : 'ModalOverlay' }
           >
             { modal.children }
           </Modal>

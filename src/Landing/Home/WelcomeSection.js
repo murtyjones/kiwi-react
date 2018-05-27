@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { styles as sharedStyles } from '../sharedStyles'
 import NextArrow from './NextArrow'
 import DynamicCTA from './DynamicCTA/DynamicCTA'
 
@@ -67,17 +66,8 @@ export default class WelcomeSection extends Component {
           text='start your coding adventure today.'
           smallText='start coding today.'
           fixPoint={ 2.32 }
+          onClick={ this.props.openModal }
         />
-        <div style={ styles.titleContainer } >
-          <div style={ sharedStyles.buttonContainer }>
-            <div
-              className='greenButton hvr-grow'
-              onClick={ this.props.openDrawer }
-            >
-              Let's go!
-            </div>
-          </div>
-        </div>
 
         <NextArrow
           to={ window.innerHeight - 60 }

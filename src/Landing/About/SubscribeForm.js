@@ -6,7 +6,7 @@ import { Checkbox } from 'redux-form-material-ui'
 
 import { activeColor, inactiveColor, styles as sharedStyles } from './sharedStyles'
 
-import renderTextField from '../common/renderTextField'
+import renderTextField from '../../common/renderTextField'
 
 const contactFormStyles = {
   formStyle: {

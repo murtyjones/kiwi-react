@@ -36,7 +36,7 @@ export default class DynamicHeader extends PureComponent {
         <img
           key='homeLogo'
           className='homeLogo'
-          src='../../assets/images/landing-logo.svg'
+          src='../../../assets/images/landing-logo.svg'
         />
       </div>
     )

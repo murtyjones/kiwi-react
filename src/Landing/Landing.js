@@ -8,8 +8,8 @@ import { animateScroll as scroll } from 'react-scroll'
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login, postMessage } from '../actions'
 import { ApiFetch } from '../utils/ApiFetch'
 import find from 'lodash/find'
-import HomeTab from './HomeTab'
-import AboutTab from './AboutTab'
+import Home from './Home/Home'
+import About from './About/About'
 
 import '../close.css'
 import './overrides.css'
@@ -36,6 +36,7 @@ class Landing extends Component {
     , openTopBar: T.func
     , closeTopBar: T.func
     , signout: T.func
+    , postMessage: T.func.isRequired
   }
 
   componentWillReceiveProps() {
@@ -53,8 +54,8 @@ class Landing extends Component {
     this.props.openTopBar()
   }
 
-  handleMessageSubmit = (params) => {
-    this.props.postMessage(params)
+  handleMessageSubmit = (v) => {
+    this.props.postMessage({ subscribe: true, ...v })
   }
 
   scrollTo = to => scroll.scrollTo(to)
@@ -66,11 +67,11 @@ class Landing extends Component {
     const availableRoutes = [
       {
         path: '/',
-        component: HomeTab
+        component: Home
       },
       {
         path: '/about',
-        component: AboutTab
+        component: About
       }
     ]
     const currentTab = find(availableRoutes, { path: currentPath }) || availableRoutes[0]

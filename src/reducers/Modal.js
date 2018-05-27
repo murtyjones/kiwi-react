@@ -10,7 +10,6 @@ const initialState = {
 function modal(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.OPEN_MODAL: {
-      console.log('wut1')
       const newState = Object.assign({}, state, action.payload)
       newState.isOpen = true
       return newState

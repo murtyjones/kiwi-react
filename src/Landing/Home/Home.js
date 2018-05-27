@@ -3,16 +3,16 @@ import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 
-import '../close.css'
+import '../../close.css'
 import './overrides.css'
 
-import { AboutLink } from './HomeSections/Links'
+import { AboutLink } from './Links'
 import DynamicHeader from './DynamicHeader'
-import WelcomeSection from './HomeSections/WelcomeSection'
-import StripedSections from './HomeSections/StripedSections/StripedSections'
-import LetsGoSection from './HomeSections/LetsGoSection/LetsGoSection'
-import SubscribeModal from './HomeSections/SubscribeModal'
-import { openModal } from '../actions'
+import WelcomeSection from './WelcomeSection'
+import StripedSections from './StripedSections/StripedSections'
+import LetsGoSection from './LetsGoSection/LetsGoSection'
+import SubscribeModal from './SubscribeModal'
+import { openModal, closeModal } from '../../actions'
 
 const styles = {
   homeContentContainer: {
@@ -24,7 +24,7 @@ const styles = {
   }
 }
 
-class HomeTab extends Component {
+class Home extends Component {
   constructor(props) {
     super(props)
   }
@@ -34,11 +34,18 @@ class HomeTab extends Component {
     , scrollTo: T.func
     , handleMessageSubmit: T.func
     , openModal: T.func.isRequired
+    , closeModal: T.func.isRequired
   }
 
   openModal = () => {
     this.props.openModal({
-      children: <div>Hello</div>
+      className: 'subscribeModal',
+      children: (
+        <SubscribeModal
+          onClose={ this.props.closeModal }
+          handleMessageSubmit={ this.props.handleMessageSubmit }
+        />
+      )
     })
   }
 
@@ -47,7 +54,7 @@ class HomeTab extends Component {
       <div key='homeContent' style={ styles.homeContentContainer }>
         <AboutLink />
         <DynamicHeader />
-        <WelcomeSection />
+        <WelcomeSection openModal={ this.openModal } />
         <StripedSections />
         <LetsGoSection openModal={ this.openModal } />
       </div>
@@ -58,7 +65,8 @@ class HomeTab extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     openModal: params => dispatch(openModal(params))
+    , closeModal: params => dispatch(closeModal(params))
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(HomeTab))
+export default withRouter(connect(null, mapDispatchToProps)(Home))

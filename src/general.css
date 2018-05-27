@@ -17,3 +17,9 @@
     position: relative;
     z-index: 10000;
 }
+
+
+/* prevent blue outline */
+*:focus {
+    outline: none;
+}

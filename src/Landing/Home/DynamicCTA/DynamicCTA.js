@@ -75,7 +75,7 @@ export default class DynamicHeader extends PureComponent {
         <div
           className='dynamicCTAButton'
           style={ buttonStyle }
-          onClick={ null }
+          onClick={ this.props.onClick }
         >
           Let's go!
         </div>

@@ -8,7 +8,7 @@ const styles = {
     , textAlign: 'center'
     , paddingTop: '10px'
     , paddingRight: '15px'
-    , zIndex: 20
+    , zIndex: 52 // just in front of dynamicHeader
   },
   linkStyle: {
     borderBottom: '2px #FFFFFF solid'

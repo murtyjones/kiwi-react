@@ -1,13 +1,13 @@
 const inactiveColor = '#2E2860'
-const activeColor = '#FFFFFF'
+const activeColor = '#2E2860'
 
 const styles = {
   field: {
     width: '100%'
-    , color: '#FFFFFF'
+    , color: '#2E2860'
   },
   input: {
-    color: '#FFFFFF'
+    color: '#2E2860'
   },
   underlineStyle: {
     borderBottom: `3px solid ${inactiveColor}`

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import SubscribeForm from '../SubscribeForm'
+import SubscribeForm from './SubscribeForm'
 import NextArrow from './NextArrow'
 
 const styles = {

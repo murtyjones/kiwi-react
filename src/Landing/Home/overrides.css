@@ -1,0 +1,12 @@
+.subscribeModalFormContainer {
+    width: 90%;
+    margin: 0 auto;
+    font-family: Arial;
+    color: #2E2860;
+    position: relative;
+}
+
+h2.subscribeHeader, h4.subscribeHeader {
+    font-family: Arvo;
+    text-align: center;
+}
