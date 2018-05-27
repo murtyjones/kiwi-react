@@ -52,6 +52,7 @@ import ForgotPasswordWizard from './ForgotPasswordWizard/ForgotPasswordWizard'
 import StandaloneEditor from './StandaloneEditor/StandaloneEditor'
 import ProviderDashboard from './ProviderDashboard/ProviderDashboard'
 import EmailVerification from './EmailVerification/EmailVerification'
+import BetaLessons from './BetaLessons/BetaLessons'
 
 
 let baseAppStyle = {
@@ -183,6 +184,7 @@ class App extends Component {
                 <AuthenticatedRoute path='/project/new' exact component={ UserProject } title='name me!' topBarTitleDisabled={ false } { ...extras } />
                 <AuthenticatedRoute path='/project/:id' exact component={ UserProject } topBarTitleDisabled={ false } { ...extras } />
                 <AuthenticatedRoute path='/lessons' exact component={ Lessons } title='Lessons' { ...extras } />
+                <AuthenticatedRoute path='/lessons/beta' exact component={ BetaLessons } title='Lessons (Beta)' { ...extras } />
                 <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...extras } />
                 {/* ----------------- */}
                 {/* Admin-only routes */}

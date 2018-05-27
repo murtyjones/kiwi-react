@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
-import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import orderBy from 'lodash/orderBy'
 import find from 'lodash/find'
@@ -12,35 +11,8 @@ import isEmpty from 'lodash/isEmpty'
 
 import { getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, setGlobalColors, closeSideNav } from '../actions'
 
-import LessonCard from './LessonCard'
-import LessonMap from './LessonMap'
-import LessonMapBackground from './LessonMapBackground'
-import { GLOBAL_COLORS } from '../constants'
-import KiwiLink from '../common/KiwiLink'
-
+import LessonList from './LessonList'
 import './overrides.css'
-
-const BetaLessonsLink = () =>
-  <KiwiLink to='/lessons/beta'>
-    <div className='betaLessonsLink'>
-      Beta Lesson Tester? Click here!
-    </div>
-  </KiwiLink>
-
-const styles = {
-  mapContainer: {
-    width: '100vw'
-    , position: 'absolute'
-  },
-  lessonCardContainer: {
-    position: 'fixed'
-    , right: '20px'
-    , bottom: '20px'
-    , width: '350px'
-    , height: '400px'
-    , zIndex: 1000
-  }
-}
 
 class Lessons extends Component {
   constructor(props) {
@@ -88,21 +60,21 @@ class Lessons extends Component {
 
   setCombinedMapLessons = (orderOfPublishedLessons, lessons, userLessons) => {
     let activeLessonId = orderOfPublishedLessons[0] // at the very least, the first lesson should be active
-      const combinedMapLessons = orderOfPublishedLessons.map((lessonId, i) => {
-        const lesson = find(lessons, { _id: lessonId }) || {}
-          , userLesson = find(userLessons, { lessonId }) || {}
-          , prevLessonId = i > 0 ? orderOfPublishedLessons[i - 1] : ''
-          , prevLesson = find(lessons, { _id: prevLessonId }) || {}
-          , prevUserLesson = find(userLessons, { lessonId: prevLesson._id }) || {}
+    const combinedMapLessons = orderOfPublishedLessons.map((lessonId, i) => {
+      const lesson = find(lessons, { _id: lessonId }) || {}
+        , userLesson = find(userLessons, { lessonId }) || {}
+        , prevLessonId = i > 0 ? orderOfPublishedLessons[i - 1] : ''
+        , prevLesson = find(lessons, { _id: prevLessonId }) || {}
+        , prevUserLesson = find(userLessons, { lessonId: prevLesson._id }) || {}
 
-        if(!lesson) return {}
-        lesson.userLesson = userLesson
-        const hasBeenStartedButNotCompleted = !isEmpty(userLesson) && !userLesson.hasBeenCompleted
-        const hasNotBeenStartedButIsNext = isEmpty(userLesson) && !isEmpty(prevUserLesson) && prevUserLesson.hasBeenCompleted
-        if(hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext)
-          activeLessonId = lesson._id
-        return lesson
-      })
+      if(!lesson) return {}
+      lesson.userLesson = userLesson
+      const hasBeenStartedButNotCompleted = !isEmpty(userLesson) && !userLesson.hasBeenCompleted
+      const hasNotBeenStartedButIsNext = isEmpty(userLesson) && !isEmpty(prevUserLesson) && prevUserLesson.hasBeenCompleted
+      if(hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext)
+        activeLessonId = lesson._id
+      return lesson
+    })
 
     this.setState({ combinedMapLessons, activeLessonId })
   }
@@ -112,38 +84,18 @@ class Lessons extends Component {
   render() {
     const { lessons, orderOfPublishedLessons, lessonThemesById } = this.props
     const { selectedLessonId, lessonJustCompletedId, activeLessonId, combinedMapLessons } = this.state
-    const selectedLessonPosition = selectedLessonId
-      ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
-      : 0
-    const selectedLesson = {
-      ...find(lessons, { _id: selectedLessonId })
-      , order: selectedLessonPosition
-    }
-    const themeName = (lessonThemesById[selectedLesson.themeId] || {}).name || 'default'
 
-    return [
-      <Fragment>
-        <BetaLessonsLink />
-        <LessonMapBackground key='LessonMapBackground' />
-        <LessonMap
-          key='LessonMap'
-          mapLessons={ combinedMapLessons }
+    return (
+      <div className='betaLessonsList'>
+        <LessonList
+          lessons={ combinedMapLessons }
           selectedLessonId={ selectedLessonId }
           lessonJustCompletedId={ lessonJustCompletedId }
           activeLessonId={ activeLessonId }
-          lessonThemesById={ lessonThemesById }
           setSelectedLessonId={ this.setSelectedLessonId }
         />
-        { selectedLessonId &&
-          <LessonCard
-            key='LessonCard'
-            lesson={ selectedLesson }
-            colors={ GLOBAL_COLORS[themeName.toLowerCase()]  }
-            style={ styles.lessonCardContainer }
-          />
-        }
-      </Fragment>
-    ]
+      </div>
+    )
   }
 
 }

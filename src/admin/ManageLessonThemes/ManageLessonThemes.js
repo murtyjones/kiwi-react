@@ -7,7 +7,7 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 
 import LessonThemeWidget from './LessonThemeWidget'
-import { KiwiLink } from '../../common/KiwiLink'
+import KiwiLink from '../../common/KiwiLink'
 import { getManyLessonThemes, deleteLessonTheme } from '../../actions'
 
 

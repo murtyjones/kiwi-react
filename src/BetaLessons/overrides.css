@@ -1,0 +1,41 @@
+.betaLessonsList {
+    padding: 50px;
+}
+
+.betaLessonCardContainer {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.betaLessonCard {
+    height: 80px;
+    max-width: 500px;
+    margin: 0 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.betaLessonCard.locked { color: #CCC; }
+.betaLessonCard.unlocked { color: #000; }
+.betaLessonCard.completed { color: #4F8A10; }
+
+
+.leftIcon {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.betaLessonText {
+    display: inline-block;
+    padding-top: 15px;
+    box-sizing: border-box;
+}
+
+.betaLessonTitle {
+
+}
+
+.betaLessonSubtitle {
+    font-size: 9pt;
+}

@@ -8,7 +8,7 @@ import get from 'lodash/get'
 import Toggle from 'material-ui/Toggle'
 
 import SubscriptionWidget from '../ManageSubscriptions/SubscriptionWidget'
-import { KiwiLink } from '../../common/KiwiLink'
+import KiwiLink from '../../common/KiwiLink'
 import { getManySubscriptions, deleteSubscription, getManyProfiles } from '../../actions/index'
 import { SUBSCRIPTION_STATUSES } from '../../constants'
 

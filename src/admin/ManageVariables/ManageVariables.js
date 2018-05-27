@@ -7,7 +7,7 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 
 import VariableWidget from '../ManageVariables/VariableWidget'
-import { KiwiLink } from '../../common/KiwiLink'
+import KiwiLink from '../../common/KiwiLink'
 import { getManyVariables, deleteVariable } from '../../actions/index'
 
 

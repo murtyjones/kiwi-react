@@ -15,7 +15,7 @@ const styles = {
   }
 }
 
-import { KiwiLink } from '../../common/KiwiLink'
+import KiwiLink from '../../common/KiwiLink'
 
 class VariableWidget extends Component {
   constructor(props) {

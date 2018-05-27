@@ -7,7 +7,7 @@ import CardHeader from 'material-ui/Card/CardHeader'
 import CardMedia from 'material-ui/Card/CardMedia'
 import cns from 'classnames'
 
-import { KiwiLink } from '../common/KiwiLink'
+import KiwiLink from '../common/KiwiLink'
 
 const mediaColor = '#808080'
 const textColor = '#A9A9A9'

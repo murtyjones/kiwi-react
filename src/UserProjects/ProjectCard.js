@@ -9,7 +9,7 @@ import CardTitle from 'material-ui/Card/CardTitle'
 import CardText from 'material-ui/Card/CardText'
 import moment from 'moment'
 
-import { KiwiLink } from '../common/KiwiLink'
+import KiwiLink from '../common/KiwiLink'
 import assets from './cardAssets'
 
 const mediaColor = '#FFFFFF'

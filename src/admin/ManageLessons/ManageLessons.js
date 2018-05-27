@@ -7,7 +7,7 @@ import get from 'lodash/get'
 
 
 import LessonWidget from './LessonWidget'
-import { KiwiLink } from '../../common/KiwiLink'
+import KiwiLink from '../../common/KiwiLink'
 import { getManyLessons, putLesson, getLessonOrder, putLessonOrder } from '../../actions'
 import { SortableList } from '../../common/SortableComponents'
 import { reorderLessons } from '../../utils/lessonOrderUtils'

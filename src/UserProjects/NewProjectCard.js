@@ -7,7 +7,7 @@ import CardMedia from 'material-ui/Card/CardMedia'
 import CardTitle from 'material-ui/Card/CardTitle'
 import CardText from 'material-ui/Card/CardText'
 
-import { KiwiLink } from '../common/KiwiLink'
+import KiwiLink from '../common/KiwiLink'
 
 const mediaColor = '#808080'
 const textColor = '#A9A9A9'

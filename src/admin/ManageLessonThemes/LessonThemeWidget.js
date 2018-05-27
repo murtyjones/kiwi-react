@@ -16,7 +16,7 @@ const styles = {
   }
 }
 
-import { KiwiLink } from '../../common/KiwiLink'
+import KiwiLink from '../../common/KiwiLink'
 
 class LessonThemeWidget extends Component {
   constructor(props) {

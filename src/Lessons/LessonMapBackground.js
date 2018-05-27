@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 
-import './overrides.css'
-
 const themeAssetLinks = {
   neighborhood: {
     topLeft: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-houses-top-left_tzjpd7.svg'

@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty'
 import findIndex from 'lodash/findIndex'
 import cloneDeep from 'lodash/cloneDeep'
 
-import { KiwiLink } from '../common/KiwiLink'
+import KiwiLink from '../common/KiwiLink'
 import { colorOrder, iconOrder } from './assetAssignment'
 import { getManyUserProjects, setGlobalColors } from '../actions'
 import ProjectCard from './ProjectCard'
@@ -164,7 +164,7 @@ class UserProjects extends Component {
             }
           </div>
         </div>
-        
+
       </div>
     ]
   }

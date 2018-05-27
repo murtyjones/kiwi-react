@@ -10,7 +10,7 @@ import Map from 'material-ui-icons/Map'
 import Work from 'material-ui-icons/Work'
 import PowerSettingsNew from 'material-ui-icons/PowerSettingsNew'
 import Description from 'material-ui-icons/Description'
-import { KiwiLink } from "../common/KiwiLink"
+import KiwiLink from "../common/KiwiLink"
 
 const p = 20
 

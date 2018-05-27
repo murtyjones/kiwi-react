@@ -1,3 +1,17 @@
+.betaLessonsLink {
+    position: fixed;
+    background-color: white;
+    border-radius: 50px;
+    padding: 10px 30px;
+    top: 100px;
+    right: 25px;
+    z-index: 10000;
+    font-weight: bold;
+    border: 1px solid #CCC;
+    color: #513d80;
+    cursor: pointer;
+}
+
 .egypt {
     /*
      * Here's the deal: the background images need to overlap
