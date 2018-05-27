@@ -196,6 +196,7 @@ class UserLessonWizardForm extends Component {
   }
 
   onFinalNext = async () => {
+    this.props.onSubmit(this.props.formValues)
     this.props.onFinalSlideNextClick()
     this.setState({ showResultCard: false, submitCurrentValues: false, checkAnswer: false })
   }
