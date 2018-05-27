@@ -16,6 +16,7 @@ import variables from './Variables'
 import userVariables from './UserVariables'
 import subscriptions from './Subscriptions'
 import profiles from './Profiles'
+import modal from './Modal'
 
 // Export combined reducers
 export const notCombined = {
@@ -34,6 +35,7 @@ export const notCombined = {
   , userVariables
   , subscriptions
   , profiles
+  , modal
 }
 
 export default combineReducers(notCombined)

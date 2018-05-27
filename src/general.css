@@ -12,3 +12,8 @@
     font-weight: bold;
     color: white;
 }
+
+.ReactModalPortal {
+    position: relative;
+    z-index: 10000;
+}

@@ -4,6 +4,7 @@ import Route from 'react-router-dom/Route'
 import Switch from 'react-router-dom/Switch'
 import Redirect from 'react-router-dom/Redirect'
 import withRouter from 'react-router-dom/withRouter'
+import Modal from 'react-modal'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
@@ -11,11 +12,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import AuthService from './utils/AuthService'
-import { closeSideNav, openSideNav, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors } from './actions'
+import { closeSideNav, openSideNav, openModal, closeModal, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, signout } from './actions'
 
 
 const authService = new AuthService()
 
+Modal.setAppElement(document.getElementById('app'))
 
 
 /**
@@ -98,7 +100,6 @@ const EnvironmentReminder = props =>
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
   }
 
   static propTypes = {
@@ -112,13 +113,16 @@ class App extends Component {
     , topBarTitleDisabled: T.bool.isRequired
     , setTopBarTitle: T.func.isRequired
     , setGlobalColors: T.func.isRequired
+    , openModal: T.func.isRequired
+    , closeModal: T.func.isRequired
+    , modal: T.object.isRequired
   }
 
   toggleSideNav = () =>
     this.props.isSideNavOpen ? this.props.closeSideNav() : this.props.openSideNav()
 
   render() {
-    const { isLoggedIn, isAdmin, isProvider, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, topBarFocused, primaryColor, secondaryColor, textColor } = this.props
+    const { modal, isLoggedIn, isAdmin, isProvider, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, topBarFocused, primaryColor, secondaryColor, textColor } = this.props
     const topBarWidthString = `${topBarHeight}px`
     const extras = { isLoggedIn, isAdmin, isProvider, setTopBarTitle, setGlobalColors, primaryColor, secondaryColor, textColor, toggleTopBarTitleIsDisabled }
 
@@ -131,6 +135,14 @@ class App extends Component {
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
+          <Modal
+            isOpen={ modal.isOpen }
+            onRequestClose={ this.props.closeModal }
+            className={ modal.className }
+            overlayClassName={ modal.overlayClassName }
+          >
+            { modal.children }
+          </Modal>
           <SideNav
             isOpen={ isSideNavOpen }
             toggleSideNav={ this.toggleSideNav }
@@ -226,7 +238,8 @@ const mapStateToProps = (state) => {
     auth: { isLoggedIn, isAdmin, isProvider },
     sideNav: { sideNavWidth, isSideNavOpen },
     topBar: { topBarHeight, isTopBarOpen, topBarTitle, topBarTitleDisabled, topBarFocused },
-    globalColors: { primaryColor, secondaryColor, textColor }
+    globalColors: { primaryColor, secondaryColor, textColor },
+    modal
   } = state
 
   return {
@@ -243,6 +256,7 @@ const mapStateToProps = (state) => {
     , primaryColor
     , secondaryColor
     , textColor
+    , modal
   }
 }
 
@@ -254,6 +268,8 @@ const mapDispatchToProps = (dispatch) => {
     , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
     , toggleTopBarTitleIsDisabled: isDisabled => dispatch(toggleTopBarTitleIsDisabled(isDisabled))
     , setGlobalColors: params => dispatch(setGlobalColors(params))
+    , openModal: params => dispatch(openModal(params))
+    , closeModal: params => dispatch(closeModal(params))
   }
 }
 
