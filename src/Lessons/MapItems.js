@@ -31,8 +31,8 @@ const styles = {
 const generateStatefulMapLessons = ({ mapLessons, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId }) =>
   (mapLessons ||[]).reduce((acc, lesson, i) => {
     const order = i + 1
-      , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`]
-      , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`]
+      , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`] || 0
+      , y = LESSON_MAP_POINTS[`CIRCLE_${order}_Y`] || 1000000 // hide way down the screen if no points found
       , goToPoint = LESSON_MAP_POINTS[`CIRCLE_${order}_GOTO`]
       , isLeftLabel = x > 50
       , hasBeenCompleted = get(lesson, 'userLesson.hasBeenCompleted', false)
