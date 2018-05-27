@@ -46,7 +46,8 @@ const sections = [
       knowledge and helping each other solve problems at every step of
       their coding journey.
     `,
-    imageUrl: '../../../../assets/images/kids.svg'
+    imageUrl: '../../../../assets/images/kids.svg',
+    imageStyle: { transform: 'rotate(5deg)' }
   },
 ]
 
