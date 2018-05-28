@@ -53,7 +53,7 @@ export default class DynamicHeader extends PureComponent {
 
     if(textMass <= fixPoint) {
       buttonStyle = {
-        right: '15px',
+        right: '45px',
         color: 'white',
         padding: '5px 25px',
         borderRadius: '15px',

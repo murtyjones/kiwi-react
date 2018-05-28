@@ -47,7 +47,7 @@ const sections = [
       their coding journey.
     `,
     imageUrl: '../../../../assets/images/kids.svg',
-    imageStyle: { transform: 'rotate(5deg)' }
+    imageStyle: { width: '400px' }
   },
 ]
 
