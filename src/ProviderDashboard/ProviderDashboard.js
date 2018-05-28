@@ -10,15 +10,17 @@ import ObjectID from 'bson-objectid'
 import { getProfileDetails, getManyProfiles, getManySubscriptions, closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } from '../actions'
 import ProviderMenu from './ProviderMenu'
 
-import Profile from './Profile/Profile'
+import Account from './Account/Account'
+import Billing from './Billing/Billing'
 import ChangePassword from './ChangePassword/ChangePassword'
 import Subscriptions from './Subscriptions/Subscriptions'
 
 import './overrides.css'
 
 export const MENU_ITEMS = [
-  { label: 'Profile', section: 'profile', component: Profile },
-  { label: 'Reset Password', section: 'reset-password', component: ChangePassword },
+  { label: 'My Account', section: 'account', component: Account },
+  { label: 'Billing Information', section: 'billing', component: Billing },
+  { label: 'My Password', section: 'reset-password', component: ChangePassword },
   { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions }
 ]
 

@@ -23,6 +23,10 @@ div[role='menu'] {
     padding: 0 !important
 }
 
+.providerDashboard-sectionHeader {
+    margin: 0;
+}
+
 .providerDashboard-left {
     display: inline-block;
     width: 33%;

@@ -1,0 +1,39 @@
+.emailVerificationLine-text {
+    margin: 10px 0 10px 0;
+}
+.emailVerificationLine-warn {
+    color: #FF5472;
+    font-weight: bold;
+    display: block;
+}
+
+
+.accountFieldHeader {
+    margin-bottom: 5px;
+}
+
+.accountHeader {
+    margin-top: 0;
+}
+
+.editLink {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 10pt;
+    text-decoration: underline;
+}
+
+
+.accountName {
+    display: inline-block;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.accountName.first {
+    padding-right: 5px;
+}
+
+.accountName.last {
+    padding-left: 5px;
+}

@@ -9,6 +9,7 @@ const defaultContainerStyle = {  }
 const defaultLabelStyle = { display: 'block' }
 const defaultStyle = {  }
 const defaultInputStyle = {  }
+const defaultHintStyle = { display: 'none' }
 const defaultUnderlineStyle = {  }
 
 const renderTextField = params => {
@@ -19,7 +20,7 @@ const renderTextField = params => {
   const asyncValidated = touched && !pristine && !asyncValidating && valid
 
   return (
-    <div style={ containerStyle }>
+    <div className={ params.containerClassName } style={ containerStyle }>
       <label style={ labelStyle }>
         { label }
       </label>
@@ -29,6 +30,7 @@ const renderTextField = params => {
         style={ style }
         inputStyle={ inputStyle }
         underlineStyle={ underlineStyle }
+        hintStyle={ defaultHintStyle }
         { ...rest }
         floatingLabelText={
           includeFloatingLabel &&

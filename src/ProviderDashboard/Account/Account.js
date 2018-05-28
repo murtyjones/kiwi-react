@@ -1,21 +1,21 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 
-import ProfileForm from './ProfileForm'
+import AccountForm from './AccountForm'
 import { updateProfile, resendVerificationEmail } from '../../actions'
 
 import './overrides.css'
 
-class Profile extends Component {
+class Account extends Component {
   constructor(props) {
     super(props)
   }
 
   static propTypes = {
-    initialValues: T.object.isRequired,
-    updateProfile: T.func.isRequired,
+    initialValues: T.object.isRequired
+    , updateProfile: T.func.isRequired
   }
 
   handleSubmit = async (v) => {
@@ -33,15 +33,21 @@ class Profile extends Component {
   }
 
   render() {
-    const { initialValues } = this.props
+    const { profile } = this.props
 
     return (
-      <ProfileForm
-        initialValues={ initialValues }
-        isEmailVerified={ initialValues.isEmailVerified }
-        onSubmit={ this.handleSubmit }
-        onVerificationEmailClick={ this.handleVerificationEmailClick }
-      />
+      <Fragment>
+        <h2 className='providerDashboard-sectionHeader'>
+          Welcome { profile.firstName || profile.name || 'back' }!
+        </h2>
+        <AccountForm
+          initialValues={ profile }
+          isEmailVerified={ profile.isEmailVerified }
+          onSubmit={ this.handleSubmit }
+          onVerificationEmailClick={ this.handleVerificationEmailClick }
+        />
+
+      </Fragment>
     )
   }
 }
@@ -50,17 +56,17 @@ const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, profiles: { profilesById } } = state
   const profile = profilesById[userId] || {}
   return {
-    initialValues: profile,
+    profile,
     userId
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProfile: params => dispatch(updateProfile(params)),
-    resendVerificationEmail: params => dispatch(resendVerificationEmail(params)),
+    updateProfile: params => dispatch(updateProfile(params))
+    , resendVerificationEmail: params => dispatch(resendVerificationEmail(params))
   }
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Account))

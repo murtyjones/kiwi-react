@@ -13,7 +13,7 @@ import renderTextField from '../../common/renderTextField'
 import KiwiSliderField from '../../common/renderSliderField'
 import { Toggle, SelectField } from 'redux-form-material-ui'
 
-let formName = 'lessonTheme'
+let formName = 'variable'
 
 const notEmpty = value => !!value
   ? null

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
@@ -40,10 +40,15 @@ class ChangePassword extends Component {
   render() {
     const { initialValues } = this.props
     return (
-      <ChangePasswordForm
-        initialValues={ initialValues }
-        onSubmit={ this.handleSubmit }
-      />
+      <Fragment>
+        <h2 className='providerDashboard-sectionHeader'>
+          Change your password
+        </h2>
+        <ChangePasswordForm
+          initialValues={ initialValues }
+          onSubmit={ this.handleSubmit }
+        />
+      </Fragment>
     )
   }
 }

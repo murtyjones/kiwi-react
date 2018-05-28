@@ -19,7 +19,6 @@ const styles = {
   form: {
     width: 'calc(100% - 20px)' // 20px padding offset
     , height: '100%'
-    , padding: '10px'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
   },

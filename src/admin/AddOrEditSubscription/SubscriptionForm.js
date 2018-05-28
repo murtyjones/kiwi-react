@@ -14,7 +14,7 @@ import KiwiSliderField from '../../common/renderSliderField'
 import { Toggle, SelectField } from 'redux-form-material-ui'
 import { SUBSCRIPTION_STATUSES } from '../../constants'
 
-let formName = 'lessonTheme'
+let formName = 'subscription'
 
 const notEmpty = value => !!value
   ? null
