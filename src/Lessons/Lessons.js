@@ -23,7 +23,7 @@ import './overrides.css'
 const BetaLessonsLink = () =>
   <KiwiLink to='/lessons/beta'>
     <div className='betaLessonsLink'>
-      Beta Lesson Tester? Click here!
+      Additional lessons – Click here!
     </div>
   </KiwiLink>
 
