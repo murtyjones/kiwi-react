@@ -12,7 +12,7 @@ const sections = [
       them with the tech skills to be empowered in a digital world.
     `,
     imageUrl: '../../../../assets/images/tropical-island.svg',
-    imageStyle: { top: '-30px' }
+    imageStyle: { top: '-30px', width: '320px' }
   },
   {
     headerText: 'Choose a trusted curriculum',
@@ -24,7 +24,8 @@ const sections = [
       students and parents from across the country.
     `,
     imageUrl: 'https://res.cloudinary.com/kiwi-stage/image/upload/v1516730490/landing-mock_1_yldeln.png',
-    style: { minHeight: '300px' }
+    style: { minHeight: '300px' },
+    imageStyle: { width: '350px' }
   },
   {
     headerText: 'Give your digital kids the support they need',
@@ -54,7 +55,7 @@ const sections = [
 const StripedSection = props =>
   <div className='stripedSectionContainer' style={ props.style || {} }>
     <div className='stripedSection'>
-      <div className='stripedSectionText'>
+      <div className='stripedSectionText' style={ props.textStyle || {} }>
         <h1 className='stripedHeader'>
           { props.headerText }
         </h1>
@@ -81,15 +82,11 @@ export default class StripedSections extends PureComponent {
   render() {
     return (
       <div className='stripedContainer'>
-        { sections.map((each, idx) =>
+        { sections.map((props, idx) =>
           <StripedSection
             key={ idx }
-            style={ each.style }
-            headerText={ each.headerText }
-            bodyText={ each.bodyText }
             right={ idx % 2 === 0 }
-            imageUrl={ each.imageUrl }
-            imageStyle={ each.imageStyle } /*Offsets image cropping weirdness*/
+            { ...props }
           />
         ) }
       </div>

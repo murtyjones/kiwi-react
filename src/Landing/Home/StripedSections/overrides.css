@@ -39,6 +39,9 @@
 .stripedSectionContainer:nth-child(even) { background-color: #FFFFFF; text-align: right; }
 .stripedSectionContainer:nth-child(odd)  { background-color: #F1F1F1; text-align: left; }
 
+.stripedSectionContainer:nth-child(even) .stripedSectionText { padding-left: 40px; box-sizing: border-box; }
+.stripedSectionContainer:nth-child(odd)  .stripedSectionText { padding-right: 40px; box-sizing: border-box; }
+
 .stripedHeader { font-size: 24px; display: inline-block; }
 
 @media screen and (max-width: 980px) {
@@ -56,4 +59,6 @@
         left: 50% !important;
         margin-left: -150px;
     }
+    .stripedSectionContainer:nth-child(even) .stripedSectionText { padding-left: 0; }
+    .stripedSectionContainer:nth-child(odd) .stripedSectionText { padding-right: 0; }
 }

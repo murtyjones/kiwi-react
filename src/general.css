@@ -23,3 +23,7 @@
 *:focus {
     outline: none;
 }
+
+a {
+    color: #0074D9;
+}

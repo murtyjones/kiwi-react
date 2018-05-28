@@ -9,3 +9,14 @@
     margin: 0 auto;
     text-align: center;
 }
+
+.letsGoBottomButton {
+    background-color: white;
+    color: #654E93;
+    padding: 10px 30px;
+    border-radius: 25px;
+    font-size: 13pt;
+    border: 2px solid #FFFFFF;
+    font-weight: bold;
+    cursor: pointer;
+}

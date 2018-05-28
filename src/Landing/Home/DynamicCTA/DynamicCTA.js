@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react'
+import cns from 'classnames'
 
 import './overrides.css'
 
@@ -41,23 +42,36 @@ export default class DynamicHeader extends PureComponent {
     }
 
     let buttonStyle = {
+      position: 'fixed',
       top: `${topButtonMass}vh`,
       left: '50%',
-      transform: 'translateX(-50%)',
+      width: '70px',
+      marginLeft: '-70px',
       backgroundColor: 'white',
       color: '#654E93',
       padding: '10px 30px',
       borderRadius: '25px',
-      fontSize: '13pt'
+      fontSize: '13pt',
+      border: '2px solid #FFFFFF',
+      fontWeight: 'bold',
+      cursor: 'pointer',
+      zIndex: 51
     }
 
     if(textMass <= fixPoint) {
       buttonStyle = {
-        right: '45px',
+        position: 'fixed',
+        top: '25px',
+        right: 'calc(45px + 50px)', // accounts for transform below
+        transform: 'translateX(50px)',
         color: 'white',
         padding: '5px 25px',
         borderRadius: '15px',
-        fontSize: '10pt'
+        fontSize: '10pt',
+        border: '2px solid #FFFFFF',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        zIndex: 51
       }
     }
 
@@ -73,7 +87,7 @@ export default class DynamicHeader extends PureComponent {
 
 
         <div
-          className='dynamicCTAButton'
+          className={ cns('dynamicCTAButton', 'hvr-grow') }
           style={ buttonStyle }
           onClick={ this.props.onClick }
         >

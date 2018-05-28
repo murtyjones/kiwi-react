@@ -9,25 +9,13 @@
     z-index: 51;
 }
 
-.dynamicCTAButton {
-    position: fixed;
-    top: 25px;
-    border: 2px solid #FFFFFF;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 51;
-}
-
-.dynamicCTAButton:hover {
-    background: transparent;
-}
 
 @media screen and (max-width: 768px) {
-    .dynamicCTAButton {
-        top: 15px;
-    }
     .dynamicHeader {
         height: 60px;
         padding: 15px;
+    }
+    .dynamicCTAButton {
+        top: 15px;
     }
 }
