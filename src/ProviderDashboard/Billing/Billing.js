@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
+import { SubmissionError } from 'redux-form'
+
 
 import BillingForm from './BillingForm'
 import { updateProfile, resendVerificationEmail, openModal } from '../../actions'
@@ -14,18 +16,13 @@ class Billing extends Component {
   }
 
   static propTypes = {
-    initialValues: T.object.isRequired
+    profile: T.object.isRequired
     , updateProfile: T.func.isRequired
     , openModal: T.func.isRequired
   }
 
   handleSubmit = async (v) => {
-    const { userId, updateProfile } = this.props
-    const params = {
-      ...v,
-      _id: userId
-    }
-    return updateProfile(params)
+    console.log('hm')
   }
 
   handleVerificationEmailClick = () => {

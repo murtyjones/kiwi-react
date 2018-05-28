@@ -9,5 +9,6 @@
     "namespace": "https://prod.kiwicompute.com",
     "realm": "Username-Password-Authentication"
   },
-  "api" : "https://api.kiwicompute.com"
+  "api" : "https://api.kiwicompute.com",
+  "stripePublishableKey": "pk_test_vnQAXQKpdv7q6DGTfhAMcT5X"
 }
