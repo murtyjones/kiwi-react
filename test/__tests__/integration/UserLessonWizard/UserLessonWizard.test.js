@@ -236,6 +236,8 @@ describe('UserLessonWizard', () => {
         })
 
         it('should set slide 1 to viewed', async () => {
+          component.update()
+          await flushAllPromises()
           expect(component.find('UserLessonWizardForm').props().formValues.answerData[0].isViewed).toEqual(true)
         })
 
@@ -275,6 +277,8 @@ describe('UserLessonWizard', () => {
         it('should set slide 2 to viewed', async () => {
           expect(component.find('UserLessonWizardForm').props().formValues.answerData[1].isViewed).toEqual(undefined)
           component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.update()
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').props().formValues.answerData[1].isViewed).toEqual(true)
         })
@@ -357,6 +361,8 @@ describe('UserLessonWizard', () => {
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.update()
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').props().formValues.answerData[2].isViewed).toEqual(true)
         })
@@ -442,6 +448,8 @@ describe('UserLessonWizard', () => {
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.update()
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').props().formValues.answerData[3].isViewed).toEqual(true)
         })
@@ -541,6 +549,8 @@ describe('UserLessonWizard', () => {
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
+          await flushAllPromises()
+          component.update()
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').props().formValues.answerData[4].isViewed).toEqual(true)
         })
