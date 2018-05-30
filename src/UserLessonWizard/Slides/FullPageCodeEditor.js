@@ -25,6 +25,9 @@ const defaultExampleHtml = 'Example'
 class FullPageCodeEditor extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      isViewed: false
+    }
   }
 
   static propTypes = {
@@ -38,8 +41,11 @@ class FullPageCodeEditor extends PureComponent {
     , userId: T.string.isRequired
   }
 
-  componentDidMount() {
-    this.props.setToViewed()
+  componentWillReceiveProps(nextProps) {
+    if(!this.state.isViewed) {
+      nextProps.setToViewed()
+      this.setState({ isViewed: true })
+    }
   }
 
   upsertUserVariable = ({ variableId, value }) => {
