@@ -4,6 +4,7 @@ import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
 import { connect } from 'react-redux'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
 
 import { isPrevDisabled, isNextDisabled, isFinalSlide, viewedEqualsComplete } from '../utils/lessonWizardUtils'
 import { LESSON_SLIDE_TYPES } from '../constants'
@@ -169,9 +170,6 @@ class UserLessonWizardForm extends Component {
 
   setRunCode = async flag => await this.setStateAsync({ runCode: flag })
 
-  setToViewed = ref =>
-    this.props.dispatch(change(formName, `${ref}.isViewed`, true))
-
   setCodeOutput = (ref, codeOutput) =>
     this.props.dispatch(change(formName, `${ref}.codeOutput`, codeOutput))
 
@@ -190,15 +188,24 @@ class UserLessonWizardForm extends Component {
   })
 
   onNext = async () => {
+    const formValues = this.addIsViewedToActiveSlide(this.props.formValues)
     this.props.goToNextSlide()
-    this.props.onSubmit(this.props.formValues)
+    this.props.onSubmit(formValues)
     this.setState({ showResultCard: false, submitCurrentValues: false, checkAnswer: false })
   }
 
   onFinalNext = async () => {
-    this.props.onSubmit(this.props.formValues)
+    const formValues = this.addIsViewedToActiveSlide(this.props.formValues)
+    this.props.onSubmit(formValues)
     this.props.onFinalSlideNextClick()
     this.setState({ showResultCard: false, submitCurrentValues: false, checkAnswer: false })
+  }
+
+  addIsViewedToActiveSlide = formValues => {
+    const { activeSlideIndex } = this.props
+    const formValuesCopy = cloneDeep(formValues)
+    formValuesCopy.answerData[activeSlideIndex].isViewed = true
+    return formValuesCopy
   }
 
   renderSlide = ({ fields }) => {
@@ -225,7 +232,6 @@ class UserLessonWizardForm extends Component {
             className='lessonWizardFormContent flexZeroOneAuto'
             globalColors={ globalColors }
             slideData={ activeSlideObject }
-            setToViewed={ () => this.setToViewed(ref) }
             setFormGlobalVariable={ (varRef, v) => this.setFormGlobalVariable(`${ref}.${varRef}`, v) }
             variablesWithUserValues={ variablesWithUserValues }
             slideAnswerData={ slideAnswerData }

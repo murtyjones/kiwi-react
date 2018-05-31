@@ -235,13 +235,6 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[id="subtitle"]').length).toBe(1)
           expect(component.find('div[id="subtitle"]').text()).toEqual(lesson.slides[0].subtitle)
         })
-
-        it('should set slide 1 to viewed', async () => {
-          component.update()
-          await flushAllPromises()
-          expect(component.find('UserLessonWizardForm').props().formValues.answerData[0].isViewed).toEqual(true)
-        })
-
       })
 
       describe('slides 1 - 2', () => {
@@ -273,15 +266,6 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           expect(component.find('div[id="instructions"]').length).toBe(1)
           expect(component.find('div[id="instructions"]').props()).toHaveProperty('dangerouslySetInnerHTML', {__html: lesson.slides[1].instructions})
-        })
-
-        it('should set slide 2 to viewed', async () => {
-          expect(component.find('UserLessonWizardForm').props().formValues.answerData[1].isViewed).toEqual(undefined)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.update()
-          await flushAllPromises()
-          expect(component.find('UserLessonWizardForm').props().formValues.answerData[1].isViewed).toEqual(true)
         })
 
         it('should call ApiFetch with expected params on next click', async () => {
@@ -357,20 +341,6 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           expect(component.find('div[className="lessonFullSizeEditor flexOneOneAuto"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
         })
-
-        it('should set slide 3 to viewed', async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.update()
-          await flushAllPromises()
-          await setTimeoutAsync(2500) // wait for isViewed to be set to true
-          component.update()
-          await flushAllPromises()
-          expect(component.find('UserLessonWizardForm').props().formValues.answerData[2].isViewed).toEqual(true)
-        })
-
       })
 
       describe('slides 1 - 4', () => {
@@ -445,19 +415,6 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[className="fullPageExample"]').text()).toEqual(lesson.slides[3].example)
           expect(component.find('div[className="exampleLabel"]').text()).toEqual('Example')
         })
-
-        it('should set slide 4 to viewed', async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.update()
-          await flushAllPromises()
-          expect(component.find('UserLessonWizardForm').props().formValues.answerData[3].isViewed).toEqual(true)
-        })
-
       })
 
       describe('slides 1 - 5', () => {
@@ -543,20 +500,6 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[className="choice choice1"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[1]))
           expect(component.find('div[className="choice choice2"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[2]))
           expect(component.find('div[className="choice choice3"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[3]))
-        })
-
-        it('should set slide 5 to viewed', async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
-          await flushAllPromises()
-          component.update()
-          await flushAllPromises()
-          expect(component.find('UserLessonWizardForm').props().formValues.answerData[4].isViewed).toEqual(true)
         })
 
         it('should allow choice selection', async () => {

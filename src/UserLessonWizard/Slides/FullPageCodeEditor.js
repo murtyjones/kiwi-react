@@ -5,7 +5,6 @@ import template from 'es6-template-strings'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import find from 'lodash/find'
-import debounce from 'lodash/debounce'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
 import { CODE_CONCEPTS, LESSON_SLIDE_TYPES } from '../../constants'
@@ -32,21 +31,10 @@ class FullPageCodeEditor extends PureComponent {
     slideData: T.object
     , className: T.string
     , input: T.object
-    , setToViewed: T.func.isRequired
     , setFormGlobalVariable: T.func.isRequired
     , postUserVariable: T.func.isRequired
     , putUserVariable: T.func.isRequired
     , userId: T.string.isRequired
-  }
-
-  setToViewed = debounce(() => {
-    this.props.setToViewed()
-  }, 2000)
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.slideAnswerData && !nextProps.slideAnswerData.isViewed) {
-      this.setToViewed()
-    }
   }
 
   upsertUserVariable = ({ variableId, value }) => {

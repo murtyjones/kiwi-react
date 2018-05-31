@@ -49,13 +49,6 @@ class FullPageCodeExample extends PureComponent {
   static propTypes = {
     slideData: T.object
     , className: T.string
-    , setToViewed: T.func.isRequired
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.slideAnswerData && !nextProps.slideAnswerData.isViewed) {
-      nextProps.setToViewed()
-    }
   }
 
   render() {
