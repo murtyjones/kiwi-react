@@ -44,9 +44,6 @@ const styles = {
 class FullPageCodeExample extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      isViewed: false
-    }
   }
 
   static propTypes = {
@@ -56,9 +53,8 @@ class FullPageCodeExample extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!this.state.isViewed) {
+    if(nextProps.slideAnswerData && !nextProps.slideAnswerData.isViewed) {
       nextProps.setToViewed()
-      this.setState({ isViewed: true })
     }
   }
 

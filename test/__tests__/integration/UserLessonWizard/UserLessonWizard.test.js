@@ -13,6 +13,7 @@ import UserLessonWizard from '../../../../src/UserLessonWizard/UserLessonWizard'
 import { setupIntegrationTest } from '../../../integrationSetup'
 
 import ApiFetch from '../../../../src/utils/ApiFetch'
+import setTimeoutAsync from '../../../../src/utils/setTimeoutAsync'
 import '../../../__mocks__/codeMirrorDom'
 
 export function flushAllPromises() {
@@ -362,6 +363,9 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
+          component.update()
+          await flushAllPromises()
+          await setTimeoutAsync(2500) // wait for isViewed to be set to true
           component.update()
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').props().formValues.answerData[2].isViewed).toEqual(true)

@@ -47,9 +47,6 @@ const styles = {
 class Title extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      isViewed: false
-    }
   }
 
   static propTypes = {
@@ -59,9 +56,8 @@ class Title extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!this.state.isViewed) {
+    if(nextProps.slideAnswerData && !nextProps.slideAnswerData.isViewed) {
       nextProps.setToViewed()
-      this.setState({ isViewed: true })
     }
   }
 

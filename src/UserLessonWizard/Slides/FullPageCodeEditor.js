@@ -5,6 +5,7 @@ import template from 'es6-template-strings'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import find from 'lodash/find'
+import debounce from 'lodash/debounce'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
 import { CODE_CONCEPTS, LESSON_SLIDE_TYPES } from '../../constants'
@@ -25,9 +26,6 @@ const defaultExampleHtml = 'Example'
 class FullPageCodeEditor extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      isViewed: false
-    }
   }
 
   static propTypes = {
@@ -41,10 +39,13 @@ class FullPageCodeEditor extends PureComponent {
     , userId: T.string.isRequired
   }
 
+  setToViewed = debounce(() => {
+    this.props.setToViewed()
+  }, 2000)
+
   componentWillReceiveProps(nextProps) {
-    if(!this.state.isViewed) {
-      nextProps.setToViewed()
-      this.setState({ isViewed: true })
+    if(nextProps.slideAnswerData && !nextProps.slideAnswerData.isViewed) {
+      this.setToViewed()
     }
   }
 

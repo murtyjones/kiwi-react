@@ -205,9 +205,10 @@ class UserLessonWizardForm extends Component {
     // this method should be kept outside of
     // the render method! otherwise child
     // components will remount on each rendering!
-    const { activeSlideIndex, globalColors, variablesWithUserValues } = this.props
+    const { activeSlideIndex, globalColors, variablesWithUserValues, formValues } = this.props
         , { activeSlideObject, runCode } = this.state
         , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
+        , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
 
     return fields.map((ref, i) =>
       i === activeSlideIndex
@@ -227,6 +228,7 @@ class UserLessonWizardForm extends Component {
             setToViewed={ () => this.setToViewed(ref) }
             setFormGlobalVariable={ (varRef, v) => this.setFormGlobalVariable(`${ref}.${varRef}`, v) }
             variablesWithUserValues={ variablesWithUserValues }
+            slideAnswerData={ slideAnswerData }
           />
         ) : null
     )
