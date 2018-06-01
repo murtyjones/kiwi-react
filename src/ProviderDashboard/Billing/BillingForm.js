@@ -4,12 +4,14 @@ import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import Button from '@material-ui/core/Button'
+import MenuItem from 'material-ui/MenuItem'
 import { Toggle, SelectField } from 'redux-form-material-ui'
 import get from 'lodash/get'
 
 import renderTextField from '../../common/renderTextField'
-import Stripe from './Stripe'
-import { StripeProvider, Elements, CardElement, injectStripe } from 'react-stripe-elements'
+import states from '../../utils/statesArray'
+
+import { CardElement, injectStripe } from 'react-stripe-elements'
 
 export const formName = 'billing'
 
@@ -30,7 +32,7 @@ const styles = {
   underlineFocusStyle: { borderBottom: `2px ${activeUnderlineColor} solid` }
 }
 
-const CardSection = injectStripe(props => <CardElement style={ props.cardStyle } />)
+const CardSection = props => <CardElement style={ props.cardStyle } />
 
 const CardField = props =>
   <div style={ props.containerStyle } >
@@ -40,12 +42,16 @@ const CardField = props =>
 class BillingForm extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      changingCard: false
+    }
   }
 
   static propTypes = {
     initialValues: T.object.isRequired
     , handleSubmit: T.func.isRequired
     , onVerificationEmailClick: T.func.isRequired
+    , last4: T.string
   }
 
   resendVerificationEmail = () => {
@@ -53,71 +59,93 @@ class BillingForm extends Component {
   }
 
   createToken = async (v) => {
-    console.log(v)
-    // const values = ev.target
-    // const { onSubmit } = this.props
+    const { onSubmit, last4 } = this.props
+    const { changingCard } = this.state
     try {
-      // console.log(ev)
-      // const { token } = await this.props.stripe.createToken('blah')
-      // console.log(token)
-      // onSubmit({ ...v, token })
+      const params = {
+        name: v.name,
+        address_line1: v.addressLine1,
+        address_line2: v.addressLine2,
+        address_city: v.addressCity,
+        address_state: v.addressState,
+        address_country: 'USA'
+      }
+      if (changingCard || !last4) {
+        const result = await this.props.stripe.createToken(params)
+        return onSubmit({ ...params, stripeCreditCardToken: result.token.id })
+      }
+      return onSubmit(params)
     } catch(err) {
-      // throw new SubmissionError({ _error: 'Your information could not be verified.' })
+      console.log(err)
+      throw new SubmissionError({ _error: err.message })
     }
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error, isEmailVerified = true } = this.props
+    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error, last4, isEmailVerified = true } = this.props
+    const { changingCard } = this.state
 
     return (
-      <Stripe>
-        <Elements>
-          <form onSubmit={ handleSubmit(this.createToken) } style={ styles.form }>
-            { !isEmailVerified &&
-              <div className='emailVerificationLine-text'>
-                <span className='emailVerificationLine-warn'>Hold on!</span>
-                Your email needs to be verified before you may change your payment information.
-                &nbsp;
-                <Link to='#' onClick={ this.resendVerificationEmail }>
-                  Click here to resend verification email.
-                </Link>
-              </div>
-            }
-            <Field
-              name='name'
-              hintText='Name on Card'
-              component={ renderTextField }
-              style={ { width: '100%' } }
-              underlineFocusStyle={ styles.underlineFocusStyle }
-            />
-            <Field
-              name='addressLine1'
-              hintText='Billing Address'
-              component={ renderTextField }
-              style={ { width: '100%' } }
-              underlineFocusStyle={ styles.underlineFocusStyle }
-            />
-            <Field
-              name='addressLine2'
-              hintText='Billing Address Line 2'
-              component={ renderTextField }
-              style={ { width: '100%' } }
-              underlineFocusStyle={ styles.underlineFocusStyle }
-            />
-            <Field
-              name='city'
-              hintText='City'
-              component={ renderTextField }
-              style={ { width: '100%' } }
-              underlineFocusStyle={ styles.underlineFocusStyle }
-            />
-            <Field
-              name='zip'
-              hintText='ZIP Code'
-              component={ renderTextField }
-              style={ { width: '100%' } }
-              underlineFocusStyle={ styles.underlineFocusStyle }
-            />
+      <form onSubmit={ handleSubmit(this.createToken) } style={ styles.form }>
+        { !isEmailVerified &&
+          <div className='emailVerificationLine-text'>
+            <span className='emailVerificationLine-warn'>Hold on!</span>
+            Your email needs to be verified before you may change your payment information.
+            &nbsp;
+            <Link to='#' onClick={ this.resendVerificationEmail }>
+              Click here to resend verification email.
+            </Link>
+          </div>
+        }
+        <Field
+          name='name'
+          hintText='Name on Card'
+          component={ renderTextField }
+          style={ { width: '100%' } }
+          underlineFocusStyle={ styles.underlineFocusStyle }
+        />
+        <Field
+          name='addressLine1'
+          hintText='Billing Address'
+          component={ renderTextField }
+          style={ { width: '100%' } }
+          underlineFocusStyle={ styles.underlineFocusStyle }
+        />
+        <Field
+          name='addressLine2'
+          hintText='Billing Address Line 2'
+          component={ renderTextField }
+          style={ { width: '100%' } }
+          underlineFocusStyle={ styles.underlineFocusStyle }
+        />
+        <Field
+          name='addressCity'
+          hintText='City'
+          component={ renderTextField }
+          style={ { width: '100%' } }
+          underlineFocusStyle={ styles.underlineFocusStyle }
+        />
+        <Field
+          name='addressState'
+          component={ SelectField }
+          floatingLabelText='State'
+          style={ { width: '100%' } }
+        >
+          { states.map(e => <MenuItem key={ e } value={ e } primaryText={ e } />) }
+        </Field>
+        { !!last4 && !changingCard
+          ?
+            <div className='changeCardsContainer'>
+              Current card: x{last4}
+              <span className='changeCards'>
+                (
+                  <Link to='#' onClick={ () => this.setState({ changingCard: true }) }>
+                    I want to use a different card!
+                  </Link>
+                )
+              </span>
+            </div>
+          :
             <CardField
               containerStyle={ {
                 margin: '10px 0',
@@ -127,31 +155,35 @@ class BillingForm extends Component {
                 fontSize: '16px'
               } } }
             />
-            <Button
-              variant='outlined'
-              type='submit'
-              onClick={ handleSubmit(this.createToken) }
-              disabled={ pristine || submitting || !isEmailVerified }
-            >
-              Save
-            </Button>
-            { submitting && <span>Saving...</span> }
-            <div style={ styles.result }>
-              { submitFailed && error &&
-                <span style={ styles.failure }>
-                  { get(error, 'error_description', error) }
-                </span>
-              }
-              { submitSucceeded && <span style={ styles.success }>Your profile has been updated!</span> }
-            </div>
-          </form>
-        </Elements>
-      </Stripe>
+
+        }
+        <Button
+          variant='outlined'
+          type='submit'
+          onClick={ handleSubmit(this.createToken) }
+          disabled={ pristine || submitting || !isEmailVerified }
+        >
+          Save
+        </Button>
+        { submitting && <span>Saving...</span> }
+        <div style={ styles.result }>
+          { submitFailed && error &&
+            <span style={ styles.failure }>
+              { get(error, 'error_description', error) }
+            </span>
+          }
+          { submitSucceeded &&
+            <span style={ styles.success }>
+              Your billing information has been updated!
+            </span>
+          }
+        </div>
+      </form>
     )
   }
 }
 
-export default reduxForm({
+export default injectStripe(reduxForm({
   form: formName
   , enableReinitialize: true
-})(BillingForm)
+})(BillingForm))

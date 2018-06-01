@@ -2,10 +2,13 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
+import { Elements } from 'react-stripe-elements'
 import { SubmissionError } from 'redux-form'
 
+import find from 'lodash/find'
 
 import BillingForm from './BillingForm'
+import Stripe from './Stripe'
 import { updateProfile, resendVerificationEmail, openModal } from '../../actions'
 
 import './overrides.css'
@@ -21,8 +24,18 @@ class Billing extends Component {
     , openModal: T.func.isRequired
   }
 
-  handleSubmit = async (v) => {
-    console.log('hm')
+  handleSubmit = async (params) => {
+    const { userId, updateProfile } = this.props
+    try {
+      const options = {
+        _id: userId,
+        ...params
+      }
+      return await updateProfile({ ...options, billing: true })
+    } catch (err) {
+      console.log(err)
+      throw new SubmissionError({ name: '', _error: err.message ? err.message : err })
+    }
   }
 
   handleVerificationEmailClick = () => {
@@ -31,19 +44,24 @@ class Billing extends Component {
   }
 
   render() {
-    const { profile } = this.props
+    const { initialValues, profile, last4 } = this.props
 
     return (
       <Fragment>
         <h2 className='providerDashboard-sectionHeader'>
           Manage your payment information
         </h2>
-        <BillingForm
-          initialValues={ profile }
-          isEmailVerified={ profile.isEmailVerified }
-          onSubmit={ this.handleSubmit }
-          onVerificationEmailClick={ this.handleVerificationEmailClick }
-        />
+        <Stripe>
+          <Elements>
+            <BillingForm
+              initialValues={ initialValues }
+              last4={ last4 }
+              isEmailVerified={ profile.isEmailVerified }
+              onSubmit={ this.handleSubmit }
+              onVerificationEmailClick={ this.handleVerificationEmailClick }
+            />
+          </Elements>
+        </Stripe>
       </Fragment>
     )
   }
@@ -52,9 +70,26 @@ class Billing extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, profiles: { profilesById } } = state
   const profile = profilesById[userId] || {}
+  const initialValues = {}
+  let last4 = null
+
+  if (profile.billing && profile.billing.sources) {
+    const creditCardId = profile.billing.default_source
+    const cardMetadata = find(profile.billing.sources.data, { id: creditCardId })
+
+    initialValues.name = cardMetadata.name
+    initialValues.addressLine1 = cardMetadata.address_line1
+    initialValues.addressLine2 = cardMetadata.address_line2
+    initialValues.addressCity = cardMetadata.address_city
+    initialValues.addressState = cardMetadata.address_state
+    last4 = cardMetadata.last4
+  }
+
   return {
     profile,
-    userId
+    userId,
+    initialValues,
+    last4
   }
 }
 

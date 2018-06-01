@@ -1,1 +1,8 @@
+.changeCardsContainer {
+    margin: 10px 0;
+}
 
+.changeCards {
+    font-size: 12px;
+    margin-left: 10px;
+}

@@ -62,7 +62,7 @@ class ProviderDashboard extends PureComponent {
     const promises = [
       getManySubscriptions({ providerId: userId }),
       getManyProfiles(),
-      getProfileDetails({ userId })
+      getProfileDetails({ userId, billing: true })
     ]
     await BluebirdPromise.all(promises)
   }
