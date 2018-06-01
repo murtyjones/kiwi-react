@@ -44,6 +44,7 @@ import AddOrEditSubscription from './admin/AddOrEditSubscription/AddOrEditSubscr
 import ManageLessons from './admin/ManageLessons/ManageLessons'
 import ManageLessonThemes from './admin/ManageLessonThemes/ManageLessonThemes'
 import ManageVariables from './admin/ManageVariables/ManageVariables'
+import Signups from './admin/Signups/Signups'
 import ManageSubscriptions from './admin/ManageSubscriptions/ManageSubscriptions'
 import Lessons from './Lessons/Lessons'
 import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
@@ -217,6 +218,8 @@ class App extends Component {
                 <AuthorizedRoute path='/admin/subscriptions' exact component={ ManageSubscriptions } title='Manage Subscriptions' { ...extras } />
                 <AuthorizedRoute path='/admin/subscriptions/new' exact component={ AddOrEditSubscription } title='Create new Subscription' { ...extras } />
                 <AuthorizedRoute path='/admin/subscriptions/:id' exact component={ AddOrEditSubscription } title='Edit Subscription' { ...extras } />
+
+                <AuthorizedRoute path='/admin/signups' exact component={ Signups } title='See Beta Signups' { ...extras } />
                 {/* ----------------- */}
                 {/* Provider routes */}
                 {/* ----------------- */}

@@ -166,6 +166,16 @@ class SideNav extends PureComponent {
                     onClick={ toggleSideNav }
                   />
                 </KiwiLink>
+                <KiwiLink to='/admin/signups'>
+                  <MenuItem
+                    style={ styles.menuItem }
+                    leftIcon={
+                      <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
+                    }
+                    primaryText='Signups'
+                    onClick={ toggleSideNav }
+                  />
+                </KiwiLink>
               </Fragment>
             }
             { isLoggedIn &&
