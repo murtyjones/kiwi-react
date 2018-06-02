@@ -140,7 +140,7 @@ class BillingForm extends Component {
               <span className='changeCards'>
                 (
                   <Link to='#' onClick={ () => this.setState({ changingCard: true }) }>
-                    I want to use a different card!
+                    Click here to use a different card
                   </Link>
                 )
               </span>

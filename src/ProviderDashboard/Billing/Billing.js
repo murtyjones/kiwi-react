@@ -25,10 +25,11 @@ class Billing extends Component {
   }
 
   handleSubmit = async (params) => {
-    const { userId, updateProfile } = this.props
+    const { userId, profile, updateProfile } = this.props
     try {
       const options = {
         _id: userId,
+        v: profile.v,
         ...params
       }
       return await updateProfile({ ...options, billing: true })
