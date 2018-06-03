@@ -39,7 +39,8 @@ class CodeEditor extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      editorInput: props.editorInput || defaultInput
+      codeIsRunning: false
+      , editorInput: props.editorInput || defaultInput
       , editorOutput: ''
       , answer: ''
       , prompt: ''
@@ -180,8 +181,9 @@ class CodeEditor extends Component {
     })
   }
 
-  runCode = () => {
+  runCode = async () => {
     const { editorInput, editorOutput } = this.state
+    await this.setStateAsync({ codeIsRunning: true })
     return new BluebirdPromise((resolve, reject) => {
       codeOutput = '' // reset each time
       skulpt.canvas = 'mycanvas'
@@ -211,10 +213,15 @@ class CodeEditor extends Component {
 
       const myPromise = skulpt.misceval.asyncToPromise(() => skulpt.importMainWithBody("<stdin>", false, editorInput, true))
       myPromise.then(async () => {
-        await this.setStateAsync({ editorOutput: codeOutput })
+        await this.setStateAsync({ editorOutput: codeOutput, codeIsRunning: false })
         return resolve()
       }, async (e) => {
-        await this.setState({ errorMsg: e.toString(), errorLine: e.traceback[0].lineno, editorOutput: '' })
+        await this.setState({
+          errorMsg: e.toString(),
+          errorLine: e.traceback[0].lineno,
+          editorOutput: '',
+          codeIsRunning: false
+        })
         return reject()
       })
     })
@@ -232,7 +239,7 @@ class CodeEditor extends Component {
 
   render() {
     const { className, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
-    const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
+    const { editorOutput, errorMsg, prompt, rawInputValue, editorInput, codeIsRunning } = this.state
 
     return (
       <div className={ className } >
@@ -256,6 +263,7 @@ class CodeEditor extends Component {
             prompt={ prompt }
             value={ rawInputValue }
             setInputRef={ this.getChildRef }
+            inputDisabled={ !codeIsRunning }
             variablesToComplete={ variablesToComplete }
           />
           <Tools

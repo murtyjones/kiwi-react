@@ -140,7 +140,7 @@ export default class EditorOutput extends Component {
   }
 
   render() {
-    const { editorOutput, editorInput, errorMsg, setInputRef } = this.props
+    const { editorOutput, editorInput, errorMsg, setInputRef, inputDisabled } = this.props
     const { value, showHint } = this.state
     const errorHintHTML = errorMsg
       ? getCommonErrorHint(errorMsg) || getCustomErrorHint(editorInput)
@@ -156,6 +156,7 @@ export default class EditorOutput extends Component {
             <pre id='editorOutput' style={ styles.pre }>
               { editorOutput }
               <textarea
+                disabled={ inputDisabled }
                 style={ styles.textareaStyle }
                 className='rawInput'
                 ref={ setInputRef }
