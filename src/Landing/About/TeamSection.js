@@ -3,10 +3,10 @@ import './teamOverrides.css'
 
 const styles = {
   teamSection: {
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#F1F1F1'
     , position: 'relative'
     , overflow: 'auto'
-    , color: '#000000'
+    , color: '#624F8F'
     , textAlign: 'left'
   },
   teamSectionH2: {

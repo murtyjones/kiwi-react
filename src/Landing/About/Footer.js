@@ -4,10 +4,9 @@ import './teamOverrides.css'
 const styles = {
   footer: {
     height: '25vh'
-    , backgroundColor: '#624F8F'
+    , backgroundColor: '#3E2E61'
     , position: 'relative'
     , overflow: 'auto'
-    , color: '#000000'
   },
   socialContainer: {
     position: 'absolute'

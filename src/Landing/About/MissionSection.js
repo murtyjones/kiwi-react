@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import SubscribeForm from './SubscribeForm'
 import NextArrow from './NextArrow'
 
 const styles = {
@@ -7,8 +6,8 @@ const styles = {
     height: '60vh'
     , position: 'relative'
     , overflow: 'auto'
-    , color: '#FFFFFF'
-    , backgroundColor: '#624F8F'
+    , color: '#3E2E61'
+    , backgroundColor: '#F1F1F1'
   },
   missionSectionBox1: {
     marginBottom: '5vh'
@@ -18,8 +17,11 @@ const styles = {
     , margin: '2vh 10vw 3vh 10vw'
   },
   missionSectionH3: {
-    fontSize: 'calc(12px + 0.6vw)'
-    , margin: '0 10vw'
+    fontSize: 'calc(18px + 0.5vw)'
+    , lineHeight: '36px'
+    , margin: '50px auto 0 auto'
+    , maxWidth: '700px'
+    , width: '90%'
     , fontFamily: 'Arial'
     , fontWeight: 'normal'
   }
@@ -28,14 +30,11 @@ const styles = {
 const MissionSection = () =>
   <div style={ styles.missionSection }>
     <div style={ styles.missionSectionBox1 }>
-      <h2 style={ styles.missionSectionH2 }>Our Mission</h2>
-      <h3 style={ { textAlign: 'center', ...styles.missionSectionH3 } }>To create a comfortable and fun place for kids to improve their coding skills.</h3>
+      <h3 style={ { textAlign: 'justify', ...styles.missionSectionH3 } }>
+        We believe that self-taught kid programmers are the future. We're building an ecosystem for kids to not just learn coding skills but also learn the mindset of a programmer and grow with a community of their peers.
+      </h3>
+      <NextArrow to={ window.innerHeight } />
     </div>
-    <h2 style={ styles.missionSectionH2 }>How We Do It</h2>
-    <h3 style={ { textAlign: 'justify', ...styles.missionSectionH3 } }>
-      Kiwi has taught coding in Austin over the last two years, reaching hundreds of kids. Using its curriculum, Kiwi built a learning platform with support from the National Science Foundation, US Ignite and the City of Austin. The tool uses game-based and academic learning, increasing technical aspects as coding skills advance. Students will move through the program to become a self-taught programmer. Through Kiwi, kids will enjoy coding while improving their technical fluency!
-    </h3>
-    <NextArrow to={ window.innerHeight } />
   </div>
 
 export default MissionSection

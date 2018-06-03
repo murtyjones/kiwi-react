@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import SubscribeForm from './SubscribeForm'
 import NextArrow from './NextArrow'
 
 const styles = {
   quoteSection: {
     height: '100vh'
-    , backgroundColor: '#624F8F'
+    , backgroundColor: '#FFFFFF'
     , position: 'relative'
     , overflow: 'auto'
-    , color: '#FFFFFF'
+    , color: '#624F8F'
   },
   quoteSectionH1: {
     fontSize: 'calc(10px + 2.3vw)'
@@ -32,7 +31,7 @@ const styles = {
   },
   quote: {
     fontSize: 'calc(8px + 1.8vw)'
-    , color: '#FFFFFF'
+    , color: '#624F8F'
   }
 }
 
@@ -47,7 +46,7 @@ const QuoteSection = () =>
   <div style={ styles.quoteSection }>
     <h2 style={ styles.quoteSectionH1 }>See What Students Think</h2>
     <Quote />
-    <NextArrow to={ window.innerHeight * 3 } />
+    <NextArrow to={ window.innerHeight * 2 } />
   </div>
 
 export default QuoteSection
