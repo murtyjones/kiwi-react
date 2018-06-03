@@ -181,10 +181,10 @@ class CodeEditor extends Component {
     })
   }
 
-  runCode = async () => {
+  runCode = () => {
     const { editorInput, editorOutput } = this.state
-    await this.setStateAsync({ codeIsRunning: true })
-    return new BluebirdPromise((resolve, reject) => {
+    return new BluebirdPromise(async (resolve, reject) => {
+      await this.setStateAsync({ codeIsRunning: true })
       codeOutput = '' // reset each time
       skulpt.canvas = 'mycanvas'
       skulpt.pre = 'output'
@@ -262,8 +262,8 @@ class CodeEditor extends Component {
             errorMsg={ errorMsg }
             prompt={ prompt }
             value={ rawInputValue }
-            setInputRef={ this.getChildRef }
             inputDisabled={ !codeIsRunning }
+            setInputRef={ this.getChildRef }
             variablesToComplete={ variablesToComplete }
           />
           <Tools
