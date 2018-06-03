@@ -31,7 +31,7 @@ const styles = {
   }
 }
 
-const defaultInput = '# Write some code!'
+const defaultInput = ''
 
 let codeOutput = ''
 

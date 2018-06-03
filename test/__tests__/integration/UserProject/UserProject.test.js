@@ -107,7 +107,7 @@ describe('UserProject', () => {
 
     describe('interaction', () => {
       it('should start with default value', () => {
-        expect(component.find('CodeEditor').instance().codeMirror.getValue()).toBe('# Write some code!')
+        expect(component.find('CodeEditor').instance().codeMirror.getValue()).toBe('')
       })
 
       it('should successfully change editor value', () => {
