@@ -23,11 +23,11 @@ const styles = {
     , borderBottomRightRadius: '10px'
   },
   textareaStyle: {
-    padding: '0px'
+    padding: '15px 0 0 0'
+    , boxSizing: 'border-box'
     , border: '0px'
-    , color: 'rgb(253, 220, 255)'
     , margin: '0px'
-    , height: '16px'
+    , height: '10px'
     , fontFamily: 'monospace'
     , width: '179px'
     , background: 'transparent'
@@ -35,6 +35,8 @@ const styles = {
     , outline: 'none'
     , overflow: 'hidden'
     , fontSize: '15px' // should match the editorOverrides.css number too
+    , position: 'relative'
+    , top: '3px'
   },
   pre: {
     margin: 0
