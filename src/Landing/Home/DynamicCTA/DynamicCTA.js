@@ -47,7 +47,7 @@ export default class DynamicHeader extends PureComponent {
       position: 'fixed',
       top: `${topButtonMass}vh`,
       left: '50%',
-      width: '70px',
+      width: '80px',
       marginLeft: '-70px',
       backgroundColor: 'white',
       color: '#654E93',
@@ -57,7 +57,8 @@ export default class DynamicHeader extends PureComponent {
       border: '2px solid #FFFFFF',
       fontWeight: 'bold',
       cursor: 'pointer',
-      zIndex: 51
+      zIndex: 51,
+      textAlign: 'center'
     }
 
     if(textMass <= fixPoint) {
