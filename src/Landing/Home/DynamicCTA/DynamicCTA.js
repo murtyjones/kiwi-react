@@ -35,10 +35,12 @@ export default class DynamicHeader extends PureComponent {
     const topButtonMass = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass) + 10
 
     const sloganStyle = {
-      fontSize: `calc( 6px + ${textMass}vw)`
-      , lineHeight: `${textMass}vw`
+      fontSize: `calc(12px + ${textMass}vw)`
+      , lineHeight: `calc(15px + ${textMass}vw)`
       , top: `${topSlogan}vh`
       , width: '100vw'
+      , padding: '0 50px'
+      , boxSizing: 'border-box'
     }
 
     let buttonStyle = {
