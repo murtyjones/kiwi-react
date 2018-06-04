@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import NextArrow from './NextArrow'
 
 const styles = {
   quoteSection: {
@@ -46,7 +45,6 @@ const QuoteSection = () =>
   <div style={ styles.quoteSection }>
     <h2 style={ styles.quoteSectionH1 }>See What Students Think</h2>
     <Quote />
-    <NextArrow to={ window.innerHeight * 2 } />
   </div>
 
 export default QuoteSection

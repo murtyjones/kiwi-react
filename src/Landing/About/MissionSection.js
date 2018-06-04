@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import NextArrow from './NextArrow'
 
 const styles = {
   missionSection: {
@@ -33,7 +32,6 @@ const MissionSection = () =>
       <h3 style={ { textAlign: 'justify', ...styles.missionSectionH3 } }>
         We believe that self-taught kid programmers are the future. We're building an ecosystem for kids to not just learn coding skills but also learn the mindset of a programmer and grow with a community of their peers.
       </h3>
-      <NextArrow to={ window.innerHeight } />
     </div>
   </div>
 
