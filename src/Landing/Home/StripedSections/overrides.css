@@ -28,6 +28,7 @@
 .stripedSectionImage {
     display: inline-block;
     width: 300px;
+    max-width: 100%;
     position: absolute;
 }
 

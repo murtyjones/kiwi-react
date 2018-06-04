@@ -35,7 +35,7 @@ export default class DynamicHeader extends PureComponent {
     const topButtonMass = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass) + 10
 
     const sloganStyle = {
-      fontSize: `calc( 3px + ${textMass}vw)`
+      fontSize: `calc( 6px + ${textMass}vw)`
       , lineHeight: `${textMass}vw`
       , top: `${topSlogan}vh`
       , width: '100vw'
@@ -79,7 +79,7 @@ export default class DynamicHeader extends PureComponent {
       <Fragment>
 
         <span
-          className='dynamicSlogan'
+          className={ cns('dynamicSlogan', { 'upTop': textMass <= fixPoint }) }
           style={ sloganStyle }
         >
           { textMass <= fixPoint ? smallText : text }
