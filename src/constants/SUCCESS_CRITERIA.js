@@ -7,6 +7,8 @@ export const CODE_CONCEPTS = { // must match backend
   , ELSE: 'ELSE'
   , INPUT: 'INPUT'
   , PRINT: 'PRINT'
+  , MULTI_LINE_PRINT: 'MULTI_LINE_PRINT'
+  , VARIABLE: 'VARIABLE'
   , USER_GLOBAL_VARIABLE: 'USER_GLOBAL_VARIABLE'
 }
 
