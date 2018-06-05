@@ -83,7 +83,7 @@ class CodeEditor extends Component {
       // when UserLessonWizard sees that there is no codeOutput,
       // it will know to NOT submitCurrentValues for checking
       // correctness, because there was an error.
-      if(afterRunCode) afterRunCode('')
+      if(afterRunCode) afterRunCode(true, null)
     }
 
     // if runCode prop was turned on, run code, get the new output,
@@ -91,7 +91,7 @@ class CodeEditor extends Component {
     if(!this.props.runCode && nextProps.runCode) {
       await this.runCode()
       const { editorOutput } = this.state
-      if(afterRunCode) afterRunCode(editorOutput)
+      if(afterRunCode) afterRunCode(null, editorOutput || '')
     }
   }
 
@@ -232,7 +232,6 @@ class CodeEditor extends Component {
   }
 
   handleCheckAnswer = async () => {
-    await this.runCode()
     const { editorInput, editorOutput } = this.state
     this.props.onCheckAnswer(editorInput, editorOutput)
   }
