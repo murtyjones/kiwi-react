@@ -23,11 +23,11 @@ const styles = {
     , borderBottomRightRadius: '10px'
   },
   textareaStyle: {
-    padding: '15px 0 0 0'
+    padding: '12px 0 0 0'
     , boxSizing: 'border-box'
     , border: '0px'
     , margin: '0px'
-    , height: '10px'
+    , height: '16px'
     , fontFamily: 'monospace'
     , width: '179px'
     , background: 'transparent'
