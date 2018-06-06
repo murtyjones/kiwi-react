@@ -14,3 +14,8 @@
     background: #f8f8f8;
     text-decoration: underline;
 }
+
+.addStudent {
+    float: right;
+    margin-top: 10px !important
+}

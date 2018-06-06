@@ -58,7 +58,7 @@ class BillingForm extends Component {
     this.props.onVerificationEmailClick()
   }
 
-  createToken = async (v) => {
+  createToken = async v => {
     const { onSubmit, last4 } = this.props
     const { changingCard } = this.state
     try {

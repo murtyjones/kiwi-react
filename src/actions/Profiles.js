@@ -59,7 +59,7 @@ export const getProfileDetails = (params) => {
   }
 }
 
-export const updateProfile = params => {
+export const putProfile = params => {
   const { _id } = params
   return async dispatch => {
     try {

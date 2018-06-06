@@ -19,6 +19,7 @@ function profiles(state = initialState, action) {
       return newState
     }
     case ACTIONS.GET_PROFILE_SUCCESS:
+    case ACTIONS.REGISTER_SUCCESS:
     case ACTIONS.POST_PROFILE_SUCCESS: {
       const profilesById = Object.assign({}, state.profilesById, {
         [action.payload._id]: action.payload

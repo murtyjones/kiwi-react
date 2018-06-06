@@ -17,7 +17,6 @@ const styles = {
   form: {
     width: 'calc(100% - 20px)' // 20px padding offset
     , height: '100%'
-    , padding: '10px'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
   },
@@ -69,8 +68,14 @@ class ProvideeProfileForm extends Component {
         </Button>
         { submitting && <span>Saving...</span> }
         <div style={ styles.result }>
-          { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }
-          { submitSucceeded && <span style={ styles.success }>Profile updated!</span> }
+          { submitFailed && error &&
+            <span style={ styles.failure }>
+              { get(error, 'error_description', error) }
+            </span>
+          }
+          { submitSucceeded &&
+            <span style={ styles.success }>Profile updated!</span>
+          }
         </div>
       </form>
     )

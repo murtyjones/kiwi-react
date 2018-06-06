@@ -9,7 +9,7 @@ import find from 'lodash/find'
 
 import BillingForm from './BillingForm'
 import Stripe from './Stripe'
-import { updateProfile, resendVerificationEmail, openModal } from '../../actions'
+import { putProfile, resendVerificationEmail, openModal } from '../../actions'
 
 import './overrides.css'
 
@@ -20,19 +20,19 @@ class Billing extends Component {
 
   static propTypes = {
     profile: T.object.isRequired
-    , updateProfile: T.func.isRequired
+    , putProfile: T.func.isRequired
     , openModal: T.func.isRequired
   }
 
   handleSubmit = async (params) => {
-    const { userId, profile, updateProfile } = this.props
+    const { userId, profile, putProfile } = this.props
     try {
       const options = {
         _id: userId,
         v: profile.v,
         ...params
       }
-      return await updateProfile({ ...options, billing: true })
+      return await putProfile({ ...options, billing: true })
     } catch (err) {
       console.log(err)
       throw new SubmissionError({ name: '', _error: err.message ? err.message : err })
@@ -96,7 +96,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProfile: params => dispatch(updateProfile(params))
+    putProfile: params => dispatch(putProfile(params))
     , resendVerificationEmail: params => dispatch(resendVerificationEmail(params))
     , openModal: params => dispatch(openModal(params))
   }

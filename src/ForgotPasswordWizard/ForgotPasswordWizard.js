@@ -58,7 +58,7 @@ class ForgotPasswordWizard extends Component {
     }
   }
 
-  handleSubmit = async (v) => {
+  handleSubmit = async v => {
     const { activeSlideIndex: i, recoveryCode } = this.state
     const actionType = slides[i].action
     const params = { ...v }
