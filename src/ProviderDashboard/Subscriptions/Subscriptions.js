@@ -6,16 +6,16 @@ import BluebirdPromise from 'bluebird'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import Button from '@material-ui/core/Button'
 import isEmpty from 'lodash/isEmpty'
 import { SubmissionError } from 'redux-form'
+import Link from 'react-router-dom/Link'
+import moment from 'moment'
 
 
 import ProvideeProfileForm from './ProvideeProfileForm'
-import { register, putProfile, postSubscription, changePassword } from '../../actions'
+import { register, putProfile, postSubscription, putSubscription, changePassword } from '../../actions'
 
 import './overrides.css'
 import { SUBSCRIPTION_STATUSES } from '../../constants'
@@ -31,6 +31,7 @@ class Subscriptions extends Component {
     , putProfile: T.func.isRequired
     , register: T.func.isRequired
     , postSubscription: T.func.isRequired
+    , putSubscription: T.func.isRequired
     , changePassword: T.func.isRequired
     , userId: T.string.isRequired
   }
@@ -70,20 +71,41 @@ class Subscriptions extends Component {
     }
   }
 
+  toggleSubscriptionStatus = async subscription => {
+    const { putSubscription } = this.props
+    try {
+      return putSubscription({
+        id: subscription._id,
+        v: subscription.v,
+        status: subscription.status === SUBSCRIPTION_STATUSES.ACTIVE
+          ? SUBSCRIPTION_STATUSES.INACTIVE
+          : SUBSCRIPTION_STATUSES.ACTIVE
+      })
+    } catch (err) {
+      console.log(err)
+      throw new SubmissionError({ _error: err.body ? err.body.message : err.message })
+    }
+  }
+
   render() {
     const { subscriptions, subscriptionsById, profilesById, match: { params } } = this.props
     const selectedSubscription = subscriptionsById[params.id] || {}
     const selectedSubscriptionProvideeProfile = profilesById[selectedSubscription.provideeId] || {}
 
+    const activeSubscriptions = subscriptions
+      .filter(e => e.status === SUBSCRIPTION_STATUSES.ACTIVE)
+    const inactiveSubscriptions = subscriptions
+      .filter(e => e.status === SUBSCRIPTION_STATUSES.INACTIVE)
+
     return params.id
       ?
       <Fragment>
-        <h2 className='providerDashboard-sectionHeader'>
+        <h3 className='providerDashboard-sectionHeader'>
           { isEmpty(selectedSubscriptionProvideeProfile)
             ? 'Add a New Student'
             : 'Edit Student'
           }
-        </h2>
+        </h3>
         <ProvideeProfileForm
           initialValues={ selectedSubscriptionProvideeProfile }
           onSubmit={
@@ -95,30 +117,82 @@ class Subscriptions extends Component {
       </Fragment>
       :
       <Fragment>
-        <Table>
-          <TableHead className='subscription-head'>
-            <TableRow>
-              <TableCell>Username</TableCell>
-              <TableCell>Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            { subscriptions.map((each, i) => {
-              const providee = profilesById[each.provideeId] || {}
-              return (
-                <TableRow
-                  hover
-                  key={ i }
-                  className='subscription-row'
-                  onClick={ e => this.handleSubscriptionClick(e, each._id) }
-                >
-                  <TableCell>{ providee.username }</TableCell>
-                  <TableCell>{ each.status }</TableCell>
-                </TableRow>
-              )
-            }) }
+        { !isEmpty(activeSubscriptions) &&
+          <Fragment>
+            <h3 className='providerDashboard-sectionHeader'>
+              Active Subscriptions
+            </h3>
+            <Table className='subscription-table'>
+              <TableBody>
+                { activeSubscriptions.map((subscription, i) => {
+                  const providee = profilesById[subscription.provideeId] || {}
+                  return (
+                    <TableRow
+                      key={ i }
+                      className='subscription-row'
+                      // onClick={ e => this.handleSubscriptionClick(e, subscription._id) }
+                    >
+                      <TableCell className='subscription-username'>
+                        { providee.username }
+                      </TableCell>
+                      <TableCell>
+                        <Link to='#'
+                          onClick= {() =>
+                            this.toggleSubscriptionStatus(subscription)
+                          }
+                        >
+                          Pause Subscription
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  )
+                }) }
+                </TableBody>
+            </Table>
+          </Fragment>
+        }
+        { !isEmpty(inactiveSubscriptions) &&
+          <Fragment>
+            <h3 className='providerDashboard-sectionHeader'>
+              Inactive Subscriptions
+            </h3>
+            <Table className='subscription-table'>
+            <TableBody>
+              { inactiveSubscriptions.map((subscription, i) => {
+                const providee = profilesById[subscription.provideeId] || {}
+                return (
+                  <TableRow
+                    key={ i }
+                    className='subscription-row'
+                    // onClick={ e => this.handleSubscriptionClick(e, subscription._id) }
+                  >
+                    <TableCell className='subscription-username'>
+                      { providee.username }
+                      { subscription.current_period_end &&
+                        <span className='expiresAt'>
+                          (Expires {
+                            moment.unix(subscription.current_period_end).format('MMMM Do')
+                          })
+                        </span>
+                      }
+                    </TableCell>
+                    <TableCell>
+                      <Link to='#'
+                        onClick= {() =>
+                          this.toggleSubscriptionStatus(subscription)
+                        }
+                      >
+                        Restart Subscription
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                )
+                }) }
             </TableBody>
-        </Table>
+          </Table>
+          </Fragment>
+        }
+
         <Button
           variant='outlined'
           className='addStudent'
@@ -147,6 +221,7 @@ const mapDispatchToProps = (dispatch) => {
     register: params => dispatch(register(params)),
     putProfile: params => dispatch(putProfile(params)),
     postSubscription: params => dispatch(postSubscription(params)),
+    putSubscription: params => dispatch(putSubscription(params)),
     changePassword: params => dispatch(changePassword(params))
   }
 }

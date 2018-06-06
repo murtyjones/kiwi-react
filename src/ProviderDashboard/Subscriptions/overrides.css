@@ -1,3 +1,9 @@
+.subscription-table > tbody > tr > td,
+.subscription-table > thead > tr > th {
+    font-size: 11pt;
+    border: none;
+}
+
 .subscription-head {
 
 }
@@ -8,14 +14,26 @@
     font-size: 12pt;
 }
 
-
-.subscription-row:hover  > * {
-    color: #0074D9;
-    background: #f8f8f8;
-    text-decoration: underline;
+.subscription-row {
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
 }
+.subscription-row:first-child { border-top: 0; }
+.subscription-row:last-child { border-bottom: 0; }
+
+.subscription-username {
+    padding-left: 0;
+    width: 60%;
+}
+
+.expiresAt {
+    margin-left: 15px;
+    color: darkred;
+}
+
 
 .addStudent {
     float: right;
     margin-top: 10px !important
 }
+
