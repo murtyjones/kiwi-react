@@ -47,8 +47,8 @@ export default class DynamicHeader extends PureComponent {
       position: 'fixed',
       top: `${topButtonMass}vh`,
       left: '50%',
-      width: '80px',
-      marginLeft: '-70px',
+      width: '110px',
+      marginLeft: '-85px',
       backgroundColor: 'white',
       color: '#654E93',
       padding: '10px 30px',
@@ -65,7 +65,7 @@ export default class DynamicHeader extends PureComponent {
       buttonStyle = {
         position: 'fixed',
         top: '25px',
-        right: 'calc(45px + 50px)', // accounts for transform below
+        right: 'calc(35px + 50px)', // accounts for transform below
         transform: 'translateX(50px)',
         color: 'white',
         padding: '5px 25px',
@@ -94,7 +94,7 @@ export default class DynamicHeader extends PureComponent {
           style={ buttonStyle }
           onClick={ this.props.onClick }
         >
-          Let's go!
+          Sign me up!
         </div>
 
       </Fragment>
