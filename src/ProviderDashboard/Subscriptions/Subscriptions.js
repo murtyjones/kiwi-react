@@ -12,6 +12,8 @@ import isEmpty from 'lodash/isEmpty'
 import { SubmissionError } from 'redux-form'
 import Link from 'react-router-dom/Link'
 import moment from 'moment'
+import IconButton from '@material-ui/core/IconButton'
+import Edit from 'material-ui-icons/Edit'
 
 
 import ProvideeProfileForm from './ProvideeProfileForm'
@@ -19,6 +21,14 @@ import { register, putProfile, postSubscription, putSubscription, changePassword
 
 import './overrides.css'
 import { SUBSCRIPTION_STATUSES } from '../../constants'
+
+const styles = {
+  editUserIcon: {
+    width: '20px',
+    height: '20px'
+  },
+  editUserColor: '#0074D9'
+}
 
 class Subscriptions extends Component {
   constructor(props) {
@@ -92,10 +102,8 @@ class Subscriptions extends Component {
     const selectedSubscription = subscriptionsById[params.id] || {}
     const selectedSubscriptionProvideeProfile = profilesById[selectedSubscription.provideeId] || {}
 
-    const activeSubscriptions = subscriptions
-      .filter(e => e.status === SUBSCRIPTION_STATUSES.ACTIVE)
-    const inactiveSubscriptions = subscriptions
-      .filter(e => e.status === SUBSCRIPTION_STATUSES.INACTIVE)
+    const sortedSubscriptions = subscriptions
+      .sort((a, b) => a.status !== SUBSCRIPTION_STATUSES.ACTIVE)
 
     return params.id
       ?
@@ -117,31 +125,53 @@ class Subscriptions extends Component {
       </Fragment>
       :
       <Fragment>
-        { !isEmpty(activeSubscriptions) &&
+        { !isEmpty(sortedSubscriptions) &&
           <Fragment>
             <h3 className='providerDashboard-sectionHeader'>
-              Active Subscriptions
+              Subscriptions
             </h3>
             <Table className='subscription-table'>
               <TableBody>
-                { activeSubscriptions.map((subscription, i) => {
+                { sortedSubscriptions.map((subscription, i) => {
                   const providee = profilesById[subscription.provideeId] || {}
                   return (
                     <TableRow
                       key={ i }
                       className='subscription-row'
-                      // onClick={ e => this.handleSubscriptionClick(e, subscription._id) }
                     >
                       <TableCell className='subscription-username'>
                         { providee.username }
+                        <IconButton
+                          variant='fab'
+                          aria-label='add'
+                          className='editUserButton'
+                          onClick={ e => this.handleSubscriptionClick(e, subscription._id) }
+                        >
+                          <Edit
+                            style={ styles.editUserIcon }
+                            color={ styles.editUserColor }
+                          />
+                        </IconButton>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className='subscription-expireDate'>
+                        { subscription.current_period_end &&
+                          <span className='expiresAt'>
+                            (Expires {
+                            moment.unix(subscription.current_period_end).format('MMMM Do')
+                          })
+                          </span>
+                        }
+                      </TableCell>
+                      <TableCell className='subscription-toggleSubscription'>
                         <Link to='#'
-                          onClick= {() =>
+                          onClick= { () =>
                             this.toggleSubscriptionStatus(subscription)
                           }
                         >
-                          Pause Subscription
+                          { subscription.status === SUBSCRIPTION_STATUSES.INACTIVE
+                            ? 'Restart Subscription'
+                            : 'Pause Subscription'
+                          }
                         </Link>
                       </TableCell>
                     </TableRow>
@@ -151,48 +181,6 @@ class Subscriptions extends Component {
             </Table>
           </Fragment>
         }
-        { !isEmpty(inactiveSubscriptions) &&
-          <Fragment>
-            <h3 className='providerDashboard-sectionHeader'>
-              Inactive Subscriptions
-            </h3>
-            <Table className='subscription-table'>
-            <TableBody>
-              { inactiveSubscriptions.map((subscription, i) => {
-                const providee = profilesById[subscription.provideeId] || {}
-                return (
-                  <TableRow
-                    key={ i }
-                    className='subscription-row'
-                    // onClick={ e => this.handleSubscriptionClick(e, subscription._id) }
-                  >
-                    <TableCell className='subscription-username'>
-                      { providee.username }
-                      { subscription.current_period_end &&
-                        <span className='expiresAt'>
-                          (Expires {
-                            moment.unix(subscription.current_period_end).format('MMMM Do')
-                          })
-                        </span>
-                      }
-                    </TableCell>
-                    <TableCell>
-                      <Link to='#'
-                        onClick= {() =>
-                          this.toggleSubscriptionStatus(subscription)
-                        }
-                      >
-                        Restart Subscription
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                )
-                }) }
-            </TableBody>
-          </Table>
-          </Fragment>
-        }
-
         <Button
           variant='outlined'
           className='addStudent'

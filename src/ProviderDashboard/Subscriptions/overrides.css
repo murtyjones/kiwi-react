@@ -22,8 +22,17 @@
 .subscription-row:last-child { border-bottom: 0; }
 
 .subscription-username {
-    padding-left: 0;
-    width: 60%;
+    width: 30%;
+    padding: 0 !important;
+}
+
+.subscription-expireDate {
+     width: 35%;
+     padding: 0 !important;
+ }
+
+.subscription-toggleSubscription {
+    padding: 0 !important;
 }
 
 .expiresAt {
@@ -57,4 +66,10 @@
     width: 30px !important;
     height: 30px !important;
     background: transparent !important;
+}
+
+.editUserButton {
+    width: 30px !important;
+    height: 30px !important;;
+    margin-left: 10px !important;;
 }
