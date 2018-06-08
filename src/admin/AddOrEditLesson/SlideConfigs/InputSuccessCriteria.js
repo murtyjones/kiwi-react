@@ -16,7 +16,7 @@ import renderSelectField from '../../../common/renderSelectField'
 const inputCriteriaOptions = [
   { header: 'I/O' }
   , { label: 'print', value: CODE_CONCEPTS.PRINT }
-  , { label: 'multi-line quote block', value: CODE_CONCEPTS.MULTI_LINE_PRINT }
+  , { label: 'multi-line quote block', value: CODE_CONCEPTS.MULTI_LINE_QUOTE }
   , { label: 'input', value: CODE_CONCEPTS.INPUT }
   , { label: 'Variable', value: CODE_CONCEPTS.VARIABLE }
   , { header: 'Control Flow' }
