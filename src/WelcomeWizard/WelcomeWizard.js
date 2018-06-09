@@ -34,7 +34,7 @@ class WelcomeWizard extends Component {
     this.props.openTopBar()
   }
 
-  handleSubmit = async (v) => {
+  handleSubmit = async v => {
     const { username } = this.props
     const actionType = slides[this.state.activeSlideIndex].action
     if(actionType) {

@@ -35,18 +35,20 @@ export default class DynamicHeader extends PureComponent {
     const topButtonMass = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass) + 10
 
     const sloganStyle = {
-      fontSize: `calc( 3px + ${textMass}vw)`
-      , lineHeight: `${textMass}vw`
+      fontSize: `calc(12px + ${textMass / 1.4}vw)`
+      , lineHeight: `calc(15px + ${textMass}vw)`
       , top: `${topSlogan}vh`
       , width: '100vw'
+      , padding: '0 50px'
+      , boxSizing: 'border-box'
     }
 
     let buttonStyle = {
       position: 'fixed',
       top: `${topButtonMass}vh`,
       left: '50%',
-      width: '70px',
-      marginLeft: '-70px',
+      width: '110px',
+      marginLeft: '-85px',
       backgroundColor: 'white',
       color: '#654E93',
       padding: '10px 30px',
@@ -55,14 +57,15 @@ export default class DynamicHeader extends PureComponent {
       border: '2px solid #FFFFFF',
       fontWeight: 'bold',
       cursor: 'pointer',
-      zIndex: 51
+      zIndex: 51,
+      textAlign: 'center'
     }
 
     if(textMass <= fixPoint) {
       buttonStyle = {
         position: 'fixed',
         top: '25px',
-        right: 'calc(45px + 50px)', // accounts for transform below
+        right: 'calc(35px + 50px)', // accounts for transform below
         transform: 'translateX(50px)',
         color: 'white',
         padding: '5px 25px',
@@ -79,7 +82,7 @@ export default class DynamicHeader extends PureComponent {
       <Fragment>
 
         <span
-          className='dynamicSlogan'
+          className={ cns('dynamicSlogan', { 'upTop': textMass <= fixPoint }) }
           style={ sloganStyle }
         >
           { textMass <= fixPoint ? smallText : text }
@@ -91,7 +94,7 @@ export default class DynamicHeader extends PureComponent {
           style={ buttonStyle }
           onClick={ this.props.onClick }
         >
-          Let's go!
+          Sign me up!
         </div>
 
       </Fragment>

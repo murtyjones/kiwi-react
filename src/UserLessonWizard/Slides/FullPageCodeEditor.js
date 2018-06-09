@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
 import template from 'es6-template-strings'
@@ -34,6 +34,7 @@ class FullPageCodeEditor extends PureComponent {
     , setFormGlobalVariable: T.func.isRequired
     , postUserVariable: T.func.isRequired
     , putUserVariable: T.func.isRequired
+    , afterRunCode: T.func.isRequired
     , userId: T.string.isRequired
   }
 
@@ -57,53 +58,54 @@ class FullPageCodeEditor extends PureComponent {
 
     const variablesToComplete = slideData.variablesToComplete || []
 
-    return [
-      <div key={ className } style={ slideContentFlexibleHeight } className={ className }>
-        <div
-          key='title'
-          id='title'
-          style={ {
-            ...titleStyle
-            , color: globalColors.quaternaryColor
-          } }
-          >
-          { slideData.title }
-        </div>
-        <div
-          key='prompt'
-          id='prompt'
-          className='prompt'
-          dangerouslySetInnerHTML={ { __html: prompt } }
-        />
-        { slideData.hasExample &&
+    return (
+      <Fragment>
+        <div key={ className } style={ slideContentFlexibleHeight } className={ className }>
           <div
-            key='exampleButton'
-            className='exampleButton'
-          >
-            <div className="exampleHeader">Example</div>
-            <div
-              className="exampleText"
-              style={ exampleStyle }
-              dangerouslySetInnerHTML={ { __html: example } }
-            />
+            key='title'
+            id='title'
+            style={ {
+              ...titleStyle
+              , color: globalColors.quaternaryColor
+            } }
+            >
+            { slideData.title }
           </div>
-        }
-      </div>
-      ,
-      <CodeEditor
-        key='lessonFullSizeEditor'
-        className='lessonFullSizeEditor flexOneOneAuto'
-        editorInput={ input.value }
-        onChange={ answer => input.onChange(answer) }
-        runCode={ runCode }
-        afterRunCode={ codeOutput => afterRunCode(codeOutput) }
-        showRunButton={ false }
-        variablesToComplete={ variablesToComplete }
-        variableOptions={ variablesWithUserValues }
-        setFormGlobalVariable={ setFormGlobalVariable }
-        upsertUserVariable={ this.upsertUserVariable }
-      />
-    ]
+          <div
+            key='prompt'
+            id='prompt'
+            className='prompt'
+            dangerouslySetInnerHTML={ { __html: prompt } }
+          />
+          { slideData.hasExample &&
+            <div
+              key='exampleButton'
+              className='exampleButton'
+            >
+              <div className="exampleHeader">Example</div>
+              <div
+                className="exampleText"
+                style={ exampleStyle }
+                dangerouslySetInnerHTML={ { __html: example } }
+              />
+            </div>
+          }
+        </div>
+        <CodeEditor
+          key='lessonFullSizeEditor'
+          className='lessonFullSizeEditor flexOneOneAuto'
+          editorInput={ input.value }
+          onChange={ answer => input.onChange(answer) }
+          runCode={ runCode }
+          afterRunCode={ (...params) => afterRunCode(...params) }
+          showRunButton={ false }
+          variablesToComplete={ variablesToComplete }
+          variableOptions={ variablesWithUserValues }
+          setFormGlobalVariable={ setFormGlobalVariable }
+          upsertUserVariable={ this.upsertUserVariable }
+        />
+      </Fragment>
+    )
   }
 }
 

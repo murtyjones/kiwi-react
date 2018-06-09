@@ -3,21 +3,50 @@ import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { Field, reduxForm, getFormValues } from 'redux-form'
-import Button from '@material-ui/core/Button'
 import { Toggle, SelectField } from 'redux-form-material-ui'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import asyncDebounce from 'debounce-promise'
+import config from 'config'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import ContentCopy from 'material-ui-icons/ContentCopy'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 import renderTextField from '../../common/renderTextField'
 import validateUsernameAvailability from './validateUsernameAvailability'
 
 export const formName = 'provideeProfile'
 
+const CopyLoginLink = ({ text, linkCopied, onCopy }) =>
+  <div className='copyLoginLinkContainer'>
+    Your student is all setup! They can dive in and start
+    coding using this link:
+    <div className='copyLoginLinkBox'>
+      { text }
+      <CopyToClipboard
+        text={ text }
+        onCopy={ onCopy }
+      >
+        <IconButton
+          variant='fab'
+          aria-label='add'
+          className='copyLoginLinkButton'
+        >
+          <ContentCopy
+            style={ styles.contentCopy }
+            color={ styles.contentCopyColor }
+          />
+        </IconButton>
+      </CopyToClipboard>
+    </div>
+    { linkCopied && <span style={ styles.linkCopied }>Copied!</span> }
+  </div>
+
 const styles = {
   form: {
     width: 'calc(100% - 20px)' // 20px padding offset
     , height: '100%'
-    , padding: '10px'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
   },
@@ -25,13 +54,23 @@ const styles = {
     paddingTop: '10px'
   },
   failure: { color: '#cc5040' },
-  success: { color: '#66cc52' }
+  success: { color: '#66cc52' },
+  contentCopy: {
+    width: '20px',
+    height: '20px'
+  },
+  contentCopyColor: '#0074D9',
+  linkCopied: {
+    top: '5px', position: 'relative'
+  }
 }
 
 class ProvideeProfileForm extends Component {
   constructor(props) {
     super(props)
-
+    this.state = {
+      linkCopied: false
+    }
   }
 
   static propTypes = {
@@ -39,8 +78,12 @@ class ProvideeProfileForm extends Component {
     , handleSubmit: T.func.isRequired
   }
 
+  handleCopyLinkClick = () => this.setState({ linkCopied: true })
+
   render() {
-    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error } = this.props
+    const { initialValues, handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error } = this.props
+    const { linkCopied } = this.state
+
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
@@ -69,8 +112,21 @@ class ProvideeProfileForm extends Component {
         </Button>
         { submitting && <span>Saving...</span> }
         <div style={ styles.result }>
-          { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }
-          { submitSucceeded && <span style={ styles.success }>Profile updated!</span> }
+          { submitFailed && error &&
+            <span style={ styles.failure }>
+              { get(error, 'error_description', error) }
+            </span>
+          }
+          { submitSucceeded && !isEmpty(initialValues)
+            ? <span style={ styles.success }>Profile updated!</span>
+            : submitSucceeded
+            ? <CopyLoginLink
+                text={ `${ config.host }/login` }
+                onCopy={ this.handleCopyLinkClick }
+                linkCopied={ linkCopied }
+              />
+            : null
+          }
         </div>
       </form>
     )

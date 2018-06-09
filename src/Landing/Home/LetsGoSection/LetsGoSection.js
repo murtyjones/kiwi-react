@@ -15,12 +15,10 @@ export default class LetsGoSection extends PureComponent {
         <div className='letsGo'>
           <h2>Start your coding adventure today!</h2>
           <div
-            key='welcomeNextButton'
-            id='welcomeNextButton'
             className={ cns('letsGoBottomButton hvr-grow') }
             onClick={ this.props.openModal }
           >
-            Let's Go!
+            Sign me up!
           </div>
         </div>
       </div>

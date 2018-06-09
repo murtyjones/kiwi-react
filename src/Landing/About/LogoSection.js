@@ -3,12 +3,14 @@ import React, { Component } from 'react'
 const styles = {
   container: {
     position: 'relative'
-    , backgroundColor: '#624F8F'
+    , backgroundColor: '#3E2E61'
   },
   logoSection: {
     height: '40vh'
+    , maxWidth: '70vw'
+    , margin: '0 auto'
     , position: 'relative'
-    , overflow: 'auto'
+    , overflow: 'hidden'
   }
 }
 

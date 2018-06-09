@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import { postVariable, putVariable, getVariable } from '../../actions'
+import { SubmissionError } from 'redux-form'
 import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 
+import { postVariable, putVariable, getVariable } from '../../actions'
 import VariableForm from './VariableForm'
 
 class AddOrEditVariable extends Component {
@@ -42,20 +43,28 @@ class AddOrEditVariable extends Component {
     }
   }
 
-  handleSubmit = (params) => {
+  handleSubmit = async (params) => {
     const { postVariable, putVariable } = this.props
-    const _id = params._id
-    const id = params.id
-    if(_id) {
-      delete params._id
-      params.id = _id
-      return putVariable(params)
-    } else if(id) {
-      return putVariable(params)
+    try {
+      const _id = params._id
+      const id = params.id
+      let result
+      if(_id) {
+        delete params._id
+        params.id = _id
+        result = await putVariable(params)
+        return result
+      } else if(id) {
+        result = await putVariable(params)
+        return result
+      } else {
+        result = await postVariable(params)
+        this.props.history.push(`/admin/variables/${result._id}`)
+      }
+    } catch (err) {
+      console.log(err)
+      throw new SubmissionError({ _error: err.body ? err.body.message : err.message })
     }
-    return postVariable(params).then(res => {
-      this.props.history.push(`/admin/variables/${res._id}`)
-    })
   }
 
   render() {

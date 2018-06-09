@@ -54,7 +54,7 @@ class Signups extends Component {
       <Table>
         <TableHead className='subscription-head'>
           <TableRow>
-            <TableCell>Username</TableCell>
+            <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Is Subscribed?</TableCell>
             <TableCell>Signup Date</TableCell>

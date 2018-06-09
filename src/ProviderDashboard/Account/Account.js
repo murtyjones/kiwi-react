@@ -18,7 +18,7 @@ class Account extends Component {
     , updateProfile: T.func.isRequired
   }
 
-  handleSubmit = async (v) => {
+  handleSubmit = async v => {
     const { userId, updateProfile } = this.props
     const params = {
       ...v,

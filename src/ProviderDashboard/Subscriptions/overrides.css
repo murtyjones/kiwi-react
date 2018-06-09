@@ -1,3 +1,9 @@
+.subscription-table > tbody > tr > td,
+.subscription-table > thead > tr > th {
+    font-size: 11pt;
+    border: none;
+}
+
 .subscription-head {
 
 }
@@ -8,9 +14,62 @@
     font-size: 12pt;
 }
 
+.subscription-row {
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+}
+.subscription-row:first-child { border-top: 0; }
+.subscription-row:last-child { border-bottom: 0; }
 
-.subscription-row:hover  > * {
-    color: #0074D9;
-    background: #f8f8f8;
-    text-decoration: underline;
+.subscription-username {
+    width: 30%;
+    padding: 0 !important;
+}
+
+.subscription-expireDate {
+     width: 35%;
+     padding: 0 !important;
+ }
+
+.subscription-toggleSubscription {
+    padding: 0 !important;
+}
+
+.expiresAt {
+    margin-left: 15px;
+    color: darkred;
+}
+
+
+.addStudent {
+    float: right;
+    margin-top: 10px !important
+}
+
+
+.copyLoginLinkContainer {
+    text-align: center;
+}
+
+.copyLoginLinkBox {
+    border: 1px solid #CCC;
+    margin: 10px auto 0 auto;
+    padding: 10px;
+    width: 270px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 12pt;
+    background-color: #F1F1F1;
+}
+
+.copyLoginLinkButton {
+    width: 30px !important;
+    height: 30px !important;
+    background: transparent !important;
+}
+
+.editUserButton {
+    width: 30px !important;
+    height: 30px !important;;
+    margin-left: 10px !important;;
 }

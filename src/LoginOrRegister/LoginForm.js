@@ -41,6 +41,7 @@ class LoginForm extends PureComponent {
             fontWeight: 'bold'
             , color: usernameFieldActive ? activeColor : inactiveColor
           } }
+          floatingLabelFixed={ true }
           underlineStyle={ sharedStyles.underlineStyle }
           underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           onFocus={ () => this.setUsernameStatus(true) }
@@ -59,6 +60,7 @@ class LoginForm extends PureComponent {
             fontWeight: 'bold'
             , color: passwordFieldActive ? activeColor : inactiveColor
           } }
+          floatingLabelFixed={ true }
           underlineStyle={ sharedStyles.underlineStyle }
           underlineFocusStyle={ sharedStyles.underlineFocusStyle }
           onFocus={ () => this.setPasswordStatus(true) }

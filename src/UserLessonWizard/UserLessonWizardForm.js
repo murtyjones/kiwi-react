@@ -76,6 +76,7 @@ class UserLessonWizardForm extends Component {
       , nextDisabled: null
       , isFinal: null
       , runCode: false
+      , codeRanAtLeastOnce: false
       , showResultCard: false
       , checkAnswer: false
     }
@@ -168,7 +169,7 @@ class UserLessonWizardForm extends Component {
   setIsFinal = (activeSlideIndex, lesson) =>
     this.setState({ isFinal: isFinalSlide(activeSlideIndex, lesson) })
 
-  setRunCode = async flag => await this.setStateAsync({ runCode: flag })
+  setRunCode = async flag => this.setStateAsync({ runCode: flag })
 
   setCodeOutput = (ref, codeOutput) =>
     this.props.dispatch(change(formName, `${ref}.codeOutput`, codeOutput))
@@ -191,14 +192,24 @@ class UserLessonWizardForm extends Component {
     const formValues = this.addIsViewedToActiveSlide(this.props.formValues)
     this.props.goToNextSlide()
     this.props.onSubmit(formValues)
-    this.setState({ showResultCard: false, submitCurrentValues: false, checkAnswer: false })
+    this.setState({
+      showResultCard: false,
+      submitCurrentValues: false,
+      checkAnswer: false,
+      codeRanAtLeastOnce: false
+    })
   }
 
   onFinalNext = async () => {
     const formValues = this.addIsViewedToActiveSlide(this.props.formValues)
     this.props.onSubmit(formValues)
     this.props.onFinalSlideNextClick()
-    this.setState({ showResultCard: false, submitCurrentValues: false, checkAnswer: false })
+    this.setState({
+      showResultCard: false,
+      submitCurrentValues: false,
+      checkAnswer: false,
+      codeRanAtLeastOnce: false
+    })
   }
 
   addIsViewedToActiveSlide = formValues => {
@@ -225,9 +236,10 @@ class UserLessonWizardForm extends Component {
             name={ `${ref}.answer` }
             component={ ActiveSlideComponent }
             runCode={ runCode }
-            afterRunCode={ codeOutput => {
+            afterRunCode={ async (err, codeOutput) => {
               this.setRunCode(false)
-              this.setCodeOutput(ref, codeOutput)
+              await this.setStateAsync({ showResultCard: false, codeRanAtLeastOnce: true })
+              if(!err) this.setCodeOutput(ref, codeOutput)
             } }
             className='lessonWizardFormContent flexZeroOneAuto'
             globalColors={ globalColors }
@@ -242,16 +254,15 @@ class UserLessonWizardForm extends Component {
 
   render() {
     const { handleSubmit, lessonTheme, globalColors, activeSlideIndex, formValues } = this.props
-        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, showResultCard } = this.state
+        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, showResultCard, codeRanAtLeastOnce } = this.state
         , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
         , includeRunButton = availableSlideTypes[activeSlideObject.type].includeRunButton
-        , includeCheckAnswerButton = !viewedEqualsComplete(activeSlideObject)
+        , includesSuccessCriteria = !viewedEqualsComplete(activeSlideObject)
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
         , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
-        , includesCodeSuccessCriteria = activeSlideObject.shouldIncludeSuccessCriteria
 
     return [
       <Fragment key='userLessonWizardForm'>
@@ -265,9 +276,11 @@ class UserLessonWizardForm extends Component {
           onPrevClick={ onPrevClick }
           onNextClick={ onNextClick }
           onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
-          onCheckAnswer={ includeCheckAnswerButton ? () => this.setState({
-            runCode: includesCodeSuccessCriteria, checkAnswer: true, submitCurrentValues: true
-          }) : null }
+          includesSuccessCriteria={ includesSuccessCriteria }
+          onCheckAnswer={ includesSuccessCriteria && codeRanAtLeastOnce
+            ? () => this.setState({
+              checkAnswer: true, submitCurrentValues: true
+            }) : null }
           globalColors={ globalColors }
           slideAnswerData={ slideAnswerData }
         />

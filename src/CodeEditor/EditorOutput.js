@@ -23,9 +23,9 @@ const styles = {
     , borderBottomRightRadius: '10px'
   },
   textareaStyle: {
-    padding: '0px'
+    padding: '12px 0 0 0'
+    , boxSizing: 'border-box'
     , border: '0px'
-    , color: 'rgb(253, 220, 255)'
     , margin: '0px'
     , height: '16px'
     , fontFamily: 'monospace'
@@ -35,6 +35,8 @@ const styles = {
     , outline: 'none'
     , overflow: 'hidden'
     , fontSize: '15px' // should match the editorOverrides.css number too
+    , position: 'relative'
+    , top: '3px'
   },
   pre: {
     margin: 0
@@ -138,7 +140,7 @@ export default class EditorOutput extends Component {
   }
 
   render() {
-    const { editorOutput, editorInput, errorMsg, setInputRef } = this.props
+    const { editorOutput, editorInput, errorMsg, setInputRef, inputDisabled } = this.props
     const { value, showHint } = this.state
     const errorHintHTML = errorMsg
       ? getCommonErrorHint(errorMsg) || getCustomErrorHint(editorInput)
@@ -154,6 +156,7 @@ export default class EditorOutput extends Component {
             <pre id='editorOutput' style={ styles.pre }>
               { editorOutput }
               <textarea
+                disabled={ inputDisabled }
                 style={ styles.textareaStyle }
                 className='rawInput'
                 ref={ setInputRef }

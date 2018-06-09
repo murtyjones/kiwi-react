@@ -39,7 +39,8 @@ class VariableForm extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting } = this.props
+    const { handleSubmit, submitting, error } = this.props
+
     const { lockVariableName } = this.state
     return (
       <form onSubmit={ handleSubmit } style={ { width: "100%", height: "100%" } }>
@@ -59,6 +60,7 @@ class VariableForm extends Component {
           Save
         </RaisedButton>
         { submitting && <span>Saving...</span> }
+        { error && <strong>{ error }</strong> }
       </form>
     )
   }

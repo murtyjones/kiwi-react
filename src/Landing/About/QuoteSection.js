@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
-import SubscribeForm from './SubscribeForm'
-import NextArrow from './NextArrow'
 
 const styles = {
   quoteSection: {
-    height: '100vh'
-    , backgroundColor: '#624F8F'
+    backgroundColor: '#FFFFFF'
     , position: 'relative'
     , overflow: 'auto'
-    , color: '#FFFFFF'
+    , color: '#624F8F'
   },
   quoteSectionH1: {
-    fontSize: 'calc(10px + 2.3vw)'
-    , margin: '18vh 10vw 2.5vh 10vw'
+    fontSize: 'calc(15px + 2.3vw)'
+    , margin: '50px 10vw 0 10vw'
   },
   signature: {
     fontSize: 'calc(8px + 2.0vw)'
@@ -24,15 +21,15 @@ const styles = {
   },
   quoteContainer: {
     position: 'relative'
-    , width: '50vw'
+    , width: '70vw'
     , left: '50vw'
-    , marginLeft: '-25vw'
-    , padding: '4vw 1vw 4vw 1vw'
+    , marginLeft: '-35vw'
+    , paddingBottom: '50px'
     , boxSizing: 'border-box'
   },
   quote: {
-    fontSize: 'calc(8px + 1.8vw)'
-    , color: '#FFFFFF'
+    fontSize: 'calc(13px + 1.8vw)'
+    , color: '#624F8F'
   }
 }
 
@@ -47,7 +44,6 @@ const QuoteSection = () =>
   <div style={ styles.quoteSection }>
     <h2 style={ styles.quoteSectionH1 }>See What Students Think</h2>
     <Quote />
-    <NextArrow to={ window.innerHeight * 3 } />
   </div>
 
 export default QuoteSection

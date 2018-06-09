@@ -45,3 +45,28 @@ export class AboutLink extends Component {
     )
   }
 }
+
+export class HomeLink extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div style={ {
+        ...styles.linkContainerStyle
+        , top: '20px'
+        , right: '10px'
+        , width: '100px'
+      } }
+      >
+        <Link
+          to='/'
+          style={ styles.linkStyle }
+        >
+          home
+        </Link>
+      </div>
+    )
+  }
+}

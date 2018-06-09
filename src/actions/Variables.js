@@ -70,6 +70,7 @@ export const putVariable = (params) => {
       })
       .catch(e => {
         dispatch({ type: ACTIONS.PUT_VARIABLE_FAILURE, payload: e })
+        throw e
       })
   }
 }
@@ -88,6 +89,7 @@ export const postVariable = (params) => {
       })
       .catch(e => {
         dispatch({ type: ACTIONS.POST_VARIABLE_FAILURE, payload: e })
+        throw e
       })
   }
 }

@@ -3,33 +3,33 @@ import './teamOverrides.css'
 
 const styles = {
   teamSection: {
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#F1F1F1'
     , position: 'relative'
     , overflow: 'auto'
-    , color: '#000000'
+    , color: '#624F8F'
     , textAlign: 'left'
   },
-  teamSectionH2: {
-    fontSize: 'calc(10px + 2.3vw)'
+  teamSectionH1: {
+    fontSize: 'calc(15px + 2.3vw)'
     , margin: '5vh 5vw 5vh 5vw'
     , color: '#624F8F'
     , textAlign: 'center'
   },
   teamMemberName: {
-    fontSize: 'calc(7px + 1.3vw)'
+    fontSize: 'calc(20px + 0.6vw)'
     , fontWeight: 'bold'
     , color: '#624F8F'
     , marginTop: '2%'
     , marginLeft: '2%'
   },
   teamMemberPosition: {
-    fontSize: 'calc(6px + 0.9vw)'
+    fontSize: 'calc(15px + 0.4vw)'
     , color: '#624F8F'
     , marginLeft: '2%'
   },
   paragraph: {
     position: 'relative'
-    , fontSize: 'calc(6px + 0.8vw)'
+    , fontSize: 'calc(14px + 0.4vw)'
     , width: '96%'
     , left: '50%'
     , marginLeft: '-48%'
@@ -55,7 +55,7 @@ const TeamMember = ({ name, position, imageUrl, description }) =>
 
 const TeamSection = () =>
   <div style={ styles.teamSection }>
-    <h2 style={ styles.teamSectionH2 }>The Team</h2>
+    <h1 style={ styles.teamSectionH1 }>The Team</h1>
     <TeamMember
       name='Julia Lamorelle'
       position='Chief Executive Officer'

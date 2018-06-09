@@ -97,7 +97,7 @@ export const CheckAnswerButton = ({ onClick }) =>
   </div>
 
 
-const ActionBar = ({ onRunCode, onCheckAnswer, onPrevClick, onNextClick, globalColors, slideAnswerData = {} }) => {
+const ActionBar = ({ onRunCode, onCheckAnswer, onPrevClick, onNextClick, globalColors, includesSuccessCriteria, slideAnswerData = {} }) => {
   let onCheckAnswerClick = has(slideAnswerData, 'answer') && onCheckAnswer ? onCheckAnswer : null
 
   return (
@@ -111,7 +111,7 @@ const ActionBar = ({ onRunCode, onCheckAnswer, onPrevClick, onNextClick, globalC
       { !!onRunCode &&
         <RunCodeButton onClick={ onRunCode } />
       }
-      { !!onCheckAnswerClick &&
+      { includesSuccessCriteria &&
         <CheckAnswerButton onClick={ onCheckAnswerClick } />
       }
       <NextButton globalColors={ globalColors } onNextClick={ onNextClick } />

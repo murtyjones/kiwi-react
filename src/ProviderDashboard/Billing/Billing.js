@@ -2,11 +2,14 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
+import { Elements } from 'react-stripe-elements'
 import { SubmissionError } from 'redux-form'
 
+import find from 'lodash/find'
 
 import BillingForm from './BillingForm'
-import { updateProfile, resendVerificationEmail, openModal } from '../../actions'
+import Stripe from './Stripe'
+import { putProfile, resendVerificationEmail, openModal } from '../../actions'
 
 import './overrides.css'
 
@@ -17,12 +20,23 @@ class Billing extends Component {
 
   static propTypes = {
     profile: T.object.isRequired
-    , updateProfile: T.func.isRequired
+    , putProfile: T.func.isRequired
     , openModal: T.func.isRequired
   }
 
-  handleSubmit = async (v) => {
-    console.log('hm')
+  handleSubmit = async (params) => {
+    const { userId, profile, putProfile } = this.props
+    try {
+      const options = {
+        _id: userId,
+        v: profile.v,
+        ...params
+      }
+      return await putProfile({ ...options, billing: true })
+    } catch (err) {
+      console.log(err)
+      throw new SubmissionError({ name: '', _error: err.message ? err.message : err })
+    }
   }
 
   handleVerificationEmailClick = () => {
@@ -31,19 +45,24 @@ class Billing extends Component {
   }
 
   render() {
-    const { profile } = this.props
+    const { initialValues, profile, last4 } = this.props
 
     return (
       <Fragment>
         <h2 className='providerDashboard-sectionHeader'>
           Manage your payment information
         </h2>
-        <BillingForm
-          initialValues={ profile }
-          isEmailVerified={ profile.isEmailVerified }
-          onSubmit={ this.handleSubmit }
-          onVerificationEmailClick={ this.handleVerificationEmailClick }
-        />
+        <Stripe>
+          <Elements>
+            <BillingForm
+              initialValues={ initialValues }
+              last4={ last4 }
+              isEmailVerified={ profile.isEmailVerified }
+              onSubmit={ this.handleSubmit }
+              onVerificationEmailClick={ this.handleVerificationEmailClick }
+            />
+          </Elements>
+        </Stripe>
       </Fragment>
     )
   }
@@ -52,15 +71,32 @@ class Billing extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, profiles: { profilesById } } = state
   const profile = profilesById[userId] || {}
+  const initialValues = {}
+  let last4 = null
+
+  if (profile.billing && profile.billing.sources) {
+    const creditCardId = profile.billing.default_source
+    const cardMetadata = find(profile.billing.sources.data, { id: creditCardId })
+
+    initialValues.name = cardMetadata.name
+    initialValues.addressLine1 = cardMetadata.address_line1
+    initialValues.addressLine2 = cardMetadata.address_line2
+    initialValues.addressCity = cardMetadata.address_city
+    initialValues.addressState = cardMetadata.address_state
+    last4 = cardMetadata.last4
+  }
+
   return {
     profile,
-    userId
+    userId,
+    initialValues,
+    last4
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProfile: params => dispatch(updateProfile(params))
+    putProfile: params => dispatch(putProfile(params))
     , resendVerificationEmail: params => dispatch(resendVerificationEmail(params))
     , openModal: params => dispatch(openModal(params))
   }

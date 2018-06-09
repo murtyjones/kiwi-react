@@ -31,7 +31,7 @@ const styles = {
   }
 }
 
-const defaultInput = '# Write some code!'
+const defaultInput = ''
 
 let codeOutput = ''
 
@@ -39,7 +39,8 @@ class CodeEditor extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      editorInput: props.editorInput || defaultInput
+      codeIsRunning: false
+      , editorInput: props.editorInput || defaultInput
       , editorOutput: ''
       , answer: ''
       , prompt: ''
@@ -82,7 +83,7 @@ class CodeEditor extends Component {
       // when UserLessonWizard sees that there is no codeOutput,
       // it will know to NOT submitCurrentValues for checking
       // correctness, because there was an error.
-      if(afterRunCode) afterRunCode('')
+      if(afterRunCode) afterRunCode(true, null)
     }
 
     // if runCode prop was turned on, run code, get the new output,
@@ -90,7 +91,7 @@ class CodeEditor extends Component {
     if(!this.props.runCode && nextProps.runCode) {
       await this.runCode()
       const { editorOutput } = this.state
-      if(afterRunCode) afterRunCode(editorOutput)
+      if(afterRunCode) afterRunCode(null, editorOutput || '')
     }
   }
 
@@ -182,7 +183,8 @@ class CodeEditor extends Component {
 
   runCode = () => {
     const { editorInput, editorOutput } = this.state
-    return new BluebirdPromise((resolve, reject) => {
+    return new BluebirdPromise(async (resolve, reject) => {
+      await this.setStateAsync({ codeIsRunning: true })
       codeOutput = '' // reset each time
       skulpt.canvas = 'mycanvas'
       skulpt.pre = 'output'
@@ -211,10 +213,15 @@ class CodeEditor extends Component {
 
       const myPromise = skulpt.misceval.asyncToPromise(() => skulpt.importMainWithBody("<stdin>", false, editorInput, true))
       myPromise.then(async () => {
-        await this.setStateAsync({ editorOutput: codeOutput })
+        await this.setStateAsync({ editorOutput: codeOutput, codeIsRunning: false })
         return resolve()
       }, async (e) => {
-        await this.setState({ errorMsg: e.toString(), errorLine: e.traceback[0].lineno, editorOutput: '' })
+        await this.setState({
+          errorMsg: e.toString(),
+          errorLine: e.traceback[0].lineno,
+          editorOutput: '',
+          codeIsRunning: false
+        })
         return reject()
       })
     })
@@ -225,14 +232,13 @@ class CodeEditor extends Component {
   }
 
   handleCheckAnswer = async () => {
-    await this.runCode()
     const { editorInput, editorOutput } = this.state
     this.props.onCheckAnswer(editorInput, editorOutput)
   }
 
   render() {
     const { className, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
-    const { editorOutput, errorMsg, prompt, rawInputValue, editorInput } = this.state
+    const { editorOutput, errorMsg, prompt, rawInputValue, editorInput, codeIsRunning } = this.state
 
     return (
       <div className={ className } >
@@ -255,6 +261,7 @@ class CodeEditor extends Component {
             errorMsg={ errorMsg }
             prompt={ prompt }
             value={ rawInputValue }
+            inputDisabled={ !codeIsRunning }
             setInputRef={ this.getChildRef }
             variablesToComplete={ variablesToComplete }
           />

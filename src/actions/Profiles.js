@@ -41,13 +41,14 @@ export const deleteProfile = (params) => {
 }
 
 export const getProfileDetails = (params) => {
-  const { userId } = params
+  const { userId, billing = false } = params
   const options = {
     method: 'GET',
   }
+  const append = billing ? 'billing' : ''
   return dispatch => {
     dispatch({ type: ACTIONS.GET_PROFILE_REQUEST })
-    return ApiFetch(`${config.api}/profiles/${userId}`, options)
+    return ApiFetch(`${config.api}/profiles/${userId}/${append}`, options)
       .then(res => {
         dispatch({ type: ACTIONS.GET_PROFILE_SUCCESS, payload: res })
         return res
@@ -58,22 +59,23 @@ export const getProfileDetails = (params) => {
   }
 }
 
-export const updateProfile = (params) => {
+export const putProfile = params => {
   const { _id } = params
-  const options = {
-    method: 'PUT',
-    body: params
-  }
-  return dispatch => {
-    dispatch({ type: ACTIONS.PUT_PROFILE_REQUEST })
-    return ApiFetch(`${config.api}/profiles/${_id}`, options)
-      .then(res => {
-        dispatch({ type: ACTIONS.PUT_PROFILE_SUCCESS, payload: res})
-        return res
-      })
-      .catch(e => {
-        dispatch({ type: ACTIONS.PUT_PROFILE_FAILURE, payload: e })
-      })
+  return async dispatch => {
+    try {
+      const options = {
+        method: 'PUT',
+        body: params
+      }
+      dispatch({ type: ACTIONS.PUT_PROFILE_REQUEST })
+      const append = params.billing ? 'billing' : ''
+      const success = await ApiFetch(`${config.api}/profiles/${_id}/${append}`, options)
+      dispatch({ type: ACTIONS.PUT_PROFILE_SUCCESS, payload: success })
+      return success
+    } catch (err) {
+      dispatch({ type: ACTIONS.PUT_PROFILE_FAILURE, payload: err })
+      throw err
+    }
   }
 }
 

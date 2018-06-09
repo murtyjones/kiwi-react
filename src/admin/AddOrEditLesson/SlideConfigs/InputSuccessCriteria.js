@@ -14,8 +14,11 @@ import renderTextField from '../../../common/renderTextField'
 import renderSelectField from '../../../common/renderSelectField'
 
 const inputCriteriaOptions = [
-  { header: 'Functions' }
-  , { label: 'print statement', value: CODE_CONCEPTS.PRINT }
+  { header: 'I/O' }
+  , { label: 'print', value: CODE_CONCEPTS.PRINT }
+  , { label: 'multi-line quote block', value: CODE_CONCEPTS.MULTI_LINE_QUOTE }
+  , { label: 'input', value: CODE_CONCEPTS.INPUT }
+  , { label: 'Variable', value: CODE_CONCEPTS.VARIABLE }
   , { header: 'Control Flow' }
   , { label: 'any loop', value: CODE_CONCEPTS.LOOP }
   , { label: 'for loop', value: CODE_CONCEPTS.FOR_LOOP }

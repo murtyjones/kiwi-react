@@ -58,6 +58,7 @@ class RegisterForm extends PureComponent {
             fontWeight: 'bold'
             , color: usernameFieldActive ? activeColor : inactiveColor
           } }
+          floatingLabelFixed={ true }
           onClick={ () => this.setUsernameStatus(true) }
           onBlur={ () => this.setUsernameStatus(false) }
           asyncValidMessage='That username is available!'
@@ -76,6 +77,7 @@ class RegisterForm extends PureComponent {
             fontWeight: 'bold'
             , color: passwordFieldActive ? activeColor : inactiveColor
           } }
+          floatingLabelFixed={ true }
           onClick={ () => this.setPasswordStatus(true) }
           onBlur={ () => this.setPasswordStatus(false) }
         />
