@@ -12,11 +12,16 @@ export default class KiwiTextField extends PureComponent {
   }
 
   render() {
-    const { StartAdornmentIcon, input, ...rest } = this.props
+    const { StartAdornmentIcon, input, meta, ...rest } = this.props
+    const { invalid, dirty, error } = meta
     const { focused, color } = this.state
 
+    const errorText = invalid && dirty && error ? error : ''
+    const successText = ''
     return (
       <TextField
+        error={ !!errorText }
+        helperText={ errorText || successText }
         margin='normal'
         className={ cns('KiwiTextField-Container', this.props.className) }
         fullWidth={ this.props.fullWidth ? this.props.fullWidth : true }

@@ -36,9 +36,9 @@ class ProviderRegisterForm extends Component {
 
   render() {
     const { handleSubmit, activeSlideIndex } = this.props
+    
     const activeSlide = slides[activeSlideIndex]
     const { submitText } = activeSlide
-
     return (
       <form
         className='providerRegisterForm'

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
-import KiwiTextField from '../../../../common/form/KiwiTextField'
 import MailOutline from '@material-ui/icons/MailOutline'
 import LockOutline from 'material-ui-icons/LockOutline'
 
+import KiwiTextField from '../../../../common/form/KiwiTextField'
 import slides from '../slides'
+import { email, required } from '../../../../utils/validationUtils'
 
 export default class ProviderSignup extends Component {
   constructor(props) {
@@ -21,19 +22,22 @@ export default class ProviderSignup extends Component {
           component={ KiwiTextField }
           label='Email'
           StartAdornmentIcon={ MailOutline }
+          validate={ [ email, required ] }
         />
-        <Field
-          name={ slides[0].names[1] }
-          component={ KiwiTextField }
-          label='Password'
-          StartAdornmentIcon={ LockOutline }
-        />
-        <Field
-          name={ slides[0].names[2] }
-          component={ KiwiTextField }
-          label='Confirm Password'
-          StartAdornmentIcon={ LockOutline }
-        />
+        {/*<Field*/}
+          {/*name={ slides[0].names[1] }*/}
+          {/*component={ KiwiTextField }*/}
+          {/*label='Password'*/}
+          {/*StartAdornmentIcon={ LockOutline }*/}
+          {/*validate={ [ required ] }*/}
+        {/*/>*/}
+        {/*<Field*/}
+          {/*name={ slides[0].names[2] }*/}
+          {/*component={ KiwiTextField }*/}
+          {/*label='Confirm Password'*/}
+          {/*StartAdornmentIcon={ LockOutline }*/}
+          {/*validate={ [ required ] }*/}
+        {/*/>*/}
       </div>
     )
   }

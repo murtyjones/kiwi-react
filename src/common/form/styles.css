@@ -14,7 +14,7 @@
 
 
 .KiwiTextField-Label {
-    color: #d4d4d4 !important;
+    color: #AAA !important;
     padding: 7px 0 0 10px !important;
 }
 .KiwiTextField-Label-Shrink {
@@ -24,18 +24,21 @@
 }
 .KiwiTextField-Icon {
     margin-left: 3px;
-    color: #d4d4d4 !important;
+    color: #AAA !important;
 }
-.KiwiTextField-FormControl { border: 1px solid #d4d4d4 !important; }
+.KiwiTextField-FormControl { border: 1px solid #AAA !important; }
 .submitButton {
-    border: 1px solid #d4d4d4 !important;
+    border: 1px solid #AAA !important;
     margin: 20px auto !important;
 }
 
 .submitButton.enabled {
-    border: 1px solid #513d80 !important;
-    color: #513d80;
+    border: 1px solid #765C9F !important;
+    color: #765C9F;
 }
-.KiwiTextField-Label.focused { color: #513d80 !important; }
-.KiwiTextField-Icon.focused { color: #513d80 !important; }
-.KiwiTextField-FormControl.focused { border: 1px solid #513d80 !important; }
+.KiwiTextField-Label.focused { color: #765C9F !important; }
+.KiwiTextField-Icon.focused { color: #765C9F !important; }
+.KiwiTextField-FormControl.focused {
+    /*box-shadow: 0 0 3px 1px #765C9F !important;*/
+    border: 1px solid #765C9F !important;
+}
