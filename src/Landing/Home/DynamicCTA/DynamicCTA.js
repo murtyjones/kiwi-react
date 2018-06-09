@@ -45,7 +45,7 @@ export default class DynamicHeader extends PureComponent {
 
     let buttonStyle = {
       position: 'fixed',
-      top: `${topButtonMass}vh`,
+      top: `calc(${topSlogan}vh + 15vh)`,
       left: '50%',
       width: '110px',
       marginLeft: '-85px',

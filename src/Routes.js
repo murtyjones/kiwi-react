@@ -10,6 +10,8 @@ import cns from 'classnames'
 import { Helmet } from 'react-helmet'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { CSSTransition } from 'react-transition-group'
+
 
 import AuthService from './utils/AuthService'
 import { closeSideNav, openSideNav, openModal, closeModal, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, signout } from './actions'
@@ -139,9 +141,14 @@ class App extends Component {
           <Modal
             isOpen={ modal.isOpen }
             onRequestClose={ this.props.closeModal }
-            className={ modal.className }
+            className={ cns('kiwi-modal', modal.className) }
             overlayClassName={ modal.overlayClassName ? modal.overlayClassName : 'ModalOverlay' }
           >
+            <div
+              className='x-sm x-black'
+              style={ { position: 'absolute', top: 20, right: 20 } }
+              onClick={ this.props.closeModal }
+            />
             { modal.children }
           </Modal>
           <SideNav

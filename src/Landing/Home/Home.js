@@ -11,8 +11,9 @@ import DynamicHeader from './DynamicHeader'
 import WelcomeSection from './WelcomeSection'
 import StripedSections from './StripedSections/StripedSections'
 import LetsGoSection from './LetsGoSection/LetsGoSection'
-import SubscribeModal from './SubscribeModal'
-import { openModal, closeModal } from '../../actions'
+import SubscribeModal from './SubscribeModal/SubscribeModal'
+import ProviderRegisterModal from './ProviderRegisterModal/ProviderRegisterModal'
+import { register, openModal, closeModal, postMessage } from '../../actions'
 
 const styles = {
   homeContentContainer: {
@@ -32,18 +33,37 @@ class Home extends Component {
   static propTypes = {
     openDrawer: T.func
     , scrollTo: T.func
-    , handleMessageSubmit: T.func
     , openModal: T.func.isRequired
     , closeModal: T.func.isRequired
+    , postMessage: T.func.isRequired
+    , register: T.func.isRequired
   }
 
-  openModal = () => {
+  handleMessageSubmit = (v) => {
+    this.props.postMessage({ subscribe: true, ...v })
+  }
+
+  handleProviderRegisterSubmit = (v) => {
+    this.props.register(v)
+  }
+
+  openSignupModal = () => {
     this.props.openModal({
       className: 'subscribeModal',
       children: (
         <SubscribeModal
-          onClose={ this.props.closeModal }
-          handleMessageSubmit={ this.props.handleMessageSubmit }
+          handleSubmit={ this.handleMessageSubmit }
+        />
+      )
+    })
+  }
+
+  openProviderRegisterModal = () => {
+    this.props.openModal({
+      className: 'subscribeModal',
+      children: (
+        <ProviderRegisterModal
+          handleSubmit={ this.handleProviderRegisterSubmit }
         />
       )
     })
@@ -54,9 +74,9 @@ class Home extends Component {
       <div key='homeContent' style={ styles.homeContentContainer }>
         <AboutLink />
         <DynamicHeader />
-        <WelcomeSection openModal={ this.openModal } />
+        <WelcomeSection openModal={ this.openSignupModal } />
         <StripedSections />
-        <LetsGoSection openModal={ this.openModal } />
+        <LetsGoSection openModal={ this.openProviderRegisterModal } />
       </div>
     )
   }
@@ -66,6 +86,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openModal: params => dispatch(openModal(params))
     , closeModal: params => dispatch(closeModal(params))
+    , postMessage: params => dispatch(postMessage(params))
+    , register: params => dispatch(register(params))
   }
 }
 

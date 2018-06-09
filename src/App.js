@@ -18,6 +18,7 @@ import './animate-transitions.css'
 // general css stuff to be reused
 import './general.css'
 import './modals.css'
+import './common/form/styles.css'
 
 import Routes from './Routes'
 

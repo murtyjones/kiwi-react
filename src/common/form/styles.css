@@ -1,0 +1,41 @@
+.KiwiTextField-Container {
+
+}
+
+.KiwiTextField-FormControl {
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.KiwiTextField-Input {
+    width: 100%;
+}
+
+
+.KiwiTextField-Label {
+    color: #d4d4d4 !important;
+    padding: 7px 0 0 10px !important;
+}
+.KiwiTextField-Label-Shrink {
+    font-size: 14pt !important;
+    line-height: 0.5 !important;
+    padding: 0 !important;
+}
+.KiwiTextField-Icon {
+    margin-left: 3px;
+    color: #d4d4d4 !important;
+}
+.KiwiTextField-FormControl { border: 1px solid #d4d4d4 !important; }
+.submitButton {
+    border: 1px solid #d4d4d4 !important;
+    margin: 20px auto !important;
+}
+
+.submitButton.enabled {
+    border: 1px solid #513d80 !important;
+    color: #513d80;
+}
+.KiwiTextField-Label.focused { color: #513d80 !important; }
+.KiwiTextField-Icon.focused { color: #513d80 !important; }
+.KiwiTextField-FormControl.focused { border: 1px solid #513d80 !important; }

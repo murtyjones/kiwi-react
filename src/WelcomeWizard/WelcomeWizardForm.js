@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
-import * as T from 'prop-types'
-import withRouter from 'react-router-dom/withRouter'
-import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { reduxForm, getFormValues } from 'redux-form'
-import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
-import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 
 import slides from './slides'
 import insertIf from '../utils/insertIf'
