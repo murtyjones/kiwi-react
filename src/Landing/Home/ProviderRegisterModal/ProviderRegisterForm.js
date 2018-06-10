@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as T from 'prop-types'
 import { reduxForm, getFormValues } from 'redux-form'
+
 import slides from './slides'
 import SubmitButton from '../../../common/form/SubmitButton'
-
+import ResultMessage from '../../../common/form/ResultMessage'
 import './overrides.css'
+import { register } from '../../../actions'
 
 let formName = 'providerRegisterFlow'
 
@@ -19,34 +21,24 @@ class ProviderRegisterForm extends Component {
     , goToNextSlide: T.func.isRequired
   }
 
-  renderActiveSlide = () => {
-    // still true???? -> this function should be kept outside the render
-    // method! otherwise child components will remount!!!
-    const { activeSlideIndex } = this.props
-    const activeSlide = slides[activeSlideIndex]
-    const { Component, FieldComponent, fieldName, names } = activeSlide
-
-    return (
-      <FieldComponent
-        names={ names ? names : fieldName }
-        component={ Component }
-      />
-    )
-  }
-
   render() {
-    const { handleSubmit, activeSlideIndex } = this.props
+    const { slide } = this.props
+    const { submitText, Component, FieldComponent, fieldName, names } = slide
 
-    const activeSlide = slides[activeSlideIndex]
-    const { submitText } = activeSlide
     return (
       <form
         className='providerRegisterForm'
-        onSubmit={ handleSubmit }
+        onSubmit={ this.props.handleSubmit }
       >
-        { this.renderActiveSlide() }
+        <FieldComponent
+          names={ names ? names : fieldName }
+          component={ Component }
+        />
         <SubmitButton
           text={ submitText }
+          { ...this.props }
+        />
+        <ResultMessage
           { ...this.props }
         />
       </form>

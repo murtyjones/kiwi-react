@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Field, Fields, FieldArray } from 'redux-form'
-import withRouter from 'react-router-dom/withRouter'
-import { connect } from 'react-redux'
 
 import ProviderSignup from './slides/ProviderSignup'
 import ProvideeSignup from './slides/ProvideeSignup'
@@ -10,25 +8,22 @@ import { register } from '../../../actions/index'
 
 const slides = [
   {
-    Component: withRouter(connect(null, (dispatch) => {
-      return {
-        register: params => dispatch(register(params))
-      }
-    })(ProviderSignup))
+    Component: ProviderSignup
     , FieldComponent: Fields
     , names: [ 'email', 'password', 'confirmPassword' ]
     , fieldName: 'providerDetails'
-    , submitText: 'Sign me up!'
+    , submitText: 'Sign Me Up!'
+    , makeParams: v => ({ email: v.email, password: v.password })
+    , action: register
   },
   {
-    Component: withRouter(connect(null, (dispatch) => {
-      return {
-        register: params => dispatch(register(params))
-      }
-    })(ProvideeSignup))
-    , FieldComponent: FieldArray
+    Component: ProvideeSignup
+    , FieldComponent: Fields
+    , names: [ 'username', 'password', 'confirmPassword' ]
     , fieldName: 'provideeDetails'
     , submitText: `Make my student's account!`
+    , makeParams: v => ({ username: v.username, password: v.password })
+    , action: register
   }
 ]
 

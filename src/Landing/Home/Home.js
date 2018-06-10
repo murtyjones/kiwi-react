@@ -13,7 +13,7 @@ import StripedSections from './StripedSections/StripedSections'
 import LetsGoSection from './LetsGoSection/LetsGoSection'
 import SubscribeModal from './SubscribeModal/SubscribeModal'
 import ProviderRegisterModal from './ProviderRegisterModal/ProviderRegisterModal'
-import { register, openModal, closeModal, postMessage } from '../../actions'
+import { openModal, closeModal, postMessage } from '../../actions'
 
 const styles = {
   homeContentContainer: {
@@ -36,15 +36,10 @@ class Home extends Component {
     , openModal: T.func.isRequired
     , closeModal: T.func.isRequired
     , postMessage: T.func.isRequired
-    , register: T.func.isRequired
   }
 
   handleMessageSubmit = (v) => {
     this.props.postMessage({ subscribe: true, ...v })
-  }
-
-  handleProviderRegisterSubmit = (v) => {
-    this.props.register(v)
   }
 
   openSignupModal = () => {
@@ -62,9 +57,7 @@ class Home extends Component {
     this.props.openModal({
       className: 'subscribeModal',
       children: (
-        <ProviderRegisterModal
-          handleSubmit={ this.handleProviderRegisterSubmit }
-        />
+        <ProviderRegisterModal /* Each slide handles its submit function */ />
       )
     })
   }
@@ -87,7 +80,6 @@ const mapDispatchToProps = (dispatch) => {
     openModal: params => dispatch(openModal(params))
     , closeModal: params => dispatch(closeModal(params))
     , postMessage: params => dispatch(postMessage(params))
-    , register: params => dispatch(register(params))
   }
 }
 

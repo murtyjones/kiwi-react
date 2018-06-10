@@ -94,7 +94,7 @@ export default class DynamicHeader extends PureComponent {
           style={ buttonStyle }
           onClick={ this.props.onClick }
         >
-          Sign me up!
+          Sign Me Up!
         </div>
 
       </Fragment>

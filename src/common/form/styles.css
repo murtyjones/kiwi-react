@@ -47,11 +47,20 @@
 
 .KiwiTextField-FormControl.error {
     border: 1px solid #cc5040 !important;
-    color: #9f0a1a;
+    color: #cc5040;
 }
 .KiwiTextField-FormHelperText.error,
 .KiwiTextField-Label.error,
-.KiwiTextField-Icon.error {
+.KiwiTextField-Icon.error,
+.ResultMessage-error {
     color: #cc5040 !important;
 }
 
+.ResultMessage-success {
+    color: #66cc52;
+}
+
+.ResultMessage {
+    font-size: 11pt;
+    font-weight: bold;
+}
