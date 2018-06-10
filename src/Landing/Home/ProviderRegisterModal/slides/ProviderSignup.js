@@ -5,7 +5,8 @@ import LockOutline from 'material-ui-icons/LockOutline'
 
 import KiwiTextField from '../../../../common/form/KiwiTextField'
 import slides from '../slides'
-import { email, required } from '../../../../utils/validationUtils'
+import { email, required, minLength6 } from '../../../../utils/validationUtils'
+import get from 'lodash/get'
 
 export default class ProviderSignup extends Component {
   constructor(props) {
@@ -13,8 +14,6 @@ export default class ProviderSignup extends Component {
   }
 
   render() {
-    const { fields } = this.props
-
     return (
       <div className='signupWizardSlide'>
         <Field
@@ -24,20 +23,22 @@ export default class ProviderSignup extends Component {
           StartAdornmentIcon={ MailOutline }
           validate={ [ email, required ] }
         />
-        {/*<Field*/}
-          {/*name={ slides[0].names[1] }*/}
-          {/*component={ KiwiTextField }*/}
-          {/*label='Password'*/}
-          {/*StartAdornmentIcon={ LockOutline }*/}
-          {/*validate={ [ required ] }*/}
-        {/*/>*/}
-        {/*<Field*/}
-          {/*name={ slides[0].names[2] }*/}
-          {/*component={ KiwiTextField }*/}
-          {/*label='Confirm Password'*/}
-          {/*StartAdornmentIcon={ LockOutline }*/}
-          {/*validate={ [ required ] }*/}
-        {/*/>*/}
+        <Field
+          name={ slides[0].names[1] }
+          component={ KiwiTextField }
+          type='password'
+          label='Password'
+          StartAdornmentIcon={ LockOutline }
+          validate={ [ required, minLength6 ] }
+        />
+        <Field
+          name={ slides[0].names[2] }
+          component={ KiwiTextField }
+          type='password'
+          label='Confirm Password'
+          StartAdornmentIcon={ LockOutline }
+          validate={ [ required ] }
+        />
       </div>
     )
   }

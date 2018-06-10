@@ -30,15 +30,28 @@
 .submitButton {
     border: 1px solid #AAA !important;
     margin: 20px auto !important;
+    text-transform: none !important;
 }
 
-.submitButton.enabled {
+
+.submitButton.enabled,
+.KiwiTextField-FormControl.focused {
     border: 1px solid #765C9F !important;
     color: #765C9F;
 }
-.KiwiTextField-Label.focused { color: #765C9F !important; }
-.KiwiTextField-Icon.focused { color: #765C9F !important; }
-.KiwiTextField-FormControl.focused {
-    /*box-shadow: 0 0 3px 1px #765C9F !important;*/
-    border: 1px solid #765C9F !important;
+.KiwiTextField-FormHelperText,
+.KiwiTextField-Label.focused,
+.KiwiTextField-Icon.focused {
+    color: #765C9F !important;
 }
+
+.KiwiTextField-FormControl.error {
+    border: 1px solid #cc5040 !important;
+    color: #9f0a1a;
+}
+.KiwiTextField-FormHelperText.error,
+.KiwiTextField-Label.error,
+.KiwiTextField-Icon.error {
+    color: #cc5040 !important;
+}
+

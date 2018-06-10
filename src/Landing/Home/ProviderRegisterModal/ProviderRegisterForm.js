@@ -36,7 +36,7 @@ class ProviderRegisterForm extends Component {
 
   render() {
     const { handleSubmit, activeSlideIndex } = this.props
-    
+
     const activeSlide = slides[activeSlideIndex]
     const { submitText } = activeSlide
     return (
@@ -66,4 +66,12 @@ export default reduxForm({
   , destroyOnUnmount: false
   , forceUnregisterOnUnmount: true
   , enableReinitialize: true
+  , validate: values => {
+    const errors = {}
+    const { password, confirmPassword } = values
+    if(password && confirmPassword && password !== confirmPassword) {
+      errors.confirmPassword = 'Passwords must match!'
+    }
+    return errors
+  }
 })(ProviderRegisterForm)

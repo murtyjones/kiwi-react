@@ -19,7 +19,6 @@ const getManyMessages = async (params) => {
       method: 'GET'
     }
     const success = await ApiFetch(`${config.api}/messages`, options)
-    console.log(success)
     return success
   } catch (err) {
     console.log(err)
