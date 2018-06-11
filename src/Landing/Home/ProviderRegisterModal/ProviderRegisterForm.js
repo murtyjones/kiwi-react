@@ -61,7 +61,7 @@ class ProviderRegisterForm extends Component {
 
   render() {
     const { handleSubmit, slide, formValues } = this.props
-    const { submitText, Component, FieldComponent, fieldName, names, name } = slide
+    const { submitText, Component, FieldComponent, names, name } = slide
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
 
     const nameOrNames = {}

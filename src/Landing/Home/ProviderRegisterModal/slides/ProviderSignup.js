@@ -17,7 +17,7 @@ export default class ProviderSignup extends Component {
     return (
       <div className='providerRegisterForm-slide'>
         <Field
-          name={ slides[3].names[0] }
+          name={ slides[0].names[0] }
           component={ KiwiTextField }
           label='Email'
           StartAdornmentIcon={ MailOutline }
