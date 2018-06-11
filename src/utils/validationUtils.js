@@ -16,3 +16,8 @@ export const minLength6 = minLength(6)
 export const maxLength = max => value =>
   value && value.length > max ? `Must be ${max} characters or less` : undefined
 export const maxLength20 = maxLength(20)
+
+
+export const passwordsMatch = (password, confirmPassword) => {
+  return password && confirmPassword && password === confirmPassword
+}

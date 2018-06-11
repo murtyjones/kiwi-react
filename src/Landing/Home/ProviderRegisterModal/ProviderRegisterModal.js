@@ -3,6 +3,7 @@ import * as T from 'prop-types'
 import { connect } from 'react-redux'
 import ProviderRegisterForm from './ProviderRegisterForm'
 import { SubmissionError } from 'redux-form'
+
 import '../../../close.css'
 import slides from './slides'
 
@@ -22,11 +23,11 @@ class ProviderRegisterModal extends Component {
   handleSubmit = async v => {
     const { activeSlideIndex } = this.state
     const { action, makeParams } = slides[activeSlideIndex]
-    console.log(action)
-    console.log(action.name)
     try {
-      const params = makeParams(v)
-      const result = await this.props[action.name](params)
+      if(action && action.name) {
+        const params = makeParams(v)
+        const result = await this.props[action.name](params)
+      }
       this.goToNextSlide()
     } catch(err) {
       console.log(err)
@@ -43,7 +44,7 @@ class ProviderRegisterModal extends Component {
 
   render() {
     const { activeSlideIndex } = this.state
-    const { action, makeParams } = slides[activeSlideIndex]
+
     return (
       <div className='subscribeModalFormContainer'>
         <ProviderRegisterForm

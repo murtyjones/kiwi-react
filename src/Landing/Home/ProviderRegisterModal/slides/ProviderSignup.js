@@ -15,7 +15,7 @@ export default class ProviderSignup extends Component {
 
   render() {
     return (
-      <div className='signupWizardSlide'>
+      <div className='providerRegisterForm-slide'>
         <Field
           name={ slides[0].names[0] }
           component={ KiwiTextField }

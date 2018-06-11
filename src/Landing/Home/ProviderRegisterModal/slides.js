@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Field, Fields, FieldArray } from 'redux-form'
 
 import ProviderSignup from './slides/ProviderSignup'
-import ProvideeSignup from './slides/ProvideeSignup'
+import ProvideesSignup from './slides/ProvideesSignup'
+import ProvideesSignupSuccess from './slides/ProvideesSignupSuccess'
 import { register } from '../../../actions/index'
 
 
@@ -12,18 +13,43 @@ const slides = [
     , FieldComponent: Fields
     , names: [ 'email', 'password', 'confirmPassword' ]
     , fieldName: 'providerDetails'
+    , headerText: `First, let's make your account.`
     , submitText: 'Sign Me Up!'
     , makeParams: v => ({ email: v.email, password: v.password })
-    , action: register
+    // , action: register
   },
   {
-    Component: ProvideeSignup
-    , FieldComponent: Fields
-    , names: [ 'username', 'password', 'confirmPassword' ]
+    Component: ProvideesSignup
+    , FieldComponent: FieldArray
+    , name: 'providees'
     , fieldName: 'provideeDetails'
-    , submitText: `Make my student's account!`
-    , makeParams: v => ({ username: v.username, password: v.password })
-    , action: register
+    , headerText: `Next, let's make your student's account.`
+    , submitText: `Make My Student's Account!`
+    , makeParams: v => {
+      // submit most recently submitted providee
+      const last = v.providees.length - 1
+      return {
+        username: v.providees[last].username,
+        password: v.providees[last].password
+      }
+    }
+    // , action: register
+  },
+  {
+    Component: ProvideesSignupSuccess
+    , FieldComponent: Field
+    , name: 'providees'
+    , fieldName: 'provideeSuccess'
+    , headerTextMaker: formValues => {
+      const students = formValues.providees
+      // the '2' accounts for the final empty slide that we add on componentWillUnmount
+      const prefix = students.length > 2
+        ? 'Your students are'
+        : 'Your student is'
+      return  `${prefix} almost ready to start coding!`
+    }
+    , submitText: 'On to the Last Step'
+    , action: null
   }
 ]
 

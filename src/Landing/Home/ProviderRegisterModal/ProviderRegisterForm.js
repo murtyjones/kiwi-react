@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as T from 'prop-types'
-import { reduxForm, getFormValues } from 'redux-form'
+import { reduxForm, getFormValues, unregisterField } from 'redux-form'
 
-import slides from './slides'
 import SubmitButton from '../../../common/form/SubmitButton'
 import ResultMessage from '../../../common/form/ResultMessage'
+import { passwordsMatch } from '../../../utils/validationUtils'
+
 import './overrides.css'
-import { register } from '../../../actions'
 
 let formName = 'providerRegisterFlow'
+
+const SlideHeader = props =>
+  <h3 className='providerRegisterForm-header'>{ props.text }</h3>
 
 class ProviderRegisterForm extends Component {
   constructor(props) {
@@ -22,17 +25,30 @@ class ProviderRegisterForm extends Component {
   }
 
   render() {
-    const { slide } = this.props
-    const { submitText, Component, FieldComponent, fieldName, names } = slide
+    const { slide, formValues } = this.props
+    const { submitText, Component, FieldComponent, fieldName, names, name } = slide
+
+    const nameOrNames = {}
+    if (names) nameOrNames.names = names
+    else nameOrNames.name = name
+
+    const headerProps = {}
+    if (slide.headerText) headerProps.text = slide.headerText
+    else headerProps.text = slide.headerTextMaker(formValues)
 
     return (
       <form
         className='providerRegisterForm'
         onSubmit={ this.props.handleSubmit }
       >
+        <SlideHeader
+          { ...headerProps }
+        />
         <FieldComponent
-          names={ names ? names : fieldName }
+          { ...nameOrNames }
           component={ Component }
+          goToPrevSlide={ this.props.goToPrevSlide }
+          formValues={ formValues }
         />
         <SubmitButton
           text={ submitText }
@@ -58,12 +74,20 @@ export default reduxForm({
   , destroyOnUnmount: false
   , forceUnregisterOnUnmount: true
   , enableReinitialize: true
+  , onSubmitSuccess: (result, dispatch) =>
+    dispatch(unregisterField(formName, 'submitSucceeded'))
   , validate: values => {
     const errors = {}
-    const { password, confirmPassword } = values
-    if(password && confirmPassword && password !== confirmPassword) {
+    const { password, confirmPassword, providees = [] } = values
+    if (!passwordsMatch(password, confirmPassword)) {
       errors.confirmPassword = 'Passwords must match!'
     }
+    errors.providees = providees.map((each = {}) => {
+      const providerErrors = {}
+      if (!passwordsMatch(each.password, each.confirmPassword))
+        providerErrors.confirmPassword = 'Passwords must match!'
+      return providerErrors
+    })
     return errors
   }
 })(ProviderRegisterForm)

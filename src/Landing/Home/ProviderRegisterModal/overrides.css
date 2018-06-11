@@ -1,3 +1,14 @@
-.signupWizardSlide {
+.providerRegisterForm-slide {
     text-align: center;
+}
+
+
+.providerRegisterForm-addAnotherStudent {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+
+.providerRegisterForm-addedStudent {
+    margin-top: 5px;
 }
