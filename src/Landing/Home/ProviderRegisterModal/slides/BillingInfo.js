@@ -32,23 +32,27 @@ class ProvideesSignupSuccess extends Component {
           component={ KiwiTextField }
           label='Name on Card'
           validate={ [ required ] }
+          addlInputLabelProps={{ shrink: true }}
         />
         <Field
           name={ slides[3].names[1] }
           component={ KiwiTextField }
           label='Address'
           validate={ [ required ] }
+          addlInputLabelProps={{ shrink: true }}
         />
         <Field
           name={ slides[3].names[2] }
           component={ KiwiTextField }
           label='(Optional) Address Line 2'
+          addlInputLabelProps={{ shrink: true }}
         />
         <Field
           name={ slides[3].names[3] }
           component={ KiwiTextField }
           label='City'
           validate={ [ required ] }
+          addlInputLabelProps={{ shrink: true }}
         />
         <Field
           name={ slides[3].names[4] }
@@ -58,7 +62,7 @@ class ProvideesSignupSuccess extends Component {
             { value: 'one', label: 'One' },
             { value: 'two', label: 'Two' },
           ]}
-          validate={ [ required ] }
+          validate={ [ v => { console.log('hm', v) }, required ] }
         />
         {/*<CardField />*/}
       </div>

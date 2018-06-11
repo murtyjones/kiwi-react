@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import cns from 'classnames'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import has from 'lodash/has'
 
 export default class KiwiTextField extends PureComponent {
   constructor(props) {
@@ -54,7 +55,8 @@ export default class KiwiTextField extends PureComponent {
           classes: {
             root: cns('KiwiTextField-Label', classes),
             shrink: cns('KiwiTextField-Label-Shrink', classes)
-          }
+          },
+          ...this.props.addlInputLabelProps
         }}
         FormHelperTextProps={{
           classes: {

@@ -65,6 +65,14 @@
     font-weight: bold;
 }
 
+/*****
+    KiwiSelectField
+ */
+
+.KiwiSelectField-Container.error > .Select-control {
+    border: 1px solid #cc5040;
+}
+
 .KiwiSelectField-Label {
     display: block;
     text-align: left;
@@ -80,4 +88,17 @@
 
 .KiwiSelectField-Label.focused {
     color: #765C9F !important;
+}
+.KiwiSelectField-Label.error {
+    color: #cc5040 !important;
+}
+
+.Select.is-focused > .Select-control {
+    border: 1px solid #765C9F !important;
+    color: #765C9F !important;
+}
+
+.KiwiSelectField-Container.error > .Select > .Select-control {
+    border: 1px solid #cc5040 !important;
+    color: #cc5040 !important;
 }
