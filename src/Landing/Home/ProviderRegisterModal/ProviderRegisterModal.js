@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
 import ProviderRegisterForm from './ProviderRegisterForm'
-import { login, register, postSubscription, putSubscription, putProfile } from '../../../actions'
+import { login, register, postSubscription, putSubscription, putProfile, closeModal } from '../../../actions'
 import { SUBSCRIPTION_STATUSES } from '../../../constants'
 import slides from './slides'
 
@@ -27,11 +27,12 @@ class ProviderRegisterModal extends Component {
   }
 
   static propTypes = {
-    register: T.func.isRequired,
-    login: T.func.isRequired,
-    postSubscription: T.func.isRequired,
-    putSubscription: T.func.isRequired,
-    putProfile: T.func.isRequired
+    register: T.func.isRequired
+    , login: T.func.isRequired
+    , postSubscription: T.func.isRequired
+    , putSubscription: T.func.isRequired
+    , putProfile: T.func.isRequired
+    , closeModal: T.func.isRequired
   }
 
   // slide0Submit = async v => {
@@ -41,27 +42,27 @@ class ProviderRegisterModal extends Component {
   //     providerPassword: v.password
   //   })
   // }
-  //
-  // slide1Submit = async v => {
-  //   const { provideeIds, providerProfileObject, providerPassword } = this.state
-  //   const last = v.providees.length - 1
-  //   const promises = [
-  //     this.props.register({
-  //       username: v.providees[last].username,
-  //       password: v.providees[last].password
-  //     }),
-  //     this.props.login({
-  //       email: providerProfileObject.email,
-  //       password: providerPassword
-  //     })
-  //   ]
-  //   const [ registerResult, loginResult ] = await Promise.all(promises)
-  //   this.setState({
-  //     provideeIds: update(provideeIds, {
-  //       $splice: [[provideeIds.length, 0, registerResult._id]]
-  //     })
-  //   })
-  // }
+
+  slide1Submit = async v => {
+    const { provideeIds, providerProfileObject, providerPassword } = this.state
+    const last = v.providees.length - 1
+    const promises = [
+      this.props.register({
+        username: v.providees[last].username,
+        password: v.providees[last].password
+      }),
+      this.props.login({
+        email: providerProfileObject.email,
+        password: providerPassword
+      })
+    ]
+    const [ registerResult, loginResult ] = await Promise.all(promises)
+    this.setState({
+      provideeIds: update(provideeIds, {
+        $splice: [[provideeIds.length, 0, registerResult._id]]
+      })
+    })
+  }
 
   slide3Submit = async v => {
     const { providerProfileObject, provideeIds } = this.state
@@ -97,7 +98,7 @@ class ProviderRegisterModal extends Component {
     )
     await Promise.all(promises)
     this.props.history.push(`/provider/subscriptions`)
-
+    this.props.closeModal()
   }
 
   handleSubmit = async v => {
@@ -145,6 +146,7 @@ const mapDispatchToProps = (dispatch) => {
     , postSubscription: params => dispatch(postSubscription(params))
     , putSubscription: params => dispatch(putSubscription(params))
     , putProfile: params => dispatch(putProfile(params))
+    , closeModal: params => dispatch(closeModal(params))
   }
 }
 

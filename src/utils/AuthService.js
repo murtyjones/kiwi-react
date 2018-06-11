@@ -72,7 +72,7 @@ export default class AuthService {
     return new BluebirdPromise((resolve, reject) => {
       window.localStorage.removeItem('isLoggedIn')
       window.localStorage.removeItem('token')
-      window.localStorage.removeItem('exp')
+      window.localStorage.removeItem('tokenExp')
       window.localStorage.removeItem('isAdmin')
       window.localStorage.removeItem('userId')
       window.localStorage.removeItem('refreshToken')
@@ -85,11 +85,11 @@ export default class AuthService {
 
   static logout() {
     window.localStorage.removeItem('token')
-    window.localStorage.removeItem('exp')
+    window.localStorage.removeItem('tokenExp')
   }
 
   isAuthenticated() {
-    // Check whether the current time is past the 
+    // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'))
     return new Date().getTime() < expiresAt
