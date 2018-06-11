@@ -17,12 +17,17 @@ export default class KiwiSelectField extends Component {
   }
 
   render() {
-    const { input, meta } = this.props
+    const { input, meta, options } = this.props
     const { focused } = this.state
     const { error, touched } = meta
     const errorText = touched && error ? error : ''
     const hasError = !!errorText
     const classes = { focused, error: hasError }
+    const derivedOptions = options.map(e => {
+      if(e.label && e.value)
+        return e
+      return { label: e, value: e }
+    })
 
     return (
       <div className={ cns('KiwiSelectField-Container', classes) }>
@@ -35,8 +40,9 @@ export default class KiwiSelectField extends Component {
         </InputLabel>
         <Select
           { ...this.props }
-          onChange={ params => {
-            const value = get(params, 'value', '')
+          options={ derivedOptions }
+          onChange={ v => {
+            const value = get(v, 'value', '') || v
             return input.onChange(value)
           } }
           onFocus={ () => {

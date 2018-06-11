@@ -58,13 +58,10 @@ class ProvideesSignupSuccess extends Component {
           name={ slides[3].names[4] }
           component={ KiwiSelectField }
           label='State'
-          options={[
-            { value: 'one', label: 'One' },
-            { value: 'two', label: 'Two' },
-          ]}
+          options={ states }
           validate={ [ v => { console.log('hm', v) }, required ] }
         />
-        {/*<CardField />*/}
+        <CardField />
       </div>
     )
   }
