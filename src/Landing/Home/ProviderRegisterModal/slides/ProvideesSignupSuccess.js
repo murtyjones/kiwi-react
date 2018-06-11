@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import Link from 'react-router-dom/Link'
 
+import SlideInOut from '../../../../common/animations/SlideInOut'
 
 export default class ProvideesSignupSuccess extends Component {
   constructor(props) {
@@ -17,17 +18,19 @@ export default class ProvideesSignupSuccess extends Component {
     const { formValues } = this.props
     const students = formValues.providees
     return (
-      <div className='providerRegisterForm-slide'>
-        { students.map((e, i) =>
-          <div key={ i } className='providerRegisterForm-addedStudent'>{ e.username }</div>
-        ) }
-        <Link to='#'
-          className='providerRegisterForm-addAnotherStudent'
-          onClick={ this.props.goToPrevSlide }
-        >
-          + Add another student
-        </Link>
-      </div>
+      <SlideInOut>
+        <div className='providerRegisterForm-slide'>
+          { students.map((e, i) =>
+            <div key={ i } className='providerRegisterForm-addedStudent'>{ e.username }</div>
+          ) }
+          <Link to='#'
+            className='providerRegisterForm-addAnotherStudent'
+            onClick={ this.props.goToPrevSlide }
+          >
+            + Add another student
+          </Link>
+        </div>
+      </SlideInOut>
     )
   }
 }

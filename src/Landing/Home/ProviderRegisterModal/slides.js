@@ -20,7 +20,7 @@ const slides = [
     Component: ProvideesSignup
     , FieldComponent: FieldArray
     , name: 'providees'
-    , headerText: `Next, let's make your student's account.`
+    , headerText: `Tell us a bit about your student.`
     , submitText: `Make My Student's Account!`
   },
   {

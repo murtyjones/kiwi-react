@@ -12,3 +12,16 @@
 .providerRegisterForm-addedStudent {
     margin-top: 5px;
 }
+
+.providerRegisterForm-ProgressBarDeterminate {
+    background-color: #765C9F !important;
+}
+
+.providerRegisterForm-ProgressBar {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.providerRegisterForm-ProgressBar > * {
+    border-radius: 3px;
+}

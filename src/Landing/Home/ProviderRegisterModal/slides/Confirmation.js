@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import Link from 'react-router-dom/Link'
 
+import SlideInOut from '../../../../common/animations/SlideInOut'
 
 export default class Confirmation extends Component {
   constructor(props) {
@@ -15,19 +16,21 @@ export default class Confirmation extends Component {
 
   render() {
     const { formValues } = this.props
-    const students = formValues.providees
+    const numberOfStudents = formValues.providees.length
+    // 2 accounts for empty providee
+    const numText = numberOfStudents > 2
+      ? 'students'
+      : 'student'
     return (
-      <div className='providerRegisterForm-slide'>
-        { students.map((e, i) =>
-          <div key={ i } className='providerRegisterForm-addedStudent'>{ e.username }</div>
-        ) }
-        <Link to='#'
-          className='providerRegisterForm-addAnotherStudent'
-          onClick={ this.props.goToPrevSlide }
-        >
-          + Add another student
-        </Link>
-      </div>
+      <SlideInOut>
+        <div className='providerRegisterForm-slide'>
+          <h4>
+            We're excited for your { numText }
+          </h4>
+
+
+        </div>
+      </SlideInOut>
     )
   }
 }

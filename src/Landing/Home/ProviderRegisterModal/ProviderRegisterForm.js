@@ -5,6 +5,7 @@ import { SubmissionError, reduxForm, getFormValues, unregisterField } from 'redu
 import { Elements, injectStripe } from 'react-stripe-elements'
 
 import SubmitButton from '../../../common/form/SubmitButton'
+import ProgressBar from '../../../common/ProgressBar/ProgressBar'
 import ResultMessage from '../../../common/form/ResultMessage'
 import { passwordsMatch } from '../../../utils/validationUtils'
 import Stripe from '../../../common/form/payment/Stripe'
@@ -25,6 +26,7 @@ class ProviderRegisterForm extends Component {
   static propTypes = {
     goToPrevSlide: T.func.isRequired
     , goToNextSlide: T.func.isRequired
+    , completionPercentage: T.number.isRequired
   }
 
   createToken = async v => {
@@ -60,7 +62,7 @@ class ProviderRegisterForm extends Component {
   }
 
   render() {
-    const { handleSubmit, slide, formValues } = this.props
+    const { handleSubmit, slide, formValues, completionPercentage } = this.props
     const { submitText, Component, FieldComponent, names, name } = slide
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
 
@@ -77,6 +79,9 @@ class ProviderRegisterForm extends Component {
         className='providerRegisterForm'
         onSubmit={ derivedHandleSubmit }
       >
+        <ProgressBar
+          completionPercentage={ completionPercentage }
+        />
         <SlideHeader
           { ...headerProps }
         />
