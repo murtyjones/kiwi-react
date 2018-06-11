@@ -34,34 +34,34 @@ class ProviderRegisterModal extends Component {
     putProfile: T.func.isRequired
   }
 
-  slide0Submit = async v => {
-    const result = await this.props.register({ email: v.email, password: v.password })
-    this.setState({
-      providerProfileObject: result,
-      providerPassword: v.password
-    })
-  }
-
-  slide1Submit = async v => {
-    const { provideeIds, providerProfileObject, providerPassword } = this.state
-    const last = v.providees.length - 1
-    const promises = [
-      this.props.register({
-        username: v.providees[last].username,
-        password: v.providees[last].password
-      }),
-      this.props.login({
-        email: providerProfileObject.email,
-        password: providerPassword
-      })
-    ]
-    const [ registerResult, loginResult ] = await Promise.all(promises)
-    this.setState({
-      provideeIds: update(provideeIds, {
-        $splice: [[provideeIds.length, 0, registerResult._id]]
-      })
-    })
-  }
+  // slide0Submit = async v => {
+  //   const result = await this.props.register({ email: v.email, password: v.password })
+  //   this.setState({
+  //     providerProfileObject: result,
+  //     providerPassword: v.password
+  //   })
+  // }
+  //
+  // slide1Submit = async v => {
+  //   const { provideeIds, providerProfileObject, providerPassword } = this.state
+  //   const last = v.providees.length - 1
+  //   const promises = [
+  //     this.props.register({
+  //       username: v.providees[last].username,
+  //       password: v.providees[last].password
+  //     }),
+  //     this.props.login({
+  //       email: providerProfileObject.email,
+  //       password: providerPassword
+  //     })
+  //   ]
+  //   const [ registerResult, loginResult ] = await Promise.all(promises)
+  //   this.setState({
+  //     provideeIds: update(provideeIds, {
+  //       $splice: [[provideeIds.length, 0, registerResult._id]]
+  //     })
+  //   })
+  // }
 
   slide3Submit = async v => {
     const { providerProfileObject, provideeIds } = this.state

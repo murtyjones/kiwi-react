@@ -26,7 +26,7 @@ export default class KiwiTextField extends PureComponent {
         error={ hasError }
         helperText={ errorText || successText }
         margin='normal'
-        className={ cns('KiwiTextField-Container', this.props.className) }
+        className={ cns('KiwiField KiwiTextField-Container', this.props.className) }
         fullWidth={ this.props.fullWidth ? this.props.fullWidth : true }
         InputProps={{
           onChange: input ? input.onChange : null,

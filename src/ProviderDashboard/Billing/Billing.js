@@ -9,7 +9,7 @@ import { SubmissionError } from 'redux-form'
 import find from 'lodash/find'
 
 import BillingForm from './BillingForm'
-import Stripe from '../../common/payment/Stripe'
+import Stripe from '../../common/form/payment/Stripe'
 import { putProfile, resendVerificationEmail, openModal } from '../../actions'
 
 import './overrides.css'

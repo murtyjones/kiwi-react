@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 
 import KiwiTextField from '../../../../common/form/KiwiTextField'
 import KiwiSelectField from '../../../../common/form/Select/KiwiSelectField'
-import CardField from '../../../../common/payment/CardField'
+import CardField from '../../../../common/form/payment/CardField'
 import slides from '../slides'
 import states from '../../../../utils/statesArray'
 import { email, required } from '../../../../utils/validationUtils'

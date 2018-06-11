@@ -1,0 +1,11 @@
+.CardField-container {}
+
+.CardField-input {
+    border: 1px solid #AAA;
+    border-radius: 3px;
+    padding-left: 10px;
+}
+
+.CardField-input.StripeElement.StripeElement--invalid {
+    border: 1px solid #cc5040;
+}

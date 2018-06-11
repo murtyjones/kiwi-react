@@ -30,10 +30,10 @@ export default class KiwiSelectField extends Component {
     })
 
     return (
-      <div className={ cns('KiwiSelectField-Container', classes) }>
+      <div className={ cns('KiwiField KiwiSelectField-Container', classes) }>
         <InputLabel
           classes={{
-            root: cns('KiwiSelectField-Label', classes)
+            root: cns('KiwiField-Label', classes)
           }}
         >
           { this.props.label }

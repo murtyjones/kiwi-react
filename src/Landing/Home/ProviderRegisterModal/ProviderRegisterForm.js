@@ -7,7 +7,7 @@ import { Elements, injectStripe } from 'react-stripe-elements'
 import SubmitButton from '../../../common/form/SubmitButton'
 import ResultMessage from '../../../common/form/ResultMessage'
 import { passwordsMatch } from '../../../utils/validationUtils'
-import Stripe from '../../../common/payment/Stripe'
+import Stripe from '../../../common/form/payment/Stripe'
 
 
 import './overrides.css'

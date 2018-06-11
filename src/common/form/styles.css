@@ -1,3 +1,8 @@
+.KiwiField {
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+}
+
 .KiwiTextField-Container {
 
 }
@@ -73,7 +78,7 @@
     border: 1px solid #cc5040;
 }
 
-.KiwiSelectField-Label {
+.KiwiField-Label {
     display: block;
     text-align: left;
     font-size: calc(14pt * 0.75) !important; /* Matches transform on shrink */
@@ -81,15 +86,12 @@
     margin-bottom: 5px;
 }
 
-.KiwiSelectField-Container {
-    margin-top: 16px;
-    margin-bottom: 8px;
-}
+.KiwiSelectField-Container {}
 
-.KiwiSelectField-Label.focused {
+.KiwiField-Label.focused {
     color: #765C9F !important;
 }
-.KiwiSelectField-Label.error {
+.KiwiField-Label.error {
     color: #cc5040 !important;
 }
 

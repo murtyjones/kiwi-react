@@ -6,7 +6,6 @@ import LockOutline from 'material-ui-icons/LockOutline'
 import KiwiTextField from '../../../../common/form/KiwiTextField'
 import slides from '../slides'
 import { email, required, minLength6 } from '../../../../utils/validationUtils'
-import get from 'lodash/get'
 
 export default class ProviderSignup extends Component {
   constructor(props) {

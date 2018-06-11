@@ -11,7 +11,7 @@ import { injectStripe } from 'react-stripe-elements'
 
 import renderTextField from '../../common/renderTextField'
 import states from '../../utils/statesArray'
-import CardField from '../../common/payment/CardField'
+import CardField from '../../common/form/payment/CardField'
 
 
 export const formName = 'billing'
@@ -145,9 +145,6 @@ class BillingForm extends Component {
                 margin: '10px 0',
                 color: 'white'
               } }
-              cardStyle={ { base: {
-                fontSize: '16px'
-              } } }
             />
 
         }
