@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
+import { Field } from 'redux-form'
 import { connect } from 'react-redux'
 import { Elements } from 'react-stripe-elements'
 import { SubmissionError } from 'redux-form'
@@ -8,7 +9,7 @@ import { SubmissionError } from 'redux-form'
 import find from 'lodash/find'
 
 import BillingForm from './BillingForm'
-import Stripe from './Stripe'
+import Stripe from '../../common/payment/Stripe'
 import { putProfile, resendVerificationEmail, openModal } from '../../actions'
 
 import './overrides.css'

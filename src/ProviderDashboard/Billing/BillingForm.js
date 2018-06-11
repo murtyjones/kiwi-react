@@ -7,11 +7,12 @@ import Button from '@material-ui/core/Button'
 import MenuItem from 'material-ui/MenuItem'
 import { Toggle, SelectField } from 'redux-form-material-ui'
 import get from 'lodash/get'
+import { injectStripe } from 'react-stripe-elements'
 
 import renderTextField from '../../common/renderTextField'
 import states from '../../utils/statesArray'
+import CardField from '../../common/payment/CardField'
 
-import { CardElement, injectStripe } from 'react-stripe-elements'
 
 export const formName = 'billing'
 
@@ -31,13 +32,6 @@ const styles = {
   success: { color: '#66cc52' },
   underlineFocusStyle: { borderBottom: `2px ${activeUnderlineColor} solid` }
 }
-
-const CardSection = props => <CardElement style={ props.cardStyle } />
-
-const CardField = props =>
-  <div style={ props.containerStyle } >
-    <CardSection { ...props } />
-  </div>
 
 class BillingForm extends Component {
   constructor(props) {

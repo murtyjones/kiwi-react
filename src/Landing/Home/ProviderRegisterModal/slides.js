@@ -4,6 +4,7 @@ import { Field, Fields, FieldArray } from 'redux-form'
 import ProviderSignup from './slides/ProviderSignup'
 import ProvideesSignup from './slides/ProvideesSignup'
 import ProvideesSignupSuccess from './slides/ProvideesSignupSuccess'
+import BillingInfo from './slides/BillingInfo'
 import { register } from '../../../actions/index'
 
 
@@ -49,6 +50,15 @@ const slides = [
       return  `${prefix} almost ready to start coding!`
     }
     , submitText: 'On to the Last Step'
+    , action: null
+  },
+  {
+    Component: BillingInfo
+    , FieldComponent: Fields
+    , names: [ 'name', 'addressLine1', 'addressLine2', 'addressCity', 'addressState' ]
+    , fieldName: 'paymentInfo'
+    , headerText: 'Enter your payment information'
+    , submitText: 'See my subscription details'
     , action: null
   }
 ]

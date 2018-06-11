@@ -3,7 +3,7 @@
 }
 
 .KiwiTextField-FormControl {
-    padding: 5px;
+    padding: 5px 10px;
     box-sizing: border-box;
     border-radius: 3px;
 }
@@ -63,4 +63,21 @@
 .ResultMessage {
     font-size: 11pt;
     font-weight: bold;
+}
+
+.KiwiSelectField-Label {
+    display: block;
+    text-align: left;
+    font-size: calc(14pt * 0.75) !important; /* Matches transform on shrink */
+    color: #AAA !important;
+    margin-bottom: 5px;
+}
+
+.KiwiSelectField-Container {
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+.KiwiSelectField-Label.focused {
+    color: #765C9F !important;
 }
