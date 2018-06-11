@@ -35,71 +35,71 @@ class ProviderRegisterModal extends Component {
     , closeModal: T.func.isRequired
   }
 
-  // slide0Submit = async v => {
-  //   const result = await this.props.register({ email: v.email, password: v.password })
-  //   this.setState({
-  //     providerProfileObject: result,
-  //     providerPassword: v.password
-  //   })
-  // }
-  //
-  // slide1Submit = async v => {
-  //   const { provideeIds, providerProfileObject, providerPassword } = this.state
-  //   const last = v.providees.length - 1
-  //   const promises = [
-  //     this.props.register({
-  //       username: v.providees[last].username,
-  //       password: v.providees[last].password
-  //     }),
-  //     this.props.login({
-  //       email: providerProfileObject.email,
-  //       password: providerPassword
-  //     })
-  //   ]
-  //   const [ registerResult, loginResult ] = await Promise.all(promises)
-  //   this.setState({
-  //     provideeIds: update(provideeIds, {
-  //       $splice: [[provideeIds.length, 0, registerResult._id]]
-  //     })
-  //   })
-  // }
-  //
-  // slide3Submit = async v => {
-  //   const { providerProfileObject, provideeIds } = this.state
-  //   const promises = [
-  //     this.props.putProfile({
-  //       _id: providerProfileObject._id,
-  //       billing: true,
-  //       stripeCreditCardToken: v.stripeCreditCardToken,
-  //       v: providerProfileObject.v
-  //     })
-  //   ]
-  //   provideeIds.forEach(provideeId => {
-  //     promises.push(
-  //       this.props.postSubscription({
-  //         providerId: providerProfileObject._id,
-  //         provideeId: provideeId,
-  //         status: SUBSCRIPTION_STATUSES.INACTIVE
-  //       })
-  //     )
-  //   })
-  //   const [ billingResult, ...rest ] = await Promise.all(promises)
-  //   this.setState({ subscriptions: rest })
-  // }
-  //
-  // slide4Submit = async v => {
-  //   const { subscriptions } = this.state
-  //   const promises = subscriptions.map(subscription =>
-  //     this.props.putSubscription({
-  //       id: subscription._id,
-  //       status: SUBSCRIPTION_STATUSES.ACTIVE,
-  //       v: subscription.v,
-  //     })
-  //   )
-  //   await Promise.all(promises)
-  //   this.props.history.push(`/provider/subscriptions`)
-  //   this.props.closeModal()
-  // }
+  slide0Submit = async v => {
+    const result = await this.props.register({ email: v.email, password: v.password })
+    this.setState({
+      providerProfileObject: result,
+      providerPassword: v.password
+    })
+  }
+
+  slide1Submit = async v => {
+    const { provideeIds, providerProfileObject, providerPassword } = this.state
+    const last = v.providees.length - 1
+    const promises = [
+      this.props.register({
+        username: v.providees[last].username,
+        password: v.providees[last].password
+      }),
+      this.props.login({
+        email: providerProfileObject.email,
+        password: providerPassword
+      })
+    ]
+    const [ registerResult, loginResult ] = await Promise.all(promises)
+    this.setState({
+      provideeIds: update(provideeIds, {
+        $splice: [[provideeIds.length, 0, registerResult._id]]
+      })
+    })
+  }
+
+  slide3Submit = async v => {
+    const { providerProfileObject, provideeIds } = this.state
+    const promises = [
+      this.props.putProfile({
+        _id: providerProfileObject._id,
+        billing: true,
+        stripeCreditCardToken: v.stripeCreditCardToken,
+        v: providerProfileObject.v
+      })
+    ]
+    provideeIds.forEach(provideeId => {
+      promises.push(
+        this.props.postSubscription({
+          providerId: providerProfileObject._id,
+          provideeId: provideeId,
+          status: SUBSCRIPTION_STATUSES.INACTIVE
+        })
+      )
+    })
+    const [ billingResult, ...rest ] = await Promise.all(promises)
+    this.setState({ subscriptions: rest })
+  }
+
+  slide4Submit = async v => {
+    const { subscriptions } = this.state
+    const promises = subscriptions.map(subscription =>
+      this.props.putSubscription({
+        id: subscription._id,
+        status: SUBSCRIPTION_STATUSES.ACTIVE,
+        v: subscription.v,
+      })
+    )
+    await Promise.all(promises)
+    this.props.history.push(`/provider/subscriptions`)
+    this.props.closeModal()
+  }
 
   handleSubmit = async v => {
     const { activeSlideIndex } = this.state
