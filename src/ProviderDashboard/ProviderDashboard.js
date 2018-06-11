@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react'
+import React, { Component, PureComponent, Fragment } from 'react'
 import * as T from 'prop-types'
 import BluebirdPromise from 'bluebird'
 import withRouter from 'react-router-dom/withRouter'
@@ -19,6 +19,7 @@ import MobileDrawer from './Navigation/MobileDrawer'
 import Drawer from './Navigation/Drawer'
 
 import './overrides.css'
+
 
 export const MENU_ITEMS = [
   { label: 'My Account', section: 'account', component: Account },
@@ -101,23 +102,28 @@ class ProviderDashboard extends PureComponent {
     const ActiveMenuItemComponent = activeMenuItemObject.component
 
     return (
-      <div className='providerDashboard-container'>
-        <Toolbar />
-        <MobileDrawer isOpen={ mobileOpen } />
-        <div className='providerDashboard-header'>
-          <h2>Account Settings</h2>
-        </div>
-        <div className='providerDashboard-body'>
-          <Drawer
+      <Fragment>
+        <Toolbar handleDrawerToggle={ this.handleDrawerToggle } />
+        <div className={ 'providerDashboard-container' }>
+          <MobileDrawer
+            handleDrawerToggle={ this.handleDrawerToggle }
             isOpen={ mobileOpen }
-            activeIndex={ activeIndex }
-            onSelect={ i => { this.setState({ activeIndex: i }) } }
           />
-          <RightSide>
-            <ActiveMenuItemComponent />
-          </RightSide>
+          <div className='providerDashboard-header'>
+            <h2>Account Settings</h2>
+          </div>
+          <div className='providerDashboard-body'>
+            <Drawer
+              isOpen={ mobileOpen }
+              activeIndex={ activeIndex }
+              onSelect={ i => { this.setState({ activeIndex: i }) } }
+            />
+            <RightSide>
+              <ActiveMenuItemComponent />
+            </RightSide>
+          </div>
         </div>
-      </div>
+      </Fragment>
     )
   }
 }
@@ -142,6 +148,5 @@ const mapDispatchToProps = (dispatch) => {
     , getManyProfiles: params => dispatch(getManyProfiles(params))
   }
 }
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderDashboard))

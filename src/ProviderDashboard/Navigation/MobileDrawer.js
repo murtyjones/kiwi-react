@@ -37,7 +37,7 @@ class ResponsiveDrawer extends React.Component {
           variant="temporary"
           anchor={ theme.direction === 'rtl' ? 'right' : 'left' }
           open={ this.props.isOpen }
-          onClose={ this.handleDrawerToggle }
+          onClose={ this.props.handleDrawerToggle }
           classes={{
             paper: classes.drawerPaper
           }}
