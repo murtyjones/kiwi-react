@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
+import config from 'config'
 
 import '../../close.css'
 import './overrides.css'
@@ -42,6 +43,14 @@ class Home extends Component {
     this.props.postMessage({ subscribe: true, ...v })
   }
 
+  openModal = () => {
+    const providerRegisterFlow = config.features.providerRegisterFlow
+    if (providerRegisterFlow) {
+      return this.openProviderRegisterModal()
+    }
+    this.openSignupModal()
+  }
+
   openSignupModal = () => {
     this.props.openModal({
       className: 'subscribeModal',
@@ -67,9 +76,9 @@ class Home extends Component {
       <div key='homeContent' style={ styles.homeContentContainer }>
         <AboutLink />
         <DynamicHeader />
-        <WelcomeSection openModal={ this.openSignupModal } />
+        <WelcomeSection openModal={ this.openModal } />
         <StripedSections />
-        <LetsGoSection openModal={ this.openProviderRegisterModal } />
+        <LetsGoSection openModal={ this.openModal } />
       </div>
     )
   }
