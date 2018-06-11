@@ -11,27 +11,22 @@ export default class ProvideesSignup extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeFieldIndex: 0
+      activeFieldIndex: 0,
+      isFirstLoad: true
     }
   }
 
-  componentDidMount() {
-    const { fields } = this.props
-    if (fields.length === 0) {
-      fields.push({})
+  async componentDidMount() {
+    const { isFirstLoad } = this.state
+    if (this.props.fields.length === 0 || isFirstLoad) {
+      await this.props.fields.push({})
+      this.setState({ isFirstLoad: false })
     }
+    this.setState({ activeFieldIndex: this.props.fields.length - 1 })
   }
 
   componentWillUnmount() {
-    this.props.fields.push({})
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.fields.length === 0) {
-      nextProps.fields.push({})
-    } else {
-      this.setState({ activeFieldIndex: nextProps.fields.length - 1 })
-    }
+    this.setState({ isFirstLoad: true })
   }
 
   render() {

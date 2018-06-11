@@ -29,8 +29,7 @@ const slides = [
     , name: 'providees'
     , headerTextMaker: formValues => {
       const students = formValues.providees
-      // the '2' accounts for the final empty slide that we add on componentWillUnmount
-      const prefix = students.length > 2
+      const prefix = students.length > 1
         ? 'Your students are'
         : 'Your student is'
       return  `${prefix} almost ready to start coding!`
@@ -55,7 +54,7 @@ const slides = [
     Component: Confirmation
     , FieldComponent: Field
     , name: 'confirmation'
-    , headerText: 'Pay us mofo'
+    , headerText: `Ready To Code?`
     , submitText: `Let's do it!`
   }
 ]
