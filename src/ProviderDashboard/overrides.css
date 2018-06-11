@@ -32,20 +32,24 @@ div[role='menu'] {
     width: 33%;
     min-width: 256px;
     min-height: 100vh;
-    vertical-align:top;
+    vertical-align: top;
 }
 
-.providerDashboard-right {
-    padding: 0 10px;
-    box-sizing: border-box;
-    display: inline-block;
-    width: calc(100% - 33%);
-    max-width: calc(100% - 256px);
-    min-height: 100vh;
-}
 
 .providerDashboard-componentHeader {
     border-width: 0 0 1px 0;
     border-color: #EEEEEE;
     border-style: solid;
+}
+
+.providerDashboard-body {
+    display: flex;
+}
+
+.providerDashboard-right {
+    padding: 0 10px;
+    box-sizing: border-box;
+    position: relative;
+    min-height: 100vh;
+    flex-grow: 1;
 }

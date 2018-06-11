@@ -14,6 +14,9 @@ import Account from './Account/Account'
 import Billing from './Billing/Billing'
 import ChangePassword from './ChangePassword/ChangePassword'
 import Subscriptions from './Subscriptions/Subscriptions'
+import Toolbar from './Navigation/Toolbar'
+import MobileDrawer from './Navigation/MobileDrawer'
+import Drawer from './Navigation/Drawer'
 
 import './overrides.css'
 
@@ -36,7 +39,10 @@ class ProviderDashboard extends PureComponent {
         acc = idx
       return acc
     }, 0)
-    this.state = { activeIndex }
+    this.state = {
+      activeIndex,
+      mobileOpen: false
+    }
   }
 
   static propTypes = {
@@ -85,25 +91,32 @@ class ProviderDashboard extends PureComponent {
     }
   }
 
+  handleDrawerToggle = () => {
+    this.setState({ mobileOpen: !this.state.mobileOpen })
+  }
+
   render() {
-    const { activeIndex } = this.state
+    const { activeIndex, mobileOpen } = this.state
     const activeMenuItemObject = MENU_ITEMS[activeIndex]
     const ActiveMenuItemComponent = activeMenuItemObject.component
 
     return (
       <div className='providerDashboard-container'>
+        <Toolbar />
+        <MobileDrawer isOpen={ mobileOpen } />
         <div className='providerDashboard-header'>
           <h2>Account Settings</h2>
         </div>
-        <LeftSide>
-          <ProviderMenu
+        <div className='providerDashboard-body'>
+          <Drawer
+            isOpen={ mobileOpen }
             activeIndex={ activeIndex }
             onSelect={ i => { this.setState({ activeIndex: i }) } }
           />
-        </LeftSide>
-        <RightSide>
-          <ActiveMenuItemComponent />
-        </RightSide>
+          <RightSide>
+            <ActiveMenuItemComponent />
+          </RightSide>
+        </div>
       </div>
     )
   }

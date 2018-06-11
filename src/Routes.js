@@ -34,7 +34,6 @@ import AuthorizedRoute from './Routes/AuthorizedRoute'
  */
 import Landing from './Landing/Landing'
 import Welcome from './WelcomeWizard/WelcomeWizard'
-import Dashboard from './Dashboard/Dashboard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
@@ -79,7 +78,7 @@ const nonMenuStyle = {
 const EnvironmentReminder = props =>
   <div style={ {
     position: 'fixed'
-    , top: 0
+    , bottom: 0
     , left: 0
     , zIndex: 1200
     , backgroundColor:
