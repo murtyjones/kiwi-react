@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { Field } from 'redux-form'
-import { Elements, injectStripe } from 'react-stripe-elements'
-import MenuItem from 'material-ui/MenuItem'
 
 import KiwiTextField from '../../../../common/form/KiwiTextField'
 import KiwiSelectField from '../../../../common/form/Select/KiwiSelectField'
-import Stripe from '../../../../common/payment/Stripe'
 import CardField from '../../../../common/payment/CardField'
 import slides from '../slides'
 import states from '../../../../utils/statesArray'
 import { email, required } from '../../../../utils/validationUtils'
 
-class ProvideesSignupSuccess extends Component {
+export default class ProvideesSignupSuccess extends Component {
   constructor(props) {
     super(props)
   }
@@ -66,12 +63,3 @@ class ProvideesSignupSuccess extends Component {
     )
   }
 }
-
-ProvideesSignupSuccess = injectStripe(ProvideesSignupSuccess)
-
-export default props =>
-  <Stripe>
-    <Elements>
-      <ProvideesSignupSuccess { ...props } />
-    </Elements>
-  </Stripe>

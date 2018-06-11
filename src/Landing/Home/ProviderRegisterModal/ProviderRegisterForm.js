@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as T from 'prop-types'
-import { reduxForm, getFormValues, unregisterField } from 'redux-form'
+import { SubmissionError, reduxForm, getFormValues, unregisterField } from 'redux-form'
+import { Elements, injectStripe } from 'react-stripe-elements'
 
 import SubmitButton from '../../../common/form/SubmitButton'
 import ResultMessage from '../../../common/form/ResultMessage'
 import { passwordsMatch } from '../../../utils/validationUtils'
+import Stripe from '../../../common/payment/Stripe'
+
 
 import './overrides.css'
 
@@ -24,9 +27,42 @@ class ProviderRegisterForm extends Component {
     , goToNextSlide: T.func.isRequired
   }
 
+  createToken = async v => {
+    try {
+      const params = {
+        name: v.name,
+        address_line1: v.addressLine1,
+        address_line2: v.addressLine2,
+        address_city: v.addressCity,
+        address_state: v.addressState,
+        address_country: 'USA'
+      }
+      return this.props.stripe.createToken(params)
+    } catch(err) {
+      throw err
+    }
+  }
+
+  localHandleSubmit = async v => {
+    const { onSubmit, slide } = this.props
+    const { shouldCreateToken } = slide
+    try {
+      const params = { ...v }
+      if (shouldCreateToken) {
+        const result = await this.createToken(v)
+        params.stripeCreditCardToken = result.token.id
+      }
+      return onSubmit(params)
+    } catch(err) {
+      console.log(err)
+      throw new SubmissionError({ _error: err.message })
+    }
+  }
+
   render() {
-    const { slide, formValues } = this.props
+    const { handleSubmit, slide, formValues } = this.props
     const { submitText, Component, FieldComponent, fieldName, names, name } = slide
+    const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
 
     const nameOrNames = {}
     if (names) nameOrNames.names = names
@@ -39,7 +75,7 @@ class ProviderRegisterForm extends Component {
     return (
       <form
         className='providerRegisterForm'
-        onSubmit={ this.props.handleSubmit }
+        onSubmit={ derivedHandleSubmit }
       >
         <SlideHeader
           { ...headerProps }
@@ -53,6 +89,7 @@ class ProviderRegisterForm extends Component {
         <SubmitButton
           text={ submitText }
           { ...this.props }
+          handleSubmit={ derivedHandleSubmit }
         />
         <ResultMessage
           { ...this.props }
@@ -69,7 +106,9 @@ ProviderRegisterForm = connect(
   })
 )(ProviderRegisterForm)
 
-export default reduxForm({
+ProviderRegisterForm = injectStripe(ProviderRegisterForm)
+
+ProviderRegisterForm = reduxForm({
   form: formName
   , destroyOnUnmount: false
   , forceUnregisterOnUnmount: true
@@ -91,3 +130,10 @@ export default reduxForm({
     return errors
   }
 })(ProviderRegisterForm)
+
+export default props =>
+  <Stripe>
+    <Elements>
+      <ProviderRegisterForm { ...props } />
+    </Elements>
+  </Stripe>

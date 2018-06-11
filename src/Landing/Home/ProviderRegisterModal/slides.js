@@ -59,6 +59,7 @@ const slides = [
     , fieldName: 'paymentInfo'
     , headerText: 'Enter your payment information'
     , submitText: 'See my subscription details'
+    , shouldCreateToken: true
     , action: null
   }
 ]
