@@ -28,13 +28,10 @@ const styles = theme => ({
   menuItem: {
     borderBottom: '1px solid #EEEEEE'
     , color: '#b8b8b8'
-    , '&:first-child': {
-      backgroundColor: '#000000'
-    }
+    , '&:first-child': {}
   },
   menuItemActive: {
-    background: 'none'
-    , color: '#000000'
+    color: '#000000'
     , fontWeight: 'bold'
   },
   chevron: {
@@ -54,15 +51,18 @@ const DrawerContents = ({ onSelect, activeIndex, classes }) => (
           button
           dense
           key={ i }
-          className={ cns(classes.menuItem, {
-            [classes.menuItemActive]: isActive
-          }) }
+          className={ cns(classes.menuItem) }
           onClick={ () => onSelect(i) }
         >
           <ListItemIcon>
             <Icon />
           </ListItemIcon>
-          <ListItemText primary={ label } />
+          <ListItemText
+            classes={{
+              primary: cns({ [classes.menuItemActive]: isActive })
+            }}
+            primary={ label }
+          />
           { isActive &&
             <ChevronRight
               className={ classes.chevron }
