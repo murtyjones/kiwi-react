@@ -94,7 +94,7 @@ class ProviderRegisterForm extends Component {
         <SubmitButton
           text={ submitText }
           { ...this.props }
-          handleSubmit={ derivedHandleSubmit }
+          onClick={ derivedHandleSubmit }
         />
         <ResultMessage
           { ...this.props }

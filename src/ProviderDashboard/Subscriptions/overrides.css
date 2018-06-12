@@ -46,28 +46,6 @@
     margin-top: 10px !important
 }
 
-
-.copyLoginLinkContainer {
-    text-align: center;
-}
-
-.copyLoginLinkBox {
-    border: 1px solid #CCC;
-    margin: 10px auto 0 auto;
-    padding: 10px;
-    width: 270px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 12pt;
-    background-color: #F1F1F1;
-}
-
-.copyLoginLinkButton {
-    width: 30px !important;
-    height: 30px !important;
-    background: transparent !important;
-}
-
 .editUserButton {
     width: 30px !important;
     height: 30px !important;;

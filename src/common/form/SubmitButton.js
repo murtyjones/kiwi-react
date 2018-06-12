@@ -9,7 +9,7 @@ export default class SubmitButton extends PureComponent {
   }
 
   render() {
-    const { text = 'Submit', handleSubmit, pristine, submitting, invalid } = this.props
+    const { text = 'Submit', onClick, pristine, submitting, invalid } = this.props
     const disabled = pristine || submitting || invalid
 
     return (
@@ -18,7 +18,7 @@ export default class SubmitButton extends PureComponent {
           className={ cns('submitButton', { enabled: !disabled }) }
           variant='outlined'
           type='submit'
-          onClick={ handleSubmit }
+          onClick={ onClick }
           disabled={ disabled }
         >
           { text }

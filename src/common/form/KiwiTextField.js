@@ -13,18 +13,19 @@ export default class KiwiTextField extends PureComponent {
   }
 
   render() {
-    const { StartAdornmentIcon, input, meta, ...rest } = this.props
-    const { error, touched } = meta
+    const { StartAdornmentIcon, input, meta, successText, ...rest } = this.props
+    const { error, pristine, touched, asyncValidating, valid } = meta
     const { focused, color } = this.state
     const errorText = touched && error ? error : ''
+    const asyncValidated = touched && !pristine && !asyncValidating && valid
+    const derivedSuccessText = asyncValidated ? successText : ''
     const hasError = !!errorText
-    const successText = ''
     const classes = { focused, error: hasError }
 
     return (
       <TextField
         error={ hasError }
-        helperText={ errorText || successText }
+        helperText={ errorText || derivedSuccessText }
         margin='normal'
         className={ cns('KiwiField KiwiTextField-Container', this.props.className) }
         fullWidth={ this.props.fullWidth ? this.props.fullWidth : true }
@@ -60,6 +61,7 @@ export default class KiwiTextField extends PureComponent {
         }}
         FormHelperTextProps={{
           classes: {
+            root: cns('KiwiTextField-FormHelperText'),
             error: cns('KiwiTextField-FormHelperText', classes)
           }
         }}

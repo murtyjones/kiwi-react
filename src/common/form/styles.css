@@ -44,7 +44,6 @@
     border: 1px solid #765C9F !important;
     color: #765C9F;
 }
-.KiwiTextField-FormHelperText,
 .KiwiTextField-Label.focused,
 .KiwiTextField-Icon.focused {
     color: #765C9F !important;
@@ -61,8 +60,9 @@
     color: #cc5040 !important;
 }
 
+.KiwiTextField-FormHelperText,
 .ResultMessage-success {
-    color: #66cc52;
+    color: #66cc52 !important;
 }
 
 .ResultMessage {
