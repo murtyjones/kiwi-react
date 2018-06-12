@@ -6,9 +6,9 @@ import makeSelectable from 'material-ui/List/makeSelectable'
 import ChevronRight from 'material-ui-icons/ChevronRight'
 
 import { insertIntoObjectIf } from '../utils/insertIf'
-import { MENU_ITEMS } from './ProviderDashboard'
+import { MENU_ITEMS } from './Navigation/DrawerContents'
 
-let SelectableList = makeSelectable(List);
+let SelectableList = makeSelectable(List)
 
 
 const styles = {

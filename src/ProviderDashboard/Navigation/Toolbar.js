@@ -11,10 +11,15 @@ import MenuIcon from '@material-ui/icons/Menu'
 
 import DrawerContents from './DrawerContents'
 
+const mainColor = '#513d80'
+
 const styles = theme => ({
   appBar: {
-    width: `100%`,
-    position: 'relative'
+    width: `100%`
+    , position: 'relative'
+    , backgroundColor: '#FFF'
+    , boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.1), 0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)'
+    , color: mainColor
   },
   navIconHide: {
     [theme.breakpoints.up('md')]: {
@@ -30,13 +35,13 @@ const styles = theme => ({
 
 class Toolbar extends Component {
   render() {
-    const { classes } = this.props
+    const { classes, text } = this.props
 
     return (
       <AppBar className={ classes.appBar }>
-        <MuiToolbar>
+        <MuiToolbar className={ classes.toolbar }>
           <IconButton
-            color='inherit'
+            color={ mainColor }
             aria-label='open drawer'
             onClick={ this.props.handleDrawerToggle }
             className={ classes.navIconHide }
@@ -44,7 +49,7 @@ class Toolbar extends Component {
             <MenuIcon />
           </IconButton>
           <Typography variant='title' color='inherit' noWrap>
-            Responsive drawer
+            { text }
           </Typography>
         </MuiToolbar>
       </AppBar>

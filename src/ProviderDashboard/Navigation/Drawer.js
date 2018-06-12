@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
+import MuiDrawer from '@material-ui/core/Drawer'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -11,7 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 
 import DrawerContents from './DrawerContents'
 
-const drawerWidth = 240
+const drawerWidth = 256
 
 const styles = theme => ({
   root: {
@@ -21,58 +21,46 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
-    width: `${drawerWidth}px`,
+    width: `${drawerWidth}px`
   },
-  appBar: {
-    position: 'absolute',
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-  },
-  navIconHide: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
+  hidden: {
+    marginRight: '10px'
   },
   drawerPaper: {
     width: drawerWidth,
     [theme.breakpoints.up('md')]: {
       position: 'relative',
-    },
-  },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-  },
+    }
+  }
 })
 
-class ResponsiveDrawer extends Component {
+class Drawer extends Component {
   render() {
-    const { classes } = this.props
+    const { classes, ...rest } = this.props
 
     return (
-      <Hidden smDown implementation='css'>
+      <Hidden className={ classes.hidden } smDown implementation='css'>
         <div className={ classes.root }>
-          <Drawer
+          <MuiDrawer
             variant='permanent'
             open
             classes={{
               paper: classes.drawerPaper,
             }}
           >
-            <DrawerContents />
-          </Drawer>
+            <DrawerContents
+              { ...rest }
+            />
+          </MuiDrawer>
         </div>
       </Hidden>
     )
   }
 }
 
-ResponsiveDrawer.propTypes = {
+Drawer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer)
+export default withStyles(styles, { withTheme: true })(Drawer)

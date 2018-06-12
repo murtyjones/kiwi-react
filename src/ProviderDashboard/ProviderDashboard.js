@@ -10,25 +10,13 @@ import ObjectID from 'bson-objectid'
 import { getProfileDetails, getManyProfiles, getManySubscriptions, closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } from '../actions'
 import ProviderMenu from './ProviderMenu'
 
-import Account from './Account/Account'
-import Billing from './Billing/Billing'
-import ChangePassword from './ChangePassword/ChangePassword'
-import Subscriptions from './Subscriptions/Subscriptions'
 import Toolbar from './Navigation/Toolbar'
 import MobileDrawer from './Navigation/MobileDrawer'
 import Drawer from './Navigation/Drawer'
+import { MENU_ITEMS } from './Navigation/DrawerContents'
 
 import './overrides.css'
 
-
-export const MENU_ITEMS = [
-  { label: 'My Account', section: 'account', component: Account },
-  { label: 'Billing Information', section: 'billing', component: Billing },
-  { label: 'My Password', section: 'reset-password', component: ChangePassword },
-  { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions }
-]
-
-const LeftSide = props => <div className='providerDashboard-left'>{ props.children }</div>
 const RightSide = props => <div className='providerDashboard-right'>{ props.children }</div>
 
 
@@ -103,15 +91,17 @@ class ProviderDashboard extends PureComponent {
 
     return (
       <Fragment>
-        <Toolbar handleDrawerToggle={ this.handleDrawerToggle } />
-        <div className={ 'providerDashboard-container' }>
+        <Toolbar
+          text='Account Settings'
+          handleDrawerToggle={ this.handleDrawerToggle }
+        />
+        <div className='providerDashboard-container'>
           <MobileDrawer
-            handleDrawerToggle={ this.handleDrawerToggle }
             isOpen={ mobileOpen }
+            activeIndex={ activeIndex }
+            onSelect={ i => { this.setState({ activeIndex: i }) } }
+            handleDrawerToggle={ this.handleDrawerToggle }
           />
-          <div className='providerDashboard-header'>
-            <h2>Account Settings</h2>
-          </div>
           <div className='providerDashboard-body'>
             <Drawer
               isOpen={ mobileOpen }
