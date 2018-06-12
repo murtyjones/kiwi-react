@@ -30,7 +30,6 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       position: 'relative',
     }
-    , borderRadius: '5px'
     , height: 'auto'
   }
 })

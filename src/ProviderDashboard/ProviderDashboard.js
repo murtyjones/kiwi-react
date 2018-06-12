@@ -1,14 +1,10 @@
-import React, { Component, PureComponent, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import * as T from 'prop-types'
 import BluebirdPromise from 'bluebird'
 import withRouter from 'react-router-dom/withRouter'
-import Redirect from 'react-router-dom/Redirect'
-import Route from 'react-router-dom/Route'
 import { connect } from 'react-redux'
 import has from 'lodash/has'
-import ObjectID from 'bson-objectid'
 import { getProfileDetails, getManyProfiles, getManySubscriptions, closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } from '../actions'
-import ProviderMenu from './ProviderMenu'
 
 import Toolbar from './Navigation/Toolbar'
 import MobileDrawer from './Navigation/MobileDrawer'
@@ -16,8 +12,6 @@ import Drawer from './Navigation/Drawer'
 import { MENU_ITEMS } from './Navigation/DrawerContents'
 
 import './overrides.css'
-
-const RightSide = props => <div className='providerDashboard-right'>{ props.children }</div>
 
 
 class ProviderDashboard extends PureComponent {
@@ -108,9 +102,9 @@ class ProviderDashboard extends PureComponent {
               activeIndex={ activeIndex }
               onSelect={ i => { this.setState({ activeIndex: i }) } }
             />
-            <RightSide>
+            <div className='providerDashboard-right'>
               <ActiveMenuItemComponent />
-            </RightSide>
+            </div>
           </div>
         </div>
       </Fragment>

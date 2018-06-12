@@ -5,6 +5,10 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import ChevronRight from '@material-ui/icons/ChevronRight'
+import AccountBox from '@material-ui/icons/AccountBox'
+import CreditCard from '@material-ui/icons/CreditCard'
+import LockOutline from '@material-ui/icons/LockOutline'
+import RecentActors from '@material-ui/icons/RecentActors'
 import { withStyles } from '@material-ui/core/styles'
 import cns from 'classnames'
 
@@ -15,28 +19,41 @@ import Account from '../Account/Account'
 import { insertIntoObjectIf } from '../../utils/insertIf'
 
 export const MENU_ITEMS = [
-  { label: 'My Account', section: 'account', component: Account, Icon: InboxIcon },
-  { label: 'Billing Information', section: 'billing', component: Billing, Icon: InboxIcon },
-  { label: 'My Password', section: 'reset-password', component: ChangePassword, Icon: InboxIcon },
-  { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions, Icon: InboxIcon }
+  { label: 'My Account', section: 'account', component: Account, Icon: AccountBox },
+  { label: 'Billing Information', section: 'billing', component: Billing, Icon: CreditCard },
+  { label: 'My Password', section: 'reset-password', component: ChangePassword, Icon: LockOutline },
+  { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions, Icon: RecentActors }
 ]
+
+const highlightColor = '#765C9F'
 
 const styles = theme => ({
   root: {
-    padding: 0
+    padding: 0,
+    fontFamily: 'Roboto'
   },
   menuItem: {
     borderBottom: '1px solid #EEEEEE'
-    , color: '#b8b8b8'
-    , '&:first-child': {}
+    , color: '#AAAAAA'
+    , '&:hover': {
+      backgroundColor: '#f7f7f7'
+    }
+    , '&:hover > *': {
+      color: highlightColor
+    }
   },
   menuItemActive: {
-    color: '#000000'
-    , fontWeight: 'bold'
+    color: '#000'
+  },
+  menuItemText: {
+
+  },
+  menuItemTextActive: {
+    fontWeight: 'bold'
   },
   chevron: {
     position: 'absolute'
-    , top: '5px'
+    , top: '7px'
     , right: '5px'
   }
 })
@@ -51,7 +68,9 @@ const DrawerContents = ({ onSelect, activeIndex, classes }) => (
           button
           dense
           key={ i }
-          className={ cns(classes.menuItem) }
+          className={ cns(classes.menuItem, {
+            [classes.menuItemActive]: isActive
+          }) }
           onClick={ () => onSelect(i) }
         >
           <ListItemIcon>
@@ -59,9 +78,12 @@ const DrawerContents = ({ onSelect, activeIndex, classes }) => (
           </ListItemIcon>
           <ListItemText
             classes={{
-              primary: cns({ [classes.menuItemActive]: isActive })
+              root: cns(classes.menuItemText, {
+                [classes.menuItemTextActive]: isActive
+              })
             }}
             primary={ label }
+            disableTypography={ true }
           />
           { isActive &&
             <ChevronRight
