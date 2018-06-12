@@ -15,12 +15,11 @@ const drawerWidth = 256
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
     height: 430,
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
-    display: 'flex',
+    // display: 'flex',
     width: `${drawerWidth}px`
   },
   hidden: {
@@ -31,6 +30,8 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       position: 'relative',
     }
+    , borderRadius: '5px'
+    , height: 'auto'
   }
 })
 
@@ -45,7 +46,7 @@ class Drawer extends Component {
             variant='permanent'
             open
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaper
             }}
           >
             <DrawerContents
