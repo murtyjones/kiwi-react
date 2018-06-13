@@ -68,7 +68,7 @@ export const putProfile = params => {
         body: params
       }
       dispatch({ type: ACTIONS.PUT_PROFILE_REQUEST })
-      const append = params.billing ? 'billing' : ''
+      const append = params.updateBilling ? 'billing' : ''
       const success = await ApiFetch(`${config.api}/profiles/${_id}/${append}`, options)
       dispatch({ type: ACTIONS.PUT_PROFILE_SUCCESS, payload: success })
       return success

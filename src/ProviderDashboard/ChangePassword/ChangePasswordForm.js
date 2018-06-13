@@ -9,9 +9,7 @@ import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 
 import renderTextField from '../../common/renderTextField'
-import KiwiSliderField from '../../common/renderSliderField'
-import validateEmailAvailability from './validateEmailAvailability'
-import asyncDebounce from 'debounce-promise'
+import KiwiTextField from '../../common/form/KiwiTextField'
 
 export const formName = 'changePassword'
 
@@ -47,23 +45,20 @@ class ChangePasswordForm extends Component {
         <Field
           name='currentPassword'
           type='password'
-          hintText='Current Password'
-          component={ renderTextField }
-          style={ { width: '100%' } }
+          label='Current Password'
+          component={ KiwiTextField }
         />
         <Field
           name='newPassword'
           type='password'
-          hintText='New Password'
-          component={ renderTextField }
-          style={ { width: '100%' } }
+          label='New Password'
+          component={ KiwiTextField }
         />
         <Field
           name='confirmNewPassword'
           type='password'
-          hintText='Confirm New Password'
-          component={ renderTextField }
-          style={ { width: '100%' } }
+          label='Confirm New Password'
+          component={ KiwiTextField }
         />
         <Button variant='outlined' type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
           Save

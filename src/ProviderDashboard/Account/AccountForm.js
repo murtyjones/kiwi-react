@@ -9,6 +9,7 @@ import SubmitButton from '../../common/form/SubmitButton'
 import ResultMessage from '../../common/form/ResultMessage'
 import validateEmailAvailability from './validateEmailAvailability'
 import asyncDebounce from 'debounce-promise'
+import { email, required } from '../../utils/validationUtils'
 
 export const formName = 'account'
 
@@ -36,7 +37,7 @@ class AccountForm extends Component {
   }
 
   render() {
-    const { handleSubmit, isEmailVerified = true } = this.props
+    const { handleSubmit, isEmailVerified } = this.props
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
@@ -62,6 +63,7 @@ class AccountForm extends Component {
           label='Email'
           component={ KiwiTextField }
           successText='That email is available!'
+          validate={ [ email, required ] }
         />
         { !isEmailVerified &&
           <div className='emailVerificationLine-text'>

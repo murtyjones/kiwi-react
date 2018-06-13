@@ -33,7 +33,7 @@ class Billing extends Component {
         v: profile.v,
         ...params
       }
-      return await putProfile({ ...options, billing: true })
+      return await putProfile({ ...options, updateBilling: true })
     } catch (err) {
       console.log(err)
       throw new SubmissionError({ name: '', _error: err.message ? err.message : err })

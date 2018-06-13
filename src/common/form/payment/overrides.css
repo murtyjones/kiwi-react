@@ -9,3 +9,8 @@
 .CardField-input.StripeElement.StripeElement--invalid {
     border: 1px solid #cc5040;
 }
+
+
+.CardField-input.StripeElement.StripeElement--focus {
+    border: 1px solid #765C9F;
+}
