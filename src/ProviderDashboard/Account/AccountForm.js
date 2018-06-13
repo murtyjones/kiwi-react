@@ -3,7 +3,6 @@ import * as T from 'prop-types'
 import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { Toggle, SelectField } from 'redux-form-material-ui'
 
 import KiwiTextField from '../../common/form/KiwiTextField'
 import SubmitButton from '../../common/form/SubmitButton'

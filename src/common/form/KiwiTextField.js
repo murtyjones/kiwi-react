@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import cns from 'classnames'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import { TextField as ReduxFormTextField } from 'redux-form-material-ui-next'
 import has from 'lodash/has'
 
 export default class KiwiTextField extends PureComponent {
@@ -13,7 +14,7 @@ export default class KiwiTextField extends PureComponent {
   }
 
   render() {
-    const { StartAdornmentIcon, input, meta, successText, ...rest } = this.props
+    const { StartAdornmentIcon, input, meta, successText } = this.props
     const { error, pristine, touched, asyncValidating, valid } = meta
     const { focused, color } = this.state
     const errorText = touched && error ? error : ''
@@ -21,9 +22,9 @@ export default class KiwiTextField extends PureComponent {
     const derivedSuccessText = asyncValidated ? successText : ''
     const hasError = !!errorText
     const classes = { focused, error: hasError }
-
     return (
-      <TextField
+      <ReduxFormTextField
+        { ...this.props }
         error={ hasError }
         helperText={ errorText || derivedSuccessText }
         margin='normal'
@@ -65,7 +66,6 @@ export default class KiwiTextField extends PureComponent {
             error: cns('KiwiTextField-FormHelperText', classes)
           }
         }}
-        { ...rest }
       />
     )
   }

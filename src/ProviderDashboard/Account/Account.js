@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
 
 import AccountForm from './AccountForm'
 import { updateProfile, resendVerificationEmail } from '../../actions'
@@ -34,7 +35,7 @@ class Account extends Component {
 
   render() {
     const { profile } = this.props
-
+    console.log(profile.email)
     return (
       <Fragment>
         <h2 className='providerDashboard-sectionHeader'>
