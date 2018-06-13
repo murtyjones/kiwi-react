@@ -1,35 +1,24 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import withRouter from 'react-router-dom/withRouter'
 import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import Button from '@material-ui/core/Button'
 import { Toggle, SelectField } from 'redux-form-material-ui'
-import get from 'lodash/get'
 
-import renderTextField from '../../common/renderTextField'
-import KiwiSliderField from '../../common/renderSliderField'
+import KiwiTextField from '../../common/form/KiwiTextField'
+import SubmitButton from '../../common/form/SubmitButton'
+import ResultMessage from '../../common/form/ResultMessage'
 import validateEmailAvailability from './validateEmailAvailability'
 import asyncDebounce from 'debounce-promise'
 
 export const formName = 'account'
 
-const activeUnderlineColor = '#513d80'
-
 const styles = {
   form: {
-    width: 'calc(100% - 20px)' // 20px padding offset
-    , height: '100%'
+    width: '100%'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
-  },
-  result: {
-    paddingTop: '10px'
-  },
-  failure: { color: '#cc5040' },
-  success: { color: '#66cc52' },
-  underlineFocusStyle: { borderBottom: `2px ${activeUnderlineColor} solid` }
+  }
 }
 
 class AccountForm extends Component {
@@ -48,33 +37,32 @@ class AccountForm extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error, isEmailVerified = true } = this.props
-
+    const { handleSubmit, isEmailVerified = true } = this.props
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
           name='firstName'
-          hintText='First Name'
-          component={ renderTextField }
-          style={ { width: '100%' } }
-          containerClassName='accountName first'
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          label='First Name'
+          component={ KiwiTextField }
+          style={ {
+            width: '50%', display: 'inline-block',
+            paddingRight: '3px', boxSizing: 'border-box'
+          } }
         />
         <Field
           name='lastName'
-          hintText='Last Name'
-          component={ renderTextField }
-          style={ { width: '100%' } }
-          containerClassName='accountName last'
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          label='Last Name'
+          component={ KiwiTextField }
+          style={ {
+            width: '50%', display: 'inline-block',
+            paddingRight: '3px', boxSizing: 'border-box'
+          } }
         />
         <Field
           name='email'
-          hintText='Email'
-          component={ renderTextField }
-          style={ { width: '100%' } }
-          asyncValidMessage='That email is available!'
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          label='Email'
+          component={ KiwiTextField }
+          successText='That email is available!'
         />
         { !isEmailVerified &&
           <div className='emailVerificationLine-text'>
@@ -87,14 +75,15 @@ class AccountForm extends Component {
             </Link>
           </div>
         }
-        <Button variant='outlined' type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
-          Save
-        </Button>
-        { submitting && <span>Saving...</span> }
-        <div style={ styles.result }>
-          { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }
-          { submitSucceeded && <span style={ styles.success }>Your profile has been updated!</span> }
-        </div>
+        <SubmitButton
+          text='Save'
+          { ...this.props }
+          onClick={ handleSubmit }
+        />
+        <ResultMessage
+          { ...this.props }
+          successMessage='Your profile has been updated!'
+        />
       </form>
     )
   }

@@ -46,7 +46,6 @@ class Account extends Component {
           onSubmit={ this.handleSubmit }
           onVerificationEmailClick={ this.handleVerificationEmailClick }
         />
-
       </Fragment>
     )
   }
