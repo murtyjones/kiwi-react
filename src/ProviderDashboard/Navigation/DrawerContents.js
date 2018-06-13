@@ -9,20 +9,23 @@ import AccountBox from '@material-ui/icons/AccountBox'
 import CreditCard from '@material-ui/icons/CreditCard'
 import LockOutline from '@material-ui/icons/LockOutline'
 import RecentActors from '@material-ui/icons/RecentActors'
+import People from '@material-ui/icons/People'
 import { withStyles } from '@material-ui/core/styles'
 import cns from 'classnames'
 
 import Billing from '../Billing/Billing'
 import Subscriptions from '../Subscriptions/Subscriptions'
+import Students from '../Students/Students'
 import ChangePassword from '../ChangePassword/ChangePassword'
 import Account from '../Account/Account'
 import { insertIntoObjectIf } from '../../utils/insertIf'
 
 export const MENU_ITEMS = [
   { label: 'My Account', section: 'account', component: Account, Icon: AccountBox },
-  { label: 'Billing Information', section: 'billing', component: Billing, Icon: CreditCard },
+  { label: 'My Students', section: 'students', component: Students, Icon: People },
+  { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions, Icon: RecentActors },
   { label: 'My Password', section: 'reset-password', component: ChangePassword, Icon: LockOutline },
-  { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions, Icon: RecentActors }
+  { label: 'Billing Information', section: 'billing', component: Billing, Icon: CreditCard }
 ]
 
 const highlightColor = '#765C9F'
