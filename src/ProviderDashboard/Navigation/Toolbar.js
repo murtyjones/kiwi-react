@@ -36,7 +36,6 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
   exploreTechIsland: {
-    textTransform: 'capitalize',
     borderRadius: '20px'
   },
   '@global': {

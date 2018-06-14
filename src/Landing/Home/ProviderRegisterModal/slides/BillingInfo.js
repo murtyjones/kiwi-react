@@ -58,7 +58,6 @@ export default class ProvideesSignupSuccess extends Component {
             component={ KiwiSelectField }
             label='State'
             options={ states }
-            validate={ [ v => { console.log('hm', v) }, required ] }
           />
           <CardField />
         </div>

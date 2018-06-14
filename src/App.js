@@ -37,6 +37,9 @@ const mainColor = '#513d80'
 const theme = createMuiTheme({
   overrides: {
     MuiButton: {
+      root: {
+        textTransform: 'capitalize'
+      },
       outlined: {
         border: '1px solid #765C9F !important',
         color: '#765C9F',
