@@ -36,7 +36,8 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
   exploreTechIsland: {
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+    borderRadius: '20px'
   },
   '@global': {
     'img[class="kiwi-header-icon"]': {
