@@ -86,7 +86,6 @@ class ProviderDashboard extends PureComponent {
     return (
       <Fragment>
         <Toolbar
-          text='Account Settings'
           handleDrawerToggle={ this.handleDrawerToggle }
         />
         <div className='providerDashboard-container'>
