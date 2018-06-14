@@ -15,8 +15,7 @@ export const formName = 'changePassword'
 
 const styles = {
   form: {
-    width: 'calc(100% - 20px)' // 20px padding offset
-    , height: '100%'
+    width: '100%'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
   },
