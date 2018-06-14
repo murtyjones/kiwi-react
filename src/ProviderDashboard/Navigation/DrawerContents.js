@@ -15,15 +15,13 @@ import cns from 'classnames'
 
 import Billing from '../Billing/Billing'
 import Subscriptions from '../Subscriptions/Subscriptions'
-import Students from '../Students/Students'
 import ChangePassword from '../ChangePassword/ChangePassword'
 import Account from '../Account/Account'
 import { insertIntoObjectIf } from '../../utils/insertIf'
 
 export const MENU_ITEMS = [
   { label: 'My Account', section: 'account', component: Account, Icon: AccountBox },
-  { label: 'My Students', section: 'students', component: Students, Icon: People },
-  { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions, Icon: RecentActors },
+  { label: 'Student Subscriptions', section: 'subscriptions', component: Subscriptions, Icon: RecentActors },
   { label: 'My Password', section: 'reset-password', component: ChangePassword, Icon: LockOutline },
   { label: 'Billing Information', section: 'billing', component: Billing, Icon: CreditCard }
 ]

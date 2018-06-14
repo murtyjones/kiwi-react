@@ -7,7 +7,6 @@ import isEmpty from 'lodash/isEmpty'
 import asyncDebounce from 'debounce-promise'
 import config from 'config'
 
-import renderTextField from '../../common/renderTextField'
 import KiwiTextField from '../../common/form/KiwiTextField'
 import validateUsernameAvailability from './validateUsernameAvailability'
 import SubmitButton from '../../common/form/SubmitButton'

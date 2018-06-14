@@ -20,6 +20,7 @@ const styles = theme => ({
     , backgroundColor: '#FFF'
     , boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.1), 0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)'
     , color: mainColor
+    , position: 'relative'
   },
   navIconHide: {
     [theme.breakpoints.up('md')]: {
@@ -35,13 +36,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
   exploreTechIsland: {
-    borderColor: mainColor,
-    color: mainColor,
-    textTransform: 'capitalize',
-    '&:hover': {
-      color: '#FFF',
-      backgroundColor: mainColor
-    }
+    textTransform: 'capitalize'
   },
   '@global': {
     'img[class="kiwi-header-icon"]': {

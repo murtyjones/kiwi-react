@@ -3,9 +3,13 @@ import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import Table from '@material-ui/core/Table'
+import BluebirdPromise from 'bluebird'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
+import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+import Edit from 'material-ui-icons/Edit'
 import isEmpty from 'lodash/isEmpty'
 import Link from 'react-router-dom/Link'
 import moment from 'moment'
@@ -17,6 +21,7 @@ import './overrides.css'
 import { register, putProfile, postSubscription, putSubscription, changePassword } from '../../actions'
 import { SUBSCRIPTION_STATUSES } from '../../constants'
 import ResultMessage from '../../common/form/ResultMessage'
+import ProvideeProfileForm from './ProvideeProfileForm'
 
 const styles = {
   editUserIcon: {
@@ -46,6 +51,41 @@ class Subscriptions extends Component {
     , userId: T.string.isRequired
   }
 
+  handleSubscriptionClick = (event, subcriptionId) => {
+    this.props.history.push(`/provider/subscriptions/${subcriptionId}`)
+  }
+
+  handlePostSubmit = async v => {
+    const { register, postSubscription, userId } = this.props
+    try {
+      const profile = await register({
+        username: v.username,
+        password: v.newPassword
+      })
+      const subscription = await postSubscription({
+        status: SUBSCRIPTION_STATUSES.ACTIVE,
+        providerId: userId,
+        provideeId: profile._id
+      })
+      return subscription
+    } catch (err) {
+      console.log(err)
+      throw new SubmissionError({ _error: err.body ? err.body.message : err.message })
+    }
+  }
+
+  handlePutSubmit = async v => {
+    const { putProfile, changePassword } = this.props
+    try {
+      let promises = [ putProfile(v) ]
+      if(v.newPassword) promises.push(changePassword(v))
+      return BluebirdPromise.all(promises)
+    } catch (err) {
+      console.log(err)
+      throw new SubmissionError({ _error: err.body ? err.body.message : err.message })
+    }
+  }
+
   toggleSubscriptionStatus = async subscription => {
     const { putSubscription } = this.props
     try {
@@ -73,13 +113,33 @@ class Subscriptions extends Component {
   }
 
   render() {
-    const { subscriptions, profilesById } = this.props
+    const { subscriptions, profilesById, subscriptionsById, match: { params } } = this.props
     const { isUpdatingSubscription, updateSucceeded, errorMessage } = this.state
+    const selectedSubscription = subscriptionsById[params.id] || {}
+    const selectedSubscriptionProvideeProfile = profilesById[selectedSubscription.provideeId] || {}
 
     const sortedSubscriptions = subscriptions
       .sort((a, b) => a.status !== SUBSCRIPTION_STATUSES.ACTIVE)
 
-    return (
+    return params.id
+      ?
+      <Fragment>
+        <h3 className='providerDashboard-sectionHeader'>
+          { isEmpty(selectedSubscriptionProvideeProfile)
+            ? 'Add a New Student'
+            : 'Edit Student'
+          }
+        </h3>
+        <ProvideeProfileForm
+          initialValues={ selectedSubscriptionProvideeProfile }
+          onSubmit={
+            isEmpty(selectedSubscriptionProvideeProfile)
+              ? this.handlePostSubmit
+              : this.handlePutSubmit
+          }
+        />
+      </Fragment>
+      :
       <Fragment>
         { !isEmpty(sortedSubscriptions) &&
           <Fragment>
@@ -98,6 +158,17 @@ class Subscriptions extends Component {
                     >
                       <TableCell className='subscription-username'>
                         { providee.username }
+                        <IconButton
+                          variant='fab'
+                          aria-label='add'
+                          className='editUserButton'
+                          onClick={ e => this.handleSubscriptionClick(e, subscription._id) }
+                        >
+                          <Edit
+                            style={ styles.editUserIcon }
+                            color={ styles.editUserColor }
+                          />
+                        </IconButton>
                       </TableCell>
                       <TableCell className='subscription-periodEnd'>
                         <span
@@ -136,6 +207,14 @@ class Subscriptions extends Component {
                 }) }
                 </TableBody>
             </Table>
+            <Button
+              variant='outlined'
+              className='addStudent'
+              type='submit'
+              onClick={ () => this.props.history.push(`/provider/subscriptions/new`) }
+            >
+              Add new student
+            </Button>
           </Fragment>
         }
 
@@ -153,7 +232,6 @@ class Subscriptions extends Component {
           />
         </div>
       </Fragment>
-    )
   }
 }
 
@@ -163,7 +241,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     userId,
     profilesById,
-    subscriptions
+    subscriptions,
+    subscriptionsById
   }
 }
 

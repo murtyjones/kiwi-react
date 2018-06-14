@@ -11,7 +11,7 @@ export default class SubmitButton extends PureComponent {
   render() {
     const { text = 'Submit', onClick, pristine, submitting, invalid } = this.props
     const disabled = pristine || submitting || invalid
-
+    console.log(submitting)
     return (
       <Fragment>
         <Button

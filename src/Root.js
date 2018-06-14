@@ -227,8 +227,11 @@ class App extends Component {
               {/* ----------------- */}
               {/* Provider routes */}
               {/* ----------------- */}
-              <AuthorizedRoute path='/provider/:section/:id' exact component={ ProviderDashboard } title='Dashboard' { ...extras } />
-              <AuthorizedRoute path='/provider/:section' component={ ProviderDashboard } title='Dashboard' { ...extras } />
+              <AuthorizedRoute path='/provider/account' exact component={ ProviderDashboard } { ...extras } />
+              <AuthorizedRoute path='/provider/students/new' exact component={ ProviderDashboard } { ...extras } />
+              <AuthorizedRoute path='/provider/students/:id' exact component={ ProviderDashboard } { ...extras } />
+              <AuthorizedRoute path='/provider/:section/:id' exact component={ ProviderDashboard } { ...extras } />
+              <AuthorizedRoute path='/provider/:section' component={ ProviderDashboard } { ...extras } />
             </Switch>
             </div>
         </div>
