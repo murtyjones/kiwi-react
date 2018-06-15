@@ -24,6 +24,7 @@ Modal.setAppElement(document.getElementById('app'))
  */
 import AuthenticatedRoute from './Routes/AuthenticatedRoute'
 import AuthorizedRoute from './Routes/AuthorizedRoute'
+import PlainRoute from './Routes/PlainRoute'
 
 
 /**
@@ -117,8 +118,9 @@ class App extends Component {
     , modal: T.object.isRequired
   }
 
-  toggleSideNav = () =>
+  toggleSideNav = () => {
     this.props.isSideNavOpen ? this.props.closeSideNav() : this.props.openSideNav()
+  }
 
   render() {
     const { modal, isLoggedIn, isAdmin, isProvider, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, topBarFocused, primaryColor, secondaryColor, textColor } = this.props
@@ -127,7 +129,7 @@ class App extends Component {
 
     return (
       <div>
-        { process.env.NODE_ENV !== "production" &&
+        { process.env.NODE_ENV !== 'production' &&
             <EnvironmentReminder />
         }
         <Helmet>
@@ -175,7 +177,7 @@ class App extends Component {
               {/* ----------------- */}
               {/* Logged out routes */}
               {/* ----------------- */}
-              <Route path='/' exact render={() => (
+              <PlainRoute path='/' exact render={() => (
                 isLoggedIn && isProvider ? (
                   <Redirect to='/provider/dashboard' />
                 ) : isLoggedIn ? (
@@ -184,24 +186,29 @@ class App extends Component {
                   <Landing />
                 )
               )} />
-              <Route path='/about' exact component={ Landing } />
-              <Route path='/login' exact component={ LoginOrRegister } />
-              <Route path='/register' exact component={ LoginOrRegister } />
-              <Route path='/provider/login' exact component={ ProviderLoginOrRegister } />
-              <Route path='/provider/register' exact component={ ProviderLoginOrRegister } />
-              <Route path='/signout' exact component={ SignOut } />
-              <Route path='/password' exact component={ ForgotPasswordWizard } />
-              <Route path='/python' exact component={ StandaloneEditor } />
-              <Route path='/email-verification' exact component={ EmailVerification } />
+              <PlainRoute path='/about' exact component={ Landing } />
+              <PlainRoute path='/login' exact component={ LoginOrRegister } />
+              <PlainRoute path='/register' exact component={ LoginOrRegister } />
+              <PlainRoute path='/provider/login' exact component={ ProviderLoginOrRegister } />
+              <PlainRoute path='/provider/register' exact component={ ProviderLoginOrRegister } />
+              <PlainRoute path='/signout' exact component={ SignOut } />
+              <PlainRoute path='/password' exact component={ ForgotPasswordWizard } />
+              <PlainRoute path='/python' exact component={ StandaloneEditor } />
+              <PlainRoute path='/email-verification' exact component={ EmailVerification } />
               {/* ----------------- */}
               {/* Logged in routes  */}
               {/* ----------------- */}
               <AuthenticatedRoute path='/welcome' exact component={ Welcome } { ...extras } />
-              <AuthenticatedRoute path='/projects' exact component={ UserProjects } title='Projects' { ...extras } />
-              <AuthenticatedRoute path='/project/new' exact component={ UserProject } title='name me!' topBarTitleDisabled={ false } { ...extras } />
-              <AuthenticatedRoute path='/project/:id' exact component={ UserProject } topBarTitleDisabled={ false } { ...extras } />
-              <AuthenticatedRoute path='/lessons' exact component={ Lessons } title='Lessons' { ...extras } />
-              <AuthenticatedRoute path='/lessons/beta' exact component={ BetaLessons } title='Lessons (Beta)' { ...extras } />
+              <AuthenticatedRoute path='/projects' exact component={ UserProjects }
+                                  title='Projects' { ...extras } />
+              <AuthenticatedRoute path='/project/new' exact component={ UserProject }
+                                  title='name me!' topBarTitleDisabled={ false } { ...extras } />
+              <AuthenticatedRoute path='/project/:id' exact component={ UserProject }
+                                  topBarTitleDisabled={ false } { ...extras } />
+              <AuthenticatedRoute path='/lessons' exact component={ Lessons }
+                                  title='Lessons' { ...extras } />
+              <AuthenticatedRoute path='/lessons/beta' exact component={ BetaLessons }
+                                  title='Lessons (Beta)' { ...extras } />
               <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...extras } />
               {/* ----------------- */}
               {/* Admin-only routes */}

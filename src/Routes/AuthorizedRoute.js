@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import Route from 'react-router-dom/Route'
 import Redirect from 'react-router-dom/Redirect'
 import WithTheme from '../hocs/WithTheme'
+import withTracker from '../hocs/withTracker'
 
 const authorizer = ({ path, isLoggedIn, isAdmin, isProvider }) =>
   path.includes('provider')
@@ -33,4 +34,4 @@ function AuthorizedRoute ({component: Component, path, isLoggedIn, isAdmin, isPr
   )
 }
 
-export default AuthorizedRoute
+export default withTracker(AuthorizedRoute)
