@@ -41,11 +41,11 @@ export const deleteProfile = (params) => {
 }
 
 export const getProfileDetails = (params) => {
-  const { userId, billing = false } = params
+  const { userId, includeBilling = false } = params
   const options = {
     method: 'GET',
   }
-  const append = billing ? 'billing' : ''
+  const append = includeBilling ? 'billing' : ''
   return dispatch => {
     dispatch({ type: ACTIONS.GET_PROFILE_REQUEST })
     return ApiFetch(`${config.api}/profiles/${userId}/${append}`, options)

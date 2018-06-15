@@ -69,7 +69,7 @@ class ProviderRegisterModal extends Component {
     const promises = [
       this.props.putProfile({
         _id: providerProfileObject._id,
-        billing: true,
+        updateBilling: true,
         stripeCreditCardToken: v.stripeCreditCardToken,
         v: providerProfileObject.v
       })
