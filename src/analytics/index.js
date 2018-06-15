@@ -1,9 +1,7 @@
 const ReactGA = require('react-ga')
 
 const options = {
-  gaOptions: {
-    cookieDomain: 'none'
-  }
+  gaOptions: {}
 }
 
 if (process.env.NODE_ENV !== 'production') {
