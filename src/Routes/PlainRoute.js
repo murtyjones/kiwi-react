@@ -4,7 +4,7 @@ import withTracker from '../hocs/withTracker'
 
 const PlainRoute = props => {
   return (
-    <PlainRoute { ...props } />
+    <Route { ...props } />
   )
 }
 

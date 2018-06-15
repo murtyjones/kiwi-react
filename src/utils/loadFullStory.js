@@ -50,7 +50,7 @@ const loadFullStory = store => {
       v = v || {}
       v.acctId = i
       g(o, v)
-    };
+    }
     g.clearUserCookie = function(c, d, i) {
       if(!c || document.cookie.match('fs_uid=[`;`]*`[`;`]*`[``]*`')) {
         d = n.domain
