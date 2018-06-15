@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import ContactForm from './ContactForm'
+import * as T from 'prop-types'
 
-import '../../close.css'
+import SubscribeForm from './SubscribeForm'
+import '../../../close.css'
 
 
 export default class SubscribeModal extends Component {
@@ -12,20 +13,15 @@ export default class SubscribeModal extends Component {
     }
   }
 
+  static propTypes = {
+    handleSubmit: T.func.isRequired
+  }
+
   render() {
     const { submitted } = this.state
 
     return (
       <div className='subscribeModalFormContainer'>
-        <div
-          className='x-sm x-black'
-          style={ {
-            position: 'absolute',
-            top: -15,
-            right: -15,
-          } }
-          onClick={ this.props.onClose }
-        />
         <h2 className='subscribeHeader'>
           { submitted
             ? `Thanks for signing up!`
@@ -39,9 +35,9 @@ export default class SubscribeModal extends Component {
           }
         </h4>
         { !submitted &&
-          <ContactForm
+          <SubscribeForm
             onSubmit={ p => {
-              this.props.handleMessageSubmit(p)
+              this.props.handleSubmit(p)
               this.setState({ submitted: true })
             } }
           />

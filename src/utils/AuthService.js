@@ -43,10 +43,8 @@ export default class AuthService {
         , clientID:config.auth.clientID
         , scope: config.auth.scope
         , audience: config.auth.audience
-
       }, (err, result) => {
         if (err) {
-          console.log(err)
           return reject(err)
         }
         resolve(result)
@@ -72,9 +70,11 @@ export default class AuthService {
     return new BluebirdPromise((resolve, reject) => {
       window.localStorage.removeItem('isLoggedIn')
       window.localStorage.removeItem('token')
+      window.localStorage.removeItem('iat')
       window.localStorage.removeItem('exp')
       window.localStorage.removeItem('isAdmin')
       window.localStorage.removeItem('userId')
+      window.localStorage.removeItem('username')
       window.localStorage.removeItem('refreshToken')
       return resolve('done!')
     })
@@ -89,7 +89,7 @@ export default class AuthService {
   }
 
   isAuthenticated() {
-    // Check whether the current time is past the 
+    // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'))
     return new Date().getTime() < expiresAt
@@ -171,18 +171,26 @@ export default class AuthService {
     return isProvider
   }
 
-  static setTokenExp(tokenExpTimestamp) {
-    window.localStorage.setItem('tokenExp', tokenExpTimestamp)
+  static setTokenExp(exp) {
+    window.localStorage.setItem('exp', exp)
   }
 
   static getTokenExp() {
-    return window.localStorage.getItem('tokenExp')
+    return window.localStorage.getItem('exp')
+  }
+
+  static setTokenIat(iat) {
+    window.localStorage.setItem('iat', iat)
+  }
+
+  static getTokenIat() {
+    return window.localStorage.getItem('iat')
   }
 
   static isAuthenticated() {
     const token = this.getToken()
-    const tokenExp = this.getTokenExp()
-    const isTokenExpiredOrNear = hasTokenExpired(tokenExp)
+    const exp = this.getTokenExp()
+    const isTokenExpiredOrNear = hasTokenExpired(exp)
     return !!token && !isTokenExpiredOrNear
   }
 }

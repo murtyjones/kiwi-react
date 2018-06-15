@@ -5,8 +5,7 @@ import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import { animateScroll as scroll } from 'react-scroll'
 
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login, postMessage } from '../actions'
-import { ApiFetch } from '../utils/ApiFetch'
+import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } from '../actions'
 import find from 'lodash/find'
 import Home from './Home/Home'
 import About from './About/About'
@@ -36,7 +35,6 @@ class Landing extends Component {
     , openTopBar: T.func
     , closeTopBar: T.func
     , signout: T.func
-    , postMessage: T.func.isRequired
   }
 
   componentWillReceiveProps() {
@@ -52,10 +50,6 @@ class Landing extends Component {
   componentWillUnmount() {
     this.props.openSideNav()
     this.props.openTopBar()
-  }
-
-  handleMessageSubmit = (v) => {
-    this.props.postMessage({ subscribe: true, ...v })
   }
 
   scrollTo = to => scroll.scrollTo(to)
@@ -81,7 +75,6 @@ class Landing extends Component {
       <ActiveTabComponent
         key='activeTab'
         scrollTo={ this.scrollTo }
-        handleMessageSubmit={ this.handleMessageSubmit }
       />
     )
   }
@@ -98,7 +91,6 @@ const mapDispatchToProps = (dispatch) => {
     , closeSideNav: () => dispatch(closeSideNav())
     , openTopBar: () => dispatch(openTopBar())
     , closeTopBar: () => dispatch(closeTopBar())
-    , postMessage: params => dispatch(postMessage(params))
   }
 }
 

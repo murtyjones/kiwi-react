@@ -2,25 +2,26 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import BluebirdPromise from 'bluebird'
 import Table from '@material-ui/core/Table'
+import BluebirdPromise from 'bluebird'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
+import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
+import Edit from 'material-ui-icons/Edit'
 import isEmpty from 'lodash/isEmpty'
-import { SubmissionError } from 'redux-form'
 import Link from 'react-router-dom/Link'
 import moment from 'moment'
-import IconButton from '@material-ui/core/IconButton'
-import Edit from 'material-ui-icons/Edit'
+import cns from 'classnames'
 
-
-import ProvideeProfileForm from './ProvideeProfileForm'
-import { register, putProfile, postSubscription, putSubscription, changePassword } from '../../actions'
 
 import './overrides.css'
+
+import { register, putProfile, postSubscription, putSubscription, changePassword } from '../../actions'
 import { SUBSCRIPTION_STATUSES } from '../../constants'
+import ResultMessage from '../../common/form/ResultMessage'
+import ProvideeProfileForm from './ProvideeProfileForm'
 
 const styles = {
   editUserIcon: {
@@ -33,7 +34,11 @@ const styles = {
 class Subscriptions extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      isUpdatingSubscription: false
+      , updateSucceeded: false
+      , errorMessage: false
+    }
   }
 
   static propTypes = {
@@ -84,21 +89,32 @@ class Subscriptions extends Component {
   toggleSubscriptionStatus = async subscription => {
     const { putSubscription } = this.props
     try {
-      return putSubscription({
+      this.setState({
+        isUpdatingSubscription: true
+        , updateSucceeded: false
+        , errorMessage: false
+      })
+      await putSubscription({
         id: subscription._id,
         v: subscription.v,
         status: subscription.status === SUBSCRIPTION_STATUSES.ACTIVE
           ? SUBSCRIPTION_STATUSES.INACTIVE
           : SUBSCRIPTION_STATUSES.ACTIVE
       })
+      this.setState({ isUpdatingSubscription: false, updateSucceeded: true })
     } catch (err) {
       console.log(err)
-      throw new SubmissionError({ _error: err.body ? err.body.message : err.message })
+      this.setState({
+        isUpdatingSubscription: false
+        , errorMessage: err.body && err.body.message ? err.body.message : err.message
+        , updateSucceeded: false
+      })
     }
   }
 
   render() {
-    const { subscriptions, subscriptionsById, profilesById, match: { params } } = this.props
+    const { subscriptions, profilesById, subscriptionsById, match: { params } } = this.props
+    const { isUpdatingSubscription, updateSucceeded, errorMessage } = this.state
     const selectedSubscription = subscriptionsById[params.id] || {}
     const selectedSubscriptionProvideeProfile = profilesById[selectedSubscription.provideeId] || {}
 
@@ -127,13 +143,14 @@ class Subscriptions extends Component {
       <Fragment>
         { !isEmpty(sortedSubscriptions) &&
           <Fragment>
-            <h3 className='providerDashboard-sectionHeader'>
+            <h2 className='providerDashboard-sectionHeader'>
               Subscriptions
-            </h3>
+            </h2>
             <Table className='subscription-table'>
               <TableBody>
                 { sortedSubscriptions.map((subscription, i) => {
                   const providee = profilesById[subscription.provideeId] || {}
+                  const current_period_end = moment.unix(subscription.current_period_end)
                   return (
                     <TableRow
                       key={ i }
@@ -153,24 +170,35 @@ class Subscriptions extends Component {
                           />
                         </IconButton>
                       </TableCell>
-                      <TableCell className='subscription-expireDate'>
-                        { subscription.current_period_end &&
-                          <span className='expiresAt'>
-                            (Expires {
-                            moment.unix(subscription.current_period_end).format('MMMM Do')
-                          })
-                          </span>
-                        }
+                      <TableCell className='subscription-periodEnd'>
+                        <span
+                          className={ cns({
+                            'cancelAtPeriodEnd': subscription.cancel_at_period_end
+                          }) }
+                        >
+                          { subscription.cancel_at_period_end
+                            ? current_period_end.isAfter() // isAfter now
+                            ? 'Expires '
+                            : 'Expired '
+                            : 'Renews on ' }
+                          { current_period_end.format('MMMM Do') }
+                        </span>
                       </TableCell>
-                      <TableCell className='subscription-toggleSubscription'>
+                      <TableCell
+                        className={
+                          cns('subscription-toggleSubscription', {
+                            'disabled': isUpdatingSubscription
+                          })
+                        }
+                      >
                         <Link to='#'
-                          onClick= { () =>
+                          onClick= { isUpdatingSubscription ? null : () =>
                             this.toggleSubscriptionStatus(subscription)
                           }
                         >
                           { subscription.status === SUBSCRIPTION_STATUSES.INACTIVE
                             ? 'Restart Subscription'
-                            : 'Pause Subscription'
+                            : 'Cancel Subscription'
                           }
                         </Link>
                       </TableCell>
@@ -179,16 +207,30 @@ class Subscriptions extends Component {
                 }) }
                 </TableBody>
             </Table>
+            <Button
+              variant='outlined'
+              className='addStudent'
+              type='submit'
+              onClick={ () => this.props.history.push(`/provider/subscriptions/new`) }
+            >
+              Add new student
+            </Button>
           </Fragment>
         }
-        <Button
-          variant='outlined'
-          className='addStudent'
-          type='submit'
-          onClick={ () => this.props.history.push(`/provider/subscriptions/new`) }
-        >
-          Add new student
-        </Button>
+
+        <div className='subscription-updateResult'>
+          { isUpdatingSubscription &&
+            <div
+              className='spinner'
+            />
+          }
+          <ResultMessage
+            submitSucceeded={ updateSucceeded }
+            submitFailed={ !updateSucceeded }
+            successMessage={ updateSucceeded ? 'Updated!' : '' }
+            error={ errorMessage ? errorMessage : '' }
+          />
+        </div>
       </Fragment>
   }
 }

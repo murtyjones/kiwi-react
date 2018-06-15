@@ -5,9 +5,9 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Link from 'react-router-dom/Link'
 import { Checkbox } from 'redux-form-material-ui'
 
-import { activeColor, inactiveColor, styles as sharedStyles } from '../About/sharedStyles'
+import { activeColor, inactiveColor, styles as sharedStyles } from '../../About/sharedStyles'
 
-import renderTextField from '../../common/renderTextField'
+import renderTextField from '../../../common/renderTextField'
 
 const contactFormStyles = {
   formStyle: {
@@ -22,7 +22,7 @@ const contactFormStyles = {
   }
 }
 
-class ContactForm extends PureComponent {
+class SubscribeForm extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -97,9 +97,9 @@ class ContactForm extends PureComponent {
 }
 
 
-export const ContactFormComponent = ContactForm
+export const ContactFormComponent = SubscribeForm
 
-ContactForm = reduxForm({
+SubscribeForm = reduxForm({
   // a unique name for the form
   form: 'contact',
   validate: values => {
@@ -112,6 +112,6 @@ ContactForm = reduxForm({
     }
     return errors
   }
-})(ContactForm)
+})(SubscribeForm)
 
-export default ContactForm
+export default SubscribeForm

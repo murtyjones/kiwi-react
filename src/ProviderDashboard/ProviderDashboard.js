@@ -1,31 +1,17 @@
-import React, { Component, PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import * as T from 'prop-types'
 import BluebirdPromise from 'bluebird'
 import withRouter from 'react-router-dom/withRouter'
-import Redirect from 'react-router-dom/Redirect'
-import Route from 'react-router-dom/Route'
 import { connect } from 'react-redux'
 import has from 'lodash/has'
-import ObjectID from 'bson-objectid'
 import { getProfileDetails, getManyProfiles, getManySubscriptions, closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } from '../actions'
-import ProviderMenu from './ProviderMenu'
 
-import Account from './Account/Account'
-import Billing from './Billing/Billing'
-import ChangePassword from './ChangePassword/ChangePassword'
-import Subscriptions from './Subscriptions/Subscriptions'
+import Toolbar from './Navigation/Toolbar'
+import MobileDrawer from './Navigation/MobileDrawer'
+import Drawer from './Navigation/Drawer'
+import { MENU_ITEMS } from './Navigation/DrawerContents'
 
 import './overrides.css'
-
-export const MENU_ITEMS = [
-  { label: 'My Account', section: 'account', component: Account },
-  { label: 'Billing Information', section: 'billing', component: Billing },
-  { label: 'My Password', section: 'reset-password', component: ChangePassword },
-  { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions }
-]
-
-const LeftSide = props => <div className='providerDashboard-left'>{ props.children }</div>
-const RightSide = props => <div className='providerDashboard-right'>{ props.children }</div>
 
 
 class ProviderDashboard extends PureComponent {
@@ -36,7 +22,10 @@ class ProviderDashboard extends PureComponent {
         acc = idx
       return acc
     }, 0)
-    this.state = { activeIndex }
+    this.state = {
+      activeIndex,
+      mobileOpen: false
+    }
   }
 
   static propTypes = {
@@ -85,26 +74,39 @@ class ProviderDashboard extends PureComponent {
     }
   }
 
+  handleDrawerToggle = () => {
+    this.setState({ mobileOpen: !this.state.mobileOpen })
+  }
+
   render() {
-    const { activeIndex } = this.state
+    const { activeIndex, mobileOpen } = this.state
     const activeMenuItemObject = MENU_ITEMS[activeIndex]
     const ActiveMenuItemComponent = activeMenuItemObject.component
 
     return (
-      <div className='providerDashboard-container'>
-        <div className='providerDashboard-header'>
-          <h2>Account Settings</h2>
-        </div>
-        <LeftSide>
-          <ProviderMenu
+      <Fragment>
+        <Toolbar
+          handleDrawerToggle={ this.handleDrawerToggle }
+        />
+        <div className='providerDashboard-container'>
+          <MobileDrawer
+            isOpen={ mobileOpen }
             activeIndex={ activeIndex }
             onSelect={ i => { this.setState({ activeIndex: i }) } }
+            handleDrawerToggle={ this.handleDrawerToggle }
           />
-        </LeftSide>
-        <RightSide>
-          <ActiveMenuItemComponent />
-        </RightSide>
-      </div>
+          <div className='providerDashboard-body'>
+            <Drawer
+              isOpen={ mobileOpen }
+              activeIndex={ activeIndex }
+              onSelect={ i => { this.setState({ activeIndex: i }) } }
+            />
+            <div className='providerDashboard-right'>
+              <ActiveMenuItemComponent />
+            </div>
+          </div>
+        </div>
+      </Fragment>
     )
   }
 }
@@ -129,6 +131,5 @@ const mapDispatchToProps = (dispatch) => {
     , getManyProfiles: params => dispatch(getManyProfiles(params))
   }
 }
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderDashboard))

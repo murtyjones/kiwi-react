@@ -5,39 +5,24 @@ import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import Button from '@material-ui/core/Button'
 import MenuItem from 'material-ui/MenuItem'
-import { Toggle, SelectField } from 'redux-form-material-ui'
 import get from 'lodash/get'
+import { injectStripe } from 'react-stripe-elements'
 
-import renderTextField from '../../common/renderTextField'
+import KiwiTextField from '../../common/form/KiwiTextField'
+import KiwiSelectField from '../../common/form/Select/KiwiSelectField'
+import CardField from '../../common/form/payment/CardField'
+
 import states from '../../utils/statesArray'
 
-import { CardElement, injectStripe } from 'react-stripe-elements'
-
-export const formName = 'billing'
-
-const activeUnderlineColor = '#513d80'
+export const formName = 'providerDashboard-billing'
 
 const styles = {
   form: {
-    width: 'calc(100% - 20px)' // 20px padding offset
-    , height: '100%'
+    width: '100%'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
-  },
-  result: {
-    paddingTop: '10px'
-  },
-  failure: { color: '#cc5040' },
-  success: { color: '#66cc52' },
-  underlineFocusStyle: { borderBottom: `2px ${activeUnderlineColor} solid` }
+  }
 }
-
-const CardSection = props => <CardElement style={ props.cardStyle } />
-
-const CardField = props =>
-  <div style={ props.containerStyle } >
-    <CardSection { ...props } />
-  </div>
 
 class BillingForm extends Component {
   constructor(props) {
@@ -99,40 +84,30 @@ class BillingForm extends Component {
         }
         <Field
           name='name'
-          hintText='Name on Card'
-          component={ renderTextField }
-          style={ { width: '100%' } }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          label='Name on Card'
+          component={ KiwiTextField }
         />
         <Field
           name='addressLine1'
-          hintText='Billing Address'
-          component={ renderTextField }
-          style={ { width: '100%' } }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          label='Billing Address'
+          component={ KiwiTextField }
         />
         <Field
           name='addressLine2'
-          hintText='Billing Address Line 2'
-          component={ renderTextField }
-          style={ { width: '100%' } }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          label='Billing Address Line 2'
+          component={ KiwiTextField }
         />
         <Field
           name='addressCity'
-          hintText='City'
-          component={ renderTextField }
-          style={ { width: '100%' } }
-          underlineFocusStyle={ styles.underlineFocusStyle }
+          label='City'
+          component={ KiwiTextField }
         />
         <Field
           name='addressState'
-          component={ SelectField }
-          floatingLabelText='State'
-          style={ { width: '100%' } }
-        >
-          { states.map(e => <MenuItem key={ e } value={ e } primaryText={ e } />) }
-        </Field>
+          component={ KiwiSelectField }
+          label='State'
+          options={ states }
+        />
         { !!last4 && !changingCard
           ?
             <div className='changeCardsContainer'>
@@ -151,9 +126,6 @@ class BillingForm extends Component {
                 margin: '10px 0',
                 color: 'white'
               } }
-              cardStyle={ { base: {
-                fontSize: '16px'
-              } } }
             />
 
         }

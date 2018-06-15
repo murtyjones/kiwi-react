@@ -182,10 +182,11 @@ describe('Auth Actions', () => {
 
   describe('refreshToken', () => {
     it('should dispatch once with expected args', async () => {
-      await store.dispatch(refreshToken())
+      const payload = { not: 'empty' }
+      await store.dispatch(refreshToken(payload))
       const actions = store.getActions()
       expect(actions.length).toEqual(1)
-      expect(actions[0]).toEqual({ type: ACTIONS.TOKEN_REFRESH, payload: {} })
+      expect(actions[0]).toEqual({ type: ACTIONS.TOKEN_REFRESH, payload })
     })
 
   })

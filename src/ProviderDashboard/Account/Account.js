@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
 
 import AccountForm from './AccountForm'
-import { updateProfile, resendVerificationEmail } from '../../actions'
+import { putProfile, resendVerificationEmail } from '../../actions'
 
 import './overrides.css'
 
@@ -15,16 +16,16 @@ class Account extends Component {
 
   static propTypes = {
     initialValues: T.object.isRequired
-    , updateProfile: T.func.isRequired
+    , putProfile: T.func.isRequired
   }
 
   handleSubmit = async v => {
-    const { userId, updateProfile } = this.props
+    const { userId, putProfile } = this.props
     const params = {
       ...v,
       _id: userId
     }
-    return updateProfile(params)
+    return putProfile(params)
   }
 
   handleVerificationEmailClick = () => {
@@ -34,7 +35,6 @@ class Account extends Component {
 
   render() {
     const { profile } = this.props
-
     return (
       <Fragment>
         <h2 className='providerDashboard-sectionHeader'>
@@ -46,7 +46,6 @@ class Account extends Component {
           onSubmit={ this.handleSubmit }
           onVerificationEmailClick={ this.handleVerificationEmailClick }
         />
-
       </Fragment>
     )
   }
@@ -63,7 +62,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProfile: params => dispatch(updateProfile(params))
+    putProfile: params => dispatch(putProfile(params))
     , resendVerificationEmail: params => dispatch(resendVerificationEmail(params))
   }
 }

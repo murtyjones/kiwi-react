@@ -36,6 +36,7 @@ export const deleteSubscription = (params) => {
       })
       .catch(e => {
         dispatch({ type: ACTIONS.DELETE_SUBSCRIPTION_FAILURE, payload: e})
+        throw e
       })
   }
 }
@@ -54,6 +55,7 @@ export const getSubscription = (params) => {
       })
       .catch(e => {
         dispatch({ type: ACTIONS.GET_SUBSCRIPTION_FAILURE, payload: e })
+        throw e
       })
   }
 }
@@ -73,6 +75,7 @@ export const putSubscription = (params) => {
       })
       .catch(e => {
         dispatch({ type: ACTIONS.PUT_SUBSCRIPTION_FAILURE, payload: e })
+        throw e
       })
   }
 }
@@ -92,6 +95,7 @@ export const postSubscription = (params) => {
       })
       .catch(e => {
         dispatch({ type: ACTIONS.POST_SUBSCRIPTION_FAILURE, payload: e })
+        throw e
       })
   }
 }

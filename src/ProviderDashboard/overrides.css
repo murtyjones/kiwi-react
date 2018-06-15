@@ -1,22 +1,11 @@
 .providerDashboard-container {
-    background: #FFFFFF;
     width: 100%;
     max-width: 896px;
     min-width: 768px;
     margin: 0 auto;
+    padding-top: 20px;
     min-height: 100vh;
 }
-
-.providerDashboard-header {
-    padding: 10px 20px;
-    border-width: 0 0 1px 0;
-    border-color: #EEEEEE;
-    border-style: solid;
-    margin-bottom: 25px;
-}
-
-.providerDashboard-header > h2 { margin: 0; }
-.providerDashboard-componentHeader > h3 { margin: 0 0 10px 0; }
 
 
 div[role='menu'] {
@@ -24,28 +13,25 @@ div[role='menu'] {
 }
 
 .providerDashboard-sectionHeader {
-    margin: 0;
+    margin: 15px 0;
 }
 
-.providerDashboard-left {
-    display: inline-block;
-    width: 33%;
-    min-width: 256px;
-    min-height: 100vh;
-    vertical-align:top;
-}
-
-.providerDashboard-right {
-    padding: 0 10px;
-    box-sizing: border-box;
-    display: inline-block;
-    width: calc(100% - 33%);
-    max-width: calc(100% - 256px);
-    min-height: 100vh;
-}
 
 .providerDashboard-componentHeader {
     border-width: 0 0 1px 0;
     border-color: #EEEEEE;
     border-style: solid;
+}
+
+.providerDashboard-body {
+    display: flex;
+}
+
+.providerDashboard-right {
+    background-color: #FFFFFF;
+    padding: 0 10px;
+    box-sizing: border-box;
+    position: relative;
+    min-height: 100vh;
+    flex-grow: 1;
 }

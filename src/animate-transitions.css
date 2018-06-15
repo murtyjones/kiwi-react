@@ -1,22 +1,25 @@
-.slideRight-enter {
-     animation-name: slideInRight;
-     animation-duration: 400ms;
- }
-
-.slideRight-enter.slideRight-enter-active {
+.slideInOut-enter {
     animation-name: slideInRight;
     animation-duration: 400ms;
 }
 
-.slideRight-exit {
-    animation-name: slideOutRight;
+.slideInOut-enter.slideInOut-enter-active {
+    animation-name: slideInRight;
     animation-duration: 400ms;
 }
 
-.slideRight-exit.slideRight-exit-active {
-    animation-name: slideOutRight;
+.slideInOut-exit {
+    animation-name: slideOutLeft;
     animation-duration: 400ms;
 }
+
+.slideInOut-exit.slideInOut-exit-active {
+    animation-name: slideOutLeft;
+    animation-duration: 400ms;
+}
+
+
+
 
 
 

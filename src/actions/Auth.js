@@ -59,9 +59,9 @@ export const signout = () => {
   }
 }
 
-export const refreshToken = () => {
+export const refreshToken = (payload) => {
   return async dispatch => {
-    dispatch({ type: ACTIONS.TOKEN_REFRESH, payload: {} })
+    dispatch({ type: ACTIONS.TOKEN_REFRESH, payload })
   }
 }
 
