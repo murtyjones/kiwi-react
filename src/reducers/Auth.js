@@ -1,3 +1,4 @@
+import get from 'lodash/get'
 import { ACTIONS } from '../constants'
 import AuthService from '../utils/AuthService'
 
@@ -20,8 +21,8 @@ function authReducer(state = initialState, action) {
       const idToken = action.payload.idToken
       const decodedToken = AuthService.decodeToken(idToken)
       AuthService.setToken(idToken)
-      AuthService.setTokenExp(decodedToken.exp)
-      AuthService.setTokenIat(decodedToken.iat)
+      AuthService.setTokenExp(get(decodedToken, 'exp', undefined))
+      AuthService.setTokenIat(get(decodedToken, 'iat', undefined))
       AuthService.setIsAdmin(decodedToken)
       AuthService.setIsProvider(decodedToken)
       AuthService.setUserId(decodedToken)

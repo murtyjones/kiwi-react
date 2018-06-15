@@ -29,6 +29,7 @@ describe('Auth Reducer', () => {
         isLoggedIn: true
         , token: mockAuthService.getToken()
         , exp: mockAuthService.getTokenExp()
+        , iat: mockAuthService.getTokenIat()
         , isAdmin: mockAuthService.getIsAdmin()
         , isProvider: mockAuthService.getIsProvider()
         , userId: mockAuthService.getUserId()
@@ -43,12 +44,6 @@ describe('Auth Reducer', () => {
       const r = authReducer(initialState, action)
       expect(mockAuthService.decodeToken.mock.calls.length).toEqual(1)
       expect(mockAuthService.decodeToken.mock.calls[0][0]).toEqual(action.payload.idToken)
-    })
-
-    it('should call decodeTokenExp once with expected params', () => {
-      const r = authReducer(initialState, action)
-      expect(mockAuthService.decodeTokenExp.mock.calls.length).toEqual(1)
-      expect(mockAuthService.decodeTokenExp.mock.calls[0][0]).toEqual(action.payload.idToken)
     })
 
     it('should call setToken once with expected params', () => {
@@ -107,6 +102,7 @@ describe('Auth Reducer', () => {
         isLoggedIn: false
         , token: null
         , exp: null
+        , iat: null
         , isAdmin: false
         , isProvider: false
         , userId: null
