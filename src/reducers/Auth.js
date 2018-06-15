@@ -5,6 +5,7 @@ const initialState = {
   isLoggedIn: AuthService.isAuthenticated()
   , token: AuthService.getToken()
   , exp: AuthService.getTokenExp()
+  , iat: AuthService.getTokenIat()
   , isAdmin: AuthService.getIsAdmin()
   , isProvider: AuthService.getIsProvider()
   , userId: AuthService.getUserId()
@@ -18,9 +19,9 @@ function authReducer(state = initialState, action) {
     case ACTIONS.LOGIN_SUCCESS: {
       const idToken = action.payload.idToken
       const decodedToken = AuthService.decodeToken(idToken)
-      const decodedExp = AuthService.decodeTokenExp(idToken)
       AuthService.setToken(idToken)
-      AuthService.setTokenExp(decodedExp)
+      AuthService.setTokenExp(decodedToken.exp)
+      AuthService.setTokenIat(decodedToken.iat)
       AuthService.setIsAdmin(decodedToken)
       AuthService.setIsProvider(decodedToken)
       AuthService.setUserId(decodedToken)
@@ -30,6 +31,7 @@ function authReducer(state = initialState, action) {
         isLoggedIn: true
         , token: AuthService.getToken()
         , exp: AuthService.getTokenExp()
+        , iat: AuthService.getTokenIat()
         , isAdmin: AuthService.getIsAdmin()
         , isProvider: AuthService.getIsProvider()
         , userId: AuthService.getUserId()
@@ -43,6 +45,7 @@ function authReducer(state = initialState, action) {
         isLoggedIn: false
         , token: null
         , exp: null
+        , iat: null
         , isAdmin: false
         , isProvider: false
         , userId: null

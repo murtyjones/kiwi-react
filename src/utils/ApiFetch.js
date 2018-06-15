@@ -1,10 +1,5 @@
 import BluebirdPromise from 'bluebird'
-import { isTokenNearExpiration } from './timeUtils'
-import { refreshToken } from '../actions/Auth'
 import store from '../Store'
-import AuthService from './AuthService'
-
-const authService = new AuthService()
 
 
 const setFetchOptions = (options, body, headers) => {
@@ -29,33 +24,14 @@ const ApiFetch = (url, options = {}) => {
       , ...headers
     }
 
-    // disable refresh stuff
-    // let exp = AuthService.getTokenExp() // static method
-    // const needsRefresh = isTokenNearExpiration(exp)
-    // if(needsRefresh) { // need a new token before sending request
-    //   console.log('Refreshing user token.')
-    //   return authService.refreshToken(AuthService.getRefreshToken()).then(response => {
-    //     const idToken = response.idToken
-    //     _headers.Authorization = `Bearer ${idToken}`
-    //     const tokenExp = AuthService.decodeTokenExp(idToken)
-    //     AuthService.setToken(idToken)
-    //     AuthService.setTokenExp(tokenExp)
-    //     store.dispatch(refreshToken()) // store the new token in global state
-    //     return setFetchOptions(options, body, _headers)
-    //   }).then(options => {
-    //     return fetch(url, options)
-    //   })
-    // } else { // use valid token in global state
-      if(store) {
-        let state = store.getState()
-        if(state.auth && state.auth.token) {
-          _headers.Authorization = state.auth.token
-        }
+    if(store) {
+      let state = store.getState()
+      if(state.auth && state.auth.token) {
+        _headers.Authorization = state.auth.token
       }
-      options = setFetchOptions(options, body, _headers)
-      return fetch(url, options)
-    // }
-
+    }
+    options = setFetchOptions(options, body, _headers)
+    return fetch(url, options)
   }).then(response => {
     return response.json().then(body => {
       if(response.status >= 200 && response.status < 300) return body

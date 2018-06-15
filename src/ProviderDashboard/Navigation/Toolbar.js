@@ -56,7 +56,6 @@ class Toolbar extends Component {
       <AppBar className={ classes.appBar }>
         <MuiToolbar className={ classes.toolbar }>
           <IconButton
-            color={ mainColor }
             aria-label='open drawer'
             onClick={ this.props.handleDrawerToggle }
             className={ classes.navIconHide }
