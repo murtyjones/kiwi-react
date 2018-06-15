@@ -9,6 +9,6 @@ const options = {
   options.gaOptions.cookieDomain = 'none'
 // }
 
-ReactGA.initialize('UA-120446838-1', options)
+ReactGA.initialize('UA-120446838-4', options)
 
 export default ReactGA
