@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import withRouter from 'react-router-dom/withRouter'
 import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import AppBar from '@material-ui/core/AppBar'
@@ -74,7 +75,7 @@ class Toolbar extends Component {
               root: classes.exploreTechIsland
             }}
             variant='outlined'
-            onClick={ null }
+            onClick={ () => this.props.history.push('/lessons') }
           >
             Explore Tech Island!
           </Button>
@@ -89,4 +90,4 @@ Toolbar.propTypes = {
   theme: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, { withTheme: true })(Toolbar)
+export default withRouter(withStyles(styles, { withTheme: true })(Toolbar))

@@ -64,6 +64,10 @@ class Landing extends Component {
         component: Home
       },
       {
+        path: '/onboarding', // prevents auto-redirect
+        component: Home
+      },
+      {
         path: '/about',
         component: About
       }

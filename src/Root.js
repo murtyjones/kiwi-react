@@ -186,6 +186,7 @@ class App extends Component {
                   <Landing />
                 )
               )} />
+              <PlainRoute path='/onboarding' exact component={ Landing } />
               <PlainRoute path='/about' exact component={ Landing } />
               <PlainRoute path='/login' exact component={ LoginOrRegister } />
               <PlainRoute path='/register' exact component={ LoginOrRegister } />
