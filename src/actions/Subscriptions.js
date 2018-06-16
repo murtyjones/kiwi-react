@@ -3,7 +3,7 @@ import config from 'config'
 import queryString from 'query-string'
 
 import ApiFetch from '../utils/ApiFetch'
-
+import { getNewToken } from '../utils/refreshToken'
 
 export const getManySubscriptions = (params) => {
   const append = queryString.stringify(params)
@@ -66,17 +66,18 @@ export const putSubscription = (params) => {
     method: 'PUT',
     body: params
   }
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: ACTIONS.PUT_SUBSCRIPTION_REQUEST })
-    return ApiFetch(`${config.api}/subscriptions/${id}`, options)
-      .then(res => {
-        dispatch({ type: ACTIONS.PUT_SUBSCRIPTION_SUCCESS, payload: res})
-        return res
-      })
-      .catch(e => {
-        dispatch({ type: ACTIONS.PUT_SUBSCRIPTION_FAILURE, payload: e })
-        throw e
-      })
+    try {
+      const res = await ApiFetch(`${config.api}/subscriptions/${id}`, options)
+      dispatch({ type: ACTIONS.PUT_SUBSCRIPTION_SUCCESS, payload: res })
+      // get latest permissions
+      await getNewToken()
+      return res
+    } catch (e) {
+      dispatch({ type: ACTIONS.PUT_SUBSCRIPTION_FAILURE, payload: e })
+      throw e
+    }
   }
 }
 

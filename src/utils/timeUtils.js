@@ -29,7 +29,7 @@ export const sortByOldestCreated = itemArray =>
   )
 
 export const tokenNeedsRefresh = (exp, iat) => {
-  const issuedOverAnHourAgo = moment.unix(iat).add(30, 'second').isBefore()
+  const issuedOverAnHourAgo = moment.unix(iat).add(60, 'minutes').isBefore()
   const isNotExpired = moment.unix(exp).isAfter()
   return issuedOverAnHourAgo && isNotExpired
 }

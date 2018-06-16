@@ -159,6 +159,12 @@ export default class AuthService {
     return window.localStorage.setItem('isProvider', isProvider)
   }
 
+  static setSubscription(decodedToken) {
+    const app_metadata = get(decodedToken, `${config.auth.namespace}/app_metadata`) || {}
+    const subscription = app_metadata.subscription || {}
+    return window.localStorage.setItem('subscription', JSON.stringify(subscription))
+  }
+
   static getIsAdmin() {
     let isAdmin = window.localStorage.getItem('isAdmin')
     isAdmin = JSON.parse(isAdmin) === true
@@ -169,6 +175,12 @@ export default class AuthService {
     let isProvider = window.localStorage.getItem('isProvider')
     isProvider = JSON.parse(isProvider) === true
     return isProvider
+  }
+
+  static getSubscription() {
+    let subscription = window.localStorage.getItem('subscription')
+    subscription = JSON.parse(subscription)
+    return subscription
   }
 
   static setTokenExp(exp) {

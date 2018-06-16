@@ -10,7 +10,7 @@ import CreditCard from '@material-ui/icons/CreditCard'
 import LockOutline from '@material-ui/icons/LockOutline'
 import RecentActors from '@material-ui/icons/RecentActors'
 import People from '@material-ui/icons/People'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@material-ui/core/styles/withStyles'
 import cns from 'classnames'
 
 import Billing from '../Billing/Billing'

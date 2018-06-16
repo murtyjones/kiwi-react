@@ -9,6 +9,8 @@ import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
 
+import './utils/refreshToken'
+import { isSubscriptionValid } from './utils/permissionUtils'
 
 import AuthService from './utils/AuthService'
 import { closeSideNav, openSideNav, openModal, closeModal, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, signout } from './actions'
@@ -23,6 +25,7 @@ Modal.setAppElement(document.getElementById('app'))
  * Routing Components
  */
 import AuthenticatedRoute from './Routes/AuthenticatedRoute'
+import SubscriptionRoute from './Routes/SubscriptionRoute'
 import AuthorizedRoute from './Routes/AuthorizedRoute'
 import PlainRoute from './Routes/PlainRoute'
 
@@ -55,6 +58,7 @@ import StandaloneEditor from './StandaloneEditor/StandaloneEditor'
 import ProviderDashboard from './ProviderDashboard/ProviderDashboard'
 import EmailVerification from './EmailVerification/EmailVerification'
 import BetaLessons from './BetaLessons/BetaLessons'
+import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
 
 
 let baseAppStyle = {
@@ -123,9 +127,9 @@ class App extends Component {
   }
 
   render() {
-    const { modal, isLoggedIn, isAdmin, isProvider, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, topBarFocused, primaryColor, secondaryColor, textColor } = this.props
+    const { modal, isLoggedIn, isAdmin, isProvider, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, topBarFocused, primaryColor, secondaryColor, textColor, subscription } = this.props
     const topBarWidthString = `${topBarHeight}px`
-    const extras = { isLoggedIn, isAdmin, isProvider, setTopBarTitle, setGlobalColors, primaryColor, secondaryColor, textColor, toggleTopBarTitleIsDisabled }
+    const extras = { isLoggedIn, subscription, isAdmin, isProvider, setTopBarTitle, setGlobalColors, primaryColor, secondaryColor, textColor, toggleTopBarTitleIsDisabled }
 
     return (
       <div>
@@ -199,6 +203,8 @@ class App extends Component {
               {/* ----------------- */}
               {/* Logged in routes  */}
               {/* ----------------- */}
+              <AuthenticatedRoute path='/invalid-subscription' exact
+                                  component={ InvalidSubscription } { ...extras } />
               <AuthenticatedRoute path='/welcome' exact component={ Welcome } { ...extras } />
               <AuthenticatedRoute path='/projects' exact component={ UserProjects }
                                   title='Projects' { ...extras } />
@@ -206,8 +212,8 @@ class App extends Component {
                                   title='name me!' topBarTitleDisabled={ false } { ...extras } />
               <AuthenticatedRoute path='/project/:id' exact component={ UserProject }
                                   topBarTitleDisabled={ false } { ...extras } />
-              <AuthenticatedRoute path='/lessons' exact component={ Lessons }
-                                  title='Lessons' { ...extras } />
+              <SubscriptionRoute path='/lessons' exact component={ Lessons }
+                                 title='Lessons' { ...extras } />
               <AuthenticatedRoute path='/lessons/beta' exact component={ BetaLessons }
                                   title='Lessons (Beta)' { ...extras } />
               <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...extras } />
@@ -252,7 +258,7 @@ export const AppComponent = App
 
 const mapStateToProps = (state) => {
   const {
-    auth: { isLoggedIn, isAdmin, isProvider },
+    auth: { isLoggedIn, isAdmin, isProvider, subscription },
     sideNav: { sideNavWidth, isSideNavOpen },
     topBar: { topBarHeight, isTopBarOpen, topBarTitle, topBarTitleDisabled, topBarFocused },
     globalColors: { primaryColor, secondaryColor, textColor },
@@ -261,6 +267,7 @@ const mapStateToProps = (state) => {
 
   return {
     isLoggedIn
+    , subscription
     , isAdmin
     , isProvider
     , isSideNavOpen
