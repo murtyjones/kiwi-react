@@ -5,7 +5,7 @@ import update from 'immutability-helper'
 import isEmpty from 'lodash/isEmpty'
 
 
-import renderTextField from '../../../common/renderTextField'
+import KiwiTextField from '../../../common/form/KiwiTextField'
 import RichTextEditor from '../../../common/RichTextEditor'
 import CodeEditor from '../../../CodeEditor/CodeEditor'
 import {CODE_CONCEPTS, LESSON_SLIDE_TYPES} from '../../../constants'
@@ -170,23 +170,23 @@ class FullPageCode extends Component {
           <Fragment>
             <Field
               name={ `${slideRef}.successHeadline` }
-              hintText='Success Headline'
-              component={ renderTextField }
+              label='Success Headline'
+              component={ KiwiTextField }
             />
             <Field
               name={ `${slideRef}.successExplanation` }
-              hintText='Success Explanation'
-              component={ renderTextField }
+              label='Success Explanation'
+              component={ KiwiTextField }
             />
             <Field
               name={ `${slideRef}.failureHeadline` }
-              hintText='Failure Headline'
-              component={ renderTextField }
+              label='Failure Headline'
+              component={ KiwiTextField }
             />
             <Field
               name={ `${slideRef}.failureExplanation` }
-              hintText='Failure Explanation'
-              component={ renderTextField }
+              label='Failure Explanation'
+              component={ KiwiTextField }
             />
             <SuccessCriteria
               slideRef={ slideRef }

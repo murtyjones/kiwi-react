@@ -1,35 +1,21 @@
 import React, { Fragment } from 'react'
 import { Field } from 'redux-form'
-import Divider from 'material-ui/Divider'
-import RaisedButton from 'material-ui/RaisedButton'
-import MenuItem from 'material-ui/MenuItem'
+import Button from '@material-ui/core/Button'
 
-import Delete from 'material-ui-icons/Delete'
-import { TextField } from 'redux-form-material-ui'
+import Delete from '@material-ui/icons/Delete'
 
 
-import { CODE_CONCEPTS, COMPARISON_TYPES } from '../../../constants'
-import renderTextField from '../../../common/renderTextField'
-import renderSelectField from '../../../common/renderSelectField'
-
-const outputCriteriaOptions = [
-  { header: 'Control Flow' }
-  , { label: 'any loop', value: CODE_CONCEPTS.LOOP }
-  , { label: 'for loop', value: CODE_CONCEPTS.FOR_LOOP }
-  , { label: 'while loop', value: CODE_CONCEPTS.WHILE_LOOP }
-  , { header: 'Conditional' }
-  , { label: 'if', value: CODE_CONCEPTS.IF }
-  , { label: 'elif', value: CODE_CONCEPTS.ELIF }
-  , { label: 'else', value: CODE_CONCEPTS.ELSE }
-]
+import { COMPARISON_TYPES } from '../../../constants'
+import KiwiTextField from '../../../common/form/KiwiTextField'
+import KiwiSelectField from '../../../common/form/Select/KiwiSelectField'
 
 const occuranceTypeOptions = [
-  { header: 'Preset' }
+  { label: 'Preset', value: '', disabled: true }
   , { label: 'Never', value: COMPARISON_TYPES.NEVER }
   , { label: 'At least once', value: COMPARISON_TYPES.AT_LEAST_ONCE }
   , { label: 'Exactly once', value: COMPARISON_TYPES.EXACTLY_ONCE }
   , { label: 'Once or less', value: COMPARISON_TYPES.ONCE_MAX }
-  , { header: 'Custom' }
+  , { label: 'Custom', value: '', disabled: true }
   , { label: 'At least:', value: COMPARISON_TYPES.AT_LEAST }
   , { label: 'Exactly:', value: COMPARISON_TYPES.EXACTLY }
   , { label: 'No more than:', value: COMPARISON_TYPES.NO_MORE_THAN }
@@ -52,14 +38,11 @@ const styles = {
     , display: 'flex'
     , flexDirection: 'column'
   },
-  addButton: {
-    marginBottom: '10px'
-  },
+  addButton: { marginBottom: '10px' },
   deleteButton: {
     position: 'absolute'
-    , right: '15px'
-    , top: '50%'
-    , marginTop: '-15px'
+    , right: '10px'
+    , top: '10px'
     , cursor: 'pointer'
   },
   criterion: {
@@ -67,7 +50,7 @@ const styles = {
     , position: 'relative' // needed for abs children
     , border: '1px solid #CCCCCC'
     , borderRadius: '3px'
-    , padding: '15px'
+    , padding: '25px 15px 15px 15px'
     , marginBottom: '15px'
   },
   row1: {},
@@ -79,8 +62,7 @@ const styles = {
     , verticalAlign: 'top'
   },
   textToFindContainer: {
-    width: '50%'
-    , display: 'inline-block'
+    display: 'inline-block'
     , marginRight: '10px'
     , verticalAlign: 'top'
   },
@@ -110,12 +92,6 @@ const DeleteButton = ({ onClick }) =>
     />
   </div>
 
-const MenuItemHeader = ({ headerText }) =>
-  <Fragment>
-    <h5 style={ styles.labelHeader }>{ headerText }</h5>
-    <Divider />
-  </Fragment>
-
 
 const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
   <div style={ styles.criterion }>
@@ -123,55 +99,26 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
       <Field
         name={ `${eachSlideRef}.textToFind` }
         label='Text' // maintains spacing
-        labelStyle={ styles.label }
-        component={ renderTextField }
-        style={ { height: '35px', width: '100%' } }
+        component={ KiwiTextField }
         inputStyle={ { marginTop: '7px' } }
-        underlineStyle={ { bottom: '-5px' } }
-        containerStyle={ styles.textToFindContainer }
+        style={ styles.textToFindContainer }
       />
       <Field
         name={ `${eachSlideRef}.occuranceType` }
         hintText='Select One'
         label='Should Appear'
-        labelStyle={ styles.label }
-        component={ renderSelectField }
-        style={ { width: '100%' } }
-        containerStyle={ styles.occuranceTypeContainer }
-      >
-        { occuranceTypeOptions.map((eachOption, i) =>
-          eachOption.header
-            ? (
-              <MenuItemHeader
-                key={ i }
-                headerText={ eachOption.header }
-              />
-            ) : (
-              <MenuItem
-                key={ i }
-                primaryText={ eachOption.label }
-                value={ eachOption.value }
-              />
-            )
-        ) }
-      </Field>
+        component={ KiwiSelectField }
+        options={ occuranceTypeOptions }
+      />
       { isCustom &&
         <Fragment>
           <Field
             name={ `${eachSlideRef}.numberOfTimes` }
-            label='&nbsp;' // maintains spacing
-            labelStyle={ styles.label }
-            component={ renderTextField }
+            label='Number of Times' // maintains spacing
+            component={ KiwiTextField }
             parse={ v => Number(v) } // convert string to number
-            style={ {
-              height: '35px', width: '100%'
-            } }
-            inputStyle={ { marginTop: '7px', textAlign: 'center' } }
-            underlineStyle={ { bottom: '-5px' } }
-            containerStyle={ styles.numTimesContainer }
             type='number'
           />
-          <span style={ { position: 'relative', top: '29px' } }>times</span>
         </Fragment>
       }
       <DeleteButton onClick={ onDeleteCrition } />
@@ -181,10 +128,8 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
         name={ `${eachSlideRef}.failureHint` }
         label='Failure Hint'
         labelStyle={ styles.label }
-        component={ renderTextField }
+        component={ KiwiTextField }
         inputStyle={ { marginTop: 0 } }
-        style={ { width: '100%', height: '40px' } }
-        containerStyle={ { display: 'block', height: '40px' } }
       />
     </div>
   </div>
@@ -192,9 +137,9 @@ const Criterion = ({ eachSlideRef, slideValues, isCustom, onDeleteCrition }) =>
 
 const OutputSuccessCriteria = ({ fields, slideValues }) =>
   <div style={ styles.container }>
-    <RaisedButton style={ styles.addButton } onClick={ () => fields.push({}) }>
+    <Button variant='outlined' style={ styles.addButton } onClick={ () => fields.push({}) }>
       Add Output Success Criterion
-    </RaisedButton>
+    </Button>
     <Fragment>
       { fields.map((eachSlideRef, i) => {
         return (

@@ -1,43 +1,40 @@
 import React, { Fragment } from 'react'
 import { Field } from 'redux-form'
-import RaisedButton from 'material-ui/RaisedButton'
-import Divider from 'material-ui/Divider'
-import MenuItem from 'material-ui/MenuItem'
+import Button from '@material-ui/core/Button'
 
-
-import Delete from 'material-ui-icons/Delete'
+import Delete from '@material-ui/icons/Delete'
 import { TextField } from 'redux-form-material-ui'
 
 
 import { CODE_CONCEPTS, COMPARISON_TYPES } from '../../../constants'
-import renderTextField from '../../../common/renderTextField'
-import renderSelectField from '../../../common/renderSelectField'
+import KiwiTextField from '../../../common/form/KiwiTextField'
+import KiwiSelectField from '../../../common/form/Select/KiwiSelectField'
 
 const inputCriteriaOptions = [
-  { header: 'I/O' }
+  { label: 'I/O', value: '', disabled: true }
   , { label: 'print', value: CODE_CONCEPTS.PRINT }
   , { label: 'multi-line quote block', value: CODE_CONCEPTS.MULTI_LINE_QUOTE }
   , { label: 'input', value: CODE_CONCEPTS.INPUT }
   , { label: 'Variable', value: CODE_CONCEPTS.VARIABLE }
-  , { header: 'Control Flow' }
+  , { label: 'Control Flow', value: '', disabled: true }
   , { label: 'any loop', value: CODE_CONCEPTS.LOOP }
   , { label: 'for loop', value: CODE_CONCEPTS.FOR_LOOP }
   , { label: 'while loop', value: CODE_CONCEPTS.WHILE_LOOP }
-  , { header: 'Conditional' }
+  , { label: 'Conditional', value: '', disabled: true }
   , { label: 'if', value: CODE_CONCEPTS.IF }
   , { label: 'elif', value: CODE_CONCEPTS.ELIF }
   , { label: 'else', value: CODE_CONCEPTS.ELSE }
-  , { header: 'Custom' }
+  , { label: 'Custom', value: '', disabled: true }
   , { label: 'User Global Variable', value: CODE_CONCEPTS.USER_GLOBAL_VARIABLE }
 ]
 
 const occuranceTypeOptions = [
-  { header: 'Preset' }
+  { label: 'Preset', value: '', disabled: true }
   , { label: 'Never', value: COMPARISON_TYPES.NEVER }
   , { label: 'At least once', value: COMPARISON_TYPES.AT_LEAST_ONCE }
   , { label: 'Exactly once', value: COMPARISON_TYPES.EXACTLY_ONCE }
   , { label: 'No more than once', value: COMPARISON_TYPES.ONCE_MAX }
-  , { header: 'Custom' }
+  , { label: 'Custom', value: '', disabled: true }
   , { label: 'At least:', value: COMPARISON_TYPES.AT_LEAST }
   , { label: 'Exactly:', value: COMPARISON_TYPES.EXACTLY }
   , { label: 'No more than:', value: COMPARISON_TYPES.NO_MORE_THAN }
@@ -61,14 +58,11 @@ const styles = {
     , display: 'flex'
     , flexDirection: 'column'
   },
-  addButton: {
-    marginBottom: '10px'
-  },
+  addButton: { marginBottom: '10px' },
   deleteButton: {
     position: 'absolute'
-    , right: '15px'
-    , top: '50%'
-    , marginTop: '-15px'
+    , right: '10px'
+    , top: '10px'
     , cursor: 'pointer'
   },
   criterion: {
@@ -76,7 +70,7 @@ const styles = {
     , position: 'relative' // needed for abs children
     , border: '1px solid #CCCCCC'
     , borderRadius: '3px'
-    , padding: '15px'
+    , padding: '25px 15px 15px 15px'
     , marginBottom: '15px'
   },
   row1: {},
@@ -108,13 +102,7 @@ const styles = {
     margin: '10px 24px'
     , color: '#CCCCCC'
     , textTransform: 'uppercase'
-  },
-  label: {
-    display: 'block'
-    , textTransform: 'uppercase'
-    , color: '#CCCCCC'
-    , fontSize: '8pt'
-  },
+  }
 }
 
 
@@ -126,49 +114,22 @@ const DeleteButton = ({ onClick }) =>
   </div>
 
 
-const MenuItemHeader = ({ headerText }) =>
-  <Fragment>
-    <h5 style={ styles.labelHeader }>{ headerText }</h5>
-    <Divider />
-  </Fragment>
-
-
 const CodingConceptField = ({ eachSlideRef }) =>
   <Field
     name={ `${eachSlideRef}.codingConcept` }
     hintText='Select One'
     label='Coding Concept'
-    labelStyle={ styles.label }
-    component={ renderSelectField }
+    component={ KiwiSelectField }
     style={ { width: '100%' } }
     containerStyle={ styles.codingConceptContainer }
-  >
-    { inputCriteriaOptions.map((eachOption, i) =>
-      eachOption.header
-        ? (
-          <MenuItemHeader
-            key={ i }
-            headerText={ eachOption.header }
-          />
-        ) : (
-          <MenuItem
-            key={ i }
-            primaryText={ eachOption.label }
-            value={ eachOption.value }
-          />
-        )
-    ) }
-  </Field>
+    options={ inputCriteriaOptions }
+  />
 
 const FailureHint = ({ eachSlideRef }) =>
   <Field
     name={ `${eachSlideRef}.failureHint` }
     label='Failure Hint'
-    labelStyle={ styles.label }
-    component={ renderTextField }
-    inputStyle={ { marginTop: 0 } }
-    style={ { width: '100%', height: '40px' } }
-    containerStyle={ { display: 'block', height: '40px' } }
+    component={ KiwiTextField }
   />
 
 
@@ -180,42 +141,20 @@ const Criterion = ({ eachSlideRef, slideValues, isCustomOccurance, onDeleteCriti
         name={ `${eachSlideRef}.occuranceType` }
         hintText='Select One'
         label='Should Appear'
-        labelStyle={ styles.label }
-        component={ renderSelectField }
+        component={ KiwiSelectField }
         style={ { width: '100%' } }
         containerStyle={ styles.occuranceTypeContainer }
-      >
-        { occuranceTypeOptions.map((eachOption, i) =>
-          eachOption.header
-            ? (
-              <MenuItemHeader
-                key={ i }
-                headerText={ eachOption.header }
-              />
-            ) : (
-              <MenuItem
-                key={ i }
-                primaryText={ eachOption.label }
-                value={ eachOption.value }
-              />
-            )
-        ) }
-      </Field>
+        options={ occuranceTypeOptions }
+      />
       { isCustomOccurance &&
         <Fragment>
           <Field
             name={ `${eachSlideRef}.numberOfTimes` }
-            label='&nbsp;' // maintains spacing
-            labelStyle={ styles.label }
-            component={ renderTextField }
+            label='Number of Times'
+            component={ KiwiTextField }
             parse={ v => Number(v) } // convert string to number
             type='number'
-            style={ { height: '35px', width: '100%' } }
-            inputStyle={ { marginTop: '7px', textAlign: 'center' } }
-            underlineStyle={ { bottom: '-5px' } }
-            containerStyle={ styles.numTimesContainer }
           />
-          <span style={ { position: 'relative', bottom: '25px' } }>times</span>
         </Fragment>
       }
       <DeleteButton onClick={ onDeleteCrition } />
@@ -234,19 +173,11 @@ const UserDefinedVariable = ({ eachSlideRef, variableOptions, onDeleteCrition })
         name={ `${eachSlideRef}.variableId` }
         hintText='Select One'
         label='Variable'
-        labelStyle={ styles.label }
-        component={ renderSelectField }
+        component={ KiwiSelectField }
         style={ { width: '100%' } }
         containerStyle={ styles.variable }
-      >
-        { variableOptions.map((eachOption, i) =>
-          <MenuItem
-            key={ i }
-            primaryText={ eachOption.name }
-            value={ eachOption._id }
-          />
-        ) }
-      </Field>
+        options={ variableOptions }
+      />
       <DeleteButton onClick={ onDeleteCrition } />
     </div>
     <div style={ styles.row2 }>
@@ -259,9 +190,9 @@ const InputSuccessCriteria = ({ fields, slideValues, variableOptions }) => {
 
   return (
     <div style={ styles.container }>
-      <RaisedButton style={ styles.addButton } onClick={ () => fields.push({}) }>
+      <Button variant='outlined' style={ styles.addButton } onClick={ () => fields.push({}) }>
         Add Input Success Criterion
-      </RaisedButton>
+      </Button>
       <Fragment>
         { fields.map((eachSlideRef, i) => {
           const isGlobalVariable = isGlobalVariableType(slideValues.inputSuccessCriteria[i].codingConcept)

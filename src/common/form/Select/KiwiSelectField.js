@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import cns from 'classnames'
 import Select from 'react-select'
+import has from 'lodash/has'
 import 'react-select/dist/react-select.css'
 import get from 'lodash/get'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -24,7 +25,7 @@ export default class KiwiSelectField extends Component {
     const hasError = !!errorText
     const classes = { focused, error: hasError }
     const derivedOptions = options.map(e => {
-      if(e.label && e.value)
+      if (has(e, 'label') && has(e, 'value'))
         return e
       return { label: e, value: e }
     })
@@ -43,6 +44,9 @@ export default class KiwiSelectField extends Component {
           options={ derivedOptions }
           onChange={ v => {
             const value = get(v, 'value', '') || v
+            if (this.props.onSelectCustom) {
+              this.props.onSelectCustom(value)
+            }
             return input.onChange(value)
           } }
           onFocus={ () => {

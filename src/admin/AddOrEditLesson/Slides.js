@@ -2,20 +2,22 @@ import React, { Component, Fragment } from 'react'
 import update from 'immutability-helper'
 import * as T from 'prop-types'
 import { Field } from 'redux-form'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import MenuItem from 'material-ui/MenuItem'
-import Tabs from 'material-ui/Tabs'
-import Tab from 'material-ui/Tabs/Tab'
-import Dialog from 'material-ui/Dialog'
-import Clear  from 'material-ui-icons/Clear'
-import ChevronLeft from 'material-ui-icons/ChevronLeft'
-import ChevronRight from 'material-ui-icons/ChevronRight'
+import Button from '@material-ui/core/Button'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Clear  from '@material-ui/icons/Clear'
+import ChevronLeft from '@material-ui/icons/ChevronLeft'
+import ChevronRight from '@material-ui/icons/ChevronRight'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 
-import renderSelectField from '../../common/renderSelectField'
-import renderTextField from '../../common/renderTextField'
+import KiwiSelectField from '../../common/form/Select/KiwiSelectField'
+import KiwiTextField from '../../common/form/KiwiTextField'
 import immutablySwapItems from '../../utils/immutabilityUtils'
 
 import { slideTypes as allSlideTypes } from './slideTypes'
@@ -23,14 +25,14 @@ const defaultSlideTypeValue = allSlideTypes[0].value
 
 const styles = {
   deleteStyle: {
-    color: 'white'
+    color: 'black'
     , height: '20px'
     , width: '20px'
     , position: 'absolute'
     , right: '0px'
   },
   leftChevronStyle: {
-    color: 'white'
+    color: 'black'
     , height: '24px'
     , width: '24px'
     , position: 'absolute'
@@ -38,7 +40,7 @@ const styles = {
     , marginLeft: '-12px'
   },
   rightChevronStyle: {
-    color: 'white'
+    color: 'black'
     , height: '24px'
     , width: '24px'
     , position: 'absolute'
@@ -175,19 +177,6 @@ class Slides extends Component {
   }
 
 
-  renderDeleteDialogActions = () => {
-    const { activeSlideIndex } = this.state
-    return [
-      <FlatButton onClick={ () => { this.deleteSlide(activeSlideIndex) } }>
-        Delete slide #{activeSlideIndex + 1}
-      </FlatButton>,
-      <FlatButton onClick={ () => { this.setState({ deleteDialogOpen: false }) } }>
-        Cancel
-      </FlatButton>
-    ]
-  }
-
-
   render() {
     const { fields } = this.props
     const { localSlideTypes, deleteDialogOpen, activeSlideIndex } = this.state
@@ -195,54 +184,79 @@ class Slides extends Component {
     return (
       <Fragment>
         <div>
-          <RaisedButton onClick={ () => fields.push({}) }>
+          <Button variant='outlined' onClick={ () => fields.push({}) }>
             Add Slide to End
-          </RaisedButton>
-          <RaisedButton onClick={ this.addSlideAfterCurrent }>
+          </Button>
+          <Button variant='outlined' onClick={ this.addSlideAfterCurrent }>
             Add Slide after Slide #{activeSlideIndex + 1}
-          </RaisedButton>
+          </Button>
         </div>
-        <Tabs value={ activeSlideIndex }>
+        <Tabs
+          value={ activeSlideIndex }
+          onChange={ (e, v) =>
+            activeSlideIndex !== v && this.setState({ activeSlideIndex: v })
+          }
+        >
           { fields.map((eachSlideRef, i) =>
             <Tab
               key={ i }
               value={ i }
               label={ this.renderSlideLabel(i) }
-              onActive={ () => activeSlideIndex !== i && this.setState({ activeSlideIndex: i }) }
-            >
+            />
+          ) }
+        </Tabs>
+        { fields.map((eachSlideRef, i) =>
+          localSlideTypes[i] && i === activeSlideIndex &&
+            <Fragment key={ i }>
               <Dialog
                 key={ i }
                 open={ deleteDialogOpen }
-                actions={ this.renderDeleteDialogActions() }
               >
-                Are you sure you want to delete slide #{activeSlideIndex + 1}?
+                <DialogTitle id='alert-dialog-title'>Please Confirm</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id='alert-dialog-description'>
+                    Are you sure you want to delete slide #{activeSlideIndex + 1}?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button variant='outlined'
+                    onClick={ () => { this.setState({ deleteDialogOpen: false }) } }
+                    color='primary'
+                  >
+                    Cancel
+                  </Button>
+                  <Button variant='outlined'
+                    onClick={ () => { this.deleteSlide(activeSlideIndex) } }
+                    color='primary'
+                    autoFocus
+                  >
+                    Confirm
+                  </Button>
+                </DialogActions>
               </Dialog>
               <h4>Slide #{i + 1}</h4>
               <Field
                 name={ `${eachSlideRef}.type` }
                 hintText='Slide Type'
-                component={ renderSelectField }
-                onSelectCustom={ (v) => this.spliceSelectedSlideType(i, 1, v) }
-              >
-                { allSlideTypes.map((eachType, i) =>
-                  <MenuItem
-                    key={ i }
-                    primaryText={ eachType.label }
-                    value={ eachType.value }
-                  />
-                ) }
-              </Field>
+                component={ KiwiSelectField }
+                options={ allSlideTypes }
+                onSelectCustom={ v => this.spliceSelectedSlideType(i, 1, v) }
+              />
               <Field
                 name={ `${eachSlideRef}.title` }
-                hintText='Title'
-                component={ renderTextField }
+                label='Title'
+                component={ KiwiTextField }
               />
-              { (localSlideTypes[i] && i === activeSlideIndex) &&
+              <Field
+                name={ `${eachSlideRef}.backgroundImageUrl` }
+                component={ KiwiTextField }
+                label='Slide Background Image URL'
+              />
+              { localSlideTypes[i] && i === activeSlideIndex &&
                 this.renderSlideConfigure(eachSlideRef, i)
               }
-            </Tab>
-          ) }
-        </Tabs>
+            </Fragment>
+        ) }
       </Fragment>
     )
   }

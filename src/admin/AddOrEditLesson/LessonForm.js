@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import { Field, FieldArray, reduxForm, SubmissionError, initialize, change, formValueSelector } from 'redux-form'
-import RaisedButton from 'material-ui/RaisedButton'
-import MenuItem from 'material-ui/MenuItem'
-import { Toggle, SelectField } from 'redux-form-material-ui'
+import { Field, FieldArray, reduxForm, formValueSelector } from 'redux-form'
+import { Toggle } from 'redux-form-material-ui'
 
-import renderTextField from '../../common/renderTextField'
+import SubmitButton from '../../common/form/SubmitButton'
+import ResultMessage from '../../common/form/ResultMessage'
 import KiwiSliderField from '../../common/renderSliderField'
-
+import KiwiSelectField from '../../common/form/Select/KiwiSelectField'
 import Slides from './Slides'
+import KiwiTextField from '../../common/form/KiwiTextField'
 
 let formName = 'lesson'
 
@@ -33,10 +33,6 @@ class LessonForm extends Component {
     }
   }
 
-  getAllCurrentSlideTypes = () => {
-    const { initialValues } = this.props
-  }
-
   static propTypes = {
     initialValues: T.object.isRequired
     , allSlideValues: T.array
@@ -46,23 +42,26 @@ class LessonForm extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting, allSlideValues, themeOptions, variableOptions, postTestCheckAnswer } = this.props
+    const {
+      handleSubmit, allSlideValues, themeOptions, variableOptions, postTestCheckAnswer
+    } = this.props
+
     return (
       <form onSubmit={ handleSubmit } style={ styles.form }>
         <Field
           name='title'
-          hintText='Title'
-          component={ renderTextField }
+          label='Title'
+          component={ KiwiTextField }
         />
         <Field
           name='subtitle'
-          hintText='Subtitle'
-          component={ renderTextField }
+          label='Subtitle'
+          component={ KiwiTextField }
         />
         <Field
           name='imageUrl'
-          hintText='Image URL'
-          component={ renderTextField }
+          label='Image URL'
+          component={ KiwiTextField }
         />
         <Field
           name='minutesToComplete'
@@ -82,17 +81,10 @@ class LessonForm extends Component {
         <Field
           name='themeId'
           hintText='Lesson Theme'
-          component={ SelectField }
+          component={ KiwiSelectField }
           floatingLabelText='Lesson Theme'
-        >
-          { themeOptions.map(theme =>
-            <MenuItem
-              key={ theme._id }
-              value={ theme._id }
-              primaryText={ theme.name }
-            />
-          ) }
-        </Field>
+          options={ themeOptions.map(e => ({ label: e.name, value: e._id })) }
+        />
         <FieldArray
           name='slides'
           component={ Slides }
@@ -100,10 +92,15 @@ class LessonForm extends Component {
           postTestCheckAnswer={ postTestCheckAnswer }
           variableOptions={ variableOptions }
         />
-        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting }>
-          Save
-        </RaisedButton>
-        { submitting && <span>Saving...</span> }
+        <SubmitButton
+          text='Save'
+          { ...this.props }
+          onClick={ handleSubmit }
+        />
+        <ResultMessage
+          { ...this.props }
+          successMessage='Saved!'
+        />
       </form>
     )
   }

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Field, FieldArray } from 'redux-form'
-import renderTextField from '../../../common/renderTextField'
+import KiwiTextField from '../../../common/form/KiwiTextField'
+import KiwiSelectField from '../../../common/form/Select/KiwiSelectField'
 import RichTextEditor from '../../../common/RichTextEditor'
-import List from 'material-ui/List'
-import ListItem from 'material-ui/List/ListItem'
-import MenuItem from 'material-ui/MenuItem'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import MenuItem from '@material-ui/core/MenuItem'
 
 import { SelectField } from 'redux-form-material-ui'
 
@@ -17,8 +18,8 @@ const renderChoices = ({ fields }) =>
           <h3>Choice #{i + 1}</h3>
           <Field
             name={ `${assetRef}` }
-            hintText='Choice Text'
-            component={ renderTextField }
+            label='Choice Text'
+            component={ KiwiTextField }
           />
         </ListItem>
       )
@@ -44,33 +45,30 @@ class MultipleChoice extends Component {
         />
         <Field
           name={ `${slideRef}.successHeadline` }
-          hintText='Success Headline'
-          component={ renderTextField }
+          label='Success Headline'
+          component={ KiwiTextField }
         />
         <Field
           name={ `${slideRef}.successExplanation` }
-          hintText='Success Explanation'
-          component={ renderTextField }
+          label='Success Explanation'
+          component={ KiwiTextField }
         />
         <Field
           name={ `${slideRef}.failureHeadline` }
-          hintText='Failure Headline'
-          component={ renderTextField }
+          label='Failure Headline'
+          component={ KiwiTextField }
         />
         <Field
           name={ `${slideRef}.failureExplanation` }
-          hintText='Failure Explanation'
-          component={ renderTextField }
+          label='Failure Explanation'
+          component={ KiwiTextField }
         />
         <Field
           name={ `${slideRef}.correctAnswerIndex` }
-          component={ SelectField }
-          floatingLabelText='Correct Answer'
-        >
-          { choices.map((e, i) =>
-            <MenuItem key={ i } value={ i } primaryText={ e } />
-          ) }
-        </Field>
+          component={ KiwiSelectField }
+          label='Correct Answer'
+          options={ choices.map((e, i) => ({ label: e, value: i })) }
+        />
         <FieldArray
           name={ `${slideRef}.choices` }
           component={ renderChoices }
