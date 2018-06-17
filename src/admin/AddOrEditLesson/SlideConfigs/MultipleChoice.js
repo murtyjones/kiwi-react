@@ -5,9 +5,7 @@ import KiwiSelectField from '../../../common/form/Select/KiwiSelectField'
 import RichTextEditor from '../../../common/RichTextEditor'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import MenuItem from '@material-ui/core/MenuItem'
 
-import { SelectField } from 'redux-form-material-ui'
 
 const renderChoices = ({ fields }) =>
   <List>
@@ -25,6 +23,7 @@ const renderChoices = ({ fields }) =>
       )
     }) }
   </List>
+
 
 class MultipleChoice extends Component {
   constructor(props) {
