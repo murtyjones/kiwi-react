@@ -17,9 +17,7 @@ const CustomSlideBackground = ({ classes, src }) =>
     style={ {
       background: `url(${src}) center center repeat`
     } }
-  >
-    Hey
-  </div>
+  />
 
 
 

@@ -57,29 +57,29 @@
     width: 100%;
     left: 50%;
     margin-left: -50%;
+    display: flex;
+    flex-flow: row wrap;
 }
 
 .choice {
     background: #000;
     color: #FFF;
-    display: inline-block;
-    width: 50%;
     cursor: pointer;
     border: 1px solid #FFFFFF;
     box-sizing: border-box;
     height: calc(10vh + 30px);
-    line-height: calc(10vh + 30px);
-    padding-left: 20px;
+    padding: 15px;
     font-family: Courier;
     text-shadow: 1px 1px 2px #808080;
+    flex: 1 50%;
 }
 
 .choice.selected { cursor: default; opacity: 0.6; }
 
+
 @media screen and (max-width: 768px) {
     .choice {
-        display: block;
-        width: 100%;
+        flex: 1 100%;
     }
 }
 
