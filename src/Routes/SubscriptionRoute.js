@@ -6,9 +6,9 @@ import withTracker from '../hocs/withTracker'
 import AuthenticatedRoute from './AuthenticatedRoute'
 
 function SubscriptionRoute (props) {
-  const { subscription } = props
+  const { subscription, isAdmin } = props
 
-  if (!isSubscriptionValid(subscription)) {
+  if (!isAdmin && !isSubscriptionValid(subscription)) {
     return (
       <Redirect
         to={ { pathname: '/invalid-subscription', state: { from: props.location } } }
