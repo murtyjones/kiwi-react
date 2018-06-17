@@ -84,8 +84,8 @@ class InvalidSubscription extends PureComponent {
         />
         <div className={ classes.message }>
           <h1 className={ classes.h1 }>Whoops!</h1>
-          <h2>Looks like your subscription is invalid.</h2>
-          <h4>Please tell the owner of your account to restart your subscription and make Carl smile again!</h4>
+          <h2>Looks like your subscription is inactive.</h2>
+          <h4>Ask the owner of your account to restart your subscription to regain access to Tech Island.</h4>
         </div>
       </div>
     )
