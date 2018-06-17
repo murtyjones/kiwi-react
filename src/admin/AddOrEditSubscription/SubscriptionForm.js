@@ -62,6 +62,12 @@ class SubscriptionForm extends Component {
           disabled={ true }
         />
         <Field
+          name='requiresPayment'
+          label='Requires Payment?'
+          component={ Toggle }
+          style={ { width: '200px' } }
+        />
+        <Field
           name='status'
           component={ SelectField }
           hintText='Subscription Status'
