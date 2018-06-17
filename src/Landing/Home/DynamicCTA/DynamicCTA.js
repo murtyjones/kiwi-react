@@ -28,7 +28,7 @@ export default class DynamicHeader extends PureComponent {
   render() {
     const { text = '', smallText = '', fixPoint } = this.props
     const { mass } = this.state
-    const minTopMass = 2.5
+    const minTopMass = 1.7
     const topMass = Math.max(mass, 0)
     const textMass = Math.max(Math.pow(topMass, 1.6) / 3, fixPoint)
     const topSlogan = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass)

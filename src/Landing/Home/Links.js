@@ -21,52 +21,34 @@ const styles = {
 }
 
 
-export class AboutLink extends Component {
-  constructor(props) {
-    super(props)
-  }
+export const AboutLink = () =>
+  <div style={ {
+      ...styles.linkContainerStyle, top: '20px', right: '10px', width: '100px'
+    } }
+  >
+    <Link to='/about' style={ styles.linkStyle }>
+      about us
+    </Link>
+  </div>
 
-  render() {
-    return (
-      <div style={ {
-        ...styles.linkContainerStyle
-        , top: '20px'
-        , right: '10px'
-        , width: '100px'
-      } }
-      >
-          <Link
-            to='/about'
-            style={ styles.linkStyle }
-          >
-            about us
-          </Link>
-      </div>
-    )
-  }
-}
 
-export class HomeLink extends Component {
-  constructor(props) {
-    super(props)
-  }
+export const LoginLink = () =>
+  <div style={ {
+      ...styles.linkContainerStyle, top: '20px', right: '130px', width: '100px'
+    } }
+  >
+    <Link to='/login' style={ styles.linkStyle }>
+      sign in
+    </Link>
+  </div>
 
-  render() {
-    return (
-      <div style={ {
-        ...styles.linkContainerStyle
-        , top: '20px'
-        , right: '10px'
-        , width: '100px'
-      } }
-      >
-        <Link
-          to='/'
-          style={ styles.linkStyle }
-        >
-          home
-        </Link>
-      </div>
-    )
-  }
-}
+
+export const HomeLink = () =>
+  <div style={ {
+    ...styles.linkContainerStyle, top: '20px', right: '10px', width: '100px'
+  } }
+  >
+    <Link to='/' style={ styles.linkStyle }>
+      home
+    </Link>
+  </div>

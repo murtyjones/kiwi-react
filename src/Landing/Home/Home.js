@@ -7,7 +7,7 @@ import config from 'config'
 import '../../close.css'
 import './overrides.css'
 
-import { AboutLink } from './Links'
+import { AboutLink, LoginLink } from './Links'
 import DynamicHeader from './DynamicHeader'
 import WelcomeSection from './WelcomeSection'
 import StripedSections from './StripedSections/StripedSections'
@@ -44,8 +44,8 @@ class Home extends Component {
   }
 
   openModal = () => {
-    const providerRegisterFlow = config.features.providerRegisterFlow
-    if (providerRegisterFlow) {
+    const allowSignInRegister = config.features.allowSignInRegister
+    if (allowSignInRegister) {
       return this.openProviderRegisterModal()
     }
     this.openSignupModal()
@@ -76,6 +76,9 @@ class Home extends Component {
     return (
       <div key='homeContent' style={ styles.homeContentContainer }>
         <AboutLink />
+        { config.features.allowSignInRegister &&
+          <LoginLink />
+        }
         <DynamicHeader />
         <WelcomeSection openModal={ this.openModal } />
         <StripedSections />

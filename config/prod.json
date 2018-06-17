@@ -13,6 +13,6 @@
   "host" : "https://kiwicompute.com",
   "stripePublishableKey": "pk_test_vnQAXQKpdv7q6DGTfhAMcT5X",
   "features": {
-    "providerRegisterFlow": false
+    "allowSignInRegister": false
   }
 }

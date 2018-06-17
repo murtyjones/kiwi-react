@@ -13,7 +13,7 @@ import Stripe from '../../../common/form/payment/Stripe'
 
 import './overrides.css'
 
-let formName = 'providerRegisterFlow'
+let formName = 'allowSignInRegister'
 
 const SlideHeader = props =>
   <h3 className='providerRegisterForm-header'>{ props.text }</h3>
