@@ -122,17 +122,21 @@ class Slides extends Component {
 
 
   deleteSlide = (i) => {
-    const { fields } = this.props
     this.deleteSelectedSlideType(i)
-    fields.remove(i)
+    this.props.fields.remove(i)
     this.setState({ deleteDialogOpen: false })
+  }
+
+  addSlideToEnd = () => {
+    const { localSlideTypes } = this.state
+    this.props.fields.push({})
+    this.spliceSelectedSlideType(localSlideTypes.length, 0, defaultSlideTypeValue)
   }
 
 
   addSlideAfterCurrent = () => {
     const { activeSlideIndex } = this.state
-    const { fields } = this.props
-    fields.insert(activeSlideIndex + 1, {})
+    this.props.fields.insert(activeSlideIndex + 1, {})
     this.spliceSelectedSlideType(activeSlideIndex + 1, 0, defaultSlideTypeValue)
   }
 
@@ -180,11 +184,11 @@ class Slides extends Component {
   render() {
     const { fields } = this.props
     const { localSlideTypes, deleteDialogOpen, activeSlideIndex } = this.state
-
+    
     return (
       <Fragment>
         <div>
-          <Button variant='outlined' onClick={ () => fields.push({}) }>
+          <Button variant='outlined' onClick={ this.addSlideToEnd }>
             Add Slide to End
           </Button>
           <Button variant='outlined' onClick={ this.addSlideAfterCurrent }>

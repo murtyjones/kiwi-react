@@ -19,6 +19,7 @@ import FullPageCodeEditor from './Slides/FullPageCodeEditor'
 import FullPageCodeExample from './Slides/FullPageCodeExample'
 import Title from './Slides/Title'
 import MultipleChoice from './Slides/MultipleChoice'
+import Narration from './Slides/Narration'
 
 import './overrides.css'
 import '../common/flex.css'
@@ -42,6 +43,11 @@ const styles = {
 const availableSlideTypes = {
   [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
     component: FullPageText
+    , backgroundClassName: 'lessonSmallBackground'
+    , width: '600px' // redundant, but needed for background assets width
+  },
+  [LESSON_SLIDE_TYPES.NARRATION]: {
+    component: Narration
     , backgroundClassName: 'lessonSmallBackground'
     , width: '600px' // redundant, but needed for background assets width
   },

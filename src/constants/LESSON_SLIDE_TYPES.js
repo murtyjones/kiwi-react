@@ -5,4 +5,5 @@ export default LESSON_SLIDE_TYPES = { // must match kiwi-node version
   , TITLE: 'TITLE'
   , FULL_PAGE_CODE_EXAMPLE: 'FULL_PAGE_CODE_EXAMPLE'
   , MULTIPLE_CHOICE: 'MULTIPLE_CHOICE'
+  , NARRATION: 'NARRATION'
 }
