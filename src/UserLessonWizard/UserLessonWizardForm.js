@@ -9,6 +9,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { isPrevDisabled, isNextDisabled, isFinalSlide, viewedEqualsComplete } from '../utils/lessonWizardUtils'
 import { LESSON_SLIDE_TYPES } from '../constants'
 import ActionBar from './ActionBar'
+import CustomSlideBackground from './CustomSlideBackground'
 import { LessonTheme, LessonThemeBackground, sortAssetsByQuadrant } from './LessonTheme'
 import ResultCard from '../common/ResultCard/ResultCard'
 
@@ -33,6 +34,7 @@ const styles = {
     , overflow: 'auto'
     , position: 'absolute'
     , top: 0
+    , zIndex: 502
   }
 }
 
@@ -264,8 +266,8 @@ class UserLessonWizardForm extends Component {
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
         , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
 
-    return [
-      <Fragment key='userLessonWizardForm'>
+    return (
+      <Fragment>
         <ResultCard
           slideAnswerData={ slideAnswerData }
           currentLessonSlide={ activeSlideObject }
@@ -297,14 +299,19 @@ class UserLessonWizardForm extends Component {
             runCode={ runCode }
           />
         </form>
-        <LessonThemeBackground className={ activeSlideBackgroundClassName } />
+        { activeSlideObject.backgroundImageUrl &&
+          <CustomSlideBackground src={ activeSlideObject.backgroundImageUrl } />
+        }
+        <LessonThemeBackground
+          className={ activeSlideBackgroundClassName }
+        />
         <LessonTheme
           lessonTheme={ lessonTheme }
           themeAssetsByQuadrant={ themeAssetsByQuadrant }
           activeSlideWidth={ activeSlideWidth }
         />
       </Fragment>
-    ]
+    )
   }
 }
 
