@@ -23,7 +23,8 @@ class StudentSignUp extends Component {
     return (
       <SlideInOut show={ true }>
         <div className={ cns('loginModalForm-slide', classes.container) }>
-          For now, only parents can sign up.
+          For now, only your parents can sign up. Ask them to stop by
+          kiwicompute.com and help make your account!
         </div>
       </SlideInOut>
     )

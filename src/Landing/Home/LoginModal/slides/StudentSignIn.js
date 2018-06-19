@@ -50,7 +50,7 @@ class StudentSignIn extends Component {
             className={ classes.needAccountLink }
             onClick={ () => goToSlide(studentSignUpIndex) }
           >
-            I don't have an account
+            I don't have an account!
           </Link>
           <Field
             name={ studentSignInSlide.names[0] }

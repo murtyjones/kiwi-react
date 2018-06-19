@@ -23,7 +23,8 @@ class StudentForgotPassword extends Component {
     return (
       <SlideInOut show={ true }>
         <div className={ cns('loginModalForm-slide', classes.container) }>
-          Let your parent know!
+          Okay! Let your parent know that you forgot your password
+          so that they can give you a new one!
         </div>
       </SlideInOut>
     )
