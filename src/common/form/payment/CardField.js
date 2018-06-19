@@ -18,7 +18,7 @@ const CardSection = props =>
         },
       },
       invalid: {
-        color: '#cc5040',
+        color: '#CC5040',
         ':focus': {
           color: '#000',
         },

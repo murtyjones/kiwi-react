@@ -22,7 +22,7 @@ const styles = {
   result: {
     paddingTop: '10px'
   },
-  failure: { color: '#cc5040' },
+  failure: { color: '#CC5040' },
   success: { color: '#66cc52' }
 }
 

@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 import Grid from '@material-ui/core/Grid'
 import withStyles from '@material-ui/core/styles/withStyles'
+import { getError, genericLoginFailure } from '../../../utils/httpErrorUtils'
 
 import LoginModalForm from './LoginModalForm'
 import {
@@ -54,26 +55,37 @@ class LoginModal extends Component {
     this.setState({ isStudentSignIn })
   }
 
+  slide1Submit = async params => {
+    await this.props.login(params)
+    const pushPath = this.state.isStudentSignIn
+      ? '/lessons'
+      : '/provider/dashboard'
+    this.props.closeModal()
+    this.props.history.push(pushPath)
+  }
+
   handleSubmit = async v => {
     const { activeSlideIndex } = this.state
-    const actionName = `slide${activeSlideIndex}Submit`
+    const action = this[`slide${activeSlideIndex}Submit`]
     try {
-      if(this[actionName]) {
-        const result = await this[actionName](v)
+      if (action) {
+        const result = await action(v)
       }
       this.goToNextSlide()
     } catch(err) {
       console.log(err)
-      throw new SubmissionError({ _error: err.message })
+      throw new SubmissionError({ _error: genericLoginFailure(getError(err)) })
     }
   }
 
   goToNextSlide = () =>
     this.setState({ activeSlideIndex: this.state.activeSlideIndex + 1 })
 
-
   goToPrevSlide = () =>
     this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
+
+  goToSlide = i =>
+    this.setState({ activeSlideIndex: i })
 
   render() {
     const { classes } = this.props
@@ -86,17 +98,19 @@ class LoginModal extends Component {
       : providerSlides[activeSlideIndex]
 
     return (
-      <Grid container spacing={ 3 } className={ classes.root }>
-        <Grid item
-          sm={ activeSlideIndex > 0 ? 5 : 0 }
-          className={ classes.leftImage }
-          style={ {
-            display: activeSlideIndex > 0 ? 'inline-block' : 'none',
-            backgroundImage: isStudentSignIn
-              ? 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/KidCarl_xly3ot.svg)'
-              : 'url(http://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/PapaCarl_cehuft.svg)'
-          } }
-        />
+      <Grid container className={ classes.root }>
+        { activeSlideIndex > 0 &&
+          <Grid item
+            sm={ 5 }
+            className={ classes.leftImage }
+            style={ {
+              display: activeSlideIndex > 0 ? 'inline-block' : 'none',
+              backgroundImage: isStudentSignIn
+                ? 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/KidCarl_xly3ot.svg)'
+                : 'url(http://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/PapaCarl_cehuft.svg)'
+            } }
+          />
+        }
         <Grid item xs={ 12 }
           sm={ activeSlideIndex > 0 ? 7 : 12 }
           className='loginModalFormContainer'
@@ -107,6 +121,7 @@ class LoginModal extends Component {
             activeSlideIndex={ activeSlideIndex }
             goToPrevSlide={ this.goToPrevSlide }
             goToNextSlide={ this.goToNextSlide }
+            goToSlide={ this.goToSlide }
           />
         </Grid>
       </Grid>

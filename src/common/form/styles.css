@@ -1,66 +1,13 @@
-.KiwiField {
-    margin-top: 0 !important;
-    margin-bottom: 20px !important;
-}
-
-.KiwiTextField-Container {
-
-}
-
-.KiwiTextField-FormControl {
-    padding: 5px 10px;
-    box-sizing: border-box;
-    border-radius: 3px;
-}
-
-.KiwiTextField-Input {
-    width: 100%;
-}
-
-
-.KiwiTextField-Label {
-    color: #AAA !important;
-    padding: 7px 0 0 10px !important;
-}
-.KiwiTextField-Label-Shrink {
-    font-size: 14pt !important;
-    line-height: 0.5 !important;
-    padding: 0 !important;
-}
-.KiwiTextField-Icon {
-    margin-left: 3px;
-    color: #AAA !important;
-}
-.KiwiTextField-FormControl { border: 1px solid #AAA !important; }
 .submitButton {
     border: 1px solid #AAA !important;
     margin: 20px auto !important;
     text-transform: none !important;
 }
 
-
-.submitButton.enabled,
-.KiwiTextField-FormControl.focused {
-    /*border: 1px solid #765C9F !important;*/
-    /*color: #765C9F;*/
-}
-.KiwiTextField-Label.focused,
-.KiwiTextField-Icon.focused {
-    color: #765C9F !important;
-}
-
-.KiwiTextField-FormControl.error {
-    border: 1px solid #cc5040 !important;
-    color: #cc5040;
-}
-.KiwiTextField-FormHelperText.error,
-.KiwiTextField-Label.error,
-.KiwiTextField-Icon.error,
 .ResultMessage-error {
-    color: #cc5040 !important;
+    color: #CC5040 !important;
 }
 
-.KiwiTextField-FormHelperText,
 .ResultMessage-success {
     color: #66cc52 !important;
 }
@@ -75,7 +22,7 @@
  */
 
 .KiwiSelectField-Container.error > .Select-control {
-    border: 1px solid #cc5040;
+    border: 1px solid #CC5040;
 }
 
 .KiwiField-Label {
@@ -92,7 +39,7 @@
     color: #765C9F !important;
 }
 .KiwiField-Label.error {
-    color: #cc5040 !important;
+    color: #CC5040 !important;
 }
 
 .Select.is-focused > .Select-control {
@@ -101,6 +48,6 @@
 }
 
 .KiwiSelectField-Container.error > .Select > .Select-control {
-    border: 1px solid #cc5040 !important;
-    color: #cc5040 !important;
+    border: 1px solid #CC5040 !important;
+    color: #CC5040 !important;
 }

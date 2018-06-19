@@ -1,11 +1,71 @@
 import React, { PureComponent } from 'react'
 import cns from 'classnames'
 import TextField from '@material-ui/core/TextField'
+import withStyles from '@material-ui/core/styles/withStyles'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { TextField as ReduxFormTextField } from 'redux-form-material-ui-next'
 import has from 'lodash/has'
 
-export default class KiwiTextField extends PureComponent {
+const styles = theme => ({
+  field: {
+    marginTop: '0 !important',
+    marginBottom: '20px !important'
+  },
+  input: {
+    width: '100%'
+  },
+  inputFocused: {
+    // color: '#765C9F'
+  },
+  formControl: {
+    padding: '5px 10px',
+    boxSizing: 'border-box',
+    borderRadius: '3px',
+    border: '1px solid #AAA !important',
+    color: '#000 !important',
+    '&.focused': {
+      border: '1px solid #765C9F !important',
+      color: '#765C9F'
+    },
+    '&.error': {
+      border: '1px solid #CC5040 !important',
+      color: '#CC5040'
+    }
+  },
+  icon: {
+    marginLeft: '3px',
+    color: '#AAA !important',
+    '&.focused': {
+      color: '#765C9F !important'
+    },
+    '&.error': {
+      color: '#CC5040 !important'
+    }
+  },
+  label: {
+    color: '#AAA !important',
+    padding: '7px 0 0 10px !important',
+    '&.focused': {
+      color: '#765C9F !important'
+    },
+    '&.error': {
+      color: '#CC5040 !important'
+    }
+  },
+  labelShrink: {
+    fontSize: '14pt !important',
+    lineHeight: '0.5 !important',
+    padding: '0 !important'
+  },
+  formHelper: {
+    color: '#66cc52 !important',
+    '&.error': {
+      color: '#CC5040 !important'
+    }
+  }
+})
+
+class KiwiTextField extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -14,21 +74,22 @@ export default class KiwiTextField extends PureComponent {
   }
 
   render() {
-    const { StartAdornmentIcon, input, meta, successText } = this.props
+    const { classes, StartAdornmentIcon, input, meta, successText } = this.props
     const { error, pristine, touched, asyncValidating, valid } = meta
     const { focused, color } = this.state
     const errorText = touched && error ? error : ''
     const asyncValidated = touched && !pristine && !asyncValidating && valid
     const derivedSuccessText = asyncValidated ? successText : ''
     const hasError = !!errorText
-    const classes = { focused, error: hasError }
+    const _classes = { focused, error: hasError }
+
     return (
       <ReduxFormTextField
         { ...this.props }
         error={ hasError }
         helperText={ errorText || derivedSuccessText }
         margin='normal'
-        className={ cns('KiwiField KiwiTextField-Container', this.props.className) }
+        className={ cns(classes.field, this.props.className) }
         fullWidth={ this.props.fullWidth ? this.props.fullWidth : true }
         InputProps={{
           onChange: input ? input.onChange : null,
@@ -40,33 +101,36 @@ export default class KiwiTextField extends PureComponent {
             this.setState({ focused: false })
             input.onBlur()
           },
-          disableUnderline: this.props.disableUnderline ? this.props.disableUnderline : true,
+          disableUnderline: this.props.disableUnderline
+            ? this.props.disableUnderline
+            : true,
           classes: {
-            input: 'KiwiTextField-Input',
-            formControl: cns('KiwiTextField-FormControl', classes)
+            input: classes.input,
+            formControl: cns(classes.formControl, _classes),
+            focused: classes.inputFocused
           },
           startAdornment: StartAdornmentIcon ? (
             <InputAdornment position='start'>
-              <StartAdornmentIcon
-                className={ cns('KiwiTextField-Icon', classes) }
-              />
+              <StartAdornmentIcon className={ cns(classes.icon, _classes) } />
             </InputAdornment>
           ) : null
         }}
         InputLabelProps={{
           classes: {
-            root: cns('KiwiTextField-Label', classes),
-            shrink: cns('KiwiTextField-Label-Shrink', classes)
+            root: cns(classes.label, _classes),
+            shrink: cns(classes.labelShrink, _classes)
           },
           ...this.props.addlInputLabelProps
         }}
         FormHelperTextProps={{
           classes: {
-            root: cns('KiwiTextField-FormHelperText'),
-            error: cns('KiwiTextField-FormHelperText', classes)
+            root: classes.formHelper,
+            error: cns(classes.formHelper, _classes)
           }
         }}
       />
     )
   }
 }
+
+export default withStyles(styles, { withTheme: true })(KiwiTextField)

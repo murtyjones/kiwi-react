@@ -41,6 +41,7 @@ class LoginModalForm extends Component {
   static propTypes = {
     goToPrevSlide: T.func.isRequired
     , goToNextSlide: T.func.isRequired
+    , goToSlide: T.func.isRequired
   }
 
   render() {
@@ -66,6 +67,7 @@ class LoginModalForm extends Component {
               { ...nameOrNames }
               component={ Component }
               goToPrevSlide={ this.props.goToPrevSlide }
+              goToSlide={ this.props.goToSlide }
               formValues={ formValues }
               onSubmit={ onSubmit }
             />
