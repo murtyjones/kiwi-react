@@ -7,7 +7,9 @@ import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
 import ProviderRegisterForm from './ProviderRegisterForm'
-import { login, register, postSubscription, putSubscription, putProfile, closeModal } from '../../../actions'
+import {
+  login, register, postSubscription, putSubscription, putProfile, closeModal
+} from '../../../actions'
 import { SUBSCRIPTION_STATUSES } from '../../../constants'
 import slides from './slides'
 
@@ -18,11 +20,11 @@ class ProviderRegisterModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeSlideIndex: 0,
-      providerProfileObject: {},
-      provideeIds: [],
-      subscriptions: [],
-      providerPassword: ''
+      activeSlideIndex: 0
+      , providerProfileObject: {}
+      , provideeIds: []
+      , subscriptions: []
+      , providerPassword: ''
     }
   }
 
@@ -127,7 +129,7 @@ class ProviderRegisterModal extends Component {
     const completionPercentage = (activeSlideIndex + 1) / slides.length * 100
 
     return (
-      <div className='subscribeModalFormContainer'>
+      <div className='providerRegisterModalFormContainer'>
         <ProviderRegisterForm
           onSubmit={ this.handleSubmit }
           slide={ slides[activeSlideIndex] }

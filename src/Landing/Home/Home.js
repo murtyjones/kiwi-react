@@ -14,6 +14,7 @@ import StripedSections from './StripedSections/StripedSections'
 import LetsGoSection from './LetsGoSection/LetsGoSection'
 import SubscribeModal from './SubscribeModal/SubscribeModal'
 import ProviderRegisterModal from './ProviderRegisterModal/ProviderRegisterModal'
+import LoginModal from './LoginModal/LoginModal'
 import { openModal, closeModal, postMessage } from '../../actions'
 
 const styles = {
@@ -43,15 +44,24 @@ class Home extends Component {
     this.props.postMessage({ subscribe: true, ...v })
   }
 
-  openModal = () => {
+  openLoginModal = () => {
+    this.props.openModal({
+      className: 'loginModal',
+      children: (
+        <LoginModal /* Each slide handles its submit function */ />
+      )
+    })
+  }
+
+  openRegisterModal = () => {
     const allowSignInRegister = config.features.allowSignInRegister
     if (allowSignInRegister) {
       return this.openProviderRegisterModal()
     }
-    this.openSignupModal()
+    this.openSubscribeModal()
   }
 
-  openSignupModal = () => {
+  openSubscribeModal = () => {
     this.props.openModal({
       className: 'subscribeModal',
       children: (
@@ -65,7 +75,7 @@ class Home extends Component {
   openProviderRegisterModal = () => {
     this.props.history.push('/onboarding')
     this.props.openModal({
-      className: 'subscribeModal',
+      className: 'providerRegisterModal',
       children: (
         <ProviderRegisterModal /* Each slide handles its submit function */ />
       )
@@ -77,12 +87,12 @@ class Home extends Component {
       <div key='homeContent' style={ styles.homeContentContainer }>
         <AboutLink />
         { config.features.allowSignInRegister &&
-          <LoginLink />
+          <LoginLink onClick={ this.openLoginModal } />
         }
         <DynamicHeader />
-        <WelcomeSection openModal={ this.openModal } />
+        <WelcomeSection openModal={ this.openRegisterModal } />
         <StripedSections />
-        <LetsGoSection openModal={ this.openModal } />
+        <LetsGoSection openModal={ this.openRegisterModal } />
       </div>
     )
   }

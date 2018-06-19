@@ -3,7 +3,7 @@
  */
 
 .x-sm {
-    width: 22px;  height: 22px;  cursor: pointer;  display: block;  position: fixed;  right: 0;  top: 0;  transition: transform .25s ease-in-out;
+    z-index: 1; width: 22px;  height: 22px;  cursor: pointer;  display: block;  position: fixed;  right: 0;  top: 0;  transition: transform .25s ease-in-out;
 }
 .x-sm:hover {
     -webkit-transform: rotate(180deg);  -ms-transform: rotate(180deg);  transform: rotate(180deg);
@@ -28,7 +28,7 @@
  */
 
 .x {
-    width: 32px;  height: 32px;  cursor: pointer;  display: block;  position: fixed;  right: 0;  top: 0;  transition: transform .25s ease-in-out;
+    z-index: 1; width: 32px;  height: 32px;  cursor: pointer;  display: block;  position: fixed;  right: 0;  top: 0;  transition: transform .25s ease-in-out;
 }
 .x:hover {
     -webkit-transform: rotate(180deg);  -ms-transform: rotate(180deg);  transform: rotate(180deg);

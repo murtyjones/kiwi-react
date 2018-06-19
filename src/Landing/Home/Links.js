@@ -32,12 +32,16 @@ export const AboutLink = () =>
   </div>
 
 
-export const LoginLink = () =>
+export const LoginLink = ({ onClick }) =>
   <div style={ {
       ...styles.linkContainerStyle, top: '20px', right: '130px', width: '100px'
     } }
   >
-    <Link to='/login' style={ styles.linkStyle }>
+    <Link
+      to={ onClick ? '#' : '/login' }
+      onClick={ onClick }
+      style={ styles.linkStyle }
+    >
       sign in
     </Link>
   </div>

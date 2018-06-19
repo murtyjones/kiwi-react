@@ -7,23 +7,23 @@ import ProvideesSignupSuccess from './slides/ProvideesSignupSuccess'
 import BillingInfo from './slides/BillingInfo'
 import Confirmation from './slides/Confirmation'
 
-
-const slides = [
-  {
+export const providerSignupSlide = {
     Component: ProviderSignup
     , FieldComponent: Fields
     , names: [ 'email', 'password', 'confirmPassword' ]
     , headerText: `First, let's make your account.`
     , submitText: 'Sign Me Up!'
-  },
-  {
+  }
+
+export const provideesSignupSlide = {
     Component: ProvideesSignup
     , FieldComponent: FieldArray
     , name: 'providees'
     , headerText: `Tell us a bit about your student.`
     , submitText: `Make My Student's Account!`
-  },
-  {
+  }
+
+export const provideesSignupSuccessSlide = {
     Component: ProvideesSignupSuccess
     , FieldComponent: Field
     , name: 'providees'
@@ -35,8 +35,9 @@ const slides = [
       return  `${prefix} almost ready to start coding!`
     }
     , submitText: 'On to the Last Step'
-  },
-  {
+  }
+
+export const billingInfoSlide = {
     Component: BillingInfo
     , FieldComponent: Fields
     , names: [
@@ -49,14 +50,22 @@ const slides = [
     , headerText: 'Enter your payment information'
     , submitText: 'See my subscription details'
     , shouldCreateToken: true
-  },
-  {
-    Component: Confirmation
-    , FieldComponent: Field
-    , name: 'confirmation'
-    , headerText: `Ready To Code?`
-    , submitText: `Let's do it!`
   }
+
+export const confirmationSlide = {
+  Component: Confirmation
+  , FieldComponent: Field
+  , name: 'confirmation'
+  , headerText: `Ready To Code?`
+  , submitText: `Let's do it!`
+}
+
+const slides = [
+  providerSignupSlide,
+  provideesSignupSlide,
+  provideesSignupSuccessSlide,
+  billingInfoSlide,
+  confirmationSlide
 ]
 
 export default slides
