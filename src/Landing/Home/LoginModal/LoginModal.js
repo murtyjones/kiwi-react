@@ -24,9 +24,10 @@ const styles = theme => ({
     left: 0
   },
   leftImage: {
-    background: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/KidCarl_xly3ot.svg) center center no-repeat',
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
     backgroundSize: '200px',
-    backgroundColor: 'blue'
+    borderRight: '1px solid #CCC'
   }
 })
 
@@ -89,6 +90,12 @@ class LoginModal extends Component {
         <Grid item
           sm={ activeSlideIndex > 0 ? 5 : 0 }
           className={ classes.leftImage }
+          style={ {
+            display: activeSlideIndex > 0 ? 'inline-block' : 'none',
+            backgroundImage: isStudentSignIn
+              ? 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/KidCarl_xly3ot.svg)'
+              : 'url(http://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/PapaCarl_cehuft.svg)'
+          } }
         />
         <Grid item xs={ 12 }
           sm={ activeSlideIndex > 0 ? 7 : 12 }
