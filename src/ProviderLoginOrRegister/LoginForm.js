@@ -3,6 +3,9 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 import withStyles from '@material-ui/core/styles/withStyles'
 import KiwiTextField from '../common/form/KiwiTextField'
 import SubmitButton from '../common/form/SubmitButton'
+import SecondaryButton from '../common/form/SecondaryButton'
+import MailOutline from '@material-ui/icons/MailOutline'
+import LockOutline from 'material-ui-icons/LockOutline'
 
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -11,7 +14,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 const styles = theme => ({
   form: {
-    margin: '0 auto',
+    margin: 'auto',
     width: '50%'
   }
 })
@@ -31,12 +34,20 @@ let LoginForm = props => {
         type='text'
         label='Email'
         component={ KiwiTextField }
+        StartAdornmentIcon={ MailOutline }
+        addlInputLabelProps={ {
+          shrink: true
+        } }
       />
       <Field
         name='password'
         type='password'
         label='Password'
         component={ KiwiTextField }
+        StartAdornmentIcon={ LockOutline }
+        addlInputLabelProps={ {
+          shrink: true
+        } }
       />
       { error && <strong>{ error }</strong> }
       <div>
@@ -44,7 +55,7 @@ let LoginForm = props => {
           { ...props }
           text='Login'
         />
-        <SubmitButton variant='raised'
+        <SecondaryButton variant='flat'
           { ...props }
           onClick={ reset }
           text='Clear Values'

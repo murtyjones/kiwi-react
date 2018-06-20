@@ -46,10 +46,19 @@ const theme = createMuiTheme({
         '&:hover': {
           color: '#FFF',
           backgroundColor: mainColor
-        }
+        },
+        '&$disabled': {
+          border: '1px solid rgba(0, 0, 0, 0.26) !important'
+        },
       },
-      disabled: {
-        border: '1px solid rgba(0, 0, 0, 0.26) !important'
+      flat: {
+        border: 'none',
+        color: '#765C9F',
+        '&:hover': {
+          color: '#000',
+          backgroundColor: 'rbga(118, 92, 159, 0.1)',
+          opacity: 0.3
+        }
       }
     }
   }

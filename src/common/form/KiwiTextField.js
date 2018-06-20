@@ -12,10 +12,10 @@ const styles = theme => ({
     marginBottom: '20px !important'
   },
   input: {
-    width: '100%'
+
   },
   inputFocused: {
-    // color: '#765C9F'
+
   },
   formControl: {
     padding: '5px 10px',
@@ -30,27 +30,19 @@ const styles = theme => ({
     '&.error': {
       border: '1px solid #CC5040 !important',
       color: '#CC5040'
-    }
+    },
   },
   icon: {
     marginLeft: '3px',
     color: '#AAA !important',
-    '&.focused': {
-      color: '#765C9F !important'
-    },
-    '&.error': {
-      color: '#CC5040 !important'
-    }
+    '&.focused': { color: '#765C9F !important' },
+    '&.error': { color: '#CC5040 !important' },
   },
   label: {
     color: '#AAA !important',
     padding: '7px 0 0 10px !important',
-    '&.focused': {
-      color: '#765C9F !important'
-    },
-    '&.error': {
-      color: '#CC5040 !important'
-    }
+    '&.focused': { color: '#765C9F !important' },
+    '&.error': { color: '#CC5040 !important' },
   },
   labelShrink: {
     fontSize: '14pt !important',
@@ -59,9 +51,7 @@ const styles = theme => ({
   },
   formHelper: {
     color: '#66cc52 !important',
-    '&.error': {
-      color: '#CC5040 !important'
-    }
+    '&.error': { color: '#CC5040 !important' }
   }
 })
 
@@ -81,7 +71,7 @@ class KiwiTextField extends PureComponent {
     const asyncValidated = touched && !pristine && !asyncValidating && valid
     const derivedSuccessText = asyncValidated ? successText : ''
     const hasError = !!errorText
-    const _classes = { focused, error: hasError }
+    const stateClasses = { focused, error: hasError }
 
     return (
       <ReduxFormTextField
@@ -105,27 +95,27 @@ class KiwiTextField extends PureComponent {
             ? this.props.disableUnderline
             : true,
           classes: {
-            input: classes.input,
-            formControl: cns(classes.formControl, _classes),
+            input: cns(classes.input, stateClasses),
+            formControl: cns(classes.formControl, stateClasses),
             focused: classes.inputFocused
           },
           startAdornment: StartAdornmentIcon ? (
             <InputAdornment position='start'>
-              <StartAdornmentIcon className={ cns(classes.icon, _classes) } />
+              <StartAdornmentIcon className={ cns(classes.icon, stateClasses) } />
             </InputAdornment>
           ) : null
         }}
         InputLabelProps={{
           classes: {
-            root: cns(classes.label, _classes),
-            shrink: cns(classes.labelShrink, _classes)
+            root: cns(classes.label, stateClasses),
+            shrink: cns(classes.labelShrink, stateClasses)
           },
           ...this.props.addlInputLabelProps
         }}
         FormHelperTextProps={{
           classes: {
             root: classes.formHelper,
-            error: cns(classes.formHelper, _classes)
+            error: cns(classes.formHelper, stateClasses)
           }
         }}
       />

@@ -1,6 +1,7 @@
 import React, { Component, PureComponent } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
+import withStyles from '@material-ui/core/styles/withStyles'
 import Redirect from 'react-router-dom/Redirect'
 import Route from 'react-router-dom/Route'
 import get from 'lodash/get'
@@ -15,6 +16,22 @@ import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } f
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
+const styles = theme => ({
+  root: {
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  formContainer: {
+    width: '100%'
+  },
+  switchText: {
+    display: 'block',
+    textAlign: 'center',
+    cursor: 'pointer'
+  }
+})
 
 class ProviderLoginOrRegister extends PureComponent {
   constructor(props) {
@@ -124,7 +141,7 @@ class ProviderLoginOrRegister extends PureComponent {
   }
 
   render() {
-    const { location: { pathname } } = this.props
+    const { classes, location: { pathname } } = this.props
     const switchText = pathname === '/provider/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
     const availableRoutes = [
       {
@@ -141,14 +158,16 @@ class ProviderLoginOrRegister extends PureComponent {
     const ComponentToRender = () => { return currentRoute.component() }
 
     return (
-      <div>
-        <span
-          className='switchText'
-          onClick={ this.switchTabs }
-        >
-          { switchText }
-        </span>
-        <ComponentToRender />
+      <div className={ classes.root }>
+        <div className={ classes.formContainer }>
+          <span
+            className={ classes.switchText }
+            onClick={ this.switchTabs }
+          >
+            { switchText }
+          </span>
+          <ComponentToRender />
+        </div>
       </div>
     )
   }
@@ -176,4 +195,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderLoginOrRegister))
+ProviderLoginOrRegister = withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderLoginOrRegister))
+
+export default withStyles(styles, { withTheme: true })(ProviderLoginOrRegister)
+
