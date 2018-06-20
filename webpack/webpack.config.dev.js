@@ -8,22 +8,12 @@ module.exports = {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   context: path.join(__dirname, '../'),
-  entry: {
-    index: './src/Main.js',
-    lessons: './src/Lessons/Lessons.js',
-    manageLessonThemes: './src/admin/ManageLessonThemes/ManageLessonThemes.js',
-    addOrEditSubscription: './src/admin/AddOrEditSubscription/AddOrEditSubscription.js',
-    manageLessons: './src/admin/ManageLessons/ManageLessons.js',
-    addOrEditVariable: './src/admin/AddOrEditVariable/AddOrEditVariable.js',
-    addOrEditLessonTheme: './src/admin/AddOrEditLessonTheme/AddOrEditLessonTheme.js',
-    addOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson.js',
-    providerDashboard: './src/ProviderDashboard/ProviderDashboard.js',
-    landing: './src/Landing/Landing.js',
-    userLessonWizard: './src/UserLessonWizard/UserLessonWizard.js',
-  },
+  entry: [
+    './src/Main.js'
+  ],
   output: {
     path: path.join(__dirname, '../build/build/js'),
-    filename: '[name].bundle.js',
+    filename: 'bundle.js',
     publicPath: '/build/js/'
   },
   module: {
@@ -51,11 +41,6 @@ module.exports = {
   },
   resolve: {
 
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all'
-    }
   }
 }
 
