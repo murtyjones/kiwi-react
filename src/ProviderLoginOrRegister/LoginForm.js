@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import withStyles from '@material-ui/core/styles/withStyles'
+import cns from 'classnames'
 import KiwiTextField from '../common/form/KiwiTextField'
 import SubmitButton from '../common/form/SubmitButton'
 import SecondaryButton from '../common/form/SecondaryButton'
@@ -16,18 +17,32 @@ const styles = theme => ({
   form: {
     margin: 'auto',
     width: '50%'
+  },
+  resetPasswordResult: {
+    textAlign: 'center',
+    padding: '25px 0',
+    color: '#66cc52',
+    '&.failure': {
+      color: '#CC5040'
+    }
   }
+
 })
 
 let LoginForm = props => {
   const { classes, error, handleSubmit, pristine, reset, submitting, resetPasswordSuccess } = props
   return (
     <form className={ classes.form }  onSubmit={ handleSubmit }>
-      { resetPasswordSuccess === true
-        ? <div>Your password was successfully reset! You can now log in.</div>
-        : resetPasswordSuccess === false
-          ? <div>Sorry, there was a problem. Please email support@kiwicompute.com</div>
-          : null
+      { resetPasswordSuccess !== undefined &&
+        <div className={ cns(classes.resetPasswordResult, {
+          failure: !resetPasswordSuccess
+        }) }
+        >
+          { resetPasswordSuccess
+            ? 'Your password was successfully reset! You can now log in.'
+            : 'Sorry, there was a problem. Please email support@kiwicompute.com'
+          }
+        </div>
       }
       <Field
         name='email'
