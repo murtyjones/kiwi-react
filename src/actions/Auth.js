@@ -125,6 +125,25 @@ export const resetPassword = params => {
   }
 }
 
+export const resetPasswordRequest = params => {
+  const { email } = params
+  return dispatch => {
+    dispatch({ type: ACTIONS.RESET_PASSWORD_EMAIL_REQUEST })
+    const options = {
+      method: 'POST'
+    }
+    return ApiFetch(`${config.api}/password-v2/reset/${email}`, options)
+      .then(success => {
+        dispatch({ type: ACTIONS.RESET_PASSWORD_EMAIL_SUCCESS, payload: success })
+        return success
+      }).catch(err => {
+        dispatch({ type: ACTIONS.RESET_PASSWORD_EMAIL_FAILURE, payload: err })
+        throw err
+      })
+
+  }
+}
+
 export const changePassword = params => {
   const { _id, currentPassword, newPassword } = params
   return dispatch => {

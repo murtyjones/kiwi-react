@@ -46,7 +46,7 @@ class LoginModalForm extends Component {
 
   render() {
     const { classes, handleSubmit, onSubmit, slide, formValues } = this.props
-    const { submitText, Component, FieldComponent, names, name } = slide
+    const { submitText, Component, FieldComponent, names, name, successMessage } = slide
 
     const nameOrNames = {}
     if (names) nameOrNames.names = names
@@ -78,7 +78,10 @@ class LoginModalForm extends Component {
                 onClick={ handleSubmit }
               />
             }
-            <ResultMessage { ...this.props } />
+            <ResultMessage
+              { ...this.props }
+              successMessage={ successMessage }
+            />
           </div>
         </form>
       </Paper>

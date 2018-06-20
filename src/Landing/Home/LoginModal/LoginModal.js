@@ -5,11 +5,13 @@ import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 import Grid from '@material-ui/core/Grid'
 import withStyles from '@material-ui/core/styles/withStyles'
+import has from 'lodash/has'
+
 import { getError, genericLoginFailure } from '../../../utils/httpErrorUtils'
 
 import LoginModalForm from './LoginModalForm'
 import {
-  login, register, postSubscription, putSubscription, putProfile, closeModal
+  login, register, resetPasswordRequest, postSubscription, putSubscription, putProfile, closeModal
 } from '../../../actions'
 import { choosePathSlide, studentSlides, providerSlides } from './slides'
 
@@ -45,16 +47,19 @@ class LoginModal extends Component {
   static propTypes = {
     register: T.func.isRequired
     , login: T.func.isRequired
+    , resetPasswordRequest: T.func.isRequired
     , postSubscription: T.func.isRequired
     , putSubscription: T.func.isRequired
     , putProfile: T.func.isRequired
     , closeModal: T.func.isRequired
   }
 
+  // choose type
   slide0Submit = async isStudentSignIn => {
     this.setState({ isStudentSignIn })
   }
 
+  // log in
   slide1Submit = async params => {
     await this.props.login(params)
     const pushPath = this.state.isStudentSignIn
@@ -64,12 +69,23 @@ class LoginModal extends Component {
     this.props.history.push(pushPath)
   }
 
+  // send reset password email
+  slide2Submit = async resetPasswordRequest => {
+    await this.props.resetPasswordRequest(resetPasswordRequest)
+  }
+
   handleSubmit = async v => {
-    const { activeSlideIndex } = this.state
+    const { activeSlideIndex, isStudentSignIn } = this.state
+    const slide = (
+      isStudentSignIn ? studentSlides : providerSlides
+    )[activeSlideIndex]
     const action = this[`slide${activeSlideIndex}Submit`]
     try {
       if (action) {
         const result = await action(v)
+      }
+      if (has(slide, 'progress') && !slide.progress) {
+        return
       }
       this.goToNextSlide()
     } catch(err) {
@@ -133,6 +149,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     register: params => dispatch(register(params))
     , login: params => dispatch(login(params))
+    , resetPasswordRequest: params => dispatch(resetPasswordRequest(params))
     , postSubscription: params => dispatch(postSubscription(params))
     , putSubscription: params => dispatch(putSubscription(params))
     , putProfile: params => dispatch(putProfile(params))
