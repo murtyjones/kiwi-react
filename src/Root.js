@@ -8,6 +8,9 @@ import Modal from 'react-modal'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
+import Loadable from 'react-loadable';
+
+const Loading = () => <div>Loading...</div>;
 
 import './utils/refreshToken'
 import { isSubscriptionValid } from './utils/permissionUtils'
@@ -33,33 +36,72 @@ import PlainRoute from './Routes/PlainRoute'
 /**
  * Route Components/Containers
  */
-import Landing from './Landing/Landing'
 import Welcome from './WelcomeWizard/WelcomeWizard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import ProviderLoginOrRegister from './ProviderLoginOrRegister/ProviderLoginOrRegister'
-import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
-import AddOrEditLessonTheme from './admin/AddOrEditLessonTheme/AddOrEditLessonTheme'
-import AddOrEditVariable from './admin/AddOrEditVariable/AddOrEditVariable'
-import AddOrEditSubscription from './admin/AddOrEditSubscription/AddOrEditSubscription'
-import ManageLessons from './admin/ManageLessons/ManageLessons'
-import ManageLessonThemes from './admin/ManageLessonThemes/ManageLessonThemes'
 import ManageVariables from './admin/ManageVariables/ManageVariables'
 import Signups from './admin/Signups/Signups'
 import ManageSubscriptions from './admin/ManageSubscriptions/ManageSubscriptions'
-import Lessons from './Lessons/Lessons'
-import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
 import SideNav from './SideNav/SideNav'
 import TopBar from './TopBar/TopBar'
 import SignOut from './SignOut/SignOut'
 import ForgotPasswordWizard from './ForgotPasswordWizard/ForgotPasswordWizard'
 import StandaloneEditor from './StandaloneEditor/StandaloneEditor'
-import ProviderDashboard from './ProviderDashboard/ProviderDashboard'
 import EmailVerification from './EmailVerification/EmailVerification'
 import BetaLessons from './BetaLessons/BetaLessons'
 import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
 
+const Lessons = Loadable({
+  loader: () => require.ensure('./Lessons/Lessons'),
+  loading: Loading
+})
+
+const ManageLessonThemes = Loadable({
+  loader: () => require.ensure('./ManageLessonThemes/ManageLessonThemes'),
+  loading: Loading
+})
+
+const AddOrEditSubscription = Loadable({
+  loader: () => require.ensure('./AddOrEditSubscription/AddOrEditSubscription'),
+  loading: Loading
+})
+
+const ManageLessons = Loadable({
+  loader: () => require.ensure('./ManageLessons/ManageLessons'),
+  loading: Loading
+})
+
+const AddOrEditVariable = Loadable({
+  loader: () => require.ensure('./AddOrEditVariable/AddOrEditVariable'),
+  loading: Loading
+})
+
+const AddOrEditLessonTheme = Loadable({
+  loader: () => require.ensure('./AddOrEditLessonTheme/AddOrEditLessonTheme'),
+  loading: Loading
+})
+
+const AddOrEditLesson = Loadable({
+  loader: () => require.ensure('./AddOrEditLesson/AddOrEditLesson'),
+  loading: Loading
+})
+
+const ProviderDashboard = Loadable({
+  loader: () => require.ensure('./ProviderDashboard/ProviderDashboard'),
+  loading: Loading
+})
+
+const Landing = Loadable({
+  loader: () => require.ensure('./Landing/Landing'),
+  loading: Loading
+})
+
+const UserLessonWizard = Loadable({
+  loader: () => require.ensure('./UserLessonWizard/UserLessonWizard'),
+  loading: Loading
+})
 
 let baseAppStyle = {
   borderRadius: 0
