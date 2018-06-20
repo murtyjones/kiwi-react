@@ -61,7 +61,7 @@ class ProviderSignIn extends Component {
           />
           <Field
             name={ providerSignInSlide.names[1] }
-            type='Email'
+            type='password'
             label='Password'
             component={ KiwiTextField }
             StartAdornmentIcon={ LockOutline }
