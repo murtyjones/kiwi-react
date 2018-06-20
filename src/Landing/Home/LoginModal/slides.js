@@ -51,7 +51,7 @@ export const providerForgotPasswordSlide = {
 
 export const studentSignUpSlide = {
   Component: StudentSignUp, FieldComponent: Field
-  , name: 'studentForgotPassword'
+  , name: 'studentSignUp'
   , headerText: 'Sign in to your account'
 }
 

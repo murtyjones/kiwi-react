@@ -12,7 +12,7 @@ import LockOutline from 'material-ui-icons/LockOutline'
 import SlideInOut from '../../../../common/animations/SlideInOut'
 import { providerSignInSlide, studentSlides } from '../slides'
 import KiwiTextField from '../../../../common/form/KiwiTextField'
-import { required } from '../../../../utils/validationUtils'
+import { email, required } from '../../../../utils/validationUtils'
 import StudentForgotPassword from './StudentForgotPassword'
 import StudentSignUp from './StudentSignUp'
 
@@ -39,7 +39,7 @@ class ProviderSignIn extends Component {
   }
 
   render() {
-    const { classes, goToSlide } = this.props
+    const { classes, onSubmit, goToSlide } = this.props
     const forgotPasswordIndex = findIndex(studentSlides, { Component: StudentForgotPassword })
     const studentSignUpIndex = findIndex(studentSlides, { Component: StudentSignUp })
 
@@ -48,7 +48,7 @@ class ProviderSignIn extends Component {
         <div className={ cns('loginModalForm-slide', classes.container) }>
           <Link to='#'
             className={ classes.needAccountLink }
-            onClick={ () => goToSlide(studentSignUpIndex) }
+            onClick={ () => onSubmit({ redirectToProviderSignUp: true }) }
           >
             I don't have an account!
           </Link>
@@ -57,7 +57,7 @@ class ProviderSignIn extends Component {
             label='Email'
             component={ KiwiTextField }
             StartAdornmentIcon={ Email }
-            validate={ [ required ] }
+            validate={ [ email, required ] }
           />
           <Field
             name={ providerSignInSlide.names[1] }

@@ -10,8 +10,9 @@ import has from 'lodash/has'
 import { getError, genericLoginFailure } from '../../../utils/httpErrorUtils'
 
 import LoginModalForm from './LoginModalForm'
+import ProviderRegisterModal from '../ProviderRegisterModal/ProviderRegisterModal'
 import {
-  login, register, resetPasswordRequest, postSubscription, putSubscription, putProfile, closeModal
+  login, register, resetPasswordRequest, openModal, closeModal
 } from '../../../actions'
 import { choosePathSlide, studentSlides, providerSlides } from './slides'
 
@@ -48,9 +49,7 @@ class LoginModal extends Component {
     register: T.func.isRequired
     , login: T.func.isRequired
     , resetPasswordRequest: T.func.isRequired
-    , postSubscription: T.func.isRequired
-    , putSubscription: T.func.isRequired
-    , putProfile: T.func.isRequired
+    , openModal: T.func.isRequired
     , closeModal: T.func.isRequired
   }
 
@@ -61,6 +60,15 @@ class LoginModal extends Component {
 
   // log in
   slide1Submit = async params => {
+    if (params.redirectToProviderSignUp) {
+      this.props.history.push('/onboarding')
+      return this.props.openModal({
+        className: 'providerRegisterModal',
+        children: (
+          <ProviderRegisterModal /* Each slide handles its submit function */ />
+        )
+      })
+    }
     await this.props.login(params)
     const pushPath = this.state.isStudentSignIn
       ? '/lessons'
@@ -150,9 +158,7 @@ const mapDispatchToProps = (dispatch) => {
     register: params => dispatch(register(params))
     , login: params => dispatch(login(params))
     , resetPasswordRequest: params => dispatch(resetPasswordRequest(params))
-    , postSubscription: params => dispatch(postSubscription(params))
-    , putSubscription: params => dispatch(putSubscription(params))
-    , putProfile: params => dispatch(putProfile(params))
+    , openModal: params => dispatch(openModal(params))
     , closeModal: params => dispatch(closeModal(params))
   }
 }

@@ -44,10 +44,15 @@ class LoginModalForm extends Component {
     , goToSlide: T.func.isRequired
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.activeSlideIndex !== this.props.activeSlideIndex) {
+      this.props.clearSubmitErrors(formName)
+    }
+  }
+
   render() {
     const { classes, handleSubmit, onSubmit, slide, formValues } = this.props
     const { submitText, Component, FieldComponent, names, name, successMessage } = slide
-
     const nameOrNames = {}
     if (names) nameOrNames.names = names
     else nameOrNames.name = name
