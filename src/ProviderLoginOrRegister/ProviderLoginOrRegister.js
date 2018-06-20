@@ -7,6 +7,8 @@ import get from 'lodash/get'
 import find from 'lodash/find'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
+import queryString from 'query-string'
+
 
 import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } from '../actions'
 
@@ -85,19 +87,32 @@ class ProviderLoginOrRegister extends PureComponent {
     }
   }
 
+  getResetPasswordSuccess = () => {
+    const { location: { search } } = this.props
+    const parsedSearch = queryString.parse(search)
+    if (!parsedSearch.success) {
+      return undefined
+    }
+    return parsedSearch.success === 'true'
+  }
 
-  renderLoginForm = () => {
+
+  renderLoginForm = props => {
+    const resetPasswordSuccess = this.getResetPasswordSuccess()
     return (
       <LoginForm
         onSubmit={ this.handleLoginSubmit }
+        resetPasswordSuccess={ resetPasswordSuccess }
       />
     )
   }
 
   renderRegisterForm = () => {
+    const resetPasswordSuccess = this.getResetPasswordSuccess()
     return (
       <RegisterForm
         onSubmit={ this.handleRegisterSubmit }
+        resetPasswordSuccess={ resetPasswordSuccess }
       />
     )
   }
@@ -109,10 +124,8 @@ class ProviderLoginOrRegister extends PureComponent {
   }
 
   render() {
-    const { location } = this.props
-    const currentPath = location.pathname
-    const switchText = currentPath === '/provider/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
-
+    const { location: { pathname } } = this.props
+    const switchText = pathname === '/provider/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
     const availableRoutes = [
       {
         path: '/provider/login',
@@ -123,7 +136,7 @@ class ProviderLoginOrRegister extends PureComponent {
         component: this.renderRegisterForm
       }
     ]
-    const currentRoute = find(availableRoutes, { path: currentPath })
+    const currentRoute = find(availableRoutes, { path: pathname })
 
     const ComponentToRender = () => { return currentRoute.component() }
 

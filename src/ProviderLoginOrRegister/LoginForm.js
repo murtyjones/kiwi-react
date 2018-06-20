@@ -1,34 +1,54 @@
 import React, { Component } from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
-import renderTextField from '../common/renderTextField'
+import withStyles from '@material-ui/core/styles/withStyles'
+import KiwiTextField from '../common/form/KiwiTextField'
+import SubmitButton from '../common/form/SubmitButton'
+
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 
+// http://localhost:3000/provider/login?email=marty%40kiwicompute.com&success=true&message=You%20can%20now%20login%20to%20the%20application%20with%20the%20new%20password.
+
+const styles = theme => ({
+  form: {
+    margin: '0 auto',
+    width: '50%'
+  }
+})
 
 let LoginForm = props => {
-  const { error, handleSubmit, pristine, reset, submitting } = props
+  const { classes, error, handleSubmit, pristine, reset, submitting, resetPasswordSuccess } = props
   return (
-    <form onSubmit={ handleSubmit }>
+    <form className={ classes.form }  onSubmit={ handleSubmit }>
+      { resetPasswordSuccess === true
+        ? <div>Your password was successfully reset! You can now log in.</div>
+        : resetPasswordSuccess === false
+          ? <div>Sorry, there was a problem. Please email support@kiwicompute.com</div>
+          : null
+      }
       <Field
         name='email'
         type='text'
-        component={ renderTextField }
-        hintText='Email'
+        label='Email'
+        component={ KiwiTextField }
       />
       <Field
         name='password'
         type='password'
-        component={ renderTextField }
-        hintText='Password'
+        label='Password'
+        component={ KiwiTextField }
       />
       { error && <strong>{ error }</strong> }
       <div>
-        <RaisedButton type='submit' onClick={ handleSubmit } disabled={ submitting }>
-          Login
-        </RaisedButton>
-        <FlatButton onClick={ reset } disabled={ pristine || submitting }>
-          Clear Values
-        </FlatButton>
+        <SubmitButton variant='outlined'
+          { ...props }
+          text='Login'
+        />
+        <SubmitButton variant='raised'
+          { ...props }
+          onClick={ reset }
+          text='Clear Values'
+        />
       </div>
     </form>
   )
@@ -52,4 +72,4 @@ LoginForm = reduxForm({
   }
 })(LoginForm)
 
-export default LoginForm
+export default withStyles(styles, { withTheme: true })(LoginForm)
