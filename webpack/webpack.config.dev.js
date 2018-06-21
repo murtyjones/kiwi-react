@@ -10,7 +10,7 @@ module.exports = {
   context: path.join(__dirname, '../'),
   entry: {
     main: './src/Main.js',
-    addOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson'
+    addOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson.js'
   },
   output: {
     path: path.join(__dirname, '../build/build/js'),
