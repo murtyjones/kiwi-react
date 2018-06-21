@@ -8,6 +8,7 @@ import Modal from 'react-modal'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
+import Loadable from 'react-loadable'
 
 import './utils/refreshToken'
 import { isSubscriptionValid } from './utils/permissionUtils'
@@ -33,7 +34,6 @@ import PlainRoute from './Routes/PlainRoute'
 /**
  * Route Components/Containers
  */
-import Landing from './Landing/Landing'
 import Welcome from './WelcomeWizard/WelcomeWizard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
@@ -60,6 +60,10 @@ import EmailVerification from './EmailVerification/EmailVerification'
 import BetaLessons from './BetaLessons/BetaLessons'
 import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
 
+const Landing = Loadable({
+  loader: () => import('./Landing/Landing'),
+  loading: () => <div>Loading...</div>,
+});
 
 let baseAppStyle = {
   borderRadius: 0

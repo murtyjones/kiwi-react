@@ -12,14 +12,17 @@ module.exports = {
     historyApiFallback: true,
   },
   context: path.join(__dirname, '../'),
-  entry: [
-    'react-hot-loader/patch'
-    , 'webpack-hot-middleware/client'
-    , './src/Main.js'
-  ],
+  entry: {
+    main: [
+      'react-hot-loader/patch'
+      , 'webpack-hot-middleware/client'
+      , './src/Main.js'
+    ],
+    landing: './src/Landing/Landing.js'
+  },
   output: {
     path: path.join(__dirname, '../build/js'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     publicPath: '/build/js/'
   },
   module: {
