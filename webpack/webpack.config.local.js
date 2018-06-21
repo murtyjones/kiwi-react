@@ -17,8 +17,7 @@ module.exports = {
       'react-hot-loader/patch'
       , 'webpack-hot-middleware/client'
       , './src/Main.js'
-    ],
-    addOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson'
+    ]
   },
   output: {
     path: path.join(__dirname, '../build/js'),
@@ -50,5 +49,13 @@ module.exports = {
   },
   resolve: {
 
+  },
+  optimization: {
+    splitChunks: {
+      chunks (chunk) {
+        // exclude `my-excluded-chunk`
+        return chunk.name !== 'main'
+      }
+    }
   }
 }
