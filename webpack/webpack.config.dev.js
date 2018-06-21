@@ -9,7 +9,7 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   context: path.join(__dirname, '../'),
   entry: {
-    main: './src/Main.js',
+    main1: './src/Main.js',
     addOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson.js'
   },
   output: {
@@ -47,7 +47,7 @@ module.exports = {
     splitChunks: {
       chunks (chunk) {
         // exclude `my-excluded-chunk`
-        return chunk.name !== 'main'
+        return chunk.name !== 'main1'
       }
     }
   }
