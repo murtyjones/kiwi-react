@@ -34,13 +34,13 @@ import PlainRoute from './Routes/PlainRoute'
 /**
  * Route Components/Containers
  */
+import Loading from './Loading/Loading'
+import Landing from './Landing/Landing'
 import Welcome from './WelcomeWizard/WelcomeWizard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
 import ProviderLoginOrRegister from './ProviderLoginOrRegister/ProviderLoginOrRegister'
-import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
-import AddOrEditLessonTheme from './admin/AddOrEditLessonTheme/AddOrEditLessonTheme'
 import AddOrEditVariable from './admin/AddOrEditVariable/AddOrEditVariable'
 import AddOrEditSubscription from './admin/AddOrEditSubscription/AddOrEditSubscription'
 import ManageLessons from './admin/ManageLessons/ManageLessons'
@@ -60,10 +60,16 @@ import EmailVerification from './EmailVerification/EmailVerification'
 import BetaLessons from './BetaLessons/BetaLessons'
 import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
 
-const Landing = Loadable({
-  loader: () => import('./Landing/Landing'),
-  loading: () => <div>Loading...</div>,
-});
+const AddOrEditLesson = Loadable({
+  loader: () => import('./admin/AddOrEditLesson/AddOrEditLesson'),
+  loading: Loading
+})
+
+const AddOrEditLessonTheme = Loadable({
+  loader: () => import('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme'),
+  loading: Loading
+})
+
 
 let baseAppStyle = {
   borderRadius: 0

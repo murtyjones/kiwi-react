@@ -9,7 +9,8 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   context: path.join(__dirname, '../'),
   entry: {
-    main: './src/Main.js'
+    main: './src/Main.js',
+    addOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson'
   },
   output: {
     path: path.join(__dirname, '../build/build/js'),

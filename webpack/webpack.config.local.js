@@ -18,7 +18,7 @@ module.exports = {
       , 'webpack-hot-middleware/client'
       , './src/Main.js'
     ],
-    landing: './src/Landing/Landing.js'
+    addOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson'
   },
   output: {
     path: path.join(__dirname, '../build/js'),
