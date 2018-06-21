@@ -21,6 +21,9 @@ const authService = new AuthService()
 
 Modal.setAppElement(document.getElementById('app'))
 
+const KiwiLoadable = path => Loadable({
+  loader: () => import(path), loading: Loading
+})
 
 /**
  * Routing Components
@@ -40,14 +43,6 @@ import Welcome from './WelcomeWizard/WelcomeWizard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
-import ProviderLoginOrRegister from './ProviderLoginOrRegister/ProviderLoginOrRegister'
-import AddOrEditVariable from './admin/AddOrEditVariable/AddOrEditVariable'
-import AddOrEditSubscription from './admin/AddOrEditSubscription/AddOrEditSubscription'
-import ManageLessons from './admin/ManageLessons/ManageLessons'
-import ManageLessonThemes from './admin/ManageLessonThemes/ManageLessonThemes'
-import ManageVariables from './admin/ManageVariables/ManageVariables'
-import Signups from './admin/Signups/Signups'
-import ManageSubscriptions from './admin/ManageSubscriptions/ManageSubscriptions'
 import Lessons from './Lessons/Lessons'
 import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
 import SideNav from './SideNav/SideNav'
@@ -60,15 +55,16 @@ import EmailVerification from './EmailVerification/EmailVerification'
 import BetaLessons from './BetaLessons/BetaLessons'
 import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
 
-const AddOrEditLesson = Loadable({
-  loader: () => import('./admin/AddOrEditLesson/AddOrEditLesson'),
-  loading: Loading
-})
-
-const AddOrEditLessonTheme = Loadable({
-  loader: () => import('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme'),
-  loading: Loading
-})
+const ProviderLoginOrRegister = KiwiLoadable('./admin/ProviderLoginOrRegister/ProviderLoginOrRegister')
+const AddOrEditLesson = KiwiLoadable('./admin/AddOrEditLesson/AddOrEditLesson')
+const AddOrEditLessonTheme = KiwiLoadable('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme')
+const AddOrEditVariable = KiwiLoadable('./admin/AddOrEditVariable/AddOrEditVariable')
+const AddOrEditSubscription = KiwiLoadable('./admin/AddOrEditSubscription/AddOrEditSubscription')
+const ManageLessons = KiwiLoadable('./admin/ManageLessons/ManageLessons')
+const ManageLessonThemes = KiwiLoadable('./admin/ManageLessonThemes/ManageLessonThemes')
+const ManageVariables = KiwiLoadable('./admin/ManageVariables/ManageVariables')
+const ManageSubscriptions = KiwiLoadable('./admin/ManageSubscriptions/ManageSubscriptions')
+const Signups = KiwiLoadable('./admin/Signups/Signups')
 
 
 let baseAppStyle = {
