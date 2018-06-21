@@ -8,12 +8,12 @@ module.exports = {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   context: path.join(__dirname, '../'),
-  entry: [
-    './src/Main.js'
-  ],
+  entry: {
+    main: './src/Main.js'
+  },
   output: {
     path: path.join(__dirname, '../build/build/js'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     publicPath: '/build/js/'
   },
   module: {
