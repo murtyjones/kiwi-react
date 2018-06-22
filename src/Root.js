@@ -30,6 +30,7 @@ import PlainRoute from './Routes/PlainRoute'
 /**
  * Route Components/Containers
  */
+import Loading from './Loading/Loading'
 import Landing from './Landing/Landing'
 import Welcome from './WelcomeWizard/WelcomeWizard'
 import UserProjects from './UserProjects/UserProjects'
