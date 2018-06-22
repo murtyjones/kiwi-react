@@ -56,6 +56,7 @@ import BetaLessons from './BetaLessons/BetaLessons'
 import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
 
 import ProviderLoginOrRegister from './ProviderLoginOrRegister/ProviderLoginOrRegister'
+import AddOrEditLessonTheme from './admin/AddOrEditLessonTheme/AddOrEditLessonTheme'
 import AddOrEditVariable from './admin/AddOrEditVariable/AddOrEditVariable'
 import AddOrEditSubscription from './admin/AddOrEditSubscription/AddOrEditSubscription'
 import ManageLessons from './admin/ManageLessons/ManageLessons'
