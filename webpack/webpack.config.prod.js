@@ -26,11 +26,11 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../build/build/js'),
     filename: '[name].bundle.js',
-    publicPath: '/build/js/',
-    strictModuleExceptionHandling: true
+    publicPath: '/build/js/'
 
   },
   module: {
+    strictExportPresence: true,
     rules: [{
       test: /\.js$/,
       exclude: /(node_modules|bower_components)/,
