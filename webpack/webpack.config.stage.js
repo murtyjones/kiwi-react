@@ -27,7 +27,6 @@ module.exports = {
     path: path.join(__dirname, '../build/build/js'),
     filename: '[name].bundle.js',
     publicPath: '/build/js/'
-
   },
   module: {
     rules: [{
