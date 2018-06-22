@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
+import { SubmissionError } from 'redux-form'
 import Table from '@material-ui/core/Table'
 import BluebirdPromise from 'bluebird'
 import TableBody from '@material-ui/core/TableBody'
@@ -56,21 +57,31 @@ class Subscriptions extends Component {
   }
 
   handlePostSubmit = async v => {
-    const { register, postSubscription, userId } = this.props
+    const { register, postSubscription, putSubscription, userId } = this.props
     try {
       const profile = await register({
         username: v.username,
         password: v.newPassword
       })
+      // make inactive subscription
       const subscription = await postSubscription({
-        status: SUBSCRIPTION_STATUSES.ACTIVE,
+        status: SUBSCRIPTION_STATUSES.INACTIVE,
         providerId: userId,
         provideeId: profile._id
       })
-      return subscription
+      // flip subscription to active
+      const updatedSubscription = await putSubscription({
+        id: subscription._id,
+        status: SUBSCRIPTION_STATUSES.ACTIVE,
+        v: subscription.v
+
+      })
+      return updatedSubscription.after
     } catch (err) {
       console.log(err)
-      throw new SubmissionError({ _error: err.body ? err.body.message : err.message })
+      throw new SubmissionError({
+        _error: err.body ? err.body.message : err.message
+      })
     }
   }
 

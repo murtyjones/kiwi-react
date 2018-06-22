@@ -49,13 +49,5 @@ module.exports = {
   },
   resolve: {
 
-  },
-  optimization: {
-    splitChunks: {
-      chunks (chunk) {
-        // exclude `my-excluded-chunk`
-        return chunk.name !== 'main'
-      }
-    }
   }
 }

@@ -12,6 +12,7 @@ import validateUsernameAvailability from './validateUsernameAvailability'
 import SubmitButton from '../../common/form/SubmitButton'
 import ResultMessage from '../../common/form/ResultMessage'
 import CopyLink from '../../common/CopyLink/CopyLink'
+import {minLength6, required} from "../../utils/validationUtils"
 
 export const formName = 'provideeProfile'
 
@@ -67,18 +68,21 @@ class ProvideeProfileForm extends Component {
           label='Username'
           component={ KiwiTextField }
           successText='That username is available!'
+          validate={ [ required ] }
         />
         <Field
           name='newPassword'
           type='password'
           label='New Password'
           component={ KiwiTextField }
+          validate={ [ required, minLength6 ] }
         />
         <Field
           name='confirmNewPassword'
           type='password'
           label='Confirm New Password'
           component={ KiwiTextField }
+          validate={ [ required ] }
         />
         <SubmitButton
           text='Save'
