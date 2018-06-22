@@ -23,7 +23,7 @@ const sections = [
       Austin. We’re bringing our curriculum online with the help and input of
       students and parents from across the country.
     `,
-    imageUrl: 'https://res.cloudinary.com/kiwi-stage/image/upload/v1516730490/landing-mock_1_yldeln.png',
+    imageUrl: 'https://res.cloudinary.com/kiwi-stage/image/upload/w_350,c_scale/v1516730490/landing-mock_1_yldeln.png',
     style: { minHeight: '300px' },
     imageStyle: { width: '350px' }
   },
