@@ -8,13 +8,26 @@ module.exports = {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   context: path.join(__dirname, '../'),
-  entry: [
-    './src/Main.js'
-  ],
+  entry: {
+    main: './src/Main.js',
+    AddOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson.js',
+    AddOrEditLessonTheme: './src/admin/AddOrEditLessonTheme/AddOrEditLessonTheme.js',
+    AddOrEditVariable: './src/admin/AddOrEditVariable/AddOrEditVariable.js',
+    AddOrEditSubscription: './src/admin/AddOrEditSubscription/AddOrEditSubscription.js',
+    ManageLessons: './src/admin/ManageLessons/ManageLessons.js',
+    ManageLessonThemes: './src/admin/ManageLessonThemes/ManageLessonThemes.js',
+    ManageVariables: './src/admin/ManageVariables/ManageVariables.js',
+    ManageSubscriptions: './src/admin/ManageSubscriptions/ManageSubscriptions.js',
+    Signups: './src/admin/Signups/Signups.js',
+    ProviderLoginOrRegister: './src/ProviderLoginOrRegister/ProviderLoginOrRegister',
+    Lessons: './src/Lessons/Lessons',
+    ForgotPasswordWizard: './src/ForgotPasswordWizard/ForgotPasswordWizard'
+  },
   output: {
     path: path.join(__dirname, '../build/build/js'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     publicPath: '/build/js/'
+
   },
   module: {
     rules: [{
@@ -31,12 +44,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('stage')
-      },
-    })
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/)
   ],
   externals: {
     config: JSON.stringify(stageConfig)
@@ -46,6 +54,13 @@ module.exports = {
   },
   resolve: {
 
+  },
+  optimization: {
+    splitChunks: {
+      chunks (chunk) {
+        // exclude `my-excluded-chunk`
+        return chunk.name !== 'main'
+      }
+    }
   }
 }
-
