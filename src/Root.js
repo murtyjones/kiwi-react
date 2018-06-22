@@ -36,26 +36,63 @@ import Welcome from './WelcomeWizard/WelcomeWizard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
-import ProviderLoginOrRegister from './ProviderLoginOrRegister/ProviderLoginOrRegister'
-import AddOrEditLesson from './admin/AddOrEditLesson/AddOrEditLesson'
-import AddOrEditLessonTheme from './admin/AddOrEditLessonTheme/AddOrEditLessonTheme'
-import AddOrEditVariable from './admin/AddOrEditVariable/AddOrEditVariable'
-import AddOrEditSubscription from './admin/AddOrEditSubscription/AddOrEditSubscription'
-import ManageLessons from './admin/ManageLessons/ManageLessons'
-import ManageLessonThemes from './admin/ManageLessonThemes/ManageLessonThemes'
-import ManageVariables from './admin/ManageVariables/ManageVariables'
-import Signups from './admin/Signups/Signups'
-import ManageSubscriptions from './admin/ManageSubscriptions/ManageSubscriptions'
-import Lessons from './Lessons/Lessons'
 import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
 import SideNav from './SideNav/SideNav'
 import TopBar from './TopBar/TopBar'
 import SignOut from './SignOut/SignOut'
-import ForgotPasswordWizard from './ForgotPasswordWizard/ForgotPasswordWizard'
 import StandaloneEditor from './StandaloneEditor/StandaloneEditor'
 import ProviderDashboard from './ProviderDashboard/ProviderDashboard'
 import EmailVerification from './EmailVerification/EmailVerification'
 import BetaLessons from './BetaLessons/BetaLessons'
+
+const Lessons = Loadable({
+  loader: () => import('./Lessons/Lessons')
+  , loading: Loading
+})
+const ForgotPasswordWizard = Loadable({
+  loader: () => import('./ForgotPasswordWizard/ForgotPasswordWizard')
+  , loading: Loading
+})
+const AddOrEditLesson = Loadable({
+  loader: () => import('./admin/AddOrEditLesson/AddOrEditLesson')
+  , loading: Loading
+})
+const ProviderLoginOrRegister = Loadable({
+  loader: () => import('./ProviderLoginOrRegister/ProviderLoginOrRegister')
+  , loading: Loading
+})
+const AddOrEditLessonTheme = Loadable({
+  loader: () => import('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme')
+  , loading: Loading
+})
+const AddOrEditVariable = Loadable({
+  loader: () => import('./admin/AddOrEditVariable/AddOrEditVariable')
+  , loading: Loading
+})
+const AddOrEditSubscription = Loadable({
+  loader: () => import('./admin/AddOrEditSubscription/AddOrEditSubscription')
+  , loading: Loading
+})
+const ManageLessons = Loadable({
+  loader: () => import('./admin/ManageLessons/ManageLessons')
+  , loading: Loading
+})
+const ManageLessonThemes = Loadable({
+  loader: () => import('./admin/ManageLessonThemes/ManageLessonThemes')
+  , loading: Loading
+})
+const ManageVariables = Loadable({
+  loader: () => import('./admin/ManageVariables/ManageVariables')
+  , loading: Loading
+})
+const ManageSubscriptions = Loadable({
+  loader: () => import('./admin/ManageSubscriptions/ManageSubscriptions')
+  , loading: Loading
+})
+const Signups = Loadable({
+  loader: () => import('./admin/Signups/Signups')
+  , loading: Loading
+})
 
 
 let baseAppStyle = {
