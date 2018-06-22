@@ -19,7 +19,9 @@ module.exports = {
     ManageVariables: './src/admin/ManageVariables/ManageVariables.js',
     ManageSubscriptions: './src/admin/ManageSubscriptions/ManageSubscriptions.js',
     Signups: './src/admin/Signups/Signups.js',
-    ProviderLoginOrRegister: './src/ProviderLoginOrRegister/ProviderLoginOrRegister'
+    ProviderLoginOrRegister: './src/ProviderLoginOrRegister/ProviderLoginOrRegister',
+    Lessons: './Lessons/Lessons',
+    ForgotPasswordWizard: './ForgotPasswordWizard/ForgotPasswordWizard'
   },
   output: {
     path: path.join(__dirname, '../build/build/js'),

@@ -43,18 +43,24 @@ import Welcome from './WelcomeWizard/WelcomeWizard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
 import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
-import Lessons from './Lessons/Lessons'
 import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
 import SideNav from './SideNav/SideNav'
 import TopBar from './TopBar/TopBar'
 import SignOut from './SignOut/SignOut'
-import ForgotPasswordWizard from './ForgotPasswordWizard/ForgotPasswordWizard'
 import StandaloneEditor from './StandaloneEditor/StandaloneEditor'
 import ProviderDashboard from './ProviderDashboard/ProviderDashboard'
 import EmailVerification from './EmailVerification/EmailVerification'
 import BetaLessons from './BetaLessons/BetaLessons'
 import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
 
+const Lessons = Loadable({
+  loader: () => import('./Lessons/Lessons')
+  , loading: Loading
+})
+const ForgotPasswordWizard = Loadable({
+  loader: () => import('./ForgotPasswordWizard/ForgotPasswordWizard')
+  , loading: Loading
+})
 const AddOrEditLesson = Loadable({
   loader: () => import('./admin/AddOrEditLesson/AddOrEditLesson')
   , loading: Loading
