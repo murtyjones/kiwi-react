@@ -10,7 +10,16 @@ module.exports = {
   context: path.join(__dirname, '../'),
   entry: {
     main: './src/Main.js',
-    addOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson'
+    AddOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson.js',
+    AddOrEditLessonTheme: './src/admin/AddOrEditLessonTheme/AddOrEditLessonTheme.js',
+    AddOrEditVariable: './src/admin/AddOrEditVariable/AddOrEditVariable.js',
+    AddOrEditSubscription: './src/admin/AddOrEditSubscription/AddOrEditSubscription.js',
+    ManageLessons: './src/admin/ManageLessons/ManageLessons.js',
+    ManageLessonThemes: './src/admin/ManageLessonThemes/ManageLessonThemes.js',
+    ManageVariables: './src/admin/ManageVariables/ManageVariables.js',
+    ManageSubscriptions: './src/admin/ManageSubscriptions/ManageSubscriptions.js',
+    Signups: './src/admin/Signups/Signups.js',
+    ProviderLoginOrRegister: './src/ProviderLoginOrRegister/ProviderLoginOrRegister'
   },
   output: {
     path: path.join(__dirname, '../build/build/js'),
@@ -42,6 +51,14 @@ module.exports = {
   },
   resolve: {
 
+  },
+  optimization: {
+    splitChunks: {
+      chunks (chunk) {
+        // exclude `my-excluded-chunk`
+        return chunk.name !== 'main'
+      }
+    }
   }
 }
 

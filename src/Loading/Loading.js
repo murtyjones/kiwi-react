@@ -1,6 +1,13 @@
 import React from 'react'
 
 const Loading = props =>
-  <div>Loading</div>
+  <div
+    className='spinner'
+    style={ {
+      position: 'absolute',
+      top: '50%',
+      left: '50%'
+      } }
+  />
 
 export default Loading

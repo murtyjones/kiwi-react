@@ -55,26 +55,46 @@ import EmailVerification from './EmailVerification/EmailVerification'
 import BetaLessons from './BetaLessons/BetaLessons'
 import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
 
-import ProviderLoginOrRegister from './ProviderLoginOrRegister/ProviderLoginOrRegister'
-import AddOrEditLessonTheme from './admin/AddOrEditLessonTheme/AddOrEditLessonTheme'
-import AddOrEditVariable from './admin/AddOrEditVariable/AddOrEditVariable'
-import AddOrEditSubscription from './admin/AddOrEditSubscription/AddOrEditSubscription'
-import ManageLessons from './admin/ManageLessons/ManageLessons'
-import ManageLessonThemes from './admin/ManageLessonThemes/ManageLessonThemes'
-import ManageVariables from './admin/ManageVariables/ManageVariables'
-import Signups from './admin/Signups/Signups'
-import ManageSubscriptions from './admin/ManageSubscriptions/ManageSubscriptions'
-
-const AddOrEditLesson = KiwiLoadable('./admin/AddOrEditLesson/AddOrEditLesson')
-// const ProviderLoginOrRegister = KiwiLoadable('./admin/ProviderLoginOrRegister/ProviderLoginOrRegister')
-// const AddOrEditLessonTheme = KiwiLoadable('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme')
-// const AddOrEditVariable = KiwiLoadable('./admin/AddOrEditVariable/AddOrEditVariable')
-// const AddOrEditSubscription = KiwiLoadable('./admin/AddOrEditSubscription/AddOrEditSubscription')
-// const ManageLessons = KiwiLoadable('./admin/ManageLessons/ManageLessons')
-// const ManageLessonThemes = KiwiLoadable('./admin/ManageLessonThemes/ManageLessonThemes')
-// const ManageVariables = KiwiLoadable('./admin/ManageVariables/ManageVariables')
-// const ManageSubscriptions = KiwiLoadable('./admin/ManageSubscriptions/ManageSubscriptions')
-// const Signups = KiwiLoadable('./admin/Signups/Signups')
+const AddOrEditLesson = Loadable({
+  loader: () => import('./admin/AddOrEditLesson/AddOrEditLesson')
+  , loading: Loading
+})
+const ProviderLoginOrRegister = Loadable({
+  loader: () => import('./ProviderLoginOrRegister/ProviderLoginOrRegister')
+  , loading: Loading
+})
+const AddOrEditLessonTheme = Loadable({
+  loader: () => import('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme')
+  , loading: Loading
+})
+const AddOrEditVariable = Loadable({
+  loader: () => import('./admin/AddOrEditVariable/AddOrEditVariable')
+  , loading: Loading
+})
+const AddOrEditSubscription = Loadable({
+  loader: () => import('./admin/AddOrEditSubscription/AddOrEditSubscription')
+  , loading: Loading
+})
+const ManageLessons = Loadable({
+  loader: () => import('./admin/ManageLessons/ManageLessons')
+  , loading: Loading
+})
+const ManageLessonThemes = Loadable({
+  loader: () => import('./admin/ManageLessonThemes/ManageLessonThemes')
+  , loading: Loading
+})
+const ManageVariables = Loadable({
+  loader: () => import('./admin/ManageVariables/ManageVariables')
+  , loading: Loading
+})
+const ManageSubscriptions = Loadable({
+  loader: () => import('./admin/ManageSubscriptions/ManageSubscriptions')
+  , loading: Loading
+})
+const Signups = Loadable({
+  loader: () => import('./admin/Signups/Signups')
+  , loading: Loading
+})
 
 
 let baseAppStyle = {
