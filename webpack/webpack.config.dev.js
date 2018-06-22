@@ -10,7 +10,7 @@ module.exports = {
   context: path.join(__dirname, '../'),
   entry: {
     main: './src/Main.js',
-    addOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson.js',
+    0: './src/admin/AddOrEditLesson/AddOrEditLesson.js',
     // addOrEditLessonTheme: './src/admin/AddOrEditLessonTheme/AddOrEditLessonTheme.js',
     // addOrEditVariable: './src/admin/AddOrEditVariable/AddOrEditVariable.js',
     // addOrEditSubscription: './src/admin/AddOrEditSubscription/AddOrEditSubscription.js',
