@@ -27,6 +27,7 @@ module.exports = {
     path: path.join(__dirname, '../build/build/js'),
     filename: '[name].bundle.js',
     publicPath: '/build/js/'
+
   },
   module: {
     rules: [{
@@ -43,12 +44,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('stage')
-      },
-    })
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/)
   ],
   externals: {
     config: JSON.stringify(stageConfig)
@@ -68,4 +64,3 @@ module.exports = {
     }
   }
 }
-
