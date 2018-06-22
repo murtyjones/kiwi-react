@@ -8,6 +8,7 @@ import Modal from 'react-modal'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
+import Loadable from 'react-loadable'
 
 
 import AuthService from './utils/AuthService'
