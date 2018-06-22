@@ -21,10 +21,6 @@ const authService = new AuthService()
 
 Modal.setAppElement(document.getElementById('app'))
 
-const KiwiLoadable = path => Loadable({
-  loader: () => import(path), loading: Loading
-})
-
 /**
  * Routing Components
  */
