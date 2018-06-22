@@ -60,13 +60,6 @@ module.exports = {
       chunks (chunk) {
         // exclude `my-excluded-chunk`
         return chunk.name !== 'main'
-      },
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
-        }
       }
     }
   }
