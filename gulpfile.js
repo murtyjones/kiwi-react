@@ -130,33 +130,27 @@ gulp.task("clean", function() {
 
 gulp.task("webpack:build:production", function(callback) {
   // run webpack
-  webpack(webpackProdConfig, function(err, stats) {
+  return webpack(webpackProdConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack:build:production", err);
-    gutil.log("[webpack:build:production]", stats.toString({
-      colors: true
-    }));
+    gutil.log("[webpack:build:production]", stats.toString({ colors: true }));
     callback();
   });
 });
 
 gulp.task("webpack:build:development", function(callback) {
   // run webpack
-  webpack(webpackDevConfig, function(err, stats) {
+  return webpack(webpackDevConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack:build:development", err);
-    gutil.log("[webpack:build:development]", stats.toString({
-      colors: true
-    }));
+    gutil.log("[webpack:build:development]", stats.toString({ colors: true }));
     callback();
   });
 });
 
 gulp.task("webpack:build:stage", function(callback) {
   // run webpack
-  webpack(webpackStageConfig, function(err, stats) {
+  return webpack(webpackStageConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack:build:stage", err);
-    gutil.log("[webpack:build:stage]", stats.toString({
-      colors: true
-    }));
+    gutil.log("[webpack:build:stage]", stats.toString({ colors: true }));
     callback();
   });
 });

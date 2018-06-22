@@ -20,13 +20,14 @@ module.exports = {
     ManageSubscriptions: './src/admin/ManageSubscriptions/ManageSubscriptions.js',
     Signups: './src/admin/Signups/Signups.js',
     ProviderLoginOrRegister: './src/ProviderLoginOrRegister/ProviderLoginOrRegister',
-    Lessons: './Lessons/Lessons',
-    ForgotPasswordWizard: './ForgotPasswordWizard/ForgotPasswordWizard'
+    Lessons: './src/Lessons/Lessons',
+    ForgotPasswordWizard: './src/ForgotPasswordWizard/ForgotPasswordWizard'
   },
   output: {
     path: path.join(__dirname, '../build/build/js'),
     filename: '[name].bundle.js',
     publicPath: '/build/js/'
+
   },
   module: {
     rules: [{
