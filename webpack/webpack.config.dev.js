@@ -57,7 +57,6 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks (chunk) {
-        // exclude `my-excluded-chunk`
         return chunk.name !== 'main'
       }
     }

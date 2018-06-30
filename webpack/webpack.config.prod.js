@@ -27,7 +27,6 @@ module.exports = {
     path: path.join(__dirname, '../build/build/js'),
     filename: '[name].bundle.js',
     publicPath: '/build/js/'
-
   },
   module: {
     rules: [{
@@ -58,7 +57,6 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks (chunk) {
-        // exclude `my-excluded-chunk`
         return chunk.name !== 'main'
       }
     }
