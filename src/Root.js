@@ -11,7 +11,6 @@ import { Helmet } from 'react-helmet'
 import Loadable from 'react-loadable'
 
 import './utils/refreshToken'
-import { isSubscriptionValid } from './utils/permissionUtils'
 
 import AuthService from './utils/AuthService'
 import { closeSideNav, openSideNav, openModal, closeModal, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, signout } from './actions'

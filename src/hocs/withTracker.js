@@ -3,21 +3,13 @@
  */
 
 import React, { Component } from 'react'
-import ReactGA from '../analytics/index'
+import { trackPage } from '../analytics/utils'
 
 export default function withTracker(WrappedComponent, options = {}) {
-  const trackPage = (page) => {
-    ReactGA.set({
-      page,
-      ...options
-    })
-    ReactGA.pageview(page)
-  }
-
   const HOC = class extends Component {
     componentDidMount() {
       const page = this.props.location.pathname
-      trackPage(page)
+      trackPage(page, options)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -25,7 +17,7 @@ export default function withTracker(WrappedComponent, options = {}) {
       const nextPage = nextProps.location.pathname
 
       if (currentPage !== nextPage) {
-        trackPage(nextPage)
+        trackPage(nextPage, options)
       }
     }
 
