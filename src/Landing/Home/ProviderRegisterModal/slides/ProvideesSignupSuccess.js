@@ -21,7 +21,7 @@ export default class ProvideesSignupSuccess extends Component {
       <SlideInOut>
         <div className='providerRegisterForm-slide'>
           { students.map((e, i) =>
-            <div key={ i } className='providerRegisterForm-addedStudent'>{ e.username }</div>
+            <div key={ i } className='providerRegisterForm-addedStudent'>{ e.firstName }</div>
           ) }
           <Link to='#'
             className='providerRegisterForm-addAnotherStudent'

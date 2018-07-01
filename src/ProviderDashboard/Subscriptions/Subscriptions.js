@@ -23,6 +23,7 @@ import { register, putProfile, postSubscription, putSubscription, changePassword
 import { SUBSCRIPTION_STATUSES } from '../../constants'
 import ResultMessage from '../../common/form/ResultMessage'
 import ProvideeProfileForm from './ProvideeProfileForm'
+import AuthService from '../../utils/AuthService'
 
 const styles = {
   editUserIcon: {
@@ -162,13 +163,16 @@ class Subscriptions extends Component {
                 { sortedSubscriptions.map((subscription, i) => {
                   const providee = profilesById[subscription.provideeId] || {}
                   const current_period_end = moment.unix(subscription.current_period_end)
+                  const provideeDisplayName = AuthService.isPlaceholderUsernameFromUsername(providee.username || '')
+                    ? `${providee.firstName} ${providee.lastName}`
+                    : providee.username
                   return (
                     <TableRow
                       key={ i }
                       className='subscription-row'
                     >
                       <TableCell className='subscription-username'>
-                        { providee.username }
+                        { provideeDisplayName }
                         <IconButton
                           variant='fab'
                           aria-label='add'

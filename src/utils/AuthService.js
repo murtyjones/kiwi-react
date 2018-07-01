@@ -3,6 +3,7 @@ import config from 'config'
 import jwt_decode from 'jwt-decode'
 import BluebirdPromise from 'bluebird'
 import get from 'lodash/get'
+import moment from 'moment'
 
 import { hasTokenExpired } from './timeUtils'
 
@@ -21,7 +22,7 @@ export default class AuthService {
 
 
   login({ username, email, password }) {
-    const derivedUsername = email ? this.makePlaceholderUsername(email) : username
+    const derivedUsername = email ? this.constructor.makePlaceholderUsername(email) : username
     return new Promise((resolve, reject) => {
       return this.auth0.client.login({
         realm: config.auth.realm
@@ -81,7 +82,17 @@ export default class AuthService {
   }
 
   // must match kiwi-node:
-  makePlaceholderUsername = email => email.replace(/[\@]/gm, 'AT')
+  static makePlaceholderUsername = email => email.replace(/[\@]/gm, 'AT')
+
+  // must match kiwi-node:
+  static makePlaceholderUsernameFromName = (firstName, lastName) =>
+    `${firstName}-${lastName}-${moment.utc().format()}`.replace(/[ :]/g, '_').toLocaleLowerCase()
+
+  // must match kiwi-node:
+  static isPlaceholderUsernameFromUsername = username => {
+    const match = username.match(new RegExp(/[0-9]{4}-[0-9]{2}-[0-9]{2}t[0-9]{2}_[0-9]{2}_[0-9]{2}z/gm))
+    return match && match.length >= 1
+  }
 
   static logout() {
     window.localStorage.removeItem('token')

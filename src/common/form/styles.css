@@ -33,7 +33,9 @@
     margin-bottom: 5px;
 }
 
-.KiwiSelectField-Container {}
+.KiwiSelectField-Container {
+    margin-bottom: 20px;
+}
 
 .KiwiField-Label.focused {
     color: #765C9F !important;

@@ -5,7 +5,7 @@ import LockOutline from 'material-ui-icons/LockOutline'
 
 import SlideInOut from '../../../../common/animations/SlideInOut'
 import KiwiTextField from '../../../../common/form/KiwiTextField'
-import { required, minLength3, minLength6, maxLength20 } from '../../../../utils/validationUtils'
+import { required, minLength6 } from '../../../../utils/validationUtils'
 
 export default class ProvideesSignup extends Component {
   constructor(props) {
@@ -38,11 +38,18 @@ export default class ProvideesSignup extends Component {
         <SlideInOut>
           <div key={ i } className='providerRegisterForm-slide'>
             <Field
-              name={ `${ref}.username` }
+              name={ `${ref}.firstName` }
               component={ KiwiTextField }
-              label='Username'
-              StartAdornmentIcon={ AccountCircle }
-              validate={ [ minLength3, maxLength20, required ] }
+              label='Student First Name'
+              validate={ [ required ] }
+              addlInputLabelProps={{ shrink: true }}
+            />
+            <Field
+              name={ `${ref}.lastName` }
+              component={ KiwiTextField }
+              label='Last Name'
+              validate={ [ required ] }
+              addlInputLabelProps={{ shrink: true }}
             />
             <Field
               name={ `${ref}.password` }

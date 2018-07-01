@@ -50,7 +50,8 @@ class ProviderRegisterModal extends Component {
     const last = v.providees.length - 1
     const promises = [
       this.props.register({
-        username: v.providees[last].username,
+        firstName: v.providees[last].firstName,
+        lastName: v.providees[last].lastName,
         password: v.providees[last].password
       }),
       this.props.login({

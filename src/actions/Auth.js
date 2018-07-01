@@ -22,15 +22,17 @@ export const login = ({ username, email, password }) => {
   }
 }
 
-export const register = ({ username, email, password }) => {
+export const register = ({ username, firstName, lastName, email, password }) => {
   return dispatch => {
     dispatch({ type: ACTIONS.REGISTER_REQUEST })
     const params = {
       method: 'POST',
-      body: { password }
+      body: {
+        password, firstName, lastName
+      }
     }
-    if(email) params.body.email = email
-    if(username) params.body.username = username
+    if (email) params.body.email = email
+    if (username) params.body.username = username
 
     const maybeProviderPath = email ? 'provider' : ''
     return ApiFetch(`${config.api}/auth/register/${maybeProviderPath}`, params)
