@@ -76,7 +76,7 @@ export const billingInfoSlide = {
 
 export const confirmationSlide = {
   Component: Confirmation
-    , SideComponent: () => <div>damn!</div>
+    , SideComponent: null
   , FieldComponent: Field
   , name: 'confirmation'
   , headerText: `You're all set!`

@@ -13,7 +13,7 @@ import Stripe from '../../../common/form/payment/Stripe'
 
 
 import './overrides.css'
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles'
 
 let formName = 'allowSignInRegister'
 
@@ -25,7 +25,6 @@ const styles = theme => ({
     boxShadow: 'none'
   },
   row1: {
-    height: '60px',
     overflow: 'auto'
   },
   row2: {

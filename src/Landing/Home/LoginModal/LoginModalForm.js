@@ -14,7 +14,6 @@ const styles = theme => ({
     height: '100%'
   },
   row1: {
-    height: '60px',
     overflow: 'auto'
   },
   row2: {
