@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
 
 import SlideInOut from '../../../../common/animations/SlideInOut'
+import moment from "moment/moment";
 
 export default class Confirmation extends Component {
   constructor(props) {
@@ -11,14 +17,14 @@ export default class Confirmation extends Component {
   static propTypes = {
     goToPrevSlide: T.func.isRequired,
     formValues: T.object.isRequired,
+    providees: T.object.isRequired,
   }
 
   render() {
-    const { formValues } = this.props
+    const { providees } = this.props
 
-    const students = formValues.providees
     const monthlySubscription = 30
-    const numberOfStudents = students.length
+    const numberOfStudents = providees.length
     const subscriptionOrSubs = numberOfStudents > 1
       ? 'subscriptions'
       : 'subscription'
@@ -29,14 +35,26 @@ export default class Confirmation extends Component {
           <h5>
             Thanks for subscribing! Please review and confirm your { subscriptionOrSubs } below.
           </h5>
-          { students.map((student, i) =>
-            <div
-              key={ i }
-              className='providerRegisterForm-subscriptionDetails'
-            >
-              { student.username } (${monthlySubscription} per month)
-            </div>
-          ) }
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Temporary Username</TableCell>
+                <TableCell>Temporary Password</TableCell>
+                <TableCell>Monthly Price</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              { providees.map((student, i) =>
+                <TableRow hover key={ i }>
+                  <TableCell>{ student.firstName }</TableCell>
+                  <TableCell>{ student.username }</TableCell>
+                  <TableCell>{ student.password }</TableCell>
+                  <TableCell>(${monthlySubscription} per month)</TableCell>
+                </TableRow>
+              ) }
+            </TableBody>
+          </Table>
         </div>
       </SlideInOut>
     )

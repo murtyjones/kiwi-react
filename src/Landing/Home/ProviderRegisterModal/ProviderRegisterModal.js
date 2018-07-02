@@ -18,6 +18,7 @@ import { SUBSCRIPTION_STATUSES } from '../../../constants'
 import { choosePathSlide, providerSlides, studentSlides } from './slides'
 
 import '../../../close.css'
+import randomWords from "random-words";
 
 const styles = theme => ({
   root: {
@@ -40,7 +41,7 @@ class ProviderRegisterModal extends Component {
     this.state = {
       activeSlideIndex: 0
       , providerProfileObject: {}
-      , provideeIds: []
+      , providees: []
       , subscriptions: []
       , providerPassword: ''
       , isStudentSignUp: true
@@ -72,6 +73,7 @@ class ProviderRegisterModal extends Component {
     this.setState({ isStudentSignUp })
   }
 
+  // register provider
   slide1Submit = async v => {
     const result = await this.props.register({ email: v.email, password: v.password })
     this.setState({
@@ -80,14 +82,17 @@ class ProviderRegisterModal extends Component {
     })
   }
 
+  // register most recently created providee
   slide2Submit = async v => {
-    const { provideeIds, providerProfileObject, providerPassword } = this.state
+    const { providees, providerProfileObject, providerPassword } = this.state
     const last = v.providees.length - 1
+    const providee = v.providees[last]
+    providee.password = randomWords({ exactly: 1, wordsPerString: 2 })[0]
     const promises = [
       this.props.register({
-        firstName: v.providees[last].firstName,
-        lastName: v.providees[last].lastName,
-        password: v.providees[last].password
+        firstName: providee.firstName,
+        lastName: providee.lastName,
+        password: providee.password
       }),
       this.props.login({
         email: providerProfileObject.email,
@@ -96,14 +101,20 @@ class ProviderRegisterModal extends Component {
     ]
     const [ registerResult, loginResult ] = await Promise.all(promises)
     this.setState({
-      provideeIds: update(provideeIds, {
-        $splice: [[provideeIds.length, 0, registerResult._id]]
+      providees: update(providees, {
+        $splice: [[providees.length, 0, {
+          _id: registerResult._id,
+          firstName: providee.firstName,
+          username: registerResult.username,
+          password: providee.password
+        }]]
       })
     })
   }
 
+  // make subscriptions
   slide4Submit = async v => {
-    const { providerProfileObject, provideeIds } = this.state
+    const { providerProfileObject, providees } = this.state
     const promises = [
       this.props.putProfile({
         _id: providerProfileObject._id,
@@ -112,11 +123,11 @@ class ProviderRegisterModal extends Component {
         v: providerProfileObject.v
       })
     ]
-    provideeIds.forEach(provideeId => {
+    providees.forEach(providee => {
       promises.push(
         this.props.postSubscription({
           providerId: providerProfileObject._id,
-          provideeId: provideeId,
+          provideeId: providee._id,
           status: SUBSCRIPTION_STATUSES.INACTIVE
         })
       )
@@ -125,6 +136,7 @@ class ProviderRegisterModal extends Component {
     this.setState({ subscriptions: rest })
   }
 
+  // activate subscriptions
   slide5Submit = async v => {
     const { subscriptions } = this.state
     const promises = subscriptions.map(subscription =>
@@ -162,7 +174,7 @@ class ProviderRegisterModal extends Component {
 
   render() {
     const { classes, switchModals } = this.props
-    const { isStudentSignUp, activeSlideIndex } = this.state
+    const { isStudentSignUp, activeSlideIndex, providees } = this.state
     const useCompletionPercentage = !isStudentSignUp && activeSlideIndex > 0
     const completionPercentage = (activeSlideIndex + 1) / providerSlides.length * 100
 
@@ -200,6 +212,7 @@ class ProviderRegisterModal extends Component {
             useCompletionPercentage={ useCompletionPercentage }
             completionPercentage={ completionPercentage }
             switchModals={ switchModals }
+            providees={ providees }
           />
         </Grid>
       </Grid>

@@ -167,10 +167,7 @@ class Subscriptions extends Component {
                     ? `${providee.firstName} ${providee.lastName}`
                     : providee.username
                   return (
-                    <TableRow
-                      key={ i }
-                      className='subscription-row'
-                    >
+                    <TableRow key={ i } className='subscription-row'>
                       <TableCell className='subscription-username'>
                         { provideeDisplayName }
                         <IconButton
@@ -184,6 +181,11 @@ class Subscriptions extends Component {
                             color={ styles.editUserColor }
                           />
                         </IconButton>
+                        { providee.temporaryPassword &&
+                          <span className='subscription-temporaryPassword'>
+                            <b>Temporary Password:</b> { providee.temporaryPassword }
+                          </span>
+                        }
                       </TableCell>
                       <TableCell className='subscription-periodEnd'>
                         <span

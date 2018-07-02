@@ -25,6 +25,12 @@
     padding: 0 !important;
 }
 
+.subscription-temporaryPassword {
+    display: block;
+    font-style: italic;
+    font-size: 80%;
+}
+
 .subscription-periodEnd {
      width: 35%;
      padding: 0 !important;

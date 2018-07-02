@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import LockOutline from 'material-ui-icons/LockOutline'
 
 import SlideInOut from '../../../../common/animations/SlideInOut'
 import KiwiTextField from '../../../../common/form/KiwiTextField'
@@ -41,7 +39,6 @@ export default class ProvideesSignup extends Component {
               name={ `${ref}.firstName` }
               component={ KiwiTextField }
               label='Student First Name'
-              style={ { display: 'inline-block', width: 'calc(50% - 2px)', marginRight: '2px' } }
               validate={ [ required ] }
               addlInputLabelProps={{ shrink: true }}
             />
@@ -49,25 +46,8 @@ export default class ProvideesSignup extends Component {
               name={ `${ref}.lastName` }
               component={ KiwiTextField }
               label='Last Name'
-              style={ { display: 'inline-block', width: 'calc(50% - 2px)', marginLeft: '2px' } }
               validate={ [ required ] }
               addlInputLabelProps={{ shrink: true }}
-            />
-            <Field
-              name={ `${ref}.password` }
-              component={ KiwiTextField }
-              type='password'
-              label='Password'
-              StartAdornmentIcon={ LockOutline }
-              validate={ [ required, minLength6 ] }
-            />
-            <Field
-              name={ `${ref}.confirmPassword` }
-              component={ KiwiTextField }
-              type='password'
-              label='Confirm Password'
-              StartAdornmentIcon={ LockOutline }
-              validate={ [ required ] }
             />
           </div>
       </SlideInOut>
