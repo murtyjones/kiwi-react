@@ -8,6 +8,23 @@ import BillingInfo from './slides/BillingInfo'
 import Confirmation from './slides/Confirmation'
 import SalesBox from './SalesBox'
 
+import ChoosePath from '../LoginModal/slides/ChoosePath'
+import StudentSignUp from '../LoginModal/slides/StudentSignUp'
+
+export const choosePathSlide = {
+  Component: ChoosePath, FieldComponent: Field
+  , SideComponent: null
+  , name: 'isStudentSignUp'
+  , headerText: 'Sign up today'
+}
+
+
+export const studentSignUpSlide = {
+  Component: StudentSignUp, FieldComponent: Field
+  , name: 'studentSignUp'
+  , headerText: 'Sign in to your account'
+}
+
 export const providerSignupSlide = {
     Component: ProviderSignup
     , SideComponent: SalesBox
@@ -62,11 +79,12 @@ export const confirmationSlide = {
     , SideComponent: () => <div>damn!</div>
   , FieldComponent: Field
   , name: 'confirmation'
-  , headerText: `Ready To Code?`
-  , submitText: `Let's do it!`
+  , headerText: `You're all set!`
+  , submitText: `Confirm`
 }
 
-const slides = [
+export const providerSlides = [
+  null, // choose path slide
   providerSignupSlide,
   provideesSignupSlide,
   provideesSignupSuccessSlide,
@@ -74,4 +92,7 @@ const slides = [
   confirmationSlide
 ]
 
-export default slides
+export const studentSlides = [
+  null, // choose path slide
+  studentSignUpSlide
+]

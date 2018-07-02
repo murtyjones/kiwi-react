@@ -21,14 +21,13 @@ export default class Confirmation extends Component {
     const numberOfStudents = students.length
     const subscriptionOrSubs = numberOfStudents > 1
       ? 'subscriptions'
-      : 'subscriptions'
+      : 'subscription'
 
     return (
       <SlideInOut>
         <div className='providerRegisterForm-slide'>
           <h5>
-            When you click the button below, you'll be
-            billed for the following { subscriptionOrSubs }:
+            Thanks for subscribing! Please review and confirm your { subscriptionOrSubs } below.
           </h5>
           { students.map((student, i) =>
             <div

@@ -43,7 +43,7 @@ class ChoosePath extends Component {
 
   render() {
     const { classes, input, onSubmit } = this.props
-
+    console.log(this.props)
     return (
       <SlideInOut show={ true }>
         <div className={ classes.root }>

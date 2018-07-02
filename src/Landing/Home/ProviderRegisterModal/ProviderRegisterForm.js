@@ -19,10 +19,21 @@ let formName = 'allowSignInRegister'
 
 const styles = theme => ({
   control: {
+    height: '100%',
     padding: theme.spacing.unit * 2,
     boxSizing: 'border-box',
     boxShadow: 'none'
   },
+  row1: {
+    height: '60px',
+    overflow: 'auto'
+  },
+  row2: {
+    height: 'calc(100% - 60px)'
+  },
+  form: {
+    height: '100%'
+  }
 })
 
 const SlideHeader = props =>
@@ -72,7 +83,9 @@ class ProviderRegisterForm extends Component {
   }
 
   render() {
-    const { classes, handleSubmit, slide, formValues, activeSlideIndex, completionPercentage } = this.props
+    const {
+      classes, onSubmit, handleSubmit, slide, formValues, activeSlideIndex, completionPercentage, useCompletionPercentage
+    } = this.props
     const { submitText, Component, FieldComponent, names, name } = slide
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
 
@@ -87,29 +100,38 @@ class ProviderRegisterForm extends Component {
     return (
       <Paper className={ classes.control }>
         <form
-          className='providerRegisterForm'
+          className={ classes.form }
           onSubmit={ derivedHandleSubmit }
         >
-          <ProgressBar
-            completionPercentage={ completionPercentage }
-          />
-          <SlideHeader
-            { ...headerProps }
-          />
-          <FieldComponent
-            { ...nameOrNames }
-            component={ Component }
-            goToPrevSlide={ this.props.goToPrevSlide }
-            formValues={ formValues }
-          />
-          <SubmitButton
-            text={ submitText }
-            { ...this.props }
-            onClick={ derivedHandleSubmit }
-          />
-          <ResultMessage
-            { ...this.props }
-          />
+          <div className={ classes.row1 }>
+            { useCompletionPercentage &&
+              <ProgressBar
+                completionPercentage={ completionPercentage }
+              />
+            }
+            <SlideHeader
+              { ...headerProps }
+            />
+          </div>
+          <div className={ classes.row2 }>
+            <FieldComponent
+              { ...nameOrNames }
+              component={ Component }
+              goToPrevSlide={ this.props.goToPrevSlide }
+              formValues={ formValues }
+              onSubmit={ onSubmit }
+            />
+            { submitText &&
+              <SubmitButton
+                text={ submitText }
+                { ...this.props }
+                onClick={ derivedHandleSubmit }
+              />
+            }
+            <ResultMessage
+              { ...this.props }
+            />
+          </div>
         </form>
       </Paper>
     )

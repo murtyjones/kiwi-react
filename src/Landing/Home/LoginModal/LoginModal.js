@@ -20,12 +20,8 @@ import '../../../close.css'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
+    height: '100%',
+    minHeight: '400px'
   },
   leftSide: {
     backgroundPosition: 'center center',
@@ -65,7 +61,7 @@ class LoginModal extends Component {
       return this.props.openModal({
         className: 'providerRegisterModal',
         children: (
-          <ProviderRegisterModal /* Each slide handles its submit function */ />
+          <ProviderRegisterModal fromLogin={ true } />
         )
       })
     }
