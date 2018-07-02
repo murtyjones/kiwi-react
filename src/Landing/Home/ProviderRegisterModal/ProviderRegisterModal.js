@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 import Grid from '@material-ui/core/Grid'
 import withStyles from '@material-ui/core/styles/withStyles'
-import cns from 'classnames'
+import Hidden from '@material-ui/core/Hidden'
 
 import ProviderRegisterForm from './ProviderRegisterForm'
 import {
@@ -155,13 +155,14 @@ class ProviderRegisterModal extends Component {
 
     return (
       <Grid container className={ classes.root }>
-        <Grid item
-          xs={ 0 }
-          sm={ 5 }
-          className={ classes.leftSide }
-        >
-          <SideComponent />
-        </Grid>
+        <Hidden xsDown={ true }>
+          <Grid item
+            sm={ 5 }
+            className={ classes.leftSide }
+          >
+            <SideComponent />
+          </Grid>
+        </Hidden>
         <Grid item xs={ 12 }
           sm={ 7 }
           className='providerRegisterModalFormContainer'
