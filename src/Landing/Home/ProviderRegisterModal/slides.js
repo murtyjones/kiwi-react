@@ -6,9 +6,11 @@ import ProvideesSignup from './slides/ProvideesSignup'
 import ProvideesSignupSuccess from './slides/ProvideesSignupSuccess'
 import BillingInfo from './slides/BillingInfo'
 import Confirmation from './slides/Confirmation'
+import SalesBox from './SalesBox'
 
 export const providerSignupSlide = {
     Component: ProviderSignup
+    , SideComponent: SalesBox
     , FieldComponent: Fields
     , names: [ 'email', 'password', 'confirmPassword' ]
     , headerText: `First, let's make your account.`
@@ -17,6 +19,7 @@ export const providerSignupSlide = {
 
 export const provideesSignupSlide = {
     Component: ProvideesSignup
+    , SideComponent: SalesBox
     , FieldComponent: FieldArray
     , name: 'providees'
     , headerText: `Tell us a bit about your student.`
@@ -25,6 +28,7 @@ export const provideesSignupSlide = {
 
 export const provideesSignupSuccessSlide = {
     Component: ProvideesSignupSuccess
+    , SideComponent: SalesBox
     , FieldComponent: Field
     , name: 'providees'
     , headerTextMaker: formValues => {
@@ -39,6 +43,7 @@ export const provideesSignupSuccessSlide = {
 
 export const billingInfoSlide = {
     Component: BillingInfo
+    , SideComponent: SalesBox
     , FieldComponent: Fields
     , names: [
       'name',
@@ -54,6 +59,7 @@ export const billingInfoSlide = {
 
 export const confirmationSlide = {
   Component: Confirmation
+    , SideComponent: () => <div>damn!</div>
   , FieldComponent: Field
   , name: 'confirmation'
   , headerText: `Ready To Code?`

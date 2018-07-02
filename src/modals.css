@@ -17,6 +17,7 @@
     overflow: hidden;
 }
 
+.providerRegisterModal,
 .loginModal {
     padding: 0;
 }
@@ -47,7 +48,6 @@
     .providerRegisterModal,
     .loginModal {
         min-width: 650px;
-        padding: 0;
     }
 }
 
