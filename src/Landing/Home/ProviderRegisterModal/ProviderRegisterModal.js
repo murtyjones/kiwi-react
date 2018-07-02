@@ -8,6 +8,7 @@ import { SubmissionError } from 'redux-form'
 import Grid from '@material-ui/core/Grid'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Hidden from '@material-ui/core/Hidden'
+import has from 'lodash/has'
 
 import ProviderRegisterForm from './ProviderRegisterForm'
 import {
@@ -54,11 +55,15 @@ class ProviderRegisterModal extends Component {
     , putProfile: T.func.isRequired
     , closeModal: T.func.isRequired
     , fromLogin: T.bool
+    , wasStudentSignIn: T.bool
   }
 
   componentWillMount() {
     if (this.props.fromLogin) {
       this.setState({ activeSlideIndex: 1 }) // skip first slide
+    }
+    if (has(this, 'props.wasStudentSignIn')) {
+      this.setState({ isStudentSignUp: this.props.wasStudentSignIn })
     }
   }
 
@@ -67,72 +72,72 @@ class ProviderRegisterModal extends Component {
     this.setState({ isStudentSignUp })
   }
 
-  // slide0Submit = async v => {
-  //   const result = await this.props.register({ email: v.email, password: v.password })
-  //   this.setState({
-  //     providerProfileObject: result,
-  //     providerPassword: v.password
-  //   })
-  // }
-  //
-  // slide1Submit = async v => {
-  //   const { provideeIds, providerProfileObject, providerPassword } = this.state
-  //   const last = v.providees.length - 1
-  //   const promises = [
-  //     this.props.register({
-  //       firstName: v.providees[last].firstName,
-  //       lastName: v.providees[last].lastName,
-  //       password: v.providees[last].password
-  //     }),
-  //     this.props.login({
-  //       email: providerProfileObject.email,
-  //       password: providerPassword
-  //     })
-  //   ]
-  //   const [ registerResult, loginResult ] = await Promise.all(promises)
-  //   this.setState({
-  //     provideeIds: update(provideeIds, {
-  //       $splice: [[provideeIds.length, 0, registerResult._id]]
-  //     })
-  //   })
-  // }
-  //
-  // slide3Submit = async v => {
-  //   const { providerProfileObject, provideeIds } = this.state
-  //   const promises = [
-  //     this.props.putProfile({
-  //       _id: providerProfileObject._id,
-  //       updateBilling: true,
-  //       stripeCreditCardToken: v.stripeCreditCardToken,
-  //       v: providerProfileObject.v
-  //     })
-  //   ]
-  //   provideeIds.forEach(provideeId => {
-  //     promises.push(
-  //       this.props.postSubscription({
-  //         providerId: providerProfileObject._id,
-  //         provideeId: provideeId,
-  //         status: SUBSCRIPTION_STATUSES.INACTIVE
-  //       })
-  //     )
-  //   })
-  //   const [ billingResult, ...rest ] = await Promise.all(promises)
-  //   this.setState({ subscriptions: rest })
-  // }
-  //
-  // slide4Submit = async v => {
-  //   const { subscriptions } = this.state
-  //   const promises = subscriptions.map(subscription =>
-  //     this.props.putSubscription({
-  //       id: subscription._id,
-  //       status: SUBSCRIPTION_STATUSES.ACTIVE,
-  //       v: subscription.v,
-  //     })
-  //   )
-  //   await Promise.all(promises)
-  //   this.props.history.push(`/provider/subscriptions`)
-  //   this.props.closeModal()
-  // }
+  slide1Submit = async v => {
+    const result = await this.props.register({ email: v.email, password: v.password })
+    this.setState({
+      providerProfileObject: result,
+      providerPassword: v.password
+    })
+  }
+
+  slide2Submit = async v => {
+    const { provideeIds, providerProfileObject, providerPassword } = this.state
+    const last = v.providees.length - 1
+    const promises = [
+      this.props.register({
+        firstName: v.providees[last].firstName,
+        lastName: v.providees[last].lastName,
+        password: v.providees[last].password
+      }),
+      this.props.login({
+        email: providerProfileObject.email,
+        password: providerPassword
+      })
+    ]
+    const [ registerResult, loginResult ] = await Promise.all(promises)
+    this.setState({
+      provideeIds: update(provideeIds, {
+        $splice: [[provideeIds.length, 0, registerResult._id]]
+      })
+    })
+  }
+
+  slide4Submit = async v => {
+    const { providerProfileObject, provideeIds } = this.state
+    const promises = [
+      this.props.putProfile({
+        _id: providerProfileObject._id,
+        updateBilling: true,
+        stripeCreditCardToken: v.stripeCreditCardToken,
+        v: providerProfileObject.v
+      })
+    ]
+    provideeIds.forEach(provideeId => {
+      promises.push(
+        this.props.postSubscription({
+          providerId: providerProfileObject._id,
+          provideeId: provideeId,
+          status: SUBSCRIPTION_STATUSES.INACTIVE
+        })
+      )
+    })
+    const [ billingResult, ...rest ] = await Promise.all(promises)
+    this.setState({ subscriptions: rest })
+  }
+
+  slide5Submit = async v => {
+    const { subscriptions } = this.state
+    const promises = subscriptions.map(subscription =>
+      this.props.putSubscription({
+        id: subscription._id,
+        status: SUBSCRIPTION_STATUSES.ACTIVE,
+        v: subscription.v,
+      })
+    )
+    await Promise.all(promises)
+    this.props.history.push(`/provider/subscriptions`)
+    this.props.closeModal()
+  }
 
   handleSubmit = async v => {
     const { activeSlideIndex } = this.state
@@ -156,9 +161,9 @@ class ProviderRegisterModal extends Component {
     this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
 
   render() {
-    const { classes } = this.props
+    const { classes, switchModals } = this.props
     const { isStudentSignUp, activeSlideIndex } = this.state
-    const useCompletionPercentage = !isStudentSignUp
+    const useCompletionPercentage = !isStudentSignUp && activeSlideIndex > 0
     const completionPercentage = (activeSlideIndex + 1) / providerSlides.length * 100
 
     const slide = activeSlideIndex === 0
@@ -194,6 +199,7 @@ class ProviderRegisterModal extends Component {
             goToNextSlide={ this.goToNextSlide }
             useCompletionPercentage={ useCompletionPercentage }
             completionPercentage={ completionPercentage }
+            switchModals={ switchModals }
           />
         </Grid>
       </Grid>

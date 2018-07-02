@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import * as T from 'prop-types'
 import cns from 'classnames'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
@@ -9,7 +10,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: '100%'
+    height: 'calc(100% - 20px)' // room for switchText
   },
   container: {
     height: '100%'
@@ -33,6 +34,11 @@ const styles = theme => ({
     background: 'url(http://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/PapaCarl_cehuft.svg) no-repeat',
     backgroundPosition: 'center 90%',
     backgroundSize: 'auto 80%'
+  },
+  switchText: {
+    paddingTop: '15px',
+    margin: 0,
+    cursor: 'pointer'
   }
 })
 
@@ -41,9 +47,19 @@ class ChoosePath extends Component {
     super(props)
   }
 
+  static propTypes = {
+    openModal: T.func.isRequired
+    , isLogin: T.bool
+    , classes: T.object
+    , input: T.object
+    , onSubmit: T.func
+  }
+
   render() {
-    const { classes, input, onSubmit } = this.props
-    console.log(this.props)
+    const { isLogin, classes, input, onSubmit, switchModals } = this.props
+
+    const switchText = isLogin ? 'Need an account? Sign up!' : 'Have an account? Sign in!'
+
     return (
       <SlideInOut show={ true }>
         <div className={ classes.root }>
@@ -84,6 +100,12 @@ class ChoosePath extends Component {
               </Paper>
             </Grid>
           </Grid>
+        <h3
+          className={ classes.switchText }
+          onClick={ switchModals }
+        >
+          { switchText }
+        </h3>
         </div>
       </SlideInOut>
     )

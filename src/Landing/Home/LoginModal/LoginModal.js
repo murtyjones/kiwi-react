@@ -56,12 +56,16 @@ class LoginModal extends Component {
 
   // log in
   slide1Submit = async params => {
+    const { isStudentSignIn } = this.state
     if (params.redirectToProviderSignUp) {
       this.props.history.push('/onboarding')
       return this.props.openModal({
         className: 'providerRegisterModal',
         children: (
-          <ProviderRegisterModal fromLogin={ true } />
+          <ProviderRegisterModal
+            fromLogin={ true }
+            wasStudentSignIn={ isStudentSignIn }
+          />
         )
       })
     }
@@ -108,7 +112,7 @@ class LoginModal extends Component {
     this.setState({ activeSlideIndex: i })
 
   render() {
-    const { classes } = this.props
+    const { classes, switchModals } = this.props
     const { activeSlideIndex, isStudentSignIn } = this.state
 
     const slide = activeSlideIndex === 0
@@ -142,6 +146,7 @@ class LoginModal extends Component {
             goToPrevSlide={ this.goToPrevSlide }
             goToNextSlide={ this.goToNextSlide }
             goToSlide={ this.goToSlide }
+            switchModals={ switchModals }
           />
         </Grid>
       </Grid>

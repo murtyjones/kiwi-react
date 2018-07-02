@@ -51,7 +51,7 @@ class LoginModalForm extends Component {
   }
 
   render() {
-    const { classes, handleSubmit, onSubmit, slide, formValues } = this.props
+    const { classes, handleSubmit, onSubmit, slide, formValues, switchModals } = this.props
     const { submitText, Component, FieldComponent, names, name, successMessage } = slide
     const nameOrNames = {}
     if (names) nameOrNames.names = names
@@ -75,6 +75,8 @@ class LoginModalForm extends Component {
               goToSlide={ this.props.goToSlide }
               formValues={ formValues }
               onSubmit={ onSubmit }
+              isLogin={ true }
+              switchModals={ switchModals }
             />
             { submitText &&
               <SubmitButton

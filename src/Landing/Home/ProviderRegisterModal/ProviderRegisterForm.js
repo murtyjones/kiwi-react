@@ -84,7 +84,7 @@ class ProviderRegisterForm extends Component {
 
   render() {
     const {
-      classes, onSubmit, handleSubmit, slide, formValues, activeSlideIndex, completionPercentage, useCompletionPercentage
+      classes, onSubmit, handleSubmit, slide, formValues, activeSlideIndex, completionPercentage, useCompletionPercentage, switchModals
     } = this.props
     const { submitText, Component, FieldComponent, names, name } = slide
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
@@ -120,6 +120,8 @@ class ProviderRegisterForm extends Component {
               goToPrevSlide={ this.props.goToPrevSlide }
               formValues={ formValues }
               onSubmit={ onSubmit }
+              isLogin={ false }
+              switchModals={ switchModals }
             />
             { submitText &&
               <SubmitButton

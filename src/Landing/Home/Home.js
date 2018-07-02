@@ -48,7 +48,9 @@ class Home extends Component {
     this.props.openModal({
       className: 'loginModal',
       children: (
-        <LoginModal /* Each slide handles its submit function */ />
+        <LoginModal
+          switchModals={ this.openProviderRegisterModal }
+        />
       )
     })
   }
@@ -77,7 +79,9 @@ class Home extends Component {
     this.props.openModal({
       className: 'providerRegisterModal',
       children: (
-        <ProviderRegisterModal /* Each slide handles its submit function */ />
+        <ProviderRegisterModal
+          switchModals={ this.openLoginModal }
+        />
       )
     })
   }
