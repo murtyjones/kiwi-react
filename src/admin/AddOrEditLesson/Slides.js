@@ -21,6 +21,7 @@ import KiwiTextField from '../../common/form/KiwiTextField'
 import immutablySwapItems from '../../utils/immutabilityUtils'
 
 import { slideTypes as allSlideTypes } from './slideTypes'
+
 const defaultSlideTypeValue = allSlideTypes[0].value
 
 const styles = {
@@ -65,6 +66,7 @@ class Slides extends Component {
     , allSlideValues: T.array
     , fields: T.object
   }
+
 
   componentWillReceiveProps(nextProps) {
     const { allSlideValues } = this.props
@@ -129,14 +131,17 @@ class Slides extends Component {
 
   addSlideToEnd = () => {
     const { localSlideTypes } = this.state
-    this.props.fields.push({})
+    this.props.fields.push({ type: defaultSlideTypeValue })
     this.spliceSelectedSlideType(localSlideTypes.length, 0, defaultSlideTypeValue)
   }
 
 
   addSlideAfterCurrent = () => {
     const { activeSlideIndex } = this.state
-    this.props.fields.insert(activeSlideIndex + 1, {})
+    this.props.fields.insert(
+      this.props.fields.length === 0 ? 0 : activeSlideIndex + 1,
+      { type: defaultSlideTypeValue }
+      )
     this.spliceSelectedSlideType(activeSlideIndex + 1, 0, defaultSlideTypeValue)
   }
 
@@ -184,7 +189,6 @@ class Slides extends Component {
   render() {
     const { fields } = this.props
     const { localSlideTypes, deleteDialogOpen, activeSlideIndex } = this.state
-    
     return (
       <Fragment>
         <div>
