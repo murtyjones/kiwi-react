@@ -27,7 +27,7 @@ const styles = theme => ({
     bottom: 0,
     left: 0
   },
-  leftImage: {
+  leftSide: {
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: '200px',
@@ -126,7 +126,7 @@ class LoginModal extends Component {
         { activeSlideIndex > 0 &&
           <Grid item
             sm={ 5 }
-            className={ classes.leftImage }
+            className={ classes.leftSide }
             style={ {
               display: activeSlideIndex > 0 ? 'inline-block' : 'none',
               backgroundImage: isStudentSignIn

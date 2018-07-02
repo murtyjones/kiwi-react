@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import * as T from 'prop-types'
 import { SubmissionError, reduxForm, getFormValues, unregisterField } from 'redux-form'
 import { Elements, injectStripe } from 'react-stripe-elements'
+import Paper from '@material-ui/core/Paper'
 
 import SubmitButton from '../../../common/form/SubmitButton'
 import ProgressBar from '../../../common/ProgressBar/ProgressBar'
@@ -12,8 +13,17 @@ import Stripe from '../../../common/form/payment/Stripe'
 
 
 import './overrides.css'
+import withStyles from "@material-ui/core/styles/withStyles";
 
 let formName = 'allowSignInRegister'
+
+const styles = theme => ({
+  control: {
+    padding: theme.spacing.unit * 2,
+    boxSizing: 'border-box',
+    boxShadow: 'none'
+  },
+})
 
 const SlideHeader = props =>
   <h3 className='providerRegisterForm-header'>{ props.text }</h3>
@@ -62,7 +72,7 @@ class ProviderRegisterForm extends Component {
   }
 
   render() {
-    const { handleSubmit, slide, formValues, activeSlideIndex, completionPercentage } = this.props
+    const { classes, handleSubmit, slide, formValues, activeSlideIndex, completionPercentage } = this.props
     const { submitText, Component, FieldComponent, names, name } = slide
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
 
@@ -75,31 +85,33 @@ class ProviderRegisterForm extends Component {
     else headerProps.text = slide.headerTextMaker(formValues)
 
     return (
-      <form
-        className='providerRegisterForm'
-        onSubmit={ derivedHandleSubmit }
-      >
-        <ProgressBar
-          completionPercentage={ completionPercentage }
-        />
-        <SlideHeader
-          { ...headerProps }
-        />
-        <FieldComponent
-          { ...nameOrNames }
-          component={ Component }
-          goToPrevSlide={ this.props.goToPrevSlide }
-          formValues={ formValues }
-        />
-        <SubmitButton
-          text={ submitText }
-          { ...this.props }
-          onClick={ derivedHandleSubmit }
-        />
-        <ResultMessage
-          { ...this.props }
-        />
-      </form>
+      <Paper className={ classes.control }>
+        <form
+          className='providerRegisterForm'
+          onSubmit={ derivedHandleSubmit }
+        >
+          <ProgressBar
+            completionPercentage={ completionPercentage }
+          />
+          <SlideHeader
+            { ...headerProps }
+          />
+          <FieldComponent
+            { ...nameOrNames }
+            component={ Component }
+            goToPrevSlide={ this.props.goToPrevSlide }
+            formValues={ formValues }
+          />
+          <SubmitButton
+            text={ submitText }
+            { ...this.props }
+            onClick={ derivedHandleSubmit }
+          />
+          <ResultMessage
+            { ...this.props }
+          />
+        </form>
+      </Paper>
     )
   }
 }
@@ -135,6 +147,8 @@ ProviderRegisterForm = reduxForm({
     return errors
   }
 })(ProviderRegisterForm)
+
+ProviderRegisterForm = withStyles(styles, { withTheme: true })(ProviderRegisterForm)
 
 export default props =>
   <Stripe>

@@ -44,8 +44,10 @@
         min-height: 400px;
     }
 
+    .providerRegisterModal,
     .loginModal {
         min-width: 650px;
+        padding: 0;
     }
 }
 

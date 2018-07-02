@@ -41,6 +41,7 @@ export default class ProvideesSignup extends Component {
               name={ `${ref}.firstName` }
               component={ KiwiTextField }
               label='Student First Name'
+              style={ { display: 'inline-block', width: 'calc(50% - 2px)', marginRight: '2px' } }
               validate={ [ required ] }
               addlInputLabelProps={{ shrink: true }}
             />
@@ -48,6 +49,7 @@ export default class ProvideesSignup extends Component {
               name={ `${ref}.lastName` }
               component={ KiwiTextField }
               label='Last Name'
+              style={ { display: 'inline-block', width: 'calc(50% - 2px)', marginLeft: '2px' } }
               validate={ [ required ] }
               addlInputLabelProps={{ shrink: true }}
             />
