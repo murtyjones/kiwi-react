@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 
-import { isPrevDisabled, isNextDisabled, isFinalSlide, viewedEqualsComplete } from '../utils/lessonWizardUtils'
+import { isPrevDisabled, isNextDisabled, isFinalSlide, hasSuccessCriteria } from '../utils/lessonWizardUtils'
 import { LESSON_SLIDE_TYPES } from '../constants'
 import ActionBar from './ActionBar'
 import CustomSlideBackground from './CustomSlideBackground'
@@ -267,11 +267,12 @@ class UserLessonWizardForm extends Component {
         , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
         , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
         , includeRunButton = availableSlideTypes[activeSlideObject.type].includeRunButton
-        , includesSuccessCriteria = !viewedEqualsComplete(activeSlideObject)
+        , includesSuccessCriteria = hasSuccessCriteria(activeSlideObject)
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
         , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
-
+        , hasBeenAnswered = codeRanAtLeastOnce || !!slideAnswerData.answer
+    
     return (
       <Fragment>
         <ResultCard
@@ -285,7 +286,7 @@ class UserLessonWizardForm extends Component {
           onNextClick={ onNextClick }
           onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
           includesSuccessCriteria={ includesSuccessCriteria }
-          onCheckAnswer={ includesSuccessCriteria && codeRanAtLeastOnce
+          onCheckAnswer={ includesSuccessCriteria && hasBeenAnswered
             ? () => this.setState({
               checkAnswer: true, submitCurrentValues: true
             }) : null }

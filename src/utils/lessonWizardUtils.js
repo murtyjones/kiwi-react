@@ -1,12 +1,9 @@
 import LESSON_SLIDE_TYPES from '../constants/LESSON_SLIDE_TYPES'
 import get from 'lodash/get'
 
-export const viewedEqualsComplete = ({ type, shouldIncludeSuccessCriteria }) =>
-  // must match the version in kiwi-node exactly.
-  type === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EXAMPLE
-  || type === LESSON_SLIDE_TYPES.FULL_PAGE_TEXT
-  || type === LESSON_SLIDE_TYPES.TITLE
-  || type === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR && !shouldIncludeSuccessCriteria
+export const hasSuccessCriteria = ({ type, shouldIncludeSuccessCriteria }) =>
+  type === LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR && shouldIncludeSuccessCriteria
+  || type === LESSON_SLIDE_TYPES.MULTIPLE_CHOICE
 
 export const isPrevDisabled = (activeSlideIndex, lesson) => {
   const isFirstSlide = activeSlideIndex === 0
@@ -14,15 +11,11 @@ export const isPrevDisabled = (activeSlideIndex, lesson) => {
 }
 
 export const isNextDisabled = (activeSlideIndex, lesson, isFetchingUserLessons, formValues) => {
-  // will eventually check if student has not answered question here
   if(isFetchingUserLessons) return true
   const currentUserLessonSlide = get(formValues, `answerData[${activeSlideIndex}]`, {})
   const currentLessonSlide = get(lesson, `slides[${activeSlideIndex}]`, {})
 
-  if(currentUserLessonSlide.isAnsweredCorrectly || viewedEqualsComplete(currentLessonSlide))
-    return false
-
-  return true
+  return !currentUserLessonSlide.isAnsweredCorrectly && hasSuccessCriteria(currentLessonSlide)
 }
 
 export const isFinalSlide = (activeSlideIndex, lesson) => {
