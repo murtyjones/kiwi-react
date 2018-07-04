@@ -200,6 +200,7 @@ class Slides extends Component {
           </Button>
         </div>
         <Tabs
+          scrollable={ true }
           value={ activeSlideIndex }
           onChange={ (e, v) =>
             activeSlideIndex !== v && this.setState({ activeSlideIndex: v })
