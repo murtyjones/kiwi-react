@@ -271,8 +271,8 @@ class UserLessonWizardForm extends Component {
         , onPrevClick = !prevDisabled ? this.onPrev : null
         , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
         , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
-        , hasBeenAnswered = codeRanAtLeastOnce || !!slideAnswerData.answer
-    
+        , hasBeenAnswered = codeRanAtLeastOnce || !!slideAnswerData.answer || slideAnswerData.answer === 0 // for mulitple choice slides
+
     return (
       <Fragment>
         <ResultCard
