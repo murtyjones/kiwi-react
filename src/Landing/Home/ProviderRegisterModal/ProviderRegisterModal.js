@@ -147,6 +147,9 @@ class ProviderRegisterModal extends Component {
       })
     )
     await Promise.all(promises)
+  }
+
+  slide6Submit = async v => {
     this.props.history.push(`/provider/subscriptions`)
     this.props.closeModal()
   }

@@ -16,7 +16,7 @@ const styles = theme => ({
   }
 })
 
-class Confirmation extends Component {
+class Success extends Component {
   constructor(props) {
     super(props)
   }
@@ -29,9 +29,9 @@ class Confirmation extends Component {
 
   render() {
     const { providees, classes } = this.props
+
     const monthlySubscription = 30
     const numberOfStudents = providees.length
-    const totalSubscription = numberOfStudents * monthlySubscription
     const subscriptionOrSubs = numberOfStudents > 1
       ? 'subscriptions'
       : 'subscription'
@@ -45,24 +45,23 @@ class Confirmation extends Component {
           <Table className={ classes.table }>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Monthly Price</TableCell>
+                <TableCell>Temporary Username</TableCell>
+                <TableCell>Temporary Password</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               { providees.map((student, i) =>
                 <TableRow hover key={ i }>
-                  <TableCell>{ student.firstName }</TableCell>
-                  <TableCell>({monthlySubscription} /mo)</TableCell>
+                  <TableCell>{ student.username }</TableCell>
+                  <TableCell>{ student.password }</TableCell>
                 </TableRow>
               ) }
             </TableBody>
           </Table>
-          <h3>{ totalSubscription } USD /month </h3>
         </div>
       </SlideInOut>
     )
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Confirmation)
+export default withStyles(styles, { withTheme: true })(Success)
