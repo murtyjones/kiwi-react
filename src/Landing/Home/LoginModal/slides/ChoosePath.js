@@ -48,8 +48,7 @@ class ChoosePath extends Component {
   }
 
   static propTypes = {
-    openModal: T.func.isRequired
-    , isLogin: T.bool
+    isLogin: T.bool
     , classes: T.object
     , input: T.object
     , onSubmit: T.func
