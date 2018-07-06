@@ -75,7 +75,7 @@ class Home extends Component {
   }
 
   openProviderRegisterModal = () => {
-    this.props.history.push('/onboarding')
+    this.props.history.push('/signup-modal')
     this.props.openModal({
       className: 'providerRegisterModal',
       children: (

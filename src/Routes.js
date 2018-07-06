@@ -14,6 +14,7 @@ import PlainRoute from './Routes/PlainRoute'
 
 import Loading from './Loading/Loading'
 import Landing from './Landing/Landing'
+import StudentOnboarding from './StudentOnboarding/StudentOnboarding'
 import Welcome from './WelcomeWizard/WelcomeWizard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
@@ -26,24 +27,21 @@ import EmailVerification from './EmailVerification/EmailVerification'
 import BetaLessons from './BetaLessons/BetaLessons'
 import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
 import * as T from 'prop-types'
-import { connect } from 'react-redux'
-import {
-  closeSideNav,
-  openSideNav,
-  setGlobalColors, setTopBarTitle,
-  signout,
-  toggleTopBarTitleIsDisabled
-} from './actions'
 import withRouter from 'react-router-dom/withRouter'
+import { connect } from 'react-redux'
 
-const Lessons = Loadable({ loader: () => import('./Lessons/Lessons'), loading: Loading})
-const ForgotPasswordWizard = Loadable({ loader: () => import('./ForgotPasswordWizard/ForgotPasswordWizard'), loading: Loading})
-const AddOrEditLesson = Loadable({ loader: () => import('./admin/AddOrEditLesson/AddOrEditLesson'), loading: Loading})
-const ProviderLoginOrRegister = Loadable({ loader: () => import('./ProviderLoginOrRegister/ProviderLoginOrRegister'), loading: Loading})
-const AddOrEditLessonTheme = Loadable({ loader: () => import('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme'), loading: Loading})
-const AddOrEditVariable = Loadable({ loader: () => import('./admin/AddOrEditVariable/AddOrEditVariable'), loading: Loading})
-const AddOrEditSubscription = Loadable({ loader: () => import('./admin/AddOrEditSubscription/AddOrEditSubscription'), loading: Loading})
-const ManageLessons = Loadable({ loader: () => import('./admin/ManageLessons/ManageLessons'), loading: Loading})
+import {
+  closeSideNav, openSideNav, setGlobalColors, setTopBarTitle, signout, toggleTopBarTitleIsDisabled
+} from './actions'
+
+const Lessons = Loadable({ loader: () => import('./Lessons/Lessons'), loading: Loading })
+const ForgotPasswordWizard = Loadable({ loader: () => import('./ForgotPasswordWizard/ForgotPasswordWizard'), loading: Loading })
+const AddOrEditLesson = Loadable({ loader: () => import('./admin/AddOrEditLesson/AddOrEditLesson'), loading: Loading })
+const ProviderLoginOrRegister = Loadable({ loader: () => import('./ProviderLoginOrRegister/ProviderLoginOrRegister'), loading: Loading })
+const AddOrEditLessonTheme = Loadable({ loader: () => import('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme'), loading: Loading })
+const AddOrEditVariable = Loadable({ loader: () => import('./admin/AddOrEditVariable/AddOrEditVariable'), loading: Loading })
+const AddOrEditSubscription = Loadable({ loader: () => import('./admin/AddOrEditSubscription/AddOrEditSubscription'), loading: Loading })
+const ManageLessons = Loadable({ loader: () => import('./admin/ManageLessons/ManageLessons'), loading: Loading })
 const ManageLessonThemes = Loadable({ loader: () => import('./admin/ManageLessonThemes/ManageLessonThemes'), loading: Loading })
 const ManageVariables = Loadable({ loader: () => import('./admin/ManageVariables/ManageVariables'), loading: Loading })
 const ManageSubscriptions = Loadable({ loader: () => import('./admin/ManageSubscriptions/ManageSubscriptions'), loading: Loading })
@@ -91,7 +89,8 @@ class Routes extends Component {
             <Landing />
           )
         )} />
-        <PlainRoute path='/onboarding' exact component={ Landing } />
+        <PlainRoute path='/signup-modal' exact component={ Landing } />
+        <PlainRoute path='/student' exact component={ StudentOnboarding } />
         <PlainRoute path='/about' exact component={ Landing } />
         <PlainRoute path='/login' exact component={ LoginOrRegister } />
         <PlainRoute path='/register' exact component={ LoginOrRegister } />

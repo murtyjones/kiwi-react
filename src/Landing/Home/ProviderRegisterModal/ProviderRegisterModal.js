@@ -158,7 +158,7 @@ class ProviderRegisterModal extends Component {
     const { activeSlideIndex } = this.state
     const actionName = `slide${activeSlideIndex}Submit`
     try {
-      if(this[actionName]) {
+      if (this[actionName]) {
         const result = await this[actionName](v)
       }
       this.goToNextSlide()

@@ -64,7 +64,7 @@ class Landing extends Component {
         component: Home
       },
       {
-        path: '/onboarding', // prevents auto-redirect
+        path: '/signup-modal', // prevents auto-redirect
         component: Home
       },
       {

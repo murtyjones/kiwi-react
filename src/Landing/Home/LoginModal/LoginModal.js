@@ -58,7 +58,7 @@ class LoginModal extends Component {
   slide1Submit = async params => {
     const { isStudentSignIn } = this.state
     if (params.redirectToProviderSignUp) {
-      this.props.history.push('/onboarding')
+      this.props.history.push('/signup-modal')
       return this.props.openModal({
         className: 'providerRegisterModal',
         children: (
