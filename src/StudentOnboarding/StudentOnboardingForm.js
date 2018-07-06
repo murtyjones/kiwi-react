@@ -19,11 +19,18 @@ const styles = theme => ({
     height: '100%',
     width: '100%',
     position: 'relative'
+  },
+  submit: {
+    position: 'absolute',
+    right: '10px',
+    bottom: '10px',
+    borderRadius: '20px',
+    backgroundColor: '#AED15D',
+    fontWeight: 'bold',
+    border: 'none !important',
+    color: '#FFF !important'
   }
 })
-
-const SlideHeader = props =>
-  <h3 className='studentOnboarding-header'>{ props.text }</h3>
 
 class StudentOnboardingForm extends Component {
   constructor(props) {
@@ -45,19 +52,11 @@ class StudentOnboardingForm extends Component {
     if (names) nameOrNames.names = names
     else nameOrNames.name = name
 
-    const headerProps = {}
-    if (slide.headerText) headerProps.text = slide.headerText
-
     return (
       <form
         className={ classes.form }
         onSubmit={ handleSubmit }
       >
-        { !isEmpty(headerProps) &&
-          <SlideHeader
-            { ...headerProps }
-          />
-        }
         <FieldComponent
           { ...nameOrNames }
           component={ Component }
@@ -65,8 +64,10 @@ class StudentOnboardingForm extends Component {
         />
         { submitText &&
           <SubmitButton
+            className={ classes.submit }
             text={ submitText }
             { ...this.props }
+            disabledOverride={ true }
             onClick={ handleSubmit }
           />
         }
@@ -94,16 +95,10 @@ StudentOnboardingForm = reduxForm({
     dispatch(unregisterField(formName, 'submitSucceeded'))
   , validate: values => {
     const errors = {}
-    const { password, confirmPassword, providees = [] } = values
-    if (!passwordsMatch(password, confirmPassword)) {
+    const { newPassword, confirmPassword, providees = [] } = values
+    if (!passwordsMatch(newPassword, confirmPassword)) {
       errors.confirmPassword = 'Passwords must match!'
     }
-    errors.providees = providees.map((each = {}) => {
-      const providerErrors = {}
-      if (!passwordsMatch(each.password, each.confirmPassword))
-        providerErrors.confirmPassword = 'Passwords must match!'
-      return providerErrors
-    })
     return errors
   }
 })(StudentOnboardingForm)

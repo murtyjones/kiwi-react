@@ -10,13 +10,13 @@ const styles = theme => ({
     position: 'absolute',
     height: '100%',
     width: '100%',
-    background: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1530838900/Onboarding%20v2/Slide%201.svg)',
+    background: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1530841250/Onboarding%20v2/Slide%208.svg)',
     backgroundSize: '100%',
     backgroundPositionY: 'center'
   }
 })
 
-class First extends Component {
+class Slide extends Component {
   constructor(props) {
     super(props)
   }
@@ -38,4 +38,4 @@ class First extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(First)
+export default withStyles(styles, { withTheme: true })(Slide)
