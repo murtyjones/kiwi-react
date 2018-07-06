@@ -94,7 +94,7 @@ class ChoosePath extends Component {
                 className={ cns(classes.select, classes.right) }
               >
                 <h3>
-                  Parent / Account Owner
+                  Parent
                 </h3>
               </Paper>
             </Grid>
