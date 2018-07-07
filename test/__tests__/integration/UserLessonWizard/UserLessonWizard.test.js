@@ -65,6 +65,7 @@ describe('UserLessonWizard', () => {
         },
         {
           type: LESSON_SLIDE_TYPES.FULL_PAGE_TEXT
+          , instructionsLabel: 'hiya'
           , instructions: "<p>slide1Instructions</p>"
           , editorInput: "slide2EditorInput"
           , title: "What is a Print Statement? "
@@ -78,7 +79,7 @@ describe('UserLessonWizard', () => {
         },
         {
           type: LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EXAMPLE
-          , explanation: "<p>slide4Explanation</p>"
+          , exampleLabel: 'hiya'
           , example: "slide4Example"
           , id: slide4Id
         },
@@ -264,6 +265,7 @@ describe('UserLessonWizard', () => {
         it('should have the expected slide 2 instructions', async () => {
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
+          expect(component.find('div[id="speechBubbleLabel"]').length).toBe(1)
           expect(component.find('div[id="speechBubble"]').length).toBe(1)
           expect(component.find('div[id="speechBubble"]').props()).toHaveProperty('dangerouslySetInnerHTML', {__html: lesson.slides[1].instructions})
         })
@@ -398,7 +400,7 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="fullPageExampleContainer"]').length).toBe(1)
+          expect(component.find('div[id="exampleContainer"]').length).toBe(1)
         })
 
         it('should have expected slide 4 content', async () => {
@@ -411,9 +413,9 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="fullPageExplanation"]').html()).toEqual(expect.stringContaining(lesson.slides[3].explanation))
-          expect(component.find('div[className="fullPageExample"]').text()).toEqual(lesson.slides[3].example)
-          expect(component.find('div[className="exampleLabel"]').text()).toEqual('Example')
+          expect(component.find('div[id="speechBubbleLabel"]').length).toBe(1)
+          expect(component.find('div[id="speechBubble"]').length).toBe(1)
+          expect(component.find('div[id="speechBubble"]').props()).toHaveProperty('dangerouslySetInnerHTML', {__html: lesson.slides[3].example})
         })
       })
 

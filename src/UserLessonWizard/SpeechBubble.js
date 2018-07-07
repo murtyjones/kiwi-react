@@ -36,7 +36,7 @@ const styles = theme => ({
 })
 
 const Label = ({ className, label })  =>
-  <div>
+  <div id='speechBubbleLabel'>
     <span className={ className }>
     { label }
     </span>

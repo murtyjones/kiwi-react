@@ -55,13 +55,12 @@ class FullPageCodeExample extends PureComponent {
   render() {
     const { slideData, className, variablesWithUserValues, globalColors } = this.props
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
-    const explanation = template(slideData.explanation, variableValues)
     const example = template(slideData.example, variableValues)
 
     const { characterUrl } = slideData
 
     return (
-      <div style={ styles.container } className={ className }>
+      <div id='exampleContainer' style={ styles.container } className={ className }>
         {/*<div*/}
           {/*key='title'*/}
           {/*id='title'*/}
