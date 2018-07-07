@@ -43,7 +43,7 @@ class StudentOnboardingForm extends Component {
 
   render() {
     const {
-      classes, onSubmit, handleSubmit, formValues, activeSlideIndex
+      classes, onSubmit, handleSubmit, formValues, activeSlideIndex, submitFailed, error
     } = this.props
     const slide = slides[activeSlideIndex]
     const { submitText, Component, FieldComponent, names, name } = slide
@@ -51,7 +51,6 @@ class StudentOnboardingForm extends Component {
     const nameOrNames = {}
     if (names) nameOrNames.names = names
     else nameOrNames.name = name
-
     return (
       <form
         className={ classes.form }
@@ -61,6 +60,9 @@ class StudentOnboardingForm extends Component {
           { ...nameOrNames }
           component={ Component }
           onSubmit={ onSubmit }
+          handleSubmit={ handleSubmit }
+          hasSubmitFailed={ submitFailed }
+          error={ error }
         />
         { submitText &&
           <SubmitButton
@@ -71,9 +73,11 @@ class StudentOnboardingForm extends Component {
             onClick={ handleSubmit }
           />
         }
-        <ResultMessage
-          { ...this.props }
-        />
+        { submitText &&
+          <ResultMessage
+            { ...this.props}
+          />
+        }
       </form>
     )
   }

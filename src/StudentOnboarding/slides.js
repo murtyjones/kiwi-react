@@ -21,19 +21,19 @@ import Slide13 from './slides/13'
 
 export const login = {
   Component: LoginSlide, FieldComponent: Fields,
-  names: [ 'username', 'tempPassword' ], submitText: `let's go`,
+  names: [ 'username', 'tempPassword' ],
   submitFunc: 'onLoginSubmit'
 }
 
 export const changeUsername = {
   Component: ChangeUsername, FieldComponent: Fields,
-  names: [ 'newUsername' ], submitText: `let's go`,
+  names: [ 'newUsername' ],
   submitFunc: 'onChangeUsernameSubmit'
 }
 
 export const changePassword = {
   Component: ChangePassword, FieldComponent: Fields,
-  names: [ 'newPassword', 'tempPassword' ], submitText: `let's go`,
+  names: [ 'newPassword', 'tempPassword' ],
   submitFunc: 'onChangePasswordSubmit'
 }
 

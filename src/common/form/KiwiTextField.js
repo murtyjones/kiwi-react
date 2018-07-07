@@ -64,7 +64,9 @@ class KiwiTextField extends PureComponent {
   }
 
   render() {
-    const { classes, StartAdornmentIcon, input, meta, successText } = this.props
+    const {
+      classes, StartAdornmentIcon, input, meta, successText
+    } = this.props
     const { error, pristine, touched, asyncValidating, valid } = meta
     const { focused, color } = this.state
     const errorText = touched && error ? error : ''

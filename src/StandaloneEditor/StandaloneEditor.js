@@ -5,6 +5,7 @@ import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 
 import '../common/flex.css'
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 const styles = {
   prompt: {
@@ -29,21 +30,6 @@ class StandaloneEditor extends Component {
     super(props)
   }
 
-  componentWillMount() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillReceiveProps() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillUnmount() {
-    this.props.openSideNav()
-    this.props.openTopBar()
-  }
-
   render() {
     return (
       <div className='flex flexFlowColumn' style={ styles.codeEditorContainer }>
@@ -63,5 +49,7 @@ const mapDispatchToProps = (dispatch) => {
     , closeTopBar: () => dispatch(closeTopBar())
   }
 }
+
+StandaloneEditor = withoutMainNavigation(StandaloneEditor)
 
 export default withRouter(connect(null, mapDispatchToProps)(StandaloneEditor))

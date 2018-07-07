@@ -5,10 +5,11 @@ import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import Transition from 'react-transition-group'
 
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, upsertPasswordRecoveryImages, signout, login } from '../actions'
+import { upsertPasswordRecoveryImages } from '../actions'
 import WelcomeWizardForm from './WelcomeWizardForm'
 
 import slides from './slides'
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 class WelcomeWizard extends Component {
   constructor(props) {
@@ -16,22 +17,6 @@ class WelcomeWizard extends Component {
     this.state = {
       activeSlideIndex: 0
     }
-  }
-
-
-  componentWillMount() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillReceiveProps() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillUnmount() {
-    this.props.openSideNav()
-    this.props.openTopBar()
   }
 
   handleSubmit = async v => {
@@ -80,12 +65,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openTopBar: () => dispatch(openTopBar())
-    , closeTopBar: () => dispatch(closeTopBar())
-    , upsertPasswordRecoveryImages: params => dispatch(upsertPasswordRecoveryImages(params))
+    upsertPasswordRecoveryImages: params => dispatch(upsertPasswordRecoveryImages(params))
   }
 }
+
+WelcomeWizard = withoutMainNavigation(WelcomeWizard)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WelcomeWizard))

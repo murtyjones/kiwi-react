@@ -15,6 +15,7 @@ import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } f
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 const styles = theme => ({
   root: {
@@ -44,27 +45,8 @@ class ProviderLoginOrRegister extends PureComponent {
     , login: T.func
     , signout: T.func
     , register: T.func
-    , closeSideNav: T.func
-    , openSideNav: T.func
-    , openTopBar: T.func
-    , closeTopBar: T.func
     , history: T.any
     , location: T.any
-  }
-
-  componentWillMount() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillReceiveProps() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillUnmount() {
-    this.props.openSideNav()
-    this.props.openTopBar()
   }
 
   handleLoginSubmit = async(v) => {
@@ -196,6 +178,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 ProviderLoginOrRegister = withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderLoginOrRegister))
+
+ProviderLoginOrRegister = withoutMainNavigation(ProviderLoginOrRegister)
 
 export default withStyles(styles, { withTheme: true })(ProviderLoginOrRegister)
 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as T from 'prop-types'
-import { closeModal, closeSideNav, closeTopBar, login, openSideNav, openTopBar, putProfile, getProfileDetails, changePassword } from '../actions'
+import { closeModal, login, putProfile, getProfileDetails, changePassword } from '../actions'
 import withRouter from 'react-router-dom/withRouter'
 import { SubmissionError } from 'redux-form'
 import slides from './slides'
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 import StudentOnboardingForm from './StudentOnboardingForm'
 
@@ -27,21 +28,9 @@ class StudentOnboarding extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
     if (nextProps.userId !== this.props.userId) {
       nextProps.getProfileDetails({ userId: nextProps.userId })
     }
-  }
-
-  componentWillMount() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillUnmount() {
-    this.props.openSideNav()
-    this.props.openTopBar()
   }
 
   onFinalSlideSubmit = () => {
@@ -49,11 +38,10 @@ class StudentOnboarding extends Component {
   }
 
   onLoginSubmit = async v => {
-    const { login, getProfileDetails } = this.props
+    const { login } = this.props
     const { username, tempPassword } = v
     try {
       await login({ username, password: tempPassword })
-      console.log(this.props.userId)
     } catch(e) {
       console.error(e)
       if(JSON.stringify(e).includes('invalid_grant')) {
@@ -124,12 +112,10 @@ const mapDispatchToProps = (dispatch) => {
     , getProfileDetails: params => dispatch(getProfileDetails(params))
     , changePassword: params => dispatch(changePassword(params))
     , login: params => dispatch(login(params))
-    , openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openTopBar: () => dispatch(openTopBar())
-    , closeTopBar: () => dispatch(closeTopBar())
     , closeModal: params => dispatch(closeModal(params))
   }
 }
+
+StudentOnboarding = withoutMainNavigation(StudentOnboarding)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StudentOnboarding))
