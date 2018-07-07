@@ -14,6 +14,7 @@ class StudentOnboarding extends Component {
     super(props)
     this.state = {
       activeSlideIndex: 0
+      , submittedLogin: false
     }
   }
 
@@ -28,7 +29,7 @@ class StudentOnboarding extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextProps.userId !== this.props.userId) {
+    if (nextState.submittedLogin !== this.state.submittedLogin) {
       nextProps.getProfileDetails({ userId: nextProps.userId })
     }
   }
@@ -42,6 +43,7 @@ class StudentOnboarding extends Component {
     const { username, tempPassword } = v
     try {
       await login({ username, password: tempPassword })
+      this.setState({ submittedLogin: true })
     } catch(e) {
       console.error(e)
       if(JSON.stringify(e).includes('invalid_grant')) {

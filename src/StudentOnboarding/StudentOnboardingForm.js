@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as T from 'prop-types'
 import { SubmissionError, reduxForm, getFormValues, unregisterField } from 'redux-form'
-import Paper from '@material-ui/core/Paper'
 import withStyles from '@material-ui/core/styles/withStyles'
-import isEmpty from 'lodash/isEmpty'
 
 import SubmitButton from '../common/form/SubmitButton'
-import ProgressBar from '../common/ProgressBar/ProgressBar'
 import ResultMessage from '../common/form/ResultMessage'
 import { passwordsMatch } from '../utils/validationUtils'
 import slides from './slides'
@@ -43,10 +40,15 @@ class StudentOnboardingForm extends Component {
 
   render() {
     const {
-      classes, onSubmit, handleSubmit, formValues, activeSlideIndex, submitFailed, error
+      classes, onSubmit, handleSubmit, formValues, activeSlideIndex, submitFailed, error,
+      pristine, submitting, invalid
     } = this.props
     const slide = slides[activeSlideIndex]
     const { submitText, Component, FieldComponent, names, name } = slide
+
+    const submitButtonProps = {
+      pristine, submitting, invalid
+    }
 
     const nameOrNames = {}
     if (names) nameOrNames.names = names
@@ -63,6 +65,7 @@ class StudentOnboardingForm extends Component {
           handleSubmit={ handleSubmit }
           hasSubmitFailed={ submitFailed }
           error={ error }
+          submitButtonProps={ submitButtonProps }
         />
         { submitText &&
           <SubmitButton

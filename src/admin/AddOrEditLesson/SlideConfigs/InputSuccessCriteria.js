@@ -152,7 +152,6 @@ const Criterion = ({ eachSlideRef, slideValues, isCustomOccurance, onDeleteCriti
             name={ `${eachSlideRef}.numberOfTimes` }
             label='Number of Times'
             component={ KiwiTextField }
-            parse={ v => Number(v) } // convert string to number
             type='number'
           />
         </Fragment>

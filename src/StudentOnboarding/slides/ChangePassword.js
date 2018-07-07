@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { Field } from 'redux-form'
 import withStyles from '@material-ui/core/styles/withStyles'
+import cloneDeep from 'lodash/cloneDeep'
 
 import SlideInOut from '../../common/animations/SlideInOut'
 import KiwiTextField from '../../common/form/KiwiTextField'
 import SubmitButton from '../../common/form/SubmitButton'
 import ResultMessage from '../../common/form/ResultMessage'
+import { required } from '../../utils/validationUtils'
 
 const styles = theme => ({
   header: {
@@ -51,7 +53,7 @@ class Slide extends Component {
   }
 
   render() {
-    const { classes, handleSubmit, hasSubmitFailed } = this.props
+    const { classes, handleSubmit, hasSubmitFailed, submitButtonProps } = this.props
 
     return (
       <SlideInOut>
@@ -59,10 +61,10 @@ class Slide extends Component {
           <div className={ classes.left } />
           <div className={ classes.right }>
             <h2 className={ classes.header }>
-              Great! Now, you can choose a new username!
+              Nice! Now, what password do you want to use?
             </h2>
             <h4 className={ classes.header }>
-              What do you want to be called here on Tech Island?
+              Pick something you'll be able to remember!
             </h4>
             <Field
               name='newPassword'
@@ -70,6 +72,7 @@ class Slide extends Component {
               component={ KiwiTextField }
               type='password'
               style={ { width: '80%', margin: 'auto' } }
+              validate={ [ required ] }
             />
             <Field
               name='confirmPassword'
@@ -77,10 +80,11 @@ class Slide extends Component {
               component={ KiwiTextField }
               type='password'
               style={ { width: '80%', margin: 'auto' } }
+              validate={ [ required ] }
             />
             <SubmitButton
               text="Let's go!"
-              { ...this.props }
+              { ...submitButtonProps }
               onClick={ handleSubmit }
               className={ classes.button }
             />

@@ -7,6 +7,7 @@ import SlideInOut from '../../common/animations/SlideInOut'
 import KiwiTextField from '../../common/form/KiwiTextField'
 import SubmitButton from '../../common/form/SubmitButton'
 import ResultMessage from '../../common/form/ResultMessage'
+import { required } from '../../utils/validationUtils'
 
 const styles = theme => ({
   header: {
@@ -51,7 +52,7 @@ class Slide extends Component {
   }
 
   render() {
-    const { classes, handleSubmit, hasSubmitFailed } = this.props
+    const { classes, handleSubmit, hasSubmitFailed, submitButtonProps } = this.props
 
     return (
       <SlideInOut>
@@ -69,10 +70,11 @@ class Slide extends Component {
               label='New Username'
               component={ KiwiTextField }
               style={ { width: '80%', margin: 'auto' } }
+              validate={ [ required ] }
             />
             <SubmitButton
               text="Let's go!"
-              { ...this.props }
+              { ...submitButtonProps }
               onClick={ handleSubmit }
               className={ classes.button }
             />

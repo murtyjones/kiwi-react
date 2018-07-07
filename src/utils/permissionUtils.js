@@ -13,6 +13,5 @@ export const isSubscriptionValid = subscription => {
       return false
     }
   }
-  console.log('returning true for ', subscription)
   return true
 }
