@@ -10,7 +10,7 @@ import { isPrevDisabled, isNextDisabled, isFinalSlide, hasSuccessCriteria } from
 import { LESSON_SLIDE_TYPES } from '../constants'
 import ActionBar from './ActionBar'
 import CustomSlideBackground from './CustomSlideBackground'
-import { LessonTheme, LessonThemeBackground, sortAssetsByQuadrant } from './LessonTheme'
+import { sortAssetsByQuadrant } from './LessonTheme'
 import ResultCard from '../common/ResultCard/ResultCard'
 
 // import slides
@@ -26,9 +26,6 @@ import '../common/flex.css'
 
 const formName = 'userLesson'
 
-const defaultBackgroundClassName = 'lessonLargeBackground'
-const defaultWidth = '600px'
-
 const styles = {
   lessonWizardForm: {
     height:'100%'
@@ -43,34 +40,22 @@ const styles = {
 const availableSlideTypes = {
   [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
     component: FullPageText
-    , backgroundClassName: 'lessonSmallBackground'
-    , width: '600px' // redundant, but needed for background assets width
   },
   [LESSON_SLIDE_TYPES.NARRATION]: {
     component: Narration
-    , backgroundClassName: 'lessonSmallBackground'
-    , width: '600px' // redundant, but needed for background assets width
   },
   [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EXAMPLE]: {
     component: FullPageCodeExample
-    , backgroundClassName: 'lessonSmallBackground'
-    , width: '600px' // redundant, but needed for background assets width
   },
   [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR]: {
     component: FullPageCodeEditor
-    , backgroundClassName: 'lessonLargeBackground'
-    , width: '1000px' // redundant, but needed for background assets width
     , includeRunButton: true
   },
   [LESSON_SLIDE_TYPES.TITLE]: {
     component: Title
-    , backgroundClassName: 'lessonSmallBackground'
-    , width: '600px' // redundant, but needed for background assets width
   },
   [LESSON_SLIDE_TYPES.MULTIPLE_CHOICE]: {
     component: MultipleChoice
-    , backgroundClassName: 'lessonLargeBackground'
-    , width: '1000px' // redundant, but needed for background assets width
   }
 }
 
@@ -79,7 +64,6 @@ class UserLessonWizardForm extends Component {
     super(props)
     this.state = {
       activeSlideObject: null
-      , themeAssetsByQuadrant: null
       , prevDisabled: null
       , nextDisabled: null
       , isFinal: null
@@ -109,7 +93,6 @@ class UserLessonWizardForm extends Component {
   componentWillMount() {
     const { lesson, activeSlideIndex, lessonTheme, formValues, isFetchingUserLessons } = this.props
     this.setActiveSlideObject(activeSlideIndex, lesson)
-    if(lessonTheme) this.setThemeAssetsByQuadrant(lessonTheme)
     this.setPrevDisabled(activeSlideIndex, lesson)
     this.setNextDisabled(activeSlideIndex, lesson, isFetchingUserLessons, formValues)
     this.setIsFinal(activeSlideIndex, lesson)
@@ -118,7 +101,6 @@ class UserLessonWizardForm extends Component {
   componentWillReceiveProps(nextProps) {
     const lessonHasChanged = !isEqual(nextProps.lesson, this.props.lesson)
       , activeSlideIndexHasChanged = !isEqual(nextProps.activeSlideIndex, this.props.activeSlideIndex)
-      , themeHasChanged = !isEqual(nextProps.lessonTheme, this.props.lessonTheme)
       , isFetchingUserLessonsHasChanged = !isEqual(nextProps.isFetchingUserLessons, this.props.isFetchingUserLessons)
       , formValuesHasChanged = !isEqual(nextProps.formValues, this.props.formValues)
 
@@ -131,10 +113,6 @@ class UserLessonWizardForm extends Component {
 
     if(lessonHasChanged || activeSlideIndexHasChanged || isFetchingUserLessonsHasChanged || formValuesHasChanged) {
       this.setNextDisabled(nextProps.activeSlideIndex, nextProps.lesson, nextProps.isFetchingUserLessons, nextProps.formValues)
-    }
-
-    if(themeHasChanged) {
-      this.setThemeAssetsByQuadrant(nextProps.lessonTheme)
     }
   }
 
@@ -164,9 +142,6 @@ class UserLessonWizardForm extends Component {
 
   setActiveSlideObject = (activeSlideIndex, lesson) =>
     this.setState({ activeSlideObject: lesson.slides[activeSlideIndex] })
-
-  setThemeAssetsByQuadrant = lessonTheme =>
-    this.setState({ themeAssetsByQuadrant: sortAssetsByQuadrant(lessonTheme) })
 
   setPrevDisabled = (activeSlideIndex, lesson) =>
     this.setState({ prevDisabled: isPrevDisabled(activeSlideIndex, lesson) })
@@ -252,7 +227,9 @@ class UserLessonWizardForm extends Component {
             className='lessonWizardFormContent flexZeroOneAuto'
             globalColors={ globalColors }
             slideData={ activeSlideObject }
-            setFormGlobalVariable={ (varRef, v) => this.setFormGlobalVariable(`${ref}.${varRef}`, v) }
+            setFormGlobalVariable={ (varRef, v) =>
+              this.setFormGlobalVariable(`${ref}.${varRef}`, v)
+            }
             variablesWithUserValues={ variablesWithUserValues }
             slideAnswerData={ slideAnswerData }
           />
@@ -261,17 +238,14 @@ class UserLessonWizardForm extends Component {
   }
 
   render() {
-    const { handleSubmit, lessonTheme, globalColors, activeSlideIndex, formValues } = this.props
-        , { activeSlideObject, themeAssetsByQuadrant, prevDisabled, nextDisabled, isFinal, runCode, showResultCard, codeRanAtLeastOnce } = this.state
-        , hasActiveSlideObjectType = activeSlideObject && activeSlideObject.type
-        , activeSlideBackgroundClassName = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].backgroundClassName : defaultBackgroundClassName
-        , activeSlideWidth = hasActiveSlideObjectType ? availableSlideTypes[activeSlideObject.type].width : defaultWidth
-        , includeRunButton = availableSlideTypes[activeSlideObject.type].includeRunButton
-        , includesSuccessCriteria = hasSuccessCriteria(activeSlideObject)
-        , onPrevClick = !prevDisabled ? this.onPrev : null
-        , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
-        , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
-        , hasBeenAnswered = codeRanAtLeastOnce || !!slideAnswerData.answer || slideAnswerData.answer === 0 // for mulitple choice slides
+    const { handleSubmit, globalColors, activeSlideIndex, formValues } = this.props
+      , { activeSlideObject, prevDisabled, nextDisabled, isFinal, runCode, showResultCard, codeRanAtLeastOnce } = this.state
+      , includeRunButton = availableSlideTypes[activeSlideObject.type].includeRunButton
+      , includesSuccessCriteria = hasSuccessCriteria(activeSlideObject)
+      , onPrevClick = !prevDisabled ? this.onPrev : null
+      , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
+      , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
+      , hasBeenAnswered = codeRanAtLeastOnce || !!slideAnswerData.answer || slideAnswerData.answer === 0 // for multiple choice slides
 
     return (
       <Fragment>
@@ -309,14 +283,6 @@ class UserLessonWizardForm extends Component {
         { activeSlideObject.backgroundImageUrl &&
           <CustomSlideBackground src={ activeSlideObject.backgroundImageUrl } />
         }
-        <LessonThemeBackground
-          className={ activeSlideBackgroundClassName }
-        />
-        <LessonTheme
-          lessonTheme={ lessonTheme }
-          themeAssetsByQuadrant={ themeAssetsByQuadrant }
-          activeSlideWidth={ activeSlideWidth }
-        />
       </Fragment>
     )
   }

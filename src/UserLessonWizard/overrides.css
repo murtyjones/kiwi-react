@@ -69,28 +69,6 @@
     cursor: pointer;
 }
 
-.lessonLargeBackground {
-    width: 100%;
-    left: 0;
-    background-color: white;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    z-index: 501;
-}
-
-.lessonSmallBackground {
-    background-color: white;
-    width: 600px;
-    height: 600px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -300px;
-    margin-top: -300px;
-    z-index: 501;
-}
-
 .lessonWizardForm {
     width: 100%;
     left: 0;
@@ -106,12 +84,6 @@
     .backButton, .nextButton {
         border: 0;
         background-color: #FFFFFF;
-    }
-
-    .lessonLargeBackground {
-        width: 1000px;
-        margin-left: -500px;
-        left: 50%;
     }
 
     .lessonFullSizeEditor, .lessonHalfSizeEditorRight {
