@@ -43,6 +43,7 @@ const SpeechBubble = ({ classes, label, htmlContent }) => {
         className={ classes.label }
       />
       <div
+        id='speechBubble'
         className={ classes.bubble }
         dangerouslySetInnerHTML={ { __html: htmlContent } }
       />

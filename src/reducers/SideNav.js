@@ -11,7 +11,6 @@ export default (state = getInitialState(), action) => {
   let sideNav
   switch (action.type) {
     case ACTIONS.OPEN_SIDENAV:
-      console.log('weird')
       return {
         isSideNavOpen: true
         , sideNavWidth: 256
