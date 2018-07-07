@@ -4,6 +4,7 @@ import template from 'es6-template-strings'
 
 import { slideContentFlexibleHeight, titleStyle, example as exampleStyle } from './commonSlideStyles'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
+import SpeechBubble from '../SpeechBubble'
 
 const styles = {
   fullPageExampleContainer: {
@@ -57,47 +58,35 @@ class FullPageCodeExample extends PureComponent {
     const explanation = template(slideData.explanation, variableValues)
     const example = template(slideData.example, variableValues)
 
+    const { characterUrl } = slideData
+
     return (
       <div style={ styles.container } className={ className }>
-        <div
-          key='title'
-          id='title'
+        {/*<div*/}
+          {/*key='title'*/}
+          {/*id='title'*/}
+          {/*style={ {*/}
+            {/*...titleStyle*/}
+            {/*, color: globalColors.quaternaryColor*/}
+          {/*} }*/}
+        {/*>*/}
+          {/*{ slideData.title }*/}
+        {/*</div>*/}
+        { characterUrl &&
+        <img
+          src={ characterUrl }
           style={ {
-            ...titleStyle
-            , color: globalColors.quaternaryColor
+            position: 'absolute',
+            width: '200px',
+            left: '-205px'
           } }
-        >
-          { slideData.title }
-        </div>
-        <div
-          key='fullPageExplanation'
-          id='fullPageExplanation'
-          className='fullPageExplanation'
-          style={ styles.fullPageExplanationStyle }
-          dangerouslySetInnerHTML={ { __html: explanation } }
         />
-        <div
-          key='fullPageExampleContainer'
-          id='fullPageExampleContainer'
-          className='fullPageExampleContainer'
-          style={ styles.fullPageExampleContainer }
-        >
-          <div
-            key='exampleLabel'
-            id='exampleLabel'
-            className='exampleLabel'
-            style={ styles.exampleLabel }
-          >
-            Example
-          </div>
-          <div
-            key='fullPageExample'
-            id='fullPageExample'
-            className='fullPageExample'
-            style={ exampleStyle }
-            dangerouslySetInnerHTML={ { __html: example } }
-          />
-        </div>
+        }
+        <SpeechBubble
+          label={ slideData.exampleLabel }
+          htmlContent={ example }
+          isCodeExample={ true }
+        />
       </div>
     )
   }

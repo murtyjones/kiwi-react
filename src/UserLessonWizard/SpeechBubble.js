@@ -1,4 +1,5 @@
 import React from 'react'
+import cns from 'classnames'
 import Paper from '@material-ui/core/Paper'
 import withStyles from '@material-ui/core/styles/withStyles'
 
@@ -19,12 +20,18 @@ const styles = theme => ({
     , borderRadius: '5px 5px 0 0'
     , padding: '4px 7px'
     , textTransform: 'uppercase'
+    , position: 'relative'
+    , top: '-1px'
   },
   bubble: {
     border: '3px solid #330000'
     , borderRadius: '10px'
     , padding: '0 15px'
     , backgroundColor: '#FFF'
+  },
+  isCodeExample: {
+    fontFamily: 'monospace'
+    , fontSize: '16pt'
   }
 })
 
@@ -35,7 +42,7 @@ const Label = ({ className, label })  =>
     </span>
   </div>
 
-const SpeechBubble = ({ classes, label, htmlContent }) => {
+const SpeechBubble = ({ classes, label, htmlContent, isCodeExample }) => {
   return (
     <Paper className={ classes.root }>
       <Label
@@ -44,7 +51,7 @@ const SpeechBubble = ({ classes, label, htmlContent }) => {
       />
       <div
         id='speechBubble'
-        className={ classes.bubble }
+        className={ cns(classes.bubble, { [classes.isCodeExample]: isCodeExample }) }
         dangerouslySetInnerHTML={ { __html: htmlContent } }
       />
     </Paper>

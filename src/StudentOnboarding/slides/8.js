@@ -10,7 +10,7 @@ const styles = theme => ({
     position: 'absolute',
     height: '100%',
     width: '100%',
-    background: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1530841250/Onboarding%20v2/Slide%208.svg)',
+    background: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1530992685/Onboarding%20Final/Slide_8.svg)',
     backgroundSize: '100%',
     backgroundPositionY: 'center'
   }
