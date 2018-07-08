@@ -6,6 +6,7 @@
       {
         "source": "**"
         , "destination": "/maintenance.html"
+        , "type": 503
       }
     ],
     "headers": [
