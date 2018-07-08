@@ -5,8 +5,7 @@
     "rewrites": [
       {
         "source": "**"
-        , "destination": "/index.html"
-        , "type": 503
+        , "destination": "/maintenance.html"
       }
     ],
     "headers": [
