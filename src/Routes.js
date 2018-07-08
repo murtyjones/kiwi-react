@@ -16,7 +16,6 @@ import PlainRoute from './Routes/PlainRoute'
 import Loading from './Loading/Loading'
 import Landing from './Landing/Landing'
 import StudentOnboarding from './StudentOnboarding/StudentOnboarding'
-import Maintenance from './Maintenance/Maintenance'
 import Welcome from './WelcomeWizard/WelcomeWizard'
 import UserProjects from './UserProjects/UserProjects'
 import UserProject from './UserProject/UserProject'
@@ -75,12 +74,6 @@ class Routes extends Component {
       isProvider, setTopBarTitle, setGlobalColors,
       toggleTopBarTitleIsDisabled,
       ...globalColors
-    }
-
-    if (config.maintenanceMode) {
-      return (
-        <Maintenance />
-      )
     }
 
     return (

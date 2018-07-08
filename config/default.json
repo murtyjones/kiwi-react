@@ -12,7 +12,6 @@
   "api" : "http://localhost:8080",
   "host" : "http://localhost:3000",
   "stripePublishableKey": "pk_test_vnQAXQKpdv7q6DGTfhAMcT5X",
-  "maintenanceMode": false,
   "features": {
     "allowSignInRegister": true
   }
