@@ -4,7 +4,7 @@
     "ignore": [],
     "redirects": [
       {
-        "source": "**",
+        "source": "/index.html",
         "destination": "/maintenance.html",
         "type": 307
       }
