@@ -10,35 +10,35 @@ import ResultMessage from '../../common/form/ResultMessage'
 import { required } from '../../utils/validationUtils'
 
 const styles = theme => ({
-  header: {
-    margin: '0 0 5px 0'
-  },
   root: {
-    position: 'relative'
-    , width: '900px'
-    , height: '100%'
-    , margin: '0 auto'
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    background: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1531003742/Onboarding%20Final/intro_onboarding_slide.svg)',
+    backgroundSize: '100%',
+    backgroundPositionY: 'center'
   },
-  right: {
+  textBox: {
     position: 'absolute'
-    , right: 0
+    , right: '2%'
     , top: '50%'
     , marginTop: '-150px'
-    , height: '300px'
-    , width: '65%'
+    , width: '50%'
+    , maxWidth: '600px'
     , textAlign: 'center'
-  },
-  left: {
-    position: 'absolute'
-    , left: 0
-    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/KidCarl_xly3ot.svg)'
-    , backgroundPosition: 'center'
-    , backgroundRepeat: 'no-repeat'
-    , height: '100%'
-    , width: '35%'
+    , backgroundColor: '#FFF'
+    , border: '3px solid #330000'
+    , borderRadius: '15px'
+    , padding: '15px'
   },
   button: {
     display: 'block'
+  },
+  '@global': {
+    'h1, h2, h3, h4, h5, h6': {
+      margin: '0 0 15px 0',
+      color: '#330000'
+    }
   }
 })
 
@@ -55,21 +55,20 @@ class Slide extends Component {
     const { classes, handleSubmit, hasSubmitFailed, submitButtonProps } = this.props
 
     return (
-      <SlideInOut>
-        <div className={ classes.root }>
-          <div className={ classes.left } />
-          <div className={ classes.right }>
-            <h2 className={ classes.header }>
-              Let's get started? What's your username and password?
+      <div className={ classes.root }>
+        <SlideInOut>
+          <div className={ classes.textBox }>
+            <h2>
+              Let's get started! What's your username and password?
             </h2>
-            <h4 className={ classes.header }>
+            <h4>
               If you're unsure, ask your parent!
             </h4>
             <Field
               name='username'
               label='Username'
               component={ KiwiTextField }
-              style={ { width: '80%', margin: 'auto' } }
+              // style={ { width: '80%', margin: 'auto' } }
               validate={ [ required ] }
             />
             <Field
@@ -77,7 +76,7 @@ class Slide extends Component {
               label='Password'
               component={ KiwiTextField }
               type='password'
-              style={ { width: '80%', margin: 'auto' } }
+              // style={ { width: '80%', margin: 'auto' } }
               validate={ [ required ] }
             />
             <SubmitButton
@@ -91,8 +90,8 @@ class Slide extends Component {
               submitFailed={ hasSubmitFailed }
             />
           </div>
-        </div>
-      </SlideInOut>
+        </SlideInOut>
+      </div>
     )
   }
 }

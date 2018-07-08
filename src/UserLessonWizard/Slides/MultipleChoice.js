@@ -36,7 +36,6 @@ const styles = theme => ({
     },
   },
   selected: {
-    // opacity: 0.6,
     boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.3)'
   },
   choice0: { backgroundColor: '#E94858', borderTopLeftRadius: '10px' },

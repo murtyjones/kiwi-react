@@ -35,7 +35,7 @@ class StudentOnboarding extends Component {
   }
 
   onFinalSlideSubmit = () => {
-    this.props.closeModal()
+    this.props.history.push('/lessons')
   }
 
   onLoginSubmit = async v => {
