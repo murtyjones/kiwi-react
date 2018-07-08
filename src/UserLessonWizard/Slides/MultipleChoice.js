@@ -34,13 +34,10 @@ const styles = theme => ({
     '&:hover': {
       opacity: 0.9
     },
-    '&$selected': {
-      '&:hover': {
-        opacity: 0.6
-      },
-      cursor: 'default',
-      opacity: 0.6
-    },
+  },
+  selected: {
+    // opacity: 0.6,
+    boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.3)'
   },
   choice0: { backgroundColor: '#E94858', borderTopLeftRadius: '10px' },
   choice1: { backgroundColor: '#F3A32A', borderTopRightRadius: '10px' },
