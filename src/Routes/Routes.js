@@ -8,45 +8,45 @@ import Redirect from 'react-router-dom/Redirect'
 /**
  * Routing Components
  */
-import AuthenticatedRoute from './Routes/AuthenticatedRoute'
-import SubscriptionRoute from './Routes/SubscriptionRoute'
-import AuthorizedRoute from './Routes/AuthorizedRoute'
-import PlainRoute from './Routes/PlainRoute'
+import AuthenticatedRoute from './AuthenticatedRoute'
+import SubscriptionRoute from './SubscriptionRoute'
+import AuthorizedRoute from './AuthorizedRoute'
+import PlainRoute from './PlainRoute'
 
-import Loading from './Loading/Loading'
-import Landing from './Landing/Landing'
-import StudentOnboarding from './StudentOnboarding/StudentOnboarding'
-import Welcome from './WelcomeWizard/WelcomeWizard'
-import UserProjects from './UserProjects/UserProjects'
-import UserProject from './UserProject/UserProject'
-import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
-import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
-import SignOut from './SignOut/SignOut'
-import StandaloneEditor from './StandaloneEditor/StandaloneEditor'
-import ProviderDashboard from './ProviderDashboard/ProviderDashboard'
-import EmailVerification from './EmailVerification/EmailVerification'
-import BetaLessons from './BetaLessons/BetaLessons'
-import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
+import Loading from '../Loading/Loading'
+import Landing from '../Landing/Landing'
+import StudentOnboarding from '../StudentOnboarding/StudentOnboarding'
+import Welcome from '../WelcomeWizard/WelcomeWizard'
+import UserProjects from '../UserProjects/UserProjects'
+import UserProject from '../UserProject/UserProject'
+import LoginOrRegister from '../LoginOrRegister/LoginOrRegister'
+import UserLessonWizard from '../UserLessonWizard/UserLessonWizard'
+import SignOut from '../SignOut/SignOut'
+import StandaloneEditor from '../StandaloneEditor/StandaloneEditor'
+import ProviderDashboard from '../ProviderDashboard/ProviderDashboard'
+import EmailVerification from '../EmailVerification/EmailVerification'
+import BetaLessons from '../BetaLessons/BetaLessons'
+import InvalidSubscription from '../InvalidSubscription/InvalidSubscription'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 
 import {
   closeSideNav, openSideNav, setGlobalColors, setTopBarTitle, signout, toggleTopBarTitleIsDisabled
-} from './actions'
+} from '../actions/index'
 
-const Lessons = Loadable({ loader: () => import('./Lessons/Lessons'), loading: Loading })
-const ForgotPasswordWizard = Loadable({ loader: () => import('./ForgotPasswordWizard/ForgotPasswordWizard'), loading: Loading })
-const AddOrEditLesson = Loadable({ loader: () => import('./admin/AddOrEditLesson/AddOrEditLesson'), loading: Loading })
-const ProviderLoginOrRegister = Loadable({ loader: () => import('./ProviderLoginOrRegister/ProviderLoginOrRegister'), loading: Loading })
-const AddOrEditLessonTheme = Loadable({ loader: () => import('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme'), loading: Loading })
-const AddOrEditVariable = Loadable({ loader: () => import('./admin/AddOrEditVariable/AddOrEditVariable'), loading: Loading })
-const AddOrEditSubscription = Loadable({ loader: () => import('./admin/AddOrEditSubscription/AddOrEditSubscription'), loading: Loading })
-const ManageLessons = Loadable({ loader: () => import('./admin/ManageLessons/ManageLessons'), loading: Loading })
-const ManageLessonThemes = Loadable({ loader: () => import('./admin/ManageLessonThemes/ManageLessonThemes'), loading: Loading })
-const ManageVariables = Loadable({ loader: () => import('./admin/ManageVariables/ManageVariables'), loading: Loading })
-const ManageSubscriptions = Loadable({ loader: () => import('./admin/ManageSubscriptions/ManageSubscriptions'), loading: Loading })
-const Signups = Loadable({ loader: () => import('./admin/Signups/Signups'), loading: Loading })
+const Lessons = Loadable({ loader: () => import('../Lessons/Lessons'), loading: Loading })
+const ForgotPasswordWizard = Loadable({ loader: () => import('../ForgotPasswordWizard/ForgotPasswordWizard'), loading: Loading })
+const AddOrEditLesson = Loadable({ loader: () => import('../admin/AddOrEditLesson/AddOrEditLesson'), loading: Loading })
+const ProviderLoginOrRegister = Loadable({ loader: () => import('../ProviderLoginOrRegister/ProviderLoginOrRegister'), loading: Loading })
+const AddOrEditLessonTheme = Loadable({ loader: () => import('../admin/AddOrEditLessonTheme/AddOrEditLessonTheme'), loading: Loading })
+const AddOrEditVariable = Loadable({ loader: () => import('../admin/AddOrEditVariable/AddOrEditVariable'), loading: Loading })
+const AddOrEditSubscription = Loadable({ loader: () => import('../admin/AddOrEditSubscription/AddOrEditSubscription'), loading: Loading })
+const ManageLessons = Loadable({ loader: () => import('../admin/ManageLessons/ManageLessons'), loading: Loading })
+const ManageLessonThemes = Loadable({ loader: () => import('../admin/ManageLessonThemes/ManageLessonThemes'), loading: Loading })
+const ManageVariables = Loadable({ loader: () => import('../admin/ManageVariables/ManageVariables'), loading: Loading })
+const ManageSubscriptions = Loadable({ loader: () => import('../admin/ManageSubscriptions/ManageSubscriptions'), loading: Loading })
+const Signups = Loadable({ loader: () => import('../admin/Signups/Signups'), loading: Loading })
 
 class Routes extends Component {
   constructor(props) {
@@ -91,7 +91,10 @@ class Routes extends Component {
           )
         )} />
         <PlainRoute path='/signup-modal' exact component={ Landing } />
-        <PlainRoute path='/student' exact component={ StudentOnboarding } />
+        <PlainRoute path='/student' exact
+          mobileRedirect={ true }
+          component={ StudentOnboarding }
+        />
         <PlainRoute path='/about' exact component={ Landing } />
         <PlainRoute path='/login' exact component={ LoginOrRegister } />
         <PlainRoute path='/register' exact component={ LoginOrRegister } />
@@ -104,28 +107,28 @@ class Routes extends Component {
         {/* ----------------- */}
         {/* Logged in routes  */}
         {/* ----------------- */}
-        <AuthenticatedRoute exact
+        <AuthenticatedRoute exact mobileRedirect={ true }
           path='/invalid-subscription' component={ InvalidSubscription } { ...routeProps }
         />
-        <AuthenticatedRoute exact
+        <AuthenticatedRoute exact mobileRedirect={ true }
           path='/welcome' component={ Welcome } { ...routeProps }
         />
-        <AuthenticatedRoute exact
+        <AuthenticatedRoute exact mobileRedirect={ true }
           path='/projects' component={ UserProjects } title='Projects' { ...routeProps }
         />
-        <AuthenticatedRoute exact
+        <AuthenticatedRoute exact mobileRedirect={ true }
           path='/project/new' component={ UserProject } title='name me!' topBarTitleDisabled={ false } { ...routeProps }
         />
-        <AuthenticatedRoute exact
+        <AuthenticatedRoute exact mobileRedirect={ true }
           path='/project/:id' component={ UserProject } topBarTitleDisabled={ false } { ...routeProps }
         />
-        <SubscriptionRoute exact
+        <SubscriptionRoute exact mobileRedirect={ true }
           path='/lessons' component={ Lessons } title='Lessons' { ...routeProps }
         />
-        <AuthenticatedRoute exact
+        <AuthenticatedRoute exact mobileRedirect={ true }
           path='/lessons/beta' component={ BetaLessons } title='Lessons (Beta)' { ...routeProps }
         />
-        <AuthenticatedRoute exact
+        <AuthenticatedRoute exact mobileRedirect={ true }
           path='/lessons/:id' component={ UserLessonWizard } { ...routeProps }
         />
         {/* ----------------- */}

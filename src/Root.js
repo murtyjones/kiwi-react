@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet'
 
 import './utils/refreshToken'
 
-import Routes from './Routes'
+import Routes from './Routes/Routes'
 import { closeSideNav, openSideNav, closeModal, setTopBarTitle, toggleTopBarTitleIsDisabled, signout } from './actions'
 
 Modal.setAppElement(document.getElementById('app'))

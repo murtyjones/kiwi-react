@@ -1,8 +1,11 @@
 import React, {PropTypes} from 'react'
 import Route from 'react-router-dom/Route'
 import Redirect from 'react-router-dom/Redirect'
+import { isMobile } from 'react-device-detect'
+
 import WithTheme from '../hocs/WithTheme'
 import withTracker from '../hocs/withTracker'
+import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
 const authorizer = ({ path, isLoggedIn, isAdmin, isProvider }) =>
   path.includes('provider')
@@ -10,7 +13,11 @@ const authorizer = ({ path, isLoggedIn, isAdmin, isProvider }) =>
     : isLoggedIn && isAdmin
 
 
-function AuthorizedRoute ({component: Component, path, isLoggedIn, isAdmin, isProvider, setTopBarTitle, topBarTitleDisabled, toggleTopBarTitleIsDisabled, title, ...rest}) {
+function AuthorizedRoute ({component: Component, path, isLoggedIn, isAdmin, isProvider, setTopBarTitle, topBarTitleDisabled, toggleTopBarTitleIsDisabled, title, mobileRedirect, ...rest}) {
+
+  if (isMobile && mobileRedirect)
+    return <MobileRedirect />
+
   return (
     <Route
       { ...rest }
