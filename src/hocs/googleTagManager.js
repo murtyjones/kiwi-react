@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import gtmParts from 'react-google-tag-manager'
-
+import config from 'config'
 
 export class GoogleTagManager extends Component {
   componentDidMount() {
@@ -16,7 +16,7 @@ export class GoogleTagManager extends Component {
 
   render() {
     const {
-      gtmId = 'GTM-TJPSGHC', scriptId, dataLayerName, additionalEvents, previewVariables, scheme
+      gtmId = config.gtmId, scriptId, dataLayerName, additionalEvents, previewVariables, scheme
     } = this.props
 
     const gtm = gtmParts({
@@ -54,7 +54,7 @@ export default function googleTagManager(WrappedComponent, options = { }) {
 
     render() {
       const {
-        gtmId = 'GTM-TJPSGHC', scriptId, dataLayerName, additionalEvents, previewVariables, scheme
+        gtmId = config.gtmId, scriptId, dataLayerName, additionalEvents, previewVariables, scheme
       } = options
 
       const gtm = gtmParts({
