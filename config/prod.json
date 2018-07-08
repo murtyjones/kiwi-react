@@ -12,6 +12,7 @@
   "api" : "https://api.kiwicompute.com",
   "host" : "https://kiwicompute.com",
   "stripePublishableKey": "pk_live_kbt7cFNZIK9jijAf4SxAfTEL",
+  "maintenanceMode": false,
   "features": {
     "allowSignInRegister": false
   }
