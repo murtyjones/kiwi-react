@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import Route from 'react-router-dom/Route'
+import withTracker from '../hocs/withTracker'
 import { GoogleTagManager } from '../hocs/googleTagManager'
 
 const PlainRoute = props => {
@@ -12,4 +13,4 @@ const PlainRoute = props => {
   )
 }
 
-export default PlainRoute
+export default withTracker(PlainRoute)

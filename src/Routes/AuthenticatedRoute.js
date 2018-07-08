@@ -1,6 +1,7 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import React, {PropTypes} from "react"
+import { Route, Redirect } from "react-router-dom"
 import WithTheme from '../hocs/WithTheme'
+import withTracker from '../hocs/withTracker'
 
 function AuthenticatedRoute ({component: Component, isLoggedIn, title, topBarTitleDisabled, toggleTopBarTitleIsDisabled, setTopBarTitle, ...rest}) {
   return (
@@ -26,4 +27,4 @@ function AuthenticatedRoute ({component: Component, isLoggedIn, title, topBarTit
   )
 }
 
-export default AuthenticatedRoute
+export default withTracker(AuthenticatedRoute)
