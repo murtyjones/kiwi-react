@@ -479,10 +479,10 @@ describe('UserLessonWizard', () => {
         it('should have expected slide 5 content', async () => {
           expect(component.find('div[className="choices"]').length).toBe(0)
           expect(component.find('div[className="instructions"]').length).toBe(0)
-          expect(component.find('div[className="choice choice0"]').length).toBe(0)
-          expect(component.find('div[className="choice choice1"]').length).toBe(0)
-          expect(component.find('div[className="choice choice2"]').length).toBe(0)
-          expect(component.find('div[className="choice choice3"]').length).toBe(0)
+          expect(component.find('div[id="choice0"]').length).toBe(0)
+          expect(component.find('div[id="choice1"]').length).toBe(0)
+          expect(component.find('div[id="choice2"]').length).toBe(0)
+          expect(component.find('div[id="choice3"]').length).toBe(0)
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
@@ -491,17 +491,17 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="choices"]').length).toBe(1)
-          expect(component.find('div[className="instructions"]').length).toBe(1)
-          expect(component.find('div[className="choice choice0"]').length).toBe(1)
-          expect(component.find('div[className="choice choice1"]').length).toBe(1)
-          expect(component.find('div[className="choice choice2"]').length).toBe(1)
-          expect(component.find('div[className="choice choice3"]').length).toBe(1)
+          expect(component.find('div[id="choices"]').length).toBe(1)
+          expect(component.find('div[id="speechBubble"]').length).toBe(1)
+          expect(component.find('div[id="choice0"]').length).toBe(1)
+          expect(component.find('div[id="choice1"]').length).toBe(1)
+          expect(component.find('div[id="choice2"]').length).toBe(1)
+          expect(component.find('div[id="choice3"]').length).toBe(1)
 
-          expect(component.find('div[className="choice choice0"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[0]))
-          expect(component.find('div[className="choice choice1"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[1]))
-          expect(component.find('div[className="choice choice2"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[2]))
-          expect(component.find('div[className="choice choice3"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[3]))
+          expect(component.find('div[id="choice0"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[0]))
+          expect(component.find('div[id="choice1"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[1]))
+          expect(component.find('div[id="choice2"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[2]))
+          expect(component.find('div[id="choice3"]').html()).toEqual(expect.stringContaining(lesson.slides[4].choices[3]))
         })
 
         it('should allow choice selection', async () => {
@@ -514,10 +514,10 @@ describe('UserLessonWizard', () => {
           component.find('div[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
 
-          expect(component.find('div[className="choice choice1 selected"]').length).toBe(0)
-          component.find('div[className="choice choice1"]').at(0).simulate('click')
+          expect(component.find('div[id="choice1-selected"]').length).toBe(0)
+          component.find('div[id="choice1"]').at(0).simulate('click')
           await flushAllPromises()
-          expect(component.find('div[className="choice choice1 selected"]').length).toBe(1)
+          expect(component.find('div[id="choice1-selected"]').length).toBe(1)
         })
 
         it('should have a disabled next button to begin', async () => {
@@ -583,7 +583,7 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
 
           // make choice
-          component.find('div[className="choice choice1"]').at(0).simulate('click')
+          component.find('div[id="choice1"]').at(0).simulate('click')
           await flushAllPromises()
 
           ApiFetch.mockImplementationOnce(() => Promise.resolve(correctAnswerResponse)) // response from kiwi-api when updating a lesson
@@ -618,7 +618,7 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
 
           // make choice
-          component.find('div[className="choice choice1"]').at(0).simulate('click')
+          component.find('div[id="choice1"]').at(0).simulate('click')
           await flushAllPromises()
 
           ApiFetch.mockImplementationOnce(() => Promise.resolve(incorrectAnswerResponse)) // response from kiwi-api when updating a lesson
