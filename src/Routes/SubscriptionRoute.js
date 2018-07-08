@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { isSubscriptionValid } from '../utils/permissionUtils'
 import WithTheme from '../hocs/WithTheme'
-import withTracker from '../hocs/withTracker'
 import AuthenticatedRoute from './AuthenticatedRoute'
 
 function SubscriptionRoute (props) {
@@ -21,4 +20,4 @@ function SubscriptionRoute (props) {
   )
 }
 
-export default withTracker(SubscriptionRoute)
+export default SubscriptionRoute
