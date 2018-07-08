@@ -2,15 +2,10 @@
   "hosting": {
     "public": "build",
     "ignore": [],
-    "redirects": [ {
-      "source": "/index.html",
-      "destination": "/maintenance.html",
-      "type": 307
-    } ],
     "rewrites": [
       {
         "source": "**"
-        , "destination": "/index.html"
+        , "destination": "/maintenance.html"
       }
     ],
     "headers": [
