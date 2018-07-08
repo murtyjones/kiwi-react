@@ -5,7 +5,7 @@
     "redirects": [ {
       "source": "**",
       "destination": "/maintenance.html",
-      "type": 503
+      "type": 307
     } ],
     "rewrites": [
       {
@@ -19,6 +19,13 @@
         "headers" : [ {
           "key" : "Cache-Control",
           "value" : "max-age=7200"
+        } ]
+      },
+      {
+        "source": "/maintenance.html",
+        "headers": [ {
+          "key": "status",
+          "value": 503
         } ]
       }
     ]
