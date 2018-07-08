@@ -6,7 +6,7 @@ const PlainRoute = props => {
 
   return (
     <Fragment>
-      <GoogleTagManager dataLayerName={ props.path } />
+      <GoogleTagManager />
       <Route { ...props } />
     </Fragment>
   )
