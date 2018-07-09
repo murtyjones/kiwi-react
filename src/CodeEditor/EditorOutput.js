@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import cns from 'classnames'
 import { CSSTransition } from 'react-transition-group'
+import withStyles from '@material-ui/core/styles/withStyles'
+
 import { COMMON_ERRORS, CUSTOM_ERRORS } from './syntaxErrors'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 
-const styles = {
+const styles = theme => ({
   container: {
     position: 'absolute'
     , height: '100%'
@@ -37,6 +39,7 @@ const styles = {
     , fontSize: '15px' // should match the editorOverrides.css number too
     , position: 'relative'
     , top: '3px'
+    , opacity: 0
   },
   pre: {
     margin: 0
@@ -65,8 +68,43 @@ const styles = {
     position: 'absolute'
     , right: '15px'
     , top: '15px'
+  },
+  fakeInputContainer: {
+    display: 'inline-block',
+    position: 'absolute',
+    fontFamily: 'courier',
+    fontSize: '15px',
+    padding: '5px',
+    overflow: 'hidden'
+  },
+  fakeInputValue: {
+    float: 'left',
+    color: '#8ca4f8',
+    whiteSpace: 'pre',
+    position: 'relative',
+    bottom: '5px',
+    right: '5px'
+  },
+  caret: {
+    float: 'left',
+    width: '7px',
+    height: '14px',
+    background: '#b4b4b4',
+    position: 'relative',
+    bottom: '3px',
+    right: '3px',
+  },
+  typeYourAnswer: {
+    color: '#b4b4b4',
+    fontSize: '8pt',
+    position: 'relative',
+    bottom: '6px',
+    left: '2px'
+  },
+  typeYourAnswerOffset: {
+    marginLeft: '7px' // simply using the 'right' property would cutoff the text for some reason
   }
-}
+})
 
 const getCommonErrorHint = errorMsg => Object.keys(COMMON_ERRORS).reduce((hintHTML, errorSubstring) => {
   if(errorMsg && errorMsg.toLowerCase().includes(errorSubstring.toLowerCase()))
@@ -109,12 +147,15 @@ const Hint = ({ errorHintHTML, showHint, closeHint }) =>
     </CSSTransition>
   </div>
 
-export default class EditorOutput extends Component {
+class EditorOutput extends Component {
   constructor(props) {
     super(props)
     this.state = {
       value: this.props.value || ''
       , showHint: false
+      , caretVisible: false
+      , caretBlinkingStatusVisible: false
+      , fakeInputValue: ''
     }
   }
 
@@ -135,33 +176,80 @@ export default class EditorOutput extends Component {
     }
   }
 
+  handleBlur = () => {
+    clearInterval(this.interval)
+  }
+
   handleChange = (e) => {
     this.setState({ value: e.target.value })
   }
 
+  intervalFunction = () => {
+    this.setState({ caretBlinkingStatusVisible: !this.state.caretBlinkingStatusVisible })
+  }
+
+  handleFocus = async () => {
+    // this timeout is a hack that prevents handleFocus from
+    // entering a race condition with handleKeyUp
+    await setTimeoutAsync(10)
+    this.interval = setInterval(this.intervalFunction, 500)
+    this.setState({
+      caretVisible: true
+    })
+  }
+
+  handleKeyUp = e => {
+    if (e.keyCode === 13) { // enter key pressed
+      this.setState({
+        fakeInputValue: '', caretVisible: false, caretBlinkingStatusVisible: false
+      })
+      this.handleBlur()
+    } else {
+      const inputsArray = e.target.value.split('\n')
+      this.setState({ fakeInputValue: inputsArray[inputsArray.length - 1] })
+    }
+  }
+
   render() {
-    const { editorOutput, editorInput, errorMsg, setInputRef, inputDisabled } = this.props
-    const { value, showHint } = this.state
+    const { classes, editorOutput, editorInput, errorMsg, setInputRef, inputDisabled } = this.props
+    const { value, showHint, fakeInputValue, caretVisible, caretBlinkingStatusVisible } = this.state
     const errorHintHTML = errorMsg
       ? getCommonErrorHint(errorMsg) || getCustomErrorHint(editorInput)
       : null
-
     return (
-      <div
-        style={ styles.container }
-        className={ cns({ 'outputError': errorMsg }) }
-      >
+      <div className={ cns({ 'outputError': errorMsg }, classes.container) }>
         { !errorMsg
           ? (
-            <pre id='editorOutput' style={ styles.pre }>
+            <pre id='editorOutput' className={ classes.pre }>
               { editorOutput }
+                <div className={ classes.fakeInputContainer }>
+                  { fakeInputValue &&
+                    <span className={ classes.fakeInputValue }>
+                      { fakeInputValue }
+                    </span>
+                  }
+                  { caretBlinkingStatusVisible &&
+                    <div className={ classes.caret } />
+                  }
+                  { caretVisible &&
+                    <span
+                      className={ cns(classes.typeYourAnswer, {
+                        [classes.typeYourAnswerOffset]: !caretBlinkingStatusVisible
+                      }) }
+                    >
+                      Type an answer and press enter
+                    </span>
+                  }
+                </div>
               <textarea
                 disabled={ inputDisabled }
-                style={ styles.textareaStyle }
-                className='rawInput'
+                className={ cns('rawInput', classes.textareaStyle) }
                 ref={ setInputRef }
+                onFocus={ this.handleFocus }
+                onBlur={ this.handleBlur }
                 onChange={ this.handleChange }
                 value={ value }
+                onKeyUp={ this.handleKeyUp }
               />
             </pre>
           ) : (
@@ -181,3 +269,5 @@ export default class EditorOutput extends Component {
   }
 
 }
+
+export default withStyles(styles, { withTheme: true })(EditorOutput)

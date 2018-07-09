@@ -152,7 +152,16 @@ class UserLessonWizardForm extends Component {
   setIsFinal = (activeSlideIndex, lesson) =>
     this.setState({ isFinal: isFinalSlide(activeSlideIndex, lesson) })
 
-  setRunCode = async flag => this.setStateAsync({ runCode: flag })
+  setRunCode = async flag => {
+    // have to flip 'runCode' to false, because
+    // if the user presses 'Run Code' while the
+    // code editor is already running, we want
+    // to restart it again, and the only way to
+    // do that is to change the props received
+    // by the CodeEditor component.
+    await this.setStateAsync({ runCode: false })
+    await this.setStateAsync({ runCode: flag })
+  }
 
   setCodeOutput = (ref, codeOutput) =>
     this.props.dispatch(change(formName, `${ref}.codeOutput`, codeOutput))
