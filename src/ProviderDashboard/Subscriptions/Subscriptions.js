@@ -67,6 +67,7 @@ class Subscriptions extends Component {
       // make inactive subscription
       const subscription = await postSubscription({
         status: SUBSCRIPTION_STATUSES.INACTIVE,
+        requiresPayment: false,
         providerId: userId,
         provideeId: profile._id
       })
@@ -74,6 +75,7 @@ class Subscriptions extends Component {
       const updatedSubscription = await putSubscription({
         id: subscription._id,
         status: SUBSCRIPTION_STATUSES.ACTIVE,
+        requiresPayment: true,
         v: subscription.v
 
       })
