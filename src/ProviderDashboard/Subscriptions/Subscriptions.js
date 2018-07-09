@@ -106,12 +106,15 @@ class Subscriptions extends Component {
         , updateSucceeded: false
         , errorMessage: false
       })
+      const newStatus = subscription.status === SUBSCRIPTION_STATUSES.ACTIVE
+        ? SUBSCRIPTION_STATUSES.INACTIVE
+        : SUBSCRIPTION_STATUSES.ACTIVE
+      const requiresPayment = newStatus === SUBSCRIPTION_STATUSES.ACTIVE
       await putSubscription({
         id: subscription._id,
         v: subscription.v,
-        status: subscription.status === SUBSCRIPTION_STATUSES.ACTIVE
-          ? SUBSCRIPTION_STATUSES.INACTIVE
-          : SUBSCRIPTION_STATUSES.ACTIVE
+        status: newStatus,
+        requiresPayment
       })
       this.setState({ isUpdatingSubscription: false, updateSucceeded: true })
     } catch (err) {
