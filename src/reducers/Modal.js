@@ -5,12 +5,14 @@ const initialState = {
   , className: ''
   , overlayClassName: ''
   , children: ''
+  , callback: null
 }
 
 function modal(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.OPEN_MODAL: {
       const newState = Object.assign({}, state, action.payload)
+      // force isOpen to be true
       newState.isOpen = true
       return newState
     }
