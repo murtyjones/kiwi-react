@@ -15,7 +15,10 @@ const CustomSlideBackground = ({ classes, src }) =>
   <div
     className={ classes.background }
     style={ {
-      background: `url(${src}) center center repeat`
+      backgroundImage: `url(${src})`,
+      backgroundSize: '100%',
+      backgroundPosition: ' center center',
+      backgroundRepeat: 'no-repeat'
     } }
   />
 
