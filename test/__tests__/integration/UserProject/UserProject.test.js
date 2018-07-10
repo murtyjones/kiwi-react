@@ -146,9 +146,9 @@ describe('UserProject', () => {
         component.find('CodeEditor').instance().codeMirror.setValue(newCode)
         component.find('RunButton').simulate('click')
         component.update()
-        component.find('textarea[className="rawInput"]').simulate('change', { target: { value: 'answer 1\n' } })
+        // component.find('textarea[className="rawInput"]').simulate('change', { target: { value: 'answer 1\n' } })
         // component.find('textarea[className="rawInput"]').simulate('keypress', { keyCode: 13, which: 13, key: 'Enter' })
-        component.find('textarea[className="rawInput"]').simulate('change', { target: { value: 'answer 1\nanswer 2\n' } })
+        // component.find('textarea[className="rawInput"]').simulate('change', { target: { value: 'answer 1\nanswer 2\n' } })
         // component.find('textarea[className="rawInput"]').simulate('keypress', { keyCode: 13, which: 13, key: 'Enter' })
         // need to come back to this....
       })
