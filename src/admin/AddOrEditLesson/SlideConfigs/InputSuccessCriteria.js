@@ -176,7 +176,7 @@ const UserDefinedVariable = ({ eachSlideRef, variableOptions, onDeleteCrition })
         component={ KiwiSelectField }
         style={ { width: '100%' } }
         containerStyle={ styles.variable }
-        options={ variableOptions }
+        options={ variableOptions.map(e => ({ value: e._id, label: e.name })) }
       />
       <DeleteButton onClick={ onDeleteCrition } />
     </div>
