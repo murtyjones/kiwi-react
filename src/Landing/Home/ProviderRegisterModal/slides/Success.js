@@ -13,6 +13,11 @@ const styles = theme => ({
   table: {
     width: '80%',
     margin: '0 auto'
+  },
+  '@global': {
+    'th, td': {
+      padding: '0 !important'
+    }
   }
 })
 
@@ -32,15 +37,16 @@ class Success extends Component {
 
     const monthlySubscription = 30
     const numberOfStudents = providees.length
-    const subscriptionOrSubs = numberOfStudents > 1
-      ? 'subscriptions'
-      : 'subscription'
+    const accountOrAccounts = numberOfStudents > 1 ? 'accounts' : 'account'
+    const areOrIs = numberOfStudents > 1 ? 'are' : 'is'
+    const studentOrStudents = numberOfStudents > 1 ? 'students' : 'student'
 
     return (
       <SlideInOut>
         <div className='providerRegisterForm-slide'>
           <h5>
-            Thanks for subscribing! Please review and confirm your { subscriptionOrSubs } below.
+            Your student { accountOrAccounts } { areOrIs } created! Your { studentOrStudents } can
+            get started at <a href='https://www.kiwicompute.com/student'>kiwicompute.com/student</a>
           </h5>
           <Table className={ classes.table }>
             <TableHead>

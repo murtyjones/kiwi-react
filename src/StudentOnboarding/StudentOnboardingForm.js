@@ -19,10 +19,11 @@ const styles = theme => ({
   },
   submit: {
     position: 'absolute',
-    right: '10px',
-    bottom: '10px',
+    right: '20px',
+    bottom: '20px',
+    width: '150px',
     borderRadius: '20px',
-    backgroundColor: '#AED15D',
+    backgroundColor: '#654E93',
     fontWeight: 'bold',
     border: 'none !important',
     color: '#FFF !important'

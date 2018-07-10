@@ -54,9 +54,9 @@ export const thirteenth = {
 }
 
 export default [
-  login,
-  changeUsername,
-  changePassword,
+  // login,
+  // changeUsername,
+  // changePassword,
   // onboarding slide
   first,
   second,
