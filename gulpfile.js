@@ -100,21 +100,21 @@ gulp.task('lint', () => {
 
 
 // Production build
-gulp.task("build:production", ["clean", "copy-html", "copy-assets", "webpack:build:production"]);
+gulp.task("build:production", ["copy-html", "copy-assets", "webpack:build:production"])
 
 // Dev build
-gulp.task("build:development", ["clean", "copy-html", "copy-assets", "webpack:build:development"]);
+gulp.task("build:development", ["copy-html", "copy-assets", "webpack:build:development"])
 
 // Stage build
-gulp.task("build:stage", ["clean", "copy-html", "copy-assets", "webpack:build:stage"]);
+gulp.task("build:stage", ["copy-html", "copy-assets", "webpack:build:stage"])
 
-gulp.task("copy-html", function() {
+gulp.task("copy-html", ["clean"], function() {
   return gulp
     .src(['./index.html', './maintenance.html'])
     .pipe(gulp.dest('build'))
 })
 
-gulp.task("copy-assets", function() {
+gulp.task("copy-assets", ["clean"], function() {
   return gulp
     .src(['./assets/**'])
     .pipe(gulp.dest('build/assets'))
@@ -131,30 +131,30 @@ gulp.task("clean", function() {
 gulp.task("webpack:build:production", function(callback) {
   // run webpack
   return webpack(webpackProdConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack:build:production", err);
-    gutil.log("[webpack:build:production]", stats.toString({ colors: true }));
-    callback();
-  });
-});
+    if(err) throw new gutil.PluginError("webpack:build:production", err)
+    gutil.log("[webpack:build:production]", stats.toString({ colors: true }))
+    callback()
+  })
+})
 
 gulp.task("webpack:build:development", function(callback) {
   // run webpack
   return webpack(webpackDevConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack:build:development", err);
-    gutil.log("[webpack:build:development]", stats.toString({ colors: true }));
-    callback();
-  });
-});
+    if(err) throw new gutil.PluginError("webpack:build:development", err)
+    gutil.log("[webpack:build:development]", stats.toString({ colors: true }))
+    callback()
+  })
+})
 
 gulp.task("webpack:build:stage", function(callback) {
   // run webpack
   return webpack(webpackStageConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack:build:stage", err);
-    gutil.log("[webpack:build:stage]", stats.toString({ colors: true }));
-    callback();
-  });
-});
+    if(err) throw new gutil.PluginError("webpack:build:stage", err)
+    gutil.log("[webpack:build:stage]", stats.toString({ colors: true }))
+    callback()
+  })
+})
 
 gulp.task('run-win', function(){
-  gulp.watch('/src/Main.js');
+  gulp.watch('/src/Main.js')
 })
