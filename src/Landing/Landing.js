@@ -5,13 +5,14 @@ import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import { animateScroll as scroll } from 'react-scroll'
 
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, signout, login } from '../actions'
+import { signout, login } from '../actions'
 import find from 'lodash/find'
 import Home from './Home/Home'
 import About from './About/About'
 
 import '../close.css'
 import './overrides.css'
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 const styles = {
   closeDrawerButton: {
@@ -30,26 +31,7 @@ class Landing extends Component {
   }
 
   static propTypes = {
-    openSideNav: T.func
-    , closeSideNav: T.func
-    , openTopBar: T.func
-    , closeTopBar: T.func
-    , signout: T.func
-  }
-
-  componentWillReceiveProps() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillMount() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillUnmount() {
-    this.props.openSideNav()
-    this.props.openTopBar()
+    signout: T.func
   }
 
   scrollTo = to => scroll.scrollTo(to)
@@ -64,7 +46,7 @@ class Landing extends Component {
         component: Home
       },
       {
-        path: '/onboarding', // prevents auto-redirect
+        path: '/signup-modal', // prevents auto-redirect
         component: Home
       },
       {
@@ -91,11 +73,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout())
     , login: params => dispatch(login(params))
-    , openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openTopBar: () => dispatch(openTopBar())
-    , closeTopBar: () => dispatch(closeTopBar())
   }
 }
+
+Landing = withoutMainNavigation(Landing)
 
 export default withRouter(connect(null, mapDispatchToProps)(Landing))

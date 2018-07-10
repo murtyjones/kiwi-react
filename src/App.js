@@ -28,7 +28,7 @@ import Root from './Root'
 
 WebFont.load({
   google: {
-    families: ['Arvo', 'Roboto']
+    families: ['Arvo', 'Roboto', 'Gaegu']
   }
 })
 

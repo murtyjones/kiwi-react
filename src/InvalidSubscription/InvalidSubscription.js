@@ -4,8 +4,7 @@ import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import withStyles from '@material-ui/core/styles/withStyles'
 
-
-import { openSideNav, closeSideNav, openTopBar, closeTopBar } from '../actions'
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 const styles = theme => ({
   container: {
@@ -51,27 +50,8 @@ class InvalidSubscription extends PureComponent {
     , login: T.func
     , signout: T.func
     , register: T.func
-    , closeSideNav: T.func
-    , openSideNav: T.func
-    , openTopBar: T.func
-    , closeTopBar: T.func
     , history: T.any
     , location: T.any
-  }
-
-  componentWillMount() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillReceiveProps() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillUnmount() {
-    this.props.openSideNav()
-    this.props.openTopBar()
   }
 
   render() {
@@ -104,15 +84,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openTopBar: () => dispatch(openTopBar())
-    , closeTopBar: () => dispatch(closeTopBar())
-  }
-}
+InvalidSubscription = withoutMainNavigation(InvalidSubscription)
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
+export default withRouter(connect(mapStateToProps, null)(
   withStyles(styles)(InvalidSubscription)
 ))

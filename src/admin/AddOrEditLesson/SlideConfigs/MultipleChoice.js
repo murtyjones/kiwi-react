@@ -37,6 +37,11 @@ class MultipleChoice extends Component {
     return (
       <div>
         <Field
+          name={ `${slideRef}.instructionsLabel` }
+          label='Instructions Box Label'
+          component={ KiwiTextField }
+        />
+        <Field
           name={ `${slideRef}.instructions` }
           label='Instructions'
           component={ RichTextEditor }

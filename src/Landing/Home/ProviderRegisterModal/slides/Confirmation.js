@@ -7,9 +7,16 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 
 import SlideInOut from '../../../../common/animations/SlideInOut'
-import moment from "moment/moment";
+import withStyles from "@material-ui/core/styles/withStyles";
 
-export default class Confirmation extends Component {
+const styles = theme => ({
+  table: {
+    width: '80%',
+    margin: '0 auto'
+  }
+})
+
+class Confirmation extends Component {
   constructor(props) {
     super(props)
   }
@@ -21,10 +28,10 @@ export default class Confirmation extends Component {
   }
 
   render() {
-    const { providees } = this.props
-
+    const { providees, classes } = this.props
     const monthlySubscription = 30
     const numberOfStudents = providees.length
+    const totalSubscription = numberOfStudents * monthlySubscription
     const subscriptionOrSubs = numberOfStudents > 1
       ? 'subscriptions'
       : 'subscription'
@@ -35,12 +42,10 @@ export default class Confirmation extends Component {
           <h5>
             Thanks for subscribing! Please review and confirm your { subscriptionOrSubs } below.
           </h5>
-          <Table>
+          <Table className={ classes.table }>
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell>Temporary Username</TableCell>
-                <TableCell>Temporary Password</TableCell>
                 <TableCell>Monthly Price</TableCell>
               </TableRow>
             </TableHead>
@@ -48,15 +53,16 @@ export default class Confirmation extends Component {
               { providees.map((student, i) =>
                 <TableRow hover key={ i }>
                   <TableCell>{ student.firstName }</TableCell>
-                  <TableCell>{ student.username }</TableCell>
-                  <TableCell>{ student.password }</TableCell>
-                  <TableCell>(${monthlySubscription} per month)</TableCell>
+                  <TableCell>({monthlySubscription} /mo)</TableCell>
                 </TableRow>
               ) }
             </TableBody>
           </Table>
+          <h3>{ totalSubscription } USD /month </h3>
         </div>
       </SlideInOut>
     )
   }
 }
+
+export default withStyles(styles, { withTheme: true })(Confirmation)

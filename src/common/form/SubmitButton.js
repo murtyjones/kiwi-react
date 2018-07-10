@@ -9,13 +9,16 @@ export default class SubmitButton extends PureComponent {
   }
 
   render() {
-    const { text = 'Submit', onClick, pristine, submitting, invalid } = this.props
-    const disabled = pristine || submitting || invalid
+    const { text = 'Submit', onClick, pristine, submitting, invalid, disabledOverride, className } = this.props
+    const disabled = (pristine || submitting || invalid) && !disabledOverride
 
     return (
       <Fragment>
         <Button
-          className={ cns('submitButton', { enabled: !disabled }) }
+          className={ cns('submitButton', {
+            enabled: !disabled,
+            [className]: !!className
+          }) }
           variant='outlined'
           type='submit'
           onClick={ onClick }

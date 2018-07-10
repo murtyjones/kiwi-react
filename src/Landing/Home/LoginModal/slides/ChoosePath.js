@@ -48,8 +48,7 @@ class ChoosePath extends Component {
   }
 
   static propTypes = {
-    openModal: T.func.isRequired
-    , isLogin: T.bool
+    isLogin: T.bool
     , classes: T.object
     , input: T.object
     , onSubmit: T.func
@@ -95,7 +94,7 @@ class ChoosePath extends Component {
                 className={ cns(classes.select, classes.right) }
               >
                 <h3>
-                  Parent / Account Owner
+                  Parent
                 </h3>
               </Paper>
             </Grid>

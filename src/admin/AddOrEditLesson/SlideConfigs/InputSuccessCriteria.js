@@ -15,7 +15,7 @@ const inputCriteriaOptions = [
   , { label: 'print', value: CODE_CONCEPTS.PRINT }
   , { label: 'multi-line quote block', value: CODE_CONCEPTS.MULTI_LINE_QUOTE }
   , { label: 'input', value: CODE_CONCEPTS.INPUT }
-  , { label: 'Variable', value: CODE_CONCEPTS.VARIABLE }
+  , { label: 'variable', value: CODE_CONCEPTS.VARIABLE }
   , { label: 'Control Flow', value: '', disabled: true }
   , { label: 'any loop', value: CODE_CONCEPTS.LOOP }
   , { label: 'for loop', value: CODE_CONCEPTS.FOR_LOOP }
@@ -152,7 +152,6 @@ const Criterion = ({ eachSlideRef, slideValues, isCustomOccurance, onDeleteCriti
             name={ `${eachSlideRef}.numberOfTimes` }
             label='Number of Times'
             component={ KiwiTextField }
-            parse={ v => Number(v) } // convert string to number
             type='number'
           />
         </Fragment>

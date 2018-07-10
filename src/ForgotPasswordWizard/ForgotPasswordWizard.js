@@ -4,9 +4,10 @@ import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import Transition from 'react-transition-group'
 
-import { checkPasswordRecoveryCorrectness, resetPassword, openSideNav, closeSideNav, openTopBar, closeTopBar, login } from '../actions'
+import { checkPasswordRecoveryCorrectness, resetPassword, login } from '../actions'
 import ForgotPasswordWizardForm  from './ForgotPasswordWizardForm'
 import slides from './slides'
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 class ForgotPasswordWizard extends Component {
   constructor(props) {
@@ -17,21 +18,6 @@ class ForgotPasswordWizard extends Component {
       , attemptsRemaining: null
       , guessFailed: false
     }
-  }
-
-  componentWillMount() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillReceiveProps() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillUnmount() {
-    this.props.openSideNav()
-    this.props.openTopBar()
   }
 
   handleRecoveryCheckResponse = response => {
@@ -98,14 +84,12 @@ export const ForgotPasswordWizardComponent = ForgotPasswordWizard
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openTopBar: () => dispatch(openTopBar())
-    , closeTopBar: () => dispatch(closeTopBar())
-    , checkPasswordRecoveryCorrectness: params => dispatch(checkPasswordRecoveryCorrectness(params))
+    checkPasswordRecoveryCorrectness: params => dispatch(checkPasswordRecoveryCorrectness(params))
     , resetPassword: params => dispatch(resetPassword(params))
     , login: params => dispatch(login(params))
   }
 }
+
+ForgotPasswordWizard = withoutMainNavigation(ForgotPasswordWizard)
 
 export default withRouter(connect(null, mapDispatchToProps)(ForgotPasswordWizard))

@@ -8,12 +8,13 @@ import find from 'lodash/find'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } from '../actions'
+import { login, register } from '../actions'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
 import './overrides.css'
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 
 class LoginOrRegister extends PureComponent {
@@ -27,27 +28,8 @@ class LoginOrRegister extends PureComponent {
     , login: T.func
     , signout: T.func
     , register: T.func
-    , closeSideNav: T.func
-    , openSideNav: T.func
-    , openTopBar: T.func
-    , closeTopBar: T.func
     , history: T.any
     , location: T.any
-  }
-
-  componentWillMount() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillReceiveProps() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillUnmount() {
-    this.props.openSideNav()
-    this.props.openTopBar()
   }
 
   handleLoginSubmit = async(v) => {
@@ -168,11 +150,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login: params => dispatch(login(params))
     , register: params => dispatch(register(params))
-    , openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openTopBar: () => dispatch(openTopBar())
-    , closeTopBar: () => dispatch(closeTopBar())
   }
 }
+
+LoginOrRegister = withoutMainNavigation(LoginOrRegister)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginOrRegister))

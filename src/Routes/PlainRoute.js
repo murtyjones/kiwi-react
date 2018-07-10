@@ -1,10 +1,17 @@
 import React from 'react'
 import Route from 'react-router-dom/Route'
-import withTracker from '../hocs/withTracker'
+import { isMobile } from 'react-device-detect'
 
-const PlainRoute = props => {
+import withTracker from '../hocs/withTracker'
+import MobileRedirect from '../MobileRedirect/MobileRedirect'
+
+const PlainRoute = ({ mobileRedirect, ...rest }) => {
+
+  if (isMobile && mobileRedirect)
+    return <MobileRedirect />
+
   return (
-    <Route { ...props } />
+    <Route { ...rest } />
   )
 }
 

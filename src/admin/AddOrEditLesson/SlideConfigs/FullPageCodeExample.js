@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
 import RichTextEditor from '../../../common/RichTextEditor'
+import KiwiTextField from "../../../common/form/KiwiTextField";
 
 class FullPageCodeExample extends Component {
   constructor(props) {
@@ -12,10 +13,14 @@ class FullPageCodeExample extends Component {
     return (
       <div>
         <Field
-          name={ `${slideRef}.explanation` }
-          label='Explanation'
-          component={ RichTextEditor }
-          variableOptions={ variableOptions }
+          name={ `${slideRef}.characterUrl` }
+          label='Left hand side character URL'
+          component={ KiwiTextField }
+        />
+        <Field
+          name={ `${slideRef}.exampleLabel` }
+          label='Example Box Label'
+          component={ KiwiTextField }
         />
         <Field
           name={ `${slideRef}.example` }

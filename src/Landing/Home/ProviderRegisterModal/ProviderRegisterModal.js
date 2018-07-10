@@ -87,7 +87,7 @@ class ProviderRegisterModal extends Component {
     const { providees, providerProfileObject, providerPassword } = this.state
     const last = v.providees.length - 1
     const providee = v.providees[last]
-    providee.password = randomWords({ exactly: 1, wordsPerString: 2 })[0]
+    providee.password = `${randomWords({ exactly: 1, wordsPerString: 1 })[0]}${Math.floor((Math.random() * 99999) + 1)}`
     const promises = [
       this.props.register({
         firstName: providee.firstName,
@@ -147,6 +147,9 @@ class ProviderRegisterModal extends Component {
       })
     )
     await Promise.all(promises)
+  }
+
+  slide6Submit = async v => {
     this.props.history.push(`/provider/subscriptions`)
     this.props.closeModal()
   }
@@ -155,7 +158,7 @@ class ProviderRegisterModal extends Component {
     const { activeSlideIndex } = this.state
     const actionName = `slide${activeSlideIndex}Submit`
     try {
-      if(this[actionName]) {
+      if (this[actionName]) {
         const result = await this[actionName](v)
       }
       this.goToNextSlide()

@@ -37,7 +37,7 @@ const SalesBox = ({ classes }) =>
       <li>Give your student the digital support needed to become a coder</li>
     </ul>
     <h3 className={ classes.header } style={ { marginBottom: 0 } }>
-      Sign up today!
+      Give your student the skills to be digitally creative
     </h3>
     <div className={ classes.cost }>
       <span className={ classes.usd }>30 USD</span> / month

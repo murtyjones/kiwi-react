@@ -64,7 +64,9 @@ class KiwiTextField extends PureComponent {
   }
 
   render() {
-    const { classes, StartAdornmentIcon, input, meta, successText } = this.props
+    const {
+      classes, StartAdornmentIcon, input, meta, successText
+    } = this.props
     const { error, pristine, touched, asyncValidating, valid } = meta
     const { focused, color } = this.state
     const errorText = touched && error ? error : ''
@@ -93,7 +95,7 @@ class KiwiTextField extends PureComponent {
             // but only in the case where we were converting the input
             // to a number. No idea why but don't uncomment this without
             // checking out a KiwiTextField with type='number'
-            // input.onBlur()
+            input.onBlur()
           },
           disableUnderline: this.props.disableUnderline
             ? this.props.disableUnderline

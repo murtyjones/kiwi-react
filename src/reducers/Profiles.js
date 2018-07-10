@@ -10,7 +10,7 @@ function profiles(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.PUT_PROFILE_SUCCESS: {
       const newProfilesById = Object.assign({}, state.profilesById, {
-        [action.payload.after["_id"]]: action.payload.after
+        [action.payload.after['_id']]: action.payload.after
       })
       const profilesById = Object.assign({}, state.profilesById, newProfilesById)
       const newState = Object.assign({}, state, {

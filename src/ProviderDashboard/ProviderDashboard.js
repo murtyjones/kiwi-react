@@ -4,7 +4,7 @@ import BluebirdPromise from 'bluebird'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import has from 'lodash/has'
-import { getProfileDetails, getManyProfiles, getManySubscriptions, closeSideNav, closeTopBar, login, openSideNav, openTopBar, register } from '../actions'
+import { getProfileDetails, getManyProfiles, getManySubscriptions, login, register } from '../actions'
 
 import Toolbar from './Navigation/Toolbar'
 import MobileDrawer from './Navigation/MobileDrawer'
@@ -12,6 +12,7 @@ import Drawer from './Navigation/Drawer'
 import { MENU_ITEMS } from './Navigation/DrawerContents'
 
 import './overrides.css'
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 
 class ProviderDashboard extends PureComponent {
@@ -45,8 +46,6 @@ class ProviderDashboard extends PureComponent {
   }
 
   async componentWillMount() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
     const { userId, getProfileDetails, getManySubscriptions, getManyProfiles } = this.props
     const promises = [
       getManySubscriptions({ providerId: userId }),
@@ -54,16 +53,6 @@ class ProviderDashboard extends PureComponent {
       getProfileDetails({ userId, includeBilling: true })
     ]
     await BluebirdPromise.all(promises)
-  }
-
-  componentWillReceiveProps() {
-    this.props.closeSideNav()
-    this.props.closeTopBar()
-  }
-
-  componentWillUnmount() {
-    this.props.openSideNav()
-    this.props.openTopBar()
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -122,14 +111,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login: params => dispatch(login(params))
     , register: params => dispatch(register(params))
-    , openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openTopBar: () => dispatch(openTopBar())
-    , closeTopBar: () => dispatch(closeTopBar())
     , getProfileDetails: params => dispatch(getProfileDetails(params))
     , getManySubscriptions: params => dispatch(getManySubscriptions(params))
     , getManyProfiles: params => dispatch(getManyProfiles(params))
   }
 }
+
+ProviderDashboard = withoutMainNavigation(ProviderDashboard)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderDashboard))

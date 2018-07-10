@@ -12,7 +12,9 @@ import validateUsernameAvailability from './validateUsernameAvailability'
 import SubmitButton from '../../common/form/SubmitButton'
 import ResultMessage from '../../common/form/ResultMessage'
 import CopyLink from '../../common/CopyLink/CopyLink'
-import {minLength6, required} from "../../utils/validationUtils"
+import { minLength6, required } from '../../utils/validationUtils'
+import { openModal, closeModal } from '../../actions'
+import ConfirmPasswordModal from '../../common/modals/ConfirmPasswordModal/ConfirmPasswordModal'
 
 export const formName = 'provideeProfile'
 
@@ -28,21 +30,33 @@ class ProvideeProfileForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      linkCopied: false
+      linkCopied: false,
+      passwordConfirmed: false,
+      submittedValues: {}
     }
   }
 
   static propTypes = {
     initialValues: T.object.isRequired
     , handleSubmit: T.func.isRequired
+    , onSubmit: T.func.isRequired
+    , openModal: T.func.isRequired
+    , closeModal: T.func.isRequired
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.passwordConfirmed && !this.state.passwordConfirmed) {
+      this.props.onSubmit(nextState.submittedValues)
+      this.props.closeModal()
+    }
   }
 
   handleCopyLinkClick = () => this.setState({ linkCopied: true })
 
   renderSuccessMessage = () => {
     const { initialValues, submitSucceeded } = this.props
-    const { linkCopied } = this.state
-    if (submitSucceeded) {
+    const { linkCopied, passwordConfirmed } = this.state
+    if (submitSucceeded && passwordConfirmed) {
       if (!isEmpty(initialValues)) {
         return 'Profile updated!'
       }
@@ -58,11 +72,28 @@ class ProvideeProfileForm extends Component {
     return null
   }
 
+  confirmPasswordCallback = v => {
+    this.setState({ passwordConfirmed: v })
+  }
+
+  localHandleSubmit = async v => {
+    this.setState({ submittedValues: v })
+    this.props.openModal({
+      className: 'confirmPasswordModal',
+      children: (
+        <ConfirmPasswordModal
+          callback={ this.confirmPasswordCallback }
+        />
+      ),
+    })
+  }
+
   render() {
     const { handleSubmit } = this.props
+    const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
 
     return (
-      <form onSubmit={ handleSubmit } style={ styles.form }>
+      <form onSubmit={ derivedHandleSubmit } style={ styles.form }>
         <Field
           name='username'
           label='Username'
@@ -87,7 +118,7 @@ class ProvideeProfileForm extends Component {
         <SubmitButton
           text='Save'
           { ...this.props }
-          onClick={ handleSubmit }
+          onClick={ derivedHandleSubmit }
         />
         <ResultMessage
           { ...this.props }
@@ -98,7 +129,7 @@ class ProvideeProfileForm extends Component {
   }
 }
 
-export default reduxForm({
+ProvideeProfileForm = reduxForm({
   form: formName
   , enableReinitialize: true
   , validate: values => {
@@ -139,3 +170,12 @@ export default reduxForm({
   , asyncValidate: asyncDebounce((...p) => validateUsernameAvailability(...p), 1000)
   , asyncChangeFields: ['username']
 })(ProvideeProfileForm)
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openModal: params => dispatch(openModal(params))
+    , closeModal: params => dispatch(closeModal(params))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(ProvideeProfileForm)

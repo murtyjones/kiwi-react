@@ -1,101 +1,24 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import Route from 'react-router-dom/Route'
-import Switch from 'react-router-dom/Switch'
-import Redirect from 'react-router-dom/Redirect'
 import withRouter from 'react-router-dom/withRouter'
 import Modal from 'react-modal'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
-import Loadable from 'react-loadable'
 
 import './utils/refreshToken'
 
-import AuthService from './utils/AuthService'
-import { closeSideNav, openSideNav, openModal, closeModal, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, signout } from './actions'
-
-
-const authService = new AuthService()
+import Routes from './Routes/Routes'
+import { closeSideNav, openSideNav, closeModal, setTopBarTitle, toggleTopBarTitleIsDisabled, signout } from './actions'
 
 Modal.setAppElement(document.getElementById('app'))
-
-/**
- * Routing Components
- */
-import AuthenticatedRoute from './Routes/AuthenticatedRoute'
-import SubscriptionRoute from './Routes/SubscriptionRoute'
-import AuthorizedRoute from './Routes/AuthorizedRoute'
-import PlainRoute from './Routes/PlainRoute'
 
 
 /**
  * Route Components/Containers
  */
-import Loading from './Loading/Loading'
-import Landing from './Landing/Landing'
-import Welcome from './WelcomeWizard/WelcomeWizard'
-import UserProjects from './UserProjects/UserProjects'
-import UserProject from './UserProject/UserProject'
-import LoginOrRegister from './LoginOrRegister/LoginOrRegister'
-import UserLessonWizard from './UserLessonWizard/UserLessonWizard'
 import SideNav from './SideNav/SideNav'
 import TopBar from './TopBar/TopBar'
-import SignOut from './SignOut/SignOut'
-import StandaloneEditor from './StandaloneEditor/StandaloneEditor'
-import ProviderDashboard from './ProviderDashboard/ProviderDashboard'
-import EmailVerification from './EmailVerification/EmailVerification'
-import BetaLessons from './BetaLessons/BetaLessons'
-import InvalidSubscription from './InvalidSubscription/InvalidSubscription'
-
-const Lessons = Loadable({
-  loader: () => import('./Lessons/Lessons')
-  , loading: Loading
-})
-const ForgotPasswordWizard = Loadable({
-  loader: () => import('./ForgotPasswordWizard/ForgotPasswordWizard')
-  , loading: Loading
-})
-const AddOrEditLesson = Loadable({
-  loader: () => import('./admin/AddOrEditLesson/AddOrEditLesson')
-  , loading: Loading
-})
-const ProviderLoginOrRegister = Loadable({
-  loader: () => import('./ProviderLoginOrRegister/ProviderLoginOrRegister')
-  , loading: Loading
-})
-const AddOrEditLessonTheme = Loadable({
-  loader: () => import('./admin/AddOrEditLessonTheme/AddOrEditLessonTheme')
-  , loading: Loading
-})
-const AddOrEditVariable = Loadable({
-  loader: () => import('./admin/AddOrEditVariable/AddOrEditVariable')
-  , loading: Loading
-})
-const AddOrEditSubscription = Loadable({
-  loader: () => import('./admin/AddOrEditSubscription/AddOrEditSubscription')
-  , loading: Loading
-})
-const ManageLessons = Loadable({
-  loader: () => import('./admin/ManageLessons/ManageLessons')
-  , loading: Loading
-})
-const ManageLessonThemes = Loadable({
-  loader: () => import('./admin/ManageLessonThemes/ManageLessonThemes')
-  , loading: Loading
-})
-const ManageVariables = Loadable({
-  loader: () => import('./admin/ManageVariables/ManageVariables')
-  , loading: Loading
-})
-const ManageSubscriptions = Loadable({
-  loader: () => import('./admin/ManageSubscriptions/ManageSubscriptions')
-  , loading: Loading
-})
-const Signups = Loadable({
-  loader: () => import('./admin/Signups/Signups')
-  , loading: Loading
-})
 
 
 let baseAppStyle = {
@@ -138,7 +61,7 @@ const EnvironmentReminder = props =>
     { process.env.NODE_ENV } environment
   </div>
 
-class App extends Component {
+class Root extends Component {
   constructor(props) {
     super(props)
   }
@@ -146,27 +69,26 @@ class App extends Component {
   static propTypes = {
     isLoggedIn: T.bool.isRequired
     , isAdmin: T.bool.isRequired
-    , isSideNavOpen: T.bool.isRequired
-    , sideNavWidth: T.number.isRequired
-    , isTopBarOpen: T.bool.isRequired
-    , topBarHeight: T.number.isRequired
-    , topBarTitle: T.string
-    , topBarTitleDisabled: T.bool.isRequired
+    , topBar: T.object.isRequired
     , setTopBarTitle: T.func.isRequired
-    , setGlobalColors: T.func.isRequired
-    , openModal: T.func.isRequired
+    , closeSideNav: T.func.isRequired
+    , openSideNav: T.func.isRequired
     , closeModal: T.func.isRequired
     , modal: T.object.isRequired
+    , globalColors: T.object.isRequired
+    , sideNav: T.object.isRequired
   }
 
   toggleSideNav = () => {
-    this.props.isSideNavOpen ? this.props.closeSideNav() : this.props.openSideNav()
+    this.props.sideNav.isSideNavOpen ? this.props.closeSideNav() : this.props.openSideNav()
   }
 
   render() {
-    const { modal, isLoggedIn, isAdmin, isProvider, isSideNavOpen, sideNavWidth, isTopBarOpen, topBarHeight, topBarTitle, topBarTitleDisabled, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, topBarFocused, primaryColor, secondaryColor, textColor, subscription } = this.props
-    const topBarWidthString = `${topBarHeight}px`
-    const extras = { isLoggedIn, subscription, isAdmin, isProvider, setTopBarTitle, setGlobalColors, primaryColor, secondaryColor, textColor, toggleTopBarTitleIsDisabled }
+    const {
+      modal, isLoggedIn, isAdmin, isProvider, sideNav, topBar, setTopBarTitle, toggleTopBarTitleIsDisabled, globalColors
+    } = this.props
+
+    const topBarWidthString = `${topBar.topBarHeight}px`
 
     return (
       <div>
@@ -190,100 +112,35 @@ class App extends Component {
           { modal.children }
         </Modal>
         <SideNav
-          isOpen={ isSideNavOpen }
+          isOpen={ sideNav.isSideNavOpen }
           toggleSideNav={ this.toggleSideNav }
-          { ...extras }
+          isLoggedIn={ isLoggedIn }
+          isAdmin={ isAdmin }
+          isProvider={ isProvider }
+          toggleTopBarTitleIsDisabled={ toggleTopBarTitleIsDisabled }
+          { ...globalColors }
         />
         <TopBar
-          isOpen={ isTopBarOpen }
-          backgroundColor={ primaryColor }
-          textColor={ textColor }
-          isFocused={ topBarFocused }
-          title={ topBarTitle }
-          titleDisabled={ topBarTitleDisabled }
-          sideNavWidth={ sideNavWidth }
+          isOpen={ topBar.isTopBarOpen }
+          backgroundColor={ globalColors.primaryColor }
+          textColor={ globalColors.textColor }
+          isFocused={ topBar.topBarFocused }
+          title={ topBar.topBarTitle }
+          titleDisabled={ topBar.topBarTitleDisabled }
+          sideNavWidth={ sideNav.sideNavWidth }
           handleTitleChange={ setTopBarTitle }
           toggleSideNav={ this.toggleSideNav }
         />
         <div
           className={ cns('baseAppStyles') }
           style={ {
-            ...baseAppStyle
-            , top: topBarWidthString
+            ...baseAppStyle,
+            top: topBarWidthString
             }
           }
         >
           <div style={ nonMenuStyle }>
-            <Switch>
-              {/* ----------------- */}
-              {/* Logged out routes */}
-              {/* ----------------- */}
-              <PlainRoute path='/' exact render={() => (
-                isLoggedIn && isProvider ? (
-                  <Redirect to='/provider/dashboard' />
-                ) : isLoggedIn ? (
-                  <Redirect to='/lessons' />
-                ) : (
-                  <Landing />
-                )
-              )} />
-              <PlainRoute path='/onboarding' exact component={ Landing } />
-              <PlainRoute path='/about' exact component={ Landing } />
-              <PlainRoute path='/login' exact component={ LoginOrRegister } />
-              <PlainRoute path='/register' exact component={ LoginOrRegister } />
-              <PlainRoute path='/provider/login' exact component={ ProviderLoginOrRegister } />
-              <PlainRoute path='/provider/register' exact component={ ProviderLoginOrRegister } />
-              <PlainRoute path='/signout' exact component={ SignOut } />
-              <PlainRoute path='/password' exact component={ ForgotPasswordWizard } />
-              <PlainRoute path='/python' exact component={ StandaloneEditor } />
-              <PlainRoute path='/email-verification' exact component={ EmailVerification } />
-              {/* ----------------- */}
-              {/* Logged in routes  */}
-              {/* ----------------- */}
-              <AuthenticatedRoute path='/invalid-subscription' exact
-                                  component={ InvalidSubscription } { ...extras } />
-              <AuthenticatedRoute path='/welcome' exact component={ Welcome } { ...extras } />
-              <AuthenticatedRoute path='/projects' exact component={ UserProjects }
-                                  title='Projects' { ...extras } />
-              <AuthenticatedRoute path='/project/new' exact component={ UserProject }
-                                  title='name me!' topBarTitleDisabled={ false } { ...extras } />
-              <AuthenticatedRoute path='/project/:id' exact component={ UserProject }
-                                  topBarTitleDisabled={ false } { ...extras } />
-              <SubscriptionRoute path='/lessons' exact component={ Lessons }
-                                 title='Lessons' { ...extras } />
-              <AuthenticatedRoute path='/lessons/beta' exact component={ BetaLessons }
-                                  title='Lessons (Beta)' { ...extras } />
-              <AuthenticatedRoute path='/lessons/:id' exact component={ UserLessonWizard } { ...extras } />
-              {/* ----------------- */}
-              {/* Admin-only routes */}
-              {/* ----------------- */}
-              <AuthorizedRoute path='/admin/lessons' exact component={ ManageLessons } title='Manage Lessons' { ...extras } />
-              <AuthorizedRoute path='/admin/lessons/themes' exact component={ ManageLessonThemes } title='Manage Lesson Themes' { ...extras } />
-
-              <AuthorizedRoute path='/admin/lessons/new' exact component={ AddOrEditLesson } title='Create new lesson' { ...extras } />
-              <AuthorizedRoute path='/admin/lessons/:id' exact component={ AddOrEditLesson } title='Edit Lesson' { ...extras } />
-
-              <AuthorizedRoute path='/admin/lessons/themes/new' exact component={ AddOrEditLessonTheme } title='Create new Lesson Theme' { ...extras } />
-              <AuthorizedRoute path='/admin/lessons/themes/:id' exact component={ AddOrEditLessonTheme } title='Edit Lesson Theme' { ...extras } />
-
-              <AuthorizedRoute path='/admin/variables' exact component={ ManageVariables } title='Manage Variables' { ...extras } />
-              <AuthorizedRoute path='/admin/variables/new' exact component={ AddOrEditVariable } title='Create new Variable' { ...extras } />
-              <AuthorizedRoute path='/admin/variables/:id' exact component={ AddOrEditVariable } title='Edit Variable' { ...extras } />
-
-              <AuthorizedRoute path='/admin/subscriptions' exact component={ ManageSubscriptions } title='Manage Subscriptions' { ...extras } />
-              <AuthorizedRoute path='/admin/subscriptions/new' exact component={ AddOrEditSubscription } title='Create new Subscription' { ...extras } />
-              <AuthorizedRoute path='/admin/subscriptions/:id' exact component={ AddOrEditSubscription } title='Edit Subscription' { ...extras } />
-
-              <AuthorizedRoute path='/admin/signups' exact component={ Signups } title='See Beta Signups' { ...extras } />
-              {/* ----------------- */}
-              {/* Provider routes */}
-              {/* ----------------- */}
-              <AuthorizedRoute path='/provider/account' exact component={ ProviderDashboard } { ...extras } />
-              <AuthorizedRoute path='/provider/students/new' exact component={ ProviderDashboard } { ...extras } />
-              <AuthorizedRoute path='/provider/students/:id' exact component={ ProviderDashboard } { ...extras } />
-              <AuthorizedRoute path='/provider/:section/:id' exact component={ ProviderDashboard } { ...extras } />
-              <AuthorizedRoute path='/provider/:section' component={ ProviderDashboard } { ...extras } />
-            </Switch>
+            <Routes />
             </div>
         </div>
       </div>
@@ -291,14 +148,14 @@ class App extends Component {
   }
 }
 
-export const AppComponent = App
+export const RootComponent = Root
 
 const mapStateToProps = (state) => {
   const {
     auth: { isLoggedIn, isAdmin, isProvider, subscription },
-    sideNav: { sideNavWidth, isSideNavOpen },
-    topBar: { topBarHeight, isTopBarOpen, topBarTitle, topBarTitleDisabled, topBarFocused },
-    globalColors: { primaryColor, secondaryColor, textColor },
+    sideNav,
+    topBar,
+    globalColors,
     modal
   } = state
 
@@ -307,16 +164,9 @@ const mapStateToProps = (state) => {
     , subscription
     , isAdmin
     , isProvider
-    , isSideNavOpen
-    , sideNavWidth
-    , isTopBarOpen
-    , topBarHeight
-    , topBarTitle
-    , topBarTitleDisabled
-    , topBarFocused
-    , primaryColor
-    , secondaryColor
-    , textColor
+    , sideNav
+    , topBar
+    , globalColors
     , modal
   }
 }
@@ -328,10 +178,8 @@ const mapDispatchToProps = (dispatch) => {
     , openSideNav: () => dispatch(openSideNav())
     , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
     , toggleTopBarTitleIsDisabled: isDisabled => dispatch(toggleTopBarTitleIsDisabled(isDisabled))
-    , setGlobalColors: params => dispatch(setGlobalColors(params))
-    , openModal: params => dispatch(openModal(params))
     , closeModal: params => dispatch(closeModal(params))
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Root))
