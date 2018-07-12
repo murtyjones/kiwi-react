@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
-import { titleStyle, slideContentFlexibleHeight } from './commonSlideStyles'
+import { slideContentFlexibleHeight } from './commonSlideStyles'
 
 const styles = {
   container: {

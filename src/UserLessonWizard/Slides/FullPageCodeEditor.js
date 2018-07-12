@@ -3,11 +3,11 @@ import * as T from 'prop-types'
 import cns from 'classnames'
 import template from 'es6-template-strings'
 import withRouter from 'react-router-dom/withRouter'
+import withStyles from '@material-ui/core/styles/withStyles'
 import { connect } from 'react-redux'
 import find from 'lodash/find'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
-import { CODE_CONCEPTS, LESSON_SLIDE_TYPES } from '../../constants'
 import { titleStyle, slideContentFlexibleHeight, example as exampleStyle } from './commonSlideStyles'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 import { postUserVariable, putUserVariable } from '../../actions'
@@ -21,6 +21,26 @@ import 'codemirror/addon/hint/javascript-hint'
 import 'codemirror/addon/hint/show-hint.css'
 
 const defaultExampleHtml = 'Example'
+
+const styles = theme => ({
+  dabblewopper: {
+    zIndex: 99999,
+    position: 'absolute',
+    backgroundRepeat: 'no-repeat',
+    height: '100%',
+    width: '100%',
+    backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1531090895/dabblewopper_o4g2bm.svg)',
+    backgroundPosition: 'center 121px',
+    backgroundSize: '100%'
+  },
+  codeEditor: {
+    width: '80%',
+    margin: '0 auto',
+    height: '50%',
+    position: 'absolute',
+    bottom: 0
+  }
+})
 
 class FullPageCodeEditor extends PureComponent {
   constructor(props) {
@@ -50,7 +70,7 @@ class FullPageCodeEditor extends PureComponent {
   }
 
   render() {
-    const { slideData, className, input, runCode, afterRunCode, globalColors, variablesWithUserValues, setFormGlobalVariable } = this.props
+    const { classes, slideData, input, runCode, afterRunCode, variablesWithUserValues, setFormGlobalVariable } = this.props
 
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
     const prompt = template(slideData.prompt, variableValues)
@@ -60,17 +80,17 @@ class FullPageCodeEditor extends PureComponent {
 
     return (
       <Fragment>
-        <div key={ className } style={ slideContentFlexibleHeight } className={ className }>
-          <div
-            key='title'
-            id='title'
-            style={ {
-              ...titleStyle
-              , color: globalColors.quaternaryColor
-            } }
-            >
-            { slideData.title }
-          </div>
+        <div className={ classes.dabblewopper }>
+          {/*<div*/}
+            {/*key='title'*/}
+            {/*id='title'*/}
+            {/*style={ {*/}
+              {/*...titleStyle*/}
+              {/*, color: globalColors.quaternaryColor*/}
+            {/*} }*/}
+            {/*>*/}
+            {/*{ slideData.title }*/}
+          {/*</div>*/}
           <div
             key='prompt'
             id='prompt'
@@ -92,8 +112,7 @@ class FullPageCodeEditor extends PureComponent {
           }
         </div>
         <CodeEditor
-          key='lessonFullSizeEditor'
-          className='lessonFullSizeEditor flexOneOneAuto'
+          className={ classes.codeEditor }
           editorInput={ input.value }
           onChange={ answer => input.onChange(answer) }
           runCode={ runCode }
@@ -125,5 +144,7 @@ const mapDispatchToProps = (dispatch) => {
     , putUserVariable: params => dispatch(putUserVariable(params))
   }
 }
+
+FullPageCodeEditor = withStyles(styles, { withTheme: true })(FullPageCodeEditor)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FullPageCodeEditor))

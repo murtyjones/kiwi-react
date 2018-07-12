@@ -10,6 +10,7 @@ import BluebirdPromise from 'bluebird'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 
 import './overrides.css'
@@ -21,15 +22,16 @@ const defaultOptions = {
   , mode: 'text/x-python'
 }
 
-const styles = {
+const styles = theme => ({
   container: {
     position: 'absolute'
     , bottom: 'calc(20px + 50px)' // leave room for ActionBar
     , right: '0'
     , left: '0'
     , top: '0'
+    , zIndex: 100000
   }
-}
+})
 
 const defaultInput = ''
 
@@ -237,12 +239,12 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { className, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
+    const { className, classes, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput, codeIsRunning } = this.state
 
     return (
-      <div className={ className } >
-        <div className='flex' style={ styles.container }>
+      <div className={ className }>
+        <div className={ classes.container }>
           <EditorInput
             editorDidMount={ editor => { this.codeMirror = editor } }
             className={ cns('CodeMirrorFull', { 'error': errorMsg }) }
@@ -276,4 +278,4 @@ class CodeEditor extends Component {
   }
 }
 
-export default CodeEditor
+export default withStyles(styles, { withTheme: true })(CodeEditor)

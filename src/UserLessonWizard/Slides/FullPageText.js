@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import template from 'es6-template-strings'
 
-import { titleStyle, slideContentFlexibleHeight } from './commonSlideStyles'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 import withStyles from '@material-ui/core/styles/withStyles'
 import SpeechBubble from '../SpeechBubble'
