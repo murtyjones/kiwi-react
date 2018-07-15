@@ -12,7 +12,8 @@ const styles = theme => ({
   cost: {
     color: '#CCC',
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: 10
   },
   usd: {
     color: '#66cc52'

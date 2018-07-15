@@ -51,7 +51,7 @@ class Confirmation extends Component {
             </TableHead>
             <TableBody>
               { providees.map((student, i) =>
-                <TableRow hover key={ i }>
+                <TableRow key={ i }>
                   <TableCell>{ student.firstName }</TableCell>
                   <TableCell>({monthlySubscription} /mo)</TableCell>
                 </TableRow>
