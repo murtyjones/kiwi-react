@@ -71,7 +71,11 @@ const SpeechBubble = ({ classes, className, label, htmlContent, isCodeExample, c
             src={ cornerImageUrl }
           />
         }
-        <div className={ classes.bubbleContent } dangerouslySetInnerHTML={ { __html: htmlContent } } />
+        <div
+          id='bubbleContent'
+          className={ classes.bubbleContent }
+          dangerouslySetInnerHTML={ { __html: htmlContent } }
+        />
       </div>
     </Paper>
   )

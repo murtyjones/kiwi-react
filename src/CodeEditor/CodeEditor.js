@@ -264,7 +264,7 @@ class CodeEditor extends Component {
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput, codeIsRunning } = this.state
 
     return (
-      <div className={ className }>
+      <div id='codeEditor' className={ className }>
         <div className={ classes.container }>
           <CSSTransition
             in={ exampleHTML && isExampleActive }

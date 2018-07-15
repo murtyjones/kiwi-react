@@ -299,7 +299,8 @@ class UserLessonWizardForm extends Component {
           slideAnswerData={ slideAnswerData }
         />
         <form
-          className={ cns('lessonWizardForm', classes.lessonWizardForm, className) }
+          id='lessonWizardForm'
+          className={ cns(classes.lessonWizardForm, className) }
           onSubmit={ handleSubmit }
         >
           <FieldArray
