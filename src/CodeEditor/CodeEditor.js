@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import update from 'immutability-helper'
 import cns from 'classnames'
@@ -11,10 +11,10 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import withStyles from '@material-ui/core/styles/withStyles'
+import { CSSTransition } from 'react-transition-group'
 
 
 import './overrides.css'
-import '../common/flex.css'
 
 const defaultOptions = {
   lineNumbers: true
@@ -25,11 +25,29 @@ const defaultOptions = {
 const styles = theme => ({
   container: {
     position: 'absolute'
-    , bottom: 'calc(20px + 50px)' // leave room for ActionBar
+    , bottom: '0'
     , right: '0'
     , left: '0'
     , top: '0'
     , zIndex: 100000
+    , overflow: 'hidden'
+  },
+  hint: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    top: 0,
+    zIndex: 100001,
+    padding: 20,
+    backgroundColor: '#eae8f9',
+    borderRadius: 10
+  },
+  x: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    zIndex: 100001
   }
 })
 
@@ -239,12 +257,31 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { className, classes, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
+    const { closeExample, exampleHTML, isExampleActive, className, classes, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput, codeIsRunning } = this.state
 
     return (
       <div className={ className }>
         <div className={ classes.container }>
+          <CSSTransition
+            in={ exampleHTML && isExampleActive }
+            classNames='slideUp'
+            timeout={ 300 }
+            mountOnEnter={ true }
+            unmountOnExit={ true }
+          >
+            <div
+              className={ classes.hint }
+              style={ {
+                // only display if theres a message. Otherwise,
+                // keep mounted for animation purposes:
+                visibility: exampleHTML && isExampleActive ? 'visible' : 'hidden'
+              } }
+            >
+              <div dangerouslySetInnerHTML={ { __html: exampleHTML } } />
+              <div className={ cns('x-sm x-black', classes.x) } onClick={ closeExample } />
+            </div>
+          </CSSTransition>
           <EditorInput
             editorDidMount={ editor => { this.codeMirror = editor } }
             className={ cns('CodeMirrorFull', { 'error': errorMsg }) }
@@ -261,6 +298,7 @@ class CodeEditor extends Component {
             editorOutput={ editorOutput }
             editorInput={ editorInput }
             errorMsg={ errorMsg }
+            exampleHTML={ exampleHTML }
             prompt={ prompt }
             value={ rawInputValue }
             inputDisabled={ !codeIsRunning }

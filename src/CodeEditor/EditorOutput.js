@@ -121,13 +121,15 @@ const getCustomErrorHint = editorInput => Object.keys(CUSTOM_ERRORS).reduce((hin
 }, null)
 
 
-const Hint = ({ errorHintHTML, showHint, closeHint }) =>
-  <div style={ {
-    ...styles.hintContainer
-    // only display if theres a message. Otherwise,
-    // keep mounted for animation purposes:
-    , display: errorHintHTML ? 'block' : 'none'
-  } }>
+const Hint = ({ classes, errorHintHTML, showHint, closeHint }) =>
+  <div
+    className={ classes.hintContainer }
+    style={ {
+      // only display if theres a message. Otherwise,
+      // keep mounted for animation purposes:
+      visibility: errorHintHTML ? 'visible' : 'hidden'
+    } }
+  >
     <CSSTransition
       in={ showHint }
       classNames='slideUp'
@@ -135,12 +137,10 @@ const Hint = ({ errorHintHTML, showHint, closeHint }) =>
       mountOnEnter={ true }
       unmountOnExit={ true }
     >
-      <div style={ styles.hint }>
-        <h3 style={ styles.hintH3 }>Here's a Hint:</h3>
+      <div className={ classes.hint }>
+        <h3 className={ classes.hintH3 }>Here's a Hint:</h3>
         <div dangerouslySetInnerHTML={ { __html: errorHintHTML } } />
-        <div
-          className='x-sm'
-          style={ styles.closeButton }
+        <div className={ cns('x-sm', classes.closeButton) }
           onClick={ closeHint }
         />
       </div>
@@ -260,6 +260,7 @@ class EditorOutput extends Component {
           )
         }
         <Hint
+          classes={ classes }
           errorHintHTML={ errorHintHTML }
           showHint={ showHint }
           closeHint={ () => this.setState({ showHint: false }) }

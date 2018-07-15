@@ -11,7 +11,6 @@ import { GLOBAL_COLORS } from '../constants'
 import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleFocus, setGlobalColors } from '../actions'
 import CodeEditor from '../CodeEditor/CodeEditor'
 
-import '../common/flex.css'
 
 const styles = {
   container: {
@@ -100,10 +99,10 @@ class UserProject extends Component {
     const isNewOrHasCode = isNewProject || (!isNewProject && !!userProject.code)
 
     return (
-      <div className='flex flexFlowColumn' style={ styles.container }>
+      <div style={ styles.container }>
         { renderIf(isNewOrHasCode)(
           <CodeEditor
-            className='lessonFullSizeEditor flexOneOneAuto'
+            className='lessonFullSizeEditor'
             editorInput={ userProject.code ? userProject.code: '' }
             onSave={ this.handleSave }
           />

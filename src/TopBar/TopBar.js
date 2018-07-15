@@ -5,7 +5,6 @@ import Menu from 'material-ui-icons/Menu'
 import cns from 'classnames'
 
 import './overrides.css'
-import '../common/flex.css'
 
 const styles = {
   menu: {
@@ -108,7 +107,7 @@ class TopBar extends PureComponent {
       >
         <input
           ref={ c => this.input = c }
-          className={ cns('titleInput', 'flexOneOneZeroPercent', { 'disabled': titleDisabled } ) }
+          className={ cns('titleInput', { 'disabled': titleDisabled } ) }
           onChange={ this.handleTitleChange }
           value={ title }
           style={ {

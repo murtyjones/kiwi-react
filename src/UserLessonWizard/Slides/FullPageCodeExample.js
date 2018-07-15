@@ -61,16 +61,6 @@ class FullPageCodeExample extends PureComponent {
 
     return (
       <div id='exampleContainer' style={ styles.container } className={ className }>
-        {/*<div*/}
-          {/*key='title'*/}
-          {/*id='title'*/}
-          {/*style={ {*/}
-            {/*...titleStyle*/}
-            {/*, color: globalColors.quaternaryColor*/}
-          {/*} }*/}
-        {/*>*/}
-          {/*{ slideData.title }*/}
-        {/*</div>*/}
         { characterUrl &&
         <img
           src={ characterUrl }

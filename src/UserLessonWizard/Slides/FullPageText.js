@@ -35,15 +35,6 @@ class FullPageText extends PureComponent {
 
     return (
       <div className={ classes.container }>
-        {/*<div*/}
-          {/*className={ classes.title }*/}
-          {/*style={ {*/}
-            {/*...titleStyle*/}
-            {/*, color: globalColors.quaternaryColor*/}
-          {/*} }*/}
-        {/*>*/}
-          {/*{ slideData.title }*/}
-        {/*</div>*/}
         { characterUrl &&
           <img
             src={ characterUrl }

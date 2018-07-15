@@ -3,8 +3,10 @@ import * as T from 'prop-types'
 import { Field, FieldArray, reduxForm, change, getFormValues } from 'redux-form'
 import { connect } from 'react-redux'
 import isEqual from 'lodash/isEqual'
+import withStyles from '@material-ui/core/styles/withStyles'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
+import cns from 'classnames'
 
 import { isPrevDisabled, isNextDisabled, isFinalSlide, hasSuccessCriteria } from '../utils/lessonWizardUtils'
 import { LESSON_SLIDE_TYPES } from '../constants'
@@ -22,42 +24,57 @@ import MultipleChoice from './Slides/MultipleChoice'
 import Narration from './Slides/Narration'
 
 import './overrides.css'
-import '../common/flex.css'
 
 const formName = 'userLesson'
 
-const styles = {
+const styles = theme => ({
   lessonWizardForm: {
-    height:'100%'
+    height: 'calc(100% - 60px)' // 60px for action bar
     , overflow: 'auto'
     , position: 'absolute'
     , top: 0
     , zIndex: 502
-  }
-}
+  },
+  generalSlide: {
+    width: 1050,
+    marginLeft: -525,
+    left: '50%'
+  },
+  fullPageCodeSlide: {
+    width: 1300,
+    marginLeft: -650,
+    left: '50%'
+  },
+})
 
 
-const availableSlideTypes = {
+const availableSlideTypes = classes => ({
   [LESSON_SLIDE_TYPES.FULL_PAGE_TEXT]: {
-    component: FullPageText
+    component: FullPageText,
+    className: classes.generalSlide
   },
   [LESSON_SLIDE_TYPES.NARRATION]: {
-    component: Narration
+    component: Narration,
+    className: classes.generalSlide
   },
   [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EXAMPLE]: {
-    component: FullPageCodeExample
+    component: FullPageCodeExample,
+    className: classes.generalSlide
   },
   [LESSON_SLIDE_TYPES.FULL_PAGE_CODE_EDITOR]: {
-    component: FullPageCodeEditor
-    , includeRunButton: true
+    component: FullPageCodeEditor,
+    className: classes.fullPageCodeSlide,
+    includeRunButton: true
   },
   [LESSON_SLIDE_TYPES.TITLE]: {
-    component: Title
+    component: Title,
+    className: classes.generalSlide
   },
   [LESSON_SLIDE_TYPES.MULTIPLE_CHOICE]: {
-    component: MultipleChoice
+    component: MultipleChoice,
+    className: classes.generalSlide
   }
-}
+})
 
 class UserLessonWizardForm extends Component {
   constructor(props) {
@@ -215,10 +232,11 @@ class UserLessonWizardForm extends Component {
     // this method should be kept outside of
     // the render method! otherwise child
     // components will remount on each rendering!
-    const { activeSlideIndex, globalColors, variablesWithUserValues, formValues } = this.props
-        , { activeSlideObject, runCode } = this.state
-        , ActiveSlideComponent = availableSlideTypes[activeSlideObject.type].component
-        , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
+    const { activeSlideIndex, globalColors, variablesWithUserValues, formValues, classes } = this.props
+      , { activeSlideObject, runCode } = this.state
+      , slideTypeObject = availableSlideTypes(classes)[activeSlideObject.type]
+      , ActiveSlideComponent = slideTypeObject.component
+      , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
 
     return fields.map((ref, i) =>
       i === activeSlideIndex
@@ -233,7 +251,7 @@ class UserLessonWizardForm extends Component {
               await this.setStateAsync({ showResultCard: false, codeRanAtLeastOnce: true })
               if(!err) this.setCodeOutput(ref, codeOutput)
             } }
-            className='lessonWizardFormContent flexZeroOneAuto'
+            className='lessonWizardFormContent'
             globalColors={ globalColors }
             slideData={ activeSlideObject }
             setFormGlobalVariable={ (varRef, v) =>
@@ -247,9 +265,11 @@ class UserLessonWizardForm extends Component {
   }
 
   render() {
-    const { handleSubmit, globalColors, activeSlideIndex, formValues } = this.props
+    const { classes, handleSubmit, globalColors, activeSlideIndex, formValues } = this.props
       , { activeSlideObject, prevDisabled, nextDisabled, isFinal, runCode, showResultCard, codeRanAtLeastOnce } = this.state
-      , includeRunButton = availableSlideTypes[activeSlideObject.type].includeRunButton
+      , slideTypeObject = availableSlideTypes(classes)[activeSlideObject.type]
+      , includeRunButton = slideTypeObject.includeRunButton
+      , className = slideTypeObject.className
       , includesSuccessCriteria = hasSuccessCriteria(activeSlideObject)
       , onPrevClick = !prevDisabled ? this.onPrev : null
       , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
@@ -277,8 +297,7 @@ class UserLessonWizardForm extends Component {
           slideAnswerData={ slideAnswerData }
         />
         <form
-          className='lessonWizardForm flex flexFlowColumn'
-          style={ styles.lessonWizardForm }
+          className={ cns('lessonWizardForm', classes.lessonWizardForm, className) }
           onSubmit={ handleSubmit }
         >
           <FieldArray
@@ -304,9 +323,11 @@ UserLessonWizardForm = connect(
   })
 )(UserLessonWizardForm)
 
-export default reduxForm({
+UserLessonWizardForm = reduxForm({
   form: formName
   , destroyOnUnmount: false
   , forceUnregisterOnUnmount: true
   , enableReinitialize: true
 })(UserLessonWizardForm)
+
+export default withStyles(styles, { withTheme: true })(UserLessonWizardForm)

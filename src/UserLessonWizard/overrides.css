@@ -47,18 +47,11 @@
     margin-top: 20px;
     position: relative;
     z-index: 100000;
+    min-height: 400px;
 }
 
-.prompt, .instructions {
+.instructions {
     font-size: 14pt;
-}
-
-.toolbarButton {
-    right: 70px;
-}
-
-.toolbarLabel {
-  right: 125px;
 }
 
 .lessonHalfSizeEditorRight {
@@ -74,12 +67,6 @@
 .backButton:hover, .nextButton:hover {
     cursor: pointer;
 }
-
-.lessonWizardForm {
-    width: 100%;
-    left: 0;
-}
-
 .lessonWizardFormContent {
     box-sizing: border-box;
     padding-left: 25px;
@@ -95,19 +82,5 @@
     .lessonFullSizeEditor, .lessonHalfSizeEditorRight {
         margin-left: 0;
         margin-right: 0;
-    }
-
-    .toolbarButton {
-        right: 20px;
-    }
-
-    .toolbarLabel {
-        right: 75px;
-    }
-
-    .lessonWizardForm {
-        width: 1050px;
-        margin-left: -525px;
-        left: 50%;
     }
 }

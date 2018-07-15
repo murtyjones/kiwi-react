@@ -52,16 +52,6 @@ class Narration extends PureComponent {
 
     return (
       <div className={ classes.root }>
-        {/*<div*/}
-          {/*key='title'*/}
-          {/*id='title'*/}
-          {/*style={ {*/}
-            {/*...titleStyle*/}
-            {/*, color: globalColors.quaternaryColor*/}
-          {/*} }*/}
-        {/*>*/}
-          {/*{ slideData.title }*/}
-        {/*</div>*/}
         <div
           id='instructions'
           className={ classes.instructions }

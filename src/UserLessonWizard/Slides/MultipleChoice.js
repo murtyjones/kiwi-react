@@ -8,8 +8,6 @@ import { titleStyle, slideContentFullHeight } from './commonSlideStyles'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 import SpeechBubble from '../SpeechBubble'
 
-import './overrides.css'
-
 const styles = theme => ({
   choices: {
     position: 'absolute',
@@ -81,16 +79,6 @@ class FullPageText extends PureComponent {
 
     return (
       <div key={ className } style={ slideContentFullHeight } className={ className }>
-        {/*<div*/}
-          {/*key='title'*/}
-          {/*id='title'*/}
-          {/*style={ {*/}
-            {/*...titleStyle*/}
-            {/*, color: globalColors.quaternaryColor*/}
-          {/*} }*/}
-        {/*>*/}
-          {/*{ slideData.title }*/}
-        {/*</div>*/}
         <SpeechBubble
           label={ slideData.instructionsLabel }
           htmlContent={ instructions }
