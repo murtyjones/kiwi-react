@@ -57,14 +57,6 @@
     margin-left: calc(-25px * 1.1);
 }
 
-.map-card-circle.neighborhood-arrow-container:hover { background-color: #9575C9 !important; }
-.map-card-circle.egypt-arrow-container:hover { background-color: #9575C9 !important; }
-.map-card-circle.moon-arrow-container:hover { background-color: #99E6FD !important; }
-
-.map-card:hover .neighborhood-arrow { color: #624F8F !important; }
-.map-card:hover .egypt-arrow { color: #624F8F !important; }
-.map-card:hover .moon-arrow { color: #00BEFA !important; }
-
 .map-card-circle {
     background-color: #FFF;
     transition: all 0.5s ease;

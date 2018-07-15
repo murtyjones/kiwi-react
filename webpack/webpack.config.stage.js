@@ -11,11 +11,9 @@ module.exports = {
   entry: {
     main: './src/Main.js',
     AddOrEditLesson: './src/admin/AddOrEditLesson/AddOrEditLesson.js',
-    AddOrEditLessonTheme: './src/admin/AddOrEditLessonTheme/AddOrEditLessonTheme.js',
     AddOrEditVariable: './src/admin/AddOrEditVariable/AddOrEditVariable.js',
     AddOrEditSubscription: './src/admin/AddOrEditSubscription/AddOrEditSubscription.js',
     ManageLessons: './src/admin/ManageLessons/ManageLessons.js',
-    ManageLessonThemes: './src/admin/ManageLessonThemes/ManageLessonThemes.js',
     ManageVariables: './src/admin/ManageVariables/ManageVariables.js',
     ManageSubscriptions: './src/admin/ManageSubscriptions/ManageSubscriptions.js',
     Signups: './src/admin/Signups/Signups.js',

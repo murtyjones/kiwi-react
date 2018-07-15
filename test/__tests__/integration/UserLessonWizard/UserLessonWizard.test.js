@@ -30,7 +30,6 @@ describe('UserLessonWizard', () => {
     , userVariables
     , lesson
     , userLesson
-    , lessonTheme
     , router = {}
     , props = {}
     , store
@@ -104,9 +103,6 @@ describe('UserLessonWizard', () => {
         , [slide4Id]: { answer: "" }
         , [slide5Id]: { answer: "" }
       }
-    }
-    lessonTheme = {
-
     }
     setupStore = () => {
       ({ store, dispatchSpy } = setupIntegrationTest(notCombined, router))

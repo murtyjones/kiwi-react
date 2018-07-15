@@ -141,16 +141,6 @@ class SideNav extends PureComponent {
                     onClick={ toggleSideNav }
                   />
                 </KiwiLink>
-                <KiwiLink to='/admin/lessons/themes'>
-                  <MenuItem
-                    style={ styles.menuItem }
-                    leftIcon={
-                      <Circle style={ styles.circle } color={ secondaryColor } viewBox={ '4 4 16 16' } />
-                    }
-                    primaryText='Themes'
-                    onClick={ toggleSideNav }
-                  />
-                </KiwiLink>
                 <KiwiLink to='/admin/variables'>
                   <MenuItem
                     style={ styles.menuItem }

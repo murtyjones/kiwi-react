@@ -28,7 +28,7 @@ const styles = {
   }
 }
 
-const generateStatefulMapLessons = ({ mapLessons, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId }) =>
+const generateStatefulMapLessons = ({ mapLessons, bubbleAvailabilities, activeLessonId, lessonJustCompletedId }) =>
   (mapLessons ||[]).reduce((acc, lesson, i) => {
     const order = i + 1
       , x = LESSON_MAP_POINTS[`CIRCLE_${order}_X`] || 0
@@ -40,8 +40,7 @@ const generateStatefulMapLessons = ({ mapLessons, bubbleAvailabilities, lessonTh
       , bubbleAvailability = bubbleAvailabilities[i]
       , isAvailable = hasBeenCompleted || bubbleAvailability === bubbleStates.AVAILABLE
       , message = isAvailable ? lesson.title : 'Locked!'
-      , lessonThemeName = get(lessonThemesById, `${lesson.themeId}.name`, '').toLowerCase() || 'neighborhood'
-      , lessonTheme = GLOBAL_COLORS[lessonThemeName]
+      , colors = GLOBAL_COLORS.default
       , isLatestActive = activeLessonId === lesson._id
       , isJustCompleted = lessonJustCompletedId === lesson._id
 
@@ -57,7 +56,7 @@ const generateStatefulMapLessons = ({ mapLessons, bubbleAvailabilities, lessonTh
       , bubbleAvailability
       , isAvailable
       , message
-      , lessonTheme
+      , colors
       , isLatestActive
       , isJustCompleted
     })
@@ -96,7 +95,6 @@ class MapItems extends PureComponent {
     , selectedLessonId: T.string
     , activeLessonId: T.string
     , lessonJustCompletedId: T.string.isRequired
-    , lessonThemesById: T.object
   }
 
   componentWillMount() {
@@ -161,9 +159,9 @@ class MapItems extends PureComponent {
   }
 
   generateStatefulMapLessons = () => {
-    const { mapLessons, lessonThemesById, activeLessonId, lessonJustCompletedId } = this.props
+    const { mapLessons, activeLessonId, lessonJustCompletedId } = this.props
     const { bubbleAvailabilities } = this.state
-    return generateStatefulMapLessons({ mapLessons, bubbleAvailabilities, lessonThemesById, activeLessonId, lessonJustCompletedId })
+    return generateStatefulMapLessons({ mapLessons, bubbleAvailabilities, activeLessonId, lessonJustCompletedId })
   }
 
   scrollTo = to => scroll.scrollTo(to)

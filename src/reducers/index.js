@@ -6,7 +6,6 @@ import home from './home'
 import auth from './Auth'
 import userProjects from './UserProjects'
 import lessons from './Lessons'
-import lessonThemes from './LessonThemes'
 import lessonMetadata from './LessonMetadata'
 import userLessons from './UserLessons'
 import sideNav from './SideNav'
@@ -26,7 +25,6 @@ export const notCombined = {
   , userProjects
   , lessons
   , userLessons
-  , lessonThemes
   , sideNav
   , topBar
   , lessonMetadata

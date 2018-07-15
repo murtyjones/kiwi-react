@@ -51,11 +51,11 @@ const MapBubble = ({ statefulLesson, applyNextAnimation, applyJustCompletedAnima
           }) }
           styles={ {
             path: {
-              stroke: statefulLesson.lessonTheme.quaternaryColor
+              stroke: statefulLesson.colors.textColor
               , strokeOpacity: 100
             },
             trail: {
-              stroke: statefulLesson.lessonTheme.tertiaryColor
+              stroke: statefulLesson.colors.tertiaryColor
               , strokeOpacity: 100
             }
           } }
@@ -70,8 +70,8 @@ const MapBubble = ({ statefulLesson, applyNextAnimation, applyJustCompletedAnima
       >
         <h2
           style={ {
-            color: statefulLesson.lessonTheme.tertiaryColor
-            , backgroundColor: statefulLesson.lessonTheme.quaternaryColor
+            color: statefulLesson.colors.tertiaryColor
+            , backgroundColor: statefulLesson.colors.textColor
           } }
         >
           { statefulLesson.message }
@@ -80,12 +80,12 @@ const MapBubble = ({ statefulLesson, applyNextAnimation, applyJustCompletedAnima
       <div
         key='map-bubble'
         className='map-bubble'
-        style={ { backgroundColor: statefulLesson.lessonTheme.primaryColor } }
+        style={ { backgroundColor: statefulLesson.colors.primaryColor } }
       >
         <h1
           style={ {
             opacity: statefulLesson.isAvailable ? 100 : 0
-            , color: statefulLesson.hasBeenCompleted || !statefulLesson.isAvailable ? statefulLesson.lessonTheme.quaternaryColor : '#FFFFFF'
+            , color: statefulLesson.hasBeenCompleted || !statefulLesson.isAvailable ? statefulLesson.colors.textColor : '#FFFFFF'
           } }
         >
           { statefulLesson.order }

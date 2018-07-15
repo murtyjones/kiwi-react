@@ -1,11 +1,10 @@
 const GLOBAL_COLORS = {
   default: {
     name: 'default'
-    , textColor: '#624F8F'
-    , primaryColor: '#FFFFFF'
+    , textColor: '#FFFFFF'
+    , primaryColor: '#624F8F'
     , secondaryColor: '#624F8F'
     , tertiaryColor: '#9575C9'
-    , quaternaryColor: '#543e80'
   },
   neighborhood: {
     name: 'neighborhood'
@@ -13,7 +12,6 @@ const GLOBAL_COLORS = {
     , primaryColor: '#624F8F'
     , secondaryColor: '#624F8F'
     , tertiaryColor: '#9575C9'
-    , quaternaryColor: '#543e80'
   },
   egypt: {
     name: 'egypt'
@@ -21,7 +19,6 @@ const GLOBAL_COLORS = {
     , primaryColor: '#624F8F'
     , secondaryColor: '#624F8F'
     , tertiaryColor: '#9575C9'
-    , quaternaryColor: '#543e80'
   },
   moon: {
     name: 'moon'
@@ -29,7 +26,6 @@ const GLOBAL_COLORS = {
     , primaryColor: '#00BEFA'
     , secondaryColor: '#00BEFA'
     , tertiaryColor: '#99E6FD'
-    , quaternaryColor: '#00779A'
   }
 }
 

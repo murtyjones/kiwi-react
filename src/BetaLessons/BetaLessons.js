@@ -9,7 +9,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 
-import { getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, setGlobalColors, closeSideNav } from '../actions'
+import { getManyLessons, getManyUserLessons, getLessonOrder, setGlobalColors, closeSideNav } from '../actions'
 
 import LessonList from './LessonList'
 import './overrides.css'
@@ -30,7 +30,6 @@ class Lessons extends Component {
     , getManyUserLessons: T.func
     , getLessonOrder: T.func
     , userLessons: T.array
-    , lessonThemesById: T.object
     , lessons: T.array
     , orderOfPublishedLessons: T.array
     , userId: T.string.isRequired
@@ -38,11 +37,10 @@ class Lessons extends Component {
   }
 
   componentWillMount() {
-    const { closeSideNav, getManyLessons, getManyUserLessons, getLessonOrder, getManyLessonThemes, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
+    const { closeSideNav, getManyLessons, getManyUserLessons, getLessonOrder, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
     getManyLessons()
     getManyUserLessons({ userId })
     getLessonOrder()
-    getManyLessonThemes()
     closeSideNav()
     this.setCombinedMapLessons(orderOfPublishedLessons, lessons, userLessons)
   }
@@ -82,7 +80,7 @@ class Lessons extends Component {
   setSelectedLessonId = selectedLessonId => this.setState({ selectedLessonId })
 
   render() {
-    const { lessons, orderOfPublishedLessons, lessonThemesById } = this.props
+    const { lessons, orderOfPublishedLessons } = this.props
     const { selectedLessonId, lessonJustCompletedId, activeLessonId, combinedMapLessons } = this.state
 
     return (
@@ -101,7 +99,7 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth: { userId }, lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById }, lessonThemes: { lessonThemesById } } = state
+  const { auth: { userId }, lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById } } = state
 
   const userLessons = cloneDeep(Object.values(userLessonsById))
     , lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
@@ -112,7 +110,6 @@ const mapStateToProps = (state) => {
     , userLessons
     , orderOfPublishedLessons
     , userId
-    , lessonThemesById
   }
 }
 
@@ -120,7 +117,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getManyLessons: params => dispatch(getManyLessons(params))
     , getLessonOrder: () => dispatch(getLessonOrder())
-    , getManyLessonThemes: params => dispatch(getManyLessonThemes(params))
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
     , setGlobalColors: params => dispatch(setGlobalColors(params))
     , closeSideNav: () => dispatch(closeSideNav())

@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import { getFormValues } from 'redux-form'
 import BluebirdPromise from 'bluebird'
 
-import { postUserLesson, putUserLesson, getManyUserLessons, getManyUserVariables, getManyVariables, getLesson, getLessonTheme, setGlobalColors, setTopBarTitle } from '../actions'
+import { postUserLesson, putUserLesson, getManyUserLessons, getManyUserVariables, getManyVariables, getLesson, setGlobalColors, setTopBarTitle } from '../actions'
 import { GLOBAL_COLORS } from '../constants'
 import UserLessonWizardForm from './UserLessonWizardForm'
 
@@ -44,7 +44,6 @@ class UserLessonWizard extends Component {
     , getManyUserLessons: T.func.isRequired
     , getManyUserVariables: T.func.isRequired
     , getManyVariables: T.func.isRequired
-    , getLessonTheme: T.func.isRequired
     , setTopBarTitle: T.func.isRequired
     , setGlobalColors: T.func.isRequired
     , getLesson: T.func.isRequired
@@ -71,7 +70,6 @@ class UserLessonWizard extends Component {
 
     // get newest props:
     const { lesson, userLesson } = this.props
-    if(lesson.themeId) this.props.getLessonTheme({ id: lesson.themeId })
 
     this.setState({ activeSlideIndex: getLatestCompletedSlide(lesson, userLesson) })
   }
@@ -83,18 +81,13 @@ class UserLessonWizard extends Component {
   componentWillReceiveProps(nextProps) {
     const lessonIdHasChanged = !isEqual(this.props.match.params.id, nextProps.match.params.id)
       , userIdHasChanged = !isEqual(nextProps.userId, this.props.userId)
-      , lessonThemeIdHasChanged = !isEqual(nextProps.lesson.themeId, this.props.lesson.themeId)
-      , newGlobalColors = GLOBAL_COLORS[(nextProps.lessonTheme.name || 'default').toLowerCase()]
+      , newGlobalColors = GLOBAL_COLORS.default
       , globalColorsNeedsChanging = nextProps.globalColors.primaryColor !== newGlobalColors.primaryColor
       , titleNeedsSetting = !isEqual(nextProps.topBarTitle, nextProps.lesson.title)
 
     if(lessonIdHasChanged || userIdHasChanged) {
       nextProps.getLesson({ id: nextProps.match.params.id })
       nextProps.getManyUserLessons({ lessonId: nextProps.match.params.id, userId: nextProps.userId })
-    }
-
-    if(lessonThemeIdHasChanged) {
-      nextProps.getLessonTheme({ id: nextProps.lesson.themeId })
     }
 
     if(globalColorsNeedsChanging) this.setTopBarColor(newGlobalColors)
@@ -135,7 +128,7 @@ class UserLessonWizard extends Component {
     })
 
   render() {
-    const { lesson, initialValues, lessonTheme, isFetchingUserLessons, globalColors, variablesWithUserValues } = this.props
+    const { lesson, initialValues, isFetchingUserLessons, globalColors, variablesWithUserValues } = this.props
     const { activeSlideIndex, hasLoaded } = this.state
 
     return hasLoaded
@@ -144,7 +137,6 @@ class UserLessonWizard extends Component {
           onSubmit={ this.handleSubmit }
           isFetchingUserLessons={ isFetchingUserLessons }
           lesson={ lesson }
-          lessonTheme={ lessonTheme }
           globalColors={ globalColors }
           initialValues={ initialValues }
           activeSlideIndex={ activeSlideIndex }
@@ -164,7 +156,6 @@ const mapStateToProps = (state, ownProps) => {
     auth: { userId }
     , lessons: { lessonsById }
     , userLessons: { userLessonsByLessonId, isFetching }
-    , lessonThemes: { lessonThemesById }
     , globalColors
     , topBar: { topBarTitle }
     , variables: { variablesById }
@@ -175,7 +166,6 @@ const mapStateToProps = (state, ownProps) => {
   const { match: { params: { id } } } = ownProps
   const lesson = lessonsById[id] || {}
   const userLesson = userLessonsByLessonId[id] || {}
-  const lessonTheme = lessonThemesById[lesson.themeId] || {}
 
   let initialValues = { answerData: [], lessonId: id }
   if(!isEmpty(userLesson)) {
@@ -208,7 +198,6 @@ const mapStateToProps = (state, ownProps) => {
     , userLesson
     , userId
     , initialValues
-    , lessonTheme
     , globalColors
     , topBarTitle
     , isFetchingUserLessons: isFetching
@@ -224,7 +213,6 @@ const mapDispatchToProps = (dispatch) => {
     , getManyUserVariables: params => dispatch(getManyUserVariables(params))
     , getManyVariables: params => dispatch(getManyVariables(params))
     , getLesson: params => dispatch(getLesson(params))
-    , getLessonTheme: params => dispatch(getLessonTheme(params))
     , setGlobalColors: params => dispatch(setGlobalColors(params))
     , setTopBarTitle: params => dispatch(setTopBarTitle(params))
   }

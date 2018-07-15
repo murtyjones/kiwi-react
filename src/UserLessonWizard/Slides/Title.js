@@ -77,7 +77,7 @@ class Title extends PureComponent {
             id='title'
             style={ {
               ...styles.title
-              , color: globalColors.quaternaryColor
+              , color: globalColors.textColor
             } }
           >
             { slideData.title }
@@ -87,7 +87,7 @@ class Title extends PureComponent {
             id='subtitle'
             style={ {
               ...styles.subtitle
-              , color: globalColors.quaternaryColor
+              , color: globalColors.textColor
             } }
           >
             { slideData.subtitle }

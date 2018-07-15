@@ -12,7 +12,6 @@ import { isPrevDisabled, isNextDisabled, isFinalSlide, hasSuccessCriteria } from
 import { LESSON_SLIDE_TYPES } from '../constants'
 import ActionBar from './ActionBar'
 import CustomSlideBackground from './CustomSlideBackground'
-import { sortAssetsByQuadrant } from './LessonTheme'
 import ResultCard from '../common/ResultCard/ResultCard'
 
 // import slides
@@ -95,7 +94,6 @@ class UserLessonWizardForm extends Component {
     onSubmit: T.func.isRequired
     , activeSlideIndex: T.number.isRequired
     , lesson: T.object.isRequired
-    , lessonTheme: T.object.isRequired
     , globalColors: T.object.isRequired
     , formValues: T.object.isRequired
     , goToNextSlide: T.func.isRequired
@@ -108,7 +106,7 @@ class UserLessonWizardForm extends Component {
   }
 
   componentWillMount() {
-    const { lesson, activeSlideIndex, lessonTheme, formValues, isFetchingUserLessons } = this.props
+    const { lesson, activeSlideIndex, formValues, isFetchingUserLessons } = this.props
     this.setActiveSlideObject(activeSlideIndex, lesson)
     this.setPrevDisabled(activeSlideIndex, lesson)
     this.setNextDisabled(activeSlideIndex, lesson, isFetchingUserLessons, formValues)

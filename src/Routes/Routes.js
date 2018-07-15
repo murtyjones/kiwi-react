@@ -39,11 +39,9 @@ const Lessons = Loadable({ loader: () => import('../Lessons/Lessons'), loading: 
 const ForgotPasswordWizard = Loadable({ loader: () => import('../ForgotPasswordWizard/ForgotPasswordWizard'), loading: Loading })
 const AddOrEditLesson = Loadable({ loader: () => import('../admin/AddOrEditLesson/AddOrEditLesson'), loading: Loading })
 const ProviderLoginOrRegister = Loadable({ loader: () => import('../ProviderLoginOrRegister/ProviderLoginOrRegister'), loading: Loading })
-const AddOrEditLessonTheme = Loadable({ loader: () => import('../admin/AddOrEditLessonTheme/AddOrEditLessonTheme'), loading: Loading })
 const AddOrEditVariable = Loadable({ loader: () => import('../admin/AddOrEditVariable/AddOrEditVariable'), loading: Loading })
 const AddOrEditSubscription = Loadable({ loader: () => import('../admin/AddOrEditSubscription/AddOrEditSubscription'), loading: Loading })
 const ManageLessons = Loadable({ loader: () => import('../admin/ManageLessons/ManageLessons'), loading: Loading })
-const ManageLessonThemes = Loadable({ loader: () => import('../admin/ManageLessonThemes/ManageLessonThemes'), loading: Loading })
 const ManageVariables = Loadable({ loader: () => import('../admin/ManageVariables/ManageVariables'), loading: Loading })
 const ManageSubscriptions = Loadable({ loader: () => import('../admin/ManageSubscriptions/ManageSubscriptions'), loading: Loading })
 const Signups = Loadable({ loader: () => import('../admin/Signups/Signups'), loading: Loading })
@@ -137,22 +135,12 @@ class Routes extends Component {
         <AuthorizedRoute exact
           path='/admin/lessons' component={ ManageLessons } title='Manage Lessons' { ...routeProps }
         />
-        <AuthorizedRoute exact
-          path='/admin/lessons/themes' component={ ManageLessonThemes } title='Manage Lesson Themes' { ...routeProps }
-        />
 
         <AuthorizedRoute exact
           path='/admin/lessons/new' component={ AddOrEditLesson } title='Create new lesson' { ...routeProps }
         />
         <AuthorizedRoute exact
           path='/admin/lessons/:id' component={ AddOrEditLesson } title='Edit Lesson' { ...routeProps }
-        />
-
-        <AuthorizedRoute exact
-          path='/admin/lessons/themes/new' component={ AddOrEditLessonTheme } title='Create new Lesson Theme' { ...routeProps }
-        />
-        <AuthorizedRoute exact
-          path='/admin/lessons/themes/:id' component={ AddOrEditLessonTheme } title='Edit Lesson Theme' { ...routeProps }
         />
 
         <AuthorizedRoute exact

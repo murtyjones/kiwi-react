@@ -8,7 +8,6 @@ import { Toggle } from 'redux-form-material-ui'
 import SubmitButton from '../../common/form/SubmitButton'
 import ResultMessage from '../../common/form/ResultMessage'
 import KiwiSliderField from '../../common/renderSliderField'
-import KiwiSelectField from '../../common/form/Select/KiwiSelectField'
 import Slides from './Slides'
 import KiwiTextField from '../../common/form/KiwiTextField'
 
@@ -37,13 +36,12 @@ class LessonForm extends Component {
     initialValues: T.object.isRequired
     , allSlideValues: T.array
     , variableOptions: T.array.isRequired
-    , themeOptions: T.array.isRequired
     , postTestCheckAnswer: T.func.isRequired
   }
 
   render() {
     const {
-      handleSubmit, allSlideValues, themeOptions, variableOptions, postTestCheckAnswer
+      handleSubmit, allSlideValues, variableOptions, postTestCheckAnswer
     } = this.props
 
     return (
@@ -77,13 +75,6 @@ class LessonForm extends Component {
           name='isPublished'
           label='Is live?'
           component={ Toggle }
-        />
-        <Field
-          name='themeId'
-          hintText='Lesson Theme'
-          component={ KiwiSelectField }
-          floatingLabelText='Lesson Theme'
-          options={ themeOptions.map(e => ({ label: e.name, value: e._id })) }
         />
         <FieldArray
           name='slides'
