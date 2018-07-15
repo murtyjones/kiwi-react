@@ -140,6 +140,11 @@ class FullPageCode extends Component {
           toggleShowResultCard={ () => this.setState({ showResultCard: false }) }
         />
         <Field
+          name={ `${slideRef}.promptLabel` }
+          label='Prompt Box Label'
+          component={ KiwiTextField }
+        />
+        <Field
           name={ `${slideRef}.prompt` }
           label='Prompt'
           component={ RichTextEditor }
@@ -152,12 +157,19 @@ class FullPageCode extends Component {
           style={ { width: 'auto' } }
         />
         { slideValues.hasExample &&
-          <Field
-            name={`${slideRef}.example` }
-            label='Example Code'
-            component={ RichTextEditor }
-            variableOptions={ variableOptions }
-          />
+          <Fragment>
+            <Field
+              name={ `${slideRef}.promptPictureUrl` }
+              label='Example Picture URL'
+              component={ KiwiTextField }
+            />
+            <Field
+              name={`${slideRef}.example` }
+              label='Example Code'
+              component={ RichTextEditor }
+              variableOptions={ variableOptions }
+            />
+          </Fragment>
         }
         <Field
           name={`${slideRef}.shouldIncludeSuccessCriteria` }

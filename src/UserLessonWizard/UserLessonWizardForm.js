@@ -236,6 +236,7 @@ class UserLessonWizardForm extends Component {
       , { activeSlideObject, runCode } = this.state
       , slideTypeObject = availableSlideTypes(classes)[activeSlideObject.type]
       , ActiveSlideComponent = slideTypeObject.component
+      , includeRunButton = slideTypeObject.includeRunButton
       , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
 
     return fields.map((ref, i) =>
@@ -259,6 +260,7 @@ class UserLessonWizardForm extends Component {
             }
             variablesWithUserValues={ variablesWithUserValues }
             slideAnswerData={ slideAnswerData }
+            onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
           />
         ) : null
     )

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
-import renderTextField from '../../../common/renderTextField'
+import KiwiTextField from '../../../common/form/KiwiTextField'
 
 const styles = {
   container: {
@@ -33,14 +33,19 @@ class Title extends Component {
     return (
       <div style={ styles.container }>
         <Field
+          name={ `${slideRef}.title` }
+          label='Title'
+          component={ KiwiTextField }
+        />
+        <Field
           name={ `${slideRef}.subtitle` }
           placeholder={ 'Subtitle' }
-          component={ renderTextField }
+          component={ KiwiTextField }
         />
         <Field
           name={ `${slideRef}.iconUrl` }
           placeholder={ 'Link to Icon URL' }
-          component={ renderTextField }
+          component={ KiwiTextField }
         />
       </div>
     )

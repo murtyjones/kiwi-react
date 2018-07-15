@@ -94,25 +94,32 @@ const styles = theme => ({
   },
   dabblewopperControls: {
     position: 'absolute',
-    bottom: '20px',
+    bottom: 15,
     width: '400px',
     right: '50%',
-    marginRight: '-100px',
-    '& button': {
+    '& div': {
       cursor: 'pointer',
-      display: 'inline-block',
-      backgroundColor: '#debd5b',
+      display: 'inline',
       color: 'white',
       margin: '10px auto',
       fontSize: '18px',
       fontWeight: 'bold',
       borderRadius: '5px',
-      border: 'none',
-      '&.run': {
-        width: '100px'
+      border: '2px solid rgba(0,0,0,0.5)',
+      padding: '5px 10px',
+      marginRight: 20,
+      opacity: 0.85,
+      '&:hover': {
+        opacity: 1
       },
-      '&.hint': {
-        width: '50px'
+      '&:active': {
+        boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.3)'
+      },
+      '&.dabblewopperRun': {
+        backgroundColor: '#ad3e3c',
+      },
+      '&.dabblewopperHint': {
+        backgroundColor: '#debd5b',
       }
     }
   },
@@ -157,13 +164,13 @@ class FullPageCodeEditor extends PureComponent {
   }
 
   render() {
-    const { classes, slideData, input, runCode, afterRunCode, variablesWithUserValues, setFormGlobalVariable } = this.props
+    const { onRunCode, classes, slideData, input, runCode, afterRunCode, variablesWithUserValues, setFormGlobalVariable } = this.props
     const { isExampleActive } = this.state
 
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
     const prompt = template(slideData.prompt, variableValues)
     const example = template(slideData.example, variableValues)
-    const { carlImage, promptLabel } = slideData
+    const { promptPictureUrl, promptLabel } = slideData
 
     const variablesToComplete = slideData.variablesToComplete || []
 
@@ -174,7 +181,7 @@ class FullPageCodeEditor extends PureComponent {
             className={ classes.speechBubble }
             label={ promptLabel }
             htmlContent={ prompt }
-            cornerImage={ carlImage }
+            cornerImageUrl={ promptPictureUrl }
           />
           <div className={ classes.dabblewopperId }>
             #0123
@@ -186,13 +193,16 @@ class FullPageCodeEditor extends PureComponent {
             <button disabled={ true }>""</button>
           </div>
           <div className={ classes.dabblewopperControls }>
-            <button className='run'>Run Code</button>
-            <button
-              className='hint'
+            <div className='dabblewopperRun'
+              onClick={ onRunCode }
+            >
+              Run Code
+            </div>
+            <div className='dabblewopperHint'
               onClick={ this.toggleIsExampleActive }
             >
               Hint
-            </button>
+            </div>
           </div>
         </div>
         <CodeEditor

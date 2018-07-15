@@ -252,11 +252,6 @@ class Slides extends Component {
                 onSelectCustom={ v => this.spliceSelectedSlideType(i, 1, v) }
               />
               <Field
-                name={ `${eachSlideRef}.title` }
-                label='Title'
-                component={ KiwiTextField }
-              />
-              <Field
                 name={ `${eachSlideRef}.backgroundImageUrl` }
                 component={ KiwiTextField }
                 label='Slide Background Image URL'

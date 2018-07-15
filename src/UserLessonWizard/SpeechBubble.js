@@ -25,12 +25,23 @@ const styles = theme => ({
   bubble: {
     border: '3px solid #330000'
     , borderRadius: '10px'
-    , padding: '0 15px'
+    , padding: '15px'
     , backgroundColor: '#FFF'
+  },
+  bubbleContent: {
+    display: 'inline-block',
+    verticalAlign: 'top',
+    padding: '0 10px',
+    '& p, strong, b, i, u, span': {
+      margin: 0
+    }
   },
   isCodeExample: {
     fontFamily: 'monospace'
     , fontSize: '16pt'
+  },
+  cornerImage: {
+    width: 100
   }
 })
 
@@ -41,7 +52,7 @@ const Label = ({ className, label })  =>
     </span>
   </div>
 
-const SpeechBubble = ({ classes, className, label, htmlContent, isCodeExample }) => {
+const SpeechBubble = ({ classes, className, label, htmlContent, isCodeExample, cornerImageUrl }) => {
   return (
     <Paper className={ cns(classes.root, { [className]: className }) }>
       { label &&
@@ -53,8 +64,15 @@ const SpeechBubble = ({ classes, className, label, htmlContent, isCodeExample })
       <div
         id='speechBubble'
         className={ cns(classes.bubble, { [classes.isCodeExample]: isCodeExample }) }
-        dangerouslySetInnerHTML={ { __html: htmlContent } }
-      />
+      >
+        { cornerImageUrl &&
+          <img
+            className={ classes.cornerImage }
+            src={ cornerImageUrl }
+          />
+        }
+        <div className={ classes.bubbleContent } dangerouslySetInnerHTML={ { __html: htmlContent } } />
+      </div>
     </Paper>
   )
 }

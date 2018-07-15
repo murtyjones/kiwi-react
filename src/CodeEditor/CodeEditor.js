@@ -40,13 +40,16 @@ const styles = theme => ({
     top: 0,
     zIndex: 100001,
     padding: 20,
-    backgroundColor: '#eae8f9',
-    borderRadius: 10
+    backgroundColor: '#f5f0f9',
+    borderRadius: 10,
+    '& p, strong, b, i, u, span': {
+      margin: 0
+    }
   },
   x: {
     position: 'absolute',
-    top: 5,
-    right: 5,
+    top: 15,
+    right: 15,
     zIndex: 100001
   }
 })
@@ -272,11 +275,7 @@ class CodeEditor extends Component {
           >
             <div
               className={ classes.hint }
-              style={ {
-                // only display if theres a message. Otherwise,
-                // keep mounted for animation purposes:
-                visibility: exampleHTML && isExampleActive ? 'visible' : 'hidden'
-              } }
+              style={ { visibility: exampleHTML && isExampleActive ? 'visible' : 'hidden' } }
             >
               <div dangerouslySetInnerHTML={ { __html: exampleHTML } } />
               <div className={ cns('x-sm x-black', classes.x) } onClick={ closeExample } />
