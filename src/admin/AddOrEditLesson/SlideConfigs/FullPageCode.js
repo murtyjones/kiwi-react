@@ -15,13 +15,12 @@ import InputSuccessCriteria from './InputSuccessCriteria'
 import OutputSuccessCriteria from './OutputSuccessCriteria'
 import ResultCard from '../../../common/ResultCard/ResultCard'
 
-import '../../../common/flex.css'
 
 const renderCodeEditor = ({ input, ...rest }) =>
-  <div className='flex flexFlowColumn' style={ styles.codeEditorContainer }>
+  <div style={ styles.codeEditorContainer }>
     <CodeEditor
       key='lessonFullSizeEditor'
-      className='lessonFullSizeEditor flexOneOneAuto'
+      className='lessonFullSizeEditor'
       editorInput={ input.value || '' }
       onChange={ input.onChange }
       { ...rest }

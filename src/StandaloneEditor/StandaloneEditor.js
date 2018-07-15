@@ -4,7 +4,6 @@ import { openSideNav, closeSideNav, openTopBar, closeTopBar } from '../actions'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 
-import '../common/flex.css'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 const styles = {
@@ -32,10 +31,10 @@ class StandaloneEditor extends Component {
 
   render() {
     return (
-      <div className='flex flexFlowColumn' style={ styles.codeEditorContainer }>
+      <div style={ styles.codeEditorContainer }>
         <CodeEditor
           key='lessonFullSizeEditor'
-          className='lessonFullSizeEditor flexOneOneAuto'
+          className='lessonFullSizeEditor'
         />
       </div>
     )

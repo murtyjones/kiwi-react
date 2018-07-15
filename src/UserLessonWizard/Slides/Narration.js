@@ -3,7 +3,6 @@ import * as T from 'prop-types'
 import template from 'es6-template-strings'
 import withStyles from '@material-ui/core/styles/withStyles'
 
-import { titleStyle, slideContentFlexibleHeight } from './commonSlideStyles'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 
 const styles = theme => ({
@@ -53,16 +52,6 @@ class Narration extends PureComponent {
 
     return (
       <div className={ classes.root }>
-        {/*<div*/}
-          {/*key='title'*/}
-          {/*id='title'*/}
-          {/*style={ {*/}
-            {/*...titleStyle*/}
-            {/*, color: globalColors.quaternaryColor*/}
-          {/*} }*/}
-        {/*>*/}
-          {/*{ slideData.title }*/}
-        {/*</div>*/}
         <div
           id='instructions'
           className={ classes.instructions }

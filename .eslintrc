@@ -5,7 +5,8 @@
     "es6": 1
   },
   "rules": {
-    "semi": [2, "never"],
+    "indent": ["error", 2],
+    "semi": 0,
     "no-var": 2,
     "no-unused-vars": [1, {
       "vars": "all",

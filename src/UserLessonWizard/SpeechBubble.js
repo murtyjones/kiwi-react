@@ -7,7 +7,6 @@ const styles = theme => ({
   root: {
     padding: 0,
     boxSizing: 'border-box',
-    height: '100%',
     boxShadow: 'none',
     background: 'none'
   },
@@ -42,13 +41,15 @@ const Label = ({ className, label })  =>
     </span>
   </div>
 
-const SpeechBubble = ({ classes, label, htmlContent, isCodeExample }) => {
+const SpeechBubble = ({ classes, className, label, htmlContent, isCodeExample }) => {
   return (
-    <Paper className={ classes.root }>
-      <Label
-        label={ label }
-        className={ classes.label }
-      />
+    <Paper className={ cns(classes.root, { [className]: className }) }>
+      { label &&
+        <Label
+          label={ label }
+          className={ classes.label }
+        />
+      }
       <div
         id='speechBubble'
         className={ cns(classes.bubble, { [classes.isCodeExample]: isCodeExample }) }

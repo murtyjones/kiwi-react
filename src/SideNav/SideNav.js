@@ -15,6 +15,10 @@ import KiwiLink from "../common/KiwiLink"
 const p = 20
 
 const styles = {
+  drawer: {
+    position: 'relative',
+    zIndex: 10000000
+  },
   header: {
     backgroundColor: '#808080'
     , height: '90px'
@@ -85,6 +89,7 @@ class SideNav extends PureComponent {
         open={ isOpen }
         docked={ false }
         onRequestChange={ toggleSideNav }
+        style={ styles.drawer }
       >
         <Menu style={ styles.menu } listStyle={ styles.menu } autoWidth={ false }>
           <div style={ { ...styles.header,  backgroundColor: secondaryColor } }>
