@@ -81,7 +81,7 @@ class UserLessonWizard extends Component {
   componentWillReceiveProps(nextProps) {
     const lessonIdHasChanged = !isEqual(this.props.match.params.id, nextProps.match.params.id)
       , userIdHasChanged = !isEqual(nextProps.userId, this.props.userId)
-      , newGlobalColors = GLOBAL_COLORS.default
+      , newGlobalColors = GLOBAL_COLORS.defaultLesson
       , globalColorsNeedsChanging = nextProps.globalColors.primaryColor !== newGlobalColors.primaryColor
       , titleNeedsSetting = !isEqual(nextProps.topBarTitle, nextProps.lesson.title)
 

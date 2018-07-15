@@ -1,10 +1,17 @@
 const GLOBAL_COLORS = {
   default: {
     name: 'default'
-    , textColor: '#FFFFFF'
-    , primaryColor: '#624F8F'
+    , textColor: '#624F8F'
+    , primaryColor: '#FFFFFF'
     , secondaryColor: '#624F8F'
     , tertiaryColor: '#9575C9'
+  },
+  defaultLesson: {
+    name: 'default'
+    , textColor: '#FFFFFF'
+    , primaryColor: '#debd5b'
+    , secondaryColor: '#debd5b'
+    , tertiaryColor: '#debd5b'
   },
   neighborhood: {
     name: 'neighborhood'

@@ -15,14 +15,17 @@ const styles = {
     , textAlign: 'center'
     , fontWeight: 'bold'
     , lineHeight: '40px'
+    , border: 'none'
   },
   prevButton: {
     left: '20px'
+    , color: '#FFFFFF'
+    , backgroundColor: '#2e0402'
   },
   nextButton: {
     right: '20px'
-    , color: '#000000'
-    , backgroundColor: '#FFFFFF'
+    , color: '#FFFFFF'
+    , backgroundColor: '#2e0402'
   },
   runCodeButton: {
     left: '50%'
@@ -33,7 +36,7 @@ const styles = {
   }
 }
 
-export const PrevButton = ({ onPrevClick, globalColors }) =>
+export const PrevButton = ({ onPrevClick }) =>
   <div
     key='prevButton'
     id='prevButton'
@@ -41,16 +44,14 @@ export const PrevButton = ({ onPrevClick, globalColors }) =>
     style={ {
       ...styles.button
       , ...styles.prevButton
-      , cursor: onPrevClick ? 'pointer': ''
-      , backgroundColor: globalColors.tertiaryColor
-      , color: globalColors.textColor
+      , cursor: onPrevClick ? 'pointer' : ''
     } }
     onClick={ onPrevClick }
   >
     Previous
   </div>
 
-export const NextButton = ({ onNextClick, globalColors }) =>
+export const NextButton = ({ onNextClick }) =>
   <div
     key='nextButton'
     id='nextButton'
@@ -58,8 +59,7 @@ export const NextButton = ({ onNextClick, globalColors }) =>
     style={ {
       ...styles.button
       , ...styles.nextButton
-      , cursor: onNextClick ? 'pointer': ''
-      , color: globalColors.primaryColor
+      , cursor: onNextClick ? 'pointer' : ''
     } }
     onClick={ onNextClick }
   >
@@ -67,20 +67,6 @@ export const NextButton = ({ onNextClick, globalColors }) =>
   </div>
 
 
-export const RunCodeButton = ({ onClick }) =>
-  <div
-    key='runCodeButton'
-    id='runCodeButton'
-    className={ cns('runCodeButton', { 'disabled': !onClick }) }
-    style={ {
-      ...styles.button
-      , ...styles.runCodeButton
-      , cursor: onClick ? 'pointer': ''
-    } }
-    onClick={ onClick }
-  >
-    Run Code
-  </div>
 export const CheckAnswerButton = ({ onClick }) =>
   <div
     key='checkAnswerButton'
@@ -97,7 +83,7 @@ export const CheckAnswerButton = ({ onClick }) =>
   </div>
 
 
-const ActionBar = ({ onRunCode, onCheckAnswer, onPrevClick, onNextClick, globalColors, includesSuccessCriteria, slideAnswerData = {} }) => {
+const ActionBar = ({ onCheckAnswer, onPrevClick, onNextClick, globalColors, includesSuccessCriteria, slideAnswerData = {} }) => {
   let onCheckAnswerClick = has(slideAnswerData, 'answer') && onCheckAnswer ? onCheckAnswer : null
 
   return (
@@ -106,17 +92,14 @@ const ActionBar = ({ onRunCode, onCheckAnswer, onPrevClick, onNextClick, globalC
       style={ { backgroundColor: globalColors.primaryColor } }
     >
       { onPrevClick &&
-        <PrevButton onPrevClick={ onPrevClick } globalColors={ globalColors } />
-      }
-      { !!onRunCode &&
-        <RunCodeButton onClick={ onRunCode } />
+        <PrevButton onPrevClick={ onPrevClick } />
       }
       { includesSuccessCriteria &&
         <CheckAnswerButton onClick={ onCheckAnswerClick } />
       }
-      <NextButton globalColors={ globalColors } onNextClick={ onNextClick } />
+      <NextButton onNextClick={ onNextClick } />
     </div>
-    )
+  )
 }
 
 export default ActionBar

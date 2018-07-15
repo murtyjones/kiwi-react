@@ -268,7 +268,6 @@ class UserLessonWizardForm extends Component {
     const { classes, handleSubmit, globalColors, activeSlideIndex, formValues } = this.props
       , { activeSlideObject, prevDisabled, nextDisabled, isFinal, runCode, showResultCard, codeRanAtLeastOnce } = this.state
       , slideTypeObject = availableSlideTypes(classes)[activeSlideObject.type]
-      , includeRunButton = slideTypeObject.includeRunButton
       , className = slideTypeObject.className
       , includesSuccessCriteria = hasSuccessCriteria(activeSlideObject)
       , onPrevClick = !prevDisabled ? this.onPrev : null
@@ -287,7 +286,6 @@ class UserLessonWizardForm extends Component {
         <ActionBar
           onPrevClick={ onPrevClick }
           onNextClick={ onNextClick }
-          onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
           includesSuccessCriteria={ includesSuccessCriteria }
           onCheckAnswer={ includesSuccessCriteria && hasBeenAnswered
             ? () => this.setState({
