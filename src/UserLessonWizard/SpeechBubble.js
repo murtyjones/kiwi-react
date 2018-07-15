@@ -31,7 +31,6 @@ const styles = theme => ({
   bubbleContent: {
     display: 'inline-block',
     verticalAlign: 'top',
-    padding: '0 10px',
     '& p, strong, b, i, u, span': {
       margin: 0
     }
@@ -42,17 +41,26 @@ const styles = theme => ({
   },
   cornerImage: {
     width: 100
+  },
+  explanation: {
+    fontFamily: 'Arial'
+  },
+  exampleLabel: {
+    borderBottom: '1px solid #AAAAAA',
+    color: '#AAAAAA',
+    margin: '15px 0 5px 0',
+    lineHeight: '30px'
   }
 })
 
 const Label = ({ className, label })  =>
   <div id='speechBubbleLabel'>
     <span className={ className }>
-    { label }
+      { label }
     </span>
   </div>
 
-const SpeechBubble = ({ classes, className, label, htmlContent, isCodeExample, cornerImageUrl }) => {
+const SpeechBubble = ({ classes, className, explanation, label, htmlContent, isCodeExample, cornerImageUrl }) => {
   return (
     <Paper className={ cns(classes.root, { [className]: className }) }>
       { label &&
@@ -65,11 +73,17 @@ const SpeechBubble = ({ classes, className, label, htmlContent, isCodeExample, c
         id='speechBubble'
         className={ cns(classes.bubble, { [classes.isCodeExample]: isCodeExample }) }
       >
+        { explanation &&
+          <div className={ classes.explanation }>{ explanation }</div>
+        }
         { cornerImageUrl &&
           <img
             className={ classes.cornerImage }
             src={ cornerImageUrl }
           />
+        }
+        { isCodeExample && explanation &&
+          <div className={ classes.exampleLabel }>Code Example</div>
         }
         <div
           id='bubbleContent'

@@ -57,7 +57,7 @@ class FullPageCodeExample extends PureComponent {
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
     const example = template(slideData.example, variableValues)
 
-    const { characterUrl } = slideData
+    const { characterUrl, explanation } = slideData
 
     return (
       <div id='exampleContainer' style={ styles.container } className={ className }>
@@ -73,6 +73,7 @@ class FullPageCodeExample extends PureComponent {
         }
         <SpeechBubble
           label={ slideData.exampleLabel }
+          explanation={ explanation }
           htmlContent={ example }
           isCodeExample={ true }
         />

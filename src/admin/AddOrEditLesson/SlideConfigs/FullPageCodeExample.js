@@ -18,6 +18,13 @@ class FullPageCodeExample extends Component {
           component={ KiwiTextField }
         />
         <Field
+          name={ `${slideRef}.explanation` }
+          label='Explanation'
+          component={ KiwiTextField }
+          multiline={ true }
+          rows={ 4 }
+        />
+        <Field
           name={ `${slideRef}.exampleLabel` }
           label='Example Box Label'
           component={ KiwiTextField }
