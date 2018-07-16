@@ -4,17 +4,17 @@ import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 import get from 'lodash/get'
+import Link from 'react-router-dom/Link'
+
+import withoutMainNavigation from '../hocs/withoutMainNavigation'
 import { checkProfileEmailVerification } from '../actions'
 
 const styles = {
   container: {
     textAlign: 'center',
     verticalAlign: 'middle',
-    height: '80vh'
-  },
-  message: {
-    position: 'relative',
-    top: '50%'
+    height: '80vh',
+    paddingTop: '45vh'
   }
 }
 
@@ -35,7 +35,10 @@ class EmailVerification extends Component {
   render() {
     return (
       <div style={ styles.container }>
-        <h3 style={ styles.message }>Your email is verified! Thank you :)</h3>
+        <h3>Your email is verified! Thank you :)</h3>
+        <Link to='/'>
+          Take me back home.
+        </Link>
       </div>
     )
   }
@@ -48,4 +51,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default withRouter(connect(null, mapDispatchToProps)(EmailVerification))
+export default withoutMainNavigation(withRouter(connect(null, mapDispatchToProps)(EmailVerification)))
