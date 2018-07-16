@@ -60,7 +60,7 @@ class ChangePasswordForm extends Component {
           component={ KiwiTextField }
         />
         <Button variant='outlined' type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
-          Save
+          Change Password
         </Button>
         { submitting && <span>Saving...</span> }
         <div style={ styles.result }>

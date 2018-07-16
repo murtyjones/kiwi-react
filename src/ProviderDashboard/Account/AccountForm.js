@@ -77,7 +77,7 @@ class AccountForm extends Component {
           </div>
         }
         <SubmitButton
-          text='Save'
+          text='Save Profile'
           { ...this.props }
           onClick={ handleSubmit }
         />

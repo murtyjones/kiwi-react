@@ -145,26 +145,26 @@ class FullPageCode extends Component {
           component={ KiwiTextField }
         />
         <Field
+          name={ `${slideRef}.promptPictureUrl` }
+          label='Prompt Picture URL'
+          component={ KiwiTextField }
+        />
+        <Field
           name={ `${slideRef}.prompt` }
           label='Prompt'
           component={ RichTextEditor }
           variableOptions={ variableOptions }
         />
         <Field
-          name={`${slideRef}.hasExample` }
-          label='Include example?'
+          name={`${slideRef}.hasHint` }
+          label='Include hint?'
           component={ Toggle }
           style={ { width: 'auto' } }
         />
-        { slideValues.hasExample &&
+        { slideValues.hasHint &&
           <Fragment>
             <Field
-              name={ `${slideRef}.promptPictureUrl` }
-              label='Example Picture URL'
-              component={ KiwiTextField }
-            />
-            <Field
-              name={`${slideRef}.example` }
+              name={`${slideRef}.hint` }
               label='Example Code'
               component={ RichTextEditor }
               variableOptions={ variableOptions }

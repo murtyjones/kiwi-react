@@ -3,12 +3,12 @@ import * as T from 'prop-types'
 
 const themeAssetLinks = {
   neighborhood: {
-    topLeft: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-houses-top-left_tzjpd7.svg'
-    , topRight: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-houses-top-right_xwqruk.svg'
-    , pattern: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197222/map-houses-pattern_li95mt.svg'
+    topLeft: 'https://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-houses-top-left_tzjpd7.svg'
+    , topRight: 'https://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-houses-top-right_xwqruk.svg'
+    , pattern: 'https://res.cloudinary.com/kiwi-stage/image/upload/v1517197222/map-houses-pattern_li95mt.svg'
   }
-  , egypt: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517606739/map-egypt-withtexture_rezm0p.svg'
-  , moon: 'http://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-moon_bo03vn.svg'
+  , egypt: 'https://res.cloudinary.com/kiwi-stage/image/upload/v1517606739/map-egypt-withtexture_rezm0p.svg'
+  , moon: 'https://res.cloudinary.com/kiwi-stage/image/upload/v1517197076/map-moon_bo03vn.svg'
 }
 
 const styles = {

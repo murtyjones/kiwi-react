@@ -59,19 +59,19 @@ const TeamSection = () =>
     <TeamMember
       name='Julia Lamorelle'
       position='Chief Executive Officer'
-      imageUrl='http://res.cloudinary.com/kiwi-stage/image/upload/v1522032620/julia_ayw2yd.jpg'
+      imageUrl='https://res.cloudinary.com/kiwi-stage/image/upload/v1522032620/julia_ayw2yd.jpg'
       description='Julia drives Kiwi’s strategic vision and partnerships. Her background includes consulting, education programs and STEM committees. Julia is passionate about mentoring youth and creative solutions in education. She loves reading, art museums and copious amounts of coffee.'
     />
     <TeamMember
       name='Marty Jones'
       position='Chief Technical Officer'
-      imageUrl='http://res.cloudinary.com/kiwi-stage/image/upload/v1522032620/murty_jyfotu.jpg'
+      imageUrl='https://res.cloudinary.com/kiwi-stage/image/upload/v1522032620/murty_jyfotu.jpg'
       description='Marty leads the Kiwi Development Team. After working at Goldman Sachs, he moved into Software Development as a self-taught programmer. Marty is an advocate for independent learning and wants to share that with kids. He loves hiking, traveling and teaching himself new programming concepts.'
     />
     <TeamMember
       name='Ben Poppel'
       position='Chief Product Officer'
-      imageUrl='http://res.cloudinary.com/kiwi-stage/image/upload/v1522032621/ben_znisgj.jpg'
+      imageUrl='https://res.cloudinary.com/kiwi-stage/image/upload/v1522032621/ben_znisgj.jpg'
       description='Ben oversees Kiwi’s product strategy, product growth and user experience. After graduating from Harvard, he worked with numerous startups as a Product Owner. He is passionate about data, user experience and startups. In his free time, he loves exploring Austin and urban gardening.'
     />
   </div>

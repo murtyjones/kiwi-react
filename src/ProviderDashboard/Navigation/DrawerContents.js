@@ -6,7 +6,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import AccountBox from '@material-ui/icons/AccountBox'
 import CreditCard from '@material-ui/icons/CreditCard'
-import LockOutline from '@material-ui/icons/LockOutline'
 import RecentActors from '@material-ui/icons/RecentActors'
 import Hidden from '@material-ui/core/Hidden'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -14,14 +13,12 @@ import cns from 'classnames'
 
 import Billing from '../Billing/Billing'
 import Students from '../Students/Students'
-import ChangePassword from '../ChangePassword/ChangePassword'
 import Account from '../Account/Account'
 import { insertIntoObjectIf } from '../../utils/insertIf'
 
 export const MENU_ITEMS = [
   { label: 'My Account', section: 'account', component: Account, Icon: AccountBox },
   { label: 'Students', section: 'students', component: Students, Icon: RecentActors },
-  { label: 'Password', section: 'reset-password', component: ChangePassword, Icon: LockOutline },
   { label: 'Billing', section: 'billing', component: Billing, Icon: CreditCard }
 ]
 

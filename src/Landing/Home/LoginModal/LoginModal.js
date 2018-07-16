@@ -131,7 +131,7 @@ class LoginModal extends Component {
               display: activeSlideIndex > 0 ? 'inline-block' : 'none',
               backgroundImage: isStudentSignIn
                 ? 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/KidCarl_xly3ot.svg)'
-                : 'url(http://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/PapaCarl_cehuft.svg)'
+                : 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/PapaCarl_cehuft.svg)'
             } }
           />
         }

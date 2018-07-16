@@ -21,16 +21,33 @@ import 'codemirror/addon/hint/show-hint.css'
 
 const defaultExampleHtml = 'Example'
 
+const codeEditorHeight = 'calc(50vh - 200px)'
+
 const styles = theme => ({
   dabblewopper: {
     height: '100%',
     width: '100%',
-    zIndex: 99999,
+    zIndex: 99999
+  },
+  dabblewopperHead: {
     position: 'absolute',
+    bottom: codeEditorHeight,
+    height: '400px',
+    width: '100%',
+    backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1531777332/Dabblewopper/dabblewopper_top_2.svg)',
     backgroundRepeat: 'no-repeat',
-    backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1531090895/dabblewopper_o4g2bm.svg)',
     backgroundPosition: 'center bottom',
-    backgroundSize: 'calc(100% - 20px)'
+    backgroundSize: '100%'
+  },
+  dabblewopperBody: {
+    position: 'absolute',
+    bottom: 0,
+    height: codeEditorHeight,
+    width: '100%',
+    backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1531777299/Dabblewopper/dabblewopper_bottom_3_3.svg)',
+    backgroundRepeat: 'repeat-y',
+    backgroundPosition: '0.48px bottom',
+    backgroundSize: '1300px 6px'
   },
   speechBubble: {
     margin: '5% auto 0 auto',
@@ -38,22 +55,23 @@ const styles = theme => ({
   },
   dabblewopperId: {
     position: 'absolute',
-    bottom: '100px',
-    left: '70px',
+    bottom: '15%',
+    left: '65px',
     backgroundColor: '#2e0402',
     transform: 'rotate(270deg)',
-    height: '30px',
-    lineHeight: '30px',
-    width: '80px',
+    height: '45px',
+    lineHeight: '45px',
+    width: '120px',
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    fontSize: '16pt'
   },
   dabblewopperSideButtonContainer: {
     position: 'absolute',
     right: '4px',
-    bottom: '40px',
+    bottom: '5%',
     backgroundColor: '#2e0402',
     width: '120px',
     borderRadius: '5px',
@@ -72,31 +90,33 @@ const styles = theme => ({
   },
   codeEditor: {
     margin: '0 auto',
-    height: '280px',
+    height: codeEditorHeight,
+    minHeight: '100px',
     bottom: '60px',
     position: 'absolute',
     left: '177px',
     right: '141px',
-    borderRadius: '15px',
-    border: '5px solid #debd5b',
+    borderRadius: '20px',
+    border: '10px solid #debd5b',
     zIndex: 100001,
     '&:after': {
       content: '" "',
       display: 'block',
       position: 'absolute',
-      top: -15,
-      bottom: -15,
-      left: -15,
-      right: -15,
-      borderRadius: '25px',
-      border: '10px solid #2e0402',
+      top: -10,
+      bottom: -10,
+      left: -10,
+      right: -10,
+      borderRadius: '20px',
+      border: '2px solid #2e0402',
     }
   },
   dabblewopperControls: {
+    width: 300,
+    right: 'calc(50% - 150px)',
+    bottom: 20,
     position: 'absolute',
-    bottom: 15,
-    width: '400px',
-    right: '50%',
+    textAlign: 'center',
     '& div': {
       cursor: 'pointer',
       display: 'inline',
@@ -106,7 +126,7 @@ const styles = theme => ({
       fontWeight: 'bold',
       borderRadius: '5px',
       border: '2px solid rgba(0,0,0,0.5)',
-      padding: '5px 10px',
+      padding: '10px 20px',
       marginRight: 20,
       opacity: 0.85,
       '&:hover': {
@@ -177,6 +197,8 @@ class FullPageCodeEditor extends PureComponent {
     return (
       <Fragment>
         <div className={ classes.dabblewopper }>
+          <div className={ classes.dabblewopperHead } />
+          <div className={ classes.dabblewopperBody } />
           <SpeechBubble
             className={ classes.speechBubble }
             label={ promptLabel }

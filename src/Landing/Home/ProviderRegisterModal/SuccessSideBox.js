@@ -16,7 +16,7 @@ const styles = theme => ({
     boxShadow: 'none'
   },
   right: {
-    background: 'url(http://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/PapaCarl_cehuft.svg) no-repeat',
+    background: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1529364339/PapaCarl_cehuft.svg) no-repeat',
     backgroundPosition: 'center 90%',
     backgroundSize: 'auto 80%'
   }

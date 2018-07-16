@@ -31,6 +31,7 @@ const styles = theme => ({
   bubbleContent: {
     display: 'inline-block',
     verticalAlign: 'top',
+    marginLeft: 10,
     '& p, strong, b, i, u, span': {
       margin: 0
     }

@@ -9,6 +9,8 @@ const styles = {
     , left: '0'
     , top: '0'
     , boxSizing: 'border-box'
+    , borderTopLeftRadius: '10px'
+    , borderBottomLeftRadius: '10px'
   }
 }
 

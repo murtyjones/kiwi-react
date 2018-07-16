@@ -25,7 +25,7 @@ const styles = {
   },
   rowOne: {
     backgroundColor: '#3E2E61'
-    , backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516841083/projects-bg_czy2mq.svg)'
+    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-stage/image/upload/v1516841083/projects-bg_czy2mq.svg)'
     , backgroundSize: '100%'
     , width: '100%'
     , paddingBottom: '70.67%'
@@ -52,7 +52,7 @@ const styles = {
     , marginTop: '-45%'
   },
   rowTwo: {
-    backgroundImage: 'url(http://res.cloudinary.com/kiwi-stage/image/upload/v1516844617/projects-bg-tile_gopn6b.svg)'
+    backgroundImage: 'url(https://res.cloudinary.com/kiwi-stage/image/upload/v1516844617/projects-bg-tile_gopn6b.svg)'
     , backgroundColor: '#654E93'
     , backgroundSize: '100%'
     , width: '100%'

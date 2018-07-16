@@ -60,7 +60,7 @@ class InvalidSubscription extends PureComponent {
       <div className={ classes.container }>
         <img
           className={ classes.carl }
-          src='http://res.cloudinary.com/kiwi-prod/image/upload/v1529182059/sad_carl_uppk8x.svg'
+          src='https://res.cloudinary.com/kiwi-prod/image/upload/v1529182059/sad_carl_uppk8x.svg'
         />
         <div className={ classes.message }>
           <h1 className={ classes.h1 }>Whoops!</h1>

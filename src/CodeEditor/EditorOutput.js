@@ -19,17 +19,17 @@ const styles = theme => ({
     , backgroundColor: 'rgb(246, 246, 246)'
     , boxShadow: 'none'
     , borderRadius: 0
-    , border: '1px solid #CCCCCC'
+    , border: '2px solid #2e0402'
     , borderLeft: 0
-    , borderTopRightRadius: '10px'
-    , borderBottomRightRadius: '10px'
+    , borderTopRightRadius: 10
+    , borderBottomRightRadius: 10
   },
   textareaStyle: {
     padding: '12px 0 0 0'
     , boxSizing: 'border-box'
-    , border: '0px'
-    , margin: '0px'
-    , height: '16px'
+    , border:  0
+    , margin: 0
+    , height: 16
     , fontFamily: 'monospace'
     , width: '179px'
     , background: 'transparent'
