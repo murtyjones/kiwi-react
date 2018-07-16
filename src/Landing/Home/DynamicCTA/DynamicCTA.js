@@ -1,11 +1,37 @@
 import React, { PureComponent, Fragment } from 'react'
+import withStyles from '@material-ui/core/styles/withStyles'
 import cns from 'classnames'
 
-import './overrides.css'
+const styles = theme => ({
+  dynamicSlogan: {
+    position: 'fixed',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    paddingBottom: 2,
+    transition: 'height 100s',
+    zIndex: 51,
+    '@media (max-width: 500px)': {
+      '&.upTop': {
+        display: 'none'
+      }
+    }
+  },
+  dynamicHeader: {
+    '@media (max-width: 768px)': {
+      height: 60,
+      padding: 15
+    }
+  },
+  dynamicCTAButton: {
+    '@media (max-width: 768px)': {
+      top: 15
+    }
+  },
+})
 
 const makeMass = () => 4 - window.scrollY / 200
 
-export default class DynamicHeader extends PureComponent {
+class DynamicHeader extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,7 +52,7 @@ export default class DynamicHeader extends PureComponent {
   }
 
   render() {
-    const { text = '', smallText = '', fixPoint } = this.props
+    const { classes, text = '', smallText = '', fixPoint } = this.props
     const { mass } = this.state
     const minTopMass = 1.7
     const topMass = Math.max(mass, 0)
@@ -82,7 +108,7 @@ export default class DynamicHeader extends PureComponent {
       <Fragment>
 
         <span
-          className={ cns('dynamicSlogan', { 'upTop': textMass <= fixPoint }) }
+          className={ cns(classes.dynamicSlogan, { 'upTop': textMass <= fixPoint }) }
           style={ sloganStyle }
         >
           { textMass <= fixPoint ? smallText : text }
@@ -90,7 +116,7 @@ export default class DynamicHeader extends PureComponent {
 
 
         <div
-          className={ cns('dynamicCTAButton', 'hvr-grow') }
+          className={ cns(classes.dynamicCTAButton, 'hvr-grow') }
           style={ buttonStyle }
           onClick={ this.props.onClick }
         >
@@ -101,3 +127,5 @@ export default class DynamicHeader extends PureComponent {
     )
   }
 }
+
+export default withStyles(styles, { withTheme: true })(DynamicHeader)

@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
+import withStyles from '@material-ui/core/styles/withStyles'
+
 import NextArrow from './NextArrow'
 import DynamicCTA from './DynamicCTA/DynamicCTA'
 
-const styles = {
+const styles = theme => ({
   homePageOne: {
     height: '100vh'
     , width: '100%'
     , position: 'relative'
     , overflow: 'hidden'
+    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1530989774/Landing%20Page/Landing_Page_without_buttons.svg)'
+    , backgroundPosition: 'center bottom'
+    , backgroundRepeat: 'no-repeat'
+    , backgroundSize: '100%'
   },
   titleContainer: {
     textAlign: 'center'
@@ -21,47 +27,17 @@ const styles = {
     , borderBottom: '3px #9AC045 solid'
     , paddingBottom: '2px'
   }
-}
+})
 
-export default class WelcomeSection extends Component {
+class WelcomeSection extends Component {
   constructor(props) {
     super(props)
   }
 
   render() {
+    const { classes } = this.props
     return (
-      <div key='homePageOne' style={ styles.homePageOne }>
-
-
-        <img
-          key='homeDragon'
-          className='homeDragon'
-          src='../../../assets/images/landing-bg_dragon.svg'
-        />
-
-        <img
-          key='homeBackgroundLayer1'
-          className='homeBackgroundLayer1'
-          src='../../../assets/images/landing-bg_01.svg'
-        />
-
-        <img
-          key='homeBackgroundLayer2'
-          className='homeBackgroundLayer2'
-          src='../../../assets/images/landing-bg_02.svg'
-        />
-
-        <img
-          key='homeBackgroundLayer3'
-          className='homeBackgroundLayer3'
-          src='../../../assets/images/landing-bg_03.svg'
-        />
-
-        <img
-          key='homeBackgroundLayer4'
-          className='homeBackgroundLayer4'
-          src='../../../assets/images/landing-bg_04.svg'
-        />
+      <div key='homePageOne' className={ classes.homePageOne }>
         <DynamicCTA
           text='start your coding adventure today.'
           smallText='start coding today.'
@@ -78,3 +54,5 @@ export default class WelcomeSection extends Component {
     )
   }
 }
+
+export default withStyles(styles, { withTheme: true })(WelcomeSection)
