@@ -32,8 +32,7 @@ const styles = theme => ({
     padding: 0,
     fontFamily: 'Roboto',
     [theme.breakpoints.up('md')]: {
-      width: 800,
-      height: 50
+      width: 700
     }
   },
   menuItem: {

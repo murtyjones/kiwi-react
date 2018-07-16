@@ -26,8 +26,14 @@ const styles = theme => ({
     , minHeight: 50
   },
   toolbar: {
-    justifyContent: 'space-between' // for explore tech island button
+    width: '100%'
+    , maxWidth: 950
+    , minWidth: 768
+    , margin: '0 auto'
+    , justifyContent: 'space-between' // for explore tech island button
     , minHeight: 50
+    , boxSizing: 'border-box'
+    , padding: 0
   },
   content: {
     flexGrow: 1,
@@ -35,7 +41,10 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
   exploreTechIsland: {
-    borderRadius: 20
+    borderRadius: 20,
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 10
+    }
   },
   exploreLink: {
     textDecoration: 'none'

@@ -158,78 +158,78 @@ class Students extends Component {
       </Fragment>
       :
       <Fragment>
-        { !isEmpty(sortedSubscriptions) &&
-          <Fragment>
-            <h2 className='providerDashboard-sectionHeader'>
-              Subscriptions
-            </h2>
-            <Table className='subscription-table'>
-              <TableBody>
-                { sortedSubscriptions.map((subscription, i) => {
-                  const providee = profilesById[subscription.provideeId] || {}
-                  const current_period_end = moment.unix(subscription.current_period_end)
-                  const provideeDisplayName = AuthService.isPlaceholderUsernameFromUsername(providee.username || '')
-                    ? `${providee.firstName} ${providee.lastName}`
-                    : providee.username
-                  return (
-                    <TableRow key={ i } className='subscription-row'>
-                      <TableCell className='subscription-username'>
-                        { provideeDisplayName }
-                        <IconButton
-                          variant='fab'
-                          aria-label='add'
-                          className='editUserButton'
-                          onClick={ e => this.handleSubscriptionClick(e, subscription._id) }
-                        >
-                          <Edit
-                            style={ styles.editUserIcon }
-                            color={ styles.editUserColor }
-                          />
-                        </IconButton>
-                        { providee.temporaryPassword &&
-                          <span className='subscription-temporaryPassword'>
-                            <b>Temporary Password:</b> { providee.temporaryPassword }
-                          </span>
-                        }
-                      </TableCell>
-                      <TableCell className='subscription-periodEnd'>
-                        <span
-                          className={ cns({
-                            'cancelAtPeriodEnd': subscription.cancel_at_period_end
-                          }) }
-                        >
-                          { subscription.cancel_at_period_end
-                            ? current_period_end.isAfter() // isAfter now
+        <h2 className='providerDashboard-sectionHeader'>
+          Subscriptions
+        </h2>
+        { !isEmpty(sortedSubscriptions)
+          ?
+          <Table className='subscription-table'>
+            <TableBody>
+              { sortedSubscriptions.map((subscription, i) => {
+                const providee = profilesById[subscription.provideeId] || {}
+                const current_period_end = moment.unix(subscription.current_period_end)
+                const provideeDisplayName = AuthService.isPlaceholderUsernameFromUsername(providee.username || '')
+                  ? `${providee.firstName} ${providee.lastName}`
+                  : providee.username
+                return (
+                  <TableRow key={ i } className='subscription-row'>
+                    <TableCell className='subscription-username'>
+                      { provideeDisplayName }
+                      <IconButton
+                        variant='fab'
+                        aria-label='add'
+                        className='editUserButton'
+                        onClick={ e => this.handleSubscriptionClick(e, subscription._id) }
+                      >
+                        <Edit
+                          style={ styles.editUserIcon }
+                          color={ styles.editUserColor }
+                        />
+                      </IconButton>
+                      { providee.temporaryPassword &&
+                        <span className='subscription-temporaryPassword'>
+                          <b>Temporary Password:</b> { providee.temporaryPassword }
+                        </span>
+                      }
+                    </TableCell>
+                    <TableCell className='subscription-periodEnd'>
+                      <span
+                        className={ cns({
+                          'cancelAtPeriodEnd': subscription.cancel_at_period_end
+                        }) }
+                      >
+                        { subscription.cancel_at_period_end
+                          ? current_period_end.isAfter() // isAfter now
                             ? 'Expires '
                             : 'Expired '
-                            : 'Renews on ' }
-                          { current_period_end.format('MMMM Do') }
-                        </span>
-                      </TableCell>
-                      <TableCell
-                        className={
-                          cns('subscription-toggleSubscription', {
-                            'disabled': isUpdatingSubscription
-                          })
+                          : 'Renews on ' }
+                        { current_period_end.format('MMMM Do') }
+                      </span>
+                    </TableCell>
+                    <TableCell
+                      className={
+                        cns('subscription-toggleSubscription', {
+                          'disabled': isUpdatingSubscription
+                        })
+                      }
+                    >
+                      <Link to='#'
+                        onClick= { isUpdatingSubscription ? null : () =>
+                          this.toggleSubscriptionStatus(subscription)
                         }
                       >
-                        <Link to='#'
-                          onClick= { isUpdatingSubscription ? null : () =>
-                            this.toggleSubscriptionStatus(subscription)
-                          }
-                        >
-                          { subscription.status === SUBSCRIPTION_STATUSES.INACTIVE
-                            ? 'Restart Subscription'
-                            : 'Cancel Subscription'
-                          }
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  )
-                }) }
-                </TableBody>
-            </Table>
-          </Fragment>
+                        { subscription.status === SUBSCRIPTION_STATUSES.INACTIVE
+                          ? 'Restart Subscription'
+                          : 'Cancel Subscription'
+                        }
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                )
+              }) }
+            </TableBody>
+          </Table>
+          : 'No subscriptions yet...'
         }
         <Button
           variant='outlined'
