@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Hidden from '@material-ui/core/Hidden'
 import MenuIcon from '@material-ui/icons/Menu'
+import Link from 'react-router-dom/Link'
 
 import DrawerContents from './DrawerContents'
 
@@ -39,13 +40,16 @@ const styles = theme => ({
   exploreTechIsland: {
     borderRadius: '20px'
   },
+  exploreLink: {
+    textDecoration: 'none'
+  },
   '@global': {
     'img[class="kiwi-header-icon"]': {
       position: 'absolute'
       , left: '50%'
       , marginLeft: '-10px'
       , width: '20px'
-    },
+    }
   }
 })
 
@@ -70,15 +74,16 @@ class Toolbar extends Component {
             className='kiwi-header-icon'
             src ='../../../assets/images/logo-icon.svg'
           />
-          <Button
-            classes={{
-              root: classes.exploreTechIsland
-            }}
-            variant='outlined'
-            onClick={ () => this.props.history.push('/lessons') }
-          >
-            Explore Tech Island!
-          </Button>
+          <Link to='/lessons' className={ classes.exploreLink } target='_blank'>
+            <Button
+              classes={{
+                root: classes.exploreTechIsland
+              }}
+              variant='outlined'
+            >
+              Explore Tech Island!
+            </Button>
+          </Link>
         </MuiToolbar>
       </AppBar>
     )
