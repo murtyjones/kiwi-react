@@ -11,11 +11,11 @@ const styles = {
     , zIndex: 52 // just in front of dynamicHeader
   },
   linkStyle: {
-    borderBottom: '2px #FFFFFF solid'
+    borderBottom: '2px #3E2E61 solid'
     , paddingBottom: '3px'
     , cursor: 'pointer'
     , fontSize: '16pt'
-    , color: '#FFF'
+    , color: '#3E2E61'
     , textDecoration: 'none'
   }
 }

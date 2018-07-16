@@ -150,7 +150,7 @@ class ProviderRegisterModal extends Component {
   }
 
   slide6Submit = async v => {
-    this.props.history.push(`/provider/subscriptions`)
+    this.props.history.push(`/provider/students`)
     this.props.closeModal()
   }
 

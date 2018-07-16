@@ -66,6 +66,7 @@ class DynamicHeader extends PureComponent {
       , top: `${topSlogan}vh`
       , width: '100vw'
       , padding: '0 50px'
+      , textShadow: '2px 2px #AAAAAA'
       , boxSizing: 'border-box'
     }
 
@@ -84,6 +85,7 @@ class DynamicHeader extends PureComponent {
       fontWeight: 'bold',
       cursor: 'pointer',
       zIndex: 51,
+      boxShadow: '3px 3px #AAAAAA',
       textAlign: 'center'
     }
 

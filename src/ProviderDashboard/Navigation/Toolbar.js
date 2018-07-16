@@ -23,14 +23,11 @@ const styles = theme => ({
     , boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.1), 0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)'
     , color: mainColor
     , position: 'relative'
-  },
-  navIconHide: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
+    , minHeight: 50
   },
   toolbar: {
     justifyContent: 'space-between' // for explore tech island button
+    , minHeight: 50
   },
   content: {
     flexGrow: 1,
@@ -38,7 +35,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
   exploreTechIsland: {
-    borderRadius: '20px'
+    borderRadius: 20
   },
   exploreLink: {
     textDecoration: 'none'
@@ -47,33 +44,40 @@ const styles = theme => ({
     'img[class="kiwi-header-icon"]': {
       position: 'absolute'
       , left: '50%'
-      , marginLeft: '-10px'
-      , width: '20px'
+      , marginLeft: -10
+      , width: 20
     }
   }
 })
 
 class Toolbar extends Component {
   render() {
-    const { classes, text } = this.props
+    const { classes, activeIndex, onSelect, text } = this.props
 
     return (
       <AppBar className={ classes.appBar }>
         <MuiToolbar className={ classes.toolbar }>
-          <IconButton
-            aria-label='open drawer'
-            onClick={ this.props.handleDrawerToggle }
-            className={ classes.navIconHide }
-          >
-            <MenuIcon />
-          </IconButton>
+          <Hidden mdUp>
+            <IconButton
+              aria-label='open drawer'
+              onClick={ this.props.handleDrawerToggle }
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+          <Hidden smDown>
+            <DrawerContents
+              activeIndex={ activeIndex }
+              onSelect={ onSelect }
+            />
+          </Hidden>
           <Typography variant='title' color='inherit' noWrap>
             { text }
           </Typography>
-          <img
-            className='kiwi-header-icon'
-            src ='../../../assets/images/logo-icon.svg'
-          />
+          {/*<img*/}
+            {/*className='kiwi-header-icon'*/}
+            {/*src ='../../../assets/images/logo-icon.svg'*/}
+          {/*/>*/}
           <Link to='/lessons' className={ classes.exploreLink } target='_blank'>
             <Button
               classes={{

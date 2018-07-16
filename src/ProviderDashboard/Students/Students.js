@@ -33,7 +33,7 @@ const styles = {
   editUserColor: '#0074D9'
 }
 
-class Subscriptions extends Component {
+class Students extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -54,7 +54,7 @@ class Subscriptions extends Component {
   }
 
   handleSubscriptionClick = (event, subcriptionId) => {
-    this.props.history.push(`/provider/subscriptions/${subcriptionId}`)
+    this.props.history.push(`/provider/students/${subcriptionId}`)
   }
 
   handlePostSubmit = async v => {
@@ -229,16 +229,16 @@ class Subscriptions extends Component {
                 }) }
                 </TableBody>
             </Table>
-            <Button
-              variant='outlined'
-              className='addStudent'
-              type='submit'
-              onClick={ () => this.props.history.push(`/provider/subscriptions/new`) }
-            >
-              Add new student
-            </Button>
           </Fragment>
         }
+        <Button
+          variant='outlined'
+          className='addStudent'
+          type='submit'
+          onClick={ () => this.props.history.push(`/provider/students/new`) }
+        >
+          Add new student
+        </Button>
 
         <div className='subscription-updateResult'>
           { isUpdatingSubscription &&
@@ -279,4 +279,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Subscriptions))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Students))

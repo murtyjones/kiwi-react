@@ -75,6 +75,8 @@ class ProviderDashboard extends PureComponent {
     return (
       <Fragment>
         <Toolbar
+          activeIndex={ activeIndex }
+          onSelect={ i => { this.setState({ activeIndex: i }) } }
           handleDrawerToggle={ this.handleDrawerToggle }
         />
         <div className='providerDashboard-container'>
@@ -85,14 +87,7 @@ class ProviderDashboard extends PureComponent {
             handleDrawerToggle={ this.handleDrawerToggle }
           />
           <div className='providerDashboard-body'>
-            <Drawer
-              isOpen={ mobileOpen }
-              activeIndex={ activeIndex }
-              onSelect={ i => { this.setState({ activeIndex: i }) } }
-            />
-            <div className='providerDashboard-right'>
-              <ActiveMenuItemComponent />
-            </div>
+            <ActiveMenuItemComponent />
           </div>
         </div>
       </Fragment>

@@ -29,14 +29,20 @@ export default class DynamicHeader extends PureComponent {
   render() {
     const { showBackground } = this.state
 
+    const logoUrl = showBackground
+      ? '../../../assets/images/landing-logo.svg'
+      : '../../../assets/images/landing-logo-dark.svg'
+
     return (
       <div
-        className={ cns('dynamicHeader', { 'dynamicHeaderBackground': showBackground }) }
+        className={ cns('dynamicHeader', {
+          'dynamicHeaderBackground': showBackground
+        }) }
       >
         <img
           key='homeLogo'
           className='homeLogo'
-          src='../../../assets/images/landing-logo.svg'
+          src={ logoUrl}
         />
       </div>
     )
