@@ -40,7 +40,10 @@
     },
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"
-    }
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!auth0-js).+\\.js$"
+    ]
   },
   "homepage": "https://github.com/murtyjones/kiwi-react#readme",
   "dependencies": {
