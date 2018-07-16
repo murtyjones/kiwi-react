@@ -70,8 +70,8 @@ const MapBubble = ({ statefulLesson, applyNextAnimation, applyJustCompletedAnima
       >
         <h2
           style={ {
-            color: statefulLesson.colors.tertiaryColor
-            , backgroundColor: statefulLesson.colors.textColor
+            color: '#FFFFFF' // hardcoded
+            , backgroundColor: '#FFFFFF' // hardcoded
           } }
         >
           { statefulLesson.message }
@@ -80,7 +80,7 @@ const MapBubble = ({ statefulLesson, applyNextAnimation, applyJustCompletedAnima
       <div
         key='map-bubble'
         className='map-bubble'
-        style={ { backgroundColor: statefulLesson.colors.primaryColor } }
+        style={ { backgroundColor: '#624F8F' } } // hardcoded
       >
         <h1
           style={ {
