@@ -9,9 +9,9 @@ const GLOBAL_COLORS = {
   defaultLesson: {
     name: 'default'
     , textColor: '#FFFFFF'
-    , primaryColor: '#debd5b'
-    , secondaryColor: '#debd5b'
-    , tertiaryColor: '#debd5b'
+    , primaryColor: '#624F8F'
+    , secondaryColor: '#624F8F'
+    , tertiaryColor: '#624F8F'
   },
   neighborhood: {
     name: 'neighborhood'

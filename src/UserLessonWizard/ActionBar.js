@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import cns from 'classnames'
 import has from 'lodash/has'
 
-import isNumeric from '../utils/isNumeric'
-
 const styles = {
   button: {
     display: 'inline-block'
@@ -20,12 +18,12 @@ const styles = {
   prevButton: {
     left: '20px'
     , color: '#FFFFFF'
-    , backgroundColor: '#2e0402'
+    , backgroundColor: '#FFFFFF'
   },
   nextButton: {
     right: '20px'
     , color: '#FFFFFF'
-    , backgroundColor: '#2e0402'
+    , backgroundColor: '#FFFFFF'
   },
   runCodeButton: {
     left: '50%'
@@ -36,7 +34,7 @@ const styles = {
   }
 }
 
-export const PrevButton = ({ onPrevClick }) =>
+export const PrevButton = ({ onPrevClick, globalColors }) =>
   <div
     key='prevButton'
     id='prevButton'
@@ -44,6 +42,8 @@ export const PrevButton = ({ onPrevClick }) =>
     style={ {
       ...styles.button
       , ...styles.prevButton
+      , backgroundColor: globalColors.textColor
+      , color: globalColors.primaryColor
       , cursor: onPrevClick ? 'pointer' : ''
     } }
     onClick={ onPrevClick }
@@ -51,7 +51,7 @@ export const PrevButton = ({ onPrevClick }) =>
     Previous
   </div>
 
-export const NextButton = ({ onNextClick }) =>
+export const NextButton = ({ onNextClick, globalColors }) =>
   <div
     key='nextButton'
     id='nextButton'
@@ -59,6 +59,8 @@ export const NextButton = ({ onNextClick }) =>
     style={ {
       ...styles.button
       , ...styles.nextButton
+      , backgroundColor: globalColors.textColor
+      , color: globalColors.primaryColor
       , cursor: onNextClick ? 'pointer' : ''
     } }
     onClick={ onNextClick }
@@ -92,12 +94,12 @@ const ActionBar = ({ onCheckAnswer, onPrevClick, onNextClick, globalColors, incl
       style={ { backgroundColor: globalColors.primaryColor } }
     >
       { onPrevClick &&
-        <PrevButton onPrevClick={ onPrevClick } />
+        <PrevButton onPrevClick={ onPrevClick } globalColors={ globalColors } />
       }
       { includesSuccessCriteria &&
         <CheckAnswerButton onClick={ onCheckAnswerClick } />
       }
-      <NextButton onNextClick={ onNextClick } />
+      <NextButton onNextClick={ onNextClick } globalColors={ globalColors } />
     </div>
   )
 }
