@@ -76,16 +76,15 @@ class DynamicHeader extends PureComponent {
       left: '50%',
       width: '110px',
       marginLeft: '-85px',
-      backgroundColor: 'white',
-      color: '#654E93',
+      backgroundColor: '#7bc1d2',
+      color: '#FFFFFF',
       padding: '10px 30px',
       borderRadius: '25px',
       fontSize: '13pt',
-      border: '2px solid #FFFFFF',
+      border: '2px solid #7bc1d2',
       fontWeight: 'bold',
       cursor: 'pointer',
       zIndex: 51,
-      boxShadow: '3px 3px #AAAAAA',
       textAlign: 'center'
     }
 
