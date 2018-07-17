@@ -10,30 +10,29 @@ const styles = {
   fullPageExampleContainer: {
     position: 'relative' // has to be done so that child pos:abs will work
     , border: '1px solid #CCC'
-    , borderRadius: '15px'
-    , padding: '5px'
-    , paddingLeft: '20px'
-    , marginTop: '20px'
+    , borderRadius: 15
+    , padding: 5
+    , paddingLeft: 20
+    , marginTop: 20
   },
   container: {
-    width: '600px'
-    , height: '600px'
+    width: 600
     , position: 'absolute'
     , top: '50%'
     , left: '50%'
-    , marginLeft: '-300px'
-    , marginTop: '-300px'
+    , marginLeft: -300
+    , marginTop: -250
     , paddingTop: '5%'
   },
   exampleLabel: {
     display: 'inline-block'
     , position: 'absolute'
-    , top: '-10px'
-    , left: '15px'
+    , top: -10
+    , left: 15
     , background: '#FFFFFF'
-    , padding: '2px'
-    , paddingLeft: '10px'
-    , paddingRight: '10px'
+    , padding: 2
+    , paddingLeft: 10
+    , paddingRight: 10
     , fontWeight: 'bold'
     , fontSize: '14pt'
   },

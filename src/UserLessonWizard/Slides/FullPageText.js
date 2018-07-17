@@ -8,10 +8,12 @@ import SpeechBubble from '../SpeechBubble'
 
 const styles = theme => ({
   container: {
-    position: 'relative'
-    , width: '600px'
-    , maxWidth: '100%'
-    , margin: '0 auto'
+    width: 600
+    , position: 'absolute'
+    , top: '50%'
+    , left: '50%'
+    , marginLeft: -300
+    , marginTop: -250
     , paddingTop: '5%'
     , fontSize: '14pt'
   }

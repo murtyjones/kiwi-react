@@ -57,7 +57,7 @@ class Success extends Component {
             </TableHead>
             <TableBody>
               { providees.map((student, i) =>
-                <TableRow hover key={ i }>
+                <TableRow key={ i }>
                   <TableCell>{ student.username }</TableCell>
                   <TableCell>{ student.password }</TableCell>
                 </TableRow>

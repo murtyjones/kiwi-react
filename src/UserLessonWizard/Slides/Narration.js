@@ -7,13 +7,13 @@ import { createVariableNameValuePair } from '../../utils/templateUtils'
 
 const styles = theme => ({
   root: {
-    width: '800px'
-    , height: '600px'
+    width: 800
+    , height: 600
     , position: 'absolute'
     , top: '50%'
     , left: '50%'
-    , marginLeft: '-400px'
-    , marginTop: '-300px'
+    , marginLeft: -400
+    , marginTop: -250
     , paddingTop: '60px'
     , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1531085546/narration-background_olnutw.svg)'
     , backgroundSize: '100%'
@@ -25,7 +25,7 @@ const styles = theme => ({
     fontSize: '12pt',
     padding: '0 20px 20px 80px',
     overflowY: 'scroll',
-    maxHeight: '370px'
+    maxHeight: 370
   },
   '@global': {
     'em, p, strong, b, i, u, span': {
