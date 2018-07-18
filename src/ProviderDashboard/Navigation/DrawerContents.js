@@ -22,7 +22,8 @@ export const MENU_ITEMS = [
   { label: 'Billing', section: 'billing', component: Billing, Icon: CreditCard }
 ]
 
-const highlightColor = '#765C9F'
+const highlightColor1 = '#765C9F'
+const highlightColor2 = '#FFFFFF'
 
 const styles = theme => ({
   root: {
@@ -33,42 +34,45 @@ const styles = theme => ({
     }
   },
   menuItem: {
-    borderBottom: '1px solid #EEEEEE'
-    , color: '#AAAAAA'
-    , '&:hover': {
-      backgroundColor: '#f7f7f7'
-    }
-    , '&:hover > *': {
-      color: highlightColor
-    },
+    borderBottom: '1px solid #EEEEEE',
+    color: '#AAAAAA',
+    '&:hover': { backgroundColor: highlightColor2 },
+    '&:hover > *': { color: highlightColor1 },
     [theme.breakpoints.up('md')]: {
+      color: '#e6e6e6',
       display: 'inline-block',
       width: 160,
       border: 'none',
       height: '100%',
       paddingTop: 15,
       '&:hover': {
-        borderBottom: `2px solid ${highlightColor}`,
+        borderBottom: `2px solid ${highlightColor2}`,
         background: 'none'
-      }
+      },
+      '&:hover > *': { color: highlightColor2 },
     }
   },
   icon: {
     color: '#AAAAAA',
     [theme.breakpoints.up('md')]: {
+      color: '#e6e6e6',
       verticalAlign: 'top',
       marginRight: 7
     }
   },
   iconActive: {
-    color: highlightColor,
+    color: highlightColor1,
+    [theme.breakpoints.up('md')]: {
+      color: highlightColor2
+    }
   },
   menuItemActive: {
-    color: highlightColor,
+    color: highlightColor1,
     [theme.breakpoints.up('md')]: {
       display: 'inline-block',
       width: 160,
-      borderBottom: `2px solid ${highlightColor}`
+      color: highlightColor2,
+      borderBottom: `2px solid ${highlightColor2}`
     }
   },
   menuItemText: {

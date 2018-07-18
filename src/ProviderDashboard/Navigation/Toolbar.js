@@ -19,9 +19,8 @@ const mainColor = '#513d80'
 const styles = theme => ({
   appBar: {
     width: `100%`
-    , backgroundColor: '#FFF'
+    , backgroundColor: mainColor
     , boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.1), 0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)'
-    , color: mainColor
     , position: 'relative'
     , minHeight: 50
   },
@@ -35,19 +34,24 @@ const styles = theme => ({
     , boxSizing: 'border-box'
     , padding: 0
   },
+  hamburger: {
+    color: '#FFFFFF'
+  },
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
   },
-  exploreTechIsland: {
-    borderRadius: 20,
-    [theme.breakpoints.down('sm')]: {
-      marginRight: 10
-    }
+  links: {
+    width: 170
   },
-  exploreLink: {
-    textDecoration: 'none'
+  rightLink: {
+    marginLeft: 20,
+    color: 'white',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
   },
   '@global': {
     'img[class="kiwi-header-icon"]': {
@@ -68,6 +72,7 @@ class Toolbar extends Component {
         <MuiToolbar className={ classes.toolbar }>
           <Hidden mdUp>
             <IconButton
+              className={ classes.hamburger }
               aria-label='open drawer'
               onClick={ this.props.handleDrawerToggle }
             >
@@ -83,20 +88,10 @@ class Toolbar extends Component {
           <Typography variant='title' color='inherit' noWrap>
             { text }
           </Typography>
-          {/*<img*/}
-            {/*className='kiwi-header-icon'*/}
-            {/*src ='../../../assets/images/logo-icon.svg'*/}
-          {/*/>*/}
-          <Link to='/lessons' className={ classes.exploreLink } target='_blank'>
-            <Button
-              classes={{
-                root: classes.exploreTechIsland
-              }}
-              variant='outlined'
-            >
-              Explore Tech Island!
-            </Button>
-          </Link>
+          <div className={ classes.links }>
+            <a href='mailto:support@kiwicompute.com' className={ classes.rightLink }>Email Us</a>
+            <Link to='/signout' className={ classes.rightLink }>Signout</Link>
+          </div>
         </MuiToolbar>
       </AppBar>
     )

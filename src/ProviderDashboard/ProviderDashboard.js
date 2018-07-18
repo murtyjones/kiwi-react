@@ -14,6 +14,7 @@ import MobileDrawer from './Navigation/MobileDrawer'
 import Drawer from './Navigation/Drawer'
 import { MENU_ITEMS } from './Navigation/DrawerContents'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
+import { AccountInfo, PaymentInfo, ExploreTechIsland } from './HotLinks/HotLinks'
 
 const styles = theme => ({
   container: {
@@ -105,7 +106,11 @@ class ProviderDashboard extends PureComponent {
           onSelect={ i => { this.setState({ activeIndex: i }) } }
           handleDrawerToggle={ this.handleDrawerToggle }
         />
-        <DashboardHeader />
+        <DashboardHeader
+          mainMessage='hello there'
+          subMessage='nice to meet you. i love you very much. have a nice day.'
+          hotLinks={ [ AccountInfo, PaymentInfo, ExploreTechIsland ] }
+        />
         <div className={ classes.container }>
           <MobileDrawer
             isOpen={ mobileOpen }
