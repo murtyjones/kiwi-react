@@ -52,8 +52,8 @@ class Account extends Component {
     const { profile } = this.props
     return (
       <Fragment>
-        <h2 className='providerDashboard-sectionHeader'>
-          Edit your details
+        <h2 style={ { margin: '15px 0' } }>
+          Edit your profile details
         </h2>
         <AccountForm
           initialValues={ profile }
@@ -61,7 +61,7 @@ class Account extends Component {
           onSubmit={ this.handleAccountSubmit }
           onVerificationEmailClick={ this.handleVerificationEmailClick }
         />
-        <h2 className='providerDashboard-sectionHeader'>
+        <h2 style={ { margin: '15px 0' } }>
           Change your password
         </h2>
         <ChangePasswordForm

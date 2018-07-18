@@ -50,7 +50,7 @@ class Billing extends Component {
 
     return (
       <Fragment>
-        <h2 className='providerDashboard-sectionHeader'>
+        <h2 style={ { margin: '15px 0' } }>
           Manage your payment information
         </h2>
         <Stripe>

@@ -4,16 +4,41 @@ import BluebirdPromise from 'bluebird'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import has from 'lodash/has'
+import withStyles from '@material-ui/core/styles/withStyles'
+
 import { getProfileDetails, getManyProfiles, getManySubscriptions, login, register } from '../actions'
 
+import DashboardHeader from './DashboardHeader/DashboardHeader'
 import Toolbar from './Navigation/Toolbar'
 import MobileDrawer from './Navigation/MobileDrawer'
 import Drawer from './Navigation/Drawer'
 import { MENU_ITEMS } from './Navigation/DrawerContents'
-
-import './overrides.css'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
+const styles = theme => ({
+  container: {
+    width: '100%',
+    maxWidth: 950,
+    minWidth: 768,
+    margin: '0 auto',
+    paddingTop: 20,
+    minHeight: 100,
+    display: 'flex'
+  },
+  dashboard: {
+    backgroundColor: '#FFFFFF',
+    padding: '0 10px',
+    boxSizing: 'border-box',
+    position: 'relative',
+    minHeight: '100vh',
+    flexGrow: 1
+  },
+  '@global': {
+    "div[role='menu']": {
+      padding: '0 !important'
+    }
+  }
+})
 
 class ProviderDashboard extends PureComponent {
   constructor(props) {
@@ -68,6 +93,7 @@ class ProviderDashboard extends PureComponent {
   }
 
   render() {
+    const { classes } = this.props
     const { activeIndex, mobileOpen } = this.state
     const activeMenuItemObject = MENU_ITEMS[activeIndex]
     const ActiveMenuItemComponent = activeMenuItemObject.component
@@ -79,14 +105,15 @@ class ProviderDashboard extends PureComponent {
           onSelect={ i => { this.setState({ activeIndex: i }) } }
           handleDrawerToggle={ this.handleDrawerToggle }
         />
-        <div className='providerDashboard-container'>
+        <DashboardHeader />
+        <div className={ classes.container }>
           <MobileDrawer
             isOpen={ mobileOpen }
             activeIndex={ activeIndex }
             onSelect={ i => { this.setState({ activeIndex: i }) } }
             handleDrawerToggle={ this.handleDrawerToggle }
           />
-          <div className='providerDashboard-body'>
+          <div className={ classes.dashboard }>
             <ActiveMenuItemComponent />
           </div>
         </div>
@@ -114,4 +141,6 @@ const mapDispatchToProps = (dispatch) => {
 
 ProviderDashboard = withoutMainNavigation(ProviderDashboard)
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderDashboard))
+ProviderDashboard = withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderDashboard))
+
+export default withStyles(styles, { withTheme: true })(ProviderDashboard)

@@ -141,7 +141,7 @@ class Students extends Component {
     return params.id
       ?
       <Fragment>
-        <h3 className='providerDashboard-sectionHeader'>
+        <h3 style={ { margin: '15px 0' } }>
           { isEmpty(selectedSubscriptionProvideeProfile)
             ? 'Add a New Student'
             : 'Edit Student'
@@ -158,7 +158,7 @@ class Students extends Component {
       </Fragment>
       :
       <Fragment>
-        <h2 className='providerDashboard-sectionHeader'>
+        <h2 style={ { margin: '15px 0' } }>
           Subscriptions
         </h2>
         { !isEmpty(sortedSubscriptions)
