@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Grid from '@material-ui/core/Grid'
+import cns from 'classnames'
 
 const styles = theme => ({
   root: {
@@ -10,17 +11,24 @@ const styles = theme => ({
     maxWidth: 950,
     minWidth: 768,
     margin: '0 auto',
-    paddingTop: 20
+    paddingTop: 20,
+    minHeight: 100
   },
-  messageContainer: {
+  section: {
     display: 'block',
     width: '100%',
-    minHeight: '80px',
+    height: '130px',
+    [theme.breakpoints.up('md')]: {
+      display: 'inline-block',
+      width: '50%',
+    }
+  },
+  messageContainer: {
+    minHeight: 80,
+    height: '100%',
     padding: '0 20px',
     [theme.breakpoints.up('md')]: {
       padding: 0,
-      width: '50%',
-      display: 'inline-block',
       verticalAlign: 'top',
     }
   },
@@ -28,21 +36,11 @@ const styles = theme => ({
     margin: 0
   },
   subMessage: {
-    margin: 0
+    margin: 0,
+    fontStyle: 'italic'
   },
   hotLinks: {
-    flexGrow: 1,
-    textAlign: 'center',
-    width: '100%',
-    height: '130px',
-    [theme.breakpoints.up('md')]: {
-      textAlign: 'right',
-      height: '200px',
-      width: '50%',
-      position: 'absolute',
-      top: 0,
-      right: 0
-    }
+    flexGrow: 1
   }
 })
 
@@ -62,13 +60,15 @@ class DashboardHeader extends PureComponent {
     const { classes, mainMessage, subMessage, hotLinks } = this.props
     return (
       <div className={ classes.root }>
-        <div className={ classes.messageContainer }>
+        <div className={ cns(classes.section, classes.messageContainer) }>
           <h2 className={ classes.mainMessage }>{ mainMessage }</h2>
-          <h3 className={ classes.subMessage }>{ subMessage }</h3>
+          <div className={ classes.subMessage }>{ subMessage }</div>
         </div>
-        <Grid className={ classes.hotLinks } justify='center' container spacing={24}>
-          { hotLinks.map((HotLink, i) => <HotLink key={ i } /> ) }
-        </Grid>
+        <div className={ classes.section }>
+          <Grid className={ classes.hotLinks } justify='center' container spacing={24}>
+            { hotLinks.map((HotLink, i) => <HotLink key={ i } /> ) }
+          </Grid>
+        </div>
       </div>
     )
   }

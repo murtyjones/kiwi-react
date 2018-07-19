@@ -3,18 +3,12 @@ import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
-import Table from '@material-ui/core/Table'
 import BluebirdPromise from 'bluebird'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableRow from '@material-ui/core/TableRow'
-import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
-import Edit from 'material-ui-icons/Edit'
 import isEmpty from 'lodash/isEmpty'
-import Link from 'react-router-dom/Link'
-import moment from 'moment'
-import cns from 'classnames'
+import withStyles from '@material-ui/core/styles/withStyles'
+
+import Section from '../../common/Section'
 
 
 import './overrides.css'
@@ -23,17 +17,18 @@ import { register, putProfile, postSubscription, putSubscription, changePassword
 import { SUBSCRIPTION_STATUSES } from '../../constants'
 import ResultMessage from '../../common/form/ResultMessage'
 import ProvideeProfileForm from './ProvideeProfileForm'
-import AuthService from '../../utils/AuthService'
+import SubscriptionsTable from './SubscriptionsTable'
 
-const styles = {
-  editUserIcon: {
-    width: '20px',
-    height: '20px'
+const styles = theme => ({
+  addStudent: {
+    marginTop: '10px !important'
   },
-  editUserColor: '#0074D9'
-}
+  updateResult: {
+    margin: '20px 0'
+  }
+})
 
-class Students extends Component {
+class Subscriptions extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -51,10 +46,15 @@ class Students extends Component {
     , putSubscription: T.func.isRequired
     , changePassword: T.func.isRequired
     , userId: T.string.isRequired
+    , profilesById: T.object.isRequired
+    , subscriptionsById: T.object.isRequired
+    , match: T.object.isRequired
+    , history: T.object.isRequired
+    , classes: T.object.isRequired
   }
 
   handleSubscriptionClick = (event, subcriptionId) => {
-    this.props.history.push(`/provider/students/${subcriptionId}`)
+    this.props.history.push(`/provider/subscriptions/${subcriptionId}`)
   }
 
   handlePostSubmit = async v => {
@@ -130,7 +130,7 @@ class Students extends Component {
   }
 
   render() {
-    const { subscriptions, profilesById, subscriptionsById, match: { params } } = this.props
+    const { classes, subscriptions, profilesById, subscriptionsById, match: { params } } = this.props
     const { isUpdatingSubscription, updateSucceeded, errorMessage } = this.state
     const selectedSubscription = subscriptionsById[params.id] || {}
     const selectedSubscriptionProvideeProfile = profilesById[selectedSubscription.provideeId] || {}
@@ -138,15 +138,12 @@ class Students extends Component {
     const sortedSubscriptions = subscriptions
       .sort((a, b) => a.status !== SUBSCRIPTION_STATUSES.ACTIVE)
 
-    return params.id
+    return params.id || this.props.match.url.includes('new')
       ?
-      <Fragment>
-        <h3 style={ { margin: '15px 0' } }>
-          { isEmpty(selectedSubscriptionProvideeProfile)
-            ? 'Add a New Student'
-            : 'Edit Student'
-          }
-        </h3>
+      <Section headerText={ isEmpty(selectedSubscriptionProvideeProfile)
+        ? 'Add a New Student'
+        : 'Edit Student'
+      }>
         <ProvideeProfileForm
           initialValues={ selectedSubscriptionProvideeProfile }
           onSubmit={
@@ -155,96 +152,28 @@ class Students extends Component {
               : this.handlePutSubmit
           }
         />
-      </Fragment>
+      </Section>
       :
-      <Fragment>
-        <h2 style={ { margin: '15px 0' } }>
-          Subscriptions
-        </h2>
-        { !isEmpty(sortedSubscriptions)
-          ?
-          <Table className='subscription-table'>
-            <TableBody>
-              { sortedSubscriptions.map((subscription, i) => {
-                const providee = profilesById[subscription.provideeId] || {}
-                const current_period_end = moment.unix(subscription.current_period_end)
-                const provideeDisplayName = AuthService.isPlaceholderUsernameFromUsername(providee.username || '')
-                  ? `${providee.firstName} ${providee.lastName}`
-                  : providee.username
-                return (
-                  <TableRow key={ i } className='subscription-row'>
-                    <TableCell className='subscription-username'>
-                      { provideeDisplayName }
-                      <IconButton
-                        variant='fab'
-                        aria-label='add'
-                        className='editUserButton'
-                        onClick={ e => this.handleSubscriptionClick(e, subscription._id) }
-                      >
-                        <Edit
-                          style={ styles.editUserIcon }
-                          color={ styles.editUserColor }
-                        />
-                      </IconButton>
-                      { providee.temporaryPassword &&
-                        <span className='subscription-temporaryPassword'>
-                          <b>Temporary Password:</b> { providee.temporaryPassword }
-                        </span>
-                      }
-                    </TableCell>
-                    <TableCell className='subscription-periodEnd'>
-                      <span
-                        className={ cns({
-                          'cancelAtPeriodEnd': subscription.cancel_at_period_end
-                        }) }
-                      >
-                        { subscription.cancel_at_period_end
-                          ? current_period_end.isAfter() // isAfter now
-                            ? 'Expires '
-                            : 'Expired '
-                          : 'Renews on ' }
-                        { current_period_end.format('MMMM Do') }
-                      </span>
-                    </TableCell>
-                    <TableCell
-                      className={
-                        cns('subscription-toggleSubscription', {
-                          'disabled': isUpdatingSubscription
-                        })
-                      }
-                    >
-                      <Link to='#'
-                        onClick= { isUpdatingSubscription ? null : () =>
-                          this.toggleSubscriptionStatus(subscription)
-                        }
-                      >
-                        { subscription.status === SUBSCRIPTION_STATUSES.INACTIVE
-                          ? 'Restart Subscription'
-                          : 'Cancel Subscription'
-                        }
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                )
-              }) }
-            </TableBody>
-          </Table>
-          : 'No subscriptions yet...'
-        }
+      <Section headerText='Manage Subscriptions and Student Accounts'>
+        <SubscriptionsTable
+          sortedSubscriptions={ sortedSubscriptions }
+          profilesById={ profilesById }
+          isUpdatingSubscription={ isUpdatingSubscription }
+          handleSubscriptionClick={ this.handleSubscriptionClick }
+          toggleSubscriptionStatus={ this.toggleSubscriptionStatus }
+        />
         <Button
           variant='outlined'
-          className='addStudent'
+          className={ classes.addStudent }
           type='submit'
-          onClick={ () => this.props.history.push(`/provider/students/new`) }
+          onClick={ () => this.props.history.push(`/provider/subscriptions/new`) }
         >
           Add new student
         </Button>
 
-        <div className='subscription-updateResult'>
+        <div className={ classes.updateResult }>
           { isUpdatingSubscription &&
-            <div
-              className='spinner'
-            />
+            <div className='spinner' />
           }
           <ResultMessage
             submitSucceeded={ updateSucceeded }
@@ -253,7 +182,7 @@ class Students extends Component {
             error={ errorMessage ? errorMessage : '' }
           />
         </div>
-      </Fragment>
+      </Section>
   }
 }
 
@@ -279,4 +208,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Students))
+Subscriptions = withRouter(connect(mapStateToProps, mapDispatchToProps)(Subscriptions))
+
+export default withStyles(styles, { withTheme: true })(Subscriptions)

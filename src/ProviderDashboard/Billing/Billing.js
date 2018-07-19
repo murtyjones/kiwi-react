@@ -1,13 +1,13 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
-import { Field } from 'redux-form'
 import { connect } from 'react-redux'
 import { Elements } from 'react-stripe-elements'
 import { SubmissionError } from 'redux-form'
 
 import find from 'lodash/find'
 
+import Section from '../../common/Section'
 import BillingForm from './BillingForm'
 import Stripe from '../../common/form/payment/Stripe'
 import { putProfile, resendVerificationEmail, openModal } from '../../actions'
@@ -21,8 +21,12 @@ class Billing extends Component {
 
   static propTypes = {
     profile: T.object.isRequired
+    , initialValues: T.object.isRequired
     , putProfile: T.func.isRequired
+    , resendVerificationEmail: T.func.isRequired
     , openModal: T.func.isRequired
+    , userId: T.string.isRequired
+    , last4: T.string.isRequired
   }
 
   handleSubmit = async (params) => {
@@ -49,10 +53,7 @@ class Billing extends Component {
     const { initialValues, profile, last4 } = this.props
 
     return (
-      <Fragment>
-        <h2 style={ { margin: '15px 0' } }>
-          Manage your payment information
-        </h2>
+      <Section headerText='Manage your payment information'>
         <Stripe>
           <Elements>
             <BillingForm
@@ -64,7 +65,7 @@ class Billing extends Component {
             />
           </Elements>
         </Stripe>
-      </Fragment>
+      </Section>
     )
   }
 }

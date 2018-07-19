@@ -12,14 +12,14 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import cns from 'classnames'
 
 import Billing from '../Billing/Billing'
-import Students from '../Students/Students'
+import Subscriptions from '../Subscriptions/Subscriptions'
 import Account from '../Account/Account'
 import { insertIntoObjectIf } from '../../utils/insertIf'
 
 export const MENU_ITEMS = [
   { label: 'My Account', section: 'account', component: Account, Icon: AccountBox },
-  { label: 'Students', section: 'students', component: Students, Icon: RecentActors },
-  { label: 'Billing', section: 'billing', component: Billing, Icon: CreditCard }
+  { label: 'Subscriptions', section: 'subscriptions', component: Subscriptions, Icon: RecentActors },
+  { label: 'Billing', section: 'billing', component: Billing, Icon: CreditCard, hide: true }
 ]
 
 const highlightColor1 = '#765C9F'
@@ -41,7 +41,7 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       color: '#e6e6e6',
       display: 'inline-block',
-      width: 160,
+      width: 170,
       border: 'none',
       height: '100%',
       paddingTop: 15,
@@ -70,13 +70,14 @@ const styles = theme => ({
     color: highlightColor1,
     [theme.breakpoints.up('md')]: {
       display: 'inline-block',
-      width: 160,
       color: highlightColor2,
       borderBottom: `2px solid ${highlightColor2}`
     }
   },
   menuItemText: {
+    fontSize: '12pt',
     [theme.breakpoints.up('md')]: {
+      fontSize: '11pt',
       display: 'inline-block',
       padding: 0
     }
@@ -96,6 +97,11 @@ const DrawerContents = ({ onSelect, activeIndex, classes }) => (
     { MENU_ITEMS.map((each, i) => {
       const { label, Icon } = each
       const isActive = i === activeIndex
+
+      if (each.hide) {
+        return null
+      }
+
       return (
         <ListItem
           button

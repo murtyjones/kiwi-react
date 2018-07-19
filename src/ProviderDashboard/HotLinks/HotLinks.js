@@ -64,7 +64,7 @@ export const AccountInfo = withStyles(styles, { withTheme: true })(
 export const PaymentInfo = withStyles(styles, { withTheme: true })(
   ({ classes }) =>
     <Grid className={ classes.root } item xs={ 4 }>
-      <Link to='/provider/billing'className={ classes.link }>
+      <Link to='/provider/billing' className={ classes.link }>
         <div className={ classes.circle }>
           <CreditCard className={ classes.icon } />
         </div>
@@ -79,7 +79,7 @@ export const PaymentInfo = withStyles(styles, { withTheme: true })(
 export const ExploreTechIsland = withStyles(styles, { withTheme: true })(
   ({ classes }) =>
     <Grid className={ classes.root } item xs={ 4 }>
-      <Link to='/lessons'className={ classes.link }>
+      <Link to='/lessons' target='_blank' className={ classes.link }>
         <div className={ classes.circle }>
           <Public className={ classes.icon } />
         </div>

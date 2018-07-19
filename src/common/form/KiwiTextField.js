@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react'
 import cns from 'classnames'
-import TextField from '@material-ui/core/TextField'
 import withStyles from '@material-ui/core/styles/withStyles'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { TextField as ReduxFormTextField } from 'redux-form-material-ui-next'
-import has from 'lodash/has'
 
 const styles = theme => ({
   field: {

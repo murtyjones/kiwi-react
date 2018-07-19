@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import Link from 'react-router-dom/Link'
-import { connect } from 'react-redux'
+import withStyles from '@material-ui/core/styles/withStyles'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import Button from '@material-ui/core/Button'
-import MenuItem from 'material-ui/MenuItem'
 import get from 'lodash/get'
 import { injectStripe } from 'react-stripe-elements'
 
@@ -16,19 +15,25 @@ import states from '../../utils/statesArray'
 
 export const formName = 'providerDashboard-billing'
 
-const styles = {
+const successColor = '#52cc4a'
+
+const styles = theme => ({
   form: {
     width: '100%'
     , background: '#FFFFFF'
     , paddingBottom: '60px'
-  }
-}
+  },
+  sent: {
+    color: successColor
+  },
+})
 
 class BillingForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      changingCard: false
+      changingCard: false,
+      isEmailSent: false
     }
   }
 
@@ -37,10 +42,19 @@ class BillingForm extends Component {
     , handleSubmit: T.func.isRequired
     , onVerificationEmailClick: T.func.isRequired
     , last4: T.string
+    , classes: T.object.isRequired
+    , pristine: T.bool.isRequired
+    , submitting: T.bool.isRequired
+    , submitFailed: T.bool.isRequired
+    , submitSucceeded: T.bool.isRequired
+    , error: T.any
+    , isEmailVerified: T.bool
+    , stripe: T.any.isRequired
   }
 
   resendVerificationEmail = () => {
     this.props.onVerificationEmailClick()
+    this.setState({ isEmailSent: true })
   }
 
   createToken = async v => {
@@ -67,11 +81,11 @@ class BillingForm extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error, last4, isEmailVerified = true } = this.props
-    const { changingCard } = this.state
+    const { classes, handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error, last4, isEmailVerified = true } = this.props
+    const { changingCard, isEmailSent } = this.state
 
     return (
-      <form onSubmit={ handleSubmit(this.createToken) } style={ styles.form }>
+      <form onSubmit={ handleSubmit(this.createToken) } className={ classes.form }>
         { !isEmailVerified &&
           <div className='emailVerificationLine-text'>
             <span className='emailVerificationLine-warn'>Hold on!</span>
@@ -80,6 +94,7 @@ class BillingForm extends Component {
             <Link to='#' onClick={ this.resendVerificationEmail }>
               Click here to resend verification email.
             </Link>
+            { isEmailSent && <div className={ classes.sent }>Sent!</div> }
           </div>
         }
         <Field
@@ -110,23 +125,23 @@ class BillingForm extends Component {
         />
         { !!last4 && !changingCard
           ?
-            <div className='changeCardsContainer'>
-              Current card: x{last4}
-              <span className='changeCards'>
-                (
-                  <Link to='#' onClick={ () => this.setState({ changingCard: true }) }>
-                    Click here to use a different card
-                  </Link>
-                )
-              </span>
-            </div>
+          <div className='changeCardsContainer'>
+            Current card: x{last4}
+            <span className='changeCards'>
+              (
+              <Link to='#' onClick={ () => this.setState({ changingCard: true }) }>
+                Click here to use a different card
+              </Link>
+              )
+            </span>
+          </div>
           :
-            <CardField
-              containerStyle={ {
-                margin: '10px 0',
-                color: 'white'
-              } }
-            />
+          <CardField
+            containerStyle={ {
+              margin: '10px 0',
+              color: 'white'
+            } }
+          />
 
         }
         <Button
@@ -155,7 +170,10 @@ class BillingForm extends Component {
   }
 }
 
-export default injectStripe(reduxForm({
+BillingForm = injectStripe(reduxForm({
   form: formName
   , enableReinitialize: true
 })(BillingForm))
+
+
+export default withStyles(styles, { withTheme: true })(BillingForm)

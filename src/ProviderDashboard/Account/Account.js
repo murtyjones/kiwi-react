@@ -4,6 +4,7 @@ import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 
+import Section from '../../common/Section'
 import AccountForm from './AccountForm'
 import ChangePasswordForm from './ChangePasswordForm'
 import { putProfile, changePassword, resendVerificationEmail } from '../../actions'
@@ -52,21 +53,22 @@ class Account extends Component {
     const { profile } = this.props
     return (
       <Fragment>
-        <h2 style={ { margin: '15px 0' } }>
-          Edit your profile details
-        </h2>
-        <AccountForm
-          initialValues={ profile }
-          isEmailVerified={ profile.isEmailVerified }
-          onSubmit={ this.handleAccountSubmit }
-          onVerificationEmailClick={ this.handleVerificationEmailClick }
-        />
-        <h2 style={ { margin: '15px 0' } }>
-          Change your password
-        </h2>
-        <ChangePasswordForm
-          onSubmit={ this.handleChangePasswordSubmit }
-        />
+
+        <Section headerText='Edit your profile details'>
+          <AccountForm
+            initialValues={ profile }
+            isEmailVerified={ profile.isEmailVerified }
+            onSubmit={ this.handleAccountSubmit }
+            onVerificationEmailClick={ this.handleVerificationEmailClick }
+          />
+        </Section>
+
+        <Section headerText='Change your password'>
+          <ChangePasswordForm
+            onSubmit={ this.handleChangePasswordSubmit }
+          />
+        </Section>
+
       </Fragment>
     )
   }

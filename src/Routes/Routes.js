@@ -172,13 +172,13 @@ class Routes extends Component {
           path='/provider/account' component={ ProviderDashboard } { ...routeProps }
         />
         <AuthorizedRoute exact
-          path='/provider/students/new' component={ ProviderDashboard } { ...routeProps }
+          path='/provider/subscriptions/new' component={ ProviderDashboard } { ...routeProps }
         />
         <AuthorizedRoute exact
-          path='/provider/students/:id' component={ ProviderDashboard } { ...routeProps }
+          path='/provider/subscriptions/:id' component={ ProviderDashboard } { ...routeProps }
         />
         <AuthorizedRoute exact
-         path='/provider/:section/:id' component={ ProviderDashboard } { ...routeProps }
+          path='/provider/:section/:id' component={ ProviderDashboard } { ...routeProps }
         />
         <AuthorizedRoute
           path='/provider/:section' component={ ProviderDashboard } { ...routeProps }
