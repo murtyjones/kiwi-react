@@ -2,7 +2,6 @@ import React from 'react'
 import Route from 'react-router-dom/Route'
 import { isMobile } from 'react-device-detect'
 
-import withTracker from '../hocs/withTracker'
 import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
 const PlainRoute = ({ mobileRedirect, ...rest }) => {
@@ -15,4 +14,4 @@ const PlainRoute = ({ mobileRedirect, ...rest }) => {
   )
 }
 
-export default withTracker(PlainRoute)
+export default PlainRoute

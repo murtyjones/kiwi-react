@@ -1,9 +1,8 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { isMobile } from 'react-device-detect'
 
 import WithTheme from '../hocs/WithTheme'
-import withTracker from '../hocs/withTracker'
 import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
 function AuthenticatedRoute ({component: Component, isLoggedIn, title, topBarTitleDisabled, toggleTopBarTitleIsDisabled, setTopBarTitle, mobileRedirect, ...rest}) {
@@ -34,4 +33,4 @@ function AuthenticatedRoute ({component: Component, isLoggedIn, title, topBarTit
   )
 }
 
-export default withTracker(AuthenticatedRoute)
+export default AuthenticatedRoute
