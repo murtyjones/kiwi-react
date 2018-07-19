@@ -1,15 +1,16 @@
-import React from 'react';
-import gtmParts from 'react-google-tag-manager';
+import React from 'react'
+import * as T from 'prop-types'
+import gtmParts from 'react-google-tag-manager'
 
 class GoogleTagManager extends React.Component {
   componentDidMount() {
-    const dataLayerName = this.props.dataLayerName || 'dataLayer';
-    const scriptId = this.props.scriptId || 'react-google-tag-manager-gtm';
+    const dataLayerName = this.props.dataLayerName || 'dataLayer'
+    const scriptId = this.props.scriptId || 'react-google-tag-manager-gtm'
 
     if (!window[dataLayerName]) {
-      const gtmScriptNode = document.getElementById(scriptId);
+      const gtmScriptNode = document.getElementById(scriptId)
 
-      eval(gtmScriptNode.textContent);
+      eval(gtmScriptNode.textContent)
     }
   }
 
@@ -20,7 +21,7 @@ class GoogleTagManager extends React.Component {
       additionalEvents: this.props.additionalEvents || {},
       previewVariables: this.props.previewVariables || false,
       scheme: this.props.scheme || 'https:',
-    });
+    })
 
     return (
       <div>
@@ -29,17 +30,17 @@ class GoogleTagManager extends React.Component {
           {gtm.scriptAsReact()}
         </div>
       </div>
-    );
+    )
   }
 }
 
 GoogleTagManager.propTypes = {
-  gtmId: React.PropTypes.string.isRequired,
-  dataLayerName: React.PropTypes.string,
-  additionalEvents: React.PropTypes.object,
-  previewVariables: React.PropTypes.string,
-  scriptId: React.PropTypes.string,
-  scheme: React.PropTypes.string,
-};
+  gtmId: T.string.isRequired,
+  dataLayerName: T.string,
+  additionalEvents: T.object,
+  previewVariables: T.string,
+  scriptId: T.string,
+  scheme: T.string,
+}
 
-export default GoogleTagManager;
+export default GoogleTagManager
