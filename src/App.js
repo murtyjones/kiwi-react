@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import { Provider } from 'react-redux'
 import Router from 'react-router-dom/BrowserRouter'
+import GoogleTagManager from './analytics/GoogleTagManager'
 import 'babel-polyfill'
 import 'raf/polyfill' // polyfill
 import WebFont from 'webfontloader'
@@ -77,15 +78,18 @@ class App extends Component {
   render() {
     const { store } = this.props
     return (
-      <LegacyMuiThemeProvider muiTheme={  getMuiTheme() }>
-        <MuiThemeProvider theme={ theme }>
-          <Provider store={ store }>
-            <Router onUpdate={ () => window.scrollTo(0, 0) }>
-              <Root store={ store } />
-            </Router>
-          </Provider>
-        </MuiThemeProvider>
-      </LegacyMuiThemeProvider>
+      <Fragment>
+        <GoogleTagManager gtmId='GTM-TD2BTT2' />
+        <LegacyMuiThemeProvider muiTheme={  getMuiTheme() }>
+          <MuiThemeProvider theme={ theme }>
+            <Provider store={ store }>
+              <Router onUpdate={ () => window.scrollTo(0, 0) }>
+                <Root store={ store } />
+              </Router>
+            </Provider>
+          </MuiThemeProvider>
+        </LegacyMuiThemeProvider>
+      </Fragment>
     )
   }
 }
