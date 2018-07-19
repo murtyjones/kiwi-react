@@ -9,7 +9,7 @@ export default function withTracker(WrappedComponent, options = {}) {
   const HOC = class extends Component {
     componentDidMount() {
       const page = this.props.location.pathname
-      trackPage(page, options)
+      // trackPage(page, options)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -17,7 +17,7 @@ export default function withTracker(WrappedComponent, options = {}) {
       const nextPage = nextProps.location.pathname
 
       if (currentPage !== nextPage) {
-        trackPage(nextPage, options)
+        // trackPage(nextPage, options)
       }
     }
 
