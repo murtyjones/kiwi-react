@@ -79,7 +79,7 @@ class App extends Component {
     const { store } = this.props
     return (
       <Fragment>
-        <GoogleTagManager gtmId='GTM-TD2BTT2' />
+        <GoogleTagManager gtmId='GTM-TJPSGHC' />
         <LegacyMuiThemeProvider muiTheme={  getMuiTheme() }>
           <MuiThemeProvider theme={ theme }>
             <Provider store={ store }>
