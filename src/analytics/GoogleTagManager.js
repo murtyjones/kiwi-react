@@ -1,34 +1,45 @@
-import React, { Fragment } from 'react'
-import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
-import gtmParts from 'react-google-tag-manager'
+import React from 'react';
+import gtmParts from 'react-google-tag-manager';
 
-const GoogleTagManager = ({gtmId, dataLayerName, events, previewVariables}) => {
-  const gtm = gtmParts({id: gtmId, dataLayerName, events, previewVariables})
+class GoogleTagManager extends React.Component {
+  componentDidMount() {
+    const dataLayerName = this.props.dataLayerName || 'dataLayer';
+    const scriptId = this.props.scriptId || 'react-google-tag-manager-gtm';
 
-  const gtmNode = !window[dataLayerName]
-    ? ReactDOM.createPortal(gtm.scriptAsReact(), document.head)
-    : undefined
+    if (!window[dataLayerName]) {
+      const gtmScriptNode = document.getElementById(scriptId);
 
-  return (
-    <Fragment>
-      {gtmNode}
-      {gtm.noScriptAsReact()}
-    </Fragment>
-  )
+      eval(gtmScriptNode.textContent);
+    }
+  }
+
+  render() {
+    const gtm = gtmParts({
+      id: this.props.gtmId,
+      dataLayerName: this.props.dataLayerName || 'dataLayer',
+      additionalEvents: this.props.additionalEvents || {},
+      previewVariables: this.props.previewVariables || false,
+      scheme: this.props.scheme || 'https:',
+    });
+
+    return (
+      <div>
+        <div>{gtm.noScriptAsReact()}</div>
+        <div id={this.props.scriptId || 'react-google-tag-manager-gtm'}>
+          {gtm.scriptAsReact()}
+        </div>
+      </div>
+    );
+  }
 }
 
 GoogleTagManager.propTypes = {
-  gtmId: PropTypes.string.isRequired,
-  dataLayerName: PropTypes.string,
-  events: PropTypes.shape(),
-  previewVariables: PropTypes.string,
-}
+  gtmId: React.PropTypes.string.isRequired,
+  dataLayerName: React.PropTypes.string,
+  additionalEvents: React.PropTypes.object,
+  previewVariables: React.PropTypes.string,
+  scriptId: React.PropTypes.string,
+  scheme: React.PropTypes.string,
+};
 
-GoogleTagManager.defaultProps = {
-  dataLayerName: "dataLayer",
-  events: {},
-  previewVariables: "",
-}
-
-export default GoogleTagManager
+export default GoogleTagManager;
