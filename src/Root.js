@@ -70,6 +70,8 @@ class Root extends Component {
   static propTypes = {
     isLoggedIn: T.bool.isRequired
     , isAdmin: T.bool.isRequired
+    , isProvider: T.bool.isRequired
+    , toggleTopBarTitleIsDisabled: T.bool.isRequired
     , topBar: T.object.isRequired
     , setTopBarTitle: T.func.isRequired
     , closeSideNav: T.func.isRequired
@@ -78,6 +80,7 @@ class Root extends Component {
     , modal: T.object.isRequired
     , globalColors: T.object.isRequired
     , sideNav: T.object.isRequired
+    , userId: T.object.isRequired
   }
 
   toggleSideNav = () => {
