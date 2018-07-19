@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import Modal from 'react-modal'
@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet'
 
 import './utils/refreshToken'
 
+import GoogleTagManager from './analytics/GoogleTagManager'
 import Routes from './Routes/Routes'
 import { closeSideNav, openSideNav, closeModal, setTopBarTitle, toggleTopBarTitleIsDisabled, signout } from './actions'
 
@@ -91,59 +92,62 @@ class Root extends Component {
     const topBarWidthString = `${topBar.topBarHeight}px`
 
     return (
-      <div>
-        { process.env.NODE_ENV !== 'production' &&
-            <EnvironmentReminder />
-        }
-        <Helmet>
-          <title>Kiwi Compute</title>
-        </Helmet>
-        <Modal
-          isOpen={ modal.isOpen }
-          onRequestClose={ this.props.closeModal }
-          className={ cns('kiwi-modal', modal.className) }
-          overlayClassName={ modal.overlayClassName ? modal.overlayClassName : 'ModalOverlay' }
-        >
-          <div
-            className='x-sm x-black'
-            style={ { position: 'absolute', top: 20, right: 20 } }
-            onClick={ this.props.closeModal }
-          />
-          { modal.children }
-        </Modal>
-        <SideNav
-          isOpen={ sideNav.isSideNavOpen }
-          toggleSideNav={ this.toggleSideNav }
-          isLoggedIn={ isLoggedIn }
-          isAdmin={ isAdmin }
-          isProvider={ isProvider }
-          toggleTopBarTitleIsDisabled={ toggleTopBarTitleIsDisabled }
-          { ...globalColors }
-        />
-        <TopBar
-          isOpen={ topBar.isTopBarOpen }
-          backgroundColor={ globalColors.primaryColor }
-          textColor={ globalColors.textColor }
-          isFocused={ topBar.topBarFocused }
-          title={ topBar.topBarTitle }
-          titleDisabled={ topBar.topBarTitleDisabled }
-          sideNavWidth={ sideNav.sideNavWidth }
-          handleTitleChange={ setTopBarTitle }
-          toggleSideNav={ this.toggleSideNav }
-        />
-        <div
-          className={ cns('baseAppStyles') }
-          style={ {
-            ...baseAppStyle,
-            top: topBarWidthString
-            }
+      <Fragment>
+        <GoogleTagManager gtmId='GTM-TJPSGHC' />
+        <div>
+          { process.env.NODE_ENV !== 'production' &&
+              <EnvironmentReminder />
           }
-        >
-          <div style={ nonMenuStyle }>
-            <Routes />
-            </div>
+          <Helmet>
+            <title>Kiwi Compute</title>
+          </Helmet>
+          <Modal
+            isOpen={ modal.isOpen }
+            onRequestClose={ this.props.closeModal }
+            className={ cns('kiwi-modal', modal.className) }
+            overlayClassName={ modal.overlayClassName ? modal.overlayClassName : 'ModalOverlay' }
+          >
+            <div
+              className='x-sm x-black'
+              style={ { position: 'absolute', top: 20, right: 20 } }
+              onClick={ this.props.closeModal }
+            />
+            { modal.children }
+          </Modal>
+          <SideNav
+            isOpen={ sideNav.isSideNavOpen }
+            toggleSideNav={ this.toggleSideNav }
+            isLoggedIn={ isLoggedIn }
+            isAdmin={ isAdmin }
+            isProvider={ isProvider }
+            toggleTopBarTitleIsDisabled={ toggleTopBarTitleIsDisabled }
+            { ...globalColors }
+          />
+          <TopBar
+            isOpen={ topBar.isTopBarOpen }
+            backgroundColor={ globalColors.primaryColor }
+            textColor={ globalColors.textColor }
+            isFocused={ topBar.topBarFocused }
+            title={ topBar.topBarTitle }
+            titleDisabled={ topBar.topBarTitleDisabled }
+            sideNavWidth={ sideNav.sideNavWidth }
+            handleTitleChange={ setTopBarTitle }
+            toggleSideNav={ this.toggleSideNav }
+          />
+          <div
+            className={ cns('baseAppStyles') }
+            style={ {
+              ...baseAppStyle,
+              top: topBarWidthString
+              }
+            }
+          >
+            <div style={ nonMenuStyle }>
+              <Routes />
+              </div>
+          </div>
         </div>
-      </div>
+      </Fragment>
     )
   }
 }
