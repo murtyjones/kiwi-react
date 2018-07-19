@@ -86,14 +86,16 @@ class Root extends Component {
 
   render() {
     const {
-      modal, isLoggedIn, isAdmin, isProvider, sideNav, topBar, setTopBarTitle, toggleTopBarTitleIsDisabled, globalColors
+      userId, modal, isLoggedIn, isAdmin, isProvider, sideNav, topBar, setTopBarTitle, toggleTopBarTitleIsDisabled, globalColors
     } = this.props
 
     const topBarWidthString = `${topBar.topBarHeight}px`
 
+    const additionalEvents = { userId }
+
     return (
       <Fragment>
-        <GoogleTagManager gtmId='GTM-TJPSGHC' />
+        <GoogleTagManager gtmId='GTM-TJPSGHC' additionalEvents={ additionalEvents } />
         <div>
           { process.env.NODE_ENV !== 'production' &&
               <EnvironmentReminder />
@@ -156,7 +158,7 @@ export const RootComponent = Root
 
 const mapStateToProps = (state) => {
   const {
-    auth: { isLoggedIn, isAdmin, isProvider, subscription },
+    auth: { userId, isLoggedIn, isAdmin, isProvider, subscription },
     sideNav,
     topBar,
     globalColors,
@@ -172,6 +174,7 @@ const mapStateToProps = (state) => {
     , topBar
     , globalColors
     , modal
+    , userId
   }
 }
 
