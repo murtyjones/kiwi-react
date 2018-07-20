@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Field, FieldArray } from 'redux-form'
+import * as T from 'prop-types'
 import KiwiTextField from '../../../common/form/KiwiTextField'
 import KiwiSelectField from '../../../common/form/Select/KiwiSelectField'
 import RichTextEditor from '../../../common/RichTextEditor'
@@ -28,6 +29,12 @@ const renderChoices = ({ fields }) =>
 class MultipleChoice extends Component {
   constructor(props) {
     super(props)
+  }
+
+  static propTypes = {
+    slideRef: T.string,
+    slideValues: T.object,
+    variableOptions: T.array
   }
 
   render() {

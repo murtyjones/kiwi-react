@@ -36,11 +36,11 @@ function AuthenticatedRoute ({component: Component, isLoggedIn, title, topBarTit
 
 AuthenticatedRoute.propTypes = {
   component: T.any,
-  isLoggedIn: T.bool,
+  isLoggedIn: T.bool.isRequired,
   title: T.string,
   topBarTitleDisabled: T.bool,
-  toggleTopBarTitleIsDisabled: T.bool,
-  setTopBarTitle: T.func,
+  toggleTopBarTitleIsDisabled: T.func.isRequired,
+  setTopBarTitle: T.func.isRequired,
   mobileRedirect: T.bool,
   rest: T.object,
 }

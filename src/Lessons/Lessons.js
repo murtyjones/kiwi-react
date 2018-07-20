@@ -119,7 +119,7 @@ class Lessons extends Component {
       , order: selectedLessonPosition
     }
 
-    return [
+    return (
       <Fragment>
         <BetaLessonsLink />
         <LessonMapBackground key='LessonMapBackground' />
@@ -140,7 +140,7 @@ class Lessons extends Component {
           />
         }
       </Fragment>
-    ]
+    )
   }
 
 }

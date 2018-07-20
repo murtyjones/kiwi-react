@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import * as T from 'prop-types'
 import cns from 'classnames'
 import Select from 'react-select'
-import has from 'lodash/has'
 import 'react-select/dist/react-select.css'
 import get from 'lodash/get'
+import has from 'lodash/has'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormHelperText from '@material-ui/core/FormHelperText'
 
@@ -15,6 +16,12 @@ export default class KiwiSelectField extends Component {
     this.state = {
       focused: false
     }
+  }
+
+  static propTypes = {
+    input: T.object,
+    meta: T.object,
+    options: T.object
   }
 
   render() {
@@ -43,7 +50,7 @@ export default class KiwiSelectField extends Component {
           { ...this.props }
           options={ derivedOptions }
           onChange={ v => {
-            const value = get(v, 'value', '') || v
+            const value = has(v, 'value') ? get(v, 'value', '') : v
             if (this.props.onSelectCustom) {
               this.props.onSelectCustom(value)
             }

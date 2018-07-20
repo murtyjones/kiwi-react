@@ -13,6 +13,7 @@ import { LESSON_SLIDE_TYPES } from '../constants'
 import ActionBar from './ActionBar'
 import CustomSlideBackground from './CustomSlideBackground'
 import ResultCard from '../common/ResultCard/ResultCard'
+import isNumeric from '../utils/isNumeric'
 
 // import slides
 import FullPageText from './Slides/FullPageText'
@@ -273,7 +274,7 @@ class UserLessonWizardForm extends Component {
       , onPrevClick = !prevDisabled ? this.onPrev : null
       , onNextClick = !nextDisabled ? isFinal ? this.onFinalNext : this.onNext : null
       , slideAnswerData = get(formValues, `answerData[${activeSlideIndex}]`, {})
-      , hasBeenAnswered = codeRanAtLeastOnce || !!slideAnswerData.answer || slideAnswerData.answer === 0 // for multiple choice slides
+      , hasBeenAnswered = codeRanAtLeastOnce || isNumeric(slideAnswerData.answer) // for multiple choice slides
 
     return (
       <Fragment>
