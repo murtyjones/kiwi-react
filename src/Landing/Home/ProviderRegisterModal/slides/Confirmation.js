@@ -13,6 +13,11 @@ const styles = theme => ({
   table: {
     width: '80%',
     margin: '0 auto'
+  },
+  '@global': {
+    'th, td': {
+      textAlign: 'center !important'
+    }
   }
 })
 
