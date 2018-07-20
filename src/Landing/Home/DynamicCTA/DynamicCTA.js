@@ -66,8 +66,8 @@ class DynamicHeader extends PureComponent {
       , top: `${topSlogan}vh`
       , width: '100vw'
       , padding: '0 50px'
-      , textShadow: '2px 2px #AAAAAA'
       , boxSizing: 'border-box'
+      , color: '#624F8F'
     }
 
     let buttonStyle = {
@@ -76,12 +76,12 @@ class DynamicHeader extends PureComponent {
       left: '50%',
       width: '110px',
       marginLeft: '-85px',
-      backgroundColor: '#7bc1d2',
+      backgroundColor: '#624F8F',
       color: '#FFFFFF',
       padding: '10px 30px',
       borderRadius: '25px',
       fontSize: '13pt',
-      border: '2px solid #7bc1d2',
+      border: '2px solid #624F8F',
       fontWeight: 'bold',
       cursor: 'pointer',
       zIndex: 51,
@@ -103,6 +103,8 @@ class DynamicHeader extends PureComponent {
         cursor: 'pointer',
         zIndex: 51
       }
+
+      sloganStyle.color = '#FFFFFF'
     }
 
     return (
