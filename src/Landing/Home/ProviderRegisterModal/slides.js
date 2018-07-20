@@ -8,6 +8,7 @@ import BillingInfo from './slides/BillingInfo'
 import Confirmation from './slides/Confirmation'
 import Success from './slides/Success'
 import SalesBox from './SalesBox'
+import StudentSideBox from './StudentSideBox'
 import SuccessSideBox from './SuccessSideBox'
 
 import ChoosePath from '../LoginModal/slides/ChoosePath'
@@ -23,6 +24,7 @@ export const choosePathSlide = {
 
 export const studentSignUpSlide = {
   Component: StudentSignUp, FieldComponent: Field
+  , SideComponent: StudentSideBox
   , name: 'studentSignUp'
   , headerText: 'Sorry!'
 }
@@ -78,7 +80,7 @@ export const billingInfoSlide = {
 
 export const confirmationSlide = {
   Component: Confirmation
-    , SideComponent: SalesBox
+  , SideComponent: SalesBox
   , FieldComponent: Field
   , name: 'confirmation'
   , headerText: 'Confirm your subscription!'
