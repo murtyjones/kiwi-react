@@ -12,13 +12,13 @@ export const login = ({ username, email, password }) => {
     if(email) params.email = email
     if(username) params.username = username
     return authService.login(params)
-    .then(success => {
-      dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
-      return success
-    }).catch(err => {
-      dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: err })
-      throw err
-    })
+      .then(success => {
+        dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
+        return success
+      }).catch(err => {
+        dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: err })
+        throw err
+      })
   }
 }
 

@@ -1,7 +1,8 @@
 import React from 'react'
+import * as T from 'prop-types'
 
 const ErrorMessage = props => {
-  const { successMessage, submitSucceeded, submitFailed, error, } = props
+  const { successMessage, submitSucceeded, submitFailed, error } = props
 
   if (submitFailed && error) {
     return (
@@ -20,6 +21,13 @@ const ErrorMessage = props => {
   }
 
   return null
+}
+
+ErrorMessage.propTypes = {
+  successMessage: T.string,
+  submitSucceeded: T.bool,
+  submitFailed: T.bool,
+  error: T.string
 }
 
 

@@ -61,8 +61,8 @@ class Subscriptions extends Component {
     const { register, postSubscription, putSubscription, userId } = this.props
     try {
       const profile = await register({
-        username: v.username,
-        password: v.newPassword
+        firstName: v.firstName,
+        password: v.password
       })
       // make inactive subscription
       const subscription = await postSubscription({
@@ -79,7 +79,7 @@ class Subscriptions extends Component {
         v: subscription.v
 
       })
-      return updatedSubscription.after
+      return profile // for use in the form
     } catch (err) {
       console.log(err)
       throw new SubmissionError({
@@ -92,7 +92,7 @@ class Subscriptions extends Component {
     const { putProfile, changePassword } = this.props
     try {
       let promises = [ putProfile(v) ]
-      if(v.newPassword) promises.push(changePassword(v))
+      if(v.password) promises.push(changePassword(v))
       return BluebirdPromise.all(promises)
     } catch (err) {
       console.log(err)

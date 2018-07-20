@@ -35,7 +35,8 @@ class StudentSignIn extends Component {
   }
 
   static propTypes = {
-    goToSlide: T.func.isRequired
+    goToSlide: T.func.isRequired,
+    classes: T.object.isRequired
   }
 
   render() {

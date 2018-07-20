@@ -92,7 +92,7 @@ class ProviderRegisterModal extends Component {
       this.props.register({
         firstName: providee.firstName,
         lastName: providee.lastName,
-        password: providee.password
+        temporaryPassword: providee.password
       }),
       this.props.login({
         email: providerProfileObject.email,

@@ -70,7 +70,7 @@ class Routes extends Component {
     const routeProps = {
       isLoggedIn, subscription, isAdmin,
       isProvider, setTopBarTitle, setGlobalColors,
-      toggleTopBarTitleIsDisabled,
+      toggleTopBarTitleIsDisabled, temporaryPassword,
       ...globalColors
     }
 
@@ -193,6 +193,7 @@ const mapStateToProps = (state) => {
     auth: { isLoggedIn, isAdmin, isProvider, subscription },
     globalColors,
   } = state
+
 
   return {
     isLoggedIn

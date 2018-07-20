@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import { connect } from 'react-redux'
 import { Field, reduxForm, getFormValues } from 'redux-form'
-import { Toggle, SelectField } from 'redux-form-material-ui'
 import isEmpty from 'lodash/isEmpty'
 import asyncDebounce from 'debounce-promise'
 import config from 'config'
@@ -32,40 +31,54 @@ class ProvideeProfileForm extends Component {
     this.state = {
       linkCopied: false,
       passwordConfirmed: false,
-      submittedValues: {}
+      submittedValues: {},
+      generatedUsername: '',
+      loading: false
     }
   }
 
   static propTypes = {
     initialValues: T.object.isRequired
+    , formValues: T.object.isRequired
     , handleSubmit: T.func.isRequired
     , onSubmit: T.func.isRequired
     , openModal: T.func.isRequired
     , closeModal: T.func.isRequired
+    , submitFailed: T.bool
+    , submitSucceeded: T.bool
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  setStateAsync = newState => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
+
+  async componentWillUpdate(nextProps, nextState) {
     if (nextState.passwordConfirmed && !this.state.passwordConfirmed) {
-      this.props.onSubmit(nextState.submittedValues)
+      this.setStateAsync({ loading: true })
       this.props.closeModal()
+      const r = await this.props.onSubmit(nextState.submittedValues)
+      this.setStateAsync({
+        loading: false, generatedUsername: r.username
+      })
     }
   }
 
   handleCopyLinkClick = () => this.setState({ linkCopied: true })
 
   renderSuccessMessage = () => {
-    const { initialValues, submitSucceeded } = this.props
-    const { linkCopied, passwordConfirmed } = this.state
+    const { initialValues, submitSucceeded, formValues } = this.props
+    const { linkCopied, generatedUsername, passwordConfirmed } = this.state
     if (submitSucceeded && passwordConfirmed) {
       if (!isEmpty(initialValues)) {
         return 'Profile updated!'
       }
       return (
         <CopyLink
-          text={ `${ config.host }/login` }
+          text={ `${ config.host }/student` }
           style={ { color: '#000' } }
           onCopy={ this.handleCopyLinkClick }
           linkCopied={ linkCopied }
+          formValues={ { ...formValues, username: generatedUsername } }
         />
       )
     }
@@ -89,41 +102,65 @@ class ProvideeProfileForm extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props
+    const { initialValues, handleSubmit, submitSucceeded, submitFailed } = this.props
+    const { linkCopied, loading } = this.state
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
 
+    let field1Name, field1Label, rest = {}, submitText
+    if (isEmpty(initialValues)) {
+      field1Name = 'firstName'
+      field1Label = 'First Name'
+      submitText = 'Create Student'
+    } else {
+      field1Name = 'username'
+      field1Label = 'Username'
+      rest.successText= 'That username is available!'
+      submitText = 'Save'
+    }
+    console.log(this.props)
     return (
       <form onSubmit={ derivedHandleSubmit } style={ styles.form }>
-        <Field
-          name='username'
-          label='Username'
-          component={ KiwiTextField }
-          successText='That username is available!'
-          validate={ [ required ] }
-        />
-        <Field
-          name='newPassword'
-          type='password'
-          label='New Password'
-          component={ KiwiTextField }
-          validate={ [ required, minLength6 ] }
-        />
-        <Field
-          name='confirmNewPassword'
-          type='password'
-          label='Confirm New Password'
-          component={ KiwiTextField }
-          validate={ [ required ] }
-        />
-        <SubmitButton
-          text='Save'
-          { ...this.props }
-          onClick={ derivedHandleSubmit }
-        />
-        <ResultMessage
-          { ...this.props }
-          successMessage={ this.renderSuccessMessage() }
-        />
+        { loading
+          ?
+          <div className='spinner' />
+          :
+          submitSucceeded || submitFailed || linkCopied
+            ?
+            <ResultMessage
+              { ...this.props }
+              successMessage={ this.renderSuccessMessage() }
+            />
+            :
+            <Fragment>
+              <Field
+                name={ field1Name }
+                label={ field1Label }
+                component={ KiwiTextField }
+                validate={ [ required ] }
+                { ...rest }
+              />
+              <Field
+                name='password'
+                type='password'
+                label='New Password'
+                component={ KiwiTextField }
+                validate={ [ required, minLength6 ] }
+              />
+              <Field
+                name='confirmNewPassword'
+                type='password'
+                label='Confirm New Password'
+                component={ KiwiTextField }
+                validate={ [ required ] }
+              />
+              <SubmitButton
+                text={ submitText }
+                { ...this.props }
+                onClick={ derivedHandleSubmit }
+              />
+            </Fragment>
+        }
+
       </form>
     )
   }
@@ -134,16 +171,16 @@ ProvideeProfileForm = reduxForm({
   , enableReinitialize: true
   , validate: values => {
     const errors = {}
-    if(!values.currentPassword && (values.newPassword || values.confirmNewPassword)) {
+    if(!values.currentPassword && (values.password || values.confirmNewPassword)) {
       errors.currentPassword = 'Required'
     }
-    if(!values.newPassword && (values.currentPassword || values.confirmNewPassword)) {
-      errors.newPassword = 'Required'
+    if(!values.password && (values.currentPassword || values.confirmNewPassword)) {
+      errors.password = 'Required'
     }
-    if(!values.confirmNewPassword && (values.currentPassword || values.newPassword)) {
+    if(!values.confirmNewPassword && (values.currentPassword || values.password)) {
       errors.confirmNewPassword = 'Required'
     }
-    if(values.confirmNewPassword && values.newPassword !== values.confirmNewPassword) {
+    if(values.confirmNewPassword && values.password !== values.confirmNewPassword) {
       errors.confirmNewPassword = 'Passwords do not match!'
     }
     return errors
@@ -171,6 +208,7 @@ ProvideeProfileForm = reduxForm({
   , asyncChangeFields: ['username']
 })(ProvideeProfileForm)
 
+
 const mapDispatchToProps = (dispatch) => {
   return {
     openModal: params => dispatch(openModal(params))
@@ -178,4 +216,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(ProvideeProfileForm)
+export default connect(state => ({
+  formValues: getFormValues(formName)(state)
+}), mapDispatchToProps)(ProvideeProfileForm)
