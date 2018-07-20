@@ -165,7 +165,7 @@ class FullPageCode extends Component {
           <Fragment>
             <Field
               name={`${slideRef}.hint` }
-              label='Example Code'
+              label='Hint'
               component={ RichTextEditor }
               variableOptions={ variableOptions }
             />

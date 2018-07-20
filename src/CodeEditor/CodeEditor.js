@@ -260,14 +260,15 @@ class CodeEditor extends Component {
     , setFormGlobalVariable: T.func
     , upsertUserVariable: T.func
     , toggleIsExampleActive: T.func
-    , exampleHTML: T.string
-    , isExampleActive: T.bool
+    , hintHTML: T.string
+    , isHintActive: T.bool
     , classes: T.object
     , includeCheckAnswer: T.bool
+    , onCheckAnswer: T.func
   }
 
   render() {
-    const { toggleIsExampleActive, exampleHTML, isExampleActive, className, classes, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
+    const { toggleIsExampleActive, hintHTML, isHintActive, className, classes, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput, codeIsRunning } = this.state
     const showTools = onSave || showRunButton || includeCheckAnswer
 
@@ -275,7 +276,7 @@ class CodeEditor extends Component {
       <div id='codeEditor' className={ className }>
         <div className={ classes.container }>
           <CSSTransition
-            in={ exampleHTML && isExampleActive }
+            in={ hintHTML && isHintActive }
             classNames='slideUp'
             timeout={ 300 }
             mountOnEnter={ true }
@@ -283,9 +284,9 @@ class CodeEditor extends Component {
           >
             <div
               className={ classes.hint }
-              style={ { visibility: exampleHTML && isExampleActive ? 'visible' : 'hidden' } }
+              style={ { visibility: hintHTML && isHintActive ? 'visible' : 'hidden' } }
             >
-              <div dangerouslySetInnerHTML={ { __html: exampleHTML } } />
+              <div dangerouslySetInnerHTML={ { __html: hintHTML } } />
               <div className={ cns('x-sm x-black', classes.x) } onClick={ toggleIsExampleActive } />
             </div>
           </CSSTransition>
@@ -305,7 +306,6 @@ class CodeEditor extends Component {
             editorOutput={ editorOutput }
             editorInput={ editorInput }
             errorMsg={ errorMsg }
-            exampleHTML={ exampleHTML }
             prompt={ prompt }
             value={ rawInputValue }
             inputDisabled={ !codeIsRunning }

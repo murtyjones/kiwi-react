@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import * as T from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
 
 import cns from 'classnames'
@@ -31,6 +32,15 @@ const Close = ({ onClick }) => <div className='x-sm x-black' style={ styles.clos
 class ResultCard extends Component {
   constructor(props) {
     super(props)
+  }
+
+  static propTypes = {
+    slideAnswerData: T.object,
+    currentLessonSlide: T.object,
+    toggleShowResultCard: T.func,
+    showResultCard: T.bool,
+    includePaddingForActionBar: T.bool,
+    onClick: T.bool
   }
 
   render() {

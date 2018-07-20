@@ -167,6 +167,11 @@ class FullPageCodeEditor extends PureComponent {
     , putUserVariable: T.func.isRequired
     , afterRunCode: T.func.isRequired
     , userId: T.string.isRequired
+    , onRunCode: T.func.isRequired
+    , classes: T.func.isRequired
+    , runCode: T.bool.isRequired
+    , variablesWithUserValues: T.array
+    , userVariables: T.array
   }
 
   toggleIsExampleActive = () =>
@@ -189,7 +194,7 @@ class FullPageCodeEditor extends PureComponent {
 
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
     const prompt = template(slideData.prompt, variableValues)
-    const example = template(slideData.example, variableValues)
+    const hint = template(slideData.hint, variableValues)
     const { promptPictureUrl, promptLabel } = slideData
 
     const variablesToComplete = slideData.variablesToComplete || []
@@ -220,11 +225,13 @@ class FullPageCodeEditor extends PureComponent {
             >
               Run Code
             </div>
-            <div className='dabblewopperHint'
-              onClick={ this.toggleIsExampleActive }
-            >
-              Hint
-            </div>
+            { slideData.hasHint &&
+              <div className='dabblewopperHint'
+                onClick={ this.toggleIsExampleActive }
+              >
+                Hint
+              </div>
+            }
           </div>
         </div>
         <CodeEditor
@@ -239,7 +246,7 @@ class FullPageCodeEditor extends PureComponent {
           setFormGlobalVariable={ setFormGlobalVariable }
           upsertUserVariable={ this.upsertUserVariable }
           isExampleActive={ isExampleActive }
-          exampleHTML={ example }
+          hintHTML={ hint }
           toggleIsExampleActive={ this.toggleIsExampleActive }
         />
       </Fragment>
