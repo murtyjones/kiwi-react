@@ -21,3 +21,9 @@ export const maxLength20 = maxLength(20)
 export const passwordsMatch = (password, confirmPassword) => {
   return password && confirmPassword && password === confirmPassword
 }
+
+
+export const alphaNumeric = value =>
+  value && /[^a-zA-Z0-9\-.+_]/i.test(value)
+    ? 'You may only user letters, numbers, and these symbols: plus (+) underscore (_) dash (–) period (.)'
+    : undefined

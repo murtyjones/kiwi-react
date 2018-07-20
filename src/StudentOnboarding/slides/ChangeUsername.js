@@ -7,7 +7,7 @@ import SlideInOut from '../../common/animations/SlideInOut'
 import KiwiTextField from '../../common/form/KiwiTextField'
 import SubmitButton from '../../common/form/SubmitButton'
 import ResultMessage from '../../common/form/ResultMessage'
-import { required } from '../../utils/validationUtils'
+import { required, alphaNumeric } from '../../utils/validationUtils'
 
 const styles = theme => ({
   root: {
@@ -69,7 +69,7 @@ class Slide extends Component {
               label='New Username'
               component={ KiwiTextField }
               style={ { width: '80%', margin: 'auto' } }
-              validate={ [ required ] }
+              validate={ [ required, alphaNumeric ] }
             />
             <SubmitButton
               text="Let's go!"

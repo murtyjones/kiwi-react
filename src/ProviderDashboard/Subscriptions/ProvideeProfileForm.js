@@ -11,7 +11,7 @@ import validateUsernameAvailability from './validateUsernameAvailability'
 import SubmitButton from '../../common/form/SubmitButton'
 import ResultMessage from '../../common/form/ResultMessage'
 import CopyLink from '../../common/CopyLink/CopyLink'
-import { minLength6, required } from '../../utils/validationUtils'
+import { minLength6, required, alphaNumeric } from '../../utils/validationUtils'
 import { openModal, closeModal } from '../../actions'
 import ConfirmPasswordModal from '../../common/modals/ConfirmPasswordModal/ConfirmPasswordModal'
 
@@ -136,7 +136,7 @@ class ProvideeProfileForm extends Component {
                 name={ field1Name }
                 label={ field1Label }
                 component={ KiwiTextField }
-                validate={ [ required ] }
+                validate={ [ required, alphaNumeric ] }
                 { ...rest }
               />
               <Field
