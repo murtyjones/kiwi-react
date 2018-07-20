@@ -22,13 +22,13 @@ export const login = ({ username, email, password }) => {
   }
 }
 
-export const register = ({ username, firstName, lastName, email, password }) => {
+export const register = ({ username, firstName, lastName, email, ...rest }) => {
   return dispatch => {
     dispatch({ type: ACTIONS.REGISTER_REQUEST })
     const params = {
       method: 'POST',
       body: {
-        password, firstName, lastName
+        firstName, lastName, ...rest
       }
     }
     if (email) params.body.email = email
@@ -36,13 +36,13 @@ export const register = ({ username, firstName, lastName, email, password }) => 
 
     const maybeProviderPath = email ? 'provider' : ''
     return ApiFetch(`${config.api}/auth/register/${maybeProviderPath}`, params)
-    .then(success => {
-      dispatch({ type: ACTIONS.REGISTER_SUCCESS, payload: success })
-      return success
-    }).catch(err => {
-      dispatch({ type: ACTIONS.REGISTER_FAILURE, payload: err })
-      throw err
-    })
+      .then(success => {
+        dispatch({ type: ACTIONS.REGISTER_SUCCESS, payload: success })
+        return success
+      }).catch(err => {
+        dispatch({ type: ACTIONS.REGISTER_FAILURE, payload: err })
+        throw err
+      })
 
   }
 }
@@ -51,14 +51,14 @@ export const signout = () => {
   return dispatch => {
     dispatch({ type: ACTIONS.SIGNOUT_REQUEST })
     return authService.signout()
-    .then(res => {
-      dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: res })
-      return res
-    }).catch(err => {
-      dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: err })
-      throw err
-    })
-  }
+      .then(res => {
+        dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: res })
+        return res
+      }).catch(err => {
+        dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: err })
+        throw err
+      })
+    }
 }
 
 export const refreshToken = (payload) => {

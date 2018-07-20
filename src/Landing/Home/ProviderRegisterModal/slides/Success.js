@@ -5,9 +5,11 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import Link from 'react-router-dom/Link'
 
 import SlideInOut from '../../../../common/animations/SlideInOut'
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles'
+import config from 'config'
 
 const styles = theme => ({
   table: {
@@ -30,6 +32,7 @@ class Success extends Component {
     goToPrevSlide: T.func.isRequired,
     formValues: T.object.isRequired,
     providees: T.object.isRequired,
+    classes: T.object.isRequired,
   }
 
   render() {
@@ -46,7 +49,7 @@ class Success extends Component {
         <div className='providerRegisterForm-slide'>
           <h5>
             Your student { accountOrAccounts } { areOrIs } created! Your { studentOrStudents } can
-            get started at <a href='https://www.kiwicompute.com/student'>kiwicompute.com/student</a>
+            get started at <Link to='/student' target='_blank'>{ config.host }/student</Link>
           </h5>
           <Table className={ classes.table }>
             <TableHead>
