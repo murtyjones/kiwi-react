@@ -74,20 +74,7 @@ class CodeEditor extends Component {
     this.codeMirror = null
   }
 
-  static propTypes = {
-    editorInput: T.string.isRequired
-    , options: T.object
-    , className: T.string
-    , onSave: T.func
-    , onChange: T.func
-    , runCode: T.bool
-    , afterRunCode: T.func
-    , showRunButton: T.bool
-    , variableOptions: T.array
-    , variablesToComplete: T.array
-    , setFormGlobalVariable: T.func
-    , upsertUserVariable: T.func
-  }
+
 
   componentWillReceiveProps(nextProps) {
     if(this.props.editorInput !== nextProps.editorInput) {
@@ -259,9 +246,30 @@ class CodeEditor extends Component {
     this.props.onCheckAnswer(editorInput, editorOutput)
   }
 
+  static propTypes = {
+    editorInput: T.string.isRequired
+    , options: T.object
+    , className: T.string
+    , onSave: T.func
+    , onChange: T.func
+    , runCode: T.bool
+    , afterRunCode: T.func
+    , showRunButton: T.bool
+    , variableOptions: T.array
+    , variablesToComplete: T.array
+    , setFormGlobalVariable: T.func
+    , upsertUserVariable: T.func
+    , toggleIsExampleActive: T.func
+    , exampleHTML: T.string
+    , isExampleActive: T.bool
+    , classes: T.object
+    , includeCheckAnswer: T.bool
+  }
+
   render() {
-    const { closeExample, exampleHTML, isExampleActive, className, classes, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
+    const { toggleIsExampleActive, exampleHTML, isExampleActive, className, classes, options, onSave, variablesToComplete, includeCheckAnswer = false, showRunButton = true } = this.props
     const { editorOutput, errorMsg, prompt, rawInputValue, editorInput, codeIsRunning } = this.state
+    const showTools = onSave || showRunButton || includeCheckAnswer
 
     return (
       <div id='codeEditor' className={ className }>
@@ -278,7 +286,7 @@ class CodeEditor extends Component {
               style={ { visibility: exampleHTML && isExampleActive ? 'visible' : 'hidden' } }
             >
               <div dangerouslySetInnerHTML={ { __html: exampleHTML } } />
-              <div className={ cns('x-sm x-black', classes.x) } onClick={ closeExample } />
+              <div className={ cns('x-sm x-black', classes.x) } onClick={ toggleIsExampleActive } />
             </div>
           </CSSTransition>
           <EditorInput
@@ -304,11 +312,13 @@ class CodeEditor extends Component {
             setInputRef={ this.getChildRef }
             variablesToComplete={ variablesToComplete }
           />
-          <Tools
-            onSave={ onSave ? this.handleSave : null }
-            onRun={ showRunButton ? this.runCode : null }
-            onCheckAnswer={ includeCheckAnswer ? this.handleCheckAnswer : null }
-          />
+          { showTools &&
+            <Tools
+              onSave={ onSave ? this.handleSave : null }
+              onRun={ showRunButton ? this.runCode : null }
+              onCheckAnswer={ includeCheckAnswer ? this.handleCheckAnswer : null }
+            />
+          }
         </div>
       </div>
     )

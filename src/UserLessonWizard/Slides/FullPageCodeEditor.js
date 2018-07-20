@@ -240,7 +240,7 @@ class FullPageCodeEditor extends PureComponent {
           upsertUserVariable={ this.upsertUserVariable }
           isExampleActive={ isExampleActive }
           exampleHTML={ example }
-          closeExample={ this.toggleIsExampleActive }
+          toggleIsExampleActive={ this.toggleIsExampleActive }
         />
       </Fragment>
     )
