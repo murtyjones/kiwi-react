@@ -40,14 +40,14 @@ export default class ProvideesSignup extends Component {
               component={ KiwiTextField }
               label='Student First Name'
               validate={ [ required ] }
-              addlInputLabelProps={{ shrink: true }}
+              addlInputLabelProps={ { shrink: true } }
             />
             <Field
               name={ `${ref}.lastName` }
               component={ KiwiTextField }
               label='Last Name'
               validate={ [ required ] }
-              addlInputLabelProps={{ shrink: true }}
+              addlInputLabelProps={ { shrink: true } }
             />
           </div>
       </SlideInOut>

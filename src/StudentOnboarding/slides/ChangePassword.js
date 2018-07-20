@@ -79,6 +79,7 @@ class Slide extends Component {
               label='New Password'
               component={ KiwiTextField }
               type='password'
+              addlInputLabelProps={ { shrink: true } }
               style={ { width: '80%', margin: 'auto' } }
               validate={ [ required ] }
             />
@@ -87,6 +88,7 @@ class Slide extends Component {
               label='Confirm Password'
               component={ KiwiTextField }
               type='password'
+              addlInputLabelProps={ { shrink: true } }
               style={ { width: '80%', margin: 'auto' } }
               validate={ [ required ] }
             />

@@ -31,27 +31,27 @@ export default class ProvideesSignupSuccess extends Component {
             component={ KiwiTextField }
             label='Name on Card'
             validate={ [ required ] }
-            addlInputLabelProps={{ shrink: true }}
+            addlInputLabelProps={ { shrink: true } }
           />
           <Field
             name={ billingInfoSlide.names[1] }
             component={ KiwiTextField }
             label='Address'
             validate={ [ required ] }
-            addlInputLabelProps={{ shrink: true }}
+            addlInputLabelProps={ { shrink: true } }
           />
           <Field
             name={ billingInfoSlide.names[2] }
             component={ KiwiTextField }
             label='(Optional) Address Line 2'
-            addlInputLabelProps={{ shrink: true }}
+            addlInputLabelProps={ { shrink: true } }
           />
           <Field
             name={ billingInfoSlide.names[3] }
             component={ KiwiTextField }
             label='City'
             validate={ [ required ] }
-            addlInputLabelProps={{ shrink: true }}
+            addlInputLabelProps={ { shrink: true } }
           />
           <Field
             name={ billingInfoSlide.names[4] }

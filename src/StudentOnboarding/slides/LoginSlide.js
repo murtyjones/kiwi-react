@@ -68,7 +68,7 @@ class Slide extends Component {
               name='username'
               label='Username'
               component={ KiwiTextField }
-              // style={ { width: '80%', margin: 'auto' } }
+              addlInputLabelProps={ { shrink: true } }
               validate={ [ required ] }
             />
             <Field
@@ -76,7 +76,7 @@ class Slide extends Component {
               label='Password'
               component={ KiwiTextField }
               type='password'
-              // style={ { width: '80%', margin: 'auto' } }
+              addlInputLabelProps={ { shrink: true } }
               validate={ [ required ] }
             />
             <SubmitButton
