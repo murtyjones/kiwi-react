@@ -70,7 +70,7 @@ class Routes extends Component {
     const routeProps = {
       isLoggedIn, subscription, isAdmin,
       isProvider, setTopBarTitle, setGlobalColors,
-      toggleTopBarTitleIsDisabled, temporaryPassword,
+      toggleTopBarTitleIsDisabled,
       ...globalColors
     }
 
