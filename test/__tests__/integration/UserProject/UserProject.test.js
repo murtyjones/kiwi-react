@@ -83,7 +83,7 @@ describe('UserProject', () => {
       ApiFetch.mockReset()
     })
 
-    describe('componentWillMount', () => {
+    describe('UNSAFE_componentWillMount', () => {
       it('should dispatch the appropriate requests', () => {
         expect(dispatchSpy).not.toBeCalledWith({ type: ACTIONS.GET_USER_PROJECT_REQUEST })
       })
@@ -210,7 +210,7 @@ describe('UserProject', () => {
       ApiFetch.mockReset()
     })
 
-    describe('componentWillMount', () => {
+    describe('UNSAFE_componentWillMount', () => {
       it('should dispatch the appropriate requests', () => {
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_USER_PROJECT_REQUEST })
       })

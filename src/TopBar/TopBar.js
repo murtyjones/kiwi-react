@@ -58,7 +58,7 @@ class TopBar extends PureComponent {
     , backgroundColor: T.string
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { title, isFocused } = this.props
     const { title: nextTitle, isFocused: nextIsFocused } = nextProps
 

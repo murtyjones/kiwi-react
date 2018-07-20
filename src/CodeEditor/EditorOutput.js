@@ -159,7 +159,7 @@ class EditorOutput extends Component {
     }
   }
 
-  async componentWillReceiveProps(nextProps) {
+  async UNSAFE_componentWillReceiveProps(nextProps) {
     const valueHasChanged = nextProps.value !== this.props.value
     if(nextProps.value && valueHasChanged) {
       this.setState({ value: nextProps.value })

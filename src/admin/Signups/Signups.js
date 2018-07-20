@@ -39,7 +39,7 @@ class Signups extends Component {
 
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     const messages = await getManyMessages()
     this.setState({ messages})
   }

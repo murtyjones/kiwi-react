@@ -43,7 +43,7 @@ class LoginModalForm extends Component {
     , goToSlide: T.func.isRequired
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.activeSlideIndex !== this.props.activeSlideIndex) {
       this.props.clearSubmitErrors(formName)
     }

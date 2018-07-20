@@ -13,12 +13,12 @@ export default function withoutMainNavigation(WrappedComponent, options = {}) {
       openTopBar: T.func.isRequired,
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
       this.props.closeSideNav()
       this.props.closeTopBar()
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.props.closeSideNav()
       this.props.closeTopBar()
     }

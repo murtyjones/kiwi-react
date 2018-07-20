@@ -29,7 +29,7 @@ class AddOrEditVariable extends Component {
 
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { getVariable, match: { params: { id } } } = this.props
     const { needsVariable } = this.state
     if(needsVariable) {
@@ -37,7 +37,7 @@ class AddOrEditVariable extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(!isEqual(this.props.initialValues, nextProps.initialValues)) {
       this.setState({ isNewVariable: false, needsVariable: false })
     }

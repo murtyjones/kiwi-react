@@ -28,7 +28,7 @@ class AddOrEditLesson extends Component {
 
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { getLesson, getManyVariables, match: { params: { id } } } = this.props
     const { needsLesson } = this.state
     if(needsLesson) {
@@ -38,7 +38,7 @@ class AddOrEditLesson extends Component {
     getManyVariables()
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(!isEqual(this.props.initialValues, nextProps.initialValues)) {
       this.setState({ isNewLesson: false, needsLesson: false })
     }

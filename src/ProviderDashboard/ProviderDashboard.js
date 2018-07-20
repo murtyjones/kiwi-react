@@ -100,7 +100,7 @@ class ProviderDashboard extends PureComponent {
     , match: T.object.isRequired
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     const { userId, getProfileDetails, getManySubscriptions, getManyProfiles } = this.props
     const promises = [
       getManySubscriptions({ providerId: userId }),
@@ -110,7 +110,7 @@ class ProviderDashboard extends PureComponent {
     await BluebirdPromise.all(promises)
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     // replace browser history if activeIndex has changed
     if(has(nextState, 'activeIndex') && nextState.activeIndex !== this.state.activeIndex) {
       const base = '/provider'

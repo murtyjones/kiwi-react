@@ -97,12 +97,12 @@ class MapItems extends PureComponent {
     , lessonJustCompletedId: T.string.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { mapLessons, activeLessonId } = this.props
     this.setBubbleAvailabilities(mapLessons, activeLessonId)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {mapLessons, activeLessonId} = this.props
       , {mapLessons: nextMapLessons, activeLessonId: nextActiveLessonId} = nextProps
       , mapLessonsHasChanged = !isEqual(mapLessons, nextMapLessons)

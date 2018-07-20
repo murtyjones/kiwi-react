@@ -59,7 +59,7 @@ class ProviderRegisterModal extends Component {
     , wasStudentSignIn: T.bool
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.fromLogin) {
       this.setState({ activeSlideIndex: 1 }) // skip first slide
     }

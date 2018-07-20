@@ -68,7 +68,7 @@ class Slides extends Component {
   }
 
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { allSlideValues } = this.props
     const { allSlideValues: nextAllSlideValues } = nextProps
     const { localSlideTypes } = this.state

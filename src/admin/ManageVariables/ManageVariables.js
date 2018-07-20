@@ -21,7 +21,7 @@ class ManageVariables extends Component {
     , deleteVariable: T.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { getManyVariables } = this.props
     getManyVariables()
   }

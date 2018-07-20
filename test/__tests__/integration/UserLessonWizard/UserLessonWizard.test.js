@@ -155,7 +155,7 @@ describe('UserLessonWizard', () => {
       ApiFetch.mockReset()
     })
 
-    describe('componentWillMount', () => {
+    describe('UNSAFE_componentWillMount', () => {
       it('should dispatch the appropriate requests', () => {
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_USER_VARIABLES_REQUEST })
         expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.GET_MANY_VARIABLES_REQUEST })

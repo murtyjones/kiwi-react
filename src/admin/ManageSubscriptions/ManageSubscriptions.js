@@ -30,7 +30,7 @@ class ManageSubscriptions extends Component {
     , getManyProfiles: T.func.isRequired
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     this.props.getManySubscriptions()
     this.props.getManyProfiles()
   }

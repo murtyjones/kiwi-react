@@ -18,7 +18,7 @@ class RegisterForm extends PureComponent {
     }
   }
 
-  async componentWillReceiveProps(nextProps) {
+  async UNSAFE_componentWillReceiveProps(nextProps) {
     if(nextProps.submitSucceeded && !this.props.submitSucceeded) {
       // prevent the user from spamming the button,
       // even if the attempt failed.

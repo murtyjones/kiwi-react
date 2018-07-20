@@ -11,7 +11,7 @@ export default class WithTheme extends Component {
     toggleTopBarTitleIsDisabled(topBarTitleDisabled)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { title, topBarTitleDisabled } = this.props
     const { title: nextTitle, topBarTitleDisabled: nextTopBarTitleDisabled = true, setTopBarTitle, toggleTopBarTitleIsDisabled } = nextProps
     if(title !== nextTitle) setTopBarTitle(nextTitle || '')

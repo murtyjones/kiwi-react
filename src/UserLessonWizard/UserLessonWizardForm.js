@@ -106,7 +106,7 @@ class UserLessonWizardForm extends Component {
     , variablesWithUserValues: T.array.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { lesson, activeSlideIndex, formValues, isFetchingUserLessons } = this.props
     this.setActiveSlideObject(activeSlideIndex, lesson)
     this.setPrevDisabled(activeSlideIndex, lesson)
@@ -114,7 +114,7 @@ class UserLessonWizardForm extends Component {
     this.setIsFinal(activeSlideIndex, lesson)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const lessonHasChanged = !isEqual(nextProps.lesson, this.props.lesson)
       , activeSlideIndexHasChanged = !isEqual(nextProps.activeSlideIndex, this.props.activeSlideIndex)
       , isFetchingUserLessonsHasChanged = !isEqual(nextProps.isFetchingUserLessons, this.props.isFetchingUserLessons)
@@ -132,7 +132,7 @@ class UserLessonWizardForm extends Component {
     }
   }
 
-  async componentWillUpdate(nextProps, nextState) {
+  async UNSAFE_componentWillUpdate(nextProps, nextState) {
     const slideCurrentValues = get(nextProps.formValues, `answerData[${nextProps.activeSlideIndex}]`)
     const slideOldValues = get(this.props.formValues, `answerData[${nextProps.activeSlideIndex}]`)
     const slideHasUpdated = slideCurrentValues.updatedAt !== slideOldValues.updatedAt

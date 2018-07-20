@@ -57,7 +57,7 @@ class UserLessonWizard extends Component {
     , variablesWithUserValues: T.array.isRequired
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     const { userId, match: { params: { id } } } = this.props
     const promises = [
       this.props.getManyUserVariables()
@@ -78,7 +78,7 @@ class UserLessonWizard extends Component {
     this.props.setGlobalColors(GLOBAL_COLORS.default)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const lessonIdHasChanged = !isEqual(this.props.match.params.id, nextProps.match.params.id)
       , userIdHasChanged = !isEqual(nextProps.userId, this.props.userId)
       , newGlobalColors = GLOBAL_COLORS.defaultLesson

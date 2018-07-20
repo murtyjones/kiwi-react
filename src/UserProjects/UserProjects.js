@@ -78,21 +78,21 @@ class UserProjects extends Component {
     , userId: T.string.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getUserProjectData()
     this.setUserProjectsByUpdatedAt(this.props.userProjects)
     this.setUserProjectsByCreatedAt(this.props.userProjects)
     this.setColorOrder(this.state.userProjectsByUpdatedAt, this.state.userProjectsByCreatedAt)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(!isEqual(this.props.userProjects, nextProps.userProjects)) {
       this.setUserProjectsByUpdatedAt(nextProps.userProjects)
       this.setUserProjectsByCreatedAt(nextProps.userProjects)
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     const userProjectsByUpdatedAtHasChanged = !isEqual(this.state.userProjectsByUpdatedAt, nextState.userProjectsByUpdatedAt)
     const userProjectsByCreatedAtHasChanged = !isEqual(this.state.userProjectsByCreatedAt, nextState.userProjectsByCreatedAt)
     const needsColorOrdering = isEmpty(nextState.colorOrdering) && (!isEmpty(nextState.userProjectsByUpdatedAt) && !isEmpty(nextState.userProjectsByCreatedAt))

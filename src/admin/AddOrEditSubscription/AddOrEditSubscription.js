@@ -28,7 +28,7 @@ class AddOrEditSubscription extends Component {
 
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { getSubscription, match: { params: { id } } } = this.props
     const { needsSubscription } = this.state
     if(needsSubscription) {
@@ -36,7 +36,7 @@ class AddOrEditSubscription extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(!isEqual(this.props.initialValues, nextProps.initialValues)) {
       this.setState({ isNewSubscription: false, needsSubscription: false })
     }

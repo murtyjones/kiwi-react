@@ -65,7 +65,7 @@ class Lessons extends Component {
     , history: T.object.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { closeSideNav, getManyLessons, getManyUserLessons, getLessonOrder, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
     getManyLessons()
     getManyUserLessons({ userId })
@@ -74,7 +74,7 @@ class Lessons extends Component {
     this.setCombinedMapLessons(orderOfPublishedLessons, lessons, userLessons)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { lessons, userLessons, orderOfPublishedLessons } = this.props
       , { lessons: nextLessons, userLessons: nextUserLessons, orderOfPublishedLessons: nextOrderOfPublishedLessons } = nextProps
       , orderHasChanged = !isEqual(orderOfPublishedLessons, nextOrderOfPublishedLessons)

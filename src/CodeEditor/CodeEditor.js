@@ -76,13 +76,13 @@ class CodeEditor extends Component {
 
 
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(this.props.editorInput !== nextProps.editorInput) {
       this.updateInput(nextProps.editorInput)
     }
   }
 
-  async componentWillUpdate(nextProps, nextState) {
+  async UNSAFE_componentWillUpdate(nextProps, nextState) {
     const { afterRunCode } = nextProps
     if(this.state.errorLine) {
       this.codeMirror.removeLineClass((this.state.errorLine - 1), 'wrap', 'errorLine')

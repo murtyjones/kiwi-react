@@ -41,7 +41,7 @@ class UserProject extends Component {
     , toggleTopBarTitleFocus: T.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { toggleTopBarTitleFocus, setTopBarTitle, getUserProject, userProject, match: { params: { id } } } = this.props
     const { isNewProject } = this.state
 
@@ -59,7 +59,7 @@ class UserProject extends Component {
 
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(!isEqual(this.props.userProject, nextProps.userProject)) {
       nextProps.setTopBarTitle(get(nextProps, 'userProject.title', ''))
       this.setState({

@@ -25,7 +25,7 @@ class ManageLessons extends Component {
     , getLessonOrder: T.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { getManyLessons, getLessonOrder } = this.props
     getManyLessons()
     getLessonOrder()

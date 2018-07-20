@@ -17,7 +17,7 @@ class renderSliderField extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(this.props.input.value !== nextProps.input.value) {
       this.setState({ value: nextProps.input.value })
     }

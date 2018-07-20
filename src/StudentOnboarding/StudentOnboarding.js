@@ -28,7 +28,7 @@ class StudentOnboarding extends Component {
     changePassword: T.func.isRequired,
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (nextState.submittedLogin !== this.state.submittedLogin) {
       nextProps.getProfileDetails({ userId: nextProps.userId })
     }
