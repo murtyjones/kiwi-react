@@ -3,7 +3,7 @@ import { Field } from 'redux-form'
 
 import SlideInOut from '../../../../common/animations/SlideInOut'
 import KiwiTextField from '../../../../common/form/KiwiTextField'
-import { required, minLength6 } from '../../../../utils/validationUtils'
+import {required, minLength6, alphaNumeric} from '../../../../utils/validationUtils'
 
 export default class ProvideesSignup extends Component {
   constructor(props) {
@@ -33,23 +33,23 @@ export default class ProvideesSignup extends Component {
 
     return fields.map((ref, i) => i === activeFieldIndex
       ?
-        <SlideInOut>
-          <div key={ i } className='providerRegisterForm-slide'>
-            <Field
-              name={ `${ref}.firstName` }
-              component={ KiwiTextField }
-              label='Student First Name'
-              validate={ [ required ] }
-              addlInputLabelProps={ { shrink: true } }
-            />
-            <Field
-              name={ `${ref}.lastName` }
-              component={ KiwiTextField }
-              label='Last Name'
-              validate={ [ required ] }
-              addlInputLabelProps={ { shrink: true } }
-            />
-          </div>
+      <SlideInOut>
+        <div key={ i } className='providerRegisterForm-slide'>
+          <Field
+            name={ `${ref}.firstName` }
+            component={ KiwiTextField }
+            label='Student First Name'
+            validate={ [ required, alphaNumeric ] }
+            addlInputLabelProps={ { shrink: true } }
+          />
+          <Field
+            name={ `${ref}.lastName` }
+            component={ KiwiTextField }
+            label='Last Name'
+            validate={ [ required, alphaNumeric ] }
+            addlInputLabelProps={ { shrink: true } }
+          />
+        </div>
       </SlideInOut>
       : null
     )
