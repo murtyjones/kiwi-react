@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import * as T from 'prop-types'
 import get from 'lodash/get'
 import cns from 'classnames'
 import CheckCircle from 'material-ui-icons/CheckCircle'
@@ -7,6 +8,7 @@ import LockOpen from 'material-ui-icons/LockOpen'
 import Card from 'material-ui/Card'
 
 import KiwiLink from '../common/KiwiLink'
+import { black, paleGrey, militaryGreen } from '../colors'
 
 const LeftIcon = ({ Icon, color }) =>
   <div className='leftIcon'>
@@ -17,18 +19,29 @@ const LeftIcon = ({ Icon, color }) =>
     />
   </div>
 
+LeftIcon.propTypes = {
+  Icon: T.any,
+  color: T.string,
+}
+
 const LinkWrapper = ({ link, children }) =>
   link
     ? <KiwiLink to={ link }>{ children }</KiwiLink>
     : <div>{ children }</div>
 
-const LessonList = props =>
+LinkWrapper.propTypes = {
+  link: T.string,
+  children: T.any,
+}
+
+const LessonList = ({ lessons = [], activeLessonId }) =>
   <Fragment>
-    { (props.lessons || []).map(each => {
-      const isUnlocked = each._id === props.activeLessonId
+    { lessons.map((each, i) => {
+      const isUnlocked = each._id === activeLessonId
       const isCompleted = get(each, 'userLesson.hasBeenCompleted')
       return (
         <LinkWrapper
+          key={ i }
           link={ isUnlocked || isCompleted ? `/lessons/${each._id}` : null }
         >
           <Card className='betaLessonCardContainer'>
@@ -42,7 +55,7 @@ const LessonList = props =>
                   isUnlocked ? LockOpen : isCompleted ? CheckCircle : Lock
                 }
                 color={
-                  isUnlocked ? '#000' : isCompleted ? '#4F8A10' : '#CCC'
+                  isUnlocked ? black : isCompleted ? militaryGreen : paleGrey
                 }
               />
               <div className='betaLessonText'>
@@ -56,5 +69,10 @@ const LessonList = props =>
       )
     }) }
   </Fragment>
+
+LessonList.propTypes = {
+  lessons: T.array,
+  activeLessonId: T.string
+}
 
 export default LessonList

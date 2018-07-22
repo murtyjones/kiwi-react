@@ -5,6 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 
 import { COMMON_ERRORS, CUSTOM_ERRORS } from './syntaxErrors'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
+import { babyBlue1, babyBlue2, mainGrey } from '../colors'
 
 const styles = theme => ({
   container: {
@@ -55,7 +56,7 @@ const styles = theme => ({
   hint: {
     fontFamily: 'Arvo'
     , padding: '15px'
-    , backgroundColor: '#8eb4ec'
+    , backgroundColor: babyBlue1
     , height: '100%'
     , width: '100%'
     , color: 'white'
@@ -79,7 +80,7 @@ const styles = theme => ({
   },
   fakeInputValue: {
     float: 'left',
-    color: '#8ca4f8',
+    color: babyBlue2,
     whiteSpace: 'pre',
     position: 'relative',
     bottom: '5px',
@@ -89,13 +90,13 @@ const styles = theme => ({
     float: 'left',
     width: '7px',
     height: '14px',
-    background: '#b4b4b4',
+    background: mainGrey,
     position: 'relative',
     bottom: '3px',
     right: '3px',
   },
   typeYourAnswer: {
-    color: '#b4b4b4',
+    color: mainGrey,
     fontSize: '8pt',
     position: 'relative',
     bottom: '6px',

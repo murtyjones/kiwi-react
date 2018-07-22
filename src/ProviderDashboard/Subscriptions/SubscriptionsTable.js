@@ -14,8 +14,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 
 import { SUBSCRIPTION_STATUSES } from '../../constants'
 import AuthService from '../../utils/AuthService'
-
-const editUserColor = '#0074D9'
+import { oceanBlue } from '../../colors'
 
 const styles = theme => ({
 
@@ -48,7 +47,7 @@ const styles = theme => ({
   editUserIcon: {
     width: '20px',
     height: '20px',
-    color: editUserColor
+    color: oceanBlue
   },
   row: {
     borderTop: '1px solid #DDD',

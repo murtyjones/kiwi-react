@@ -1,38 +1,40 @@
+import { purple, lightPurple, blue, lightBlue, white } from '../colors'
+
 const GLOBAL_COLORS = {
   default: {
     name: 'default'
-    , textColor: '#624F8F'
-    , primaryColor: '#FFFFFF'
-    , secondaryColor: '#624F8F'
-    , tertiaryColor: '#9575C9'
+    , textColor: purple
+    , primaryColor: white
+    , secondaryColor: purple
+    , tertiaryColor: lightPurple
   },
   defaultLesson: {
     name: 'default'
-    , textColor: '#FFFFFF'
-    , primaryColor: '#624F8F'
-    , secondaryColor: '#624F8F'
-    , tertiaryColor: '#624F8F'
+    , textColor: white
+    , primaryColor: purple
+    , secondaryColor: purple
+    , tertiaryColor: purple
   },
   neighborhood: {
     name: 'neighborhood'
-    , textColor: '#FFFFFF'
-    , primaryColor: '#624F8F'
-    , secondaryColor: '#624F8F'
-    , tertiaryColor: '#9575C9'
+    , textColor: white
+    , primaryColor: purple
+    , secondaryColor: purple
+    , tertiaryColor: lightPurple
   },
   egypt: {
     name: 'egypt'
-    , textColor: '#FFFFFF'
-    , primaryColor: '#624F8F'
-    , secondaryColor: '#624F8F'
-    , tertiaryColor: '#9575C9'
+    , textColor: white
+    , primaryColor: purple
+    , secondaryColor: purple
+    , tertiaryColor: lightPurple
   },
   moon: {
     name: 'moon'
-    , textColor: '#FFFFFF'
-    , primaryColor: '#00BEFA'
-    , secondaryColor: '#00BEFA'
-    , tertiaryColor: '#99E6FD'
+    , textColor: white
+    , primaryColor: blue
+    , secondaryColor: blue
+    , tertiaryColor: lightBlue
   }
 }
 

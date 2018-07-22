@@ -12,6 +12,7 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { CSSTransition } from 'react-transition-group'
+import { offWhite } from '../colors'
 
 
 import './overrides.css'
@@ -40,7 +41,7 @@ const styles = theme => ({
     top: 0,
     zIndex: 100001,
     padding: 20,
-    backgroundColor: '#f5f0f9',
+    backgroundColor: offWhite,
     borderRadius: 10,
     '& p, strong, b, i, u, span': {
       margin: 0

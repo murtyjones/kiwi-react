@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
+import React  from 'react'
 import * as T from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import IconButton from '@material-ui/core/IconButton'
 import ContentCopy from 'material-ui-icons/ContentCopy'
 import CopyToClipboard from 'react-copy-to-clipboard'
-
-const contentCopyColor = '#0074D9'
+import { oceanBlue } from '../../colors'
 
 const styles = theme => ({
   copyLoginLinkContainer: {
@@ -35,7 +34,7 @@ const styles = theme => ({
   linkCopied: {
     top: '5px',
     position: 'relative',
-    color: contentCopyColor
+    color: oceanBlue
   }
 })
 
@@ -56,7 +55,7 @@ const CopyLink = ({ classes, text, linkCopied, onCopy, formValues }) =>
         >
           <ContentCopy
             className={ classes.contentCopy }
-            color={ contentCopyColor }
+            color={ oceanBlue }
           />
         </IconButton>
       </CopyToClipboard>

@@ -1,22 +1,25 @@
 import React from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 
+import { purple, oceanBlue, darkGrey } from '../../../colors'
+
 const styles = theme => ({
   container: {
+    fontSize: '12.5pt',
     padding: '20px'
   },
   header: {
     textAlign: 'center',
-    color: '#624F8F'
+    color: purple
   },
   cost: {
-    color: '#CCC',
+    color: darkGrey,
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 10
   },
   usd: {
-    color: '#66cc52'
+    color: oceanBlue
   },
   '@global': {
     ul: {

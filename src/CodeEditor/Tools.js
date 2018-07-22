@@ -3,8 +3,9 @@ import * as T from 'prop-types'
 import PlayArrow  from 'material-ui-icons/PlayArrow'
 import Save  from 'material-ui-icons/Save'
 import ThumbsUpDown  from 'material-ui-icons/ThumbsUpDown'
+import { darkGrey, eggshellWhite, paleGrey } from '../colors'
 
-const buttonColor = '#4D4D4D'
+const buttonColor = darkGrey
   , saveSize = 22
   , runSize = 34
 
@@ -23,10 +24,10 @@ const styles = {
     , position: 'absolute'
     , width: '44px'
     , height: '44px'
-    , backgroundColor: '#edecec'
+    , backgroundColor: eggshellWhite
     , border: `1px ${buttonColor} solid`
     , cursor: 'pointer'
-    , boxShadow: '3px 3px 10px #cccccc'
+    , boxShadow: `3px 3px 10px ${paleGrey}`
   },
   runCircle: {
     bottom: '20px'
