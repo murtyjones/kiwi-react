@@ -4,29 +4,14 @@
     "node": 1,
     "es6": 1
   },
-  "rules": {
-    "indent": ["error", 2],
-    "semi": 0,
-    "no-var": 2,
-    "no-unused-vars": [1, {
-      "vars": "all",
-      "args": "none"
-    }],
-    "no-underscore-dangle": 0,
-    "no-empty": 0,
-    "space-return-throw-case": 0,
-    "react/no-find-dom-node": 0
-  },
+  "plugins": [ "react" ],
   "parser": "babel-eslint",
+  "extends": [ "eslint:recommended", "plugin:react/recommended" ],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
-  },
-  "extends": "plugin:react/recommended",
-  "plugins": [
-    "react"
-  ]
+  }
 }
