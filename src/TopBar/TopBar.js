@@ -50,6 +50,8 @@ const styles = () => ({
   title: {
     width: '100%'
     , color: 'black'
+    , '-webkit-text-fill-color': white
+    , '-webkit-opacity': 1
     , whiteSpace: 'nowrap'
     , overflow: 'hidden'
     , textOverflow: 'ellipsis'
