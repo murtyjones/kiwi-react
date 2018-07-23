@@ -24,6 +24,14 @@ class StudentOnboarding extends Component {
     closeModal: T.func.isRequired,
     getProfileDetails: T.func.isRequired,
     changePassword: T.func.isRequired,
+    isLoggedIn: T.bool.isRequired,
+    profile: T.object.isRequired,
+  }
+
+  componentDidMount() {
+    if (this.props.isLoggedIn) {
+      this.setState({ activeSlideIndex: 1 })
+    }
   }
 
   UNSAFE_componentWillUpdate(nextProps, nextState) {
@@ -58,9 +66,10 @@ class StudentOnboarding extends Component {
   }
 
   onChangePasswordSubmit = async v => {
-    const { changePassword, userId } = this.props
-    const { newPassword, tempPassword } = v
-    await changePassword({ _id: userId, currentPassword: tempPassword, newPassword })
+    const { changePassword, putProfile, userId, profile } = this.props
+    const { newPassword } = v
+    await changePassword({ _id: userId, currentPassword: profile.temporaryPassword, newPassword })
+    await putProfile({ _id: userId, temporaryPassword: '', v: profile.v })
   }
 
   handleSubmit = async v => {
@@ -97,12 +106,13 @@ class StudentOnboarding extends Component {
 
 
 const mapStateToProps = (state) => {
-  const { auth: { userId }, profiles: { profilesById } } = state
+  const { auth: { userId, isLoggedIn }, profiles: { profilesById } } = state
   const profile = profilesById[userId]
 
   return {
     userId,
-    profile
+    profile,
+    isLoggedIn
   }
 }
 

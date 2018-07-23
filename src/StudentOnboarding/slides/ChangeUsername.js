@@ -59,7 +59,8 @@ class Slide extends Component {
         <SlideInOut>
           <div className={ classes.textBox }>
             <h2>
-              Great! Now, you can choose a new username!
+              {/*Note: this text must work even if the user doesn't see slide 0*/}
+              Welcome! Choose your permanent username!
             </h2>
             <h4>
               What do you want to be called here on Tech Island?

@@ -74,7 +74,7 @@ class ProvideeProfileForm extends Component {
       }
       return (
         <CopyLink
-          text={ `${ config.host }/student` }
+          text={ config.host }
           style={ { color: '#000' } }
           onCopy={ this.handleCopyLinkClick }
           linkCopied={ linkCopied }

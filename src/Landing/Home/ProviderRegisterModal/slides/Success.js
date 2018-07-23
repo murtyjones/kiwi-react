@@ -50,7 +50,7 @@ class Success extends Component {
         <div className='providerRegisterForm-slide'>
           <h5>
             Your student { accountOrAccounts } { areOrIs } created! Your { studentOrStudents } can
-            get started at <Link to='/student' target='_blank'>{ config.host }/student</Link>
+            get started at <Link to='/student' target='_blank'>{ config.host }</Link>
           </h5>
           <Table className={ classes.table }>
             <TableHead>

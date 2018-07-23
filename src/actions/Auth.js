@@ -1,7 +1,8 @@
+import config from 'config'
+
 import AuthService from '../utils/AuthService'
 import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
-import config from 'config'
 
 const authService = new AuthService()
 

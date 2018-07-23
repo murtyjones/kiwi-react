@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
-import withRouter from 'react-router-dom/withRouter'
-import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
+import withRouter from 'react-router-dom/withRouter'
+import has from 'lodash/has'
 import orderBy from 'lodash/orderBy'
 import find from 'lodash/find'
 import get from 'lodash/get'
@@ -10,7 +10,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 
-import { getManyLessons, getManyUserLessons, getLessonOrder, setGlobalColors } from '../actions'
+import { getProfileDetails, getManyLessons, getManyUserLessons, getLessonOrder, setGlobalColors } from '../actions'
 
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
@@ -58,19 +58,22 @@ class Lessons extends Component {
     getManyLessons: T.func
     , getManyUserLessons: T.func
     , getLessonOrder: T.func
+    , getProfileDetails: T.func
     , userLessons: T.array
     , lessons: T.array
     , orderOfPublishedLessons: T.array
     , userId: T.string.isRequired
     , history: T.object.isRequired
+    , profile: T.object.isRequired
   }
 
   UNSAFE_componentWillMount() {
-    const { getManyLessons, getManyUserLessons, getLessonOrder, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
-    getManyLessons()
-    getManyUserLessons({ userId })
-    getLessonOrder()
+    const { userId, orderOfPublishedLessons, lessons, userLessons } = this.props
+    this.props.getManyLessons()
+    this.props.getManyUserLessons({ userId })
+    this.props.getLessonOrder()
     this.setCombinedMapLessons(orderOfPublishedLessons, lessons, userLessons)
+    this.props.getProfileDetails({ userId })
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -80,8 +83,12 @@ class Lessons extends Component {
       , lessonsHasChanged = !isEqual(lessons, nextLessons)
       , userLessonsHasChanged = !isEqual(userLessons, nextUserLessons)
 
-    if(orderHasChanged || lessonsHasChanged || userLessonsHasChanged)
+    if (orderHasChanged || lessonsHasChanged || userLessonsHasChanged)
       this.setCombinedMapLessons(nextOrderOfPublishedLessons, nextLessons, nextUserLessons)
+
+    if (nextProps.profile.temporaryPassword) {
+      this.props.history.push('/student')
+    }
   }
 
   setCombinedMapLessons = (orderOfPublishedLessons, lessons, userLessons) => {
@@ -145,7 +152,15 @@ class Lessons extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth: { userId }, lessonMetadata: { lessonOrder }, userLessons: { userLessonsById }, lessons: { lessonsById } } = state
+  const {
+    auth: { userId },
+    lessonMetadata: { lessonOrder },
+    userLessons: { userLessonsById },
+    lessons: { lessonsById },
+    profiles: { profilesById }
+  } = state
+
+  const profile = profilesById[userId] || {}
 
   const userLessons = cloneDeep(Object.values(userLessonsById))
     , lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
@@ -156,6 +171,7 @@ const mapStateToProps = (state) => {
     , userLessons
     , orderOfPublishedLessons
     , userId
+    , profile
   }
 }
 
@@ -165,6 +181,7 @@ const mapDispatchToProps = (dispatch) => {
     , getLessonOrder: () => dispatch(getLessonOrder())
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
     , setGlobalColors: params => dispatch(setGlobalColors(params))
+    , getProfileDetails: params => dispatch(getProfileDetails(params))
   }
 }
 Lessons = withTopBarTitle(Lessons, {

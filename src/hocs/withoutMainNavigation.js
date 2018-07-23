@@ -15,6 +15,10 @@ export default function withoutMainNavigation(WrappedComponent, options = {}) {
       this.props.closeTopBar()
     }
 
+    componentWillUpdate() {
+      this.props.closeTopBar()
+    }
+
     componentWillUnmount() {
       this.props.openTopBar()
     }
