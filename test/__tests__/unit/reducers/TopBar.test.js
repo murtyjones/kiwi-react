@@ -117,6 +117,52 @@ describe('TopBar Reducer', () => {
 
   })
 
+  describe('SET_TOP_BAR_BREADCRUMB', () => {
+    let initialState, action
+    beforeEach(() => {
+      initialState = {
+        otherStuff: 'blah'
+      }
+      action = {
+        type: ACTIONS.SET_TOP_BAR_BREADCRUMB
+        , payload: { breadcrumbLink: 'blah1', breadcrumbText: 'blah2' }
+      }
+    })
+
+    it('should modify state as expected', () => {
+      const expectedState = {
+        ...initialState,
+        ...action.payload
+      }
+      const r = topBarReducer(initialState, action)
+      expect(r).toEqual(expectedState)
+    })
+
+  })
+
+  describe('SET_TOP_BAR_MIDDLE_IS_VISIBLE', () => {
+    let initialState, action
+    beforeEach(() => {
+      initialState = {
+        otherStuff: 'blah'
+      }
+      action = {
+        type: ACTIONS.SET_TOP_BAR_MIDDLE_IS_VISIBLE
+        , payload: true
+      }
+    })
+
+    it('should modify state as expected', () => {
+      const expectedState = {
+        ...initialState,
+        showMiddleSection: action.payload
+      }
+      const r = topBarReducer(initialState, action)
+      expect(r).toEqual(expectedState)
+    })
+
+  })
+
   describe('SIGNOUT_SUCCESS', () => {
     let initialState, action
     beforeEach(() => {
@@ -128,6 +174,9 @@ describe('TopBar Reducer', () => {
 
     it('should modify state as expected', () => {
       const expectedState = {
+        breadcrumbLink: '',
+        breadcrumbText: '',
+        showMiddleSection: true,
         isTopBarOpen: true,
         topBarHeight: 60,
         topBarTitle: '',
