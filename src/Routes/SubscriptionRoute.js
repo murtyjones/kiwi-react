@@ -7,10 +7,7 @@ import AuthenticatedRoute from './AuthenticatedRoute'
 import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
 function SubscriptionRoute (props) {
-  const { subscription, isAdmin, mobileRedirect } = props
-
-  if (isMobile && mobileRedirect)
-    return <MobileRedirect />
+  const { subscription, isAdmin, redirectIfMobile } = props
 
   if (!isAdmin && !isSubscriptionValid(subscription)) {
     return (

@@ -51,9 +51,9 @@ class DashboardHeader extends PureComponent {
 
   static propTypes = {
     classes: T.object.isRequired,
-    mainMessage: T.string.mainMessage,
-    subMessage: T.string.subMessage,
-    hotLinks: T.array.hotLinks,
+    mainMessage: T.any.isRequired,
+    subMessage: T.any.isRequired,
+    hotLinks: T.array.isRequired,
   }
 
   render() {

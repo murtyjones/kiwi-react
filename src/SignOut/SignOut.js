@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import { SubmissionError } from 'redux-form'
 
 import { signout } from '../actions'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
@@ -24,7 +23,7 @@ class SignOut extends Component {
     const { signout } = this.props
     return signout()
     .then(() => {
-      this.props.history.push("/")
+      this.props.history.push('/')
     }).catch(e => {
       console.error(e)
     })
@@ -39,10 +38,6 @@ class SignOut extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout())
-    , openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openTopBar: () => dispatch(openTopBar())
-    , closeTopBar: () => dispatch(closeTopBar())
   }
 }
 

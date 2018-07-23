@@ -1,48 +1,41 @@
-import React from 'react'
+import React, { Component } from 'react'
 import withRouter from 'react-router-dom/withRouter'
 import { Route, Redirect } from 'react-router-dom'
 import { isMobile } from 'react-device-detect'
 import * as T from 'prop-types'
 
-import WithTheme from '../hocs/WithTheme'
+import withTopBarTitle from '../hocs/withTopBarTitle'
+import withTopBarBreadCrumb from '../hocs/withTopBarBreadCrumb'
 import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
-function AuthenticatedRoute ({component: Component, isLoggedIn, title, topBarTitleDisabled, toggleTopBarTitleIsDisabled, setTopBarTitle, mobileRedirect, ...rest}) {
-  if (isMobile && mobileRedirect)
+function AuthenticatedRoute (props) {
+  const { component: Component /* need this so it doesnt get passed to route */, ...rest } = props
+  console.log(props)
+  if (isMobile && rest.redirectIfMobile)
     return <MobileRedirect />
+
+  if (!rest.isLoggedIn)
+    return <Redirect to={ { pathname: '/login', state: { from: rest.location } } } />
+
+  let WrappedComponent = Component
+
+  WrappedComponent = withTopBarBreadCrumb(WrappedComponent, {
+    breadcrumbLink: props.breadcrumbLink, breadcrumbText: props.breadcrumbText
+  })
+
+  WrappedComponent = withTopBarTitle(WrappedComponent, {
+    title: props.title, topBarTitleDisabled: props.topBarTitleDisabled, showMiddleSection: props.showMiddleSection
+  })
 
   return (
     <Route
       { ...rest }
       render={
-        (props) => isLoggedIn === true
-          ?
-          <WithTheme
-            WrappedComponent={ Component }
-            title={ title }
-            topBarTitleDisabled={ topBarTitleDisabled }
-            setTopBarTitle={ setTopBarTitle }
-            toggleTopBarTitleIsDisabled={ toggleTopBarTitleIsDisabled }
-            { ...props }
-          />
-          :
-          <Redirect
-            to={ { pathname: '/login', state: { from: props.location } } }
-          />
+        props => <WrappedComponent {...props} />
       }
     />
   )
 }
 
-AuthenticatedRoute.propTypes = {
-  component: T.any,
-  isLoggedIn: T.bool.isRequired,
-  title: T.string,
-  topBarTitleDisabled: T.bool,
-  toggleTopBarTitleIsDisabled: T.func.isRequired,
-  setTopBarTitle: T.func.isRequired,
-  mobileRedirect: T.bool,
-  rest: T.object,
-}
 
 export default withRouter(AuthenticatedRoute)

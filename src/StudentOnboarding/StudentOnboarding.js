@@ -19,9 +19,7 @@ class StudentOnboarding extends Component {
   }
 
   static propTypes = {
-    closeSideNav: T.func.isRequired,
     closeTopBar: T.func.isRequired,
-    openSideNav: T.func.isRequired,
     openTopBar: T.func.isRequired,
     closeModal: T.func.isRequired,
     getProfileDetails: T.func.isRequired,

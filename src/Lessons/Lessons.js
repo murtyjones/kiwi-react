@@ -10,7 +10,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 
-import { getManyLessons, getManyUserLessons, getLessonOrder, setGlobalColors, closeSideNav } from '../actions'
+import { getManyLessons, getManyUserLessons, getLessonOrder, setGlobalColors } from '../actions'
 
 import LessonCard from './LessonCard'
 import LessonMap from './LessonMap'
@@ -55,7 +55,6 @@ class Lessons extends Component {
 
   static propTypes = {
     getManyLessons: T.func
-    , closeSideNav: T.func
     , getManyUserLessons: T.func
     , getLessonOrder: T.func
     , userLessons: T.array
@@ -66,11 +65,10 @@ class Lessons extends Component {
   }
 
   UNSAFE_componentWillMount() {
-    const { closeSideNav, getManyLessons, getManyUserLessons, getLessonOrder, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
+    const { getManyLessons, getManyUserLessons, getLessonOrder, userId, orderOfPublishedLessons, lessons, userLessons } = this.props
     getManyLessons()
     getManyUserLessons({ userId })
     getLessonOrder()
-    closeSideNav()
     this.setCombinedMapLessons(orderOfPublishedLessons, lessons, userLessons)
   }
 
@@ -166,7 +164,6 @@ const mapDispatchToProps = (dispatch) => {
     , getLessonOrder: () => dispatch(getLessonOrder())
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
     , setGlobalColors: params => dispatch(setGlobalColors(params))
-    , closeSideNav: () => dispatch(closeSideNav())
   }
 }
 

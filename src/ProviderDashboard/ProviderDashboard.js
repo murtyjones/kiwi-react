@@ -85,8 +85,6 @@ class ProviderDashboard extends PureComponent {
     , login: T.func
     , signout: T.func
     , register: T.func
-    , closeSideNav: T.func
-    , openSideNav: T.func
     , openTopBar: T.func
     , closeTopBar: T.func
     , history: T.any
@@ -100,7 +98,7 @@ class ProviderDashboard extends PureComponent {
     , match: T.object.isRequired
   }
 
-  async UNSAFE_componentWillMount() {
+  async componentDidMount() {
     const { userId, getProfileDetails, getManySubscriptions, getManyProfiles } = this.props
     const promises = [
       getManySubscriptions({ providerId: userId }),
@@ -110,17 +108,17 @@ class ProviderDashboard extends PureComponent {
     await BluebirdPromise.all(promises)
   }
 
-  UNSAFE_componentWillUpdate(nextProps, nextState) {
+  componentDidUpdate(prevProps, prevState) {
     // replace browser history if activeIndex has changed
-    if(has(nextState, 'activeIndex') && nextState.activeIndex !== this.state.activeIndex) {
+    if(has(this.state, 'activeIndex') && this.state.activeIndex !== prevState.activeIndex) {
       const base = '/provider'
-      const append = `/${MENU_ITEMS[nextState.activeIndex].section}`
-      this.props.history.replace(base + append)
+      const append = `/${MENU_ITEMS[this.state.activeIndex].section}`
+      prevProps.history.replace(base + append)
     }
     // change activeIndex if url has changed
-    if(nextProps.match.url !== this.props.match.url) {
+    if(this.props.match.url !== prevProps.match.url) {
       const activeIndex = MENU_ITEMS.reduce((acc, each, idx) => {
-        if(nextProps.match.url.includes(each.section))
+        if(this.props.match.url.includes(each.section))
           acc = idx
         return acc
       }, 0)
@@ -187,7 +185,7 @@ class ProviderDashboard extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, profiles: { profilesById } } = state
-  const profile = profilesById[userId]
+  const profile = profilesById[userId] ? profilesById[userId] : {}
   return {
     profile,
     userId

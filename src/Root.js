@@ -10,7 +10,7 @@ import './utils/refreshToken'
 
 import GoogleTagManager from './analytics/GoogleTagManager'
 import Routes from './Routes/Routes'
-import { closeSideNav, openSideNav, closeModal, setTopBarTitle, toggleTopBarTitleIsDisabled, signout } from './actions'
+import { closeModal, setTopBarTitle, signout } from './actions'
 
 Modal.setAppElement(document.getElementById('app'))
 
@@ -18,7 +18,6 @@ Modal.setAppElement(document.getElementById('app'))
 /**
  * Route Components/Containers
  */
-import SideNav from './SideNav/SideNav'
 import TopBar from './TopBar/TopBar'
 
 
@@ -71,25 +70,17 @@ class Root extends Component {
     isLoggedIn: T.bool.isRequired
     , isAdmin: T.bool.isRequired
     , isProvider: T.bool.isRequired
-    , toggleTopBarTitleIsDisabled: T.func.isRequired
     , topBar: T.object.isRequired
     , setTopBarTitle: T.func.isRequired
-    , closeSideNav: T.func.isRequired
-    , openSideNav: T.func.isRequired
     , closeModal: T.func.isRequired
     , modal: T.object.isRequired
     , globalColors: T.object.isRequired
-    , sideNav: T.object.isRequired
     , userId: T.string.isRequired
-  }
-
-  toggleSideNav = () => {
-    this.props.sideNav.isSideNavOpen ? this.props.closeSideNav() : this.props.openSideNav()
   }
 
   render() {
     const {
-      userId, modal, isLoggedIn, isAdmin, isProvider, sideNav, topBar, setTopBarTitle, toggleTopBarTitleIsDisabled, globalColors
+      userId, modal, isLoggedIn, isAdmin, isProvider, topBar, setTopBarTitle, globalColors
     } = this.props
 
     const topBarWidthString = `${topBar.topBarHeight}px`
@@ -101,7 +92,7 @@ class Root extends Component {
         <GoogleTagManager gtmId='GTM-TJPSGHC' additionalEvents={ additionalEvents } />
         <div>
           { process.env.NODE_ENV !== 'production' &&
-              <EnvironmentReminder />
+            <EnvironmentReminder />
           }
           <Helmet>
             <title>Kiwi Compute</title>
@@ -119,25 +110,18 @@ class Root extends Component {
             />
             { modal.children }
           </Modal>
-          <SideNav
-            isOpen={ sideNav.isSideNavOpen }
-            toggleSideNav={ this.toggleSideNav }
-            isLoggedIn={ isLoggedIn }
-            isAdmin={ isAdmin }
-            isProvider={ isProvider }
-            toggleTopBarTitleIsDisabled={ toggleTopBarTitleIsDisabled }
-            { ...globalColors }
-          />
           <TopBar
+            isAdmin={ isAdmin }
+            showMiddleSection={ topBar.showMiddleSection }
+            breadcrumbLink={ topBar.breadcrumbLink }
+            breadcrumbText={ topBar.breadcrumbText }
             isOpen={ topBar.isTopBarOpen }
             backgroundColor={ globalColors.primaryColor }
             textColor={ globalColors.textColor }
             isFocused={ topBar.topBarFocused }
             title={ topBar.topBarTitle }
             titleDisabled={ topBar.topBarTitleDisabled }
-            sideNavWidth={ sideNav.sideNavWidth }
             handleTitleChange={ setTopBarTitle }
-            toggleSideNav={ this.toggleSideNav }
           />
           <div
             className={ cns('baseAppStyles') }
@@ -162,7 +146,6 @@ export const RootComponent = Root
 const mapStateToProps = (state) => {
   const {
     auth: { userId, isLoggedIn, isAdmin, isProvider, subscription },
-    sideNav,
     topBar,
     globalColors,
     modal
@@ -173,7 +156,6 @@ const mapStateToProps = (state) => {
     , subscription
     , isAdmin
     , isProvider
-    , sideNav
     , topBar
     , globalColors
     , modal
@@ -184,10 +166,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openSideNav: () => dispatch(openSideNav())
     , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
-    , toggleTopBarTitleIsDisabled: isDisabled => dispatch(toggleTopBarTitleIsDisabled(isDisabled))
     , closeModal: params => dispatch(closeModal(params))
   }
 }

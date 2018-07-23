@@ -1,18 +1,13 @@
-import React, { Component, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import withStyles from '@material-ui/core/styles/withStyles'
-import Redirect from 'react-router-dom/Redirect'
-import Route from 'react-router-dom/Route'
-import get from 'lodash/get'
 import find from 'lodash/find'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 import queryString from 'query-string'
 
-
-import { openSideNav, closeSideNav, openTopBar, closeTopBar, login, register } from '../actions'
-
+import { openTopBar, closeTopBar, login, register } from '../actions'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
@@ -170,8 +165,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login: params => dispatch(login(params))
     , register: params => dispatch(register(params))
-    , openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
     , openTopBar: () => dispatch(openTopBar())
     , closeTopBar: () => dispatch(closeTopBar())
   }

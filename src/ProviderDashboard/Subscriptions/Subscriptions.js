@@ -102,6 +102,7 @@ class Subscriptions extends Component {
 
   toggleSubscriptionStatus = async subscription => {
     const { putSubscription } = this.props
+
     try {
       this.setState({
         isUpdatingSubscription: true
@@ -118,7 +119,7 @@ class Subscriptions extends Component {
         status: newStatus,
         requiresPayment
       })
-      this.setState({ isUpdatingSubscription: false, updateSucceeded: true })
+      // can't do anything here because apparently the whole component is re-rendered...
     } catch (err) {
       console.log(err)
       this.setState({
@@ -134,7 +135,6 @@ class Subscriptions extends Component {
     const { isUpdatingSubscription, updateSucceeded, errorMessage } = this.state
     const selectedSubscription = subscriptionsById[params.id] || {}
     const selectedSubscriptionProvideeProfile = profilesById[selectedSubscription.provideeId] || {}
-
     const sortedSubscriptions = subscriptions
       .sort((a, b) => a.status !== SUBSCRIPTION_STATUSES.ACTIVE)
 

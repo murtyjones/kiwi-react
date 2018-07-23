@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CodeEditor from '../CodeEditor/CodeEditor'
-import { openSideNav, closeSideNav, openTopBar, closeTopBar } from '../actions'
+import { openTopBar, closeTopBar } from '../actions'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 
@@ -42,9 +42,7 @@ class StandaloneEditor extends Component {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    openSideNav: () => dispatch(openSideNav())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openTopBar: () => dispatch(openTopBar())
+    openTopBar: () => dispatch(openTopBar())
     , closeTopBar: () => dispatch(closeTopBar())
   }
 }

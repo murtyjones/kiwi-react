@@ -1,43 +1,46 @@
-import React from 'react'
-import Route from 'react-router-dom/Route'
-import Redirect from 'react-router-dom/Redirect'
+import React, { Component } from 'react'
+import withRouter from 'react-router-dom/withRouter'
+import { Route, Redirect } from 'react-router-dom'
 import { isMobile } from 'react-device-detect'
+import * as T from 'prop-types'
 
-import WithTheme from '../hocs/WithTheme'
+import withTopBarTitle from '../hocs/withTopBarTitle'
+import withTopBarBreadCrumb from '../hocs/withTopBarBreadCrumb'
 import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
-const authorizer = ({ path, isLoggedIn, isAdmin, isProvider }) =>
+const isAuthorized = (path, isLoggedIn, isAdmin, isProvider) =>
   path.includes('provider')
     ? isLoggedIn && (isProvider || isAdmin)
     : isLoggedIn && isAdmin
 
+function AuthorizedRoute (props) {
+  const { component: Component /* need this so it doesnt get passed to route */, ...rest } = props
 
-function AuthorizedRoute ({component: Component, path, isLoggedIn, isAdmin, isProvider, setTopBarTitle, topBarTitleDisabled, toggleTopBarTitleIsDisabled, title, mobileRedirect, ...rest}) {
-
-  if (isMobile && mobileRedirect)
+  if (isMobile && rest.redirectIfMobile)
     return <MobileRedirect />
+
+  if (!isAuthorized(rest.path, rest.isLoggedIn, rest.isAdmin, rest.isProvider))
+    return <Redirect to={ { pathname: '/login', state: { from: rest.location } } } />
+
+  let WrappedComponent = Component
+
+  WrappedComponent = withTopBarBreadCrumb(WrappedComponent, {
+    breadcrumbLink: props.breadcrumbLink, breadcrumbText: props.breadcrumbText
+  })
+
+  WrappedComponent = withTopBarTitle(WrappedComponent, {
+    title: props.title, topBarTitleDisabled: props.topBarTitleDisabled, showMiddleSection: props.showMiddleSection
+  })
 
   return (
     <Route
       { ...rest }
       render={
-        (props) => authorizer({ path, isLoggedIn, isAdmin, isProvider })
-          ?
-          <WithTheme
-            WrappedComponent={ Component }
-            title={ title }
-            topBarTitleDisabled={ topBarTitleDisabled }
-            setTopBarTitle={ setTopBarTitle }
-            toggleTopBarTitleIsDisabled={ toggleTopBarTitleIsDisabled }
-            { ...props }
-          />
-          :
-          <Redirect
-            to={ { pathname: '/', state: { from: props.location } } }
-          />
+        props => <WrappedComponent {...props} />
       }
     />
   )
 }
 
-export default AuthorizedRoute
+
+export default withRouter(AuthorizedRoute)

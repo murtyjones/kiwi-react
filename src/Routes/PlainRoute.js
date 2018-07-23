@@ -4,9 +4,9 @@ import { isMobile } from 'react-device-detect'
 
 import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
-const PlainRoute = ({ mobileRedirect, ...rest }) => {
+const PlainRoute = ({ redirectIfMobile, ...rest }) => {
 
-  if (isMobile && mobileRedirect)
+  if (isMobile && redirectIfMobile)
     return <MobileRedirect />
 
   return (

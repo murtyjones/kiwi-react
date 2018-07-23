@@ -168,7 +168,7 @@ class FullPageCodeEditor extends PureComponent {
     , afterRunCode: T.func.isRequired
     , userId: T.string.isRequired
     , onRunCode: T.func.isRequired
-    , classes: T.func.isRequired
+    , classes: T.object.isRequired
     , runCode: T.bool.isRequired
     , variablesWithUserValues: T.array
     , userVariables: T.array

@@ -31,9 +31,7 @@ import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 
-import {
-  closeSideNav, openSideNav, setGlobalColors, setTopBarTitle, signout, toggleTopBarTitleIsDisabled
-} from '../actions/index'
+import { setGlobalColors, signout } from '../actions/index'
 
 const Lessons = Loadable({ loader: () => import('../Lessons/Lessons'), loading: Loading })
 const ForgotPasswordWizard = Loadable({ loader: () => import('../ForgotPasswordWizard/ForgotPasswordWizard'), loading: Loading })
@@ -55,8 +53,6 @@ class Routes extends Component {
     isLoggedIn: T.bool.isRequired
     , isAdmin: T.bool.isRequired
     , isProvider: T.bool.isRequired
-    , setTopBarTitle: T.func.isRequired
-    , toggleTopBarTitleIsDisabled: T.func.isRequired
     , setGlobalColors: T.func.isRequired
     , globalColors: T.object.isRequired
     , subscription: T.object.isRequired
@@ -64,13 +60,12 @@ class Routes extends Component {
 
   render() {
     const {
-      isLoggedIn, isAdmin, isProvider, setTopBarTitle, toggleTopBarTitleIsDisabled, setGlobalColors, globalColors, subscription
+      isLoggedIn, isAdmin, isProvider, setGlobalColors, globalColors, subscription
     } = this.props
 
     const routeProps = {
       isLoggedIn, subscription, isAdmin,
-      isProvider, setTopBarTitle, setGlobalColors,
-      toggleTopBarTitleIsDisabled,
+      isProvider, setGlobalColors,
       ...globalColors
     }
 
@@ -90,7 +85,7 @@ class Routes extends Component {
         )} />
         <PlainRoute path='/signup-modal' exact component={ Landing } />
         <PlainRoute path='/student' exact
-          mobileRedirect={ true }
+          redirectIfMobile={ true }
           component={ StudentOnboarding }
         />
         <PlainRoute path='/about' exact component={ Landing } />
@@ -105,28 +100,30 @@ class Routes extends Component {
         {/* ----------------- */}
         {/* Logged in routes  */}
         {/* ----------------- */}
-        <AuthenticatedRoute exact mobileRedirect={ true }
+        <AuthenticatedRoute exact redirectIfMobile={ true }
           path='/invalid-subscription' component={ InvalidSubscription } { ...routeProps }
         />
-        <AuthenticatedRoute exact mobileRedirect={ true }
+        <AuthenticatedRoute exact redirectIfMobile={ true }
           path='/welcome' component={ Welcome } { ...routeProps }
         />
-        <AuthenticatedRoute exact mobileRedirect={ true }
+        <AuthenticatedRoute exact redirectIfMobile={ true }
           path='/projects' component={ UserProjects } title='Projects' { ...routeProps }
         />
-        <AuthenticatedRoute exact mobileRedirect={ true }
+        <AuthenticatedRoute exact redirectIfMobile={ true }
           path='/project/new' component={ UserProject } title='name me!' topBarTitleDisabled={ false } { ...routeProps }
         />
-        <AuthenticatedRoute exact mobileRedirect={ true }
+        <AuthenticatedRoute exact redirectIfMobile={ true }
           path='/project/:id' component={ UserProject } topBarTitleDisabled={ false } { ...routeProps }
         />
-        <SubscriptionRoute exact mobileRedirect={ true }
-          path='/lessons' component={ Lessons } title='Lessons' { ...routeProps }
+        <SubscriptionRoute exact redirectIfMobile={ true }
+          path='/lessons' component={ Lessons } title='Lessons'
+          { ...routeProps }
         />
-        <AuthenticatedRoute exact mobileRedirect={ true }
+        <AuthenticatedRoute exact redirectIfMobile={ true }
           path='/lessons/beta' component={ BetaLessons } title='Lessons (Beta)' { ...routeProps }
         />
-        <AuthenticatedRoute exact mobileRedirect={ true }
+        <AuthenticatedRoute exact redirectIfMobile showMiddleSection={ false }
+          breadcrumbLink='/lessons'
           path='/lessons/:id' component={ UserLessonWizard } { ...routeProps }
         />
         {/* ----------------- */}
@@ -207,10 +204,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout())
-    , closeSideNav: () => dispatch(closeSideNav())
-    , openSideNav: () => dispatch(openSideNav())
-    , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
-    , toggleTopBarTitleIsDisabled: isDisabled => dispatch(toggleTopBarTitleIsDisabled(isDisabled))
     , setGlobalColors: params => dispatch(setGlobalColors(params))
   }
 }

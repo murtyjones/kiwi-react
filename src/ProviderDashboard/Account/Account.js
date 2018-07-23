@@ -17,7 +17,7 @@ class Account extends Component {
   }
 
   static propTypes = {
-    initialValues: T.object.isRequired
+    initialValues: T.object
     , putProfile: T.func.isRequired
   }
 

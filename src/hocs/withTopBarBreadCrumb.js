@@ -1,22 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { closeTopBar, openTopBar } from '../actions'
+import { setTopBarBreadCrumb } from '../actions'
 import withRouter from 'react-router-dom/withRouter'
 import * as T from 'prop-types'
 
-export default function withoutMainNavigation(WrappedComponent, options = {}) {
+export default function withTopBarBreadCrumb(WrappedComponent, { breadcrumbLink = '', breadcrumbText = '' }) {
   const HOC = class extends Component {
     static propTypes = {
-      closeTopBar: T.func.isRequired,
-      openTopBar: T.func.isRequired,
+      setTopBarBreadCrumb: T.func.isRequired,
     }
 
     componentDidMount() {
-      this.props.closeTopBar()
+      this.props.setTopBarBreadCrumb({ breadcrumbLink, breadcrumbText })
     }
 
     componentWillUnmount() {
-      this.props.openTopBar()
+      this.props.setTopBarBreadCrumb({ breadcrumbLink: '', breadcrumbText: '' })
     }
 
     render() {
@@ -26,8 +25,7 @@ export default function withoutMainNavigation(WrappedComponent, options = {}) {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      openTopBar: () => dispatch(openTopBar())
-      , closeTopBar: () => dispatch(closeTopBar())
+      setTopBarBreadCrumb: params => dispatch(setTopBarBreadCrumb(params))
     }
   }
 

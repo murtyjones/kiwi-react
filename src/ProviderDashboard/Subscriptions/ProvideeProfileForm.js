@@ -52,11 +52,11 @@ class ProvideeProfileForm extends Component {
     this.setState(newState, resolve)
   })
 
-  async UNSAFE_componentWillUpdate(nextProps, nextState) {
-    if (nextState.passwordConfirmed && !this.state.passwordConfirmed) {
+  async componentDidUpdate(prevProps, prevState) {
+    if (this.state.passwordConfirmed && !prevState.passwordConfirmed) {
       this.setStateAsync({ loading: true })
       this.props.closeModal()
-      const r = await this.props.onSubmit(nextState.submittedValues)
+      const r = await this.props.onSubmit(this.state.submittedValues)
       this.setStateAsync({
         loading: false, generatedUsername: r.username
       })

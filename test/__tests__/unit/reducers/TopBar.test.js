@@ -4,14 +4,14 @@ import { ACTIONS } from '../../../../src/constants'
 
 describe('TopBar Reducer', () => {
 
-  describe('OPEN_TOPBAR', () => {
+  describe('OPEN_TOP_BAR', () => {
     let initialState, action
     beforeEach(() => {
       initialState = {
         otherStuff: 'blah'
       }
       action = {
-        type: ACTIONS.OPEN_TOPBAR
+        type: ACTIONS.OPEN_TOP_BAR
       }
     })
 
@@ -27,14 +27,14 @@ describe('TopBar Reducer', () => {
 
   })
 
-  describe('CLOSE_TOPBAR', () => {
+  describe('CLOSE_TOP_BAR', () => {
     let initialState, action
     beforeEach(() => {
       initialState = {
         otherStuff: 'blah'
       }
       action = {
-        type: ACTIONS.CLOSE_TOPBAR
+        type: ACTIONS.CLOSE_TOP_BAR
       }
     })
 
@@ -49,14 +49,14 @@ describe('TopBar Reducer', () => {
     })
   })
 
-  describe('SET_TOPBAR_TITLE', () => {
+  describe('SET_TOP_BAR_TITLE', () => {
     let initialState, action
     beforeEach(() => {
       initialState = {
         otherStuff: 'blah'
       }
       action = {
-        type: ACTIONS.SET_TOPBAR_TITLE
+        type: ACTIONS.SET_TOP_BAR_TITLE
         , payload: 'newTitle'
       }
     })
@@ -71,14 +71,14 @@ describe('TopBar Reducer', () => {
     })
   })
 
-  describe('TOGGLE_TOPBAR_TITLE_EDITABLE', () => {
+  describe('TOGGLE_TOP_BAR_TITLE_EDITABLE', () => {
     let initialState, action
     beforeEach(() => {
       initialState = {
         otherStuff: 'blah'
       }
       action = {
-        type: ACTIONS.TOGGLE_TOPBAR_TITLE_EDITABLE
+        type: ACTIONS.TOGGLE_TOP_BAR_TITLE_EDITABLE
         , payload: true
       }
     })
@@ -94,14 +94,14 @@ describe('TopBar Reducer', () => {
 
   })
 
-  describe('TOGGLE_TOPBAR_TITLE_FOCUS', () => {
+  describe('TOGGLE_TOP_BAR_TITLE_FOCUS', () => {
     let initialState, action
     beforeEach(() => {
       initialState = {
         otherStuff: 'blah'
       }
       action = {
-        type: ACTIONS.TOGGLE_TOPBAR_TITLE_FOCUS
+        type: ACTIONS.TOGGLE_TOP_BAR_TITLE_FOCUS
         , payload: true
       }
     })

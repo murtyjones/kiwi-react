@@ -1,9 +1,0 @@
-.titleInput, .titleInput:focus, .titleInput:hover, .titleInput:active {
-    outline: 0;
-    border: none;
-    -webkit-appearance: none;
-}
-
-.titleInput.disabled {
-    color: #0074D9;
-}

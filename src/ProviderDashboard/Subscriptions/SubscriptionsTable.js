@@ -6,7 +6,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import IconButton from '@material-ui/core/IconButton'
-import Link from 'react-router-dom/Link'
+import Button from '@material-ui/core/Button'
 import Edit from '@material-ui/icons/Edit'
 import moment from 'moment'
 import isEmpty from 'lodash/isEmpty'
@@ -17,7 +17,15 @@ import AuthService from '../../utils/AuthService'
 import { oceanBlue } from '../../colors'
 
 const styles = theme => ({
-
+  root: {
+    '& td': {
+      fontSize: '12pt !important',
+      border: 'none'
+    },
+    '& tr:nth-child(odd)': {
+      backgroundColor: '#fafafa'
+    }
+  },
   editUserButton: {
     width: '30px !important',
     height: '30px !important',
@@ -52,15 +60,6 @@ const styles = theme => ({
   row: {
     borderTop: '1px solid #DDD',
     borderBottom: '1px solid #DDD'
-  },
-  '@global': {
-    'tr > td': {
-      fontSize: '12pt !important',
-      border: 'none'
-    },
-    'tr:nth-child(odd)': {
-      backgroundColor: '#fafafa'
-    }
   }
 })
 
@@ -73,7 +72,7 @@ const SubscriptionsTable = ({
   }
 
   return (
-    <Table>
+    <Table className={ classes.root }>
       <TableBody>
         { sortedSubscriptions.map((subscription, i) => {
           const providee = profilesById[subscription.provideeId] || {}
@@ -122,16 +121,15 @@ const SubscriptionsTable = ({
                   })
                 }
               >
-                <Link to='#'
-                  onClick= { isUpdatingSubscription ? null : () =>
-                    toggleSubscriptionStatus(subscription)
-                  }
-                >
+                <Button
+                  variant='flat'
+                  disabled={ isUpdatingSubscription }
+                  onClick= { () => toggleSubscriptionStatus(subscription) }>
                   { subscription.status === SUBSCRIPTION_STATUSES.INACTIVE
                     ? 'Restart Subscription'
                     : 'Cancel Subscription'
                   }
-                </Link>
+                </Button>
               </TableCell>
             </TableRow>
           )

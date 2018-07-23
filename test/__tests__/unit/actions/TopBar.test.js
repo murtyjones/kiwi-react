@@ -22,7 +22,7 @@ describe('TopBar Themes Actions', () => {
       await store.dispatch(openTopBar())
       const actions = store.getActions()
       expect(actions.length).toEqual(1)
-      expect(actions[0]).toEqual({ type: ACTIONS.OPEN_TOPBAR })
+      expect(actions[0]).toEqual({ type: ACTIONS.OPEN_TOP_BAR })
 
     })
   })
@@ -32,7 +32,7 @@ describe('TopBar Themes Actions', () => {
       await store.dispatch(closeTopBar())
       const actions = store.getActions()
       expect(actions.length).toEqual(1)
-      expect(actions[0]).toEqual({ type: ACTIONS.CLOSE_TOPBAR })
+      expect(actions[0]).toEqual({ type: ACTIONS.CLOSE_TOP_BAR })
 
     })
   })
@@ -43,7 +43,7 @@ describe('TopBar Themes Actions', () => {
       await store.dispatch(setTopBarTitle(title))
       const actions = store.getActions()
       expect(actions.length).toEqual(1)
-      expect(actions[0]).toEqual({ type: ACTIONS.SET_TOPBAR_TITLE, payload: title })
+      expect(actions[0]).toEqual({ type: ACTIONS.SET_TOP_BAR_TITLE, payload: title })
 
     })
   })
@@ -54,7 +54,7 @@ describe('TopBar Themes Actions', () => {
       await store.dispatch(toggleTopBarTitleFocus(isFocused))
       const actions = store.getActions()
       expect(actions.length).toEqual(1)
-      expect(actions[0]).toEqual({ type: ACTIONS.TOGGLE_TOPBAR_TITLE_FOCUS, payload: isFocused })
+      expect(actions[0]).toEqual({ type: ACTIONS.TOGGLE_TOP_BAR_TITLE_FOCUS, payload: isFocused })
 
     })
   })
@@ -65,7 +65,7 @@ describe('TopBar Themes Actions', () => {
       await store.dispatch(toggleTopBarTitleIsDisabled(isFocused))
       const actions = store.getActions()
       expect(actions.length).toEqual(1)
-      expect(actions[0]).toEqual({ type: ACTIONS.TOGGLE_TOPBAR_TITLE_EDITABLE, payload: isFocused })
+      expect(actions[0]).toEqual({ type: ACTIONS.TOGGLE_TOP_BAR_TITLE_EDITABLE, payload: isFocused })
 
     })
   })
