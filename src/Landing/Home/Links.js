@@ -5,7 +5,7 @@ import Link from 'react-router-dom/Link'
 const styles = {
   linkContainerStyle: {
     position: 'absolute'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
     , paddingTop: '10px'
     , paddingRight: '15px'
     , zIndex: 52 // just in front of dynamicHeader

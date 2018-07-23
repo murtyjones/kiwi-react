@@ -15,7 +15,7 @@ const styles = {
     , marginTop: '-50px'
   },
   h1: {
-    textAlign: 'center'
+    textAlign: '-webkit-center'
   }
 }
 

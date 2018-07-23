@@ -70,7 +70,7 @@ const styles = () => ({
     width: 100
   },
   middle: {
-    textAlign: 'center'
+    textAlign: '-webkit-center'
   },
   right: {
     textAlign: 'right'

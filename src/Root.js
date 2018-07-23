@@ -56,7 +56,7 @@ const EnvironmentReminder = props =>
     , fontFamily: 'Arial'
     , fontWeight: 'bold'
     , color: '#FFFFFF'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   } }>
     { process.env.NODE_ENV } environment
   </div>

@@ -24,7 +24,7 @@ const styles = theme => ({
   },
   switchText: {
     display: 'block',
-    textAlign: 'center',
+    textAlign: '-webkit-center',
     cursor: 'pointer'
   }
 })

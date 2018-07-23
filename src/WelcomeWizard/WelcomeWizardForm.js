@@ -34,16 +34,16 @@ const styles = {
     , bottom: '10%'
     , left: '50%'
     , marginLeft: '-55px'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   },
   title: {
     marginTop: 0
     , paddingTop: '5%'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   },
   subtitle: {
     margin: 0
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
     , padding: '20px 30%'
     , paddingTop: 0
   }

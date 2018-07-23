@@ -18,7 +18,7 @@ const styles = {
     , color: '#FFFFFF'
     , fontFamily: 'Arvo'
     , position: 'relative' // needed for abs children
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   }
 }
 

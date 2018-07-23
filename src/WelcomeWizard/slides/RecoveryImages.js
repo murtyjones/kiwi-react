@@ -67,10 +67,10 @@ const styles = {
   attribution: {
     fontSize: '11px'
     , color: '#000000'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   },
   incorrectGuess: {
-    textAlign: 'center'
+    textAlign: '-webkit-center'
     , color: '#ff8eca'
     , fontWeight: 'bold'
   }

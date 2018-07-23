@@ -8,7 +8,7 @@ import { oceanBlue } from '../../colors'
 
 const styles = theme => ({
   copyLoginLinkContainer: {
-    textAlign: 'center',
+    textAlign: '-webkit-center',
     color: '#000000'
   },
   copyLoginLinkBox: {

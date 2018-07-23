@@ -8,7 +8,7 @@ import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 const styles = theme => ({
   container: {
-    textAlign: 'center'
+    textAlign: '-webkit-center'
   },
   carl: {
     display: 'block',
@@ -25,7 +25,7 @@ const styles = theme => ({
     display: 'block',
     margin: '10% auto',
     padding: '0 5%',
-    textAlign: 'center',
+    textAlign: '-webkit-center',
     [theme.breakpoints.up('md')]: {
       display: 'inline-block',
       height: '100vh',

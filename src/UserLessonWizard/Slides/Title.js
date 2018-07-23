@@ -23,20 +23,20 @@ const styles = {
     , marginLeft: 'calc(-40% - 50px)' // offsets the paddingLeft of 50px in commonSlideStyles
   },
   title: {
-    textAlign: 'center'
+    textAlign: '-webkit-center'
     , fontWeight: 'bold'
     , fontSize: '24pt'
     , fontFamily: 'Arvo'
     , marginTop: '20px'
   },
   subtitle: {
-    textAlign: 'center'
+    textAlign: '-webkit-center'
     , fontSize: '17pt'
     , marginBottom: '20px'
     , fontFamily: 'Arvo'
   },
   iconContainer: {
-    textAlign: 'center'
+    textAlign: '-webkit-center'
   },
   icon: {
     height: '100px'

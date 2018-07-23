@@ -19,7 +19,7 @@ const styles = theme => ({
     width: '50%'
   },
   resetPasswordResult: {
-    textAlign: 'center',
+    textAlign: '-webkit-center',
     padding: '25px 0',
     color: '#66cc52',
     '&.failure': {

@@ -14,7 +14,7 @@ const styles = {
     fontSize: 'calc(15px + 2.3vw)'
     , margin: '5vh 5vw 5vh 5vw'
     , color: '#624F8F'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   },
   missionSectionH3: {
     fontSize: 'calc(18px + 0.5vw)'

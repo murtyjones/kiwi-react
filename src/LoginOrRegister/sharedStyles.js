@@ -29,7 +29,7 @@ const styles = {
     display: 'block'
     , fontWeight: 'bold'
     , color: '#000000'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   },
   forgot: {
     display: 'block'
@@ -38,7 +38,7 @@ const styles = {
     , color: '#bbbbbb'
   },
   buttonContainer: {
-    textAlign: 'center'
+    textAlign: '-webkit-center'
   }
 }
 

@@ -15,7 +15,7 @@ const styles = {
     , left: '50%'
     , marginLeft: '-100px'
     , zIndex: 50
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   },
   learnMoreArrow: {
     height: 'calc(36px + 3vw)'

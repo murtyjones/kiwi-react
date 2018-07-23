@@ -14,7 +14,7 @@ const styles = {
     height: '500px'
   },
   label: {
-    textAlign: 'center'
+    textAlign: '-webkit-center'
   },
   textArea: {
     border: '1px solid #ccc'

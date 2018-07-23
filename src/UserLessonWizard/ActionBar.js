@@ -10,7 +10,7 @@ const styles = {
     , height: '40px'
     , top: '11px'
     , borderRadius: '98px'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
     , fontWeight: 'bold'
     , lineHeight: '40px'
     , border: 'none'

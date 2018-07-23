@@ -64,11 +64,11 @@ const styles = {
   title: {
     marginTop: 0
     , paddingTop: '5%'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   },
   subtitle: {
     margin: 0
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
     , padding: '20px 30%'
     , paddingTop: 0
   }

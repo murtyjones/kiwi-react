@@ -34,7 +34,7 @@ const styles = {
     fontSize: '20px'
     , fontWeight: 'bold'
     , width: '100%'
-    , textAlign: 'center'
+    , textAlign: '-webkit-center'
   },
   text: {
     fontSize: '16px'

@@ -23,7 +23,7 @@
 
 .loginHeader {
     color: white;
-    text-align: center;
+    text-align: -webkit-center;
     position: relative;
     top: 20%;
 }
