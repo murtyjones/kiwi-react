@@ -142,7 +142,7 @@ const Hint = ({ classes, errorHintHTML, showHint, closeHint }) =>
       unmountOnExit={ true }
     >
       <div className={ classes.hint }>
-        <h3 className={ classes.hintH3 }>Here's a Hint:</h3>
+        <h3 className={ classes.hintH3 }>Here's a hint:</h3>
         <div dangerouslySetInnerHTML={ { __html: errorHintHTML } } />
         <div className={ cns('x-sm', classes.closeButton) }
           onClick={ closeHint }
