@@ -21,7 +21,7 @@ export default class KiwiSelectField extends Component {
   static propTypes = {
     input: T.object,
     meta: T.object,
-    options: T.object
+    options: T.array
   }
 
   render() {

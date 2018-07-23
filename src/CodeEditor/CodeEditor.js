@@ -34,6 +34,7 @@ const styles = theme => ({
     , overflow: 'hidden'
   },
   hint: {
+    overflow: 'scroll',
     position: 'absolute',
     bottom: 0,
     right: 0,

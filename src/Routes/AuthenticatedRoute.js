@@ -10,7 +10,7 @@ import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
 function AuthenticatedRoute (props) {
   const { component: Component /* need this so it doesnt get passed to route */, ...rest } = props
-  console.log(props)
+
   if (isMobile && rest.redirectIfMobile)
     return <MobileRedirect />
 

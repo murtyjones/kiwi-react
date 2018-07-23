@@ -25,7 +25,6 @@ const codeEditorHeight = 'calc(50vh - 200px)'
 
 const styles = theme => ({
   dabblewopper: {
-    height: '100%',
     width: '100%',
     zIndex: 99999
   },
@@ -154,7 +153,7 @@ class FullPageCodeEditor extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isExampleActive: false
+      isHintActive: false
     }
   }
 
@@ -175,7 +174,7 @@ class FullPageCodeEditor extends PureComponent {
   }
 
   toggleIsExampleActive = () =>
-    this.setState({ isExampleActive: !this.state.isExampleActive })
+    this.setState({ isHintActive: !this.state.isHintActive })
 
   upsertUserVariable = ({ variableId, value }) => {
     const { userVariables, userId } = this.props
@@ -190,7 +189,7 @@ class FullPageCodeEditor extends PureComponent {
 
   render() {
     const { onRunCode, classes, slideData, input, runCode, afterRunCode, variablesWithUserValues, setFormGlobalVariable } = this.props
-    const { isExampleActive } = this.state
+    const { isHintActive } = this.state
 
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
     const prompt = template(slideData.prompt, variableValues)
@@ -245,7 +244,7 @@ class FullPageCodeEditor extends PureComponent {
           variableOptions={ variablesWithUserValues }
           setFormGlobalVariable={ setFormGlobalVariable }
           upsertUserVariable={ this.upsertUserVariable }
-          isExampleActive={ isExampleActive }
+          isHintActive={ isHintActive }
           hintHTML={ hint }
           toggleIsExampleActive={ this.toggleIsExampleActive }
         />

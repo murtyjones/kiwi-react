@@ -48,8 +48,10 @@ const styles = theme => ({
   hintContainer: {
     overflow: 'hidden'
     , position: 'absolute'
+    , top: 0
     , bottom: 0
     , left: 0
+    , right: 0
     , width: '100%'
     , borderRadius: '0 0 8px 0' // needs to be slightly less than the 10px radius on the rest of the editor
   },
@@ -61,6 +63,7 @@ const styles = theme => ({
     , width: '100%'
     , color: 'white'
     , boxSizing: 'border-box'
+    , overflow: 'scroll'
   },
   hintH3: {
     margin: '0 0 10px 0'
