@@ -13,6 +13,7 @@ import { getManyLessons, getManyUserLessons, getLessonOrder, setGlobalColors } f
 
 import LessonList from './LessonList'
 import './overrides.css'
+import withTopBarTitle from '../hocs/withTopBarTitle'
 
 class Lessons extends Component {
   constructor(props) {
@@ -120,5 +121,9 @@ const mapDispatchToProps = (dispatch) => {
     , setGlobalColors: params => dispatch(setGlobalColors(params))
   }
 }
+
+Lessons = withTopBarTitle(Lessons, {
+  title: 'Lessons (Beta)'
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Lessons))

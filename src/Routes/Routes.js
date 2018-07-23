@@ -85,7 +85,7 @@ class Routes extends Component {
         )} />
         <PlainRoute path='/signup-modal' exact component={ Landing } />
         <PlainRoute path='/student' exact
-          redirectIfMobile={ true }
+          redirectIfMobile
           component={ StudentOnboarding }
         />
         <PlainRoute path='/about' exact component={ Landing } />
@@ -100,27 +100,27 @@ class Routes extends Component {
         {/* ----------------- */}
         {/* Logged in routes  */}
         {/* ----------------- */}
-        <AuthenticatedRoute exact redirectIfMobile={ true }
+        <AuthenticatedRoute exact redirectIfMobile
           path='/invalid-subscription' component={ InvalidSubscription } { ...routeProps }
         />
-        <AuthenticatedRoute exact redirectIfMobile={ true }
+        <AuthenticatedRoute exact redirectIfMobile
           path='/welcome' component={ Welcome } { ...routeProps }
         />
-        <AuthenticatedRoute exact redirectIfMobile={ true }
-          path='/projects' component={ UserProjects } title='Projects' { ...routeProps }
+        <AuthenticatedRoute exact redirectIfMobile
+          path='/projects' component={ UserProjects } { ...routeProps }
         />
-        <AuthenticatedRoute exact redirectIfMobile={ true }
-          path='/project/new' component={ UserProject } title='name me!' topBarTitleDisabled={ false } { ...routeProps }
+        <AuthenticatedRoute exact redirectIfMobile
+          path='/project/new' component={ UserProject } { ...routeProps }
         />
-        <AuthenticatedRoute exact redirectIfMobile={ true }
-          path='/project/:id' component={ UserProject } topBarTitleDisabled={ false } { ...routeProps }
+        <AuthenticatedRoute exact redirectIfMobile
+          path='/project/:id' component={ UserProject } { ...routeProps }
         />
-        <SubscriptionRoute exact redirectIfMobile={ true }
-          path='/lessons' component={ Lessons } title='Lessons'
+        <SubscriptionRoute exact redirectIfMobile
+          path='/lessons' component={ Lessons }
           { ...routeProps }
         />
-        <AuthenticatedRoute exact redirectIfMobile={ true }
-          path='/lessons/beta' component={ BetaLessons } title='Lessons (Beta)' { ...routeProps }
+        <AuthenticatedRoute exact redirectIfMobile
+          path='/lessons/beta' component={ BetaLessons } { ...routeProps }
         />
         <AuthenticatedRoute exact redirectIfMobile showMiddleSection={ false }
           breadcrumbLink='/lessons'
@@ -130,37 +130,37 @@ class Routes extends Component {
         {/* Admin-only routes */}
         {/* ----------------- */}
         <AuthorizedRoute exact
-          path='/admin/lessons' component={ ManageLessons } title='Manage Lessons' { ...routeProps }
+          path='/admin/lessons' component={ ManageLessons } { ...routeProps }
         />
 
         <AuthorizedRoute exact
-          path='/admin/lessons/new' component={ AddOrEditLesson } title='Create new lesson' { ...routeProps }
+          path='/admin/lessons/new' component={ AddOrEditLesson } { ...routeProps }
         />
         <AuthorizedRoute exact
-          path='/admin/lessons/:id' component={ AddOrEditLesson } title='Edit Lesson' { ...routeProps }
-        />
-
-        <AuthorizedRoute exact
-          path='/admin/variables' component={ ManageVariables } title='Manage Variables' { ...routeProps }
-        />
-        <AuthorizedRoute exact
-          path='/admin/variables/new' component={ AddOrEditVariable } title='Create new Variable' { ...routeProps }
-        />
-        <AuthorizedRoute exact
-          path='/admin/variables/:id' component={ AddOrEditVariable } title='Edit Variable' { ...routeProps }
+          path='/admin/lessons/:id' component={ AddOrEditLesson } { ...routeProps }
         />
 
         <AuthorizedRoute exact
-          path='/admin/subscriptions' component={ ManageSubscriptions } title='Manage Subscriptions' { ...routeProps }
+          path='/admin/variables' component={ ManageVariables } { ...routeProps }
         />
         <AuthorizedRoute exact
-          path='/admin/subscriptions/new' component={ AddOrEditSubscription } title='Create new Subscription' { ...routeProps }
+          path='/admin/variables/new' component={ AddOrEditVariable } { ...routeProps }
         />
         <AuthorizedRoute exact
-          path='/admin/subscriptions/:id' component={ AddOrEditSubscription } title='Edit Subscription' { ...routeProps }
+          path='/admin/variables/:id' component={ AddOrEditVariable } { ...routeProps }
+        />
+
+        <AuthorizedRoute exact
+          path='/admin/subscriptions' component={ ManageSubscriptions } { ...routeProps }
         />
         <AuthorizedRoute exact
-          path='/admin/signups' component={ Signups } title='See Beta Signups' { ...routeProps }
+          path='/admin/subscriptions/new' component={ AddOrEditSubscription } { ...routeProps }
+        />
+        <AuthorizedRoute exact
+          path='/admin/subscriptions/:id' component={ AddOrEditSubscription } { ...routeProps }
+        />
+        <AuthorizedRoute exact
+          path='/admin/signups' component={ Signups } { ...routeProps }
         />
         {/* ----------------- */}
         {/* Provider routes */}

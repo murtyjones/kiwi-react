@@ -22,21 +22,11 @@ function AuthorizedRoute (props) {
   if (!isAuthorized(rest.path, rest.isLoggedIn, rest.isAdmin, rest.isProvider))
     return <Redirect to={ { pathname: '/login', state: { from: rest.location } } } />
 
-  let WrappedComponent = Component
-
-  WrappedComponent = withTopBarBreadCrumb(WrappedComponent, {
-    breadcrumbLink: props.breadcrumbLink, breadcrumbText: props.breadcrumbText
-  })
-
-  WrappedComponent = withTopBarTitle(WrappedComponent, {
-    title: props.title, topBarTitleDisabled: props.topBarTitleDisabled, showMiddleSection: props.showMiddleSection
-  })
-
   return (
     <Route
       { ...rest }
       render={
-        props => <WrappedComponent {...props} />
+        p => <Component { ...p } />
       }
     />
   )

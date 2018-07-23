@@ -19,6 +19,7 @@ import { GLOBAL_COLORS } from '../constants'
 import KiwiLink from '../common/KiwiLink'
 
 import './overrides.css'
+import withTopBarTitle from '../hocs/withTopBarTitle'
 
 const BetaLessonsLink = () =>
   <KiwiLink to='/lessons/beta'>
@@ -166,5 +167,8 @@ const mapDispatchToProps = (dispatch) => {
     , setGlobalColors: params => dispatch(setGlobalColors(params))
   }
 }
+Lessons = withTopBarTitle(Lessons, {
+  title: 'Lesson Map'
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Lessons))

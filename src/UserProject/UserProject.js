@@ -10,6 +10,7 @@ import { GLOBAL_COLORS } from '../constants'
 
 import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleFocus, setGlobalColors } from '../actions'
 import CodeEditor from '../CodeEditor/CodeEditor'
+import withTopBarTitle from "../hocs/withTopBarTitle";
 
 
 const styles = {
@@ -134,5 +135,8 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+UserProject = withTopBarTitle(UserProject, {
+  title: 'name me!', topBarTitleDisabled: false
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserProject))

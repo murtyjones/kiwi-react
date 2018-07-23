@@ -16,6 +16,8 @@ import BluebirdPromise from 'bluebird'
 import { postUserLesson, putUserLesson, getManyUserLessons, getManyUserVariables, getManyVariables, getLesson, setGlobalColors, setTopBarTitle } from '../actions'
 import { GLOBAL_COLORS } from '../constants'
 import UserLessonWizardForm from './UserLessonWizardForm'
+import withTopBarTitle from '../hocs/withTopBarTitle'
+import withTopBarBreadCrumb from '../hocs/withTopBarBreadCrumb'
 
 const getLatestCompletedSlide = (lesson = {}, userLesson = {}) => {
   const slides = lesson.slides || []
@@ -221,5 +223,13 @@ const mapDispatchToProps = (dispatch) => {
     , setTopBarTitle: params => dispatch(setTopBarTitle(params))
   }
 }
+
+UserLessonWizard = withTopBarBreadCrumb(UserLessonWizard, {
+  breadcrumbLink: '/lessons', breadcrumbText: ''
+})
+
+UserLessonWizard = withTopBarTitle(UserLessonWizard, {
+  showMiddleSection: false
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserLessonWizard))

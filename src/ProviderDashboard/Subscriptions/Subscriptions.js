@@ -119,7 +119,7 @@ class Subscriptions extends Component {
         status: newStatus,
         requiresPayment
       })
-      // can't do anything here because apparently the whole component is re-rendered...
+      this.setState({ isUpdatingSubscription: false, updateSucceeded: true })
     } catch (err) {
       console.log(err)
       this.setState({

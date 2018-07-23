@@ -16,6 +16,7 @@ import NewProjectCard from './NewProjectCard'
 import { sortByLatestUpdated, sortByOldestCreated } from '../utils/timeUtils'
 
 import './overrides.css'
+import withTopBarTitle from "../hocs/withTopBarTitle";
 
 const styles = {
   container: {
@@ -186,5 +187,9 @@ const mapDispatchToProps = (dispatch) => {
     , setGlobalColors: params => dispatch(setGlobalColors(params))
   }
 }
+
+UserProjects = withTopBarTitle(UserProjects, {
+  title: 'Projects'
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserProjects))
