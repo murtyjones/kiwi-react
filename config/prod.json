@@ -9,7 +9,7 @@
     "namespace": "https://prod.kiwicompute.com",
     "realm": "Username-Password-Authentication"
   },
-  "api" : "https://api.kiwicompute.com",
+  "api" : "https://api.kiwicompute.com/v1",
   "host" : "https://kiwicompute.com",
   "stripePublishableKey": "pk_live_kbt7cFNZIK9jijAf4SxAfTEL",
   "features": {

@@ -9,7 +9,7 @@
     "namespace": "https://dev.kiwicompute.com",
     "realm": "Username-Password-Authentication"
   },
-  "api" : "http://localhost:8080",
+  "api" : "http://localhost:8080/v1",
   "host" : "http://localhost:3000",
   "stripePublishableKey": "pk_test_vnQAXQKpdv7q6DGTfhAMcT5X",
   "features": {
