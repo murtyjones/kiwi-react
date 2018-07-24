@@ -92,7 +92,7 @@ class Subscriptions extends Component {
     const { putProfile, changePassword } = this.props
     try {
       let promises = [ putProfile(v) ]
-      if(v.password) promises.push(changePassword(v))
+      if (v.password) promises.push(changePassword(v))
       return BluebirdPromise.all(promises)
     } catch (err) {
       console.log(err)

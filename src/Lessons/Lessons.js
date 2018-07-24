@@ -73,6 +73,7 @@ class Lessons extends Component {
     this.props.getManyUserLessons({ userId })
     this.props.getLessonOrder()
     this.setCombinedMapLessons(orderOfPublishedLessons, lessons, userLessons)
+    // get profile details (for temporaryPassword check)
     this.props.getProfileDetails({ userId })
   }
 
@@ -100,11 +101,11 @@ class Lessons extends Component {
           , prevLesson = find(lessons, { _id: prevLessonId }) || {}
           , prevUserLesson = find(userLessons, { lessonId: prevLesson._id }) || {}
 
-        if(!lesson) return {}
+        if (!lesson) return {}
         lesson.userLesson = userLesson
         const hasBeenStartedButNotCompleted = !isEmpty(userLesson) && !userLesson.hasBeenCompleted
         const hasNotBeenStartedButIsNext = isEmpty(userLesson) && !isEmpty(prevUserLesson) && prevUserLesson.hasBeenCompleted
-        if(hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext)
+        if (hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext)
           activeLessonId = lesson._id
         return lesson
       })

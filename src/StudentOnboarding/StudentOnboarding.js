@@ -52,7 +52,7 @@ class StudentOnboarding extends Component {
       this.setState({ submittedLogin: true })
     } catch(e) {
       console.error(e)
-      if(JSON.stringify(e).includes('invalid_grant')) {
+      if (JSON.stringify(e).includes('invalid_grant')) {
         throw { message: `That's the wrong username or password! If you're unsure, try again or ask your parent!.` }
       }
       throw e

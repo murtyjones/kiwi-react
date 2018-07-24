@@ -24,7 +24,7 @@ const getLatestCompletedSlide = (lesson = {}, userLesson = {}) => {
   for (let i = 0, len = slides.length; i < len; i++) {
     const slide = lesson.slides[i]
     const slideAnswerData = get(userLesson, `answerData.${slide.id}`, {})
-    if(!slideAnswerData.isAnsweredCorrectly) {
+    if (!slideAnswerData.isAnsweredCorrectly) {
       return i
     }
   }
@@ -85,15 +85,15 @@ class UserLessonWizard extends Component {
       , globalColorsNeedsChanging = this.props.globalColors.primaryColor !== newGlobalColors.primaryColor
       , titleNeedsSetting = !isEqual(this.props.topBarTitle, this.props.lesson.title)
 
-    if(lessonIdHasChanged || userIdHasChanged) {
+    if (lessonIdHasChanged || userIdHasChanged) {
       this.props.getLesson({ id: this.props.match.params.id })
       this.props.getManyUserLessons({ lessonId: this.props.match.params.id, userId: this.props.userId })
     }
 
-    if(globalColorsNeedsChanging)
+    if (globalColorsNeedsChanging)
       this.setTopBarColor(newGlobalColors)
 
-    if(titleNeedsSetting)
+    if (titleNeedsSetting)
       this.props.setTopBarTitle(this.props.lesson.title)
   }
 
@@ -107,7 +107,7 @@ class UserLessonWizard extends Component {
     const { postUserLesson, putUserLesson } = this.props
     const _id = get(params ,'_id', null)
       , id = get(params, 'id', null)
-    if(_id) {
+    if (_id) {
       delete params._id
       params.id = _id
       return putUserLesson(params)
@@ -174,7 +174,7 @@ const mapStateToProps = (state, ownProps) => {
   const userLesson = userLessonsByLessonId[id] || {}
 
   let initialValues = { answerData: [], lessonId: id }
-  if(!isEmpty(userLesson)) {
+  if (!isEmpty(userLesson)) {
     initialValues = cloneDeep(userLesson)
     initialValues.answerData = []
   }
@@ -183,9 +183,9 @@ const mapStateToProps = (state, ownProps) => {
   // by the latest and most up-to-date order of slides in the lesson.
   get(lesson, 'slides', []).forEach((each, i) => {
     const answerData = get(userLesson, `answerData[${each.id}]`, {})
-    if(!isEmpty(answerData)) {
+    if (!isEmpty(answerData)) {
       initialValues.answerData[i] = answerData
-    } else if(!!each.editorInput) {
+    } else if (!!each.editorInput) {
       initialValues.answerData[i] = { answer: each.editorInput, id: each.id, isViewed: false }
     } else {
       initialValues.answerData[i] = { answer: '', id: each.id, isViewed: false }

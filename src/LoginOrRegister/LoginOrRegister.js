@@ -41,7 +41,7 @@ class LoginOrRegister extends PureComponent {
       this.props.history.push("/lessons")
     } catch(e) {
       console.error(e)
-      if(JSON.stringify(e).includes('invalid_grant')) {
+      if (JSON.stringify(e).includes('invalid_grant')) {
         throw new SubmissionError({ password: '', _error: 'Wrong username or password.' })
       }
     }
@@ -57,11 +57,11 @@ class LoginOrRegister extends PureComponent {
       this.props.history.push("/welcome")
     } catch (e) {
       console.error(e)
-      if(JSON.stringify(e).includes('User already exists')) {
+      if (JSON.stringify(e).includes('User already exists')) {
         throw new SubmissionError({ username: 'Username taken!', _error: 'Registration failed!' })
-      } else if(e.message && JSON.stringify(e.message).toLowerCase().includes('username')) {
+      } else if (e.message && JSON.stringify(e.message).toLowerCase().includes('username')) {
         throw new SubmissionError({ username: e.message, _error: 'Registration failed!' })
-      } else if(e.message && JSON.stringify(e.message).toLowerCase().includes('pass validation for format email')) {
+      } else if (e.message && JSON.stringify(e.message).toLowerCase().includes('pass validation for format email')) {
         throw new SubmissionError({ username: "Your username can only contain alphanumeric characters and '_', '+', '-', or '.'", _error: 'Registration failed!' })
       } else {
         throw new SubmissionError({ username: e.message, _error: 'Registration failed!' })

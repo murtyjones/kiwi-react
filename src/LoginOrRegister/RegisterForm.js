@@ -19,7 +19,7 @@ class RegisterForm extends PureComponent {
   }
 
   async UNSAFE_componentWillReceiveProps(nextProps) {
-    if(nextProps.submitSucceeded && !this.props.submitSucceeded) {
+    if (nextProps.submitSucceeded && !this.props.submitSucceeded) {
       // prevent the user from spamming the button,
       // even if the attempt failed.
       await this.setState({ preventSpamming: true })
@@ -108,16 +108,16 @@ export default reduxForm({
   // a unique name for the form
   form: 'register',
   validate: values => {
-    if(values.username) values.username = values.username.trim()
+    if (values.username) values.username = values.username.trim()
     const errors = {}
-    if(!values.username) {
+    if (!values.username) {
       errors.username = 'Required!'
-    } else if(values.username.includes('@')) {
+    } else if (values.username.includes('@')) {
       errors.username = 'Email addresses are not allowed!'
-    } else if(values.username.includes(' ')) {
+    } else if (values.username.includes(' ')) {
       errors.username = 'Spaces are not allowed!'
     }
-    if(!values.password) {
+    if (!values.password) {
       errors.password = 'Required!'
     }
 

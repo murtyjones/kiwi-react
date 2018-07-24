@@ -70,7 +70,7 @@ class ProviderDashboard extends PureComponent {
   constructor(props) {
     super(props)
     const activeIndex = MENU_ITEMS.reduce((acc, each, idx) => {
-      if(props.match.url.includes(each.section))
+      if (props.match.url.includes(each.section))
         acc = idx
       return acc
     }, 0)
@@ -113,15 +113,15 @@ class ProviderDashboard extends PureComponent {
 
   UNSAFE_componentWillUpdate(nextProps, nextState) {
     // replace browser history if activeIndex has changed
-    if(has(nextState, 'activeIndex') && nextState.activeIndex !== this.state.activeIndex) {
+    if (has(nextState, 'activeIndex') && nextState.activeIndex !== this.state.activeIndex) {
       const base = '/provider'
       const append = `/${MENU_ITEMS[nextState.activeIndex].section}`
       this.props.history.replace(base + append)
     }
     // change activeIndex if url has changed
-    if(nextProps.match.url !== this.props.match.url) {
+    if (nextProps.match.url !== this.props.match.url) {
       const activeIndex = MENU_ITEMS.reduce((acc, each, idx) => {
-        if(nextProps.match.url.includes(each.section))
+        if (nextProps.match.url.includes(each.section))
           acc = idx
         return acc
       }, 0)

@@ -38,7 +38,7 @@ function profiles(state = initialState, action) {
             const oldProfile = get(state, `profilesById[${each._id}]`, {})
             // only replace if profile object does not exist
             // or is out of date
-            if(isEmpty(oldProfile) || oldProfile.v <  each.v) {
+            if (isEmpty(oldProfile) || oldProfile.v <  each.v) {
               acc[each._id] = each
             }
             return acc
@@ -48,7 +48,7 @@ function profiles(state = initialState, action) {
       return newState
     }
     case ACTIONS.DELETE_PROFILE_SUCCESS: {
-      if(action.payload.ok) {
+      if (action.payload.ok) {
         const profilesById = Object.assign({}, state.profilesById)
         delete profilesById[action.payload.value._id]
         const newState = Object.assign({}, state, {

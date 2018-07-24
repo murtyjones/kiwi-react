@@ -29,7 +29,7 @@ class EmailVerification extends Component {
 
   componentDidMount() {
     const email = get(queryString.parse(this.props.location.search), 'email', '')
-    if(email) this.props.checkProfileEmailVerification({ email })
+    if (email) this.props.checkProfileEmailVerification({ email })
   }
 
   render() {

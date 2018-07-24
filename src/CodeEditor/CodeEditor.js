@@ -79,31 +79,31 @@ class CodeEditor extends Component {
 
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(this.props.editorInput !== nextProps.editorInput) {
+    if (this.props.editorInput !== nextProps.editorInput) {
       this.updateInput(nextProps.editorInput)
     }
   }
 
   async UNSAFE_componentWillUpdate(nextProps, nextState) {
     const { afterRunCode } = nextProps
-    if(this.state.errorLine) {
+    if (this.state.errorLine) {
       this.codeMirror.removeLineClass((this.state.errorLine - 1), 'wrap', 'errorLine')
     }
 
-    if(nextState.errorLine) {
+    if (nextState.errorLine) {
       this.codeMirror.addLineClass((nextState.errorLine - 1), 'wrap', 'errorLine')
       // when UserLessonWizard sees that there is no codeOutput,
       // it will know to NOT submitCurrentValues for checking
       // correctness, because there was an error.
-      if(afterRunCode) afterRunCode(true, null)
+      if (afterRunCode) afterRunCode(true, null)
     }
 
     // if runCode prop was turned on, run code, get the new output,
     // and bubble it up to the UserLessonWizard to populate the codeOutput field
-    if(!this.props.runCode && nextProps.runCode) {
+    if (!this.props.runCode && nextProps.runCode) {
       await this.runCode()
       const { editorOutput } = this.state
-      if(afterRunCode) afterRunCode(null, editorOutput || '')
+      if (afterRunCode) afterRunCode(null, editorOutput || '')
     }
   }
 
@@ -118,7 +118,7 @@ class CodeEditor extends Component {
   updateInput = (v) => {
     const { onChange } = this.props
     this.setEditorInput(v)
-    if(onChange) onChange(v)
+    if (onChange) onChange(v)
   }
 
   setEditorInput = (v) =>
@@ -139,7 +139,7 @@ class CodeEditor extends Component {
 
   handleChange = (v) => {
     const { onChange } = this.props
-    if(onChange) onChange(v)
+    if (onChange) onChange(v)
 
   }
 
@@ -154,7 +154,7 @@ class CodeEditor extends Component {
 
   rawInputListener = async (e) => {
     const { rawInputResolve } = this.state
-    if((e.keyCode || e.which) === 13) {
+    if ((e.keyCode || e.which) === 13) {
       const answerArray = e.target.value.split("\n")
       const answer = answerArray[answerArray.length-2]
       this.setState({ prompt: '', rawInputValue: '', rawInputResolve: null })
@@ -169,7 +169,7 @@ class CodeEditor extends Component {
     const { variablesCompleted, editorInput } = this.state
     const { setFormGlobalVariable, variableOptions, upsertUserVariable, variablesToComplete = [] } = this.props
 
-    if(!isEmpty(variablesToComplete)) {
+    if (!isEmpty(variablesToComplete)) {
       // allows answering multiple times.
       const variablesCompletedLengthMod = variablesCompleted.length % variablesToComplete.length
       // sorts variables by appearance in the editorInput

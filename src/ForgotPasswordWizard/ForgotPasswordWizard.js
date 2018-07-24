@@ -21,7 +21,7 @@ class ForgotPasswordWizard extends Component {
   }
 
   handleRecoveryCheckResponse = response => {
-    if(response.message.includes('fail')) {
+    if (response.message.includes('fail')) {
       this.setState({
         activeSlideIndex: 1
         , attemptsRemaining: response.attemptsRemaining
@@ -48,11 +48,11 @@ class ForgotPasswordWizard extends Component {
     const { activeSlideIndex: i, recoveryCode } = this.state
     const actionType = slides[i].action
     const params = { ...v }
-    if(recoveryCode) params.recoveryCode = recoveryCode
-    if(actionType) {
+    if (recoveryCode) params.recoveryCode = recoveryCode
+    if (actionType) {
       const success = await this.props[actionType](params)
       const successHandlerType = slides[i].handleSuccessMethod
-      if(successHandlerType) this[successHandlerType](success, v)
+      if (successHandlerType) this[successHandlerType](success, v)
     }
   }
 

@@ -104,10 +104,10 @@ SubscribeForm = reduxForm({
   form: 'contact',
   validate: values => {
     const errors = {}
-    if(!values.name) {
+    if (!values.name) {
       errors.name = 'Required!'
     }
-    if(!values.email || !values.email.includes('@')) {
+    if (!values.email || !values.email.includes('@')) {
       errors.email = 'Email address is invalid!'
     }
     return errors

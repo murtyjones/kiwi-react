@@ -2,12 +2,12 @@ import moment from 'moment'
 
 const loadFullStory = store => {
   //only load full story on kiwi sites
-  if(window.location.host.indexOf('kiwicompute.com') === -1) {
+  if (window.location.host.indexOf('kiwicompute.com') === -1) {
     return
   }
 
   //we don't want to load full story on any dev environment
-  if(window.location.host.indexOf('dev.kiwicompute.com') >= 0
+  if (window.location.host.indexOf('dev.kiwicompute.com') >= 0
     || window.location.host.indexOf('integration.kiwicompute.com') >= 0
     // || window.location.host.indexOf('stage.kiwicompute.com') >= 0
   ) {
@@ -23,7 +23,7 @@ const loadFullStory = store => {
       m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].')
       return
     }
-    if(e in m && m.console && m.console.log) {
+    if (e in m && m.console && m.console.log) {
       m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].')
       return
     }
@@ -40,7 +40,7 @@ const loadFullStory = store => {
       g(l, {
         uid: i
       })
-      if(v) g(l, v)
+      if (v) g(l, v)
     }
     g.setUserVars = function(v) {
       g(l, v)
@@ -52,13 +52,13 @@ const loadFullStory = store => {
       g(o, v)
     }
     g.clearUserCookie = function(c, d, i) {
-      if(!c || document.cookie.match('fs_uid=[`;`]*`[`;`]*`[``]*`')) {
+      if (!c || document.cookie.match('fs_uid=[`;`]*`[`;`]*`[``]*`')) {
         d = n.domain
         while (1) {
           n.cookie = 'fs_uid=;domain=' + d +
             ';path=/;expires=' + new Date(0).toUTCString()
           i = d.indexOf('.')
-          if(i < 0) break
+          if (i < 0) break
           d = d.slice(i + 1)
         }
       }
@@ -71,9 +71,9 @@ const loadFullStory = store => {
   // cookie if somebody just logged in
   const initialUserId = initialState.auth.userId
   const unsubscribe = store.subscribe(() => {
-    if(window.FS) {
+    if (window.FS) {
       const { auth: { isLoggedIn, userId, username } } = store.getState()
-      if(isLoggedIn && initialUserId !== userId) {
+      if (isLoggedIn && initialUserId !== userId) {
         const sessionTime = moment.utc().format()
         const sessionId = `${userId}-${sessionTime}`
         window.FS.identify(userId, {

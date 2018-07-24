@@ -36,7 +36,7 @@ gulp.task('default', [], () => {
       .pipe(eslint.result(result => {
         const warnings = result.warningCount
         const errors = result.errorCount
-        if(!warnings && !errors) {
+        if (!warnings && !errors) {
           gutil.log('Eslint found', gutil.colors.green('zero issues'))
         } else {
           gutil.log('Eslint found',
@@ -86,7 +86,7 @@ gulp.task('lint', () => {
     .pipe(eslint.result(result => {
       const warnings = result.warningCount
       const errors = result.errorCount
-      if(!warnings && !errors) {
+      if (!warnings && !errors) {
         gutil.log('Eslint found', gutil.colors.green('zero issues'))
       } else {
         gutil.log('Eslint found',
@@ -131,7 +131,7 @@ gulp.task("clean", function() {
 gulp.task("webpack:build:production", function(callback) {
   // run webpack
   return webpack(webpackProdConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack:build:production", err)
+    if (err) throw new gutil.PluginError("webpack:build:production", err)
     gutil.log("[webpack:build:production]", stats.toString({ colors: true }))
     callback()
   })
@@ -140,7 +140,7 @@ gulp.task("webpack:build:production", function(callback) {
 gulp.task("webpack:build:development", function(callback) {
   // run webpack
   return webpack(webpackDevConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack:build:development", err)
+    if (err) throw new gutil.PluginError("webpack:build:development", err)
     gutil.log("[webpack:build:development]", stats.toString({ colors: true }))
     callback()
   })
@@ -149,7 +149,7 @@ gulp.task("webpack:build:development", function(callback) {
 gulp.task("webpack:build:stage", function(callback) {
   // run webpack
   return webpack(webpackStageConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack:build:stage", err)
+    if (err) throw new gutil.PluginError("webpack:build:stage", err)
     gutil.log("[webpack:build:stage]", stats.toString({ colors: true }))
     callback()
   })

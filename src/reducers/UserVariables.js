@@ -40,7 +40,7 @@ function userVariables(state = initialState, action) {
       return newState
     }
     case ACTIONS.DELETE_USER_VARIABLE_SUCCESS: {
-      if(action.payload.ok) {
+      if (action.payload.ok) {
         const userVariablesById = Object.assign({}, state.userVariablesById)
         delete userVariablesById[action.payload.value._id]
         const newState = Object.assign({}, state, {

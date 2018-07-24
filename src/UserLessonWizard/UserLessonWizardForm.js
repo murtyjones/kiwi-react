@@ -120,14 +120,14 @@ class UserLessonWizardForm extends Component {
       , isFetchingUserLessonsHasChanged = !isEqual(nextProps.isFetchingUserLessons, this.props.isFetchingUserLessons)
       , formValuesHasChanged = !isEqual(nextProps.formValues, this.props.formValues)
 
-    if(lessonHasChanged || activeSlideIndexHasChanged) {
+    if (lessonHasChanged || activeSlideIndexHasChanged) {
       this.setActiveSlideObject(nextProps.activeSlideIndex, nextProps.lesson)
       this.setIsFinal(nextProps.activeSlideIndex, nextProps.lesson)
       this.setPrevDisabled(nextProps.activeSlideIndex, nextProps.lesson)
       this.setRunCode(false)
     }
 
-    if(lessonHasChanged || activeSlideIndexHasChanged || isFetchingUserLessonsHasChanged || formValuesHasChanged) {
+    if (lessonHasChanged || activeSlideIndexHasChanged || isFetchingUserLessonsHasChanged || formValuesHasChanged) {
       this.setNextDisabled(nextProps.activeSlideIndex, nextProps.lesson, nextProps.isFetchingUserLessons, nextProps.formValues)
     }
   }
@@ -140,18 +140,18 @@ class UserLessonWizardForm extends Component {
     const noCodeRunNeeded = !nextState.runCode && !this.state.runCode
 
     // if an answer was graded, show the result
-    if(nextState.checkAnswer && slideHasUpdated) {
+    if (nextState.checkAnswer && slideHasUpdated) {
       this.setState({ checkAnswer: false, showResultCard: true })
     }
 
     // if an answer needs to be graded and code editor has run the code,
     // submit current values and switch off submit current values
-    if(nextState.checkAnswer && nextState.submitCurrentValues && (codeHasRun || noCodeRunNeeded)) {
+    if (nextState.checkAnswer && nextState.submitCurrentValues && (codeHasRun || noCodeRunNeeded)) {
       nextProps.onSubmit(nextProps.formValues)
       this.setState({ submitCurrentValues: false, showResultCard: false })
     }
 
-    if(nextProps.activeSlideIndex !== this.props.activeSlideIndex) {
+    if (nextProps.activeSlideIndex !== this.props.activeSlideIndex) {
       await this.setStateAsync({ showResultCard: false })
     }
   }
@@ -249,7 +249,7 @@ class UserLessonWizardForm extends Component {
             afterRunCode={ async (err, codeOutput) => {
               this.setRunCode(false)
               await this.setStateAsync({ showResultCard: false, codeRanAtLeastOnce: true })
-              if(!err) this.setCodeOutput(ref, codeOutput)
+              if (!err) this.setCodeOutput(ref, codeOutput)
             } }
             className='lessonWizardFormContent'
             globalColors={ globalColors }

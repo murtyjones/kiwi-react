@@ -12,13 +12,13 @@ class renderSliderField extends Component {
 
   componentDidMount() {
     const { input: { value } } = this.props
-    if(value) {
+    if (value) {
       this.setState({ value })
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(this.props.input.value !== nextProps.input.value) {
+    if (this.props.input.value !== nextProps.input.value) {
       this.setState({ value: nextProps.input.value })
     }
   }

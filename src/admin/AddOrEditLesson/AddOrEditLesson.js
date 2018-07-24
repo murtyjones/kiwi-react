@@ -31,7 +31,7 @@ class AddOrEditLesson extends Component {
   UNSAFE_componentWillMount() {
     const { getLesson, getManyVariables, match: { params: { id } } } = this.props
     const { needsLesson } = this.state
-    if(needsLesson) {
+    if (needsLesson) {
       getLesson({ id })
 
     }
@@ -39,7 +39,7 @@ class AddOrEditLesson extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(!isEqual(this.props.initialValues, nextProps.initialValues)) {
+    if (!isEqual(this.props.initialValues, nextProps.initialValues)) {
       this.setState({ isNewLesson: false, needsLesson: false })
     }
   }
@@ -48,11 +48,11 @@ class AddOrEditLesson extends Component {
     const { postLesson, putLesson } = this.props
     const _id = params._id
     const id = params.id
-    if(_id) {
+    if (_id) {
       delete params._id
       params.id = _id
       return putLesson(params)
-    } else if(id) {
+    } else if (id) {
       return putLesson(params)
     }
     return postLesson(params).then(res => {

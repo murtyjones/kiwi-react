@@ -88,7 +88,7 @@ class DynamicHeader extends PureComponent {
       textAlign: '-webkit-center'
     }
 
-    if(textMass <= fixPoint) {
+    if (textMass <= fixPoint) {
       buttonStyle = {
         position: 'fixed',
         top: '25px',

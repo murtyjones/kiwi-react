@@ -53,7 +53,7 @@ const Choices = ({ classes, slideData, input }) =>
           className={ cns(classes.choice, classes[`choice${i}`], {
             [classes.selected]: selected
           }) }
-          onClick={ () => { if(!selected) input.onChange(i) } }
+          onClick={ () => { if (!selected) input.onChange(i) } }
         >
           { choice }
         </div>

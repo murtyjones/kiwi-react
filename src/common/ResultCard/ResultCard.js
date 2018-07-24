@@ -50,10 +50,10 @@ class ResultCard extends Component {
 
     let headline = isAnsweredCorrectly ? 'Correct!' : 'Wrong!'
     let explanation
-    if(isAnsweredCorrectly && successHeadline && successExplanation) {
+    if (isAnsweredCorrectly && successHeadline && successExplanation) {
       headline = successHeadline
       explanation = successExplanation
-    } else if(!isAnsweredCorrectly && failureHeadline && failureExplanation) {
+    } else if (!isAnsweredCorrectly && failureHeadline && failureExplanation) {
       headline = failureHeadline
       explanation = failureExplanation
     }

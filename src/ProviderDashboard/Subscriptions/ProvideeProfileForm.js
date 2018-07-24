@@ -171,16 +171,16 @@ ProvideeProfileForm = reduxForm({
   , enableReinitialize: true
   , validate: values => {
     const errors = {}
-    if(!values.currentPassword && (values.password || values.confirmNewPassword)) {
+    if (!values.currentPassword && (values.password || values.confirmNewPassword)) {
       errors.currentPassword = 'Required'
     }
-    if(!values.password && (values.currentPassword || values.confirmNewPassword)) {
+    if (!values.password && (values.currentPassword || values.confirmNewPassword)) {
       errors.password = 'Required'
     }
-    if(!values.confirmNewPassword && (values.currentPassword || values.password)) {
+    if (!values.confirmNewPassword && (values.currentPassword || values.password)) {
       errors.confirmNewPassword = 'Required'
     }
-    if(values.confirmNewPassword && values.password !== values.confirmNewPassword) {
+    if (values.confirmNewPassword && values.password !== values.confirmNewPassword) {
       errors.confirmNewPassword = 'Passwords do not match!'
     }
     return errors

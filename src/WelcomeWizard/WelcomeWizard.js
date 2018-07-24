@@ -22,11 +22,11 @@ class WelcomeWizard extends Component {
   handleSubmit = async v => {
     const { username } = this.props
     const actionType = slides[this.state.activeSlideIndex].action
-    if(actionType) {
+    if (actionType) {
       const params = { username, ...v }
       return await this.props[actionType](params)
     }
-    if(slides.length - 1 === this.state.activeSlideIndex) {
+    if (slides.length - 1 === this.state.activeSlideIndex) {
       this.props.history.push("/lessons")
     }
   }

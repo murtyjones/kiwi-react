@@ -40,13 +40,13 @@ class ManageSubscriptions extends Component {
     const { showActive, showInactive } = this.state
 
     const subscriptionsByProviderId = subscriptions.reduce((acc, each) => {
-      if(
+      if (
         each.status === SUBSCRIPTION_STATUSES.ACTIVE && !showActive ||
         each.status === SUBSCRIPTION_STATUSES.INACTIVE && !showInactive
       ) { return acc }
 
       const providerSubscriptionsObject = find(acc, { providerId: each.providerId })
-      if(!providerSubscriptionsObject) {
+      if (!providerSubscriptionsObject) {
         acc.push({ providerId: each.providerId, subscriptions: [each] })
       } else {
         providerSubscriptionsObject.subscriptions.push(each)

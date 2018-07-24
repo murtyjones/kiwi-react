@@ -46,7 +46,7 @@ class UserProject extends Component {
     const { toggleTopBarTitleFocus, setTopBarTitle, getUserProject, userProject, match: { params: { id } } } = this.props
     const { isNewProject } = this.state
 
-    if(!isNewProject && isEmpty(userProject)) {
+    if (!isNewProject && isEmpty(userProject)) {
       getUserProject({ id })
     }
 
@@ -61,7 +61,7 @@ class UserProject extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(!isEqual(this.props.userProject, nextProps.userProject)) {
+    if (!isEqual(this.props.userProject, nextProps.userProject)) {
       nextProps.setTopBarTitle(get(nextProps, 'userProject.title', ''))
       this.setState({
         projectId: nextProps.userProject._id
@@ -83,7 +83,7 @@ class UserProject extends Component {
     const id = isNewProject ? null : this.state.projectId
       , title = topBarTitle
 
-    if(isNewProject) {
+    if (isNewProject) {
       postUserProject({ code, title, userId })
       .then(res => {
         this.props.history.push(`/project/${res._id}`)

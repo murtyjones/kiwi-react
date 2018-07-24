@@ -76,7 +76,7 @@ class Slides extends Component {
     const noSlidesSetYet = !allSlideValues && isEmpty(localSlideTypes)
     const hasSlideToSet = !isEmpty(nextAllSlideValues)
 
-    if(noSlidesSetYet && hasSlideToSet) {
+    if (noSlidesSetYet && hasSlideToSet) {
       this.setState({ localSlideTypes: nextAllSlideValues.map(e => e.type) })
     }
   }
