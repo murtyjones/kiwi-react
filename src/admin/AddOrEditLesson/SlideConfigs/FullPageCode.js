@@ -88,11 +88,11 @@ class FullPageCode extends Component {
     const { slideValues: { inputSuccessCriteria, outputSuccessCriteria } } = this.props
     const { globalVariables } = this.state
     const params = { answer, codeOutput }
-    if(inputSuccessCriteria)
+    if (inputSuccessCriteria)
       params.inputSuccessCriteria = inputSuccessCriteria
-    if(outputSuccessCriteria)
+    if (outputSuccessCriteria)
       params.outputSuccessCriteria = outputSuccessCriteria
-    if(!isEmpty(globalVariables))
+    if (!isEmpty(globalVariables))
       params.variables = globalVariables
     this.setStateAsync({ showResultCard: false })
     const result = await this.props.postTestCheckAnswer(params)

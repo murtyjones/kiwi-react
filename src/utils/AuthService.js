@@ -151,7 +151,7 @@ export default class AuthService {
   static setIsAdmin(decodedToken) {
     const app_metadata = get(decodedToken, `${config.auth.namespace}/app_metadata`)
     const isAdmin = get(app_metadata, 'roles', []).reduce((acc, role) => {
-      if(role.isAdmin) {
+      if (role.isAdmin) {
         acc = true
       }
       return acc
@@ -162,7 +162,7 @@ export default class AuthService {
   static setIsProvider(decodedToken) {
     const app_metadata = get(decodedToken, `${config.auth.namespace}/app_metadata`)
     const isProvider = get(app_metadata, 'roles', []).reduce((acc, role) => {
-      if(role.isProvider) {
+      if (role.isProvider) {
         acc = true
       }
       return acc

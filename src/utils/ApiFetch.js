@@ -24,9 +24,9 @@ const ApiFetch = (url, options = {}) => {
       , ...headers
     }
 
-    if(store) {
+    if (store) {
       let state = store.getState()
-      if(state.auth && state.auth.token) {
+      if (state.auth && state.auth.token) {
         _headers.Authorization = state.auth.token
       }
     }
@@ -34,7 +34,7 @@ const ApiFetch = (url, options = {}) => {
     return fetch(url, options)
   }).then(response => {
     return response.json().then(body => {
-      if(response.status >= 200 && response.status < 300) return body
+      if (response.status >= 200 && response.status < 300) return body
       else throw body
     })
 

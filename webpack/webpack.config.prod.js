@@ -19,6 +19,7 @@ module.exports = {
     Signups: './src/admin/Signups/Signups.js',
     ProviderLoginOrRegister: './src/ProviderLoginOrRegister/ProviderLoginOrRegister',
     Lessons: './src/Lessons/Lessons',
+    LessonsV2: './src/LessonsV2/LessonsV2',
     ForgotPasswordWizard: './src/ForgotPasswordWizard/ForgotPasswordWizard'
   },
   output: {

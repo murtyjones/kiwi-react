@@ -98,15 +98,15 @@ LoginForm = reduxForm({
   form: 'login',
   validate: values => {
     const errors = {}
-    if(values.username) values.username = values.username.trim()
-    if(!values.username) {
+    if (values.username) values.username = values.username.trim()
+    if (!values.username) {
       errors.username = 'Required!'
-    } else if(values.username.includes('@')) {
+    } else if (values.username.includes('@')) {
       errors.username = 'Email addresses are not allowed!'
-    } else if(values.username.includes(' ')) {
+    } else if (values.username.includes(' ')) {
       errors.username = 'Spaces are not allowed!'
     }
-    if(!values.password) {
+    if (!values.password) {
       errors.password = 'Required!'
     }
 

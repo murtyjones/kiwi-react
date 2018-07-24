@@ -25,7 +25,7 @@ class ConfirmPasswordModal extends Component {
       const r = await login({ username, password: v.password })
       return callback(true)
     } catch (err) {
-      if(JSON.stringify(err).includes('invalid_grant')) {
+      if (JSON.stringify(err).includes('invalid_grant')) {
         throw new SubmissionError({ password: '', _error: 'Wrong password.' })
       }
       throw new SubmissionError({ password: '', _error: getError(err) })

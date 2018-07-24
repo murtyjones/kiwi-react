@@ -52,7 +52,7 @@ class Lessons extends Component {
       , lessonsHasChanged = !isEqual(lessons, nextLessons)
       , userLessonsHasChanged = !isEqual(userLessons, nextUserLessons)
 
-    if(orderHasChanged || lessonsHasChanged || userLessonsHasChanged)
+    if (orderHasChanged || lessonsHasChanged || userLessonsHasChanged)
       this.setCombinedMapLessons(nextOrderOfPublishedLessons, nextLessons, nextUserLessons)
   }
 
@@ -65,11 +65,11 @@ class Lessons extends Component {
         , prevLesson = find(lessons, { _id: prevLessonId }) || {}
         , prevUserLesson = find(userLessons, { lessonId: prevLesson._id }) || {}
 
-      if(!lesson) return {}
+      if (!lesson) return {}
       lesson.userLesson = userLesson
       const hasBeenStartedButNotCompleted = !isEmpty(userLesson) && !userLesson.hasBeenCompleted
       const hasNotBeenStartedButIsNext = isEmpty(userLesson) && !isEmpty(prevUserLesson) && prevUserLesson.hasBeenCompleted
-      if(hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext)
+      if (hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext)
         activeLessonId = lesson._id
       return lesson
     })

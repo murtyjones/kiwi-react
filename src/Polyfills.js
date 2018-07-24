@@ -8,25 +8,25 @@ Es6Promise.polyfill();
 
 
 // Object.values
-if(!Object.values) {
+if (!Object.values) {
   values.shim();
 }
 
 // Object assign
-if(!Object.assign) {
+if (!Object.assign) {
   Object.defineProperty(Object, 'assign', {
     enumerable: false,
     configurable: true,
     writable: true,
     value: function(target) {
-      if(target === undefined || target === null) {
+      if (target === undefined || target === null) {
         throw new TypeError('Cannot convert first argument to object');
       }
 
       var to = Object(target);
       for (var i = 1; i < arguments.length; i++) {
         var nextSource = arguments[i];
-        if(nextSource === undefined || nextSource === null) {
+        if (nextSource === undefined || nextSource === null) {
           continue;
         }
         nextSource = Object(nextSource);
@@ -35,7 +35,7 @@ if(!Object.assign) {
         for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
           var nextKey = keysArray[nextIndex];
           var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-          if(desc !== undefined && desc.enumerable) {
+          if (desc !== undefined && desc.enumerable) {
             to[nextKey] = nextSource[nextKey];
           }
         }
@@ -62,12 +62,12 @@ if (!String.prototype.includes) {
 }
 
 // .includes [for arrays]
-if(!Array.prototype.includes) {
+if (!Array.prototype.includes) {
   Object.defineProperty(Array.prototype, 'includes', {
     value: function(searchElement, fromIndex) {
 
       // 1. Let O be ? ToObject(this value).
-      if(this == null) {
+      if (this == null) {
         throw new TypeError('"this" is null or not defined');
       }
 
@@ -77,7 +77,7 @@ if(!Array.prototype.includes) {
       var len = o.length >>> 0;
 
       // 3. If len is 0, return false.
-      if(len === 0) {
+      if (len === 0) {
         return false;
       }
 
@@ -98,7 +98,7 @@ if(!Array.prototype.includes) {
         // b. If SameValueZero(searchElement, elementK) is true, return true.
         // c. Increase k by 1.
         // NOTE: === provides the correct "SameValueZero" comparison needed here.
-        if(o[k] === searchElement) {
+        if (o[k] === searchElement) {
           return true;
         }
         k++;

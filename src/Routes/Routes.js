@@ -34,6 +34,7 @@ import { connect } from 'react-redux'
 import { setGlobalColors, signout } from '../actions/index'
 
 const Lessons = Loadable({ loader: () => import('../Lessons/Lessons'), loading: Loading })
+const LessonsV2 = Loadable({ loader: () => import('../LessonsV2/LessonsV2'), loading: Loading })
 const ForgotPasswordWizard = Loadable({ loader: () => import('../ForgotPasswordWizard/ForgotPasswordWizard'), loading: Loading })
 const AddOrEditLesson = Loadable({ loader: () => import('../admin/AddOrEditLesson/AddOrEditLesson'), loading: Loading })
 const ProviderLoginOrRegister = Loadable({ loader: () => import('../ProviderLoginOrRegister/ProviderLoginOrRegister'), loading: Loading })
@@ -117,6 +118,10 @@ class Routes extends Component {
         />
         <SubscriptionRoute exact redirectIfMobile
           path='/lessons' component={ Lessons }
+          { ...routeProps }
+        />
+        <SubscriptionRoute exact redirectIfMobile
+          path='/lessonsV2' component={ LessonsV2 }
           { ...routeProps }
         />
         <AuthenticatedRoute exact redirectIfMobile

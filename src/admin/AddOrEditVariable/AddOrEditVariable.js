@@ -32,13 +32,13 @@ class AddOrEditVariable extends Component {
   UNSAFE_componentWillMount() {
     const { getVariable, match: { params: { id } } } = this.props
     const { needsVariable } = this.state
-    if(needsVariable) {
+    if (needsVariable) {
       getVariable({ id })
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(!isEqual(this.props.initialValues, nextProps.initialValues)) {
+    if (!isEqual(this.props.initialValues, nextProps.initialValues)) {
       this.setState({ isNewVariable: false, needsVariable: false })
     }
   }
@@ -49,12 +49,12 @@ class AddOrEditVariable extends Component {
       const _id = params._id
       const id = params.id
       let result
-      if(_id) {
+      if (_id) {
         delete params._id
         params.id = _id
         result = await putVariable(params)
         return result
-      } else if(id) {
+      } else if (id) {
         result = await putVariable(params)
         return result
       } else {

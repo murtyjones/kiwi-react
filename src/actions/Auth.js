@@ -10,8 +10,8 @@ export const login = ({ username, email, password }) => {
   return dispatch => {
     dispatch({ type: ACTIONS.LOGIN_REQUEST })
     const params = { password }
-    if(email) params.email = email
-    if(username) params.username = username
+    if (email) params.email = email
+    if (username) params.username = username
     return authService.login(params)
       .then(success => {
         dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })

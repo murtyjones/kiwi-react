@@ -33,11 +33,11 @@ class Account extends Component {
   handleChangePasswordSubmit = async (params) => {
     try {
       const result = await this.props.changePassword(params)
-      if(result.success) {
+      if (result.success) {
         throw { message: 'Could not be done right now. Please try again later.' }
       }
     } catch(err) {
-      if(err.message && err.message.error && err.message.error.invalid_grant) {
+      if (err.message && err.message.error && err.message.error.invalid_grant) {
         throw new SubmissionError({ _error: 'Wrong password!' })
       }
       throw new SubmissionError({ _error: err.message })

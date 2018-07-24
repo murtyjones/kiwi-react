@@ -9,7 +9,7 @@ const usernameAvailability = (values/*, dispatch*/) => {
 
   return ApiFetch(`${config.api}/profiles/usernames/${values.username}`, options)
   .then(result => {
-    if(result.isUsernameReserved)
+    if (result.isUsernameReserved)
       throw { username: 'Username is taken!' }
   })
 

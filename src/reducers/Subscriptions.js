@@ -40,7 +40,7 @@ function subscriptions(state = initialState, action) {
       return newState
     }
     case ACTIONS.DELETE_SUBSCRIPTION_SUCCESS: {
-      if(action.payload.ok) {
+      if (action.payload.ok) {
         const subscriptionsById = Object.assign({}, state.subscriptionsById)
         delete subscriptionsById[action.payload.value._id]
         const newState = Object.assign({}, state, {

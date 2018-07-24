@@ -36,13 +36,13 @@ class ManageLessons extends Component {
     const lessons = Object.values(lessonsById)
     const published = orderOfPublishedLessons.reduce((acc, lessonId) => {
       const lesson = find(lessons, { _id: lessonId })
-      if(lesson) {
+      if (lesson) {
         acc.push(lesson)
       }
       return acc
     }, [])
     const unpublished = lessons.reduce((acc, lesson) => {
-      if(!lesson.isPublished) {
+      if (!lesson.isPublished) {
         acc.push(lesson)
       }
       return acc

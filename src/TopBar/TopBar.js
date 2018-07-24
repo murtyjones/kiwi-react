@@ -133,16 +133,16 @@ class TopBar extends PureComponent {
     const { title, isFocused } = this.props
     const { title: nextTitle, isFocused: nextIsFocused } = nextProps
 
-    if(title !== nextTitle) {
+    if (title !== nextTitle) {
       this.setState({ title: nextProps.title })
     }
 
-    if(nextIsFocused && !isFocused) {
+    if (nextIsFocused && !isFocused) {
       this.input.focus()
       this.input.setSelectionRange(this.input.value.length, this.input.value.length)
     }
 
-    if(!nextIsFocused && isFocused) {
+    if (!nextIsFocused && isFocused) {
       this.input.blur()
     }
   }
@@ -169,7 +169,7 @@ class TopBar extends PureComponent {
     const { anchorEl } = this.state
 
 
-    if(!isOpen) return null
+    if (!isOpen) return null
 
     return (
       <AppBar

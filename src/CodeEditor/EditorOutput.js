@@ -111,7 +111,7 @@ const styles = theme => ({
 })
 
 const getCommonErrorHint = errorMsg => Object.keys(COMMON_ERRORS).reduce((hintHTML, errorSubstring) => {
-  if(errorMsg && errorMsg.toLowerCase().includes(errorSubstring.toLowerCase()))
+  if (errorMsg && errorMsg.toLowerCase().includes(errorSubstring.toLowerCase()))
     hintHTML = COMMON_ERRORS[errorSubstring].html
   return hintHTML
 }, null)
@@ -119,7 +119,7 @@ const getCommonErrorHint = errorMsg => Object.keys(COMMON_ERRORS).reduce((hintHT
 const getCustomErrorHint = editorInput => Object.keys(CUSTOM_ERRORS).reduce((hintHTML, key) => {
   const testFunction = CUSTOM_ERRORS[key].test
   const testPasses = testFunction(editorInput)
-  if(testPasses)
+  if (testPasses)
     hintHTML = CUSTOM_ERRORS[key].html
   return hintHTML
 }, null)
@@ -165,14 +165,14 @@ class EditorOutput extends Component {
 
   async UNSAFE_componentWillReceiveProps(nextProps) {
     const valueHasChanged = nextProps.value !== this.props.value
-    if(nextProps.value && valueHasChanged) {
+    if (nextProps.value && valueHasChanged) {
       this.setState({ value: nextProps.value })
     }
 
-    if(!nextProps.errorMsg && this.props.errorMsg)
+    if (!nextProps.errorMsg && this.props.errorMsg)
       this.setState({ showHint: false })
 
-    if(nextProps.errorMsg && !this.state.showHint) {
+    if (nextProps.errorMsg && !this.state.showHint) {
       // wait for 2 sec
       await setTimeoutAsync(500)
       // show hint

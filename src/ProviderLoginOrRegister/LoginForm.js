@@ -87,10 +87,10 @@ LoginForm = reduxForm({
   form: 'login',
   validate: values => {
     const errors = {}
-    if(!values.email) {
+    if (!values.email) {
       errors.email = 'Required!'
     }
-    if(!values.password) {
+    if (!values.password) {
       errors.password = 'Required!'
     }
 

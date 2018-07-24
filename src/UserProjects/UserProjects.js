@@ -87,7 +87,7 @@ class UserProjects extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(!isEqual(this.props.userProjects, nextProps.userProjects)) {
+    if (!isEqual(this.props.userProjects, nextProps.userProjects)) {
       this.setUserProjectsByUpdatedAt(nextProps.userProjects)
       this.setUserProjectsByCreatedAt(nextProps.userProjects)
     }
@@ -98,7 +98,7 @@ class UserProjects extends Component {
     const userProjectsByCreatedAtHasChanged = !isEqual(this.state.userProjectsByCreatedAt, nextState.userProjectsByCreatedAt)
     const needsColorOrdering = isEmpty(nextState.colorOrdering) && (!isEmpty(nextState.userProjectsByUpdatedAt) && !isEmpty(nextState.userProjectsByCreatedAt))
 
-    if(needsColorOrdering || userProjectsByUpdatedAtHasChanged || userProjectsByCreatedAtHasChanged) {
+    if (needsColorOrdering || userProjectsByUpdatedAtHasChanged || userProjectsByCreatedAtHasChanged) {
       this.setColorOrder(nextState.userProjectsByUpdatedAt, nextState.userProjectsByCreatedAt)
     }
   }

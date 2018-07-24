@@ -83,16 +83,16 @@ export default reduxForm({
   , enableReinitialize: true
   , validate: values => {
     const errors = {}
-    if(!values.currentPassword) {
+    if (!values.currentPassword) {
       errors.currentPassword = 'Required'
     }
-    if(!values.newPassword) {
+    if (!values.newPassword) {
       errors.newPassword = 'Required'
     }
-    if(!values.confirmNewPassword) {
+    if (!values.confirmNewPassword) {
       errors.confirmNewPassword = 'Required'
     }
-    if(values.confirmNewPassword && values.newPassword !== values.confirmNewPassword) {
+    if (values.confirmNewPassword && values.newPassword !== values.confirmNewPassword) {
       errors.confirmNewPassword = 'Passwords do not match!'
     }
     return errors

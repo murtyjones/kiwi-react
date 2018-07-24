@@ -106,7 +106,7 @@ const selector = formValueSelector(formName)
 const mapStateToProps = (state, ownProps) => {
   const allSlideValues = selector(state, 'slides')
   const initialValues = ownProps.initialValues
-  if(!initialValues.isPublished)
+  if (!initialValues.isPublished)
     initialValues.isPublished = false
 
   return {

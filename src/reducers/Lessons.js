@@ -61,7 +61,7 @@ function lessons(state = initialState, action) {
       return newState
     }
     case ACTIONS.DELETE_LESSON_SUCCESS: {
-      if(action.payload.ok) {
+      if (action.payload.ok) {
         const lessonsById = Object.assign({}, state.lessonsById)
         delete lessonsById[action.payload.value._id]
         const newState = Object.assign({}, state, {

@@ -11,7 +11,7 @@ export const isPrevDisabled = (activeSlideIndex, lesson) => {
 }
 
 export const isNextDisabled = (activeSlideIndex, lesson, isFetchingUserLessons, formValues) => {
-  if(isFetchingUserLessons) return true
+  if (isFetchingUserLessons) return true
   const currentUserLessonSlide = get(formValues, `answerData[${activeSlideIndex}]`, {})
   const currentLessonSlide = get(lesson, `slides[${activeSlideIndex}]`, {})
 

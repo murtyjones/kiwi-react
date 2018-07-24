@@ -38,13 +38,13 @@ RegisterForm = reduxForm({
   form: 'register',
   validate: values => {
     const errors = {}
-    if(values.email) values.email = values.email.trim()
-    if(!values.email) {
+    if (values.email) values.email = values.email.trim()
+    if (!values.email) {
       errors.email = 'Required!'
-    } else if(values.email.includes(' ')) {
+    } else if (values.email.includes(' ')) {
       errors.email = 'Spaces are not allowed!'
     }
-    if(!values.password) {
+    if (!values.password) {
       errors.password = 'Required!'
     }
 
