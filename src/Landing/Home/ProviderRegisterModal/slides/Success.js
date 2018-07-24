@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
+import { connect } from 'react-redux'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Link from 'react-router-dom/Link'
+import withRouter from 'react-router-dom/withRouter'
 
+import { signout } from '../../../../actions'
 import SlideInOut from '../../../../common/animations/SlideInOut'
 import withStyles from '@material-ui/core/styles/withStyles'
 import config from 'config'
@@ -34,6 +37,12 @@ class Success extends Component {
     formValues: T.object.isRequired,
     providees: T.object.isRequired,
     classes: T.object.isRequired,
+    signout: T.func.isRequired,
+    history: T.object.isRequired,
+  }
+
+  redirectToOnboarding = () => {
+    this.props.history.push('/')
   }
 
   render() {
@@ -50,7 +59,10 @@ class Success extends Component {
         <div className='providerRegisterForm-slide'>
           <h5>
             Your student { accountOrAccounts } { areOrIs } created! Your { studentOrStudents } can
-            get started at <Link to='/student' target='_blank'>{ config.host }</Link>
+            get started at&nbsp;
+            <Link to='/student' onClick={ this.props.signout } target='_blank'>
+              { config.shortHost }
+            </Link>
           </h5>
           <Table className={ classes.table }>
             <TableHead>
@@ -74,4 +86,12 @@ class Success extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Success)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signout: () => dispatch(signout())
+  }
+}
+
+Success = connect(null, mapDispatchToProps)(Success)
+
+export default withRouter(withStyles(styles, { withTheme: true })(Success))

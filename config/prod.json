@@ -11,6 +11,7 @@
   },
   "api" : "https://api.kiwicompute.com/v1",
   "host" : "https://kiwicompute.com",
+  "shortHost": "kiwicompute.com",
   "stripePublishableKey": "pk_live_kbt7cFNZIK9jijAf4SxAfTEL",
   "features": {
     "allowSignInRegister": false

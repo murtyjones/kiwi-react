@@ -102,6 +102,7 @@ class ProviderDashboard extends PureComponent {
   }
 
   async UNSAFE_componentWillMount() {
+    console.log('wha')
     const { userId, getProfileDetails, getManySubscriptions, getManyProfiles } = this.props
     const promises = [
       getManySubscriptions({ providerId: userId }),
@@ -112,6 +113,8 @@ class ProviderDashboard extends PureComponent {
   }
 
   UNSAFE_componentWillUpdate(nextProps, nextState) {
+    console.log(has(nextState, 'activeIndex') && nextState.activeIndex !== this.state.activeIndex)
+    console.log(nextProps.match.url !== this.props.match.url)
     // replace browser history if activeIndex has changed
     if (has(nextState, 'activeIndex') && nextState.activeIndex !== this.state.activeIndex) {
       const base = '/provider'
@@ -188,7 +191,7 @@ class ProviderDashboard extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, profiles: { profilesById } } = state
-  const profile = profilesById[userId] ? profilesById[userId] : {}
+  const profile = profilesById[userId] // don't try to default this
   return {
     profile,
     userId

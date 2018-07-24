@@ -11,6 +11,7 @@
   },
   "api" : "https://api.stage.kiwicompute.com/v1",
   "host" : "https://stage.kiwicompute.com",
+  "shortHost": "stage.kiwicompute.com",
   "stripePublishableKey": "pk_test_vnQAXQKpdv7q6DGTfhAMcT5X",
   "features": {
     "allowSignInRegister": true
