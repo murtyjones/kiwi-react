@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Field, Fields, FieldArray } from 'redux-form'
 
 import ProviderSignup from './slides/ProviderSignup'

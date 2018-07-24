@@ -77,6 +77,9 @@ class ProviderRegisterForm extends Component {
       return onSubmit(params)
     } catch(err) {
       console.log(err)
+      if (err.message.includes('undefined')) {
+        throw new SubmissionError({ _error: 'Looks like something was entered incorrectly. Please try again.' })
+      }
       throw new SubmissionError({ _error: err.message })
     }
   }

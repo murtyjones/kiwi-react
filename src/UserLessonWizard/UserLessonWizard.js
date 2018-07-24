@@ -59,7 +59,7 @@ class UserLessonWizard extends Component {
     , variablesWithUserValues: T.array.isRequired
   }
 
-  async componentDidMount() {
+  async UNSAFE_componentWillMount() {
     const { userId, match: { params: { id } } } = this.props
     const promises = [
       this.props.getManyUserVariables()
@@ -68,33 +68,29 @@ class UserLessonWizard extends Component {
       , this.props.getManyUserLessons({ lessonId: id, userId })
     ]
     await BluebirdPromise.all(promises)
+    this.setState({ hasLoaded: true })
+    // get newest props:
+    const { lesson, userLesson } = this.props
+    this.setState({ activeSlideIndex: getLatestCompletedSlide(lesson, userLesson) })
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { lesson, userLesson } = this.props
-    if (!prevState.hasLoaded && !isEmpty(lesson) && !isEmpty(userLesson)) {
-      this.setState({
-        hasLoaded: true,
-        activeSlideIndex: getLatestCompletedSlide(lesson, userLesson)
-      })
-    }
-
-    const lessonIdHasChanged = !isEqual(prevProps.match.params.id, this.props.match.params.id)
-      , userIdHasChanged = !isEqual(this.props.userId, prevProps.userId)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const lessonIdHasChanged = !isEqual(this.props.match.params.id, nextProps.match.params.id)
+      , userIdHasChanged = !isEqual(nextProps.userId, this.props.userId)
       , newGlobalColors = GLOBAL_COLORS.defaultLesson
-      , globalColorsNeedsChanging = this.props.globalColors.primaryColor !== newGlobalColors.primaryColor
-      , titleNeedsSetting = !isEqual(this.props.topBarTitle, this.props.lesson.title)
+      , globalColorsNeedsChanging = nextProps.globalColors.primaryColor !== newGlobalColors.primaryColor
+      , titleNeedsSetting = !isEqual(nextProps.topBarTitle, nextProps.lesson.title)
 
     if (lessonIdHasChanged || userIdHasChanged) {
-      this.props.getLesson({ id: this.props.match.params.id })
-      this.props.getManyUserLessons({ lessonId: this.props.match.params.id, userId: this.props.userId })
+      nextProps.getLesson({ id: nextProps.match.params.id })
+      nextProps.getManyUserLessons({ lessonId: nextProps.match.params.id, userId: nextProps.userId })
     }
 
     if (globalColorsNeedsChanging)
       this.setTopBarColor(newGlobalColors)
 
     if (titleNeedsSetting)
-      this.props.setTopBarTitle(this.props.lesson.title)
+      nextProps.setTopBarTitle(this.props.lesson.title)
   }
 
   componentWillUnmount() {
