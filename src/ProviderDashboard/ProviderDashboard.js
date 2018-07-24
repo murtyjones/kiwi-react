@@ -1,3 +1,4 @@
+
 import React, { PureComponent, Fragment } from 'react'
 import * as T from 'prop-types'
 import BluebirdPromise from 'bluebird'
@@ -85,6 +86,8 @@ class ProviderDashboard extends PureComponent {
     , login: T.func
     , signout: T.func
     , register: T.func
+    , closeSideNav: T.func
+    , openSideNav: T.func
     , openTopBar: T.func
     , closeTopBar: T.func
     , history: T.any
@@ -98,7 +101,7 @@ class ProviderDashboard extends PureComponent {
     , match: T.object.isRequired
   }
 
-  async componentDidMount() {
+  async UNSAFE_componentWillMount() {
     const { userId, getProfileDetails, getManySubscriptions, getManyProfiles } = this.props
     const promises = [
       getManySubscriptions({ providerId: userId }),
@@ -108,17 +111,17 @@ class ProviderDashboard extends PureComponent {
     await BluebirdPromise.all(promises)
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     // replace browser history if activeIndex has changed
-    if(has(this.state, 'activeIndex') && this.state.activeIndex !== prevState.activeIndex) {
+    if(has(nextState, 'activeIndex') && nextState.activeIndex !== this.state.activeIndex) {
       const base = '/provider'
-      const append = `/${MENU_ITEMS[this.state.activeIndex].section}`
-      prevProps.history.replace(base + append)
+      const append = `/${MENU_ITEMS[nextState.activeIndex].section}`
+      this.props.history.replace(base + append)
     }
     // change activeIndex if url has changed
-    if(this.props.match.url !== prevProps.match.url) {
+    if(nextProps.match.url !== this.props.match.url) {
       const activeIndex = MENU_ITEMS.reduce((acc, each, idx) => {
-        if(this.props.match.url.includes(each.section))
+        if(nextProps.match.url.includes(each.section))
           acc = idx
         return acc
       }, 0)
@@ -163,7 +166,7 @@ class ProviderDashboard extends PureComponent {
                 { isEmailSent && <div className={ classes.sent }>Sent!</div> }
               </div>
               : 'Thanks for working with parents across the country to create a\n' +
-                'generation of self taught kid programmers!'
+              'generation of self taught kid programmers!'
             }
             hotLinks={ [ AccountInfo, PaymentInfo, ExploreTechIsland ] }
           />

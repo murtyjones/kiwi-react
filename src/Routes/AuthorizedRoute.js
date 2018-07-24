@@ -4,8 +4,6 @@ import { Route, Redirect } from 'react-router-dom'
 import { isMobile } from 'react-device-detect'
 import * as T from 'prop-types'
 
-import withTopBarTitle from '../hocs/withTopBarTitle'
-import withTopBarBreadCrumb from '../hocs/withTopBarBreadCrumb'
 import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
 const isAuthorized = (path, isLoggedIn, isAdmin, isProvider) =>
