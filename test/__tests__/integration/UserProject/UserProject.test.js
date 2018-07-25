@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import config from 'config'
 import Route from 'react-router-dom/Route'
 import Link from 'react-router-dom/Link'
 import MemoryRouter from 'react-router-dom/MemoryRouter'
@@ -220,7 +221,7 @@ describe('UserProject', () => {
       })
 
       it('should pass the userProjectId and userId when making requests', () => {
-        expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/user-projects/${userProjectId}`)
+        expect(ApiFetch.mock.calls[0][0]).toBe(`${config.api}/user-projects/${userProjectId}`)
         expect(ApiFetch.mock.calls[0][1]).toEqual({ method: 'GET' })
       })
 

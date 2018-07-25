@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
+import config from 'config'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import Route from 'react-router-dom/Route'
 import Link from 'react-router-dom/Link'
@@ -171,13 +172,13 @@ describe('UserLessonWizard', () => {
       })
 
       it('should pass the lessonId and userId when making requests', () => {
-        expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/user-variables`)
+        expect(ApiFetch.mock.calls[0][0]).toBe(`${config.api}/user-variables`)
         expect(ApiFetch.mock.calls[0][1]).toEqual({ method: 'GET' })
-        expect(ApiFetch.mock.calls[1][0]).toBe(`http://localhost:8080/variables`)
+        expect(ApiFetch.mock.calls[1][0]).toBe(`${config.api}/variables`)
         expect(ApiFetch.mock.calls[1][1]).toEqual({ method: 'GET' })
-        expect(ApiFetch.mock.calls[2][0]).toBe(`http://localhost:8080/lessons/${lessonId}`)
+        expect(ApiFetch.mock.calls[2][0]).toBe(`${config.api}/lessons/${lessonId}`)
         expect(ApiFetch.mock.calls[2][1]).toEqual({ method: 'GET' })
-        expect(ApiFetch.mock.calls[3][0]).toBe(`http://localhost:8080/user-lessons?lessonId=${lessonId}&userId=${chesterAdminUserId}`)
+        expect(ApiFetch.mock.calls[3][0]).toBe(`${config.api}/user-lessons?lessonId=${lessonId}&userId=${chesterAdminUserId}`)
         expect(ApiFetch.mock.calls[3][1]).toEqual({ method: 'GET' })
       })
 
@@ -272,7 +273,7 @@ describe('UserLessonWizard', () => {
           await flushAllPromises()
           delete userLesson._id
           expect(ApiFetch).toBeCalledWith(
-            `http://localhost:8080/user-lessons/${userLessonId}`,
+            `${config.api}/user-lessons/${userLessonId}`,
             {
               body: {
                 ...userLesson,

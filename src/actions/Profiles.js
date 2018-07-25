@@ -79,24 +79,6 @@ export const putProfile = params => {
   }
 }
 
-export const postProfile = (params) => {
-  const options = {
-    method: 'POST',
-    body: params
-  }
-  return dispatch => {
-    dispatch({ type: ACTIONS.POST_PROFILE_REQUEST })
-    return ApiFetch(`${config.api}/profiles`, options)
-      .then(res => {
-        dispatch({ type: ACTIONS.POST_PROFILE_SUCCESS, payload: res })
-        return res
-      })
-      .catch(e => {
-        dispatch({ type: ACTIONS.POST_PROFILE_FAILURE, payload: e })
-      })
-  }
-}
-
 export const checkProfileEmailVerification = (params) => {
   const options = {
     method: 'POST',

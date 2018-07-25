@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
+import config from 'config'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import Route from 'react-router-dom/Route'
 import MemoryRouter from 'react-router-dom/MemoryRouter'
@@ -128,6 +129,7 @@ describe('Lessons', () => {
         ApiFetch.mockImplementationOnce(() => Promise.resolve(lessons)) // getManyLessons response
         ApiFetch.mockImplementationOnce(() => Promise.resolve(userLessons)) // getManyUserLessons response
         ApiFetch.mockImplementationOnce(() => Promise.resolve(lessonOrder)) // getLessonOrder response
+        ApiFetch.mockImplementationOnce(() => Promise.resolve({})) // getProfileDetails response
         component = mountWithStore(props, store) // mount component
         await flushAllPromises() // wait for requests to resolve
         component.update() // update component after having resolved requests
@@ -160,11 +162,11 @@ describe('Lessons', () => {
         })
 
         it('should call ApiFetch with expected params', () => {
-          expect(ApiFetch.mock.calls[0][0]).toBe(`http://localhost:8080/lessons`)
+          expect(ApiFetch.mock.calls[0][0]).toBe(`${config.api}/lessons`)
           expect(ApiFetch.mock.calls[0][1]).toEqual({method: 'GET'})
-          expect(ApiFetch.mock.calls[1][0]).toBe(`http://localhost:8080/user-lessons?userId=${chesterAdminUserId}`)
+          expect(ApiFetch.mock.calls[1][0]).toBe(`${config.api}/user-lessons?userId=${chesterAdminUserId}`)
           expect(ApiFetch.mock.calls[1][1]).toEqual({method: 'GET'})
-          expect(ApiFetch.mock.calls[2][0]).toBe(`http://localhost:8080/lesson-order`)
+          expect(ApiFetch.mock.calls[2][0]).toBe(`${config.api}/lesson-order`)
           expect(ApiFetch.mock.calls[2][1]).toEqual({method: 'GET'})
         })
 
@@ -321,6 +323,7 @@ describe('Lessons', () => {
         ApiFetch.mockImplementationOnce(() => Promise.resolve([])) // getManyLessons response
         ApiFetch.mockImplementationOnce(() => Promise.resolve(userLessons)) // getManyUserLessons response
         ApiFetch.mockImplementationOnce(() => Promise.resolve(lessonOrder)) // getLessonOrder response
+        ApiFetch.mockImplementationOnce(() => Promise.resolve({})) // getProfileDetails response
         component = mountWithStore(props, store) // mount component
         await flushAllPromises() // wait for requests to resolve
         component.update() // update component after having resolved requests

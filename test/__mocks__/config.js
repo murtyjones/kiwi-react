@@ -1,16 +1,3 @@
-jest.mock('config', () => {
-  return {
-    auth: {
-      domain: "fakeDomain",
-      clientID: "fakeClientId",
-      redirectUri: "fakeRedirectUri",
-      audience: "fakeAudience",
-      responseType: "fakeResponseType",
-      scope: "fakeScope",
-      namespace: "fakeNamespace",
-      realm: "fakeRealm"
-    },
-    api: 'http://fakeApiUrl.com',
-    host : "http://fakeHostUrl.com"
-  }
-})
+const testEnv = require('../../config/test.json')
+
+jest.doMock('config', () => testEnv)
