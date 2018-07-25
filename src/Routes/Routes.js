@@ -16,7 +16,6 @@ import PlainRoute from './PlainRoute'
 import Loading from '../Loading/Loading'
 import Landing from '../Landing/Landing'
 import StudentOnboarding from '../StudentOnboarding/StudentOnboarding'
-import Welcome from '../WelcomeWizard/WelcomeWizard'
 import UserProjects from '../UserProjects/UserProjects'
 import UserProject from '../UserProject/UserProject'
 import LoginOrRegister from '../LoginOrRegister/LoginOrRegister'
@@ -35,7 +34,6 @@ import { setGlobalColors, signout } from '../actions/index'
 
 const Lessons = Loadable({ loader: () => import('../Lessons/Lessons'), loading: Loading })
 const LessonsV2 = Loadable({ loader: () => import('../LessonsV2/LessonsV2'), loading: Loading })
-const ForgotPasswordWizard = Loadable({ loader: () => import('../ForgotPasswordWizard/ForgotPasswordWizard'), loading: Loading })
 const AddOrEditLesson = Loadable({ loader: () => import('../admin/AddOrEditLesson/AddOrEditLesson'), loading: Loading })
 const ProviderLoginOrRegister = Loadable({ loader: () => import('../ProviderLoginOrRegister/ProviderLoginOrRegister'), loading: Loading })
 const AddOrEditVariable = Loadable({ loader: () => import('../admin/AddOrEditVariable/AddOrEditVariable'), loading: Loading })
@@ -95,7 +93,6 @@ class Routes extends Component {
         <PlainRoute path='/provider/login' exact component={ ProviderLoginOrRegister } />
         <PlainRoute path='/provider/register' exact component={ ProviderLoginOrRegister } />
         <PlainRoute path='/signout' exact component={ SignOut } />
-        <PlainRoute path='/password' exact component={ ForgotPasswordWizard } />
         <PlainRoute path='/python' exact component={ StandaloneEditor } />
         <PlainRoute path='/email-verification' exact component={ EmailVerification } />
         {/* ----------------- */}
@@ -103,9 +100,6 @@ class Routes extends Component {
         {/* ----------------- */}
         <AuthenticatedRoute exact redirectIfMobile
           path='/invalid-subscription' component={ InvalidSubscription } { ...routeProps }
-        />
-        <AuthenticatedRoute exact redirectIfMobile
-          path='/welcome' component={ Welcome } { ...routeProps }
         />
         <AuthenticatedRoute exact redirectIfMobile
           path='/projects' component={ UserProjects } { ...routeProps }

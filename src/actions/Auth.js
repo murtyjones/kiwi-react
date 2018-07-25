@@ -68,66 +68,6 @@ export const refreshToken = (payload) => {
   }
 }
 
-export const upsertPasswordRecoveryImages = (params) => {
-  const { username, images } = params
-  return dispatch => {
-    dispatch({ type: ACTIONS.UPSERT_PASSWORD_RECOVERY_REQUEST })
-    const params = {
-      method: 'PUT',
-      body: { images }
-    }
-    return ApiFetch(`${config.api}/password/change-recovery/${username}`, params)
-      .then(success => {
-        dispatch({ type: ACTIONS.UPSERT_PASSWORD_RECOVERY_SUCCESS, payload: success })
-        return success
-      }).catch(err => {
-        dispatch({ type: ACTIONS.UPSERT_PASSWORD_RECOVERY_FAILURE, payload: err })
-        throw err
-      })
-
-  }
-}
-
-export const checkPasswordRecoveryCorrectness = (params) => {
-  const { username } = params
-  return dispatch => {
-    dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_REQUEST })
-    const options = {
-      method: 'POST',
-      body: params
-    }
-    return ApiFetch(`${config.api}/password/check-recovery/${username}`, options)
-      .then(success => {
-        dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_SUCCESS, payload: success })
-        return success
-      }).catch(err => {
-        dispatch({ type: ACTIONS.CHECK_PASSWORD_RECOVERY_FAILURE, payload: err })
-        throw err
-      })
-
-  }
-}
-
-export const resetPassword = params => {
-  const { username, password, recoveryCode } = params
-  return dispatch => {
-    dispatch({ type: ACTIONS.RESET_PASSWORD_REQUEST })
-    const options = {
-      method: 'POST',
-      body: { password, recoveryCode }
-    }
-    return ApiFetch(`${config.api}/password/recover/${username}`, options)
-      .then(success => {
-        dispatch({ type: ACTIONS.RESET_PASSWORD_SUCCESS, payload: success })
-        return success
-      }).catch(err => {
-        dispatch({ type: ACTIONS.RESET_PASSWORD_FAILURE, payload: err })
-        throw err
-      })
-
-  }
-}
-
 export const resetPasswordRequest = params => {
   const { email } = params
   return dispatch => {
@@ -135,7 +75,7 @@ export const resetPasswordRequest = params => {
     const options = {
       method: 'POST'
     }
-    return ApiFetch(`${config.api}/password-v2/reset/${email}`, options)
+    return ApiFetch(`${config.api}/password/reset/${email}`, options)
       .then(success => {
         dispatch({ type: ACTIONS.RESET_PASSWORD_EMAIL_SUCCESS, payload: success })
         return success
