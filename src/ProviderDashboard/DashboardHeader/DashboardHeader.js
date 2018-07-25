@@ -37,6 +37,7 @@ const styles = theme => ({
   },
   subMessage: {
     margin: 0,
+    paddingTop: 10,
     fontStyle: 'italic'
   },
   hotLinks: {
