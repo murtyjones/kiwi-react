@@ -92,8 +92,13 @@ class Subscriptions extends Component {
     const { putProfile, changePassword } = this.props
     try {
       let promises = [ putProfile(v) ]
-      if (v.password) promises.push(changePassword(v))
-      return BluebirdPromise.all(promises)
+      if (v.password) promises.push(changePassword({
+        _id: v._id,
+        newPassword: v.password
+      }))
+      const r = await BluebirdPromise.all(promises)
+      this.setState({ isUpdatingSubscription: false, updateSucceeded: true })
+      return r
     } catch (err) {
       console.log(err)
       throw new SubmissionError({ _error: err.body ? err.body.message : err.message })
@@ -145,7 +150,11 @@ class Subscriptions extends Component {
         : 'Edit Student'
       }>
         <ProvideeProfileForm
-          initialValues={ selectedSubscriptionProvideeProfile }
+          initialValues={ {
+            _id: selectedSubscriptionProvideeProfile._id,
+            v: selectedSubscriptionProvideeProfile.v,
+            username: selectedSubscriptionProvideeProfile.username,
+          } }
           onSubmit={
             isEmpty(selectedSubscriptionProvideeProfile)
               ? this.handlePostSubmit
@@ -189,6 +198,7 @@ class Subscriptions extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, profiles: { profilesById }, subscriptions: { subscriptionsById } } = state
   const subscriptions = Object.values(subscriptionsById) || []
+
   return {
     userId,
     profilesById,

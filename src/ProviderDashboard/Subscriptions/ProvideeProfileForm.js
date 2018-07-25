@@ -105,7 +105,7 @@ class ProvideeProfileForm extends Component {
     const { initialValues, handleSubmit, submitSucceeded, submitFailed } = this.props
     const { linkCopied, loading } = this.state
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
-
+    console.log(this.props)
     let field1Name, field1Label, rest = {}, submitText
     if (isEmpty(initialValues)) {
       field1Name = 'firstName'
@@ -117,48 +117,46 @@ class ProvideeProfileForm extends Component {
       rest.successText= 'That username is available!'
       submitText = 'Save'
     }
-    console.log(this.props)
     return (
       <form onSubmit={ derivedHandleSubmit } style={ styles.form }>
-        { loading
-          ?
-          <div className='spinner' />
-          :
-          submitSucceeded || submitFailed || linkCopied
-            ?
-            <ResultMessage
-              { ...this.props }
-              successMessage={ this.renderSuccessMessage() }
-            />
-            :
-            <Fragment>
-              <Field
-                name={ field1Name }
-                label={ field1Label }
-                component={ KiwiTextField }
-                validate={ [ required, alphaNumeric ] }
-                { ...rest }
-              />
-              <Field
-                name='password'
-                type='password'
-                label='New Password'
-                component={ KiwiTextField }
-                validate={ [ required, minLength6 ] }
-              />
-              <Field
-                name='confirmNewPassword'
-                type='password'
-                label='Confirm New Password'
-                component={ KiwiTextField }
-                validate={ [ required ] }
-              />
-              <SubmitButton
-                text={ submitText }
-                { ...this.props }
-                onClick={ derivedHandleSubmit }
-              />
-            </Fragment>
+        <Field
+          name={ field1Name }
+          label={ field1Label }
+          component={ KiwiTextField }
+          disabled={ loading }
+          validate={ [ required, alphaNumeric ] }
+          { ...rest }
+        />
+        <Field
+          name='password'
+          type='password'
+          label='New Password'
+          component={ KiwiTextField }
+          disabled={ loading }
+          validate={ [ required, minLength6 ] }
+        />
+        <Field
+          name='confirmNewPassword'
+          type='password'
+          label='Confirm New Password'
+          component={ KiwiTextField }
+          disabled={ loading }
+          validate={ [ required ] }
+        />
+        <SubmitButton
+          text={ submitText }
+          { ...this.props }
+          disabled={ loading }
+          onClick={ derivedHandleSubmit }
+        />
+
+        { loading && <div className='spinner' /> }
+
+        { (submitSucceeded || submitFailed || linkCopied) &&
+          <ResultMessage
+            { ...this.props }
+            successMessage={ this.renderSuccessMessage() }
+          />
         }
 
       </form>

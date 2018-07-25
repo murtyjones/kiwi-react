@@ -125,6 +125,7 @@ class TopBar extends PureComponent {
     , classes: T.object
     , history: T.object.isRequired
     , isAdmin: T.bool.isRequired
+    , isProvider: T.bool.isRequired
     , showMiddleSection: T.bool.isRequired
   }
 
@@ -165,7 +166,10 @@ class TopBar extends PureComponent {
   }
 
   render() {
-    const { showMiddleSection, classes, isOpen, titleDisabled, title, backgroundColor, textColor, isAdmin, breadcrumbLink, breadcrumbText } = this.props
+    const {
+      showMiddleSection, classes, isOpen, titleDisabled, title, backgroundColor,
+      textColor, isAdmin, isProvider, breadcrumbLink, breadcrumbText
+    } = this.props
     const { anchorEl } = this.state
 
 
@@ -222,6 +226,11 @@ class TopBar extends PureComponent {
                     >
                       Admin
                       <ExpandMore className={ classes.expandIcon }/>
+                    </button>
+                  }
+                  { (isAdmin || isProvider) &&
+                    <button onClick={ () => this.props.history.push('/provider/dashboard') }>
+                      PaReNt ZoNe
                     </button>
                   }
                   <Menu

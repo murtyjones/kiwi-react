@@ -112,6 +112,7 @@ class Root extends Component {
           </Modal>
           <TopBar
             isAdmin={ isAdmin }
+            isProvider={ isProvider }
             showMiddleSection={ topBar.showMiddleSection }
             breadcrumbLink={ topBar.breadcrumbLink }
             breadcrumbText={ topBar.breadcrumbText }

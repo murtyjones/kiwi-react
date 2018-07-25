@@ -3,19 +3,17 @@ import * as T from 'prop-types'
 import { connect } from 'react-redux'
 import withRouter from 'react-router-dom/withRouter'
 import get from 'lodash/get'
-import orderBy from 'lodash/orderBy'
 import cloneDeep from 'lodash/cloneDeep'
 import withStyles from '@material-ui/core/styles/withStyles'
 
 
-import {
-  getLessonOrder, getManyLessons, getManyUserLessons, getProfileDetails
-} from '../actions'
+import { getLessonOrder, getManyLessons, getManyUserLessons } from '../actions'
 import withTopBarTitle from '../hocs/withTopBarTitle'
-import {getActiveLessonId, makeCombinedLessonData} from "./lessonUtils";
+import withRedirectIfTempPassword from '../hocs/withRedirectIfTempPassword'
+import { getActiveLessonId, makeCombinedLessonData } from './lessonUtils'
 
 const styles = theme => ({
-
+  root: {}
 })
 
 class LessonsV2 extends Component {
@@ -24,7 +22,7 @@ class LessonsV2 extends Component {
     this.state = {
       selectedLessonId: null
       , lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', '')
-      , activeLessonId: getActiveLessonId(props.combinedLessonData)
+      , activeLessonId: getActiveLessonId(props.orderedCombinedLessonData)
       , combinedMapLessons: null
     }
   }
@@ -33,32 +31,27 @@ class LessonsV2 extends Component {
     getManyLessons: T.func
     , getManyUserLessons: T.func
     , getLessonOrder: T.func
-    , getProfileDetails: T.func
-    , combinedLessonData: T.object.isRequired
+    , orderedCombinedLessonData: T.array.isRequired
     , userId: T.string.isRequired
     , history: T.object.isRequired
     , profile: T.object.isRequired
+    , classes: T.object.isRequired
   }
 
   componentDidMount() {
     const { userId } = this.props
+    // retrieve lesson data
     this.props.getManyLessons()
     this.props.getManyUserLessons({ userId })
     this.props.getLessonOrder()
-    // get profile details (for temporaryPassword check)
-    this.props.getProfileDetails({ userId })
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // redirect if student needs to set a permanent password
-    if (this.props.profile.temporaryPassword) {
-      this.props.history.push('/student')
-    }
   }
 
   render() {
+    const { classes } = this.props
     return (
-      <div>Hello</div>
+      <div className={ classes.root }>
+        hello
+      </div>
     )
   }
 
@@ -80,7 +73,7 @@ const mapStateToProps = (state) => {
   const orderOfPublishedLessons = get(lessonOrder, 'order', [])
 
   return {
-    combinedLessonData: makeCombinedLessonData({ orderOfPublishedLessons, lessons, userLessons })
+    orderedCombinedLessonData: makeCombinedLessonData({ orderOfPublishedLessons, lessons, userLessons })
     , userId
     , profile
   }
@@ -91,11 +84,13 @@ const mapDispatchToProps = (dispatch) => {
     getManyLessons: params => dispatch(getManyLessons(params))
     , getLessonOrder: () => dispatch(getLessonOrder())
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
-    , getProfileDetails: params => dispatch(getProfileDetails(params))
   }
 }
+
 LessonsV2 = withTopBarTitle(LessonsV2, { title: 'Lesson Map' })
 
 LessonsV2 = withStyles(styles)(LessonsV2)
+
+LessonsV2 = withRedirectIfTempPassword(LessonsV2)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LessonsV2))
