@@ -5,6 +5,7 @@ export const eggshellWhite = '#edecec'
 export const paleGrey = '#CCCCCC'
 export const mainGrey = '#b4b4b4'
 export const darkGrey = '#4D4D4D'
+export const darkerGrey = '#333333'
 
 export const black = '#000000'
 

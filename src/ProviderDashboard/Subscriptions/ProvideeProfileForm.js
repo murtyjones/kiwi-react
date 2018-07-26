@@ -105,7 +105,7 @@ class ProvideeProfileForm extends Component {
     const { initialValues, handleSubmit, submitSucceeded, submitFailed } = this.props
     const { linkCopied, loading } = this.state
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
-    console.log(this.props)
+
     let field1Name, field1Label, rest = {}, submitText
     if (isEmpty(initialValues)) {
       field1Name = 'firstName'

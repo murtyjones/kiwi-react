@@ -32,11 +32,6 @@ let baseAppStyle = {
   , fontFamily: "Roboto, sans-serif"
 }
 
-const nonMenuStyle = {
-  width: '100%'
-  , height: '100%'
-}
-
 const EnvironmentReminder = props =>
   <div style={ {
     position: 'fixed'
@@ -132,9 +127,7 @@ class Root extends Component {
               }
             }
           >
-            <div style={ nonMenuStyle }>
-              <Routes />
-              </div>
+            <Routes />
           </div>
         </div>
       </Fragment>

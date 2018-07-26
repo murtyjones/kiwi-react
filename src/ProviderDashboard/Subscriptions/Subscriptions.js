@@ -62,7 +62,7 @@ class Subscriptions extends Component {
     try {
       const profile = await register({
         firstName: v.firstName,
-        password: v.password // need to be temporaryPassword right?
+        temporaryPassword: v.password // need to be temporaryPassword right?
       })
       // make inactive subscription
       const subscription = await postSubscription({

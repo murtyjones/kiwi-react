@@ -11,19 +11,28 @@ import { getLessonOrder, getManyLessons, getManyUserLessons } from '../actions'
 import withTopBarTitle from '../hocs/withTopBarTitle'
 import withRedirectIfTempPassword from '../hocs/withRedirectIfTempPassword'
 import { getActiveLessonId, makeCombinedLessonData } from './lessonUtils'
+import { darkerGrey } from '../colors'
+
+import MapViewport from './MapViewport'
 
 const styles = theme => ({
-  root: {}
+  root: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    backgroundColor: darkerGrey
+  }
 })
+
 
 class LessonsV2 extends Component {
   constructor(props) {
     super()
     this.state = {
-      selectedLessonId: null
-      , lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', '')
+      lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', '')
       , activeLessonId: getActiveLessonId(props.orderedCombinedLessonData)
-      , combinedMapLessons: null
     }
   }
 
@@ -50,7 +59,11 @@ class LessonsV2 extends Component {
     const { classes } = this.props
     return (
       <div className={ classes.root }>
-        hello
+        <MapViewport classes={ classes }>
+          <MapBubbles
+
+          />
+        </MapViewport>
       </div>
     )
   }
