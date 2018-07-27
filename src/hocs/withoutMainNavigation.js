@@ -15,8 +15,10 @@ export default function withoutMainNavigation(WrappedComponent, options = {}) {
       this.props.closeTopBar()
     }
 
-    componentWillUpdate() {
-      this.props.closeTopBar()
+    componentDidUpdate() {
+      if (this.props.isTopBarOpen) {
+        this.props.closeTopBar()
+      }
     }
 
     componentWillUnmount() {
@@ -28,6 +30,13 @@ export default function withoutMainNavigation(WrappedComponent, options = {}) {
     }
   }
 
+  const mapStateToProps = (state) => {
+    const { topBar: { isTopBarOpen } } = state
+    return {
+      isTopBarOpen
+    }
+  }
+
   const mapDispatchToProps = (dispatch) => {
     return {
       openTopBar: () => dispatch(openTopBar())
@@ -35,6 +44,6 @@ export default function withoutMainNavigation(WrappedComponent, options = {}) {
     }
   }
 
-  return withRouter(connect(null, mapDispatchToProps)(HOC))
+  return withRouter(connect(mapStateToProps, mapDispatchToProps)(HOC))
 }
 

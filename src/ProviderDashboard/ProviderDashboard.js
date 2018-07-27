@@ -154,8 +154,8 @@ class ProviderDashboard extends PureComponent {
         />
         <div className={ classes.container }>
           <DashboardHeader
-            mainMessage={ profile && profile.firstName ? `Hi ${profile.firstName}!` : 'Hello there!' }
-            subMessage={ profile && !profile.isEmailVerified
+            mainMessage={ profile.firstName ? `Hi ${profile.firstName}!` : 'Hello there!' }
+            subMessage={ !profile.isEmailVerified
               ?
               <div className={ classes.needEmailVerification }>
                 Please verify your email address so that we can restore your password in the
@@ -188,7 +188,7 @@ class ProviderDashboard extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, profiles: { profilesById } } = state
-  const profile = profilesById[userId] // don't try to default this
+  const profile = profilesById[userId] || {}
   return {
     profile,
     userId
