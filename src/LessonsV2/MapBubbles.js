@@ -3,7 +3,7 @@ import * as T from 'prop-types'
 import cns from 'classnames'
 import find from 'lodash/find'
 import withStyles from '@material-ui/core/styles/withStyles'
-import { lessonLocationsBySection } from './LESSON_CONSTANTS'
+import { lessonBubbleDisplayDataBySection } from './LESSON_CONSTANTS'
 
 import MapBubble from './MapBubble'
 
@@ -24,16 +24,16 @@ class MapBubbles extends Component {
 
   render() {
     const { classes, activeLessonId, activeSectionIndex, lessonJustCompletedId, orderedCombinedLessonData } = this.props
-    const lessonBubbleLocations = lessonLocationsBySection[activeSectionIndex]
+    const sectionLessonsBubbleDisplayData = lessonBubbleDisplayDataBySection[activeSectionIndex]
 
     return (
       <div className={ cns(classes.root) }>
-        { lessonBubbleLocations.map((coords, i) => {
+        { sectionLessonsBubbleDisplayData.map((lessonDisplayData, i) => {
           return (
             <MapBubble
               key={ i }
               i={ i }
-              coords={ coords }
+              lessonDisplayData={ lessonDisplayData }
               orderedCombinedLessonData={ orderedCombinedLessonData }
               lessonJustCompletedId={ lessonJustCompletedId }
               activeLessonId={ activeLessonId }

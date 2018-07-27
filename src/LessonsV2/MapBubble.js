@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
+import Link from 'react-router-dom/Link'
 import cns from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
 import withRouter from 'react-router-dom/withRouter'
@@ -26,7 +27,8 @@ const styles = theme => ({
     boxShadow: 'none',
     outline: 'none',
     '& next': {
-      transform: 'scale(1.2)', transition: 'all 1s ease'
+      transform: 'scale(1.2)',
+      transition: 'all 1s ease'
     }
   },
   mapBubbleContainer: {
@@ -36,7 +38,24 @@ const styles = theme => ({
     '&:hover': {
       transform: 'scale(1.2)',
       transition: '.3s all cubic-bezier(0, 1.07, 0.78, 2.39)'
-    }
+    },
+    '&:hover $lessonTitleRight': {
+      transform: 'translateX(0%)',
+      padding: '0.8vw 1.0vw 0.8vw 3.6vw'
+    },
+    '&:hover $lessonTitleLeft': {
+      transform: 'translateX(0%)',
+      padding: '0.8vw 3.6vw 0.8vw 1.0vw'
+    },
+    '&:hover $bubbleLabel': {
+      visibility: 'visible'
+    },
+  },
+  lessonTitleLeft: {
+    transform: 'translateX(100%)'
+  },
+  lessonTitleRight: {
+    transform: 'translateX(-100%)'
   },
   lessonProgress: {
     transition: '.3s all ease',
@@ -53,6 +72,7 @@ const styles = theme => ({
     cursor: 'pointer'
   },
   bubbleLabel: {
+    visibility: 'hidden',
     position: 'absolute',
     display: 'flex',
     top: 0,
@@ -61,14 +81,21 @@ const styles = theme => ({
     width: 'max-content',
     height: '100%',
     overflow: 'hidden',
-    right: '50%',
-    '& left': {
-      right: '50%'
-    },
     '& h2': {
-      transform: 'translateX(100%)',
-      padding: '0.8vw 3.6vw 0.8vw 1.0vw'
+      margin: 0,
+      textTransform: 'uppercase',
+      fontSize: '1vw',
+      fontWeight: 400,
+      zIndex: 0,
+      borderRadius: '20vw',
+      transition: 'all .3s ease'
     }
+  },
+  labelRight: {
+    left: '50%'
+  },
+  labelLeft: {
+    right: '50%'
   },
   mapBubble: {
     position: 'inherit',
@@ -97,14 +124,14 @@ const styles = theme => ({
 
   },
   icon: {
-    position: 'absolute'
-    , left: '50%'
-    , top: '50%'
+    position: 'absolute',
+    left: '50%',
+    top: '50%'
   },
   '@global': {
     '.justCompleted > .CircularProgressbar-path': {
       transition: 'stroke-dashoffset 4s ease 0s'
-    }
+    },
   }
 })
 
@@ -113,43 +140,40 @@ class MapBubble extends Component {
     super()
   }
 
-  handleClick = () => {
-    const { orderedCombinedLessonData, i } = this.props
-    const { lesson: { _id } } = orderedCombinedLessonData[i]
-    this.props.history.push(`/lessons/${_id}`)
-  }
-
   render() {
-    const { i, classes, coords, activeLessonId, orderedCombinedLessonData, lessonJustCompletedId } = this.props
+    const { i, classes, lessonDisplayData, activeLessonId, orderedCombinedLessonData, lessonJustCompletedId } = this.props
 
     const combinedLessonUserLesson = orderedCombinedLessonData[i]
 
     if (!combinedLessonUserLesson)
       return null
 
-    const { lesson, userLesson } = combinedLessonUserLesson
+    const { lesson, lesson: { _id }, userLesson } = combinedLessonUserLesson
 
-    const { x, y } = coords
+    const { x, y, left } = lessonDisplayData
 
     const order = i + 1
     const isLatestActive = activeLessonId === combinedLessonUserLesson.lesson._id
     const isAvailable = LESSON_STATUSES.AVAILABLE === getLessonStatus(orderedCombinedLessonData, activeLessonId)
-    // const isAvailable = false
     const completionPercentage = get(userLesson, 'trueCompletionPercentage', 0)
     const isJustCompleted = lessonJustCompletedId === lesson._id
-    const isLeftLabel = x > 50
+    const isLeftLabel = left !== undefined ? left : x > 50
     const message = isAvailable ? lesson.title : 'Locked!'
     const hasBeenCompleted = get(userLesson, 'hasBeenCompleted', false)
 
-    return (
+    const linkWrapper = children => isAvailable ?
+      <Link to={ `/lessons/${_id}` }>{ children }</Link>
+      : children
+
+    return linkWrapper(
       <button
         className={ cns(classes.root, {
           'hvr-pulse-inverse': isLatestActive
         } ) }
         style={ { left: `${x}%`, top: `${y}%` } }
-        onClick={ this.handleClick }
       >
         <div className={ classes.mapBubbleContainer }>
+
           <div className={ cns(classes.lessonProgress, { [classes.clickable]: isAvailable } ) }>
             <CircularProgressbar
               percentage={
@@ -171,9 +195,17 @@ class MapBubble extends Component {
           </div>
 
           <div
-            className={ cns(classes.bubbleLabel, { 'left': isLeftLabel } ) }
+            className={ cns(classes.bubbleLabel, {
+              [classes.labelLeft]: isLeftLabel,
+              [classes.labelRight]: !isLeftLabel
+            } ) }
           >
-            <h2 style={ {
+            <h2
+              className={ cns({
+                [classes.lessonTitleLeft]: isLeftLabel,
+                [classes.lessonTitleRight]: !isLeftLabel
+              } ) }
+              style={ {
                 color: '#FFFFFF' // hardcoded
                 , backgroundColor: '#624F8F' // hardcoded
               } }
@@ -188,8 +220,8 @@ class MapBubble extends Component {
           >
             <h1
               style={ {
-                opacity: isAvailable ? 100 : 0
-                , color: hasBeenCompleted || !isAvailable ? bubbleColors.textColor : '#FFFFFF'
+                opacity: isAvailable && !hasBeenCompleted ? 1.0 : hasBeenCompleted ? 0.2 : 0
+                , color: bubbleColors.textColor
               } }
             >
               { order }
@@ -235,7 +267,7 @@ MapBubble.propTypes = {
   orderedCombinedLessonData: T.array,
   classes: T.object,
   activeLessonId: T.string,
-  coords: T.object,
+  lessonDisplayData: T.object,
   handleClick: T.object,
   history: T.object,
 }

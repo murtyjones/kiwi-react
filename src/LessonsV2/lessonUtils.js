@@ -4,7 +4,7 @@ import findIndex from 'lodash/findIndex'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 
-import { lessonLocationsBySection } from './LESSON_CONSTANTS'
+import { lessonBubbleDisplayDataBySection } from './LESSON_CONSTANTS'
 
 export const getActiveLessonId = orderedCombinedLessonData => {
   let activeLessonId = get(orderedCombinedLessonData, '[0].lesson._id', '') // default
@@ -45,7 +45,7 @@ export const makeCombinedLessonData = params => {
 export const getActiveSectionIndex = orderedCombinedLessonData => {
   const activeLessonIndex = getActiveLessonIndex(orderedCombinedLessonData)
   let runningTotal = 0, alreadySet = false
-  return lessonLocationsBySection.reduce((acc, sectionLocations, idx) => {
+  return lessonBubbleDisplayDataBySection.reduce((acc, sectionLocations, idx) => {
     runningTotal += !idx ? sectionLocations.length - 1 : sectionLocations.length
     if (activeLessonIndex <= runningTotal && !alreadySet) {
       acc = idx

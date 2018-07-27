@@ -7,7 +7,7 @@ import config from 'config'
 
 // couldn't quite get this mock to work correctly:
 jest.doMock('../../../../src/LessonsV2/LESSON_CONSTANTS', {
-  lessonLocationsBySection: [
+  lessonBubbleDisplayDataBySection: [
     [
       { x: 0, y: 0 }, // 0
       { x: 0, y: 0 }, // 1
