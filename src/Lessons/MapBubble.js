@@ -39,11 +39,11 @@ const styles = theme => ({
     },
     '&:hover $lessonTitleRight': {
       transform: 'translateX(0%)',
-      padding: '0.8vw 1.0vw 0.8vw 3.6vw'
+      padding: '0.8vw 1.0vw 0.8vw 2.9vw'
     },
     '&:hover $lessonTitleLeft': {
       transform: 'translateX(0%)',
-      padding: '0.8vw 3.6vw 0.8vw 1.0vw'
+      padding: '0.8vw 2.9vw 0.8vw 1.0vw'
     },
     '&:hover $bubbleLabel': {
       visibility: 'visible'
