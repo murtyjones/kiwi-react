@@ -32,7 +32,7 @@ import { connect } from 'react-redux'
 
 import { setGlobalColors, signout } from '../actions/index'
 
-const Lessons = Loadable({ loader: () => import('../Lessons/Lessons'), loading: Loading })
+const LessonMap = Loadable({ loader: () => import('../LessonMap/LessonMap'), loading: Loading })
 const AddOrEditLesson = Loadable({ loader: () => import('../admin/AddOrEditLesson/AddOrEditLesson'), loading: Loading })
 const ProviderLoginOrRegister = Loadable({ loader: () => import('../ProviderLoginOrRegister/ProviderLoginOrRegister'), loading: Loading })
 const AddOrEditVariable = Loadable({ loader: () => import('../admin/AddOrEditVariable/AddOrEditVariable'), loading: Loading })
@@ -110,7 +110,7 @@ class Routes extends Component {
           path='/project/:id' component={ UserProject } { ...routeProps }
         />
         <SubscriptionRoute exact redirectIfMobile
-          path='/lessons' component={ Lessons }
+          path='/lessons' component={ LessonMap }
           { ...routeProps }
         />
         <AuthenticatedRoute exact redirectIfMobile

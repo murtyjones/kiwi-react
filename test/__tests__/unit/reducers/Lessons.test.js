@@ -2,7 +2,7 @@ import lessonsReducer from '../../../../src/reducers/Lessons'
 import { ACTIONS } from '../../../../src/constants'
 
 
-describe('Lessons Reducer', () => {
+describe('LessonMap Reducer', () => {
 
   describe('...REQUEST', () => {
     describe('PUT_LESSON_REQUEST', () => {

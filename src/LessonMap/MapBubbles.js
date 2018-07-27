@@ -23,8 +23,8 @@ class MapBubbles extends Component {
   }
 
   render() {
-    const { classes, activeLessonId, activeSectionIndex,lessonJustCompletedId, orderedCombinedLessonData } = this.props
-
+    const { classes, activeLessonId, activeSectionIndex, lessonJustCompletedId, orderedCombinedLessonData } = this.props
+    console.log(activeSectionIndex)
     const sectionLessonsBubbleDisplayData = lessonBubbleDisplayDataBySection[activeSectionIndex]
     return (
       <div className={ cns(classes.root) }>

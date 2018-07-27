@@ -30,3 +30,35 @@ export const lessonBubbleDisplayDataBySection = [
     { x: 5 , y: 5 , left: undefined },  // lessonIndex 22
   ],
 ]
+
+export const NAV_OPTIONS = {
+  TOP:    'TOP',
+  RIGHT:  'RIGHT',
+  LEFT:   'LEFT',
+  BOTTOM: 'BOTTOM',
+}
+
+export const lessonMapNavigationDataBySection = [
+  { // sectionIndex 0
+    unlocksSectionIndices: [
+      1
+    ],
+    adjacentSectionIndices: {
+      [NAV_OPTIONS.TOP]: null,
+      [NAV_OPTIONS.LEFT]: null,
+      [NAV_OPTIONS.BOTTOM]: 1,
+      [NAV_OPTIONS.RIGHT]: null,
+    }
+  },
+  { // sectionIndex 1
+    unlocksSectionIndices: [
+      0
+    ],
+    adjacentSectionIndices: {
+      [NAV_OPTIONS.TOP]: 0,
+      [NAV_OPTIONS.LEFT]: null,
+      [NAV_OPTIONS.BOTTOM]: 2,
+      [NAV_OPTIONS.RIGHT]: null,
+    }
+  }
+]

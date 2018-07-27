@@ -123,7 +123,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 Lessons = withTopBarTitle(Lessons, {
-  title: 'Lessons (Beta)'
+  title: 'LessonMap (Beta)'
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Lessons))

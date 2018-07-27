@@ -28,6 +28,12 @@ class MapSection extends Component {
     super()
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.activeSectionIndex !== prevProps.activeSectionIndex) {
+      console.log('animate me!')
+    }
+  }
+
   render() {
     const { classes, activeSectionIndex } = this.props
 

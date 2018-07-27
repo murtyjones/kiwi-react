@@ -3,8 +3,9 @@ import find from 'lodash/find'
 import findIndex from 'lodash/findIndex'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
+import isNumeric from '../utils/isNumeric'
 
-import { lessonBubbleDisplayDataBySection } from './LESSON_CONSTANTS'
+import { lessonBubbleDisplayDataBySection, lessonMapNavigationDataBySection, NAV_OPTIONS } from './LESSON_CONSTANTS'
 
 export const getActiveLessonId = orderedCombinedLessonData => {
   let activeLessonId = get(orderedCombinedLessonData, '[0].lesson._id', '') // default
@@ -24,6 +25,7 @@ export const getActiveLessonId = orderedCombinedLessonData => {
   return activeLessonId
 }
 
+
 export const getActiveLessonIndex = orderedCombinedLessonData => {
   return  findIndex(orderedCombinedLessonData, ({ lesson }) =>
     lesson._id === getActiveLessonId(orderedCombinedLessonData)
@@ -42,23 +44,26 @@ export const makeCombinedLessonData = params => {
   })
 }
 
+
 export const getActiveSectionIndex = orderedCombinedLessonData => {
   const activeLessonIndex = getActiveLessonIndex(orderedCombinedLessonData)
   let runningTotal = 0, alreadySet = false
   return lessonBubbleDisplayDataBySection.reduce((acc, sectionLocations, idx) => {
-    runningTotal += !idx ? sectionLocations.length - 1 : sectionLocations.length
+    runningTotal += sectionLocations.length
     if (activeLessonIndex <= runningTotal && !alreadySet) {
       acc = idx
       alreadySet = true
     }
     return acc
-  }, 0)
+  }, -1)
 }
+
 
 export const LESSON_STATUSES = {
   AVAILABLE: 'AVAILABLE'
   , LOCKED: 'LOCKED'
 }
+
 
 export const getLessonStatus = (orderedCombinedLessonData, currentLessonId, activeLessonId) => {
   let pastActiveLessonId = false
@@ -76,4 +81,54 @@ export const getLessonStatus = (orderedCombinedLessonData, currentLessonId, acti
     }
 
   }
+}
+
+
+// export const getActiveSections = orderedCombinedLessonData => {
+//   const activeSectionIndex = getActiveSectionIndex(orderedCombinedLessonData)
+//   const activeSections = []
+//   for (let i = 0; i <= activeSectionIndex; i++) {
+//     activeSections.push(i)
+//   }
+//   return activeSections
+// }
+
+
+export const getSectionEndingLessonIndex = (activeSectionIndex) => {
+  return lessonMapNavigationDataBySection.reduce((acc, each, idx) => {
+    if (idx <= activeSectionIndex) {
+      acc += each.length
+    }
+    return acc
+  }, -1)
+}
+
+
+export const getIsLastLessonInSectionCompleted = (endingLessonIndex, orderedCombinedLessonData) => {
+  const combinedLessonData = orderedCombinedLessonData[endingLessonIndex]
+  return get(combinedLessonData, 'userLesson.hasBeenCompleted')
+}
+
+
+export const doesSectionUnlockDirection = (navArrowDirection, activeSectionIndex) => {
+  const { unlocksSectionIndices, adjacentSectionIndices } = lessonMapNavigationDataBySection[activeSectionIndex]
+  const adjacentSectionIndex = adjacentSectionIndices[navArrowDirection]
+  return isNumeric(adjacentSectionIndex) && unlocksSectionIndices.includes(adjacentSectionIndex)
+}
+
+export const getIsSectionNavArrowUnlocked = params => {
+  const { navArrowDirection, orderedCombinedLessonData, activeSectionIndex } = params
+
+  if (!doesSectionUnlockDirection(navArrowDirection, activeSectionIndex)) {
+    return false
+  }
+
+  const endingLessonIndex = getSectionEndingLessonIndex(activeSectionIndex)
+  return true // delete me!
+  return getIsLastLessonInSectionCompleted(endingLessonIndex, orderedCombinedLessonData)
+}
+
+export const getArrowSectionIndex = (navArrowDirection, activeSectionIndex) => {
+  const { adjacentSectionIndices } = lessonMapNavigationDataBySection[activeSectionIndex]
+  return adjacentSectionIndices[navArrowDirection]
 }

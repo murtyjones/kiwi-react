@@ -10,9 +10,10 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import { getLessonOrder, getManyLessons, getManyUserLessons } from '../actions'
 import withTopBarTitle from '../hocs/withTopBarTitle'
 import withRedirectIfTempPassword from '../hocs/withRedirectIfTempPassword'
-import { getActiveLessonId, getActiveSectionIndex, makeCombinedLessonData } from './lessonUtils'
+import * as lessonUtils from './lessonUtils'
 import { darkerGrey } from '../colors'
 
+import MapNavigation from './MapNavigation'
 import MapViewport from './MapViewport'
 import MapBubbles from './MapBubbles'
 import MapSection from './MapSection'
@@ -30,11 +31,12 @@ const styles = theme => ({
 })
 
 
-class Lessons extends Component {
+class LessonMap extends Component {
   constructor(props) {
     super()
     this.state = {
-      lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', '')
+      lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', ''),
+      activeSectionIndex: props.defaultActiveSectionIndex
     }
   }
 
@@ -48,7 +50,8 @@ class Lessons extends Component {
     , profile: T.object.isRequired
     , classes: T.object.isRequired
     , activeLessonId: T.string
-    , activeSectionIndex: T.number.isRequired
+    , defaultActiveSectionIndex: T.number.isRequired
+    , activeSections: T.array.isRequired
   }
 
   componentDidMount() {
@@ -59,9 +62,20 @@ class Lessons extends Component {
     this.props.getLessonOrder()
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.defaultActiveSectionIndex !== prevProps.defaultActiveSectionIndex &&
+      this.props.defaultActiveSectionIndex === this.state.activeSectionIndex
+    ) {
+      this.updateActiveSectionIndex(this.props.defaultActiveSectionIndex)
+    }
+  }
+
+  updateActiveSectionIndex = i => this.setState({ activeSectionIndex: i })
+
   render() {
-    const { classes, activeLessonId, activeSectionIndex, orderedCombinedLessonData } = this.props
-    const { lessonJustCompletedId } = this.state
+    const { classes, activeLessonId, orderedCombinedLessonData } = this.props
+    const { lessonJustCompletedId, activeSectionIndex } = this.state
 
     return (
       <div className={ classes.root }>
@@ -70,6 +84,14 @@ class Lessons extends Component {
             activeSectionIndex={ activeSectionIndex }
           />
           <MapBubbles
+            lessonJustCompletedId={ lessonJustCompletedId }
+            orderedCombinedLessonData={ orderedCombinedLessonData }
+            activeLessonId={ activeLessonId }
+            activeSectionIndex={ activeSectionIndex }
+          />
+          {/* Navigation must come after bubbles */}
+          <MapNavigation
+            onSectionArrowClick={ this.updateActiveSectionIndex }
             lessonJustCompletedId={ lessonJustCompletedId }
             orderedCombinedLessonData={ orderedCombinedLessonData }
             activeLessonId={ activeLessonId }
@@ -97,16 +119,16 @@ const mapStateToProps = (state) => {
   const lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
   const orderOfPublishedLessons = get(lessonOrder, 'order', [])
 
-  const orderedCombinedLessonData = makeCombinedLessonData({ orderOfPublishedLessons, lessons, userLessons })
-  const activeLessonId = getActiveLessonId(orderedCombinedLessonData)
-  const activeSectionIndex = getActiveSectionIndex(orderedCombinedLessonData)
+  const orderedCombinedLessonData = lessonUtils.makeCombinedLessonData({ orderOfPublishedLessons, lessons, userLessons })
+  const activeLessonId = lessonUtils.getActiveLessonId(orderedCombinedLessonData)
+  const defaultActiveSectionIndex = lessonUtils.getActiveSectionIndex(orderedCombinedLessonData)
 
   return {
     orderedCombinedLessonData
     , userId
     , profile
     , activeLessonId
-    , activeSectionIndex
+    , defaultActiveSectionIndex
   }
 }
 
@@ -118,10 +140,10 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-Lessons = withTopBarTitle(Lessons, { title: 'Lesson Map' })
+LessonMap = withTopBarTitle(LessonMap, { title: 'Lesson Map' })
 
-Lessons = withStyles(styles)(Lessons)
+LessonMap = withStyles(styles)(LessonMap)
 
-Lessons = withRedirectIfTempPassword(Lessons)
+LessonMap = withRedirectIfTempPassword(LessonMap)
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Lessons))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LessonMap))
