@@ -28,6 +28,12 @@
   "bugs": {
     "url": "https://github.com/murtyjones/kiwi-react/issues"
   },
+  "jest-unit": {
+    "setupFiles": [
+      "./test/unitSetup.js",
+      "jest-localstorage-mock"
+    ]
+  },
   "jest": {
     "setupFiles": [
       "./test/unitSetup.js",

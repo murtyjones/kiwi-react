@@ -3,24 +3,17 @@ import * as T from 'prop-types'
 import cns from 'classnames'
 import withStyles from "@material-ui/core/styles/withStyles";
 
+const maxHeight = 'calc(100vh - 60px)'
+
 const styles = () => ({
   root: {
     width: '100vw'
+    , maxWidth: `calc(${maxHeight} * 1366 / 768)`
     , height: 'calc(100vw * 768 / 1366)'
+    , maxHeight: maxHeight
+    , margin: 'auto auto'
     , position: 'relative'
-    , top: '50%'
-    , marginTop: 'calc(-100vw * 768 / 1366 / 2)'
-  },
-  section: {
-    width: '100%'
-    , height: '100%'
-    , backgroundPosition: 'center center'
-    , backgroundRepeat: 'no-repeat'
-    , backgroundSize: '100%'
-  },
-  section1: {
-    backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1532556273/Map/map-section-1.svg)'
-  },
+  }
 })
 
 class MapViewport extends Component {
@@ -32,9 +25,7 @@ class MapViewport extends Component {
     const { classes, children } = this.props
     return (
       <div className={ classes.root }>
-        <div className={ cns(classes.section, classes.section1) }>
-          { children }
-        </div>
+        { children }
       </div>
     )
   }

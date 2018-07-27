@@ -18,7 +18,7 @@ module.exports = {
     ManageSubscriptions: './src/admin/ManageSubscriptions/ManageSubscriptions.js',
     Signups: './src/admin/Signups/Signups.js',
     ProviderLoginOrRegister: './src/ProviderLoginOrRegister/ProviderLoginOrRegister',
-    Lessons: './src/Lessons/Lessons',
+    Lessons: './src/LessonsV2/LessonsV2',
     LessonsV2: './src/LessonsV2/LessonsV2',
   },
   output: {

@@ -13,7 +13,7 @@ const GLOBAL_COLORS = {
     , textColor: white
     , primaryColor: purple
     , secondaryColor: purple
-    , tertiaryColor: purple
+    , tertiaryColor: lightPurple
   }
 }
 

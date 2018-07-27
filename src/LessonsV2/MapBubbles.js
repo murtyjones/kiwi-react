@@ -1,48 +1,57 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
-import withStyles from "@material-ui/core/styles/withStyles";
+import find from 'lodash/find'
+import withStyles from '@material-ui/core/styles/withStyles'
+import { lessonLocationsBySection } from './LESSON_CONSTANTS'
+
+import MapBubble from './MapBubble'
 
 const styles = theme => ({
   root: {
-    width: '100vw'
-    , height: 'calc(100vw * 768 / 1366)'
-    , position: 'relative'
-    , top: '50%'
-    , marginTop: 'calc(-100vw * 768 / 1366 / 2)'
-  },
-  section: {
-    width: '100%'
-    , height: '100%'
-    , backgroundPosition: 'center center'
-    , backgroundRepeat: 'no-repeat'
-    , backgroundSize: '100%'
-  },
-  section1: {
-    backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1532556273/Map/map-section-1.svg)'
-  },
+    position: 'absolute'
+    , top: 0
+    , bottom: 0
+    , right: 0
+    , left: 0
+  }
 })
 
-class MapViewport extends Component {
+class MapBubbles extends Component {
   constructor() {
     super()
   }
 
   render() {
-    const { classes, children } = this.props
+    const { classes, activeLessonId, activeSectionIndex, lessonJustCompletedId, orderedCombinedLessonData } = this.props
+    const lessonBubbleLocations = lessonLocationsBySection[activeSectionIndex]
+
     return (
-      <div className={ classes.root }>
-        <div className={ cns(classes.section, classes.section1) }>
-          { children }
-        </div>
+      <div className={ cns(classes.root) }>
+        { lessonBubbleLocations.map((coords, i) => {
+          return (
+            <MapBubble
+              key={ i }
+              i={ i }
+              coords={ coords }
+              orderedCombinedLessonData={ orderedCombinedLessonData }
+              lessonJustCompletedId={ lessonJustCompletedId }
+              activeLessonId={ activeLessonId }
+            />
+          )
+        } )}
       </div>
     )
   }
 }
 
-MapViewport.propTypes = {
+MapBubbles.propTypes = {
   classes: T.object,
-  children: T.any
+  children: T.any,
+  orderedCombinedLessonData: T.array,
+  activeLessonId: T.string,
+  activeSectionIndex: T.number,
+  lessonJustCompletedId: T.string,
 }
 
-export default withStyles(styles)(MapViewport)
+export default withStyles(styles)(MapBubbles)

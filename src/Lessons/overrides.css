@@ -119,7 +119,7 @@
     transition: .3s all ease;
     box-shadow: rgba(0,0,0,0.4) 2px 2px 8px 0;
 }
-.map-bubble:hover{
+.map-bubble:hover {
     transform: scale(1.2);
     transition: .3s all cubic-bezier(0, 1.07, 0.78, 2.39);
     box-shadow: rgba(0,0,0,0.4) 3px 3px 8px 0;
@@ -191,8 +191,4 @@
 
 .clickable {
     cursor: pointer;
-}
-.next {
-    transform: scale(1.2);
-    transition: all 1s ease;
 }

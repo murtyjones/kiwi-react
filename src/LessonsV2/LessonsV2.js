@@ -10,10 +10,12 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import { getLessonOrder, getManyLessons, getManyUserLessons } from '../actions'
 import withTopBarTitle from '../hocs/withTopBarTitle'
 import withRedirectIfTempPassword from '../hocs/withRedirectIfTempPassword'
-import { getActiveLessonId, makeCombinedLessonData } from './lessonUtils'
+import { getActiveLessonId, getActiveSectionIndex, makeCombinedLessonData } from './lessonUtils'
 import { darkerGrey } from '../colors'
 
 import MapViewport from './MapViewport'
+import MapBubbles from './MapBubbles'
+import MapSection from './MapSection'
 
 const styles = theme => ({
   root: {
@@ -22,7 +24,8 @@ const styles = theme => ({
     right: 0,
     left: 0,
     bottom: 0,
-    backgroundColor: darkerGrey
+    backgroundColor: darkerGrey,
+    display: 'flex'
   }
 })
 
@@ -32,7 +35,6 @@ class LessonsV2 extends Component {
     super()
     this.state = {
       lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', '')
-      , activeLessonId: getActiveLessonId(props.orderedCombinedLessonData)
     }
   }
 
@@ -45,6 +47,8 @@ class LessonsV2 extends Component {
     , history: T.object.isRequired
     , profile: T.object.isRequired
     , classes: T.object.isRequired
+    , activeLessonId: T.string
+    , activeSectionIndex: T.number.isRequired
   }
 
   componentDidMount() {
@@ -56,12 +60,19 @@ class LessonsV2 extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, activeLessonId, activeSectionIndex, orderedCombinedLessonData } = this.props
+    const { lessonJustCompletedId } = this.state
     return (
       <div className={ classes.root }>
-        <MapViewport classes={ classes }>
+        <MapViewport>
+          <MapSection
+            activeSectionIndex={ activeSectionIndex }
+          />
           <MapBubbles
-
+            lessonJustCompletedId={ lessonJustCompletedId }
+            orderedCombinedLessonData={ orderedCombinedLessonData }
+            activeLessonId={ activeLessonId }
+            activeSectionIndex={ activeSectionIndex }
           />
         </MapViewport>
       </div>
@@ -85,10 +96,16 @@ const mapStateToProps = (state) => {
   const lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
   const orderOfPublishedLessons = get(lessonOrder, 'order', [])
 
+  const orderedCombinedLessonData = makeCombinedLessonData({ orderOfPublishedLessons, lessons, userLessons })
+  const activeLessonId = getActiveLessonId(orderedCombinedLessonData)
+  const activeSectionIndex = getActiveSectionIndex(orderedCombinedLessonData)
+
   return {
-    orderedCombinedLessonData: makeCombinedLessonData({ orderOfPublishedLessons, lessons, userLessons })
+    orderedCombinedLessonData
     , userId
     , profile
+    , activeLessonId
+    , activeSectionIndex
   }
 }
 
