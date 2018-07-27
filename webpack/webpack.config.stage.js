@@ -18,8 +18,7 @@ module.exports = {
     ManageSubscriptions: './src/admin/ManageSubscriptions/ManageSubscriptions.js',
     Signups: './src/admin/Signups/Signups.js',
     ProviderLoginOrRegister: './src/ProviderLoginOrRegister/ProviderLoginOrRegister',
-    Lessons: './src/LessonsV2/LessonsV2',
-    LessonsV2: './src/LessonsV2/LessonsV2',
+    Lessons: './src/Lessons/Lessons',
   },
   output: {
     path: path.join(__dirname, '../build/build/js'),

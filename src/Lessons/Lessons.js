@@ -1,56 +1,40 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { connect } from 'react-redux'
 import withRouter from 'react-router-dom/withRouter'
-import has from 'lodash/has'
-import orderBy from 'lodash/orderBy'
-import find from 'lodash/find'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
-import isEqual from 'lodash/isEqual'
-import isEmpty from 'lodash/isEmpty'
+import withStyles from '@material-ui/core/styles/withStyles'
 
-import { getProfileDetails, getManyLessons, getManyUserLessons, getLessonOrder, setGlobalColors } from '../actions'
 
-import LessonCard from './LessonCard'
-import LessonMap from './LessonMap'
-import LessonMapBackground from './LessonMapBackground'
-import { GLOBAL_COLORS } from '../constants'
-import KiwiLink from '../common/KiwiLink'
-
-import './overrides.css'
+import { getLessonOrder, getManyLessons, getManyUserLessons } from '../actions'
 import withTopBarTitle from '../hocs/withTopBarTitle'
+import withRedirectIfTempPassword from '../hocs/withRedirectIfTempPassword'
+import { getActiveLessonId, getActiveSectionIndex, makeCombinedLessonData } from './lessonUtils'
+import { darkerGrey } from '../colors'
 
-const BetaLessonsLink = () =>
-  <KiwiLink to='/lessons/beta'>
-    <div className='betaLessonsLink'>
-      Additional lessons – Click here!
-    </div>
-  </KiwiLink>
+import MapViewport from './MapViewport'
+import MapBubbles from './MapBubbles'
+import MapSection from './MapSection'
 
-const styles = {
-  mapContainer: {
-    width: '100vw'
-    , position: 'absolute'
-  },
-  lessonCardContainer: {
-    position: 'fixed'
-    , right: '20px'
-    , bottom: '20px'
-    , width: '350px'
-    , height: '400px'
-    , zIndex: 1000
+const styles = theme => ({
+  root: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    backgroundColor: darkerGrey,
+    display: 'flex'
   }
-}
+})
+
 
 class Lessons extends Component {
   constructor(props) {
-    super(props)
+    super()
     this.state = {
-      selectedLessonId: null
-      , lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', '')
-      , activeLessonId: ''
-      , combinedMapLessons: null
+      lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', '')
     }
   }
 
@@ -58,95 +42,41 @@ class Lessons extends Component {
     getManyLessons: T.func
     , getManyUserLessons: T.func
     , getLessonOrder: T.func
-    , getProfileDetails: T.func
-    , userLessons: T.array
-    , lessons: T.array
-    , orderOfPublishedLessons: T.array
+    , orderedCombinedLessonData: T.array.isRequired
     , userId: T.string.isRequired
     , history: T.object.isRequired
     , profile: T.object.isRequired
+    , classes: T.object.isRequired
+    , activeLessonId: T.string
+    , activeSectionIndex: T.number.isRequired
   }
 
-  UNSAFE_componentWillMount() {
-    const { userId, orderOfPublishedLessons, lessons, userLessons } = this.props
+  componentDidMount() {
+    const { userId } = this.props
+    // retrieve lesson data
     this.props.getManyLessons()
     this.props.getManyUserLessons({ userId })
     this.props.getLessonOrder()
-    this.setCombinedMapLessons(orderOfPublishedLessons, lessons, userLessons)
-    // get profile details (for temporaryPassword check)
-    this.props.getProfileDetails({ userId })
   }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { lessons, userLessons, orderOfPublishedLessons } = this.props
-      , { lessons: nextLessons, userLessons: nextUserLessons, orderOfPublishedLessons: nextOrderOfPublishedLessons } = nextProps
-      , orderHasChanged = !isEqual(orderOfPublishedLessons, nextOrderOfPublishedLessons)
-      , lessonsHasChanged = !isEqual(lessons, nextLessons)
-      , userLessonsHasChanged = !isEqual(userLessons, nextUserLessons)
-
-    if (orderHasChanged || lessonsHasChanged || userLessonsHasChanged)
-      this.setCombinedMapLessons(nextOrderOfPublishedLessons, nextLessons, nextUserLessons)
-
-    if (nextProps.profile.temporaryPassword) {
-      this.props.history.push('/student')
-    }
-  }
-
-  setCombinedMapLessons = (orderOfPublishedLessons, lessons, userLessons) => {
-    let activeLessonId = orderOfPublishedLessons[0] // at the very least, the first lesson should be active
-      const combinedMapLessons = orderOfPublishedLessons.map((lessonId, i) => {
-        const lesson = find(lessons, { _id: lessonId }) || {}
-          , userLesson = find(userLessons, { lessonId }) || {}
-          , prevLessonId = i > 0 ? orderOfPublishedLessons[i - 1] : ''
-          , prevLesson = find(lessons, { _id: prevLessonId }) || {}
-          , prevUserLesson = find(userLessons, { lessonId: prevLesson._id }) || {}
-
-        if (!lesson) return {}
-        lesson.userLesson = userLesson
-        const hasBeenStartedButNotCompleted = !isEmpty(userLesson) && !userLesson.hasBeenCompleted
-        const hasNotBeenStartedButIsNext = isEmpty(userLesson) && !isEmpty(prevUserLesson) && prevUserLesson.hasBeenCompleted
-        if (hasBeenStartedButNotCompleted || hasNotBeenStartedButIsNext)
-          activeLessonId = lesson._id
-        return lesson
-      })
-
-    this.setState({ combinedMapLessons, activeLessonId })
-  }
-
-  setSelectedLessonId = selectedLessonId => this.setState({ selectedLessonId })
 
   render() {
-    const { lessons, orderOfPublishedLessons } = this.props
-    const { selectedLessonId, lessonJustCompletedId, activeLessonId, combinedMapLessons } = this.state
-    const selectedLessonPosition = selectedLessonId
-      ? 1 + orderOfPublishedLessons.indexOf(selectedLessonId)
-      : 0
-    const selectedLesson = {
-      ...find(lessons, { _id: selectedLessonId })
-      , order: selectedLessonPosition
-    }
+    const { classes, activeLessonId, activeSectionIndex, orderedCombinedLessonData } = this.props
+    const { lessonJustCompletedId } = this.state
 
     return (
-      <Fragment>
-        <BetaLessonsLink />
-        <LessonMapBackground key='LessonMapBackground' />
-        <LessonMap
-          key='LessonMap'
-          mapLessons={ combinedMapLessons }
-          selectedLessonId={ selectedLessonId }
-          lessonJustCompletedId={ lessonJustCompletedId }
-          activeLessonId={ activeLessonId }
-          setSelectedLessonId={ this.setSelectedLessonId }
-        />
-        { selectedLessonId &&
-          <LessonCard
-            key='LessonCard'
-            lesson={ selectedLesson }
-            colors={ GLOBAL_COLORS.default  }
-            style={ styles.lessonCardContainer }
+      <div className={ classes.root }>
+        <MapViewport>
+          <MapSection
+            activeSectionIndex={ activeSectionIndex }
           />
-        }
-      </Fragment>
+          <MapBubbles
+            lessonJustCompletedId={ lessonJustCompletedId }
+            orderedCombinedLessonData={ orderedCombinedLessonData }
+            activeLessonId={ activeLessonId }
+            activeSectionIndex={ activeSectionIndex }
+          />
+        </MapViewport>
+      </div>
     )
   }
 
@@ -164,15 +94,19 @@ const mapStateToProps = (state) => {
   const profile = profilesById[userId] || {}
 
   const userLessons = cloneDeep(Object.values(userLessonsById))
-    , lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
-    , orderOfPublishedLessons = get(lessonOrder, 'order', [])
+  const lessons = cloneDeep(Object.values(lessonsById).filter(each => each.isPublished))
+  const orderOfPublishedLessons = get(lessonOrder, 'order', [])
+
+  const orderedCombinedLessonData = makeCombinedLessonData({ orderOfPublishedLessons, lessons, userLessons })
+  const activeLessonId = getActiveLessonId(orderedCombinedLessonData)
+  const activeSectionIndex = getActiveSectionIndex(orderedCombinedLessonData)
 
   return {
-    lessons: orderBy(lessons, ['order'], ['asc'])
-    , userLessons
-    , orderOfPublishedLessons
+    orderedCombinedLessonData
     , userId
     , profile
+    , activeLessonId
+    , activeSectionIndex
   }
 }
 
@@ -181,12 +115,13 @@ const mapDispatchToProps = (dispatch) => {
     getManyLessons: params => dispatch(getManyLessons(params))
     , getLessonOrder: () => dispatch(getLessonOrder())
     , getManyUserLessons: params => dispatch(getManyUserLessons(params))
-    , setGlobalColors: params => dispatch(setGlobalColors(params))
-    , getProfileDetails: params => dispatch(getProfileDetails(params))
   }
 }
-Lessons = withTopBarTitle(Lessons, {
-  title: 'Lesson Map'
-})
+
+Lessons = withTopBarTitle(Lessons, { title: 'Lesson Map' })
+
+Lessons = withStyles(styles)(Lessons)
+
+Lessons = withRedirectIfTempPassword(Lessons)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Lessons))

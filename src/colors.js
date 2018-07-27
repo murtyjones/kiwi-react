@@ -11,6 +11,7 @@ export const black = '#000000'
 
 export const purple = '#624F8F'
 export const lightPurple = '#9575C9'
+export const lighterPurple = '#c2a0ff'
 
 export const oceanBlue = '#0074D9'
 export const blue = '#00BEFA'

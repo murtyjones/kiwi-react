@@ -6,7 +6,7 @@ import config from 'config'
 
 
 // couldn't quite get this mock to work correctly:
-jest.doMock('../../../../src/LessonsV2/LESSON_CONSTANTS', {
+jest.doMock('../../../../src/Lessons/LESSON_CONSTANTS', {
   lessonBubbleDisplayDataBySection: [
     [
       { x: 0, y: 0 }, // 0
@@ -17,7 +17,7 @@ jest.doMock('../../../../src/LessonsV2/LESSON_CONSTANTS', {
     ],
   ]
 })
-import * as lessonUtils from '../../../../src/LessonsV2/lessonUtils'
+import * as lessonUtils from '../../../../src/Lessons/lessonUtils'
 
 window.localStorage = localStorageMock
 

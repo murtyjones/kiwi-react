@@ -60,17 +60,20 @@ export const LESSON_STATUSES = {
   , LOCKED: 'LOCKED'
 }
 
-export const getLessonStatus = (orderedCombinedLessonData, activeLessonId) => {
+export const getLessonStatus = (orderedCombinedLessonData, currentLessonId, activeLessonId) => {
   let pastActiveLessonId = false
   for (let i = 0, len = orderedCombinedLessonData.length; i < len; i++) {
     const e = orderedCombinedLessonData[i]
-    if (!pastActiveLessonId && e.lesson._id !== activeLessonId) {
-      return LESSON_STATUSES.AVAILABLE
-    } else if (!pastActiveLessonId && e.lesson._id === activeLessonId) {
+
+    if (e.lesson._id === activeLessonId) {
       pastActiveLessonId = true
+    }
+
+    if (e.lesson._id === currentLessonId) {
       return LESSON_STATUSES.AVAILABLE
     } else if (pastActiveLessonId) {
       return LESSON_STATUSES.LOCKED
     }
+
   }
 }

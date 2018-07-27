@@ -15,8 +15,11 @@ const styles = theme => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: '100%'
   },
+  'section-0': {
+    backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1532712870/Map/map-section-1.svg)'
+  },
   'section-1': {
-    backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1532556273/Map/map-section-1.svg)'
+    backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1532712873/Map/map-section-2.svg)'
   },
 })
 
@@ -26,10 +29,11 @@ class MapSection extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, activeSectionIndex } = this.props
+
     return (
       <div className={ classes.root }>
-        <div className={ cns(classes.section, classes[`section-${1}`]) } />
+        <div className={ cns(classes.section, classes[`section-${activeSectionIndex}`]) } />
       </div>
     )
   }
@@ -37,9 +41,7 @@ class MapSection extends Component {
 
 MapSection.propTypes = {
   classes: T.object,
-  children: T.any,
-  orderedCombinedLessonData: T.object,
-  activeLessonId: T.string,
+  activeSectionIndex: T.any,
 }
 
 export default withStyles(styles)(MapSection)
