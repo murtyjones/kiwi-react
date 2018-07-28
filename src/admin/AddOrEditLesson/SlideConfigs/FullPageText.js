@@ -19,7 +19,7 @@ class FullPageText extends Component {
         />
         <Field
           name={ `${slideRef}.characterUrl` }
-          label='Left hand side character URL'
+          label='Left hand side character URL (will scale up or down to 200px width)'
           component={ KiwiTextField }
         />
         <Field
