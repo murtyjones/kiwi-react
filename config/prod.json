@@ -1,4 +1,5 @@
 {
+  "environmentLabel": "production",
   "auth": {
     "domain": "kiwi-prod.auth0.com",
     "clientID": "qNZS0jbIQwLus56P2h2T2PbzuwIf6EaF",

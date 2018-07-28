@@ -136,7 +136,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 UserProject = withTopBarTitle(UserProject, {
-  title: 'name me!', topBarTitleDisabled: false
+  title: 'name me!', topBarTitleDisabled: false, showLogo: false
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserProject))

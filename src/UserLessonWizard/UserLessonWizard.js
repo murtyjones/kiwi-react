@@ -225,7 +225,7 @@ UserLessonWizard = withTopBarBreadCrumb(UserLessonWizard, {
 })
 
 UserLessonWizard = withTopBarTitle(UserLessonWizard, {
-  showMiddleSection: false
+  showMiddleSection: false, showLogo: false
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserLessonWizard))

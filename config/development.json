@@ -1,4 +1,5 @@
 {
+  "environmentLabel": "development",
   "auth": {
     "domain": "kiwi-dev.auth0.com",
     "clientID": "ixKBxpoRiGfp2Hro9V6rtI6S0tYynU6Y",

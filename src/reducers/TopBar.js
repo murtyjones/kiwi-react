@@ -9,6 +9,7 @@ const initialState = {
   , breadcrumbLink: ''
   , breadcrumbText: ''
   , showMiddleSection: true
+  , showLogo: true
 }
 
 export default (state = initialState, action) => {
@@ -60,6 +61,12 @@ export default (state = initialState, action) => {
     case ACTIONS.SET_TOP_BAR_MIDDLE_IS_VISIBLE: {
       const newState = Object.assign({}, state, {
         showMiddleSection: action.payload
+      })
+      return newState
+    }
+    case ACTIONS.SET_TOP_BAR_LOGO_IS_VISIBLE: {
+      const newState = Object.assign({}, state, {
+        showLogo: action.payload
       })
       return newState
     }

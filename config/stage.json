@@ -1,4 +1,5 @@
 {
+  "environmentLabel": "stage",
   "auth": {
     "domain": "kiwi-stage.auth0.com",
     "clientID": "O9T0UDFJVxqFgOouZyVfrfbBzoq-XP3g",

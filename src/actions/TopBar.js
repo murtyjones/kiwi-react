@@ -41,3 +41,9 @@ export const setTopBarMiddleSectionIsVisible = payload => {
     dispatch({ type: ACTIONS.SET_TOP_BAR_MIDDLE_IS_VISIBLE, payload })
   }
 }
+
+export const setTopBarLogoIsVisible = payload => {
+  return dispatch => {
+    dispatch({ type: ACTIONS.SET_TOP_BAR_LOGO_IS_VISIBLE, payload })
+  }
+}

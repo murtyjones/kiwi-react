@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
+import config from 'config'
 import withRouter from 'react-router-dom/withRouter'
 import Modal from 'react-modal'
 import { connect } from 'react-redux'
 import cns from 'classnames'
 import { Helmet } from 'react-helmet'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 import './utils/refreshToken'
 
@@ -20,28 +22,26 @@ Modal.setAppElement(document.getElementById('app'))
  */
 import TopBar from './TopBar/TopBar'
 
-
-let baseAppStyle = {
-  borderRadius: 0
-  , margin: 0
-  , position: "absolute"
-  , top: '60px'
-  , left: 0
-  , right: 0
-  , bottom: 0
-  , fontFamily: "Roboto, sans-serif"
-}
-
-const EnvironmentReminder = props =>
-  <div style={ {
-    position: 'fixed'
+const styles = () => ({
+  root: {
+    borderRadius: 0
+    , margin: 0
+    , position: "absolute"
+    , top: '60px'
+    , left: 0
+    , right: 0
     , bottom: 0
+    , fontFamily: "Roboto, sans-serif"
+  },
+  environmentReminder: {
+    position: 'fixed'
+    , top: 0
     , left: 0
     , zIndex: 1200
     , backgroundColor:
-      process.env.NODE_ENV === 'local'
+      config.environmentLabel === 'local'
         ? '#ff3f79'
-        : process.env.NODE_ENV === 'development'
+        : config.environmentLabel === 'development'
         ? '#32a8ff'
         : '#d9af21' // stage
     , width: '100%'
@@ -52,8 +52,16 @@ const EnvironmentReminder = props =>
     , fontWeight: 'bold'
     , color: '#FFFFFF'
     , textAlign: '-webkit-center'
-  } }>
-    { process.env.NODE_ENV } environment
+    , opacity: 0.5,
+    '&:hover': {
+      opacity: 1.0
+    }
+  }
+})
+
+const EnvironmentReminder = ({ className }) =>
+  <div className={ className }>
+    { config.environmentLabel } environment
   </div>
 
 class Root extends Component {
@@ -75,7 +83,7 @@ class Root extends Component {
 
   render() {
     const {
-      userId, modal, isLoggedIn, isAdmin, isProvider, topBar, setTopBarTitle, globalColors
+      classes, userId, modal, isLoggedIn, isAdmin, isProvider, topBar, setTopBarTitle, globalColors
     } = this.props
 
     const topBarWidthString = `${topBar.topBarHeight}px`
@@ -87,7 +95,7 @@ class Root extends Component {
         <GoogleTagManager gtmId='GTM-TJPSGHC' additionalEvents={ additionalEvents } />
         <div>
           { process.env.NODE_ENV !== 'production' &&
-            <EnvironmentReminder />
+            <EnvironmentReminder className={ classes.environmentReminder } />
           }
           <Helmet>
             <title>Kiwi Compute</title>
@@ -109,6 +117,7 @@ class Root extends Component {
             isAdmin={ isAdmin }
             isProvider={ isProvider }
             showMiddleSection={ topBar.showMiddleSection }
+            showLogo={ topBar.showLogo }
             breadcrumbLink={ topBar.breadcrumbLink }
             breadcrumbText={ topBar.breadcrumbText }
             isOpen={ topBar.isTopBarOpen }
@@ -119,14 +128,7 @@ class Root extends Component {
             titleDisabled={ topBar.topBarTitleDisabled }
             handleTitleChange={ setTopBarTitle }
           />
-          <div
-            className={ cns('baseAppStyles') }
-            style={ {
-              ...baseAppStyle,
-              top: topBarWidthString
-              }
-            }
-          >
+          <div className={ classes.root } style={ { top: topBarWidthString } }>
             <Routes />
           </div>
         </div>
@@ -165,4 +167,8 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Root))
+Root = withStyles(styles)(Root)
+
+Root = withRouter(connect(mapStateToProps, mapDispatchToProps)(Root))
+
+export default Root

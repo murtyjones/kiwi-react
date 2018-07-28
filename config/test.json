@@ -1,4 +1,5 @@
 {
+  "environmentLabel": "test",
   "auth": {
     "domain": "kiwi-integration-test.auth0.com",
     "clientID": "NgjLQtRbP7Wds__Ru10g7qPnJQT7Ln6Z",

@@ -127,6 +127,7 @@ class TopBar extends PureComponent {
     , isAdmin: T.bool.isRequired
     , isProvider: T.bool.isRequired
     , showMiddleSection: T.bool.isRequired
+    , showLogo: T.bool.isRequired
   }
 
 
@@ -168,7 +169,7 @@ class TopBar extends PureComponent {
   render() {
     const {
       showMiddleSection, classes, isOpen, titleDisabled, title, backgroundColor,
-      textColor, isAdmin, isProvider, breadcrumbLink, breadcrumbText
+      textColor, isAdmin, isProvider, breadcrumbLink, breadcrumbText, showLogo
     } = this.props
     const { anchorEl } = this.state
 
@@ -196,17 +197,26 @@ class TopBar extends PureComponent {
               </Link>
             }
 
-            <input
-              ref={ c => this.input = c }
-              className={ cns(classes.title, {
-                'disabled': titleDisabled,
-                [classes.share]: !!breadcrumbLink
-              } ) }
-              onChange={ this.handleTitleChange }
-              value={ title }
-              style={ { backgroundColor, color: textColor } }
-              disabled={ titleDisabled }
-            />
+            { showLogo &&
+              <img
+                height='100%'
+                src='../../assets/images/landing-logo.svg'
+              />
+            }
+
+            { !showLogo && // if logo, no title
+              <input
+                ref={ c => this.input = c }
+                className={ cns(classes.title, {
+                  'disabled': titleDisabled,
+                  [classes.share]: !!breadcrumbLink
+                } ) }
+                onChange={ this.handleTitleChange }
+                value={ title }
+                style={ { backgroundColor, color: textColor } }
+                disabled={ titleDisabled }
+              />
+            }
           </Grid>
 
             <Grid item className={ classes.middle } xs={ 6 }>
@@ -214,9 +224,6 @@ class TopBar extends PureComponent {
                 <Fragment>
                   <button onClick={ () => this.props.history.push('/lessons') }>
                     Lessons
-                  </button>
-                  <button onClick={ () => this.props.history.push('/projects') }>
-                    Projects
                   </button>
                   { isAdmin &&
                     <button
