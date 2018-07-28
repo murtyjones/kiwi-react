@@ -42,13 +42,6 @@ export default class ProvideesSignup extends Component {
             validate={ [ required, alphaNumeric ] }
             addlInputLabelProps={ { shrink: true } }
           />
-          <Field
-            name={ `${ref}.lastName` }
-            component={ KiwiTextField }
-            label='Last Name'
-            validate={ [ required, alphaNumeric ] }
-            addlInputLabelProps={ { shrink: true } }
-          />
         </div>
       </SlideInOut>
       : null
