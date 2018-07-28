@@ -22,7 +22,7 @@ const styles = theme => ({
   },
   instructions: {
     fontFamily: 'Gaegu',
-    fontSize: '12pt',
+    fontSize: '24pt',
     padding: '0 20px 20px 80px',
     overflowY: 'scroll',
     maxHeight: 370
