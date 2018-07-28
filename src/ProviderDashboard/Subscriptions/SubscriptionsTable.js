@@ -32,6 +32,7 @@ const styles = theme => ({
     marginLeft: '10px !important'
   },
   toggleSubscription: {
+    textAlign: 'right',
     padding: '0 !important',
   },
   disabled: {
@@ -56,6 +57,10 @@ const styles = theme => ({
     width: '20px',
     height: '20px',
     color: oceanBlue
+  },
+  monthlyPrice: {
+    width: 100,
+    padding: 0
   },
   row: {
     borderTop: '1px solid #DDD',
@@ -113,6 +118,9 @@ const SubscriptionsTable = ({
                     : 'Renews on ' }
                   { current_period_end.format('MMMM Do') }
                 </span>
+              </TableCell>
+              <TableCell className={ classes.monthlyPrice }>
+                30 USD / mo.
               </TableCell>
               <TableCell
                 className={
