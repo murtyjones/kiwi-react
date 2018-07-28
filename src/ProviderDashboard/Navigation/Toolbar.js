@@ -88,7 +88,7 @@ class Toolbar extends Component {
           </Typography>
           <div className={ classes.links }>
             <a href='mailto:support@kiwicompute.com' className={ classes.rightLink }>Email Us</a>
-            <Link to='/signout' className={ classes.rightLink }>Signout</Link>
+            <Link to='/signout' className={ classes.rightLink }>Sign Out</Link>
           </div>
         </MuiToolbar>
       </AppBar>

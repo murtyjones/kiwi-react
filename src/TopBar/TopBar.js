@@ -99,7 +99,7 @@ const styles = () => ({
 })
 
 const Signout = ({ className }) =>
-  <Link to='/signout'><button className={ className }>Signout</button></Link>
+  <Link to='/signout'><button className={ className }>Sign Out</button></Link>
 Signout.propTypes = { className: T.string.isRequired }
 
 class TopBar extends PureComponent {
