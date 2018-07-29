@@ -6,14 +6,21 @@ import * as T from 'prop-types'
 
 import MobileRedirect from '../MobileRedirect/MobileRedirect'
 
-function AuthenticatedRoute (props) {
+const isAuthorized = (path, isLoggedIn, isAdmin, isProvider) =>
+  path.includes('provider')
+    ? isLoggedIn && (isProvider || isAdmin)
+    : isLoggedIn && isAdmin
+
+function AuthorizedRoute (props) {
   const { component: Component /* need this so it doesnt get passed to route */, ...rest } = props
 
   if (isMobile && rest.redirectIfMobile)
     return <MobileRedirect />
 
-  if (!rest.isLoggedIn)
-    return <Redirect to={ { pathname: '/login', state: { from: rest.location } } } />
+  if (!isAuthorized(rest.path, rest.isLoggedIn, rest.isAdmin, rest.isProvider)) {
+    const to = rest.path.includes('/provider')  ? '/provider/login' : '/login'
+    return <Redirect to={ { pathname: to, state: { from: rest.location } } } />
+  }
 
   return (
     <Route
@@ -26,4 +33,4 @@ function AuthenticatedRoute (props) {
 }
 
 
-export default withRouter(AuthenticatedRoute)
+export default withRouter(AuthorizedRoute)

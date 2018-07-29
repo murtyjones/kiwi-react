@@ -12,7 +12,7 @@ import has from 'lodash/has'
 
 import ProviderRegisterForm from './ProviderRegisterForm'
 import {
-  login, register, postSubscription, putSubscription, putProfile, closeModal
+  login, register, postSubscription, putSubscription, putProfile, closeModal, signout
 } from '../../../actions'
 import { SUBSCRIPTION_STATUSES } from '../../../constants'
 import { choosePathSlide, providerSlides, studentSlides } from './slides'
@@ -55,8 +55,10 @@ class ProviderRegisterModal extends Component {
     , putSubscription: T.func.isRequired
     , putProfile: T.func.isRequired
     , closeModal: T.func.isRequired
+    , signout: T.func.isRequired
     , fromLogin: T.bool
     , wasStudentSignIn: T.bool
+    , history: T.object.isRequired
   }
 
   UNSAFE_componentWillMount() {
@@ -150,6 +152,10 @@ class ProviderRegisterModal extends Component {
   }
 
   slide6Submit = async v => {
+    const { isProvider } = this.props
+    if (!isProvider) {
+      this.props.signout()
+    }
     this.props.history.push(`/provider/subscriptions`)
     this.props.closeModal()
   }
@@ -223,9 +229,15 @@ class ProviderRegisterModal extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  const { auth: { isProvider } } = state
+  return { isProvider }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     register: params => dispatch(register(params))
+    , signout: () => dispatch(signout())
     , login: params => dispatch(login(params))
     , postSubscription: params => dispatch(postSubscription(params))
     , putSubscription: params => dispatch(putSubscription(params))
@@ -236,4 +248,6 @@ const mapDispatchToProps = (dispatch) => {
 
 ProviderRegisterModal = withStyles(styles, { withTheme: true })(ProviderRegisterModal)
 
-export default withRouter(connect(null, mapDispatchToProps)(ProviderRegisterModal))
+ProviderRegisterModal = withRouter(connect(mapStateToProps, mapDispatchToProps)(ProviderRegisterModal))
+
+export default ProviderRegisterModal

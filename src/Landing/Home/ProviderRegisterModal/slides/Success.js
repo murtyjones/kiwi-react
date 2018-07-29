@@ -41,8 +41,16 @@ class Success extends Component {
     history: T.object.isRequired,
   }
 
-  redirectToOnboarding = () => {
-    this.props.history.push('/')
+  redirectToOnboarding = async () => {
+    await this.props.signout()
+    this.props.history.push('/student')
+  }
+
+  onClick = async event => {
+    event.preventDefault()
+    await this.props.signout()
+    const win = window.open('/student', '_blank')
+    win.focus()
   }
 
   render() {
@@ -60,7 +68,7 @@ class Success extends Component {
           <h5>
             Your student { accountOrAccounts } { areOrIs } created! Your { studentOrStudents } can
             get started at&nbsp;
-            <Link to='/student' onClick={ this.props.signout } target='_blank'>
+            <Link to='#' onClick={ this.onClick }>
               { config.shortHost }
             </Link>
           </h5>

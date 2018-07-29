@@ -26,11 +26,17 @@ class StudentOnboarding extends Component {
     changePassword: T.func.isRequired,
     isLoggedIn: T.bool.isRequired,
     profile: T.object.isRequired,
+    isProvider: T.bool.isRequired,
+    history: T.object.isRequired,
   }
 
   componentDidMount() {
     if (this.props.isLoggedIn) {
       this.setState({ activeSlideIndex: 1 })
+    }
+    if (this.props.isProvider) {
+      // providers should not come here.
+      this.props.history.push('/provider/dashboard')
     }
   }
 
@@ -108,13 +114,14 @@ class StudentOnboarding extends Component {
 
 
 const mapStateToProps = (state) => {
-  const { auth: { userId, isLoggedIn }, profiles: { profilesById } } = state
+  const { auth: { userId, isLoggedIn, isProvider }, profiles: { profilesById } } = state
   const profile = profilesById[userId]
 
   return {
     userId,
     profile,
-    isLoggedIn
+    isLoggedIn,
+    isProvider
   }
 }
 

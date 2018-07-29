@@ -49,17 +49,17 @@ export const register = ({ username, firstName, lastName, email, ...rest }) => {
 }
 
 export const signout = () => {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: ACTIONS.SIGNOUT_REQUEST })
-    return authService.signout()
-      .then(res => {
-        dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: res })
-        return res
-      }).catch(err => {
-        dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: err })
-        throw err
-      })
+    try {
+      const res = await authService.signout()
+      dispatch({ type: ACTIONS.SIGNOUT_SUCCESS, payload: res })
+      return res
+    } catch (err) {
+      dispatch({ type: ACTIONS.SIGNOUT_FAILURE, payload: err })
+      throw err
     }
+  }
 }
 
 export const refreshToken = (payload) => {

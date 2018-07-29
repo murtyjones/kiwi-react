@@ -12,9 +12,10 @@ function AuthenticatedRoute (props) {
   if (isMobile && rest.redirectIfMobile)
     return <MobileRedirect />
 
-  if (!rest.isLoggedIn)
-    return <Redirect to={ { pathname: '/login', state: { from: rest.location } } } />
-
+  if (!rest.isLoggedIn) {
+    const to = rest.path.includes('/provider')  ? '/provider/login' : '/login'
+    return <Redirect to={ { pathname: to, state: { from: rest.location } } } />
+  }
   return (
     <Route
       { ...rest }
