@@ -37,21 +37,19 @@ export const changePassword = {
   submitFunc: 'onChangePasswordSubmit'
 }
 
-export const first = { Component: Slide1, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: false }
-export const second = { Component: Slide2, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const third = { Component: Slide3, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const fourth = { Component: Slide4, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const fifth = { Component: Slide5, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const sixth = { Component: Slide6, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const seventh = { Component: Slide7, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const eigth = { Component: Slide8, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const ninth = { Component: Slide9, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const tenth = { Component: Slide10, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const eleventh = { Component: Slide11, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const twelfth = { Component: Slide12, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true }
-export const thirteenth = {
-  Component: Slide13, FieldComponent: Field, name: 'blah', submitText: 'next', canGoBack: true, submitFunc: 'onFinalSlideSubmit'
-}
+export const first = { Component: Slide1, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: false }
+export const second = { Component: Slide2, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const third = { Component: Slide3, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const fourth = { Component: Slide4, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const fifth = { Component: Slide5, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const sixth = { Component: Slide6, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const seventh = { Component: Slide7, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const eigth = { Component: Slide8, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const ninth = { Component: Slide9, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const tenth = { Component: Slide10, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const eleventh = { Component: Slide11, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const twelfth = { Component: Slide12, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
+export const thirteenth = { Component: Slide13, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true, submitFunc: 'onFinalSlideSubmit' }
 
 export default [
   login,
