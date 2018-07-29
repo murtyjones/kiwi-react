@@ -112,15 +112,15 @@ const styles = theme => ({
 
 const getCommonErrorHint = errorMsg => Object.keys(COMMON_ERRORS).reduce((hintHTML, errorSubstring) => {
   if (errorMsg && errorMsg.toLowerCase().includes(errorSubstring.toLowerCase()))
-    hintHTML = COMMON_ERRORS[errorSubstring].html
+    hintHTML = COMMON_ERRORS[errorSubstring].makeHtml()
   return hintHTML
 }, null)
 
-const getCustomErrorHint = editorInput => Object.keys(CUSTOM_ERRORS).reduce((hintHTML, key) => {
+const getCustomErrorHint = (editorInput, errorMsg) => Object.keys(CUSTOM_ERRORS).reduce((hintHTML, key) => {
   const testFunction = CUSTOM_ERRORS[key].test
-  const testPasses = testFunction(editorInput)
+  const testPasses = testFunction(editorInput, errorMsg)
   if (testPasses)
-    hintHTML = CUSTOM_ERRORS[key].html
+    hintHTML = CUSTOM_ERRORS[key].makeHtml(editorInput)
   return hintHTML
 }, null)
 
@@ -218,8 +218,8 @@ class EditorOutput extends Component {
     const { classes, editorOutput, editorInput, errorMsg, setInputRef, inputDisabled } = this.props
     const { value, showHint, fakeInputValue, caretVisible, caretBlinkingStatusVisible } = this.state
     const errorHintHTML = errorMsg
-      ? getCommonErrorHint(errorMsg) || getCustomErrorHint(editorInput)
-      : null
+      ? getCustomErrorHint(editorInput, errorMsg) || getCommonErrorHint(errorMsg)
+      : () => null
     return (
       <div className={ cns({ 'outputError': errorMsg }, classes.container) }>
         { !errorMsg

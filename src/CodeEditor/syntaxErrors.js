@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import getReservedKeyword from './getReservedKeyword'
 
 export const COMMON_ERRORS = {
   'ZeroDivisionError': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         It looks like you tried to do a math operation (divide or modulo) on a number using zero as the denominator, which is <u>impossible</u>! 
         <br /><br />
@@ -19,7 +20,7 @@ export const COMMON_ERRORS = {
     `
   },
   'object has no attribute': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         You tried to access a property that does not exist in this object. 
         <br /><br />
@@ -33,7 +34,7 @@ export const COMMON_ERRORS = {
     `
   },
   'too many values to unpack': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         You tried to take some values out of a tuple, but not all of them!
         <br /><br />
@@ -54,7 +55,7 @@ export const COMMON_ERRORS = {
     `
   },
   "invalid string (possibly contains a unicode character)": {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         You tried to use a character that isn't allowed!
         <br /><br />
@@ -67,7 +68,7 @@ export const COMMON_ERRORS = {
     `
   },
   'unsupported operand type(s)': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         You tried to do math on two seperate types of items.
         <br /><br />
@@ -81,7 +82,7 @@ export const COMMON_ERRORS = {
     `
   },
   'object is not iterable': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         You tried to use a loop on something that isn't a list!
         <br /><br />
@@ -102,7 +103,7 @@ export const COMMON_ERRORS = {
     `
   },
   'must be a': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         You tried to use the wrong type of item in a function.
         <br /><br />
@@ -115,7 +116,7 @@ export const COMMON_ERRORS = {
     `
   },
   'index out of range': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         You tried to access something in a list that isn't there!
         <br /><br />
@@ -130,7 +131,7 @@ export const COMMON_ERRORS = {
     `
   },
   "cannot concatenate 'str' and": {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         You tried to add a number to a string!
         <br /><br />
@@ -151,7 +152,7 @@ export const COMMON_ERRORS = {
     `
   },
   'EOF in multi-line': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         The quotations marks in your string need to be fixed!
         <br /><br />
@@ -172,7 +173,7 @@ export const COMMON_ERRORS = {
     `
   },
   'is not defined': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         You tried to use a variable or function that does not exist!
         <br /><br />
@@ -190,14 +191,14 @@ export const COMMON_ERRORS = {
     `
   },
   'bad token': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         Did you forget a quotation mark at the end of one of your print statements?
       </div>
     `
   },
   'bad input': {
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         Did you forget a quotation mark at the beginning of one of your print statements?
       </div>
@@ -206,9 +207,25 @@ export const COMMON_ERRORS = {
 }
 
 export const CUSTOM_ERRORS = {
+
+  reservedKeyword: {
+    test: (input, errorMsg) => {
+      return input && errorMsg && errorMsg.includes('bad input')
+      && getReservedKeyword(input)
+    },
+    makeHtml: input => {
+      const invalidVarName = getReservedKeyword(input)
+      return `
+        <div class='hint'>
+          You cannot create a variable named <b>"${invalidVarName}"</b>! 
+        </div>
+      `
+    }
+  },
+
   capitalPrint: {
     test: input => input && (input.includes('Print') || input.includes('PRINT')),
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         Make sure that all of your print statements are lowercase! 
         <br /><br />
@@ -222,7 +239,7 @@ export const CUSTOM_ERRORS = {
   },
   capitalIf: {
     test: input => input && (input.includes('If') || input.includes('IF')),
-    html: `
+    makeHtml: () => `
       <div class='hint'>
         Make sure that all of your if statements are lowercase! 
         <br /><br />
