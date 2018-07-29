@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import { Field } from 'redux-form'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 import SlideInOut from '../../../../common/animations/SlideInOut'
 import KiwiTextField from '../../../../common/form/KiwiTextField'
@@ -10,7 +11,27 @@ import { billingInfoSlide } from '../slides'
 import states from '../../../../utils/statesArray'
 import { email, required } from '../../../../utils/validationUtils'
 
-export default class ProvideesSignupSuccess extends Component {
+const styles = {
+  row: {
+
+  },
+  city: {
+    display: 'inline-block',
+    width: 'calc(50% - 5px)',
+    margin: '0 5px 0 0',
+    verticalAlign: 'top'
+  },
+  state: {
+    display: 'inline-block',
+    width: 'calc(50% - 5px)',
+    margin: '0 0 0 5px',
+    verticalAlign: 'top',
+    position: 'relative',
+    top: -4
+  },
+}
+
+class ProvideesSignupSuccess extends Component {
   constructor(props) {
     super(props)
   }
@@ -18,10 +39,11 @@ export default class ProvideesSignupSuccess extends Component {
   static propTypes = {
     goToPrevSlide: T.func.isRequired,
     formValues: T.object.isRequired,
+    classes: T.object.isRequired,
   }
 
   render() {
-    const { formValues } = this.props
+    const { classes, formValues } = this.props
 
     return (
       <SlideInOut>
@@ -46,22 +68,31 @@ export default class ProvideesSignupSuccess extends Component {
             label='(Optional) Address Line 2'
             addlInputLabelProps={ { shrink: true } }
           />
-          <Field
-            name={ billingInfoSlide.names[3] }
-            component={ KiwiTextField }
-            label='City'
-            validate={ [ required ] }
-            addlInputLabelProps={ { shrink: true } }
+          <div className={ classes.row }>
+            <Field
+              name={ billingInfoSlide.names[3] }
+              component={ KiwiTextField }
+              className={ classes.city }
+              label='City'
+              validate={ [ required ] }
+              addlInputLabelProps={ { shrink: true } }
+            />
+            <Field
+              name={ billingInfoSlide.names[4] }
+              component={ KiwiSelectField }
+              className={ classes.state }
+              label='State'
+              options={ states }
           />
-          <Field
-            name={ billingInfoSlide.names[4] }
-            component={ KiwiSelectField }
-            label='State'
-            options={ states }
-          />
+          </div>
           <CardField />
         </div>
       </SlideInOut>
     )
   }
 }
+
+
+ProvideesSignupSuccess = withStyles(styles, { withTheme: true })(ProvideesSignupSuccess)
+
+export default ProvideesSignupSuccess
