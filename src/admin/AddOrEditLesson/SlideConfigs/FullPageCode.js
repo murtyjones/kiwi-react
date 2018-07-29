@@ -145,6 +145,11 @@ class FullPageCode extends Component {
           component={ KiwiTextField }
         />
         <Field
+          name={ `${slideRef}.dabblewopperId` }
+          label='Dabblewopper ID (optional)'
+          component={ KiwiTextField }
+        />
+        <Field
           name={ `${slideRef}.promptPictureUrl` }
           label='Prompt Picture URL'
           component={ KiwiTextField }

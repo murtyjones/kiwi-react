@@ -55,12 +55,13 @@ const styles = theme => ({
   dabblewopperId: {
     position: 'absolute',
     bottom: '15%',
-    left: '65px',
+    left: 49,
+    padding: '0 15px',
     backgroundColor: '#2e0402',
     transform: 'rotate(270deg)',
     height: '45px',
     lineHeight: '45px',
-    width: '120px',
+    minWidth: '120px',
     color: 'white',
     textAlign: '-webkit-center',
     fontWeight: 'bold',
@@ -194,7 +195,7 @@ class FullPageCodeEditor extends PureComponent {
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
     const prompt = template(slideData.prompt, variableValues)
     const hint = template(slideData.hint, variableValues)
-    const { promptPictureUrl, promptLabel } = slideData
+    const { promptPictureUrl, promptLabel, dabblewopperId } = slideData
 
     const variablesToComplete = slideData.variablesToComplete || []
 
@@ -210,7 +211,7 @@ class FullPageCodeEditor extends PureComponent {
           <div className={ classes.dabblewopperHead } />
           <div className={ classes.dabblewopperBody } />
           <div className={ classes.dabblewopperId }>
-            #0123
+            { dabblewopperId ? dabblewopperId : '#0123' }
           </div>
           <div className={ classes.dabblewopperSideButtonContainer }>
             <button disabled={ true }>#</button>
