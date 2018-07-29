@@ -29,6 +29,7 @@ const styles = theme => ({
     , backgroundColor: '#FFF'
   },
   bubbleContent: {
+    maxWidth: 'calc(100% - 110px)',
     display: 'inline-block',
     verticalAlign: 'top',
     marginLeft: 10,
@@ -41,7 +42,8 @@ const styles = theme => ({
     , fontSize: '16pt'
   },
   cornerImage: {
-    width: 100
+    width: 100,
+    borderRadius: 5
   },
   explanation: {
     fontFamily: 'Arial'
