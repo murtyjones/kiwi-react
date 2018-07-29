@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
+import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
 import * as T from 'prop-types'
 import { SubmissionError, reduxForm, getFormValues, unregisterField } from 'redux-form'
 import withStyles from '@material-ui/core/styles/withStyles'
+import Button from '@material-ui/core/Button'
+import cns from 'classnames'
 
 import SubmitButton from '../common/form/SubmitButton'
 import ResultMessage from '../common/form/ResultMessage'
@@ -19,14 +21,19 @@ const styles = theme => ({
   },
   submit: {
     position: 'absolute',
-    right: '20px',
-    bottom: '20px',
-    width: '150px',
-    borderRadius: '20px',
-    backgroundColor: '#654E93',
+    right: 20,
+    bottom: 20,
+    width: 150,
+    borderRadius: 20,
+    backgroundColor: '#654E93 !important',
     fontWeight: 'bold',
     border: 'none !important',
     color: '#FFF !important'
+  },
+  prev: {
+    right: 'auto',
+    left: 20,
+    margin: '20px 0'
   }
 })
 
@@ -36,7 +43,8 @@ class StudentOnboardingForm extends Component {
   }
 
   static propTypes = {
-    activeSlideIndex: T.number.isRequired
+    activeSlideIndex: T.number.isRequired,
+    goBack: T.func.isRequired,
   }
 
   render() {
@@ -45,7 +53,7 @@ class StudentOnboardingForm extends Component {
       pristine, submitting, invalid
     } = this.props
     const slide = slides[activeSlideIndex]
-    const { submitText, Component, FieldComponent, names, name } = slide
+    const { submitText, canGoBack, Component, FieldComponent, names, name } = slide
 
     const submitButtonProps = {
       pristine, submitting, invalid
@@ -68,6 +76,15 @@ class StudentOnboardingForm extends Component {
           error={ error }
           submitButtonProps={ submitButtonProps }
         />
+        { canGoBack &&
+          <Button
+            variant='flat'
+            className={ cns(classes.submit, classes.prev) }
+            onClick={ this.props.goBack }
+          >
+            Go back
+          </Button>
+        }
         { submitText &&
           <SubmitButton
             className={ classes.submit }

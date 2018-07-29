@@ -50,6 +50,10 @@ class StudentOnboarding extends Component {
     this.props.history.push('/lessons')
   }
 
+  goBack = () => {
+    this.setState({ activeSlideIndex: this.state.activeSlideIndex - 1 })
+  }
+
   onLoginSubmit = async v => {
     const { login } = this.props
     const { username, tempPassword } = v
@@ -106,6 +110,7 @@ class StudentOnboarding extends Component {
     return (
       <StudentOnboardingForm
         onSubmit={ this.handleSubmit }
+        goBack={ this.goBack }
         activeSlideIndex={ activeSlideIndex }
       />
     )
