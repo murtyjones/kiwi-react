@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as T from 'prop-types'
-import { closeModal, login, putProfile, getProfileDetails, changePassword } from '../actions'
 import withRouter from 'react-router-dom/withRouter'
 import { SubmissionError } from 'redux-form'
+
 import slides from './slides'
+import { closeModal, login, putProfile, getProfileDetails, changePassword } from '../actions'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 import StudentOnboardingForm from './StudentOnboardingForm'
@@ -33,6 +34,9 @@ class StudentOnboarding extends Component {
   componentDidMount() {
     if (this.props.isLoggedIn) {
       this.setState({ activeSlideIndex: 1 })
+      this.props.getProfileDetails({
+        userId: this.props.userId
+      })
     }
     if (this.props.isProvider) {
       // providers should not come here.
@@ -72,7 +76,15 @@ class StudentOnboarding extends Component {
   onChangeUsernameSubmit = async v => {
     const { putProfile, userId, profile } = this.props
     const { newUsername } = v
-    await putProfile({ _id: userId, username: newUsername, v: profile.v })
+    try {
+      await putProfile({ _id: userId, username: newUsername, v: profile.v })
+    } catch(e) {
+      console.error(e)
+      if (JSON.stringify(e).toLocaleLowerCase().includes('specified new email')) {
+        throw { message: 'That username is taken!' }
+      }
+      throw e
+    }
   }
 
   onChangePasswordSubmit = async v => {
