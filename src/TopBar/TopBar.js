@@ -223,7 +223,7 @@ class TopBar extends PureComponent {
               { showMiddleSection &&
                 <Fragment>
                   <button onClick={ () => this.props.history.push('/lessons') }>
-                    Lessons
+                    Map
                   </button>
                   { isAdmin &&
                     <button
