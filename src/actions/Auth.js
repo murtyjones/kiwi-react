@@ -90,17 +90,17 @@ export const resetPasswordRequest = params => {
 export const changePassword = params => {
   const { _id, currentPassword, newPassword } = params
   return dispatch => {
-    dispatch({ type: ACTIONS.RESET_PASSWORD_REQUEST })
+    dispatch({ type: ACTIONS.CHANGE_PASSWORD_REQUEST })
     const options = {
       method: 'POST',
       body: { currentPassword, newPassword }
     }
     return ApiFetch(`${config.api}/password/change/${_id}`, options)
       .then(success => {
-        dispatch({ type: ACTIONS.RESET_PASSWORD_SUCCESS, payload: success })
+        dispatch({ type: ACTIONS.CHANGE_PASSWORD_SUCCESS, payload: success })
         return success
       }).catch(err => {
-        dispatch({ type: ACTIONS.RESET_PASSWORD_FAILURE, payload: err })
+        dispatch({ type: ACTIONS.CHANGE_PASSWORD_FAILURE, payload: err })
         throw err
       })
 

@@ -18,7 +18,7 @@ import { SUBSCRIPTION_STATUSES } from '../../../constants'
 import { choosePathSlide, providerSlides, studentSlides } from './slides'
 
 import '../../../close.css'
-import randomWords from "random-words";
+import { generateTempPassword } from '../../../utils/psuedoRandomUtils'
 
 const styles = theme => ({
   root: {
@@ -89,7 +89,7 @@ class ProviderRegisterModal extends Component {
     const { providees, providerProfileObject, providerPassword } = this.state
     const last = v.providees.length - 1
     const providee = v.providees[last]
-    providee.password = `${randomWords({ exactly: 1, wordsPerString: 1 })[0]}${Math.floor((Math.random() * 99999) + 1)}`
+    providee.password = generateTempPassword()
     const promises = [
       this.props.register({
         firstName: providee.firstName,

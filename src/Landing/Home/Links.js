@@ -42,7 +42,7 @@ export const LoginLink = ({ onClick }) =>
       onClick={ onClick }
       style={ styles.linkStyle }
     >
-      sign in
+      log in
     </Link>
   </div>
 

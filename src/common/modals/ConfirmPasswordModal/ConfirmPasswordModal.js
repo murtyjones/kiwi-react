@@ -16,6 +16,7 @@ class ConfirmPasswordModal extends Component {
   static propTypes = {
     callback: T.func.isRequired,
     login: T.func.isRequired,
+    preConfirmMessage: T.any,
     username: T.string.isRequired
   }
 
@@ -35,6 +36,7 @@ class ConfirmPasswordModal extends Component {
   render() {
     return (
       <ConfirmPasswordForm
+        preConfirmMessage={ this.props.preConfirmMessage }
         onSubmit={ this.handleSubmit }
       />
     )

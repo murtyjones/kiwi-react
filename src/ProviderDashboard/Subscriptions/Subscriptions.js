@@ -6,6 +6,7 @@ import { SubmissionError } from 'redux-form'
 import BluebirdPromise from 'bluebird'
 import Button from '@material-ui/core/Button'
 import isEmpty from 'lodash/isEmpty'
+import orderBy from 'lodash/orderBy'
 import withStyles from '@material-ui/core/styles/withStyles'
 
 import Section from '../../common/Section'
@@ -16,8 +17,11 @@ import './overrides.css'
 import { register, putProfile, postSubscription, putSubscription, changePassword } from '../../actions'
 import { SUBSCRIPTION_STATUSES } from '../../constants'
 import ResultMessage from '../../common/form/ResultMessage'
-import ProvideeProfileForm from './ProvideeProfileForm'
+import NewProvideeProfileForm from './NewProvideeProfileForm'
+import EditProvideeProfileForm from './EditProvideeProfileForm'
 import SubscriptionsTable from './SubscriptionsTable'
+import CopyLink from "../../common/CopyLink/CopyLink";
+import config from "config";
 
 const styles = theme => ({
   addStudent: {
@@ -34,7 +38,10 @@ class Subscriptions extends Component {
     this.state = {
       isUpdatingSubscription: false
       , updateSucceeded: false
-      , errorMessage: false
+      , errorMessage: ''
+      , successMessage: ''
+      , topSuccessMessage: ''
+      , linkCopied: false
     }
   }
 
@@ -57,13 +64,23 @@ class Subscriptions extends Component {
     this.props.history.push(`/provider/subscriptions/${subcriptionId}`)
   }
 
+  handleCopyLinkClick = () => this.setState({ linkCopied: true })
+
+  renderSuccessMessage = () => {
+    return (
+      <CopyLink
+        text={ config.host }
+        style={ { color: '#000' } }
+        onCopy={ this.handleCopyLinkClick }
+        linkCopied={ this.state.linkCopied }
+      />
+    )
+  }
+
   handlePostSubmit = async v => {
     const { register, postSubscription, putSubscription, userId } = this.props
     try {
-      const profile = await register({
-        firstName: v.firstName,
-        temporaryPassword: v.password // need to be temporaryPassword right?
-      })
+      const profile = await register(v)
       // make inactive subscription
       const subscription = await postSubscription({
         status: SUBSCRIPTION_STATUSES.INACTIVE,
@@ -79,7 +96,10 @@ class Subscriptions extends Component {
         v: subscription.v
 
       })
-      return profile // for use in the form
+      this.setState({
+        topSuccessMessage: 'Your student is all set and can log in with these credentials:'
+      })
+      this.props.history.push('/provider/subscriptions')
     } catch (err) {
       console.log(err)
       throw new SubmissionError({
@@ -91,13 +111,13 @@ class Subscriptions extends Component {
   handlePutSubmit = async v => {
     const { putProfile, changePassword } = this.props
     try {
-      let promises = [ putProfile(v) ]
-      if (v.password) promises.push(changePassword({
-        _id: v._id,
-        newPassword: v.password
-      }))
-      const r = await BluebirdPromise.all(promises)
-      this.setState({ isUpdatingSubscription: false, updateSucceeded: true })
+      const r = await putProfile(v)
+      if (v.newPassword) {
+        await changePassword({
+          _id: v._id,
+          newPassword: v.newPassword
+        })
+      }
       return r
     } catch (err) {
       console.log(err)
@@ -135,35 +155,45 @@ class Subscriptions extends Component {
     }
   }
 
-  render() {
-    const { classes, subscriptions, profilesById, subscriptionsById, match: { params } } = this.props
-    const { isUpdatingSubscription, updateSucceeded, errorMessage } = this.state
+  renderProvideeProfileForm = () => {
+    const { profilesById, subscriptionsById, match: { params } } = this.props
     const selectedSubscription = subscriptionsById[params.id] || {}
     const selectedSubscriptionProvideeProfile = profilesById[selectedSubscription.provideeId] || {}
-    const sortedSubscriptions = subscriptions
-      .sort((a, b) => a.status !== SUBSCRIPTION_STATUSES.ACTIVE)
 
-    return params.id || this.props.match.url.includes('new')
-      ?
+    return (
       <Section headerText={ isEmpty(selectedSubscriptionProvideeProfile)
         ? 'Add a New Student'
         : 'Edit Student'
       }>
-        <ProvideeProfileForm
-          initialValues={ {
-            _id: selectedSubscriptionProvideeProfile._id,
-            v: selectedSubscriptionProvideeProfile.v,
-            username: selectedSubscriptionProvideeProfile.username,
-          } }
-          onSubmit={
-            isEmpty(selectedSubscriptionProvideeProfile)
-              ? this.handlePostSubmit
-              : this.handlePutSubmit
-          }
-        />
+        { isEmpty(selectedSubscriptionProvideeProfile)
+          ?
+          <NewProvideeProfileForm onSubmit={ this.handlePostSubmit }/>
+          :
+          <EditProvideeProfileForm
+            onSubmit={ this.handlePutSubmit }
+            initialValues={ {
+              _id: selectedSubscriptionProvideeProfile._id,
+              v: selectedSubscriptionProvideeProfile.v,
+              username: selectedSubscriptionProvideeProfile.username,
+            } }
+          />
+        }
       </Section>
-      :
+    )
+  }
+
+  renderSubscriptionsTable = () => {
+    const { classes, subscriptions, profilesById } = this.props
+    const { isUpdatingSubscription, updateSucceeded, topSuccessMessage, successMessage, errorMessage } = this.state
+
+    const sortedSubscriptions = orderBy(subscriptions,
+      [ 'createdAt' ],
+      [ 'desc' ]
+    )
+
+    return (
       <Section headerText='Manage Subscriptions and Student Accounts'>
+        { topSuccessMessage }
         <SubscriptionsTable
           sortedSubscriptions={ sortedSubscriptions }
           profilesById={ profilesById }
@@ -182,20 +212,29 @@ class Subscriptions extends Component {
 
         <div className={ classes.updateResult }>
           { isUpdatingSubscription &&
-            <div className='spinner' />
+          <div className='spinner' />
           }
           <ResultMessage
             submitSucceeded={ updateSucceeded }
             submitFailed={ !updateSucceeded }
-            successMessage={ updateSucceeded ? 'Updated!' : '' }
+            successMessage={ updateSucceeded ? successMessage ? successMessage : 'Updated!' : '' }
             error={ errorMessage ? errorMessage : '' }
           />
         </div>
       </Section>
+    )
+  }
+
+  render() {
+    const { match: { params } } = this.props
+    return params.id || this.props.match.url.includes('new')
+      ? this.renderProvideeProfileForm()
+      : this.renderSubscriptionsTable()
+
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const { auth: { userId }, profiles: { profilesById }, subscriptions: { subscriptionsById } } = state
   const subscriptions = Object.values(subscriptionsById) || []
 

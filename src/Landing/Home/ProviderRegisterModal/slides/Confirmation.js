@@ -5,11 +5,12 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import withStyles from '@material-ui/core/styles/withStyles'
 
+import ProspectiveSubscriptionTable from './ProspectiveSubscriptionTable'
 import SlideInOut from '../../../../common/animations/SlideInOut'
-import withStyles from "@material-ui/core/styles/withStyles";
 
-const styles = theme => ({
+const styles = () => ({
   table: {
     width: '80%',
     margin: '0 auto'
@@ -47,22 +48,9 @@ class Confirmation extends Component {
           <h5>
             Thanks for subscribing! Please review and confirm your { subscriptionOrSubs } below.
           </h5>
-          <Table className={ classes.table }>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Monthly Price</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              { providees.map((student, i) =>
-                <TableRow key={ i }>
-                  <TableCell>{ student.firstName }</TableCell>
-                  <TableCell>({monthlySubscription} /mo)</TableCell>
-                </TableRow>
-              ) }
-            </TableBody>
-          </Table>
+          <ProspectiveSubscriptionTable
+            providees={ providees }
+          />
           <h3>{ totalSubscription } USD /month </h3>
         </div>
       </SlideInOut>

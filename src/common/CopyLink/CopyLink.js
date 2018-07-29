@@ -38,10 +38,9 @@ const styles = theme => ({
   }
 })
 
-const CopyLink = ({ classes, text, linkCopied, onCopy, formValues }) =>
+const CopyLink = ({ classes, text, linkCopied, onCopy }) =>
   <div className={ classes.copyLoginLinkContainer }>
-    Your student is all setup! They can dive in and start
-    coding at the link below:
+    Your student is all set and can start coding at the link below:
     <div className={ classes.copyLoginLinkBox }>
       { text }
       <CopyToClipboard
@@ -60,8 +59,6 @@ const CopyLink = ({ classes, text, linkCopied, onCopy, formValues }) =>
         </IconButton>
       </CopyToClipboard>
     </div>
-    <b>Username: </b>{ formValues.username }<br />
-    <b>Password: </b>{ formValues.password }
     { linkCopied && <div className={ classes.linkCopied }>Copied!</div> }
   </div>
 

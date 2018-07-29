@@ -11,6 +11,7 @@ const formName = 'confirmPasswordForm'
 
 const styles = theme => ({
   root: {
+    padding: 15,
     textAlign: '-webkit-center'
   }
 })
@@ -21,14 +22,16 @@ class ConfirmPasswordForm extends Component {
   }
 
   static propTypes = {
-    handleSubmit: T.func.isRequired
+    classes: T.object.isRequired,
+    handleSubmit: T.func.isRequired,
+    preConfirmMessage: T.any
   }
 
   render() {
-    const { handleSubmit, classes } = this.props
+    const { handleSubmit, preConfirmMessage, classes } = this.props
     return (
       <form className={ classes.root } onSubmit={ handleSubmit }>
-        <h3>Confirm your password</h3>
+        { preConfirmMessage }
         <Field
           name='password'
           label='Password'

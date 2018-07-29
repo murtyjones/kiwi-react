@@ -17,6 +17,7 @@
     overflow: hidden;
 }
 
+.confirmPasswordModal,
 .providerRegisterModal,
 .loginModal {
     padding: 0;
@@ -36,6 +37,7 @@
     .kiwi-modal {
         border-radius: 3px;
     }
+    .confirmPasswordModal,
     .providerRegisterModal,
     .loginModal,
     .subscribeModal {
