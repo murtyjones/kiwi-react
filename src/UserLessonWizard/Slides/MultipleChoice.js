@@ -11,7 +11,7 @@ import SpeechBubble from '../SpeechBubble'
 const styles = theme => ({
   choices: {
     position: 'absolute',
-    bottom: '25%',
+    bottom: '5vh',
     width: '100%',
     left: '50%',
     marginLeft: '-50%',
