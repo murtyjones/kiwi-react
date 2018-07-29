@@ -49,7 +49,7 @@ const styles = theme => ({
     backgroundSize: '1300px 6px'
   },
   speechBubble: {
-    margin: '5% auto 0 auto',
+    margin: '4vh auto 0 auto',
     width: '50%'
   },
   dabblewopperId: {
@@ -201,14 +201,14 @@ class FullPageCodeEditor extends PureComponent {
     return (
       <Fragment>
         <div className={ classes.dabblewopper }>
-          <div className={ classes.dabblewopperHead } />
-          <div className={ classes.dabblewopperBody } />
           <SpeechBubble
             className={ classes.speechBubble }
             label={ promptLabel }
             htmlContent={ prompt }
             cornerImageUrl={ promptPictureUrl }
           />
+          <div className={ classes.dabblewopperHead } />
+          <div className={ classes.dabblewopperBody } />
           <div className={ classes.dabblewopperId }>
             #0123
           </div>
