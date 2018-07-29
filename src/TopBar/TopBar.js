@@ -183,7 +183,7 @@ class TopBar extends PureComponent {
       >
         <Grid container className={ classes.grid } spacing={ 24 }>
 
-          <Grid item xs={ 3 }>
+          <Grid item xs={ showMiddleSection ? 3 : 6 }>
 
             { !!breadcrumbLink &&
               <Link to={ breadcrumbLink ? breadcrumbLink : '/' }>
@@ -219,43 +219,43 @@ class TopBar extends PureComponent {
             }
           </Grid>
 
+          { showMiddleSection &&
             <Grid item className={ classes.middle } xs={ 6 }>
-              { showMiddleSection &&
-                <Fragment>
-                  <button onClick={ () => this.props.history.push('/lessons') }>
-                    Map
-                  </button>
-                  { isAdmin &&
-                    <button
-                      aria-owns={ anchorEl ? 'admin-menu' : null }
-                      aria-haspopup='true'
-                      onClick={ this.handleClick }
-                    >
-                      Admin
-                      <ExpandMore className={ classes.expandIcon }/>
-                    </button>
-                  }
-                  { (isAdmin || isProvider) &&
-                    <button onClick={ () => this.props.history.push('/provider/dashboard') }>
-                      PaReNt ZoNe
-                    </button>
-                  }
-                  <Menu
-                    id='admin-menu'
-                    anchorEl={ anchorEl }
-                    open={ Boolean(anchorEl) }
-                    onClose={ this.handleClose }
+              <Fragment>
+                <button onClick={ () => this.props.history.push('/lessons') }>
+                  Map
+                </button>
+                { isAdmin &&
+                  <button
+                    aria-owns={ anchorEl ? 'admin-menu' : null }
+                    aria-haspopup='true'
+                    onClick={ this.handleClick }
                   >
-                    <MenuItem onClick={ () => this.goTo('/admin/lessons')  }>Edit Lessons</MenuItem>
-                    <MenuItem onClick={ () => this.goTo('/admin/variables') }>Global User Variables</MenuItem>
-                    <MenuItem onClick={ () => this.goTo('/admin/subscriptions') }>Subscriptions</MenuItem>
-                    <MenuItem onClick={ () => this.goTo('/admin/signups') }>Signups</MenuItem>
-                  </Menu>
-                </Fragment>
-              }
+                    Admin
+                    <ExpandMore className={ classes.expandIcon }/>
+                  </button>
+                }
+                { (isAdmin || isProvider) &&
+                  <button onClick={ () => this.props.history.push('/provider/dashboard') }>
+                    PaReNt ZoNe
+                  </button>
+                }
+                <Menu
+                  id='admin-menu'
+                  anchorEl={ anchorEl }
+                  open={ Boolean(anchorEl) }
+                  onClose={ this.handleClose }
+                >
+                  <MenuItem onClick={ () => this.goTo('/admin/lessons')  }>Edit Lessons</MenuItem>
+                  <MenuItem onClick={ () => this.goTo('/admin/variables') }>Global User Variables</MenuItem>
+                  <MenuItem onClick={ () => this.goTo('/admin/subscriptions') }>Subscriptions</MenuItem>
+                  <MenuItem onClick={ () => this.goTo('/admin/signups') }>Signups</MenuItem>
+                </Menu>
+              </Fragment>
             </Grid>
+          }
 
-          <Grid item className={ classes.right } xs={ 3 }>
+          <Grid item className={ classes.right } xs={ showMiddleSection ? 3 : 6 }>
             <Signout className={ classes.signout } />
           </Grid>
 
