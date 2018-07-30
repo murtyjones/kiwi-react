@@ -12,8 +12,8 @@ import { NAV_OPTIONS } from './LESSON_CONSTANTS'
 import * as lessonUtils from './lessonUtils'
 
 const icons = {
-  [NAV_OPTIONS.TOP]: ExpandLess,
-  [NAV_OPTIONS.BOTTOM]: ExpandMore,
+  [NAV_OPTIONS.UP]: ExpandLess,
+  [NAV_OPTIONS.DOWN]: ExpandMore,
   [NAV_OPTIONS.RIGHT]: ChevronRight,
   [NAV_OPTIONS.LEFT]: ChevronLeft,
 }
@@ -42,7 +42,7 @@ const styles = () => ({
       color: 'white'
     }
   },
-  [NAV_OPTIONS.TOP]: {
+  [NAV_OPTIONS.UP]: {
     top: 0,
     width: '100%',
     height: topHeight,
@@ -58,7 +58,7 @@ const styles = () => ({
         '0% 7% '       + /* bottom left */
       ')'
   },
-  [NAV_OPTIONS.BOTTOM]: {
+  [NAV_OPTIONS.DOWN]: {
     bottom: 0,
     width: '100%',
     height: bottomHeight,
@@ -138,7 +138,7 @@ class NavArrowBar extends Component {
   static propTypes = {
     classes: T.object.isRequired,
     navArrowDirection: T.string.isRequired,
-    activeSectionIndex: T.string,
+    activeSectionIndex: T.number,
     activeLessonId: T.string,
     lessonJustCompletedId: T.string,
     orderedCombinedLessonData: T.array.isRequired,

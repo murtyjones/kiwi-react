@@ -32,10 +32,10 @@ export const lessonBubbleDisplayDataBySection = [
 ]
 
 export const NAV_OPTIONS = {
-  TOP:    'TOP',
-  RIGHT:  'RIGHT',
-  LEFT:   'LEFT',
-  BOTTOM: 'BOTTOM',
+  UP:    'UP',
+  RIGHT: 'RIGHT',
+  LEFT:  'LEFT',
+  DOWN:  'DOWN',
 }
 
 export const lessonMapNavigationDataBySection = [
@@ -44,9 +44,9 @@ export const lessonMapNavigationDataBySection = [
       1
     ],
     adjacentSectionIndices: {
-      [NAV_OPTIONS.TOP]: null,
+      [NAV_OPTIONS.UP]: null,
       [NAV_OPTIONS.LEFT]: null,
-      [NAV_OPTIONS.BOTTOM]: 1,
+      [NAV_OPTIONS.DOWN]: 1,
       [NAV_OPTIONS.RIGHT]: null,
     }
   },
@@ -55,10 +55,15 @@ export const lessonMapNavigationDataBySection = [
       0
     ],
     adjacentSectionIndices: {
-      [NAV_OPTIONS.TOP]: 0,
+      [NAV_OPTIONS.UP]: 0,
       [NAV_OPTIONS.LEFT]: null,
-      [NAV_OPTIONS.BOTTOM]: 2,
+      [NAV_OPTIONS.DOWN]: 2,
       [NAV_OPTIONS.RIGHT]: null,
     }
   }
+]
+
+export const lessonMapImagesBySection = [
+  'https://res.cloudinary.com/kiwi-prod/image/upload/v1532712870/Map/map-section-1.svg',
+  'https://res.cloudinary.com/kiwi-prod/image/upload/v1532712873/Map/map-section-2.svg',
 ]

@@ -41,7 +41,7 @@ class MapNavigation extends Component {
     return (
       <Fragment>
         <NavArrowBar
-          navArrowDirection={ NAV_OPTIONS.TOP }
+          navArrowDirection={ NAV_OPTIONS.UP }
           { ...rest }
         />
         <NavArrowBar
@@ -49,7 +49,7 @@ class MapNavigation extends Component {
           { ...rest }
         />
         <NavArrowBar
-          navArrowDirection={ NAV_OPTIONS.BOTTOM }
+          navArrowDirection={ NAV_OPTIONS.DOWN }
           { ...rest }
         />
         <NavArrowBar
