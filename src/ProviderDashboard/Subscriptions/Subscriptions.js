@@ -97,7 +97,7 @@ class Subscriptions extends Component {
 
       })
       this.setState({
-        topSuccessMessage: 'Your student is all set and can log in with these credentials:'
+        topSuccessMessage: `Your student is all set and can log in with these credentials:<br /><br />`
       })
       this.props.history.push('/provider/subscriptions')
     } catch (err) {
