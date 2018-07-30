@@ -13,10 +13,10 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import '../assets/css/hover.css'
 
 // animate.css library
-import './animate.css'
+import '../assets/css/animate.css'
 
 // animate.css transition stuff
-import './animate-transitions.css'
+import '../assets/css/animate-transitions.css'
 
 // general css stuff to be reused
 import '../assets/css/general.css'

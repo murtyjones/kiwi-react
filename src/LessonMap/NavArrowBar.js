@@ -10,6 +10,7 @@ import Lock from '@material-ui/icons/Lock'
 
 import { NAV_OPTIONS } from './LESSON_CONSTANTS'
 import * as lessonUtils from './lessonUtils'
+import * as clipPaths from './clipPaths'
 
 const icons = {
   [NAV_OPTIONS.UP]: ExpandLess,
@@ -45,67 +46,34 @@ const styles = () => ({
     top: 0,
     width: '100%',
     height: topHeight,
-    clipPath:
-      'polygon(' +
-        '0% 0%, '     + /* top left */
-        '0% 0%, '     + /* top left */
-        '100% 0%, '   + /* top right */
-        '100% 0%, '   + /* top right */
-        '100% 6%, '   + /* bottom right */
-        '97.5% 100%, '+ /* bottom right */
-        '2.5% 100%, ' + /* bottom left */
-        '0% 7% '       + /* bottom left */
-      ')'
+    clipPath: clipPaths.up,
+    '-webkit-clip-path': clipPaths.up
+
   },
   [NAV_OPTIONS.DOWN]: {
     bottom: 0,
     width: '100%',
     height: bottomHeight,
-    clipPath:
-    'polygon(' +
-      '0% 0%, '     + /* top left */
-      '0% 0%, '     + /* top left */
-      '100% 0%, '+ /* top right */
-      '100% 0%, '   + /* top right */
-      '97.5% 0%, '   + /* bottom right */
-      '100% 100%, '+ /* bottom right */
-      '0% 100%, ' + /* bottom left */
-      '2.5% 0% '       + /* bottom left */
-    ')' //0 0%, 0% 5%, 100% 0.25%, 100% 0%, 97.5% 0%, 100% 100%, 2.5% 95%, 0% 0%
+    clipPath: clipPaths.down,
+    '-webkit-clip-path': clipPaths.down
+
   },
   [NAV_OPTIONS.RIGHT]: {
     top: 0,
     height: '100%',
     width: rightWidth,
     right: 0,
-    clipPath:
-    'polygon(' +
-      '0% 0%, '     + /* top left */
-      '0% 5%, '     + /* top left */
-      '100% 0.25%, '+ /* top right */
-      '100% 0%, '   + /* top right */
-      '100% 6%, '   + /* bottom right */
-      '97.5% 100%, '+ /* bottom right */
-      '2.5% 95%, ' + /* bottom left */
-      '0% 0% '       + /* bottom left */
-    ')'
+    clipPath: clipPaths.right,
+    '-webkit-clip-path': clipPaths.right
   },
   [NAV_OPTIONS.LEFT]: {
     top: 0,
     height: `100%`,
     width: leftWidth,
     left: 0,
-    clipPath:
-    'polygon(' +
-      '100% 0%, '+ /* top left */
-      '100% 0%, '   + /* top left */
-      '0% 0%, '     + /* top right */
-      '0% 0.25%, '     + /* top right */
-      '100% 5%, '   + /* bottom right */
-      '97.5% 95%, '+ /* bottom right */
-      '0% 100%, ' + /* bottom left */
-      '5% 0% '       + /* bottom left */
-    ')'
+    clipPath: clipPaths.left,
+    '-webkit-clip-path': clipPaths.left
+
   },
   arrowIcon: {
     display: 'block',
