@@ -9,7 +9,8 @@ const loadFullStory = store => {
   //we don't want to load full story on any dev environment
   if (window.location.host.indexOf('dev.kiwicompute.com') >= 0
     || window.location.host.indexOf('integration.kiwicompute.com') >= 0
-    // || window.location.host.indexOf('stage.kiwicompute.com') >= 0
+    || window.location.host.indexOf('stage.kiwicompute.com') >= 0
+    || window.location.host.indexOf('localhost') >= 0
   ) {
     return
   }
