@@ -217,7 +217,7 @@ export const CUSTOM_ERRORS = {
       const invalidVarName = getReservedKeyword(input)
       return `
         <div class='hint'>
-          You cannot create a variable named <b>"${invalidVarName}"</b>! 
+          In Python, certain words can't be used as variable names. You cannot create a variable named <b>"${invalidVarName}"</b>! 
         </div>
       `
     }
