@@ -184,7 +184,7 @@ export const COMMON_ERRORS = {
         <br />
         <b><div style="margin-right: 5px" class='hintCheckmark'></div>Example:</b> 
         <div class='hintExampleCode'>
-          name = 'Marty'<br />
+          name = "Marty"<br />
           print(name) # prints Marty<br />
         </div>
       </div>
