@@ -28,7 +28,7 @@ const styles = theme => ({
 const CENTERED = 'CENTERED'
 
 let Thing = ({ className, children, hostRef, src }) =>
-  <div ref={ hostRef }>
+  <div style={ { position: 'relative' } } ref={ hostRef }>
     <img
       className={ className }
       style={ { width: '100%', height: '100%' } }

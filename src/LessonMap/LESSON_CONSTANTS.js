@@ -6,9 +6,8 @@ export const lessonBubbleDisplayDataBySection = [
     { x: 21, y: 74, left: undefined },
     { x: 32, y: 75, left: undefined },
     { x: 43, y: 74, left: undefined },
-    { x: 46, y: 60, left: undefined },
+    { x: 43, y: 59, left: undefined },
     { x: 38, y: 45, left: undefined },
-    { x: 41, y: 25, left: undefined },
     { x: 41, y: 25, left: undefined },
     { x: 47, y: 19, left: undefined },
     { x: 54, y: 14, left: undefined },
@@ -17,7 +16,8 @@ export const lessonBubbleDisplayDataBySection = [
     { x: 74, y: 19, left: undefined },
     { x: 79, y: 27, left: undefined },
     { x: 82, y: 37, left: undefined },
-    { x: 80, y: 59, left: undefined },
+    { x: 80, y: 49, left: undefined },
+    { x: 80, y: 62, left: undefined },
     { x: 83, y: 75, left: undefined },  // lessonIndex 18
   ],
   [ // sectionIndex 1
