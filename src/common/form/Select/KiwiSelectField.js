@@ -51,6 +51,9 @@ export default class KiwiSelectField extends Component {
         </InputLabel>
         <Select
           { ...rest }
+          menuContainerStyle={ {
+            zIndex: 100010 // designed to be above code editor
+          } }
           options={ derivedOptions }
           onChange={ v => {
             const value = has(v, 'value') ? get(v, 'value', '') : v

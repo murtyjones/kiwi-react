@@ -3,7 +3,7 @@
     border: 10px solid;
     margin: 29px;
     background: transparent;
-    border-image-source: url(/../assets/images/border-green-hollow.svg);
+    border-image-source: url(/assets/images/border-green-hollow.svg);
     border-image-slice: 103;
     border-image-width: 7px;
     border-image-outset: 2px;
@@ -44,4 +44,8 @@ body {
 
 .CodeMirror {
     cursor: text;
+}
+
+.Select-menu-outer {
+    z-index: 1000000;
 }

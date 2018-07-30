@@ -16,7 +16,7 @@ import {
 } from '../../../actions'
 import { choosePathSlide, studentSlides, providerSlides } from './slides'
 
-import '../../../close.css'
+import '../../../../assets/css/close.css'
 
 const styles = theme => ({
   root: {

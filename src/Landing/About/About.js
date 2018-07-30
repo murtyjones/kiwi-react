@@ -8,7 +8,7 @@ import Footer from './Footer'
 import Link from 'react-router-dom/Link'
 
 
-import '../../close.css'
+import '../../../assets/css/close.css'
 import { HomeLink } from '../Home/Links'
 
 const styles = {

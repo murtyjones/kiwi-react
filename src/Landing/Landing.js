@@ -10,7 +10,7 @@ import find from 'lodash/find'
 import Home from './Home/Home'
 import About from './About/About'
 
-import '../close.css'
+import '../../assets/css/close.css'
 import './overrides.css'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 

@@ -5,6 +5,7 @@ const reservedKeywords = [
   'is',
   'return',
   'None',
+  'print',
   'continue',
   'for',
   'lambda',

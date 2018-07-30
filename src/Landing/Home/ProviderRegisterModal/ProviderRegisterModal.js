@@ -17,7 +17,7 @@ import {
 import { SUBSCRIPTION_STATUSES } from '../../../constants'
 import { choosePathSlide, providerSlides, studentSlides } from './slides'
 
-import '../../../close.css'
+import '../../../../assets/css/close.css'
 import { generateTempPassword } from '../../../utils/psuedoRandomUtils'
 
 const styles = theme => ({

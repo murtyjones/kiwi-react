@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 
 import SubscribeForm from './SubscribeForm'
-import '../../../close.css'
+import '../../../../assets/css/close.css'
 
 
 export default class SubscribeModal extends Component {

@@ -4,7 +4,7 @@ import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import config from 'config'
 
-import '../../close.css'
+import '../../../assets/css/close.css'
 import './overrides.css'
 
 import { AboutLink, LoginLink } from './Links'
