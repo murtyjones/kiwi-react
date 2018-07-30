@@ -42,3 +42,13 @@
     animation-name: slideOutDown;
     animation-duration: 400ms;
 }
+
+
+.rubberBandRepeat {
+    animation-name: rubberBand;
+    animation-duration: 1600ms;
+    animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    -o-animation-iteration-count: infinite;
+}

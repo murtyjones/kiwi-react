@@ -23,8 +23,9 @@ class MapBubbles extends Component {
   }
 
   render() {
-    const { classes, activeLessonId, activeSectionIndex, lessonJustCompletedId, orderedCombinedLessonData } = this.props
-    const sectionLessonsBubbleDisplayData = lessonBubbleDisplayDataBySection[activeSectionIndex]
+    const { classes, activeLessonId, sectionIndex, lessonJustCompletedId, orderedCombinedLessonData } = this.props
+    const sectionLessonsBubbleDisplayData = lessonBubbleDisplayDataBySection[sectionIndex]
+
     return (
       <div className={ cns(classes.root) }>
         { sectionLessonsBubbleDisplayData.map((lessonDisplayData, i) => {
@@ -49,7 +50,7 @@ MapBubbles.propTypes = {
   children: T.any,
   orderedCombinedLessonData: T.array,
   activeLessonId: T.string,
-  activeSectionIndex: T.number,
+  sectionIndex: T.number,
   lessonJustCompletedId: T.string,
 }
 

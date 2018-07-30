@@ -26,7 +26,6 @@ const styles = () => ({
     padding: 0,
     border: 'none',
     position: 'absolute',
-    overflow: 'hidden',
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, 0.15)',
@@ -138,6 +137,7 @@ class NavArrowBar extends Component {
   static propTypes = {
     classes: T.object.isRequired,
     navArrowDirection: T.string.isRequired,
+    animationClassName: T.string.isRequired,
     activeSectionIndex: T.number,
     activeLessonId: T.string,
     lessonJustCompletedId: T.string,
@@ -146,7 +146,7 @@ class NavArrowBar extends Component {
 
   render() {
     const {
-      classes, navArrowDirection, activeLessonId, orderedCombinedLessonData, activeSectionIndex, lessonJustCompletedId, onSectionArrowClick
+      animationClassName, classes, navArrowDirection, activeLessonId, orderedCombinedLessonData, activeSectionIndex, lessonJustCompletedId, onSectionArrowClick
     } = this.props
 
     const isUnlocked = lessonUtils.getIsSectionNavArrowUnlocked({
@@ -168,7 +168,9 @@ class NavArrowBar extends Component {
         { isUnlocked ?
           <Icon
             viewBox='6 6 12 12'
-            className={ cns(classes.arrowIcon, classes[`icon-${navArrowDirection}`]) }
+            className={ cns(classes.arrowIcon, classes[`icon-${navArrowDirection}`], {
+              [animationClassName]: !!lessonJustCompletedId
+            }) }
           />
           :
           <Lock

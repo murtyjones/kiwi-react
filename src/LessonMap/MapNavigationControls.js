@@ -11,7 +11,7 @@ const styles = () => ({
 
 
 
-class MapNavigation extends Component {
+class MapNavigationControls extends Component {
   constructor() {
     super()
   }
@@ -42,18 +42,22 @@ class MapNavigation extends Component {
       <Fragment>
         <NavArrowBar
           navArrowDirection={ NAV_OPTIONS.UP }
+          animationClassName='rubberBandRepeat'
           { ...rest }
         />
         <NavArrowBar
           navArrowDirection={ NAV_OPTIONS.RIGHT }
+          animationClassName='rubberBandRepeat'
           { ...rest }
         />
         <NavArrowBar
           navArrowDirection={ NAV_OPTIONS.DOWN }
+          animationClassName='rubberBandRepeat'
           { ...rest }
         />
         <NavArrowBar
           navArrowDirection={ NAV_OPTIONS.LEFT }
+          animationClassName='rubberBandRepeat'
           { ...rest }
         />
       </Fragment>
@@ -61,4 +65,4 @@ class MapNavigation extends Component {
   }
 }
 
-export default withStyles(styles)(MapNavigation)
+export default withStyles(styles)(MapNavigationControls)

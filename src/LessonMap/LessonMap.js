@@ -13,7 +13,7 @@ import withRedirectIfTempPassword from '../hocs/withRedirectIfTempPassword'
 import * as lessonUtils from './lessonUtils'
 import { darkerGrey } from '../colors'
 
-import MapNavigation from './MapNavigation'
+import MapNavigationControls from './MapNavigationControls'
 import MapViewport from './MapViewport'
 import MapBubbles from './MapBubbles'
 import MapSection from './MapSection'
@@ -71,7 +71,9 @@ class LessonMap extends Component {
     }
   }
 
-  updateActiveSectionIndex = i => this.setState({ activeSectionIndex: i })
+  updateActiveSectionIndex = i => this.setState({
+    activeSectionIndex: i, lessonJustCompletedId: ''
+  })
 
   render() {
     const { classes, activeLessonId, orderedCombinedLessonData } = this.props
@@ -82,15 +84,12 @@ class LessonMap extends Component {
         <MapViewport>
           <MapSection
             activeSectionIndex={ activeSectionIndex }
-          />
-          <MapBubbles
             lessonJustCompletedId={ lessonJustCompletedId }
             orderedCombinedLessonData={ orderedCombinedLessonData }
             activeLessonId={ activeLessonId }
-            activeSectionIndex={ activeSectionIndex }
           />
           {/* Navigation must come after bubbles */}
-          <MapNavigation
+          <MapNavigationControls
             onSectionArrowClick={ this.updateActiveSectionIndex }
             lessonJustCompletedId={ lessonJustCompletedId }
             orderedCombinedLessonData={ orderedCombinedLessonData }

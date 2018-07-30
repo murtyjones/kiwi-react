@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react'
+import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -10,6 +10,7 @@ import { lessonMapNavigationDataBySection, lessonMapImagesBySection, NAV_OPTIONS
 import * as lessonUtils from './lessonUtils'
 import { preload } from './imageUtils'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
+import MapBubbles from './MapBubbles'
 
 const styles = theme => ({
   root: {
@@ -27,12 +28,14 @@ const styles = theme => ({
 const CENTERED = 'CENTERED'
 
 let Thing = ({ className, children, hostRef, src }) =>
+  <div ref={ hostRef }>
     <img
       className={ className }
-      ref={ hostRef }
       style={ { width: '100%', height: '100%' } }
       src={ src }
     />
+    { children }
+  </div>
 
 const duration = 1500
 
@@ -40,16 +43,16 @@ Thing = posed(Thing)({
   [CENTERED]: {
     x: 0, y: 0, transition: { duration }
   },
-  [NAV_OPTIONS.UP]:     {
+  [NAV_OPTIONS.UP]: {
     x: 0, y: '100%', transition: { duration }
   },
-  [NAV_OPTIONS.DOWN]:  {
+  [NAV_OPTIONS.DOWN]: {
     x: 0, y: '-100%', transition: { duration }
   },
-  [NAV_OPTIONS.LEFT]:    {
+  [NAV_OPTIONS.LEFT]: {
     x: '-100%', y: 0, transition: { duration }
   },
-  [NAV_OPTIONS.RIGHT]:   {
+  [NAV_OPTIONS.RIGHT]: {
     x: '100%', y: 0, transition: { duration }
   },
 })
@@ -75,9 +78,9 @@ class MapSection extends Component {
     if (nextProps.activeSectionIndex !== this.props.activeSectionIndex) {
       this.setState({ prevSectionIndex: this.props.activeSectionIndex })
       const activeSectionNavigationData = lessonMapNavigationDataBySection[this.props.activeSectionIndex]
-      const directionKeyIndex = findIndex(Object.values(activeSectionNavigationData.adjacentSectionIndices),
-        v => v === nextProps.activeSectionIndex
-      )
+      const directionKeyIndex = findIndex(Object.values(activeSectionNavigationData.adjacentSectionIndices), {
+        sectionIndex: nextProps.activeSectionIndex
+      })
       if (directionKeyIndex > -1) {
         const pose = this.state.pose === CENTERED
           ? Object.keys(activeSectionNavigationData.adjacentSectionIndices)[directionKeyIndex]
@@ -88,8 +91,13 @@ class MapSection extends Component {
   }
 
   render() {
-    const { children, classes, activeSectionIndex } = this.props
+    const {
+      activeLessonId, orderedCombinedLessonData, lessonJustCompletedId, classes, activeSectionIndex
+    } = this.props
     const { pose, thingOneActive, imagesBySection, prevSectionIndex } = this.state
+
+    const thingOneSectionIndex = thingOneActive ? activeSectionIndex : prevSectionIndex
+    const thingTwoSectionIndex = thingOneActive ? prevSectionIndex   : activeSectionIndex
 
     return (
       <div className={ classes.root }>
@@ -97,14 +105,28 @@ class MapSection extends Component {
         <Thing // thing 1
           pose={ pose }
           className={ classes.thing1 }
-          src={ imagesBySection[thingOneActive ? activeSectionIndex : prevSectionIndex].src }
-        />
+          src={ imagesBySection[thingOneSectionIndex].src }
+        >
+          <MapBubbles
+            lessonJustCompletedId={ lessonJustCompletedId }
+            orderedCombinedLessonData={ orderedCombinedLessonData }
+            activeLessonId={ activeLessonId }
+            sectionIndex={ thingOneSectionIndex }
+          />
+        </Thing>
 
         <Thing // thing 2
           pose={ pose }
           className={ classes.thing2 }
-          src={ imagesBySection[thingOneActive ? prevSectionIndex : activeSectionIndex].src }
-        />
+          src={ imagesBySection[thingTwoSectionIndex].src }
+        >
+          <MapBubbles
+            lessonJustCompletedId={ lessonJustCompletedId }
+            orderedCombinedLessonData={ orderedCombinedLessonData }
+            activeLessonId={ activeLessonId }
+            sectionIndex={ thingTwoSectionIndex }
+          />
+        </Thing>
 
       </div>
     )
@@ -116,6 +138,8 @@ MapSection.propTypes = {
   activeSectionIndex: T.number,
   orderedCombinedLessonData: T.array,
   children: T.any,
+  lessonJustCompletedId: T.string,
+  activeLessonId: T.string,
 }
 
 export default withStyles(styles)(MapSection)
