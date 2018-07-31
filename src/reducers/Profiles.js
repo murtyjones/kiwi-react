@@ -8,6 +8,17 @@ const initialState = {
 
 function profiles(state = initialState, action) {
   switch (action.type) {
+    case ACTIONS.CLEAR_TEMPORARY_PASSWORD: {
+      const userId = action.payload
+      const newProfilesById = Object.assign({}, state.profilesById)
+      if (newProfilesById[userId]) {
+        newProfilesById[userId].temporaryPassword = ''
+      }
+      const newState = Object.assign({}, state, {
+        profilesById: newProfilesById
+      })
+      return newState
+    }
     case ACTIONS.PUT_PROFILE_SUCCESS: {
       const newProfilesById = Object.assign({}, state.profilesById, {
         [action.payload.after['_id']]: action.payload.after

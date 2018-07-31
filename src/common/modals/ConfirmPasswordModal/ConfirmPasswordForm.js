@@ -6,6 +6,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import KiwiTextField from '../../form/KiwiTextField'
 import SubmitButton from '../../../common/form/SubmitButton'
 import ResultMessage from '../../../common/form/ResultMessage'
+import {required} from "../../../utils/validationUtils";
 
 const formName = 'confirmPasswordForm'
 
@@ -37,6 +38,7 @@ class ConfirmPasswordForm extends Component {
           label='Password'
           component={ KiwiTextField }
           type='password'
+          validate={ [ required ] }
         />
         <SubmitButton
           text='Confirm Password'

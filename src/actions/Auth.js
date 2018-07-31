@@ -102,6 +102,7 @@ export const changePassword = params => {
     return ApiFetch(`${config.api}/password/change/${_id}`, options)
       .then(success => {
         dispatch({ type: ACTIONS.CHANGE_PASSWORD_SUCCESS, payload: success })
+        dispatch({ type: ACTIONS.CLEAR_TEMPORARY_PASSWORD, payload: _id })
         return success
       }).catch(err => {
         dispatch({ type: ACTIONS.CHANGE_PASSWORD_FAILURE, payload: err })
