@@ -88,12 +88,14 @@ class StudentOnboarding extends Component {
   }
 
   onChangePasswordSubmit = async v => {
-    const { changePassword, putProfile, userId, profile } = this.props
+    const { changePassword, userId, profile } = this.props
     const { newPassword } = v
-    // set new permanenet pasword
-    await changePassword({ _id: userId, currentPassword: profile.temporaryPassword, newPassword })
-    // unset temporary password on our profile:
-    await putProfile({ _id: userId, temporaryPassword: '', v: profile.v })
+    // set new password
+    await changePassword({
+      _id: userId,
+      currentPassword: profile.temporaryPassword,
+      newPassword
+    })
   }
 
   handleSubmit = async v => {
