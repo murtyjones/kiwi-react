@@ -31,7 +31,8 @@ const styles = theme => ({
     margin: '20px 0'
   },
   topSuccessMessage: {
-    marginBottom: 10
+    marginBottom: 17,
+    fontWeight: 'bold'
   }
 })
 
