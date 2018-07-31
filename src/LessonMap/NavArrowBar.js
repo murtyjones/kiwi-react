@@ -117,12 +117,15 @@ class NavArrowBar extends Component {
       animationClassName, classes, navArrowDirection, activeLessonId, orderedCombinedLessonData, activeSectionIndex, lessonJustCompletedId, onSectionArrowClick
     } = this.props
 
+    if (!lessonUtils.doesSectionUnlockDirection(navArrowDirection, activeSectionIndex)) {
+      return null
+    }
+
     const isUnlocked = lessonUtils.getIsSectionNavArrowUnlocked({
       navArrowDirection, orderedCombinedLessonData, activeSectionIndex
     })
 
     const to = lessonUtils.getArrowSectionIndex(navArrowDirection, activeSectionIndex)
-
 
     const Icon = icons[navArrowDirection]
 

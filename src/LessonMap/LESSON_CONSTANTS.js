@@ -44,7 +44,7 @@ export const lessonMapNavigationDataBySection = [
       [NAV_OPTIONS.UP]: null,
       [NAV_OPTIONS.LEFT]: null,
       [NAV_OPTIONS.DOWN]: { sectionIndex: 1, requiresLessonsCompletion: true },
-      [NAV_OPTIONS.RIGHT]: null,
+      [NAV_OPTIONS.RIGHT]: { sectionIndex: 3, requiresLessonsCompletion: true },
     }
   },
   { // sectionIndex 1
@@ -52,7 +52,7 @@ export const lessonMapNavigationDataBySection = [
       [NAV_OPTIONS.UP]: { sectionIndex: 0, requiresLessonsCompletion: false },
       [NAV_OPTIONS.LEFT]: null,
       [NAV_OPTIONS.DOWN]: { sectionIndex: 2, requiresLessonsCompletion: true },
-      [NAV_OPTIONS.RIGHT]: null,
+      [NAV_OPTIONS.RIGHT]: { sectionIndex: 4, requiresLessonsCompletion: true },
     }
   }
 ]
