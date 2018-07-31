@@ -6,7 +6,7 @@ import ExpandLess  from '@material-ui/icons/ExpandLess'
 import ExpandMore  from '@material-ui/icons/ExpandMore'
 import ChevronLeft  from '@material-ui/icons/ChevronLeft'
 import ChevronRight  from '@material-ui/icons/ChevronRight'
-import Lock from '@material-ui/icons/Lock'
+import LockOutline from '@material-ui/icons/LockOutline'
 
 import { NAV_OPTIONS } from './LESSON_CONSTANTS'
 import * as lessonUtils from './lessonUtils'
@@ -27,9 +27,9 @@ const styles = () => ({
     padding: 0,
     border: 'none',
     position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    backgroundColor: 'rgba(0, 0, 0, 0.15)',
     '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.15)',
+      backgroundColor: 'rgba(0, 0, 0, 0.25)',
     }
   },
   isUnlocked: {
@@ -84,7 +84,7 @@ const styles = () => ({
   },
   lockIcon: {
     display: 'block',
-    color: 'rgba(256, 256, 256, 0.6)',
+    color: 'rgba(256, 256, 256, 1)',
     margin: 'auto',
     width: 'auto',
     height: '100%',
@@ -144,7 +144,7 @@ class NavArrowBar extends Component {
             }) }
           />
           :
-          <Lock
+          <LockOutline
             viewBox='-1 -6 26 33'
             className={ cns(classes.lockIcon, classes[`icon-${navArrowDirection}`]) }
           />
