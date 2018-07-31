@@ -29,6 +29,9 @@ const styles = theme => ({
   },
   updateResult: {
     margin: '20px 0'
+  },
+  topSuccessMessage: {
+    marginBottom: 10
   }
 })
 
@@ -97,7 +100,7 @@ class Subscriptions extends Component {
 
       })
       this.setState({
-        topSuccessMessage: `Your student is all set and can log in to the student dashboard with these credentials:<br /><br />`
+        topSuccessMessage: 'Your student is all set and can log in to the student dashboard with these credentials:'
       })
       this.props.history.push('/provider/subscriptions')
     } catch (err) {
@@ -193,7 +196,9 @@ class Subscriptions extends Component {
 
     return (
       <Section headerText='Manage Subscriptions and Student Accounts'>
-        { topSuccessMessage }
+        { topSuccessMessage &&
+          <div className={ classes.topSuccessMessage }>{ topSuccessMessage }</div>
+        }
         <SubscriptionsTable
           sortedSubscriptions={ sortedSubscriptions }
           profilesById={ profilesById }
