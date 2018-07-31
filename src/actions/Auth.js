@@ -3,23 +3,27 @@ import config from 'config'
 import AuthService from '../utils/AuthService'
 import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
+import { getManyProfiles } from './Profiles'
 
 const authService = new AuthService()
 
 export const login = ({ username, email, password }) => {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: ACTIONS.LOGIN_REQUEST })
     const params = { password }
     if (email) params.email = email
     if (username) params.username = username
-    return authService.login(params)
-      .then(success => {
-        dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
-        return success
-      }).catch(err => {
-        dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: err })
-        throw err
-      })
+    try {
+      const success = await authService.login(params)
+      dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
+      delete params.password
+      console.log(params)
+      await getManyProfiles(params)(dispatch)
+      return success
+    } catch(err) {
+      dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: err })
+      throw err
+    }
   }
 }
 

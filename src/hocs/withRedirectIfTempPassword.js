@@ -7,19 +7,23 @@ import get from 'lodash/get'
 
 export default function withRedirectIfTempPassword(WrappedComponent) {
   const HOC = class extends Component {
+    constructor(props) {
+      super()
+      if (get(props, 'profile.temporaryPassword', '')) {
+        props.history.push('/student')
+      } else {
+        // retrieve profile details (for temporaryPassword check)
+        props.getProfileDetails({ userId: props.userId })
+      }
+    }
+
     static propTypes = {
       getProfileDetails: T.func.isRequired,
       userId: T.string.isRequired,
       history: T.object.isRequired,
     }
 
-    componentDidMount() {
-      // retrieve profile details (for temporaryPassword check)
-      this.props.getProfileDetails({ userId: this.props.userId })
-    }
-
     componentDidUpdate(prevProps, prevState) {
-      // redirect if student needs to set a permanent password
       if (get(this.props, 'profile.temporaryPassword', '')) {
         this.props.history.push('/student')
       }
