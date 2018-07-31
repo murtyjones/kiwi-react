@@ -9,8 +9,9 @@ export default class SubmitButton extends PureComponent {
   }
 
   render() {
-    const { text = 'Submit', onClick, pristine, submitting, invalid, disabledOverride, className } = this.props
-    const disabled = (pristine || submitting || invalid) && !disabledOverride
+    const { text = 'Submit', onClick, pristine, submitting, invalid, alwaysEnable, alwaysDisable, className } = this.props
+
+    const disabled = (pristine || submitting || invalid || alwaysDisable) && !alwaysEnable
 
     return (
       <Fragment>

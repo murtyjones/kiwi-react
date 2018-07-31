@@ -12,6 +12,8 @@ import KiwiSelectField from '../../common/form/Select/KiwiSelectField'
 import CardField from '../../common/form/payment/CardField'
 
 import states from '../../utils/statesArray'
+import { cardValid, required } from '../../utils/validationUtils'
+import SubmitButton from "../../common/form/SubmitButton";
 
 export const formName = 'providerDashboard-billing'
 
@@ -85,7 +87,7 @@ class BillingForm extends Component {
     const { changingCard, isEmailSent } = this.state
 
     return (
-      <form onSubmit={ handleSubmit(this.createToken) } className={ classes.form }>
+      <form disabled={ !isEmailVerified } onSubmit={ handleSubmit(this.createToken) } className={ classes.form }>
         { !isEmailVerified &&
           <div className='emailVerificationLine-text'>
             <span className='emailVerificationLine-warn'>Hold on!</span>
@@ -101,11 +103,13 @@ class BillingForm extends Component {
           name='name'
           label='Name on Card'
           component={ KiwiTextField }
+          validate={ [ required ] }
         />
         <Field
           name='addressLine1'
           label='Billing Address'
           component={ KiwiTextField }
+          validate={ [ required ] }
         />
         <Field
           name='addressLine2'
@@ -116,17 +120,19 @@ class BillingForm extends Component {
           name='addressCity'
           label='City'
           component={ KiwiTextField }
+          validate={ [ required ] }
         />
         <Field
           name='addressState'
           component={ KiwiSelectField }
           label='State'
           options={ states }
+          validate={ [ required ] }
         />
         { !!last4 && !changingCard
           ?
           <div className='changeCardsContainer'>
-            Current card: x{last4}
+            Current Card: x{last4}
             <span className='changeCards'>
               (
               <Link to='#' onClick={ () => this.setState({ changingCard: true }) }>
@@ -136,22 +142,23 @@ class BillingForm extends Component {
             </span>
           </div>
           :
-          <CardField
+          <Field
+            name='creditCard'
+            component={ CardField }
             containerStyle={ {
               margin: '10px 0',
               color: 'white'
             } }
+            validate={ [ required, cardValid ] }
           />
 
         }
-        <Button
-          variant='outlined'
-          type='submit'
+        <SubmitButton
+          text='Save Payment Info'
+          { ...this.props }
           onClick={ handleSubmit(this.createToken) }
-          disabled={ pristine || submitting || !isEmailVerified }
-        >
-          Save
-        </Button>
+          alwaysDisable={ !isEmailVerified }
+        />
         { submitting && <span>Saving...</span> }
         <div style={ styles.result }>
           { submitFailed && error &&

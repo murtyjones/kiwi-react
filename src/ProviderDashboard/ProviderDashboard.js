@@ -5,7 +5,7 @@ import BluebirdPromise from 'bluebird'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import has from 'lodash/has'
-import get from 'lodash/get'
+
 import Link from 'react-router-dom/Link'
 import withStyles from '@material-ui/core/styles/withStyles'
 

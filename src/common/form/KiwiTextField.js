@@ -3,6 +3,7 @@ import cns from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { TextField as ReduxFormTextField } from 'redux-form-material-ui-next'
+import get from 'lodash/get'
 
 const styles = theme => ({
   field: {

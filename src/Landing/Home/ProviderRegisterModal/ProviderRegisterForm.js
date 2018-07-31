@@ -15,7 +15,7 @@ import Stripe from '../../../common/form/payment/Stripe'
 import './overrides.css'
 import withStyles from '@material-ui/core/styles/withStyles'
 
-let formName = 'allowSignInRegister'
+let formName = 'providerRegisterForm'
 
 const styles = theme => ({
   control: {

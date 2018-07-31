@@ -90,7 +90,7 @@ class StudentOnboardingForm extends Component {
             className={ classes.submit }
             text={ submitText }
             { ...this.props }
-            disabledOverride={ true }
+            alwaysEnable={ true }
             onClick={ handleSubmit }
           />
         }

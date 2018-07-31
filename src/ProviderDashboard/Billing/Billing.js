@@ -82,7 +82,7 @@ const mapStateToProps = (state, ownProps) => {
 
     initialValues.name = cardMetadata.name
     initialValues.addressLine1 = cardMetadata.address_line1
-    initialValues.addressLine2 = cardMetadata.address_line2
+    initialValues.addressLine2 = cardMetadata.address_line2 || ''
     initialValues.addressCity = cardMetadata.address_city
     initialValues.addressState = cardMetadata.address_state
     last4 = cardMetadata.last4

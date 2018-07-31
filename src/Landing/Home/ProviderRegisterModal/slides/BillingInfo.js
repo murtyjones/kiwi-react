@@ -9,7 +9,7 @@ import KiwiSelectField from '../../../../common/form/Select/KiwiSelectField'
 import CardField from '../../../../common/form/payment/CardField'
 import { billingInfoSlide } from '../slides'
 import states from '../../../../utils/statesArray'
-import { email, required } from '../../../../utils/validationUtils'
+import { email, required, cardValid } from '../../../../utils/validationUtils'
 
 const styles = {
   row: {
@@ -80,12 +80,17 @@ class ProvideesSignupSuccess extends Component {
             <Field
               name={ billingInfoSlide.names[4] }
               component={ KiwiSelectField }
+              validate={ [ required ] }
               className={ classes.state }
               label='State'
               options={ states }
-          />
+            />
+            <Field
+              name={ billingInfoSlide.names[5] }
+              component={ CardField }
+              validate={ [ required, cardValid ] }
+            />
           </div>
-          <CardField />
         </div>
       </SlideInOut>
     )

@@ -27,3 +27,7 @@ export const alphaNumeric = value =>
   value && /[^a-zA-Z0-9\-.+_]/i.test(value)
     ? 'You may only user letters, numbers, and these symbols: plus (+) underscore (_) dash (–) period (.)'
     : undefined
+
+export const cardValid = cardObject => {
+  return !!cardObject.error ? cardObject.error.message : undefined
+}
