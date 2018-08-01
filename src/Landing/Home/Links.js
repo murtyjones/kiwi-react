@@ -1,58 +1,41 @@
 import React, { Component } from 'react'
 import Link from 'react-router-dom/Link'
+import withStyles from '@material-ui/core/styles/withStyles'
+import cns from 'classnames'
 
 
-const styles = {
-  linkContainerStyle: {
+const styles = () => ({
+  root: {
     position: 'absolute'
-    , textAlign: '-webkit-center'
-    , paddingTop: '10px'
-    , paddingRight: '15px'
+    , top: 20
+    , right: 50
     , zIndex: 52 // just in front of dynamicHeader
-  },
-  linkStyle: {
-    borderBottom: '2px #3E2E61 solid'
-    , paddingBottom: '3px'
+    , color: '#FFF'
+    , padding: '10px 30px'
+    , borderRadius: 25
+    , fontSize: '13pt'
+    , border: '2px solid rgb(98, 79, 143)'
+    , fontWeight: 'bold'
     , cursor: 'pointer'
-    , fontSize: '16pt'
-    , color: '#3E2E61'
-    , textDecoration: 'none'
+    , width: 125
+    , marginLeft: -85
+    , backgroundColor: 'rgb(98, 79, 143)'
+    , textAlign: '-webkit-center'
+    , fontFamily: 'Arvo'
+    , '& a ': {
+      color: '#FFF'
+      , textDecoration: 'none'
+    }
   }
-}
+})
 
-
-export const AboutLink = () =>
-  <div style={ {
-      ...styles.linkContainerStyle, top: '20px', right: '10px', width: '100px'
-    } }
-  >
-    <Link to='/about' style={ styles.linkStyle }>
-      about us
-    </Link>
-  </div>
-
-
-export const LoginLink = ({ onClick }) =>
-  <div style={ {
-      ...styles.linkContainerStyle, top: '20px', right: '130px', width: '100px'
-    } }
-  >
-    <Link
-      to={ onClick ? '#' : '/login' }
-      onClick={ onClick }
-      style={ styles.linkStyle }
-    >
+let LoginLink = ({ classes, onClick }) =>
+  <button onClick={ onClick } className={ cns('hvr-grow', classes.root) }>
       log in
-    </Link>
-  </div>
+  </button>
 
 
-export const HomeLink = () =>
-  <div style={ {
-    ...styles.linkContainerStyle, top: '20px', right: '10px', width: '100px'
-  } }
-  >
-    <Link to='/' style={ styles.linkStyle }>
-      home
-    </Link>
-  </div>
+LoginLink = withStyles(styles, { withTheme: true })(LoginLink)
+
+
+export { LoginLink }

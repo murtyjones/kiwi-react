@@ -22,8 +22,6 @@ const styles = {
   quoteContainer: {
     position: 'relative'
     , width: '70vw'
-    , left: '50vw'
-    , marginLeft: '-35vw'
     , paddingBottom: '50px'
     , boxSizing: 'border-box'
   },

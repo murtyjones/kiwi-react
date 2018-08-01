@@ -4,12 +4,15 @@ import LogoSection from './LogoSection'
 import MissionSection from './MissionSection'
 import QuoteSection from './QuoteSection'
 import TeamSection from './TeamSection'
-import Footer from './Footer'
-import Link from 'react-router-dom/Link'
+import Footer from '../../common/Footer/Footer'
 
+import ProviderRegisterModal from '../Home/ProviderRegisterModal/ProviderRegisterModal'
+import LoginModal from '../Home/LoginModal/LoginModal'
+import { openModal } from '../../actions'
+import withRouter from 'react-router-dom/withRouter'
+import connect from 'react-redux/es/connect/connect'
 
 import '../../../assets/css/close.css'
-import { HomeLink } from '../Home/Links'
 
 const styles = {
   container: {
@@ -22,7 +25,7 @@ const styles = {
   }
 }
 
-export default class About extends Component {
+class About extends Component {
   constructor(props) {
     super(props)
   }
@@ -30,18 +33,51 @@ export default class About extends Component {
   static propTypes = {
     openDrawer: T.func
     , scrollTo: T.func
+    , openModal: T.func
+    , history: T.object
+  }
+
+  openLoginModal = () => {
+    this.props.openModal({
+      className: 'loginModal',
+      children: (
+        <LoginModal
+          switchModals={ this.openProviderRegisterModal }
+        />
+      )
+    })
+  }
+
+
+  openProviderRegisterModal = () => {
+    this.props.history.push('/signup-modal')
+    this.props.openModal({
+      className: 'providerRegisterModal',
+      children: (
+        <ProviderRegisterModal
+          switchModals={ this.openLoginModal }
+        />
+      )
+    })
   }
 
   render() {
     return (
       <div key='aboutContent' style={ styles.container }>
-        <HomeLink />
         <LogoSection />
         <MissionSection />
         <QuoteSection />
         <TeamSection />
-        <Footer />
+        <Footer openModal={ this.openProviderRegisterModal } />
       </div>
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openModal: params => dispatch(openModal(params))
+  }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(About))

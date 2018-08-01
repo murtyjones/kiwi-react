@@ -7,11 +7,11 @@ import config from 'config'
 import '../../../assets/css/close.css'
 import './overrides.css'
 
-import { AboutLink, LoginLink } from './Links'
+import { LoginLink } from './Links'
 import DynamicHeader from './DynamicHeader'
 import WelcomeSection from './WelcomeSection'
 import StripedSections from './StripedSections/StripedSections'
-import LetsGoSection from './LetsGoSection/LetsGoSection'
+import Footer from '../../common/Footer/Footer'
 import SubscribeModal from './SubscribeModal/SubscribeModal'
 import ProviderRegisterModal from './ProviderRegisterModal/ProviderRegisterModal'
 import LoginModal from './LoginModal/LoginModal'
@@ -89,14 +89,13 @@ class Home extends Component {
   render() {
     return (
       <div key='homeContent' style={ styles.homeContentContainer }>
-        <AboutLink />
         { config.features.allowSignInRegister &&
           <LoginLink onClick={ this.openLoginModal } />
         }
         <DynamicHeader />
         <WelcomeSection openModal={ this.openRegisterModal } />
         <StripedSections />
-        <LetsGoSection openModal={ this.openRegisterModal } />
+        <Footer openModal={ this.openRegisterModal } /> {/* Dont forget about the Footer on the about page*/}
       </div>
     )
   }

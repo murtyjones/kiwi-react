@@ -11,15 +11,13 @@ export default class LetsGoSection extends PureComponent {
 
   render() {
     return (
-      <div className='letsGoContainer'>
-        <div className='letsGo'>
-          <h2>Start your coding adventure today!</h2>
-          <div
-            className={ cns('letsGoBottomButton hvr-grow') }
-            onClick={ this.props.openModal }
-          >
-            Sign Me Up!
-          </div>
+      <div className='letsGo'>
+        <h2>Start your coding adventure today!</h2>
+        <div
+          className={ cns('letsGoBottomButton hvr-grow') }
+          onClick={ this.props.openModal }
+        >
+          Sign Me Up!
         </div>
       </div>
     )

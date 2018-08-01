@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 const styles = {
   container: {
     position: 'relative'
-    , backgroundColor: '#3E2E61'
+    , backgroundColor: '#624F8F'
   },
   logoSection: {
     height: '40vh'
