@@ -22,7 +22,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '../build/build/js'),
-    filename: '[name].bundle.js',
+    filename: '[name].[chunkhash].bundle.js',
     publicPath: '/build/js/'
   },
   module: {
