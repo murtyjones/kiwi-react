@@ -18,7 +18,7 @@ const getManyMessages = async (params) => {
     const options = {
       method: 'GET'
     }
-    const success = await ApiFetch('https://api.kiwicompute.com/v1/messages', options)
+    const success = await ApiFetch(`${config.api}/messages`, options)
     return success
   } catch (err) {
     console.log(err)
