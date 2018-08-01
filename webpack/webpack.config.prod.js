@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const prodConfig = require('../config/prod.json')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'production',
@@ -39,6 +40,16 @@ module.exports = {
     }]
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Kiwi Compute',
+      template: 'src/index.html',
+      filename: '../../index.html'
+    }),
+    new HtmlWebpackPlugin({  // Also generate a test.html
+      template: 'src/maintenance.html',
+      filename: '../../maintenance.html',
+      inject: false // don't inject js bundle
+    }),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/)
   ],
@@ -46,7 +57,7 @@ module.exports = {
     config: JSON.stringify(prodConfig)
   },
   node: {
-    fs: "empty"
+    fs: 'empty'
   },
   resolve: {
 

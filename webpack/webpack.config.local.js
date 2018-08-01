@@ -56,7 +56,7 @@ module.exports = {
     config: JSON.stringify(localConfig)
   },
   node: {
-    fs: "empty"
+    fs: 'empty'
   },
   resolve: {
 

@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const stageConfig = require('../config/stage.json')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -22,7 +23,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '../build/build/js'),
-    filename: '[name].bundle.js',
+    filename: '[name].[chunkhash].bundle.js',
     publicPath: '/build/js/'
   },
   module: {
@@ -39,6 +40,16 @@ module.exports = {
     }]
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Kiwi Compute',
+      template: 'src/index.html',
+      filename: '../../index.html'
+    }),
+    new HtmlWebpackPlugin({  // Also generate a test.html
+      template: 'src/maintenance.html',
+      filename: '../../maintenance.html',
+      inject: false // don't inject js bundle
+    }),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/)
   ],
@@ -46,7 +57,7 @@ module.exports = {
     config: JSON.stringify(stageConfig)
   },
   node: {
-    fs: "empty"
+    fs: 'empty'
   },
   resolve: {
 

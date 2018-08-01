@@ -58,7 +58,7 @@ module.exports = {
     config: JSON.stringify(devConfig)
   },
   node: {
-    fs: "empty"
+    fs: 'empty'
   },
   resolve: {
 
