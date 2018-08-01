@@ -1,5 +1,8 @@
 import mockAuthServiceMethods, { mockAuthService } from '../../../__mocks__/authService'
 jest.mock('../../../../src/utils/AuthService', () => mockAuthService)
+jest.mock('../../../../src/utils/getNewToken', () =>
+  jest.fn(() => Promise.resolve('getNewToken Result'))
+)
 import mockApiFetch from '../../../__mocks__/ApiFetch'
 jest.mock('../../../../src/utils/ApiFetch', () => mockApiFetch)
 import '../../../__mocks__/config'
@@ -12,6 +15,7 @@ import thunk from 'redux-thunk'
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
+
 
 describe('Auth Actions', () => {
   let store

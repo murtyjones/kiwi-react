@@ -3,7 +3,7 @@ import config from 'config'
 import AuthService from '../utils/AuthService'
 import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
-import { getNewToken } from '../utils/refreshToken'
+import { getNewToken } from '../utils/getNewToken'
 
 const authService = new AuthService()
 

@@ -3,7 +3,7 @@ import config from 'config'
 import queryString from 'query-string'
 
 import ApiFetch from '../utils/ApiFetch'
-import { getNewToken } from '../utils/refreshToken'
+import { getNewToken } from '../utils/getNewToken'
 
 export const getManySubscriptions = (params) => {
   const append = queryString.stringify(params)

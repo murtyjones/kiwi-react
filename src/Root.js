@@ -8,7 +8,7 @@ import cns from 'classnames'
 import { Helmet } from 'react-helmet'
 import withStyles from '@material-ui/core/styles/withStyles'
 
-import './utils/refreshToken'
+import './utils/getNewToken'
 
 import GoogleTagManager from './analytics/GoogleTagManager'
 import Routes from './Routes/Routes'
