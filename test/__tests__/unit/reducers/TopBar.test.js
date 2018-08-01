@@ -177,6 +177,7 @@ describe('TopBar Reducer', () => {
         breadcrumbLink: '',
         breadcrumbText: '',
         showMiddleSection: true,
+        showLogo: true,
         isTopBarOpen: true,
         topBarHeight: 60,
         topBarTitle: '',

@@ -31,6 +31,7 @@ describe('Auth Reducer', () => {
         , exp: mockAuthService.getTokenExp()
         , iat: mockAuthService.getTokenIat()
         , isAdmin: mockAuthService.getIsAdmin()
+        , temporaryPassword: mockAuthService.getTemporaryPassword()
         , isProvider: mockAuthService.getIsProvider()
         , subscription: mockAuthService.getSubscription()
         , userId: mockAuthService.getUserId()
@@ -107,6 +108,7 @@ describe('Auth Reducer', () => {
         , isAdmin: false
         , isProvider: false
         , subscription: {}
+        , temporaryPassword: null
         , userId: null
         , username: null
         , refreshToken: null
