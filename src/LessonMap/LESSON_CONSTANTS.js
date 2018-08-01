@@ -43,16 +43,16 @@ export const lessonMapNavigationDataBySection = [
     adjacentSectionIndices: {
       [NAV_OPTIONS.UP]: null,
       [NAV_OPTIONS.LEFT]: null,
-      [NAV_OPTIONS.DOWN]: { sectionIndex: 1, requiresLessonsCompletion: true },
-      [NAV_OPTIONS.RIGHT]: { sectionIndex: 3, requiresLessonsCompletion: true },
+      [NAV_OPTIONS.DOWN]: { sectionIndex: 1, unlocksSection: true, requiresLessonsCompletion: true },
+      [NAV_OPTIONS.RIGHT]: { sectionIndex: 3, unlocksSection: false },
     }
   },
   { // sectionIndex 1
     adjacentSectionIndices: {
-      [NAV_OPTIONS.UP]: { sectionIndex: 0, requiresLessonsCompletion: false },
+      [NAV_OPTIONS.UP]: { sectionIndex: 0, unlocksSection: true, requiresLessonsCompletion: false },
       [NAV_OPTIONS.LEFT]: null,
-      [NAV_OPTIONS.DOWN]: { sectionIndex: 2, requiresLessonsCompletion: true },
-      [NAV_OPTIONS.RIGHT]: { sectionIndex: 4, requiresLessonsCompletion: true },
+      [NAV_OPTIONS.DOWN]: { sectionIndex: 2, unlocksSection: true, requiresLessonsCompletion: true },
+      [NAV_OPTIONS.RIGHT]: { sectionIndex: 4, unlocksSection: false, requiresLessonsCompletion: true },
     }
   }
 ]

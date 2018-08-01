@@ -105,11 +105,16 @@ export const doesRequireLessonsCompletion = (navArrowDirection, activeSectionInd
   return requiresLessonsCompletion
 }
 
-
-export const doesSectionUnlockDirection = (navArrowDirection, activeSectionIndex) => {
+export const isSectionAdjacent = (navArrowDirection, activeSectionIndex) => {
   const { adjacentSectionIndices } = lessonMapNavigationDataBySection[activeSectionIndex]
   const { sectionIndex } = adjacentSectionIndices[navArrowDirection] || {}
   return isNumeric(sectionIndex)
+}
+
+export const doesSectionUnlockDirection = (navArrowDirection, activeSectionIndex) => {
+  const { adjacentSectionIndices } = lessonMapNavigationDataBySection[activeSectionIndex]
+  const { sectionIndex, unlocksSection } = adjacentSectionIndices[navArrowDirection] || {}
+  return isNumeric(sectionIndex) && unlocksSection
 }
 
 

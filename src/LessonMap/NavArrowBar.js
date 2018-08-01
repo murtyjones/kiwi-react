@@ -11,6 +11,7 @@ import LockOutline from '@material-ui/icons/LockOutline'
 import { NAV_OPTIONS } from './LESSON_CONSTANTS'
 import * as lessonUtils from './lessonUtils'
 import * as clipPaths from './clipPaths'
+import { purple } from '../colors'
 
 const icons = {
   [NAV_OPTIONS.UP]: ExpandLess,
@@ -27,19 +28,15 @@ const styles = () => ({
     padding: 0,
     border: 'none',
     position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.15)',
+    backgroundColor: 'rgba(230, 230, 230, 0.4)',
     '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.25)',
+      backgroundColor: 'rgba(230, 230, 230, 0.6);',
     }
   },
   isUnlocked: {
-    backgroundColor: 'rgba(0, 0, 0, 0.30)',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.50)',
-    },
     cursor: 'pointer',
     '& $arrowIcon': {
-      color: 'white'
+      color: purple
     }
   },
   [NAV_OPTIONS.UP]: {
@@ -117,7 +114,7 @@ class NavArrowBar extends Component {
       animationClassName, classes, navArrowDirection, activeLessonId, orderedCombinedLessonData, activeSectionIndex, lessonJustCompletedId, onSectionArrowClick
     } = this.props
 
-    if (!lessonUtils.doesSectionUnlockDirection(navArrowDirection, activeSectionIndex)) {
+    if (!lessonUtils.isSectionAdjacent(navArrowDirection, activeSectionIndex)) {
       return null
     }
 
