@@ -10,6 +10,7 @@ const initialState = {
   , isAdmin: AuthService.getIsAdmin()
   , isProvider: AuthService.getIsProvider()
   , subscription: AuthService.getSubscription()
+  , temporaryPassword: AuthService.getTemporaryPassword()
   , userId: AuthService.getUserId()
   , username: AuthService.getUsername()
   , refreshToken: AuthService.getRefreshToken()
@@ -27,6 +28,7 @@ function authReducer(state = initialState, action) {
       AuthService.setIsAdmin(decodedToken)
       AuthService.setIsProvider(decodedToken)
       AuthService.setSubscription(decodedToken)
+      AuthService.setTemporaryPassword(decodedToken)
       AuthService.setUserId(decodedToken)
       AuthService.setUsername(decodedToken)
       if (action.payload && action.payload.refreshToken)
@@ -39,6 +41,7 @@ function authReducer(state = initialState, action) {
         , isAdmin: AuthService.getIsAdmin()
         , isProvider: AuthService.getIsProvider()
         , subscription: AuthService.getSubscription()
+        , temporaryPassword: AuthService.getTemporaryPassword()
         , userId: AuthService.getUserId()
         , username: AuthService.getUsername()
         , refreshToken: AuthService.getRefreshToken()
@@ -54,6 +57,7 @@ function authReducer(state = initialState, action) {
         , isAdmin: false
         , isProvider: false
         , subscription: {}
+        , temporaryPassword: null
         , userId: null
         , username: null
         , refreshToken: null

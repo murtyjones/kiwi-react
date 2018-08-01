@@ -16,6 +16,11 @@ function AuthenticatedRoute (props) {
     const to = rest.path.includes('/provider')  ? '/provider/login' : '/login'
     return <Redirect to={ { pathname: to, state: { from: rest.location } } } />
   }
+
+  if (rest.temporaryPassword) {
+    return <Redirect to={ { pathname: '/student', state: { from: rest.location } } } />
+  }
+
   return (
     <Route
       { ...rest }

@@ -54,16 +54,17 @@ class Routes extends Component {
     , setGlobalColors: T.func.isRequired
     , globalColors: T.object.isRequired
     , subscription: T.object.isRequired
+    , temporaryPassword: T.string.isRequired
   }
 
   render() {
     const {
-      isLoggedIn, isAdmin, isProvider, setGlobalColors, globalColors, subscription
+      isLoggedIn, isAdmin, isProvider, setGlobalColors, globalColors, subscription, temporaryPassword
     } = this.props
 
     const routeProps = {
       isLoggedIn, subscription, isAdmin,
-      isProvider, setGlobalColors,
+      isProvider, setGlobalColors, temporaryPassword,
       ...globalColors
     }
 
@@ -181,7 +182,7 @@ class Routes extends Component {
 
 const mapStateToProps = (state) => {
   const {
-    auth: { isLoggedIn, isAdmin, isProvider, subscription },
+    auth: { isLoggedIn, isAdmin, isProvider, subscription, temporaryPassword },
     globalColors,
   } = state
 
@@ -192,6 +193,7 @@ const mapStateToProps = (state) => {
     , isAdmin
     , isProvider
     , globalColors
+    , temporaryPassword
   }
 }
 

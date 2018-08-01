@@ -169,6 +169,16 @@ export default class AuthService {
     return window.localStorage.setItem('subscription', JSON.stringify(subscription))
   }
 
+  static setTemporaryPassword(decodedToken) {
+    const app_metadata = get(decodedToken, `${config.auth.namespace}/app_metadata`) || {}
+    const temporaryPassword = app_metadata.temporaryPassword || ''
+    return window.localStorage.setItem('temporaryPassword', temporaryPassword)
+  }
+
+  static getTemporaryPassword() {
+    return window.localStorage.getItem('temporaryPassword')
+  }
+
   static getIsAdmin() {
     let isAdmin = window.localStorage.getItem('isAdmin')
     isAdmin = JSON.parse(isAdmin) === true

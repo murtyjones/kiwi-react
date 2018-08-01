@@ -9,7 +9,6 @@ import withStyles from '@material-ui/core/styles/withStyles'
 
 import { getLessonOrder, getManyLessons, getManyUserLessons } from '../actions'
 import withTopBarTitle from '../hocs/withTopBarTitle'
-import withRedirectIfTempPassword from '../hocs/withRedirectIfTempPassword'
 import * as lessonUtils from './lessonUtils'
 import { darkerGrey } from '../colors'
 
@@ -142,7 +141,5 @@ const mapDispatchToProps = (dispatch) => {
 LessonMap = withTopBarTitle(LessonMap, { title: 'Lesson Map' })
 
 LessonMap = withStyles(styles)(LessonMap)
-
-LessonMap = withRedirectIfTempPassword(LessonMap)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LessonMap))

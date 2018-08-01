@@ -3,7 +3,7 @@ import config from 'config'
 import AuthService from '../utils/AuthService'
 import ApiFetch from '../utils/ApiFetch'
 import { ACTIONS } from '../constants'
-import { getManyProfiles } from './Profiles'
+import { getNewToken } from '../utils/refreshToken'
 
 const authService = new AuthService()
 
@@ -16,9 +16,6 @@ export const login = ({ username, email, password }) => {
     try {
       const success = await authService.login(params)
       dispatch({ type: ACTIONS.LOGIN_SUCCESS, payload: success })
-      delete params.password
-      console.log(params)
-      await getManyProfiles(params)(dispatch)
       return success
     } catch(err) {
       dispatch({ type: ACTIONS.LOGIN_FAILURE, payload: err })
@@ -93,21 +90,18 @@ export const resetPasswordRequest = params => {
 
 export const changePassword = params => {
   const { _id, currentPassword, newPassword } = params
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: ACTIONS.CHANGE_PASSWORD_REQUEST })
-    const options = {
-      method: 'POST',
-      body: { currentPassword, newPassword }
+    try {
+      const options = { method: 'POST', body: { currentPassword, newPassword } }
+      const success = await ApiFetch(`${config.api}/password/change/${_id}`, options)
+      dispatch({ type: ACTIONS.CHANGE_PASSWORD_SUCCESS, payload: success })
+      await getNewToken() // so that temporaryPassword will be removed from our token
+      return success
+    } catch(err) {
+      dispatch({ type: ACTIONS.CHANGE_PASSWORD_FAILURE, payload: err })
+      throw err
     }
-    return ApiFetch(`${config.api}/password/change/${_id}`, options)
-      .then(success => {
-        dispatch({ type: ACTIONS.CHANGE_PASSWORD_SUCCESS, payload: success })
-        dispatch({ type: ACTIONS.CLEAR_TEMPORARY_PASSWORD, payload: _id })
-        return success
-      }).catch(err => {
-        dispatch({ type: ACTIONS.CHANGE_PASSWORD_FAILURE, payload: err })
-        throw err
-      })
 
   }
 }
