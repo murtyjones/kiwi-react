@@ -68,7 +68,7 @@ class About extends Component {
         <MissionSection />
         <QuoteSection />
         <TeamSection />
-        <Footer openModal={ this.openProviderRegisterModal } />
+        <Footer isAboutPage openModal={ this.openProviderRegisterModal } />
       </div>
     )
   }

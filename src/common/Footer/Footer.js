@@ -52,7 +52,7 @@ const SocialLink = ({ classes, url, imageUrl }) =>
   </a>
 
 
-let Footer = ({ classes, openModal, isAboutPage = true }) =>
+let Footer = ({ classes, openModal, isAboutPage = false }) =>
   <div className={ classes.footer }>
 
     <LetsGoSection openModal={ openModal } />
