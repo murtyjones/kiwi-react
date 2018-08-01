@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const localConfig = require('../config/default.json')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 process.env.BABEL_ENV = 'local-webpack'
 module.exports = {
@@ -21,23 +22,33 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '../build/js'),
-    filename: '[name].bundle.js',
-    publicPath: '/build/js/'
+    filename: '[name].[hash].bundle.js',
+    publicPath: '/'
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
-      loader: 'babel-loader'
-    }, {
-      test: /\.json$/,
-      loader: 'json-loader'
-    }, {
-      test: /\.css$/,
-      loader: [ 'style-loader', 'css-loader' ]
-    }]
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader'
+      }, {
+        test: /\.json$/,
+        loader: 'json-loader'
+      }, {
+        test: /\.css$/,
+        loader: [ 'style-loader', 'css-loader' ]
+      },
+      {
+        test: /\.html$/,
+        loader: 'raw-loader'
+      }
+    ]
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Kiwi Compute',
+      template: 'src/index.html'
+    }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/),
     new webpack.HotModuleReplacementPlugin()
   ],
