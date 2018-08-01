@@ -26,6 +26,7 @@ const styles = () => ({
     , margin: '10px'
   },
   copyright: {
+    fontFamily: 'Roboto',
     position: 'absolute',
     bottom: 0,
     width: '100%',
@@ -34,6 +35,7 @@ const styles = () => ({
     fontSize: '9pt'
   },
   sitemap: {
+    fontFamily: 'Roboto',
     position: 'absolute',
     width: '100%',
     bottom: 90,
