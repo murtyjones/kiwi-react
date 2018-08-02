@@ -104,7 +104,7 @@ gulp.task('lint', () => {
 gulp.task("build:production", ["copy-html", "copy-assets", "webpack:build:production"])
 
 // Dev build
-gulp.task("build:development", ["copy-html", "copy-assets", "webpack:build:development"])
+gulp.task("build:development", ["copy-assets", "webpack:build:development"])
 
 // Stage build
 gulp.task("build:stage", ["copy-html", "copy-assets", "webpack:build:stage"])
