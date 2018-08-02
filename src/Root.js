@@ -51,7 +51,8 @@ const styles = () => ({
     , fontFamily: 'Arial'
     , fontWeight: 'bold'
     , color: '#FFFFFF'
-    , textAlign: '-webkit-center'
+    , textAlign: 'center'
+    , '-webkit-text-align': 'center'
     , opacity: 0.5,
     '&:hover': {
       opacity: 1.0

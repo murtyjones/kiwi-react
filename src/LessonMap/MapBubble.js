@@ -27,12 +27,7 @@ const styles = theme => ({
     '& next': {
       transform: 'scale(1.2)',
       transition: 'all 1s ease'
-    }
-  },
-  mapBubbleContainer: {
-    position: 'relative',
-    display: 'inline-block',
-    zIndex: 21,
+    },
     '&:hover': {
       transform: 'scale(1.2)',
       transition: '.3s all cubic-bezier(0, 1.07, 0.78, 2.39)'
@@ -48,6 +43,11 @@ const styles = theme => ({
     '&:hover $bubbleLabel': {
       visibility: 'visible'
     },
+  },
+  mapBubbleContainer: {
+    position: 'relative',
+    display: 'inline-block',
+    zIndex: 21,
   },
   lessonTitleLeft: {
     transform: 'translateX(100%)'
@@ -165,13 +165,12 @@ let MapBubble = props => {
   return linkWrapper(
     <button
       className={ cns(classes.root, {
-        'hvr-pulse-inverse': isLatestActive
+        'hvr-pulse-inverse': isLatestActive, [classes.clickable]: isAvailable
       } ) }
       style={ { left: `${x}%`, top: `${y}%` } }
     >
       <div className={ classes.mapBubbleContainer }>
-
-        <div className={ cns(classes.lessonProgress, { [classes.clickable]: isAvailable } ) }>
+        <div className={ cns(classes.lessonProgress ) }>
           <CircularProgressbar
             percentage={ completionPercentage }
             initialAnimation={ isJustCompleted }
@@ -247,8 +246,6 @@ let MapBubble = props => {
             } }
           />
         }
-
-
       </div>
     </button>
   )

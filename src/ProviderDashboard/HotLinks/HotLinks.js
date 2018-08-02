@@ -12,7 +12,7 @@ const styles = theme => ({
   root: {
     height: '100%',
     padding: '10px !important',
-    textAlign: '-webkit-center',
+    textAlign: 'center',
     color: highlightColor,
     '&:hover $linkText': { fontWeight: 'bold' },
     '&:hover $icon': { color: 'white' },
@@ -42,7 +42,7 @@ const styles = theme => ({
   },
   linkText: {
     paddingTop: '10px',
-    textAlign: '-webkit-center'
+    textAlign: 'center'
   }
 })
 

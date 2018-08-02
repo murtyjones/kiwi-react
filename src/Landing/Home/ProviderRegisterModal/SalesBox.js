@@ -9,13 +9,13 @@ const styles = theme => ({
     padding: '20px'
   },
   header: {
-    textAlign: '-webkit-center',
+    textAlign: 'center',
     color: purple
   },
   cost: {
     color: darkGrey,
     fontWeight: 'bold',
-    textAlign: '-webkit-center',
+    textAlign: 'center',
     marginTop: 10
   },
   usd: {

@@ -6,11 +6,13 @@
     font-family: Arial;
     color: #2E2860;
     position: relative;
+    text-align: center;
     text-align: -webkit-center;
 }
 
 h2.subscribeHeader, h4.subscribeHeader {
     font-family: Arvo;
+    text-align: center;
     text-align: -webkit-center;
 }
 

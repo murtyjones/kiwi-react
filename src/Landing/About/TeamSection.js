@@ -13,7 +13,9 @@ const styles = {
     fontSize: 'calc(15px + 2.3vw)'
     , margin: '5vh 5vw 5vh 5vw'
     , color: '#624F8F'
-    , textAlign: '-webkit-center'
+    , textAlign: 'center'
+    , '-webkit-text-align': 'center'
+
   },
   teamMemberName: {
     fontSize: 'calc(20px + 0.6vw)'

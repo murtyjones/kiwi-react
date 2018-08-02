@@ -63,7 +63,7 @@ const styles = theme => ({
     lineHeight: '45px',
     minWidth: '120px',
     color: 'white',
-    textAlign: '-webkit-center',
+    textAlign: 'center',
     fontWeight: 'bold',
     borderRadius: '5px',
     fontSize: '16pt'
@@ -116,7 +116,7 @@ const styles = theme => ({
     right: 'calc(50% - 150px)',
     bottom: 20,
     position: 'absolute',
-    textAlign: '-webkit-center',
+    textAlign: 'center',
     '& div': {
       cursor: 'pointer',
       display: 'inline',

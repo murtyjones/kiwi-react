@@ -44,8 +44,12 @@ const styles = () => ({
   },
   grid: {
     margin: 0,
+    height: '100%', // needed for firefox
     width: '100%',
     flexGrow: 1
+  },
+  gridItem: {
+    height: '100%'  // needed for firefox
   },
   title: {
     width: '100%'
@@ -70,7 +74,8 @@ const styles = () => ({
     width: 100
   },
   middle: {
-    textAlign: '-webkit-center'
+    textAlign: 'center',
+    '-webkit-text-align': 'center'
   },
   right: {
     textAlign: 'right'
@@ -183,7 +188,7 @@ class TopBar extends PureComponent {
       >
         <Grid container className={ classes.grid } spacing={ 24 }>
 
-          <Grid item xs={ showMiddleSection ? 3 : 6 }>
+          <Grid item className={ classes.gridItem} xs={ showMiddleSection ? 3 : 6 }>
 
             { !!breadcrumbLink &&
               <Link to={ breadcrumbLink ? breadcrumbLink : '/' }>

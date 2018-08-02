@@ -16,7 +16,7 @@ const styles = theme => ({
     , backgroundSize: '100%'
   },
   titleContainer: {
-    textAlign: '-webkit-center'
+    textAlign: 'center'
     , position: 'absolute'
     , top: '35%'
     , width: '100%'

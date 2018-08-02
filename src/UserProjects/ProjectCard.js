@@ -41,7 +41,9 @@ const styles = {
     , float: 'left'
     , display: 'block'
     , backgroundColor: mediaColor
-    , textAlign: '-webkit-center'
+    , textAlign: 'center'
+    , '-webkit-text-align': 'center'
+
   },
   bottomOfCard: {
     width: '100%'

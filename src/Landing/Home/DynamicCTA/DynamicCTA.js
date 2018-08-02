@@ -5,7 +5,8 @@ import cns from 'classnames'
 const styles = theme => ({
   dynamicSlogan: {
     position: 'fixed',
-    textAlign: '-webkit-center',
+    '-webkit-text-align': 'center',
+    textAlign: 'center',
     fontWeight: 'bold',
     paddingBottom: 2,
     transition: 'height 100s',
@@ -74,7 +75,7 @@ class DynamicHeader extends PureComponent {
       position: 'fixed',
       top: `calc(${topSlogan}vh + 15vh)`,
       left: '50%',
-      width: '110px',
+      width: '120px',
       marginLeft: '-85px',
       backgroundColor: '#624F8F',
       color: '#FFFFFF',
@@ -85,7 +86,7 @@ class DynamicHeader extends PureComponent {
       fontWeight: 'bold',
       cursor: 'pointer',
       zIndex: 51,
-      textAlign: '-webkit-center'
+      textAlign: 'center'
     }
 
     if (textMass <= fixPoint) {

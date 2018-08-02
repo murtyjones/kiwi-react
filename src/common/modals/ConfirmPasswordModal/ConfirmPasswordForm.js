@@ -13,7 +13,7 @@ const formName = 'confirmPasswordForm'
 const styles = theme => ({
   root: {
     padding: 15,
-    textAlign: '-webkit-center'
+    textAlign: 'center'
   }
 })
 

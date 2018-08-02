@@ -11,7 +11,7 @@ import { checkProfileEmailVerification } from '../actions'
 
 const styles = {
   container: {
-    textAlign: '-webkit-center',
+    textAlign: 'center',
     verticalAlign: 'middle',
     height: '80vh',
     paddingTop: '45vh'

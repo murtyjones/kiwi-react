@@ -5,7 +5,7 @@ import cns from 'classnames'
 
 const styles = theme => ({
   h3: {
-    textAlign: '-webkit-center',
+    textAlign: 'center',
     color: '#2E2860',
     margin: 0,
     position: 'relative',

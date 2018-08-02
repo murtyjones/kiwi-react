@@ -10,7 +10,9 @@ const styles = () => ({
     , backgroundColor: '#624F8F'
     , position: 'relative'
     , overflow: 'auto'
-    , textAlign: '-webkit-center'
+    , textAlign: 'center'
+    , '-webkit-text-align': 'center'
+
   },
   socialContainer: {
     position: 'absolute'

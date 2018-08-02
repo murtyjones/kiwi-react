@@ -1,5 +1,6 @@
 .resultCardContainer {
     box-shadow: 2px 2px 5px #CCCCCC;
+    text-align: center;
     text-align: -webkit-center;
 }
 .resultCardContainer.correct { background: #DFF2BF; }
@@ -9,13 +10,16 @@
 .resultCardContainer.incorrect > * { color: #D8000C; }
 
 .resultCard {
+    margin: 0 auto;
     position: relative;
     width: 600px;
+    text-align: center;
     text-align: -webkit-center;
 }
 
 .result {
     padding: 16px 0;
+    text-align: center;
     text-align: -webkit-center;
 }
 

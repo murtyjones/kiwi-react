@@ -20,7 +20,8 @@ const styles = () => ({
     , width: 125
     , marginLeft: -85
     , backgroundColor: 'rgb(98, 79, 143)'
-    , textAlign: '-webkit-center'
+    , textAlign: 'center'
+    , '-webkit-text-align': 'center'
     , fontFamily: 'Arvo'
     , '& a ': {
       color: '#FFF'
