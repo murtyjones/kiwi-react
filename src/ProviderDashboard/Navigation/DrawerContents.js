@@ -41,7 +41,7 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       color: '#e6e6e6',
       display: 'inline-block',
-      width: 175,
+      width: 185,
       border: 'none',
       height: '100%',
       paddingTop: 15,
