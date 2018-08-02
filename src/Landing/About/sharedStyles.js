@@ -30,7 +30,7 @@ const styles = {
     , fontWeight: 'bold'
     , color: '#000000'
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
 
   },
   forgot: {

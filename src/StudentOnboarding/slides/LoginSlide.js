@@ -26,7 +26,7 @@ const styles = theme => ({
     , width: '50%'
     , maxWidth: '600px'
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
     , backgroundColor: '#FFF'
     , border: '3px solid #330000'
     , borderRadius: '15px'

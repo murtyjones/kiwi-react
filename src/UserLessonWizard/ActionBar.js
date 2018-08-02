@@ -11,7 +11,7 @@ const styles = {
     , top: '11px'
     , borderRadius: '98px'
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
     , fontWeight: 'bold'
     , lineHeight: '40px'
     , border: 'none'

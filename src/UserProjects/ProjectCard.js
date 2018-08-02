@@ -42,7 +42,7 @@ const styles = {
     , display: 'block'
     , backgroundColor: mediaColor
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
 
   },
   bottomOfCard: {

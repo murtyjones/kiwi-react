@@ -22,7 +22,7 @@ const styles = {
     , fontFamily: 'Arvo'
     , position: 'relative' // needed for abs children
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
 
   }
 }

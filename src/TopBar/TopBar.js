@@ -75,7 +75,7 @@ const styles = () => ({
   },
   middle: {
     textAlign: 'center',
-    '-webkit-text-align': 'center'
+    WebkitTextAlign: 'center'
   },
   right: {
     textAlign: 'right'

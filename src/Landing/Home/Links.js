@@ -21,7 +21,7 @@ const styles = () => ({
     , marginLeft: -85
     , backgroundColor: 'rgb(98, 79, 143)'
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
     , fontFamily: 'Arvo'
     , '& a ': {
       color: '#FFF'

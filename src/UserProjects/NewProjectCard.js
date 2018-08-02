@@ -35,7 +35,7 @@ const styles = {
     , fontWeight: 'bold'
     , width: '100%'
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
 
   },
   text: {

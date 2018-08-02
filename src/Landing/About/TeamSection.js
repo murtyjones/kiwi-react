@@ -14,7 +14,7 @@ const styles = {
     , margin: '5vh 5vw 5vh 5vw'
     , color: '#624F8F'
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
 
   },
   teamMemberName: {

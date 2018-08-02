@@ -5,7 +5,7 @@ import cns from 'classnames'
 const styles = theme => ({
   dynamicSlogan: {
     position: 'fixed',
-    '-webkit-text-align': 'center',
+    WebkitTextAlign: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
     paddingBottom: 2,

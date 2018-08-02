@@ -11,7 +11,7 @@ const styles = () => ({
     , position: 'relative'
     , overflow: 'auto'
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
 
   },
   socialContainer: {

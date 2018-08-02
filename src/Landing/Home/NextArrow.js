@@ -16,7 +16,7 @@ const styles = {
     , marginLeft: '-100px'
     , zIndex: 50
     , textAlign: 'center'
-    , '-webkit-text-align': 'center'
+    , WebkitTextAlign: 'center'
 
   },
   learnMoreArrow: {
