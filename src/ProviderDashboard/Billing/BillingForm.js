@@ -99,7 +99,7 @@ class BillingForm extends Component {
             <Link to='#' onClick={ this.resendVerificationEmail }>
               Click here to resend verification email.
             </Link>
-            { isEmailSent && <div className={ classes.sent }>Sent!</div> }
+            { isEmailSent && <div className={ classes.sent }>Sent! Be sure to check your spam folder if you don't see an e-mail from us.</div> }
           </div>
         }
         <Field
