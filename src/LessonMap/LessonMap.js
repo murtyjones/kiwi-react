@@ -14,7 +14,6 @@ import { darkerGrey } from '../colors'
 
 import MapNavigationControls from './MapNavigationControls'
 import MapViewport from './MapViewport'
-import MapBubbles from './MapBubbles'
 import MapSection from './MapSection'
 
 const styles = theme => ({
