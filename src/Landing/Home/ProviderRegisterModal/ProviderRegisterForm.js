@@ -46,7 +46,12 @@ class ProviderRegisterForm extends Component {
   static propTypes = {
     goToPrevSlide: T.func.isRequired
     , goToNextSlide: T.func.isRequired
+    , reset: T.func.isRequired
     , completionPercentage: T.number.isRequired
+  }
+
+  componentWillUnmount() {
+    this.props.reset()
   }
 
   createToken = async v => {
