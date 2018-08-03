@@ -33,7 +33,7 @@ const NextArrow = ({ to, text, textColor }) =>
   >
     <div style={ { color: textColor } }>{ text }</div>
     <KeyboardArrowDown
-      color='#9AC045'
+      color='#C9F36A'
       style={ styles.learnMoreArrow }
     />
   </div>

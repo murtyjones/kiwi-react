@@ -11,7 +11,7 @@ import LockOutline from '@material-ui/icons/LockOutline'
 import { NAV_OPTIONS } from './LESSON_CONSTANTS'
 import * as lessonUtils from './lessonUtils'
 import * as clipPaths from './clipPaths'
-import { purple } from '../colors'
+import { darkPurple } from '../colors'
 
 const icons = {
   [NAV_OPTIONS.UP]: ExpandLess,
@@ -36,7 +36,7 @@ const styles = () => ({
   isUnlocked: {
     cursor: 'pointer',
     '& $arrowIcon': {
-      color: purple
+      color: darkPurple
     }
   },
   [NAV_OPTIONS.UP]: {

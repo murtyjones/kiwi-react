@@ -110,7 +110,7 @@ Card = posed(Card)({
     x: '-100%', y: 0, transition: { duration }
   },
   [VISIBLE]: {
-    x: 0, y: 0, transition: { duration }
+    x: 0, y: 0, delay: 1500, transition: { duration }
   },
 })
 
@@ -119,19 +119,13 @@ class AllCompletedCard extends Component {
     super()
 
     this.state = {
-      pose: HIDDEN
+      pose: props.showCard ? VISIBLE : HIDDEN
     }
   }
 
   async componentDidUpdate(prevProps) {
-    const pose = this.props.showCard ? VISIBLE : HIDDEN
-
-    if (pose !== this.state.pose) {
-      // if just becoming available, delay for a second
-      if (this.props.showCard) {
-        await setTimeoutAsync(1500)
-      }
-      this.setState({ pose })
+    if (this.props.showCard !== prevProps.showCard) {
+      this.setState({ pose: this.props.showCard ? VISIBLE : HIDDEN })
     }
   }
 

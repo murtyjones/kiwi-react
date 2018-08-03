@@ -24,7 +24,7 @@ const styles = theme => ({
 
 const CENTERED = 'CENTERED'
 
-let Thing = ({ className, children, hostRef, src }) =>
+let Section = ({ className, children, hostRef, src }) =>
   <div
     style={ {
       height: '100%',
@@ -52,7 +52,7 @@ let Thing = ({ className, children, hostRef, src }) =>
 
 const duration = 1500
 
-Thing = posed(Thing)({
+Section = posed(Section)({
   [CENTERED]: {
     x: 0, y: 0, transition: { duration }
   },
@@ -74,12 +74,12 @@ Thing = posed(Thing)({
 class MapSection extends Component {
   constructor(props) {
     super()
-
+    // lots of refactor work needed in this component to
+    // make it work well with all the various sections needed
     this.state = {
-      prevSectionIndex: props.activeSectionIndex,
-      thingOneActive: true,
+      thingOneActive: props.activeSectionIndex === 0,
       imagesBySection: preload(lessonMapImagesBySection),
-      pose: CENTERED
+      pose: props.activeSectionIndex === 0 ? CENTERED : NAV_OPTIONS.DOWN
     }
   }
 
@@ -89,7 +89,6 @@ class MapSection extends Component {
 
   UNSAFE_componentWillUpdate(nextProps) {
     if (nextProps.activeSectionIndex !== this.props.activeSectionIndex) {
-      this.setState({ prevSectionIndex: this.props.activeSectionIndex })
       const activeSectionNavigationData = lessonMapNavigationDataBySection[this.props.activeSectionIndex]
       const directionKeyIndex = findIndex(Object.values(activeSectionNavigationData.adjacentSectionIndices), {
         sectionIndex: nextProps.activeSectionIndex
@@ -98,48 +97,45 @@ class MapSection extends Component {
         const pose = this.state.pose === CENTERED
           ? Object.keys(activeSectionNavigationData.adjacentSectionIndices)[directionKeyIndex]
           : CENTERED
-        this.setState({ pose, thingOneActive: !this.state.thingOneActive })
+        this.setState({ pose })
       }
     }
   }
 
   render() {
     const {
-      activeLessonId, orderedCombinedLessonData, lessonJustCompletedId, classes, activeSectionIndex
+      activeLessonId, orderedCombinedLessonData, lessonJustCompletedId, classes
     } = this.props
-    const { pose, thingOneActive, imagesBySection, prevSectionIndex } = this.state
-
-    const thingOneSectionIndex = thingOneActive ? activeSectionIndex : prevSectionIndex
-    const thingTwoSectionIndex = thingOneActive ? prevSectionIndex   : activeSectionIndex
+    const { pose, imagesBySection } = this.state
 
     return (
       <div className={ classes.root }>
 
-        <Thing // thing 1
+        <Section // 0
           pose={ pose }
           className={ classes.thing1 }
-          src={ imagesBySection[thingOneSectionIndex].src }
+          src={ imagesBySection[0].src }
         >
           <MapBubbles
             lessonJustCompletedId={ lessonJustCompletedId }
             orderedCombinedLessonData={ orderedCombinedLessonData }
             activeLessonId={ activeLessonId }
-            sectionIndex={ thingOneSectionIndex }
+            sectionIndex={ 0 }
           />
-        </Thing>
+        </Section>
 
-        <Thing // thing 2
+        <Section
           pose={ pose }
           className={ classes.thing2 }
-          src={ imagesBySection[thingTwoSectionIndex].src }
+          src={ imagesBySection[1].src }
         >
           <MapBubbles
             lessonJustCompletedId={ lessonJustCompletedId }
             orderedCombinedLessonData={ orderedCombinedLessonData }
             activeLessonId={ activeLessonId }
-            sectionIndex={ thingTwoSectionIndex }
+            sectionIndex={ 1 }
           />
-        </Thing>
+        </Section>
 
       </div>
     )

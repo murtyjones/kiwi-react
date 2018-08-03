@@ -62,10 +62,7 @@ class LessonMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.defaultActiveSectionIndex !== prevProps.defaultActiveSectionIndex &&
-      this.props.defaultActiveSectionIndex === this.state.activeSectionIndex
-    ) {
+    if (this.props.defaultActiveSectionIndex !== prevProps.defaultActiveSectionIndex) {
       this.updateActiveSectionIndex(this.props.defaultActiveSectionIndex)
     }
   }

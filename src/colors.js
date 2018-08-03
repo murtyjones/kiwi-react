@@ -9,6 +9,7 @@ export const darkerGrey = '#333333'
 
 export const black = '#000000'
 
+export const darkPurple = '#5a2bad'
 export const purple = '#624F8F'
 export const lightPurple = '#9575C9'
 export const lighterPurple = '#c2a0ff'

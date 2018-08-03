@@ -22,7 +22,7 @@ export const lessonBubbleDisplayDataBySection = [
   ],
   [ // sectionIndex 1
     { x: 22, y: 52, left: undefined },  // lessonIndex 19
-    // { x: 80, y: 77, left: undefined },
+    { x: 80, y: 77, left: undefined },
     // { x: 88, y: 72, left: undefined },
     // { x: 86, y: 42, left: undefined },
     // { x: 92, y: 47, left: undefined },  // lessonIndex 23
