@@ -86,8 +86,8 @@ const styles = theme => ({
     color: babyBlue2,
     whiteSpace: 'pre',
     position: 'relative',
-    bottom: '5px',
-    right: '5px'
+    bottom: 2,
+    right: 5
   },
   caret: {
     float: 'left',
@@ -95,15 +95,15 @@ const styles = theme => ({
     height: '14px',
     background: mainGrey,
     position: 'relative',
-    bottom: '3px',
-    right: '3px',
+    bottom: 0,
+    right: 3,
   },
   typeYourAnswer: {
     color: mainGrey,
     fontSize: '8pt',
     position: 'relative',
-    bottom: '6px',
-    left: '2px'
+    bottom: 3,
+    left: 2
   },
   typeYourAnswerOffset: {
     marginLeft: '7px' // simply using the 'right' property would cutoff the text for some reason
