@@ -5,7 +5,10 @@ export const isPastPastPeriodEnd = subscription =>
   moment.unix(subscription.currentPeriodEnd).isBefore()
 
 export const isSubscriptionValid = subscription => {
-  if (subscription.status !== SUBSCRIPTION_STATUSES.ACTIVE) {
+  if (!subscription)
+    return false
+
+  if (!subscription.status !== SUBSCRIPTION_STATUSES.ACTIVE) {
     if (
       !subscription.cancelAtPeriodEnd ||
       isPastPastPeriodEnd(subscription)
@@ -13,5 +16,6 @@ export const isSubscriptionValid = subscription => {
       return false
     }
   }
+
   return true
 }

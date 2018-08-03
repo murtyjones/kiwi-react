@@ -156,6 +156,9 @@ let MapBubble = props => {
   const message = isAvailable ? lesson.title : 'Locked!'
   const hasBeenCompleted = get(userLesson, 'hasBeenCompleted', false)
 
+  if (!isAvailable)
+    return null
+
   const linkWrapper = children => isAvailable && _id ?
     <Link to={ `/lessons/${_id}` }>{ children }</Link>
     : children
