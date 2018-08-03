@@ -4,7 +4,6 @@ const path = require('path')
 const webpack = require('webpack')
 const prodConfig = require('../config/prod.json')
 
-
 module.exports = {
   mode: 'production',
   devtool: 'cheap-module-source-map',
