@@ -47,7 +47,6 @@ const styles = theme => ({
   mapBubbleContainer: {
     position: 'relative',
     display: 'inline-block',
-    zIndex: 21,
   },
   lessonTitleLeft: {
     transform: 'translateX(100%)'
@@ -84,7 +83,6 @@ const styles = theme => ({
       textTransform: 'uppercase',
       fontSize: '1vw',
       fontWeight: 400,
-      zIndex: 0,
       borderRadius: '20vw',
       transition: 'all .3s ease'
     }
@@ -167,7 +165,14 @@ let MapBubble = props => {
       className={ cns(classes.root, {
         'hvr-pulse-inverse': isLatestActive, [classes.clickable]: isAvailable
       } ) }
-      style={ { left: `${x}%`, top: `${y}%` } }
+      style={ {
+        left: `${x}%`,
+        top: `${y}%`,
+        // we need to be able to label "over" the labels that are to a bubble's left,
+        // so we make the z-index go up for each bubble, so that it has priority over
+        // the one before it
+        zIndex: i
+      } }
     >
       <div className={ classes.mapBubbleContainer }>
         <div className={ cns(classes.lessonProgress ) }>

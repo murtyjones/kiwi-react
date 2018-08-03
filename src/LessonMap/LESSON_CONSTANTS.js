@@ -3,13 +3,13 @@ export const lessonBubbleDisplayDataBySection = [
     { x: 19, y: 36, left: undefined },  // lessonIndex 0
     { x: 19, y: 48, left: undefined },
     { x: 18, y: 63, left: undefined },
-    { x: 21, y: 74, left: undefined },
-    { x: 32, y: 75, left: undefined },
+    { x: 21, y: 74, left: true      },
+    { x: 32, y: 75, left: true      },
     { x: 43, y: 74, left: undefined },
     { x: 43, y: 59, left: undefined },
     { x: 38, y: 45, left: undefined },
-    { x: 41, y: 25, left: undefined },
-    { x: 47, y: 19, left: undefined },
+    { x: 41, y: 25, left: true      },
+    { x: 47, y: 19, left: true      },
     { x: 54, y: 14, left: undefined },
     { x: 61, y: 13, left: undefined },
     { x: 68, y: 14, left: undefined },
@@ -60,6 +60,10 @@ export const lessonMapNavigationDataBySection = [
 ]
 
 export const lessonMapImagesBySection = [
-  'https://res.cloudinary.com/kiwi-prod/image/upload/v1533175249/Map/section1.svg',
-  'https://res.cloudinary.com/kiwi-prod/image/upload/v1533175247/Map/section2.svg',
+  {
+    src: 'https://res.cloudinary.com/kiwi-prod/image/upload/v1533258547/Map/section1.svg',
+  },
+  {
+    src: 'https://res.cloudinary.com/kiwi-prod/image/upload/v1533258551/Map/section2.svg',
+  }
 ]

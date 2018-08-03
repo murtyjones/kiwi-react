@@ -247,8 +247,8 @@ class TopBar extends PureComponent {
                 open={ Boolean(anchorEl) }
                 onClose={ this.handleClose }
               >
-                <MenuItem onClick={ () => this.goTo('/lessons')  }>Student Map</MenuItem>
-                <MenuItem onClick={ () => this.goTo('/admin/lessons')  }>Edit Lessons</MenuItem>
+                <MenuItem onClick={ () => this.goTo('/lessons') }>Student Map</MenuItem>
+                <MenuItem onClick={ () => this.goTo('/admin/lessons') }>Edit Lessons</MenuItem>
                 <MenuItem onClick={ () => this.goTo('/admin/variables') }>Global User Variables</MenuItem>
                 <MenuItem onClick={ () => this.goTo('/admin/subscriptions') }>Subscriptions</MenuItem>
                 <MenuItem onClick={ () => this.goTo('/admin/signups') }>Signups</MenuItem>

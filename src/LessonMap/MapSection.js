@@ -12,6 +12,8 @@ import { preload } from './imageUtils'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 import MapBubbles from './MapBubbles'
 
+const maxHeight = 'calc(100vh - 60px)'
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -28,13 +30,29 @@ const styles = theme => ({
 const CENTERED = 'CENTERED'
 
 let Thing = ({ className, children, hostRef, src }) =>
-  <div style={ { position: 'relative' } } ref={ hostRef }>
+  <div
+    style={ {
+      height: '100%',
+      width: '100%',
+      position: 'relative'
+    } }
+     ref={ hostRef }
+  >
+    <div
+      style={ {
+        position: 'absolute',
+        height: '100%',
+        width: 'calc((100vh - 60px) * 1366 / 768)',
+        bottom: 0,
+        right: 0
+      } }
+    >
     <img
       className={ className }
-      style={ { width: '100%', height: '100%' } }
       src={ src }
     />
     { children }
+    </div>
   </div>
 
 const duration = 1500

@@ -1,18 +1,12 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import cns from 'classnames'
-import withStyles from "@material-ui/core/styles/withStyles";
-
-const maxHeight = 'calc(100vh - 60px)'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 const styles = () => ({
   root: {
-    width: '100vw'
-    , maxWidth: `calc(${maxHeight} * 1366 / 768)`
-    , height: 'calc(100vw * 768 / 1366)'
-    , maxHeight: maxHeight
-    , margin: 'auto auto'
-    , position: 'relative'
+    width: '100%'
+    , height: '100%'
+    , backgroundColor: '#46c7f4'
   }
 })
 
