@@ -226,37 +226,33 @@ class TopBar extends PureComponent {
 
           { showMiddleSection &&
             <Grid item className={ classes.middle } xs={ 6 }>
-              <Fragment>
-                <button onClick={ () => this.props.history.push('/lessons') }>
-                  Map
-                </button>
-                { isAdmin &&
-                  <button
-                    aria-owns={ anchorEl ? 'admin-menu' : null }
-                    aria-haspopup='true'
-                    onClick={ this.handleClick }
-                  >
-                    Admin
-                    <ExpandMore className={ classes.expandIcon }/>
-                  </button>
-                }
-                { (isAdmin || isProvider) &&
-                  <button onClick={ () => this.props.history.push('/provider/dashboard') }>
-                    PaReNt ZoNe
-                  </button>
-                }
-                <Menu
-                  id='admin-menu'
-                  anchorEl={ anchorEl }
-                  open={ Boolean(anchorEl) }
-                  onClose={ this.handleClose }
+              { isAdmin &&
+                <button
+                  aria-owns={ anchorEl ? 'admin-menu' : null }
+                  aria-haspopup='true'
+                  onClick={ this.handleClick }
                 >
-                  <MenuItem onClick={ () => this.goTo('/admin/lessons')  }>Edit Lessons</MenuItem>
-                  <MenuItem onClick={ () => this.goTo('/admin/variables') }>Global User Variables</MenuItem>
-                  <MenuItem onClick={ () => this.goTo('/admin/subscriptions') }>Subscriptions</MenuItem>
-                  <MenuItem onClick={ () => this.goTo('/admin/signups') }>Signups</MenuItem>
-                </Menu>
-              </Fragment>
+                  Admin
+                  <ExpandMore className={ classes.expandIcon }/>
+                </button>
+              }
+              { (isAdmin || isProvider) &&
+                <button onClick={ () => this.props.history.push('/provider/dashboard') }>
+                  Back to parent dashboard
+                </button>
+              }
+              <Menu
+                id='admin-menu'
+                anchorEl={ anchorEl }
+                open={ Boolean(anchorEl) }
+                onClose={ this.handleClose }
+              >
+                <MenuItem onClick={ () => this.goTo('/lessons')  }>Student Map</MenuItem>
+                <MenuItem onClick={ () => this.goTo('/admin/lessons')  }>Edit Lessons</MenuItem>
+                <MenuItem onClick={ () => this.goTo('/admin/variables') }>Global User Variables</MenuItem>
+                <MenuItem onClick={ () => this.goTo('/admin/subscriptions') }>Subscriptions</MenuItem>
+                <MenuItem onClick={ () => this.goTo('/admin/signups') }>Signups</MenuItem>
+              </Menu>
             </Grid>
           }
 
