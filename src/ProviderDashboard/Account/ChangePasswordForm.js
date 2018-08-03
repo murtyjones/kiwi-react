@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
-import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import { Field, reduxForm, getFormValues } from 'redux-form'
-import Button from '@material-ui/core/Button'
-import { Toggle, SelectField } from 'redux-form-material-ui'
-import isEmpty from 'lodash/isEmpty'
+import withStyles from '@material-ui/core/styles/withStyles'
 import get from 'lodash/get'
 
-import renderTextField from '../../common/renderTextField'
 import KiwiTextField from '../../common/form/KiwiTextField'
+import SubmitButton from '../../common/form/SubmitButton'
+import ResultMessage from '../../common/form/ResultMessage'
 
 export const formName = 'changePassword'
 
@@ -33,14 +31,33 @@ class ChangePasswordForm extends Component {
 
   static propTypes = {
     initialValues: T.object.isRequired
+    , classes: T.object.isRequired
     , handleSubmit: T.func.isRequired
+    , error: T.string.isRequired
+    , submitting: T.string.isRequired
+    , submitFailed: T.bool.isRequired
+    , submitSucceeded: T.bool.isRequired
+  }
+
+  renderSuccessMessage = () => {
+    const { classes } = this.props
+    return (
+      <span className={ classes.success }>Your password has been changed!</span>
+    )
+  }
+
+  renderErrorMessage = () => {
+    const { error, classes } = this.props
+    return (
+      <span className={ classes.failure }>{ get(error, 'error_description', error) }</span>
+    )
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, submitFailed, submitSucceeded, error } = this.props
+    const { classes, handleSubmit, submitting, submitFailed, submitSucceeded } = this.props
 
     return (
-      <form onSubmit={ handleSubmit } style={ styles.form }>
+      <form onSubmit={ handleSubmit } className={ classes.form }>
         <Field
           name='currentPassword'
           type='password'
@@ -59,14 +76,20 @@ class ChangePasswordForm extends Component {
           label='Confirm New Password'
           component={ KiwiTextField }
         />
-        <Button variant='outlined' type='submit' onClick={ handleSubmit } disabled={ pristine || submitting }>
-          Change Password
-        </Button>
-        { submitting && <span>Saving...</span> }
-        <div style={ styles.result }>
-          { submitFailed && error && <span style={ styles.failure }>{ get(error, 'error_description', error) }</span> }
-          { submitSucceeded && <span style={ styles.success }>Your password has been changed!</span> }
-        </div>
+
+        <SubmitButton
+          text='Change Password'
+          { ...this.props }
+          disabled={ submitting }
+        />
+
+        { (submitSucceeded || submitFailed) &&
+          <ResultMessage
+            { ...this.props }
+            successMessage={ this.renderSuccessMessage() }
+            error={ this.renderErrorMessage() }
+          />
+        }
       </form>
     )
   }
@@ -77,6 +100,8 @@ ChangePasswordForm = connect(
     formValues: getFormValues(formName)(state)
   })
 )(ChangePasswordForm)
+
+ChangePasswordForm = withStyles(styles, { withTheme: true })(ChangePasswordForm)
 
 export default reduxForm({
   form: formName

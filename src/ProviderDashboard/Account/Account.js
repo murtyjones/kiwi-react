@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import isEmpty from 'lodash/isEmpty'
+import { SubmissionError } from 'redux-form'
 
 import Section from '../../common/Section'
 import AccountForm from './AccountForm'
@@ -18,7 +18,11 @@ class Account extends Component {
 
   static propTypes = {
     initialValues: T.object
+    , profile: T.object
     , putProfile: T.func.isRequired
+    , changePassword: T.func.isRequired
+    , resendVerificationEmail: T.func.isRequired
+    , userId: T.string.isRequired
   }
 
   handleAccountSubmit = async v => {
@@ -31,8 +35,9 @@ class Account extends Component {
   }
 
   handleChangePasswordSubmit = async (params) => {
+    const { userId } = this.props
     try {
-      const result = await this.props.changePassword(params)
+      const result = await this.props.changePassword({ ...params, _id: userId })
       if (result.success) {
         throw { message: 'Could not be done right now. Please try again later.' }
       }
