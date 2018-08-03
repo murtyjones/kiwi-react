@@ -21,10 +21,7 @@ const styles = theme => ({
     overflow: 'hidden'
   },
   thing1: {},
-  thing2: {
-    position: 'relative',
-    top: -4
-  },
+  thing2: {},
 })
 
 const CENTERED = 'CENTERED'
