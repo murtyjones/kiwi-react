@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { postLesson, putLesson, getLesson, getManyVariables, postTestCheckAnswer } from '../../actions'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
+import { SubmissionError } from 'redux-form'
+
 import LessonForm from './LessonForm'
 
 class AddOrEditLesson extends Component {
@@ -23,7 +25,9 @@ class AddOrEditLesson extends Component {
     , postLesson: T.func.isRequired
     , putLesson: T.func.isRequired
     , postTestCheckAnswer: T.func.isRequired
+    , getManyVariables: T.func.isRequired
     , initialValues: T.object.isRequired
+    , history: T.object.isRequired
     , variables: T.array.isRequired
 
   }
@@ -44,20 +48,27 @@ class AddOrEditLesson extends Component {
     }
   }
 
-  handleSubmit = (params) => {
+  handleSubmit = async (params) => {
     const { postLesson, putLesson } = this.props
     const _id = params._id
     const id = params.id
-    if (_id) {
-      delete params._id
-      params.id = _id
-      return putLesson(params)
-    } else if (id) {
-      return putLesson(params)
-    }
-    return postLesson(params).then(res => {
+    try {
+      let res
+      if (_id) {
+        delete params._id
+        params.id = _id
+        res = await putLesson(params)
+        return res
+      } else if (id) {
+        res = await putLesson(params)
+        return res
+      }
+      res = await postLesson(params)
       this.props.history.push(`/admin/lessons/${res._id}`)
-    })
+    } catch (err) {
+      console.error(err)
+      throw new SubmissionError({ _error: err.message })
+    }
   }
 
   render() {

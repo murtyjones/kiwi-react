@@ -12,7 +12,7 @@ export default class SubmitButton extends PureComponent {
     const { text = 'Submit', onClick, pristine, submitting, invalid, alwaysEnable, alwaysDisable, className } = this.props
 
     const disabled = (pristine || submitting || invalid || alwaysDisable) && !alwaysEnable
-
+    console.log(this.props)
     return (
       <Fragment>
         <Button

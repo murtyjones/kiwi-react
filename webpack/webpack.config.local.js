@@ -22,7 +22,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../build/js'),
     filename: '[name].bundle.js',
-    publicPath: '/'
+    publicPath: '/build/js/'
   },
   module: {
     rules: [

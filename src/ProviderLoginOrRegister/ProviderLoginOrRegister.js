@@ -16,16 +16,20 @@ import ForgotPasswordForm from './ForgotPasswordForm'
 
 const styles = theme => ({
   root: {
-    backgroundColor: '#f0f8fb',
+    width: '100%'
+    , backgroundColor: '#f0f8fb'
+    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1533305498/Landing%20Page/Landing_Page_Final_v3.svg)'
+    , backgroundPosition: 'center bottom'
+    , backgroundRepeat: 'no-repeat'
+    , backgroundSize: '100%'
+    , paddingTop: 200
+  },
+  formContainer: {
     color: '#624f8f',
     width: 450,
     margin: '0 auto',
     height: '100vh',
-    display: 'flex',
     alignItems: 'center'
-  },
-  formContainer: {
-    width: '100%'
   },
   header: {
     textAlign: 'center',
