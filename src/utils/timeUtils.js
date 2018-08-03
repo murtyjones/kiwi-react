@@ -14,7 +14,8 @@ export const isTokenNearExpiration = (expTimestamp) => {
 
 export const hasTokenExpired = (expTimestamp) => {
   const currentTimestampInSeconds = Math.floor(Date.now() / 1000)
-
+  console.log(expTimestamp)
+  console.log(currentTimestampInSeconds)
   return expTimestamp - currentTimestampInSeconds < 0
 }
 

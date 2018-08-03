@@ -208,7 +208,7 @@ export default class AuthService {
   static isAuthenticated() {
     const token = this.getToken()
     const exp = this.getTokenExp()
-    const isTokenExpiredOrNear = hasTokenExpired(exp)
-    return !!token && !isTokenExpiredOrNear
+    const isTokenExpired = hasTokenExpired(exp)
+    return !!token && !isTokenExpired
   }
 }

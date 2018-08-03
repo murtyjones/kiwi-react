@@ -1,21 +1,26 @@
 import { tokenNeedsRefresh } from './timeUtils'
-import { refreshToken } from '../actions/Auth'
+import { refreshToken, signout } from '../actions/Auth'
 import store from '../Store'
 import AuthService from './AuthService'
 
 const authService = new AuthService()
 
-const timeInMilliSeconds = 60 * 10 * 1000 // every 10 minutes
+setInterval(() => {
+  if (!AuthService.isAuthenticated()) {
+    store.dispatch(signout())
+  }
+}, 1000 * 30) // every 30 seconds
 
 setInterval(() => {
   let exp = AuthService.getTokenExp() // static method
   let iat = AuthService.getTokenIat() // static method
+
   const needsRefresh = tokenNeedsRefresh(exp, iat)
   if (!!exp && !!iat && needsRefresh) {
     console.log('refreshing token')
     getNewToken()
   }
-}, timeInMilliSeconds)
+}, 60 * 10 * 1000) // every 10 minutes
 
 
 export const getNewToken = async () => {

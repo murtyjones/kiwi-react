@@ -23,12 +23,13 @@ const styles = theme => ({
     , backgroundRepeat: 'no-repeat'
     , backgroundSize: '100%'
     , paddingTop: 200
+    , height: '100vh'
+    , boxSizing: 'border-box'
   },
   formContainer: {
     color: '#624f8f',
     width: 450,
     margin: '0 auto',
-    height: '100vh',
     alignItems: 'center'
   },
   header: {
