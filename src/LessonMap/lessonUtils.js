@@ -93,10 +93,42 @@ export const getSectionEndingLessonIndex = (activeSectionIndex) => {
   }, -1)
 }
 
+export const getSectionStartingLessonIndex = (activeSectionIndex) => {
+  return lessonBubbleDisplayDataBySection.reduce((acc, each, idx) => {
+    if (idx < activeSectionIndex) {
+      acc += each.length
+    }
+    return acc
+  }, 0)
+}
 
-export const getIsLastLessonInSectionCompleted = (endingLessonIndex, orderedCombinedLessonData) => {
+
+export const getIsLastLessonInSectionCompleted = (activeSectionIndex, orderedCombinedLessonData) => {
+  const endingLessonIndex = getSectionEndingLessonIndex(activeSectionIndex)
   const combinedLessonData = orderedCombinedLessonData[endingLessonIndex]
-  return get(combinedLessonData, 'userLesson.hasBeenCompleted')
+  return get(combinedLessonData, 'userLesson.hasBeenCompleted', false)
+}
+
+export const isNextSectionOrSectionsUnlocked = (activeSectionIndex, orderedCombinedLessonData) => {
+  if (!getIsLastLessonInSectionCompleted(activeSectionIndex, orderedCombinedLessonData)) {
+    return false
+  }
+
+  const { adjacentSectionIndices } = lessonMapNavigationDataBySection[activeSectionIndex]
+
+  return Object.values(adjacentSectionIndices).reduce((acc, each, idx) => {
+    const navArrowDirection = Object.keys(adjacentSectionIndices)[idx]
+
+    if(
+      doesSectionUnlockDirection(navArrowDirection, activeSectionIndex) &&
+      getIsSectionNavArrowUnlocked({ navArrowDirection, orderedCombinedLessonData, activeSectionIndex }) &&
+      doesRequireLessonsCompletion(navArrowDirection, activeSectionIndex)
+    ) {
+      acc = true
+    }
+    return acc
+  }, false)
+
 }
 
 export const doesRequireLessonsCompletion = (navArrowDirection, activeSectionIndex) => {
@@ -110,6 +142,7 @@ export const isSectionAdjacent = (navArrowDirection, activeSectionIndex) => {
   const { sectionIndex } = adjacentSectionIndices[navArrowDirection] || {}
   return isNumeric(sectionIndex)
 }
+
 
 export const doesSectionUnlockDirection = (navArrowDirection, activeSectionIndex) => {
   const { adjacentSectionIndices } = lessonMapNavigationDataBySection[activeSectionIndex]
@@ -129,8 +162,7 @@ export const getIsSectionNavArrowUnlocked = params => {
     return true
   }
 
-  const endingLessonIndex = getSectionEndingLessonIndex(activeSectionIndex)
-  return getIsLastLessonInSectionCompleted(endingLessonIndex, orderedCombinedLessonData)
+  return getIsLastLessonInSectionCompleted(activeSectionIndex, orderedCombinedLessonData)
 }
 
 
@@ -139,3 +171,6 @@ export const getArrowSectionIndex = (navArrowDirection, activeSectionIndex) => {
   const { sectionIndex } = adjacentSectionIndices[navArrowDirection] || {}
   return sectionIndex
 }
+
+export const getIsFinalSection = activeSectionIndex =>
+  lessonBubbleDisplayDataBySection.length - 1 === activeSectionIndex

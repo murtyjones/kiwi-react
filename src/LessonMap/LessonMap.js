@@ -15,6 +15,8 @@ import { darkerGrey } from '../colors'
 import MapNavigationControls from './MapNavigationControls'
 import MapViewport from './MapViewport'
 import MapSection from './MapSection'
+import AllCompletedCard from './AllCompletedCard'
+import {getIsLastLessonInSectionCompleted} from "./lessonUtils";
 
 const styles = theme => ({
   root: {
@@ -49,7 +51,6 @@ class LessonMap extends Component {
     , classes: T.object.isRequired
     , activeLessonId: T.string
     , defaultActiveSectionIndex: T.number.isRequired
-    , activeSections: T.array.isRequired
   }
 
   componentDidMount() {
@@ -77,6 +78,10 @@ class LessonMap extends Component {
     const { classes, activeLessonId, orderedCombinedLessonData } = this.props
     const { lessonJustCompletedId, activeSectionIndex } = this.state
 
+    const isNextSectionOrSectionsUnlocked = lessonUtils.isNextSectionOrSectionsUnlocked(activeSectionIndex, orderedCombinedLessonData)
+    const isLastLessonInSectionComplete = lessonUtils.getIsLastLessonInSectionCompleted(activeSectionIndex, orderedCombinedLessonData)
+    const isFinalSection = lessonUtils.getIsFinalSection(activeSectionIndex)
+
     return (
       <div className={ classes.root }>
         <MapViewport>
@@ -93,6 +98,9 @@ class LessonMap extends Component {
             orderedCombinedLessonData={ orderedCombinedLessonData }
             activeLessonId={ activeLessonId }
             activeSectionIndex={ activeSectionIndex }
+          />
+          <AllCompletedCard
+            showCard={ !isNextSectionOrSectionsUnlocked && isLastLessonInSectionComplete && isFinalSection }
           />
         </MapViewport>
       </div>
