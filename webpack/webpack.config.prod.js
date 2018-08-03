@@ -6,7 +6,7 @@ const prodConfig = require('../config/prod.json')
 
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   devtool: 'cheap-module-source-map',
   context: path.join(__dirname, '../'),
   entry: {
