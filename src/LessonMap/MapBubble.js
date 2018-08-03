@@ -130,6 +130,7 @@ const styles = theme => ({
 })
 
 const placeHolderLesson = {
+  isPlaceholder: true,
   lesson: { _id: null },
   userLesson: {
     trueCompletionPercentage: 0,
@@ -150,13 +151,17 @@ let MapBubble = props => {
   const order = i + 1
   const isLatestActive = activeLessonId === combinedLessonUserLesson.lesson._id
   const isAvailable = LESSON_STATUSES.AVAILABLE === getLessonStatus(orderedCombinedLessonData, _id, activeLessonId)
+  const isNext = get(orderedCombinedLessonData, `[${i - 1}].lesson._id`, '') === activeLessonId
   const completionPercentage = get(userLesson, 'trueCompletionPercentage', 0)
   const isJustCompleted = lessonJustCompletedId && lessonJustCompletedId === lesson._id
   const isLeftLabel = left !== undefined ? left : x > 50
   const message = isAvailable ? lesson.title : 'Locked!'
   const hasBeenCompleted = get(userLesson, 'hasBeenCompleted', false)
 
-  if (!isAvailable)
+  if (combinedLessonUserLesson.isPlaceholder)
+    return null
+
+  if (!isAvailable && !isNext)
     return null
 
   const linkWrapper = children => isAvailable && _id ?
