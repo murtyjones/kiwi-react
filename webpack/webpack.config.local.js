@@ -3,7 +3,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const localConfig = require('../config/default.json')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 process.env.BABEL_ENV = 'local-webpack'
 module.exports = {
@@ -22,7 +21,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '../build/js'),
-    filename: '[name].[hash].bundle.js',
+    filename: '[name].bundle.js',
     publicPath: '/'
   },
   module: {
@@ -45,10 +44,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Kiwi Compute',
-      template: 'src/index.html'
-    }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu|en-gb|en-ca/),
     new webpack.HotModuleReplacementPlugin()
   ],
