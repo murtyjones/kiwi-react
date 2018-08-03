@@ -20,8 +20,8 @@ import ResultMessage from '../../common/form/ResultMessage'
 import NewProvideeProfileForm from './NewProvideeProfileForm'
 import EditProvideeProfileForm from './EditProvideeProfileForm'
 import SubscriptionsTable from './SubscriptionsTable'
-import CopyLink from "../../common/CopyLink/CopyLink";
-import config from "config";
+import CopyLink from '../../common/CopyLink/CopyLink'
+import config from 'config'
 
 const styles = theme => ({
   addStudent: {
