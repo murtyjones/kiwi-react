@@ -1,7 +1,7 @@
 export const lessonBubbleDisplayDataBySection = [
   [ // sectionIndex 0
     { x: 19, y: 36, left: undefined },  // lessonIndex 0
-    { x: 19, y: 48, left: undefined },
+    // { x: 19, y: 48, left: undefined },
     // { x: 18, y: 63, left: undefined },
     // { x: 21, y: 74, left: true      },
     // { x: 32, y: 75, left: true      },
