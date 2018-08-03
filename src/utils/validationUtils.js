@@ -31,3 +31,6 @@ export const alphaNumeric = value =>
 export const cardValid = cardObject => {
   return !!cardObject.error ? cardObject.error.message : undefined
 }
+
+export const mustBeChecked = v =>
+  !v ? 'You must accept our terms of service to continue!' : undefined

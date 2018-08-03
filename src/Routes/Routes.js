@@ -26,6 +26,8 @@ import ProviderDashboard from '../ProviderDashboard/ProviderDashboard'
 import EmailVerification from '../EmailVerification/EmailVerification'
 import BetaLessons from '../BetaLessons/BetaLessons'
 import InvalidSubscription from '../InvalidSubscription/InvalidSubscription'
+import Terms from '../Terms/Terms'
+import PrivacyPolicy from '../PrivacyPolicy/PrivacyPolicy'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
@@ -95,6 +97,8 @@ class Routes extends Component {
         <PlainRoute path='/signout' exact component={ SignOut } />
         <PlainRoute path='/python' exact component={ StandaloneEditor } />
         <PlainRoute path='/email-verification' exact component={ EmailVerification } />
+        <PlainRoute path='/terms' exact component={ Terms } />
+        <PlainRoute path='/privacy' exact component={ PrivacyPolicy } />
         {/* ----------------- */}
         {/* Logged in routes  */}
         {/* ----------------- */}

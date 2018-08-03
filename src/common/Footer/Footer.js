@@ -67,9 +67,17 @@ let Footer = ({ classes, openModal, isAboutPage = false }) =>
         : <Link to='/about'>About</Link>
       }
       <span className={ classes.divider }>|</span>
-      <Link to='#'>Kiwi Blog</Link>
+      <a
+        rel='noopener noreferrer'
+        href='https://medium.com/@kiwicompute'
+        target='_blank'
+      >
+        Kiwi Blog
+      </a>
       <span className={ classes.divider }>|</span>
-      <Link to='#'>Legal</Link>
+      <Link to='/terms'>Terms of Service</Link>
+      <span className={ classes.divider }>|</span>
+      <Link to='/privacy'>Privacy Policy</Link>
     </div>
 
     <div className={ classes.socialContainer }>

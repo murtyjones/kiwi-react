@@ -33,7 +33,7 @@ export const providerSignupSlide = {
   Component: ProviderSignup
   , SideComponent: SalesBox
   , FieldComponent: Fields
-  , names: [ 'email', 'password', 'confirmPassword' ]
+  , names: [ 'email', 'password', 'confirmPassword', 'termsAcceptance' ]
   , headerText: `First, let's make your account.`
   , submitText: 'Sign Me Up!'
 }
