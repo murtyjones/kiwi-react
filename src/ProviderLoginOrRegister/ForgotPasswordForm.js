@@ -12,10 +12,14 @@ import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import ResultMessage from "../common/form/ResultMessage";
 
-// http://localhost:3000/provider/login?email=marty%40kiwicompute.com&success=true&message=You%20can%20now%20login%20to%20the%20application%20with%20the%20new%20password.
 
 const styles = theme => ({
   form: {},
+  label: {
+    textAlign: 'center',
+    WebkitTextAlign: 'center',
+    marginBottom: 20,
+  },
   resetPasswordResult: {
     textAlign: 'center',
     padding: '25px 0',
@@ -27,10 +31,11 @@ const styles = theme => ({
 
 })
 
-let LoginForm = props => {
+let ForgotPasswordForm = props => {
   const { classes, handleSubmit } = props
   return (
     <form className={ classes.form }  onSubmit={ handleSubmit }>
+      <div className={ classes.label }>Please enter the e-mail address you signed up with.</div>
       <Field
         name='email'
         type='text'
@@ -41,42 +46,30 @@ let LoginForm = props => {
           shrink: true
         } }
       />
-      <Field
-        name='password'
-        type='password'
-        label='Password'
-        component={ KiwiTextField }
-        StartAdornmentIcon={ LockOutline }
-        addlInputLabelProps={ {
-          shrink: true
-        } }
-      />
       <SubmitButton variant='outlined'
         { ...props }
-        text='Login'
+        text='Send Reset Password Email'
       />
-
       <ResultMessage
         { ...props }
+        successMessage='Email sent. Please check your inbox!'
       />
     </form>
   )
 }
 
-LoginForm = reduxForm({
+
+ForgotPasswordForm = reduxForm({
   // a unique name for the form
-  form: 'login',
+  form: 'forgotPassword',
   validate: values => {
     const errors = {}
     if (!values.email) {
       errors.email = 'Required!'
     }
-    if (!values.password) {
-      errors.password = 'Required!'
-    }
 
     return errors
   }
-})(LoginForm)
+})(ForgotPasswordForm)
 
-export default withStyles(styles, { withTheme: true })(LoginForm)
+export default withStyles(styles, { withTheme: true })(ForgotPasswordForm)

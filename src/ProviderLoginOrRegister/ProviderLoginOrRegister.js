@@ -6,21 +6,36 @@ import find from 'lodash/find'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 import queryString from 'query-string'
+import Link from 'react-router-dom/Link'
 
-import { openTopBar, closeTopBar, login, register } from '../actions'
-import LoginForm from './LoginForm'
-import RegisterForm from './RegisterForm'
+import { openTopBar, closeTopBar, login, resetPasswordRequest, register } from '../actions'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
+
+import LoginForm from './LoginForm'
+import ForgotPasswordForm from './ForgotPasswordForm'
 
 const styles = theme => ({
   root: {
-    width: '100vw',
+    backgroundColor: '#f0f8fb',
+    color: '#624f8f',
+    width: 450,
+    margin: '0 auto',
     height: '100vh',
     display: 'flex',
     alignItems: 'center'
   },
   formContainer: {
     width: '100%'
+  },
+  header: {
+    textAlign: 'center',
+    WebkitTextAlign: 'center',
+    margin: '0 0 15px 0'
+  },
+  logo: {
+    display: 'block',
+    width: 130,
+    margin: '0 auto 50px auto'
   },
   switchText: {
     display: 'block',
@@ -32,16 +47,20 @@ const styles = theme => ({
 class ProviderLoginOrRegister extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      forgotPassword: false
+    }
   }
 
   static propTypes = {
     greeting: T.string
     , login: T.func
     , signout: T.func
+    , resetPasswordRequest: T.func
     , register: T.func
     , history: T.any
     , location: T.any
+    , classes: T.object
   }
 
   handleLoginSubmit = async(v) => {
@@ -59,91 +78,45 @@ class ProviderLoginOrRegister extends PureComponent {
     }
   }
 
-  handleRegisterSubmit = async(v) => {
-    const { register, login } = this.props
-    const { email, password } = v
+  handleForgotPassword = async(v) => {
+    const { resetPasswordRequest } = this.props
+    const { email } = v
 
     try {
-      await register({ email, password })
-      await login({ email, password })
-      this.props.history.push('/provider/dashboard')
-    } catch (e) {
+      await resetPasswordRequest({ email })
+    } catch(e) {
       console.error(e)
-      if (JSON.stringify(e).includes('User already exists')) {
-        throw new SubmissionError({ email: 'Username taken!', _error: 'Registration failed!' })
-      } else if (e.message && JSON.stringify(e.message).toLowerCase().includes('email')) {
-        throw new SubmissionError({ email: e.message, _error: 'Registration failed!' })
-      } else if (e.message && JSON.stringify(e.message).toLowerCase().includes('pass validation for format email')) {
-        throw new SubmissionError({ email: "Your email can only contain alphanumeric characters and '_', '+', '-', or '.'", _error: 'Registration failed!' })
-      } else {
-        throw new SubmissionError({ email: e.message, _error: 'Registration failed!' })
-      }
+      throw new SubmissionError({ password: '', _error: e.message })
     }
-  }
-
-  getResetPasswordSuccess = () => {
-    const { location: { search } } = this.props
-    const parsedSearch = queryString.parse(search)
-    if (!parsedSearch.success) {
-      return undefined
-    }
-    return parsedSearch.success === 'true'
-  }
-
-
-  renderLoginForm = props => {
-    const resetPasswordSuccess = this.getResetPasswordSuccess()
-    return (
-      <LoginForm
-        onSubmit={ this.handleLoginSubmit }
-        resetPasswordSuccess={ resetPasswordSuccess }
-      />
-    )
-  }
-
-  renderRegisterForm = () => {
-    const resetPasswordSuccess = this.getResetPasswordSuccess()
-    return (
-      <RegisterForm
-        onSubmit={ this.handleRegisterSubmit }
-        resetPasswordSuccess={ resetPasswordSuccess }
-      />
-    )
-  }
-
-  switchTabs = () => {
-    const { location, history } = this.props
-    const to = location.pathname === '/provider/login' ? 'provider/register' : '/provider/login'
-    history.push(to)
   }
 
   render() {
-    const { classes, location: { pathname } } = this.props
-    const switchText = pathname === '/provider/login' ? 'No account? Register here!' : 'Already registered? Sign in here!'
-    const availableRoutes = [
-      {
-        path: '/provider/login',
-        component: this.renderLoginForm
-      },
-      {
-        path: '/provider/register',
-        component: this.renderRegisterForm
-      }
-    ]
-    const currentRoute = find(availableRoutes, { path: pathname })
-
-    const ComponentToRender = () => { return currentRoute.component() }
+    const { classes } = this.props
+    const { forgotPassword } = this.state
 
     return (
       <div className={ classes.root }>
         <div className={ classes.formContainer }>
-          <span
-            className={ classes.switchText }
-            onClick={ this.switchTabs }
-          >
-            { switchText }
-          </span>
-          <ComponentToRender />
+          <img
+            src='../../assets/images/landing-logo-dark.svg'
+            className={ classes.logo }
+          />
+          <h1 className={ classes.header }>
+            { !forgotPassword ? 'Parent Login' : 'Reset Your Password' }
+          </h1>
+          { !forgotPassword
+            ?
+              <LoginForm
+                onSubmit={ this.handleLoginSubmit }
+              />
+            :
+              <ForgotPasswordForm
+                onSubmit={ this.handleForgotPassword }
+              />
+          }
+          { !forgotPassword &&
+            <Link to='#' onClick={ () => this.setState({ forgotPassword: true }) }>Forgot Password?</Link>
+          }
         </div>
       </div>
     )
@@ -164,9 +137,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     login: params => dispatch(login(params))
+    , resetPasswordRequest: p => dispatch(resetPasswordRequest(p))
     , register: params => dispatch(register(params))
     , openTopBar: () => dispatch(openTopBar())
-    , closeTopBar: () => dispatch(closeTopBar())
+    , closeTopBdar: () => dispatch(closeTopBar())
   }
 }
 

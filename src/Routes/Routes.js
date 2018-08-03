@@ -93,7 +93,6 @@ class Routes extends Component {
         <PlainRoute path='/login' exact component={ LoginOrRegister } />
         <PlainRoute path='/register' exact component={ LoginOrRegister } />
         <PlainRoute path='/provider/login' exact component={ ProviderLoginOrRegister } />
-        <PlainRoute path='/provider/register' exact component={ ProviderLoginOrRegister } />
         <PlainRoute path='/signout' exact component={ SignOut } />
         <PlainRoute path='/python' exact component={ StandaloneEditor } />
         <PlainRoute path='/email-verification' exact component={ EmailVerification } />
