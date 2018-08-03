@@ -1,4 +1,3 @@
-
 import React, { PureComponent, Fragment } from 'react'
 import * as T from 'prop-types'
 import BluebirdPromise from 'bluebird'

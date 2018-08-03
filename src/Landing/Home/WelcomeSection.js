@@ -10,7 +10,7 @@ const styles = theme => ({
     , width: '100%'
     , position: 'relative'
     , overflow: 'hidden'
-    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1531758417/Landing%20Page/Landing_Page_Final_v2.svg)'
+    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1533305498/Landing%20Page/Landing_Page_Final_v3.svg)'
     , backgroundPosition: 'center bottom'
     , backgroundRepeat: 'no-repeat'
     , backgroundSize: '100%'

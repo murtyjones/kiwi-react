@@ -20,7 +20,7 @@ import { openModal, closeModal, postMessage } from '../../actions'
 const styles = {
   homeContentContainer: {
     width: '100%'
-    , backgroundColor: '#daede5'
+    , backgroundColor: '#f0f8fb'
     , color: '#FFFFFF'
     , fontFamily: 'Arvo'
     , position: 'relative' // needed for abs children
