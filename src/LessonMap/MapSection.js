@@ -5,7 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import findIndex from 'lodash/findIndex'
 import posed from 'react-pose'
 
-import { lessonMapNavigationDataBySection, lessonMapImagesBySection, NAV_OPTIONS } from './LESSON_CONSTANTS'
+import { lessonBubbleDisplayDataBySection, lessonMapNavigationDataBySection, lessonMapImagesBySection, NAV_OPTIONS } from './LESSON_CONSTANTS'
 import { preload } from './imageUtils'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 import MapBubbles from './MapBubbles'
@@ -111,31 +111,23 @@ class MapSection extends Component {
     return (
       <div className={ classes.root }>
 
-        <Section // 0
-          pose={ pose }
-          className={ classes.thing1 }
-          src={ imagesBySection[0].src }
-        >
-          <MapBubbles
-            lessonJustCompletedId={ lessonJustCompletedId }
-            orderedCombinedLessonData={ orderedCombinedLessonData }
-            activeLessonId={ activeLessonId }
-            sectionIndex={ 0 }
-          />
-        </Section>
-
-        <Section
-          pose={ pose }
-          className={ classes.thing2 }
-          src={ imagesBySection[1].src }
-        >
-          <MapBubbles
-            lessonJustCompletedId={ lessonJustCompletedId }
-            orderedCombinedLessonData={ orderedCombinedLessonData }
-            activeLessonId={ activeLessonId }
-            sectionIndex={ 1 }
-          />
-        </Section>
+        {
+          lessonBubbleDisplayDataBySection.map((_, i) =>
+            <Section
+              key={ i }
+              pose={ pose }
+              className={ classes.thing1 }
+              src={ imagesBySection[i].src }
+            >
+              <MapBubbles
+                lessonJustCompletedId={ lessonJustCompletedId }
+                orderedCombinedLessonData={ orderedCombinedLessonData }
+                activeLessonId={ activeLessonId }
+                sectionIndex={ i }
+              />
+            </Section>
+          )
+        }
 
       </div>
     )
