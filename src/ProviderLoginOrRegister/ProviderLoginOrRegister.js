@@ -22,7 +22,7 @@ const styles = theme => ({
     , backgroundPosition: 'center bottom'
     , backgroundRepeat: 'no-repeat'
     , backgroundSize: '100%'
-    , paddingTop: 200
+    , paddingTop: '10vh'
     , height: '100vh'
     , boxSizing: 'border-box'
   },
