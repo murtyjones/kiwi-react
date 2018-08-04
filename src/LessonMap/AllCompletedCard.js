@@ -8,6 +8,9 @@ import { lightPurple, purple } from '../colors'
 
 const HIDDEN = 'HIDDEN'
 const VISIBLE = 'VISIBLE'
+const TUCKED = 'TUCKED'
+const UNTUCKED = 'UNTUCKED'
+
 const duration = 600
 const clipPath = 'polygon(' +
       '0% 0%, '     + /* top left */
@@ -26,6 +29,7 @@ const cardHeight = 230
 
 const styles = () => ({
   root: {
+    cursor: 'pointer',
     color: '#FFF',
     position: 'absolute',
     top: '15%',
@@ -76,7 +80,6 @@ const styles = () => ({
     marginBottom: 15
   },
   close: {
-    cursor: 'pointer',
     fontSize: '10pt',
     '&:hover': {
       textDecoration: 'underline'
@@ -84,8 +87,8 @@ const styles = () => ({
   }
 })
 
-let Card = ({ hostRef, classes, onClose }) =>
-  <div ref={ hostRef } className={ classes.root }>
+let Card = ({ hostRef, classes, onClick }) =>
+  <div ref={ hostRef } onClick={ onClick } className={ classes.root }>
     <div className={ classes.inset1 }>
       <div className={ classes.inset2 }>
         <img
@@ -99,7 +102,7 @@ let Card = ({ hostRef, classes, onClose }) =>
             <br />
             Check back soon to continue your adventure!
           </div>
-          <span onClick={ onClose } className={ classes.close }>CLOSE</span>
+          <span className={ classes.close }>CLOSE</span>
         </div>
       </div>
     </div>
@@ -111,6 +114,12 @@ Card = posed(Card)({
   },
   [VISIBLE]: {
     x: 0, y: 0, delay: 1500, transition: { duration }
+  },
+  [TUCKED]: {
+    x: '-90%', y: 0, transition: { duration }
+  },
+  [UNTUCKED]: {
+    x: 0, y: 0, transition: { duration }
   },
 })
 
@@ -134,8 +143,9 @@ class AllCompletedCard extends Component {
     classes: T.object.isRequired,
   }
 
-  handleClose = () => {
-    this.setState({ pose: HIDDEN })
+  toggleTucking = () => {
+    const pose = (this.state.pose === VISIBLE || this.state.pose === UNTUCKED) ? TUCKED : UNTUCKED
+    this.setState({ pose })
   }
 
   render () {
@@ -146,7 +156,7 @@ class AllCompletedCard extends Component {
       <Card
         pose={ pose }
         classes={ classes}
-        onClose={ this.handleClose }
+        onClick={ this.toggleTucking }
       />
     )
   }

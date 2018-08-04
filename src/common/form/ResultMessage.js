@@ -24,7 +24,7 @@ const ErrorMessage = props => {
 }
 
 ErrorMessage.propTypes = {
-  successMessage: T.string,
+  successMessage: T.any,
   submitSucceeded: T.bool,
   submitFailed: T.bool,
   error: T.string

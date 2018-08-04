@@ -6,6 +6,8 @@
 }
 
 .letsGoBottomButton {
+    font-family: Arvo;
+    background: transparent;
     color: #FFFFFF;
     padding: 10px 30px;
     border-radius: 25px;

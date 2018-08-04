@@ -72,10 +72,11 @@ class DynamicHeader extends PureComponent {
     }
 
     let buttonStyle = {
+      fontFamily: 'Arvo',
       position: 'fixed',
       top: `calc(${topSlogan}vh + 15vh)`,
       left: '50%',
-      width: '120px',
+      // width: '120px',
       marginLeft: '-85px',
       backgroundColor: '#624F8F',
       color: '#FFFFFF',
@@ -91,6 +92,8 @@ class DynamicHeader extends PureComponent {
 
     if (textMass <= fixPoint) {
       buttonStyle = {
+        fontFamily: 'Arvo',
+        background: 'transparent',
         position: 'fixed',
         top: '25px',
         right: 'calc(35px + 50px)', // accounts for transform below
@@ -119,13 +122,13 @@ class DynamicHeader extends PureComponent {
         </span>
 
 
-        <div
+        <button
           className={ cns(classes.dynamicCTAButton, 'hvr-grow') }
           style={ buttonStyle }
           onClick={ this.props.onClick }
         >
           Sign Me Up!
-        </div>
+        </button>
 
       </Fragment>
     )

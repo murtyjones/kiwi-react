@@ -57,6 +57,17 @@ const styles = () => ({
     '&:hover': {
       opacity: 1.0
     }
+  },
+  '@global': {
+    'button': {
+      WebkitTouchCallout: 'none', /* iOS Safari */
+      WebkitUserSelect: 'none', /* Safari */
+      KhtmlUserSelect: 'none', /* Konqueror HTML */
+      MozUserSelect: 'none', /* Firefox */
+      MsUserSelect: 'none', /* Internet Explorer/Edge */
+      userSelect: 'none' /* Non-prefixed version, currently supported by Chrome and Opera */
+    }
+
   }
 })
 

@@ -25,6 +25,7 @@ class MapBubbles extends Component {
 
   render() {
     const { classes, activeLessonId, sectionIndex, lessonJustCompletedId, orderedCombinedLessonData } = this.props
+
     const sectionLessonsBubbleDisplayData = lessonBubbleDisplayDataBySection[sectionIndex]
     const sectionStartingLessonIndex = lessonUtils.getSectionStartingLessonIndex(sectionIndex)
 

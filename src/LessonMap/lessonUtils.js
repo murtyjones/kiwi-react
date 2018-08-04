@@ -114,11 +114,11 @@ export const isNextSectionOrSectionsUnlocked = (activeSectionIndex, orderedCombi
     return false
   }
 
-  const { adjacentSectionIndices } = lessonMapNavigationDataBySection[activeSectionIndex]
+  const { adjacentSectionIndices } = lessonMapNavigationDataBySection[activeSectionIndex] || {}
 
   return Object.values(adjacentSectionIndices).reduce((acc, each, idx) => {
     const navArrowDirection = Object.keys(adjacentSectionIndices)[idx]
-
+    
     if(
       doesSectionUnlockDirection(navArrowDirection, activeSectionIndex) &&
       getIsSectionNavArrowUnlocked({ navArrowDirection, orderedCombinedLessonData, activeSectionIndex }) &&

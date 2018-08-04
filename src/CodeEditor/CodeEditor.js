@@ -18,9 +18,10 @@ import { offWhite } from '../colors'
 import './overrides.css'
 
 const defaultOptions = {
-  lineNumbers: true
-  , lineWrapping: false
-  , mode: 'text/x-python'
+  mode: 'text/x-python',
+  lineNumbers: true,
+  lineWrapping: false,
+  indentUnit: 4
 }
 
 const styles = theme => ({

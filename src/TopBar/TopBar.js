@@ -179,7 +179,8 @@ class TopBar extends PureComponent {
     const { anchorEl } = this.state
 
 
-    if (!isOpen) return null
+    if (!isOpen)
+      return null
 
     return (
       <AppBar
@@ -188,7 +189,7 @@ class TopBar extends PureComponent {
       >
         <Grid container className={ classes.grid } spacing={ 24 }>
 
-          <Grid item className={ classes.gridItem} xs={ showMiddleSection ? 3 : 6 }>
+          <Grid item className={ classes.gridItem } xs={ showMiddleSection ? 3 : 6 }>
 
             { !!breadcrumbLink &&
               <Link to={ breadcrumbLink ? breadcrumbLink : '/' }>
@@ -203,10 +204,12 @@ class TopBar extends PureComponent {
             }
 
             { showLogo &&
-              <img
-                height='100%'
-                src='../../assets/images/landing-logo.svg'
-              />
+              <Link to={ isProvider ? '/provider/dashboard' : '/lessons' }>
+                <img
+                  height='100%'
+                  src='../../assets/images/landing-logo.svg'
+                />
+              </Link>
             }
 
             { !showLogo && // if logo, no title
@@ -238,7 +241,7 @@ class TopBar extends PureComponent {
               }
               { (isAdmin || isProvider) &&
                 <button onClick={ () => this.props.history.push('/provider/dashboard') }>
-                  Back to parent dashboard
+                  Parent Dashboard
                 </button>
               }
               <Menu
