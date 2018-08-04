@@ -4,7 +4,9 @@ import has from 'lodash/has'
 
 const styles = {
   button: {
-    display: 'inline-block'
+    fontFamily: 'Roboto'
+    , fontSize: '12pt'
+    , display: 'inline-block'
     , position: 'absolute'
     , width: '140px'
     , height: '40px'
@@ -36,7 +38,7 @@ const styles = {
 }
 
 export const PrevButton = ({ onPrevClick, globalColors }) =>
-  <div
+  <button
     key='prevButton'
     id='prevButton'
     className={ cns('prevButton', { 'disabled': !onPrevClick }) }
@@ -45,15 +47,15 @@ export const PrevButton = ({ onPrevClick, globalColors }) =>
       , ...styles.prevButton
       , backgroundColor: globalColors.textColor
       , color: globalColors.primaryColor
-      , cursor: onPrevClick ? 'pointer' : ''
+      , cursor: onPrevClick ? 'pointer' : 'default'
     } }
     onClick={ onPrevClick }
   >
     Previous
-  </div>
+  </button>
 
 export const NextButton = ({ onNextClick, globalColors }) =>
-  <div
+  <button
     key='nextButton'
     id='nextButton'
     className={ cns('nextButton', { 'disabled': !onNextClick }) }
@@ -62,28 +64,28 @@ export const NextButton = ({ onNextClick, globalColors }) =>
       , ...styles.nextButton
       , backgroundColor: globalColors.textColor
       , color: globalColors.primaryColor
-      , cursor: onNextClick ? 'pointer' : ''
+      , cursor: onNextClick ? 'pointer' : 'default'
     } }
     onClick={ onNextClick }
   >
     Next
-  </div>
+  </button>
 
 
 export const CheckAnswerButton = ({ onClick }) =>
-  <div
+  <button
     key='checkAnswerButton'
     id='checkAnswerButton'
     className={ cns('checkAnswerButton', { 'disabled': !onClick }) }
     style={ {
       ...styles.button
       , ...styles.checkAnswerButton
-      , cursor: onClick ? 'pointer': ''
+      , cursor: onClick ? 'pointer': 'default'
     } }
     onClick={ onClick }
   >
     Check Answer
-  </div>
+  </button>
 
 
 const ActionBar = ({ onCheckAnswer, onPrevClick, onNextClick, globalColors, includesSuccessCriteria, slideAnswerData = {} }) => {

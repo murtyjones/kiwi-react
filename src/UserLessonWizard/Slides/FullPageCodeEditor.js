@@ -117,23 +117,23 @@ const styles = theme => ({
     bottom: 20,
     position: 'absolute',
     textAlign: 'center',
-    '& div': {
+    '& button': {
+      position: 'relative',
+      top: 13,
       cursor: 'pointer',
       display: 'inline',
       color: 'white',
-      margin: '10px auto',
       fontSize: '18px',
       fontWeight: 'bold',
       borderRadius: '5px',
       border: '2px solid rgba(0,0,0,0.5)',
       padding: '10px 20px',
       marginRight: 20,
-      opacity: 0.85,
       '&:hover': {
-        opacity: 1
+        boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.3)'
       },
       '&:active': {
-        boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.3)'
+        boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.3)'
       },
       '&.dabblewopperRun': {
         backgroundColor: '#ad3e3c',
@@ -220,17 +220,17 @@ class FullPageCodeEditor extends PureComponent {
             <button disabled={ true }>""</button>
           </div>
           <div className={ classes.dabblewopperControls }>
-            <div className='dabblewopperRun'
+            <button className='dabblewopperRun'
               onClick={ onRunCode }
             >
               Run Code
-            </div>
+            </button>
             { slideData.hasHint &&
-              <div className='dabblewopperHint'
+              <button className='dabblewopperHint'
                 onClick={ this.toggleIsExampleActive }
               >
                 Hint
-              </div>
+              </button>
             }
           </div>
         </div>
