@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import { Provider } from 'react-redux'
 import Router from 'react-router-dom/BrowserRouter'
-import 'babel-polyfill'
-import 'raf/polyfill' // polyfill
 import WebFont from 'webfontloader'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import LegacyMuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
