@@ -187,11 +187,11 @@ describe('UserLessonWizard', () => {
 
     describe('render', () => {
       it('should render one forward button to start', async () => {
-        expect(component.find('div[id="nextButton"]').length).toBe(1)
+        expect(component.find('button[id="nextButton"]').length).toBe(1)
       })
 
       it('should NOT render one back button to start', async () => {
-        expect(component.find('div[id="prevButton"]').length).toBe(0)
+        expect(component.find('button[id="prevButton"]').length).toBe(0)
       })
 
       it('should render the form', async () => {
@@ -237,7 +237,7 @@ describe('UserLessonWizard', () => {
 
       describe('slides 1 - 2', () => {
         it("should dispatch PUT request after clicking 'next' button", async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(dispatchSpy).toBeCalledWith({ type: ACTIONS.PUT_USER_LESSON_REQUEST })
           expect(dispatchSpy).toBeCalledWith({
@@ -248,19 +248,19 @@ describe('UserLessonWizard', () => {
 
         it("should change activeSlideIndex by 1 when clicking next button", async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
         })
 
         // it('should have the expected slide 2 title', async () => {
-        //   component.find('div[id="nextButton"]').at(0).simulate('click')
+        //   component.find('button[id="nextButton"]').at(0).simulate('click')
         //   await flushAllPromises()
         //   expect(component.find('div[id="title"]').length).toBe(1)
         // })
 
         it('should have the expected slide 2 instructions', async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('div[id="speechBubbleLabel"]').length).toBe(1)
           expect(component.find('div[id="speechBubble"]').length).toBe(1)
@@ -269,7 +269,7 @@ describe('UserLessonWizard', () => {
         })
 
         it('should call ApiFetch with expected params on next click', async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           delete userLesson._id
           expect(ApiFetch).toBeCalledWith(
@@ -296,9 +296,9 @@ describe('UserLessonWizard', () => {
 
       describe('slides 1 - 3', () => {
         it("should dispatch PUT request after clicking next button twice", async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(dispatchSpy).toBeCalledWith({
             type: ACTIONS.PUT_USER_LESSON_SUCCESS,
@@ -308,36 +308,36 @@ describe('UserLessonWizard', () => {
 
         it("should change activeSlideIndex to 2 when clicking next button twice", async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
         })
 
         it("should change activeSlideIndex back to 0 clicking next, then prev button", async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
-          component.find('div[id="prevButton"]').at(0).simulate('click')
+          component.find('button[id="prevButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
         it('should change the focus to slide 3 (full sized editor) when clicking next twice', async () => {
           expect(component.find('div[id="codeEditor"]').length).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('div[id="codeEditor"]').length).toBe(1)
         })
 
         it('should have the expected beginning slide 3 content when clicking next twice', async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('div[id="codeEditor"]').html()).toEqual(expect.stringContaining(userLesson.answerData[slide3Id].answer))
         })
@@ -345,11 +345,11 @@ describe('UserLessonWizard', () => {
 
       describe('slides 1 - 4', () => {
         it("should dispatch PUT request after clicking next button thrice", async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(dispatchSpy).toBeCalledWith({
             type: ACTIONS.PUT_USER_LESSON_SUCCESS,
@@ -359,44 +359,44 @@ describe('UserLessonWizard', () => {
 
         it("should change activeSlideIndex by 3 when clicking next button thrice", async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
         })
 
         it('should be able to progress to slide 4 and back', async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
-          component.find('div[id="prevButton"]').at(0).simulate('click')
+          component.find('button[id="prevButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
-          component.find('div[id="prevButton"]').at(0).simulate('click')
+          component.find('button[id="prevButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
-          component.find('div[id="prevButton"]').at(0).simulate('click')
+          component.find('button[id="prevButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
 
         it('should change the focus to slide 4', async () => {
           expect(component.find('div[className="fullPageExampleContainer"]').length).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('div[id="exampleContainer"]').length).toBe(1)
         })
@@ -405,11 +405,11 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[className="fullPageExplanation"]').length).toBe(0)
           expect(component.find('div[className="exampleLabel"]').length).toBe(0)
           expect(component.find('div[className="fullPageExample"]').length).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('div[id="speechBubbleLabel"]').length).toBe(1)
           expect(component.find('div[id="speechBubble"]').length).toBe(1)
@@ -420,13 +420,13 @@ describe('UserLessonWizard', () => {
 
       describe('slides 1 - 5', () => {
         it("should dispatch PUT request after clicking next button four times", async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(dispatchSpy).toBeCalledWith({
             type: ACTIONS.PUT_USER_LESSON_SUCCESS,
@@ -436,41 +436,41 @@ describe('UserLessonWizard', () => {
 
         it("should change activeSlideIndex by 4 when clicking next button four times", async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(4)
         })
 
         it('should be able to progress to slide 5 and back', async () => {
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(4)
-          component.find('div[id="prevButton"]').at(0).simulate('click')
+          component.find('button[id="prevButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(3)
-          component.find('div[id="prevButton"]').at(0).simulate('click')
+          component.find('button[id="prevButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(2)
-          component.find('div[id="prevButton"]').at(0).simulate('click')
+          component.find('button[id="prevButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(1)
-          component.find('div[id="prevButton"]').at(0).simulate('click')
+          component.find('button[id="prevButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').prop('activeSlideIndex')).toBe(0)
         })
@@ -482,13 +482,13 @@ describe('UserLessonWizard', () => {
           expect(component.find('div[id="choice1"]').length).toBe(0)
           expect(component.find('div[id="choice2"]').length).toBe(0)
           expect(component.find('div[id="choice3"]').length).toBe(0)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('div[id="choices"]').length).toBe(1)
           expect(component.find('div[id="speechBubble"]').length).toBe(1)
@@ -504,13 +504,13 @@ describe('UserLessonWizard', () => {
         })
 
         it('should allow choice selection', async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
 
           expect(component.find('div[id="choice1-selected"]').length).toBe(0)
@@ -520,17 +520,17 @@ describe('UserLessonWizard', () => {
         })
 
         it('should have a disabled next button to begin', async () => {
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
 
           expect(component.find('UserLessonWizardForm').length).toBe(1)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           expect(component.find('UserLessonWizardForm').length).toBe(1)
         })
@@ -543,20 +543,20 @@ describe('UserLessonWizard', () => {
 
           alreadyAnsweredResponse.after.answerData[slide5Id].isAnsweredCorrectly = true
 
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
 
           ApiFetch.mockImplementationOnce(() => Promise.resolve(alreadyAnsweredResponse)) // response from kiwi-api when updating a lesson
 
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
 
           expect(component.find('UserLessonWizardForm').length).toBe(1)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           // The component will unmount if this is the last slide and next is clicked.
           // NOTE: This test will break if a slide is added to the lesson object,
@@ -572,13 +572,13 @@ describe('UserLessonWizard', () => {
 
           correctAnswerResponse.after.answerData[slide5Id].isAnsweredCorrectly = true
 
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
 
           // make choice
@@ -588,12 +588,12 @@ describe('UserLessonWizard', () => {
           ApiFetch.mockImplementationOnce(() => Promise.resolve(correctAnswerResponse)) // response from kiwi-api when updating a lesson
 
           // send choice to server
-          component.find('div[id="checkAnswerButton"]').at(0).simulate('click')
+          component.find('button[id="checkAnswerButton"]').at(0).simulate('click')
           await flushAllPromises()
 
 
           expect(component.find('UserLessonWizardForm').length).toBe(1)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           // The component will unmount if this is the last slide and next is clicked.
           // NOTE: This test will break if a slide is added to the lesson object,
@@ -607,13 +607,13 @@ describe('UserLessonWizard', () => {
             , after: { ...userLesson }
           }
 
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
 
           // make choice
@@ -623,12 +623,12 @@ describe('UserLessonWizard', () => {
           ApiFetch.mockImplementationOnce(() => Promise.resolve(incorrectAnswerResponse)) // response from kiwi-api when updating a lesson
 
           // send choice to server
-          component.find('div[id="checkAnswerButton"]').at(0).simulate('click')
+          component.find('button[id="checkAnswerButton"]').at(0).simulate('click')
           await flushAllPromises()
 
 
           expect(component.find('UserLessonWizardForm').length).toBe(1)
-          component.find('div[id="nextButton"]').at(0).simulate('click')
+          component.find('button[id="nextButton"]').at(0).simulate('click')
           await flushAllPromises()
           // The component will unmount if this is the last slide and next is clicked.
           // NOTE: This test will break if a slide is added to the lesson object,
