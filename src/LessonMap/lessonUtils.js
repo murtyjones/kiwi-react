@@ -49,7 +49,7 @@ export const getActiveSectionIndex = orderedCombinedLessonData => {
   const activeLessonIndex = getActiveLessonIndex(orderedCombinedLessonData)
   let runningTotal = 0, alreadySet = false
   return lessonBubbleDisplayDataBySection.reduce((acc, sectionLocations, idx) => {
-    runningTotal += ~idx ? sectionLocations.length - 1 : sectionLocations.length
+    runningTotal += !idx ? sectionLocations.length - 1 : sectionLocations.length
     if (activeLessonIndex <= runningTotal && !alreadySet) {
       acc = idx
       alreadySet = true
