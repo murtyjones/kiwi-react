@@ -6,6 +6,8 @@ import WebFont from 'webfontloader'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import LegacyMuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { preload } from './utils/imageUtils'
+import { lessonMapImagesBySection } from './LessonMap/LESSON_CONSTANTS'
 
 // hover.css library
 import '../assets/css/hover.css'
@@ -63,14 +65,15 @@ const theme = createMuiTheme({
 })
 
 class App extends Component {
-
+  constructor(props) {
+    super(props)
+    // preload map assets
+    preload(lessonMapImagesBySection)
+  }
   static propTypes = {
     store: T.object.isRequired
   }
 
-  constructor(props) {
-    super(props)
-  }
 
   render() {
     const { store } = this.props
