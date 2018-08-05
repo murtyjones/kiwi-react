@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import * as T from 'prop-types'
 import cns from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -163,6 +164,16 @@ class EditorOutput extends Component {
     }
   }
 
+  static propTypes = {
+    classes: T.object.isRequired,
+    focusOnInputRef: T.func.isRequired,
+    setInputRef: T.func.isRequired,
+    editorOutput: T.string,
+    editorInput: T.string,
+    errorMsg: T.string,
+    inputDisabled: T.bool
+  }
+
   async UNSAFE_componentWillReceiveProps(nextProps) {
     const valueHasChanged = nextProps.value !== this.props.value
     if (nextProps.value && valueHasChanged) {
@@ -215,18 +226,23 @@ class EditorOutput extends Component {
   }
 
   render() {
-    const { classes, editorOutput, editorInput, errorMsg, setInputRef, inputDisabled } = this.props
+    const { classes, focusOnInputRef, editorOutput, editorInput, errorMsg, setInputRef, inputDisabled } = this.props
     const { value, showHint, fakeInputValue, caretVisible, caretBlinkingStatusVisible } = this.state
     const errorHintHTML = errorMsg
       ? getCustomErrorHint(editorInput, errorMsg) || getCommonErrorHint(errorMsg)
       : () => null
     return (
-      <div className={ cns({ 'outputError': errorMsg }, classes.container) }>
+      <div
+        onClick={ focusOnInputRef }
+        className={ cns({ 'outputError': errorMsg }, classes.container) }
+      >
         { !errorMsg
           ? (
             <pre id='editorOutput' className={ classes.pre }>
               { editorOutput }
-                <div className={ classes.fakeInputContainer }>
+                <div
+                  className={ classes.fakeInputContainer }
+                >
                   { fakeInputValue &&
                     <span className={ classes.fakeInputValue }>
                       { fakeInputValue }

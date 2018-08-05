@@ -14,6 +14,21 @@
     border-radius: 100%;
 }
 
+.kiwi-spinner {
+    background-image: url(../images/kiwi-spinner.svg);
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    height: 50px;
+    width: 50px;
+    margin: 0 auto;
+    position: relative;
+    -webkit-animation: rotation .6s infinite linear;
+    -moz-animation: rotation .6s infinite linear;
+    -o-animation: rotation .6s infinite linear;
+    animation: rotation .6s infinite linear;
+}
+
 @-webkit-keyframes rotation {
     from {
         -webkit-transform: rotate(0deg);
@@ -48,24 +63,4 @@
     to {
         transform: rotate(359deg);
     }
-}
-
-
-
-
-
-
-.kiwi-spinner {
-    background-image: url(../images/kiwi-spinner.svg);
-    background-position: center;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    height: 50px;
-    width: 50px;
-    margin: 0 auto;
-    position: relative;
-    -webkit-animation: rotation .6s infinite linear;
-    -moz-animation: rotation .6s infinite linear;
-    -o-animation: rotation .6s infinite linear;
-    animation: rotation .6s infinite linear;
 }
