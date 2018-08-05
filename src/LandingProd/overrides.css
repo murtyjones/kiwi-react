@@ -1,0 +1,40 @@
+.dynamicHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    padding: 20px 28px;
+    box-sizing: border-box;
+    z-index: 51;
+    transition: background 350ms ease-in-out;
+}
+
+.dynamicHeaderBackground {
+    background-color: #624F8F;
+}
+
+.homeLogo {
+    height: 100%;
+    margin: auto 0;
+    z-index: 20;
+}
+
+blockquote {
+    border-left: 10px solid #624F8F;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
+}
+blockquote:before {
+    color: #624F8F;
+    font-family: "Arvo Arial";
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+}
+blockquote p {
+    display: inline;
+}

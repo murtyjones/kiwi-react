@@ -15,6 +15,7 @@ import PlainRoute from './PlainRoute'
 
 import Loading from '../Loading/Loading'
 import Landing from '../Landing/Landing'
+import LandingProd from '../LandingProd/LandingProd'
 import StudentOnboarding from '../StudentOnboarding/StudentOnboarding'
 import UserProjects from '../UserProjects/UserProjects'
 import UserProject from '../UserProject/UserProject'
@@ -84,6 +85,11 @@ class Routes extends Component {
             <Landing />
           )
         )} />
+
+        <PlainRoute path='/landing' exact component={ LandingProd } />
+        <PlainRoute path='/landing/signup-modal' exact component={ LandingProd } />
+        <PlainRoute path='/landing/about' exact component={ LandingProd } />
+
         <PlainRoute path='/signup-modal' exact component={ Landing } />
         <PlainRoute path='/student' exact
           redirectIfMobile
