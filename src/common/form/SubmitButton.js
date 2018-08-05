@@ -28,7 +28,7 @@ export default class SubmitButton extends PureComponent {
           { text }
         </Button>
         { submitting &&
-          <div className='spinner'/>
+          <div className='kiwi-spinner'/>
         }
       </Fragment>
     )

@@ -84,7 +84,7 @@ class EditProvideeProfileForm extends Component {
           disabled={ loading }
         />
 
-        { loading && <div className='spinner' /> }
+        { loading && <div className='kiwi-spinner' /> }
 
         { (submitSucceeded || submitFailed) &&
           <ResultMessage
