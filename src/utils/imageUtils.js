@@ -26,21 +26,23 @@ export const preloadOneAsync = src => {
     }
 
     let image = new Image()
-    image.src = src
+
     image.onload = () => {
-      resolve(image)
+      return resolve(image)
     }
     image.onerror = e => {
-      console.log('hi')
-      reject(e)
+      return reject(e)
     }
+
+    // keep this after onload callback is set
+    image.src = src
   })
 }
 
-export const preloadMultipleAsync = array => {
+export const preloadMultipleAsync = async array => {
   const promises = cloneDeep(array).map(each => {
     const src = getSrc(each)
-    preloadOneAsync(src)
+    return preloadOneAsync(src)
   })
-  return promises
+  return BluebirdPromise.all(promises)
 }

@@ -70,8 +70,12 @@ class LessonMap extends Component {
 
   async UNSAFE_componentWillMount() {
     const { userId } = this.props
-    await preloadMultipleAsync(lessonMapImagesBySection)
     // retrieve lesson data
+
+    console.log('not laoded')
+    await preloadMultipleAsync(lessonMapImagesBySection)
+    console.log('loaded')
+
     await Promise.all([
       this.props.getManyLessons(),
       this.props.getManyUserLessons({ userId }),
