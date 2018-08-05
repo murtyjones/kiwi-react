@@ -90,6 +90,7 @@ class Root extends Component {
     , closeModal: T.func.isRequired
     , modal: T.object.isRequired
     , globalColors: T.object.isRequired
+    , classes: T.object.isRequired
     , userId: T.string.isRequired
   }
 
