@@ -10,7 +10,7 @@ import Link from 'react-router-dom/Link'
 const styles = () => ({
   root: {
     height: '100%',
-    width: '650px',
+    width: '900px',
     margin: 'auto',
     padding: '15vh 0 25vh 0',
     boxSizing: 'border-box'
@@ -58,163 +58,150 @@ const styles = () => ({
 
 let Terms = ({ classes }) =>
   <div className={ classes.root }>
-    <h1 className={ classes.header }>Customer Agreement</h1>
+    <h1 className={ classes.header }>Terms and Conditions</h1>
     <div className={ classes.body }>
 
-      <ol>
-        <li className={ classes.sectionLiHeading }>Scope</li>
-  
-        <ol type='a'>
-          <li>This Customer Agreement (“Agreement”) sets out the terms and conditions on which Kiwi Compute (“Kiwi Compute”) licenses you (you or your) to access, view and/or otherwise use (“Access”) the coding courses and projects (“Courses”) for which you register on Kiwi’s Website at www.kiwicompute.com (“Website”) and any documentation and materials provided by Kiwi Compute to you in relation to the Courses (“Materials”).</li>
-          <li>By registering for a Course on the Website, you accept the terms and conditions of this Agreement without limitation or qualification. This Agreement governs your Access to the Courses, and all updates and upgrades that replace, modify, enhance or supplement the Courses.</li>
-          <li>By checking the ‘Accept’ box, or by Accessing, downloading, installing or otherwise using the Courses, you agree to be bound by the terms of this Agreement. If you do not agree to the terms of this Agreement, do not Access the Courses. Kiwi Compute may change the terms of this Agreement from time to time by uploading new terms and conditions on the Website. By continuing to Access the Courses, you will be deemed to have accepted the amended terms. If you do not agree to the changes, you should notify us at Kiwi’s Website (kiwicompute.com) or cease to Access or otherwise use the Courses.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Registration</li>
-  
-        <ol type='a'>
-          <li>You acknowledge that where you register for a Course on the Website and Kiwi Compute establishes an account for you, you are responsible for the account and all activities that occur under or in connection with the account.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>License</li>
-  
-        <ol type='a'>
-          <li>In consideration of the payment by you of the relevant Course Fees, Kiwi Compute grants you a non-exclusive and non-transferable license to Access the Courses and Materials during the term (as described in Section 7) of this Agreement.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Fees and Payment</li>
-  
-        <ol type='a'>
-          <li>The Fees (recurring payments) for each subscription per user will be as notified on the Website.</li>
-          <li>Unless otherwise agreed in writing, you must pay all Fees in advance in accordance with the instructions set out on the Website.</li>
-          <li>Kiwi Compute may adjust the Fees at any time by posting the adjusted Fees on the Website.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Cancellation and Deactivation of Subscription</li>
-  
-        <ol type='a'>
-          <li>You are responsible for properly canceling or pausing your subscription. You can do so at any time by clicking on the subscriptions section of the student dashboard or visiting kiwicompute.com/provider/subscriptions. The subscription section allows you to stop recurring payments indeterminately.</li>
-          <li>If you deactivate your subscription before the end of your current billing cycle, your cancellation will be effective on the day the next cycle is set to start. In the meantime, you will retain access to our Service.</li>
-          <li>Kiwi Compute, in its sole discretion, has the right to suspend or terminate your account and refuse any and all current or future use of the Service, or any other of Kiwi Compute’s services, for any reason at any time. Such termination of the Service will result in the deactivation or deletion of your Account or your access to your Account. Kiwi Compute reserves the right to refuse service to anyone for any reason at any time.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Refunds</li>
-  
-        <ol type='a'>
-          <li>You may cancel your membership at any time at {config.shortHost}/provider/subscriptions, but your cancellation will not take effect until the end of your current commitment period (a one-month period). You will not be entitled to a refund for any membership fee already paid.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Access</li>
-  
-        <ol type='a'>
-          <li>Where you are registered as a parent of a student, you:</li>
-          <ol type='a'>
-            <li>may allow only the number of users for which you have paid the Fees to Access the applicable Courses;</li>
-            <li>must ensure that any usernames and passwords provided by Kiwi Compute are kept strictly confidential; and</li>
-            <li>must supervise and monitor Access to ensure that all users registered under your account comply with this Agreement and the Website Terms of Use.</li>
-          </ol>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Confidentiality</li>
-  
-        <ol type='a'>
-          <li>In this Agreement, Confidential Information means the Courses and any Materials, where such information is identified as confidential by Kiwi Compute.</li>
-          <li>You will keep confidential, and will not disclose to any other person, any Confidential Information unless:</li>
-          <ol type='a'>
-            <li>the disclosure is authorised in writing by Kiwi Compute;</li>
-            <li>the disclosure is required by law; or</li>
-            <li>the Confidential Information already is, or becomes, public knowledge, other than as a result of a breach by you of this Agreement.</li>
-          </ol>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Intellectual Property</li>
-  
-        <ol type='a'>
-          <li>In this Agreement, Intellectual Property means all patents, trademarks, trade names, designs, registered designs, domain names, trade secrets, formulations, inventions, models, plans, licences, know-how, databases, technical information, discoveries, ideas, data, research, results, reports, drawings, techniques, source code, rights in computer software, specifications, standards, methods, manuals, copyright in works and all rights or forms of protection of a similar nature, whether or not registered and any application to register any of these rights (where applicable).</li>
-          <li>You acknowledge and agree that: Kiwi Compute owns all Intellectual Property in the Courses and Materials, including in any updates or upgrades to the Courses and Materials; and nothing in this Agreement or otherwise has the effect of transferring any Intellectual Property in the Courses and Materials to you, unless otherwise agreed in writing.</li>
-          <li>You will not challenge or contest Kiwi Compute’s rights, or do anything that may adversely affect the validity or enforceability of Kiwi Compute’s rights, under this section 9.</li>
-          <li>Where Kiwi Compute grants to you a Creative Commons License in relation to any Courses or Materials, you must comply in all respects with the license terms as notified to you from time to time.</li>
-          <li>You must not (and must not allow any other person to):</li>
-          <ol type='a'>
-            <li>resell or redistribute the Courses or any Materials to any person other than as expressly authorised under this Agreement;</li>
-            <li>decompile, disassemble or reverse engineer the whole or any part of the Courses and Materials, to the maximum extent permitted by law; or</li>
-            <li>adapt or modify or create derivative works from the whole or any part of the Courses and Materials.</li>
-          </ol>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Updates</li>
-  
-        <ol type='a'>
-          <li>Kiwi Compute may provide updates or upgrades in respect of the Courses and Materials, at its sole discretion, from time to time.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Disclaimer of Warranties</li>
-  
-        <ol type='a'>
-          <li>The Courses are provided by Kiwi Compute on an ‘as is' basis without warranty of any kind, whether express or implied, and by Accessing the Courses you agree that your use of the Courses is at your sole risk.</li>
-          <li>To the maximum extent permitted by law, Kiwi Compute expressly excludes all warranties, express or implied, including (but not limited to) implied warranties of satisfactory quality, fitness for a particular purpose, non-infringement, compatibility, security and accuracy.</li>
-          <li>Kiw Compute does not warrant that the Courses will meet your requirements, or that the operation of the Courses will be uninterrupted or error-free, or that defects in the Courses will be corrected. Furthermore, Kiwi Compute does not make any warranties or representations regarding the use, or the results of the use, of the Courses and Materials in relation to their completeness, accuracy, reliability, or otherwise. No information or advice given by Kiwi Compute (or any agent of Kiwi Compute) creates a warranty or in any way increases the scope of this warranty. The entire risk arising out of the use or performance of the Courses remains with you.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Your Information</li>
-  
-        <ol type='a'>
-          <li>You acknowledge and agree that Kiwi Compute may collect and use information about you and any users registered under your account. Kiwi Compute will collect and use such information in accordance with its Privacy Policy.</li>
-          <li>If you are a teacher, you acknowledge and agree that you have obtained all parental consents required for the collection and use by us of your students’ personal information.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Limitation of Liability and Indemnity</li>
-  
-        <ol type='a'>
-          <li>Kiwi Compute’s liability under, or in connection with, this Agreement (whether in contract, tort or otherwise) is limited to the amount of the Fees paid by you at the time of the relevant event or breach.</li>
-          <li>Kiwi Compute is not liable for any special, indirect or consequential or similar damages arising out of or in connection with:</li>
-          <ol type='a'>
-            <li>any breach by Kiwi Compute of this Agreement; or</li>
-            <li>any defects and/or errors in the Courses.</li>
-          </ol>
-          <li>You indemnify Kiwi Compute against all costs, legal costs (including solicitor and client costs), expenses and claims directly or indirectly incurred or suffered by Kiwi Compute as a result of any breach by you of this Agreement.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Term and Termination</li>
-  
-        <ol type='a'>
-          <li>This Agreement commences on the date you register on the Website and will continue in effect until:</li>
-          <ol type='a'>
-            <li>it is terminated under this Section 14; or</li>
-            <li>you cease to be a customer of Kiwi Compute, whichever is the earlier.</li>
-          </ol>
-          <li>Kiwi Compute may immediately terminate this Agreement upon written notice to you if:</li>
-          <ol type='a'>
-            <li>you commit a material breach of this Agreement that is reasonably capable of being remedied, but has not been remedied within 20 working days after receiving a notice from Kiwi Compute requiring you to remedy the relevant breach; or you commit a material breach of this Agreement which is not capable of being remedied.</li>
-          </ol>
-          <li>Following termination of this Agreement for any reason or its expiry you will:</li>
-          <ol type='a'>
-            <li>cease all use of the Courses and Materials; and</li>
-            <li>immediately pay any outstanding Fees.</li>
-          </ol>
-          <li>Following termination or expiry of this Agreement, the provisions of Sections 4, 6, 7, 8 and this Section 13.4, and any other provisions of this Agreement which are required to give effect to those Sections, will remain in full force and effect.</li>
-        </ol>
-  
-        <li className={ classes.sectionLiHeading }>Miscellaneous</li>
-  
-        <ol type='a'>
-          <li>A party will not be liable for any failure or delay in complying with any obligation under this Agreement, if:</li>
-          <ol type='a'>
-            <li>the failure or delay arises directly from a cause reasonably beyond that party's control;</li>
-            <li>that party gives written notice of the occurrence or event to the other party; and</li>
-            <li>that party uses all reasonable endeavours to overcome or mitigate the effects of the event.</li>
-          </ol>
-          <li>The rights, powers and remedies in this Agreement are cumulative and are in addition to any rights, powers or remedies provided at law or in equity, unless specifically stated otherwise. Each party may pursue any remedy that it is entitled to pursue by law.</li>
-          <li>You may not assign or otherwise transfer any of your rights or obligations under this Agreement to any other person without Kiwi Compute’s prior written consent.</li>
-          <li>This Agreement record the entire agreement and understanding between the parties in relation to the subject matter of this Agreement, and supersedes and cancels all previous understandings or agreements (whether written, oral or both) between the parties, relating to that subject matter.</li>
-          <li>You will promptly sign all documents and perform any other acts that may be reasonably required to give effect to the provisions and intent of this Agreement.</li>
-          <li>This Agreement is governed by, and construed in accordance with, United States law. Each party irrevocably and unconditionally submits to the exclusive jurisdiction of the United States courts in connection with this Agreement.</li>
-          <li>It is the intention of the Parties to this Agreement that this Agreement and the performance under this Agreement, and all suits and special proceedings under this Agreement, be construed in accordance with and governed, to the exclusion of the law of any other forum, by the laws of Texas, without regard to the jurisdiction in which any action or special proceeding may be instituted.</li>
-          <li>Kiwi Compute will not be deemed to have waived any provision of this Agreement unless that waiver is in writing and signed by Kiwi Compute. Any such waiver will not be, or deemed to be, a waiver of any other right under this Agreement. Any failure or delay by Kiwi Compute to enforce any provision of this Agreement will not be considered to be a waiver of that provision.</li>
-          <li>If any provision of this Agreement is held to be illegal, invalid or unenforceable, then (to the maximum extent permitted by law) that provision will be severed from this Agreement, and this will not affect the validity or enforceability of the other provisions of this Agreement.</li>
-        </ol>
-        
-      </ol>
+      <p>Last updated: August 04, 2018</p>
+
+
+      <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the kiwicompute.com website (the "Service") operated by Kiwi Compute, LLC (“Kiwi Compute”, "us", "we", or "our").</p>
+
+      <p>Your access to and use of the Service is conditioned upon your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who wish to access or use the Service.</p>
+
+      <p>By accessing or using the Service, you agree to be bound by these Terms. If you disagree with any part of the terms, then you do not have permission to access the Service.</p>
+
+
+      <h2>Communications</h2>
+
+      <p>By creating an Account on our Service, you agree to subscribe to newsletters, marketing or promotional materials and other information we may send. However, you may opt out of receiving any, or all, of these communications from us by following the unsubscribe link or instructions provided in any email we send.</p>
+
+
+      <h2>Subscriptions</h2>
+
+      <p>The Service is billed on a subscription basis ("Subscription(s)"). You will be billed in advance on a recurring and periodic basis ("Billing Cycle"). Billing cycles are set either on a monthly or annual basis, depending on the type of subscription plan you select when purchasing a Subscription.</p>
+
+      <p>At the end of each Billing Cycle, your Subscription will automatically renew under the exact same conditions unless you cancel it or Kiwi Compute cancels it. You may cancel your Subscription renewal either through your online account management page.</p>
+
+      <p>If you deactivate your subscription before the end of your current billing cycle, your cancellation will be effective on the day the next cycle is set to start. In the meantime, you will retain access to our Service.</p>
+
+      <p>Kiwi Compute, in its sole discretion, has the right to suspend or terminate your account and refuse any and all current or future use of the Service, or any other of Kiwi Compute’s services, for any reason at any time. Such termination of the Service will result in the deactivation or deletion of your Account or your access to your Account. Kiwi Compute reserves the right to refuse service to anyone for any reason at any time.</p>
+
+
+      <p>A valid payment method with credit card is required to process the payment for your Subscription. You shall provide Kiwi Compute with accurate and complete billing information including full name, address, state, zip code, telephone number, and a valid payment method information. By submitting such payment information, you automatically authorize Kiwi Compute to charge all Subscription fees incurred through your account to any such payment instruments.</p>
+
+      <p>Should automatic billing fail to occur for any reason, Kiwi Compute will issue an electronic invoice indicating that you must proceed manually, within a certain deadline date, with the full payment corresponding to the billing period as indicated on the invoice.</p>
+
+
+      <h2>Fee Changes</h2>
+
+      <p>Kiwi Compute, in its sole discretion and at any time, may modify the Subscription fees for the Subscriptions. Any Subscription fee change will become effective at the end of the then-current Billing Cycle.</p>
+
+      <p>Kiwi Compute will provide you with a reasonable prior notice of any change in Subscription fees to give you an opportunity to terminate your Subscription before such change becomes effective.</p>
+
+      <p>Your continued use of the Service after the Subscription fee change comes into effect constitutes your agreement to pay the modified Subscription fee amount.</p>
+
+
+      <h2>Refunds</h2>
+
+      <p>You may cancel your membership at any time at https://stage.kiwicompute.com/provider/subscriptions, but your cancellation will not take effect until the end of your current commitment period (a one-month period). You will not be entitled to a refund for any membership fee already paid.</p>
+
+
+      <h2>Content</h2>
+
+      <p>Our Service may allow you to post, link, store, share and otherwise make available certain information, text, graphics, videos, or other material ("Content"). You are responsible for the Content that you post on or through the Service, including its legality, reliability, and appropriateness.</p>
+
+      <p>By posting Content on or through the Service, You represent and warrant that: (i) the Content is yours (you own it) and/or you have the right to use it and the right to grant us the rights and license as provided in these Terms, and (ii) that the posting of your Content on or through the Service does not violate the privacy rights, publicity rights, copyrights, contract rights or any other rights of any person or entity. We reserve the right to terminate the account of anyone found to be infringing on a copyright.</p>
+
+      <p>You retain any and all of your rights to any Content you submit, post or display on or through the Service and you are responsible for protecting those rights. We take no responsibility and assume no liability for Content you or any third party posts on or through the Service. However, by posting Content using the Service you grant us the right and license to use, modify, perform, display, reproduce, and distribute such Content on and through the Service.</p>
+
+      <p>Kiwi Compute has the right but not the obligation to monitor and edit all Content provided by users.</p>
+
+      <p>In addition, Content found on or through this Service are the property of Kiwi Compute or used with permission. You may not distribute, modify, transmit, reuse, download, repost, copy, or use said Content, whether in whole or in part, for commercial purposes or for personal gain, without express advance written permission from us.</p>
+
+
+      <h2>Accounts</h2>
+
+      <p>When you create an account with us, you guarantee that you are above the age of 18, and that the information you provide us is accurate, complete, and current at all times. Inaccurate, incomplete, or obsolete information may result in the immediate termination of your account on the Service.</p>
+
+      <p>You are responsible for maintaining the confidentiality of your account and password, including but not limited to the restriction of access to your computer and/or account. You agree to accept responsibility for any and all activities or actions that occur under your account and/or password, whether your password is with our Service or a third-party service. You must notify us immediately upon becoming aware of any breach of security or unauthorized use of your account.</p>
+
+      <p>You may not use as a username the name of another person or entity or that is not lawfully available for use, a name or trademark that is subject to any rights of another person or entity other than you, without appropriate authorization. You may not use as a username any name that is offensive, vulgar or obscene.</p>
+
+
+      <h2>Intellectual Property</h2>
+
+      <p>The Service and its original content (excluding Content provided by users), features and functionality are and will remain the exclusive property of Kiwi Compute and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of Kiwi Compute.</p>
+
+      <h2>Links To Other Web Sites</h2>
+
+      <p>Our Service may contain links to third party web sites or services that are not owned or controlled by Kiwi Compute. </p>
+
+      <p>Kiwi Compute has no control over, and assumes no responsibility for the content, privacy policies, or practices of any third party web sites or services. We do not warrant the offerings of any of these entities/individuals or their websites.</p>
+
+      <p>You acknowledge and agree that Kiwi Compute shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such third party web sites or services.</p>
+
+      <p>We strongly advise you to read the terms and conditions and privacy policies of any third party web sites or services that you visit.</p>
+
+
+      <h2>Termination</h2>
+
+      <p>We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.</p>
+
+      <p>If you wish to terminate your account, you may simply discontinue using the Service.</p>
+
+      <p>All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.</p>
+
+
+      <h2>Indemnification</h2>
+
+      <p>You agree to defend, indemnify and hold harmless Kiwi Compute and its licensee and licensors, and their employees, contractors, agents, officers and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees), resulting from or arising out of a) your use and access of the Service, by you or any person using your account and password; b) a breach of these Terms, or c) Content posted on the Service.</p>
+
+
+
+      <h2>Limitation of Liability</h2>
+
+      <p>In no event shall Kiwi Compute, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.</p>
+
+
+      <h2>Disclaimer</h2>
+
+      <p>Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.</p>
+
+      <p>Kiwi Compute, its subsidiaries, affiliates, and its licensors do not warrant that a) the Service will function uninterrupted, secure or available at any particular time or location; b) any errors or defects will be corrected; c) the Service is free of viruses or other harmful components; or d) the results of using the Service will meet your requirements.</p>
+
+
+      <h2>Exclusions</h2>
+
+      <p>Some jurisdictions do not allow the exclusion of certain warranties or the exclusion or limitation of liability for consequential or incidental damages, so the limitations above may not apply to you.</p>
+
+
+      <h2>Governing Law</h2>
+
+      <p>These Terms shall be governed and construed in accordance with the laws of Texas, United States, without regard to its conflict of law provisions.</p>
+
+      <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have had between us regarding the Service.</p>
+
+
+      <h2>Changes</h2>
+
+      <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
+
+      <p>By continuing to access or use our Service after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use the Service.</p>
+
+
+      <h2>Contact Us</h2>
+
+      <p>
+        If you have any questions about these Terms, please contact us at:
+
+        Email:
+        support@kiwicompute.com
+        Address:
+        Kiwi Compute
+        4000 Ave A #309
+        Austin, TX
+
+      </p>
 
 
 
