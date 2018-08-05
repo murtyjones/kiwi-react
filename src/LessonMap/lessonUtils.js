@@ -27,9 +27,14 @@ export const getActiveLessonId = orderedCombinedLessonData => {
 
 
 export const getActiveLessonIndex = orderedCombinedLessonData => {
-  return  findIndex(orderedCombinedLessonData, ({ lesson }) =>
+  const latestLessonIndex = findIndex(orderedCombinedLessonData, ({ lesson }) =>
     lesson._id === getActiveLessonId(orderedCombinedLessonData)
   )
+  const lastPossibleActiveLessonIndex = lessonBubbleDisplayDataBySection.reduce((acc, bubbles, idx) => {
+    acc += !idx ? bubbles.length - 1 : bubbles.length
+    return acc
+  }, 0)
+  return Math.min(latestLessonIndex, lastPossibleActiveLessonIndex)
 }
 
 

@@ -39,6 +39,7 @@ const styles = {
 
 export const PrevButton = ({ onPrevClick, globalColors }) =>
   <button
+    type='button' // don't submit
     key='prevButton'
     id='prevButton'
     className={ cns('prevButton', { 'disabled': !onPrevClick }) }

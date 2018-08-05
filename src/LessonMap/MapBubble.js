@@ -190,7 +190,8 @@ let MapBubble = props => {
             className={ cns({ [classes.isJustCompleted]: isJustCompleted }) }
             styles={ {
               path: {
-                stroke: lightPurple, strokeOpacity: 100
+                stroke: completionPercentage === 100 && !isJustCompleted
+                  ? lighterPurple : white , strokeOpacity: 100
               },
               trail: {
                 stroke: lightPurple, strokeOpacity: 100

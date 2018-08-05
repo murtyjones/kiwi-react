@@ -214,19 +214,23 @@ class FullPageCodeEditor extends PureComponent {
             { dabblewopperId ? dabblewopperId : '#0123' }
           </div>
           <div className={ classes.dabblewopperSideButtonContainer }>
-            <button disabled={ true }>#</button>
-            <button disabled={ true }>:</button>
-            <button disabled={ true }>( )</button>
-            <button disabled={ true }>""</button>
+            <button type='button' disabled={ true }>#</button>
+            <button type='button' disabled={ true }>:</button>
+            <button type='button' disabled={ true }>( )</button>
+            <button type='button' disabled={ true }>""</button>
           </div>
           <div className={ classes.dabblewopperControls }>
-            <button className='dabblewopperRun'
+            <button
+              type='button'
+              className='dabblewopperRun'
               onClick={ onRunCode }
             >
               Run Code
             </button>
             { slideData.hasHint &&
-              <button className='dabblewopperHint'
+              <button
+                type='button'
+                className='dabblewopperHint'
                 onClick={ this.toggleIsExampleActive }
               >
                 Hint
