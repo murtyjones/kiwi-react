@@ -24,11 +24,12 @@ import Drawer from './Navigation/Drawer'
 import { MENU_ITEMS } from './Navigation/DrawerContents'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 import { AccountInfo, PaymentInfo, ExploreTechIsland } from './HotLinks/HotLinks'
+import NeedHelp from './NeedHelp'
 
 const errorColor = '#FF5472'
 const successColor = '#52cc4a'
 
-const styles = theme => ({
+const styles = () => ({
   container: {
     width: '100%',
     maxWidth: 950,
@@ -180,6 +181,7 @@ class ProviderDashboard extends PureComponent {
             <ActiveMenuItemComponent />
           </div>
         </div>
+        <NeedHelp />
       </Fragment>
     )
   }

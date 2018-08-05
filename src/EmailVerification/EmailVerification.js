@@ -4,7 +4,6 @@ import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 import get from 'lodash/get'
-import Link from 'react-router-dom/Link'
 
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 import { checkProfileEmailVerification } from '../actions'
@@ -36,9 +35,6 @@ class EmailVerification extends Component {
     return (
       <div style={ styles.container }>
         <h3>Your email is verified! Thank you :)</h3>
-        <Link to='/'>
-          Take me back home.
-        </Link>
       </div>
     )
   }

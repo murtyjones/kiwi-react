@@ -5,22 +5,25 @@ import Link from 'react-router-dom/Link'
 import LetsGoSection from '../../Landing/Home/LetsGoSection/LetsGoSection'
 
 const styles = () => ({
-  footer: {
-    height: '250px'
+  root: {
+    fontFamily: 'Roboto',
+    height: '275px'
     , backgroundColor: '#624F8F'
     , position: 'relative'
     , overflow: 'auto'
     , textAlign: 'center'
     , WebkitTextAlign: 'center'
-
+    , '& a': {
+      color: '#FFF'
+    }
   },
   socialContainer: {
     position: 'absolute'
     , width: '180px'
-    , marginLeft: '-90px'
+    , marginLeft: -90
     , height: '50px'
     , marginBottom: '-25px'
-    , bottom: 65
+    , bottom: 90
     , left: '50%'
   },
   socialImage: {
@@ -30,17 +33,26 @@ const styles = () => ({
   copyright: {
     fontFamily: 'Roboto',
     position: 'absolute',
-    bottom: 0,
+    bottom: 10,
     width: '100%',
     padding: 18,
     boxSizing: 'border-box',
     fontSize: '9pt'
   },
+  emailus: {
+    fontFamily: 'Roboto',
+    position: 'absolute',
+    bottom: 17,
+    width: '100%',
+    padding: 18,
+    boxSizing: 'border-box',
+    fontSize: '12pt'
+  },
   sitemap: {
     fontFamily: 'Roboto',
     position: 'absolute',
     width: '100%',
-    bottom: 90,
+    bottom: 120,
     '& a': {
       color: '#FFF'
     }
@@ -57,7 +69,7 @@ const SocialLink = ({ classes, url, imageUrl }) =>
 
 
 let Footer = ({ classes, openModal, isAboutPage = false }) =>
-  <div className={ classes.footer }>
+  <div className={ classes.root }>
 
     <LetsGoSection openModal={ openModal } />
 
@@ -105,6 +117,9 @@ let Footer = ({ classes, openModal, isAboutPage = false }) =>
     <div className={ classes.copyright }>
       Copyright &copy; { moment().year() } – Kiwi Compute, LLC
     </div>
+    <h3 className={ classes.emailus }>
+      Need help? E-mail us at <a href='mailto:support@kiwicompute.com'>support@kiwicompute.com</a>
+    </h3>
   </div>
 
 Footer = withStyles(styles, { withTheme: true })(Footer)

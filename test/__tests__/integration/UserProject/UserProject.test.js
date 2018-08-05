@@ -13,6 +13,7 @@ import { notCombined } from '../../../../src/reducers/index'
 import UserProject from '../../../../src/UserProject/UserProject'
 import { setupIntegrationTest } from '../../../integrationSetup'
 
+jest.mock('../../../../src/utils/ApiFetch')
 import ApiFetch from '../../../../src/utils/ApiFetch'
 import '../../../__mocks__/codeMirrorDom'
 
