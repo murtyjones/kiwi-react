@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Field } from 'redux-form'
 import RichTextEditor from '../../../common/RichTextEditor'
-import KiwiTextField from "../../../common/form/KiwiTextField";
+import KiwiTextField from '../../../common/form/KiwiTextField'
 
 class FullPageCodeExample extends Component {
   constructor(props) {

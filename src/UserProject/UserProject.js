@@ -10,7 +10,7 @@ import { GLOBAL_COLORS } from '../constants'
 
 import { getUserProject, putUserProject, postUserProject, setTopBarTitle, toggleTopBarTitleFocus, setGlobalColors } from '../actions'
 import CodeEditor from '../CodeEditor/CodeEditor'
-import withTopBarTitle from "../hocs/withTopBarTitle";
+import withTopBarTitle from '../hocs/withTopBarTitle'
 
 
 const styles = {

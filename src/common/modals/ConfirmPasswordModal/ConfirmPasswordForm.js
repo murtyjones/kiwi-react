@@ -6,7 +6,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import KiwiTextField from '../../form/KiwiTextField'
 import SubmitButton from '../../../common/form/SubmitButton'
 import ResultMessage from '../../../common/form/ResultMessage'
-import {required} from "../../../utils/validationUtils";
+import { required } from '../../../utils/validationUtils'
 
 const formName = 'confirmPasswordForm'
 

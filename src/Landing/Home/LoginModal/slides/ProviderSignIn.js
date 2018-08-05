@@ -7,7 +7,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import withRouter from 'react-router-dom/withRouter'
 import Link from 'react-router-dom/Link'
 import Email from '@material-ui/icons/Email'
-import LockOutline from 'material-ui-icons/LockOutline'
+import LockOutline from '@material-ui/icons/LockOutline'
 
 import SlideInOut from '../../../../common/animations/SlideInOut'
 import { providerSignInSlide, studentSlides } from '../slides'

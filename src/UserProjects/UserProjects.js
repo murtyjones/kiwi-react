@@ -16,7 +16,7 @@ import NewProjectCard from './NewProjectCard'
 import { sortByLatestUpdated, sortByOldestCreated } from '../utils/timeUtils'
 
 import './overrides.css'
-import withTopBarTitle from "../hocs/withTopBarTitle";
+import withTopBarTitle from '../hocs/withTopBarTitle'
 
 const styles = {
   container: {
