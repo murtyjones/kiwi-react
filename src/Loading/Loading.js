@@ -2,7 +2,7 @@ import React from 'react'
 
 const Loading = props =>
   <div
-    className='spinner'
+    className='kiwi-spinner'
     style={ {
       position: 'absolute',
       top: '50%',

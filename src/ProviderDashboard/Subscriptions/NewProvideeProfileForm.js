@@ -121,7 +121,7 @@ class ProvideeProfileForm extends Component {
           onClick={ derivedHandleSubmit }
         />
 
-        { loading && <div className='spinner' /> }
+        { loading && <div className='kiwi-spinner' /> }
 
         { submitFailed &&
           <ResultMessage { ...this.props } />
