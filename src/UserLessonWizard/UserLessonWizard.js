@@ -1,24 +1,21 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
-import Redirect from 'react-router-dom/Redirect'
-import Route from 'react-router-dom/Route'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import find from 'lodash/find'
 import cloneDeep from 'lodash/cloneDeep'
-import moment from 'moment'
 import { connect } from 'react-redux'
-import { getFormValues } from 'redux-form'
 import BluebirdPromise from 'bluebird'
 
 import { postUserLesson, putUserLesson, getManyUserLessons, getManyUserVariables, getManyVariables, getLesson, setGlobalColors, setTopBarTitle } from '../actions'
 import { GLOBAL_COLORS } from '../constants'
+import KiwiLoading from '../common/KiwiLoading'
 import UserLessonWizardForm from './UserLessonWizardForm'
 import withTopBarTitle from '../hocs/withTopBarTitle'
 import withTopBarBreadCrumb from '../hocs/withTopBarBreadCrumb'
-import { preloadMultiple } from '../utils/imageUtils'
+import { preloadMultipleAsync } from '../utils/imageUtils'
 
 const getLatestCompletedSlide = (lesson = {}, userLesson = {}) => {
   const slides = lesson.slides || []
@@ -32,18 +29,12 @@ const getLatestCompletedSlide = (lesson = {}, userLesson = {}) => {
   return 0 // if all done, take to first slide
 }
 
-const preloadLessonImages = lesson => {
-  const { slides = [] } = lesson
-  preloadMultiple(slides.map(slide => slide.backgroundImageUrl))
-}
-
 class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
-    preloadLessonImages(props.lesson)
     this.state = {
-      activeSlideIndex: 0
-      , hasLoaded: false
+      activeSlideIndex: 0,
+      loading: true
     }
   }
 
@@ -67,18 +58,26 @@ class UserLessonWizard extends Component {
   }
 
   async UNSAFE_componentWillMount() {
-    const { userId, match: { params: { id } } } = this.props
+    const { lesson, userId, match: { params: { id } } } = this.props
+
+    const slides = get(lesson, 'slides', []).map(slide => slide.backgroundImageUrl)
+
     const promises = [
-      this.props.getManyUserVariables()
-      , this.props.getManyVariables()
-      , this.props.getLesson({id})
-      , this.props.getManyUserLessons({ lessonId: id, userId })
+      preloadMultipleAsync(slides),
+      this.props.getManyUserVariables(),
+      this.props.getManyVariables(),
+      this.props.getLesson({ id }),
+      this.props.getManyUserLessons({ lessonId: id, userId })
     ]
+
     await BluebirdPromise.all(promises)
-    this.setState({ hasLoaded: true })
-    // get newest props:
-    const { lesson, userLesson } = this.props
-    this.setState({ activeSlideIndex: getLatestCompletedSlide(lesson, userLesson) })
+
+    this.setState({ loading: false })
+
+    this.setState({ activeSlideIndex: getLatestCompletedSlide(
+      this.props.lesson, this.props.userLesson
+      )
+    })
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -138,23 +137,28 @@ class UserLessonWizard extends Component {
 
   render() {
     const { lesson, initialValues, isFetchingUserLessons, globalColors, variablesWithUserValues } = this.props
-    const { activeSlideIndex, hasLoaded } = this.state
+    const { activeSlideIndex, loading } = this.state
 
-    return hasLoaded
-      ? (
-        <UserLessonWizardForm
-          onSubmit={ this.handleSubmit }
-          isFetchingUserLessons={ isFetchingUserLessons }
-          lesson={ lesson }
-          globalColors={ globalColors }
-          initialValues={ initialValues }
-          activeSlideIndex={ activeSlideIndex }
-          goToNextSlide={ this.goToNextSlide }
-          goToPrevSlide={ this.goToPrevSlide }
-          onFinalSlideNextClick={ this.handleFinalSlideNextClick }
-          variablesWithUserValues={ variablesWithUserValues }
-        />
-      ) : null
+    if (loading) {
+      return (
+        <KiwiLoading />
+      )
+    }
+
+    return (
+      <UserLessonWizardForm
+        onSubmit={ this.handleSubmit }
+        isFetchingUserLessons={ isFetchingUserLessons }
+        lesson={ lesson }
+        globalColors={ globalColors }
+        initialValues={ initialValues }
+        activeSlideIndex={ activeSlideIndex }
+        goToNextSlide={ this.goToNextSlide }
+        goToPrevSlide={ this.goToPrevSlide }
+        onFinalSlideNextClick={ this.handleFinalSlideNextClick }
+        variablesWithUserValues={ variablesWithUserValues }
+      />
+      )
   }
 }
 export const UserLessonWizardComponent = UserLessonWizard
