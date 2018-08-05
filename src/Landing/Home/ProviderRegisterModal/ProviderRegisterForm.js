@@ -93,7 +93,7 @@ class ProviderRegisterForm extends Component {
     const {
       providees, classes, onSubmit, handleSubmit, slide, formValues, activeSlideIndex, completionPercentage, useCompletionPercentage, switchModals
     } = this.props
-    const { submitText, Component, FieldComponent, names, name } = slide
+    const { submitText, submitButtonId, Component, FieldComponent, names, name } = slide
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
 
     const nameOrNames = {}
@@ -133,6 +133,7 @@ class ProviderRegisterForm extends Component {
             />
             { submitText &&
               <SubmitButton
+                id={ submitButtonId }
                 text={ submitText }
                 { ...this.props }
                 onClick={ derivedHandleSubmit }

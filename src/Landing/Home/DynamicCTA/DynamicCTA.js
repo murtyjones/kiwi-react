@@ -123,6 +123,7 @@ class DynamicHeader extends PureComponent {
 
 
         <button
+          id='sign-me-up-top'
           className={ cns(classes.dynamicCTAButton, 'hvr-grow') }
           style={ buttonStyle }
           onClick={ this.props.onClick }

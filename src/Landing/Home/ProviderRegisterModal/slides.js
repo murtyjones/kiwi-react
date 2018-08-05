@@ -27,6 +27,7 @@ export const studentSignUpSlide = {
   , SideComponent: StudentSideBox
   , name: 'studentSignUp'
   , headerText: 'Sorry!'
+  , submitButtonId: 'student-sign-up'
 }
 
 export const providerSignupSlide = {
@@ -36,6 +37,7 @@ export const providerSignupSlide = {
   , names: [ 'email', 'password', 'confirmPassword', 'termsAccepted' ]
   , headerText: `First, let's make your account.`
   , submitText: 'Sign Me Up!'
+  , submitButtonId: '1-sign-up'
 }
 
 export const provideesSignupSlide = {
@@ -45,6 +47,7 @@ export const provideesSignupSlide = {
   , name: 'providees'
   , headerText: `Tell us a bit about your student.`
   , submitText: `Make My Student's Account!`
+  , submitButtonId: '2-sign-student-up'
 }
 
 export const provideesSignupSuccessSlide = {
@@ -60,6 +63,7 @@ export const provideesSignupSuccessSlide = {
     return  `${prefix} almost ready to start coding!`
   }
   , submitText: 'On to the Last Step'
+  , submitButtonId: '3-sign-student-up-success'
 }
 
 export const billingInfoSlide = {
@@ -76,6 +80,7 @@ export const billingInfoSlide = {
   ]
   , headerText: 'Enter your payment information'
   , submitText: 'See my subscription details'
+  , submitButtonId: '4-payment-information'
   , shouldCreateToken: true
 }
 
@@ -86,6 +91,7 @@ export const confirmationSlide = {
   , name: 'confirmation'
   , headerText: 'Confirm your subscription!'
   , submitText: 'Confirm'
+  , submitButtonId: '5-confirm-subscription'
 }
 
 export const successSlide = {
@@ -95,6 +101,7 @@ export const successSlide = {
   , name: 'success'
   , headerText: `You're all set!`
   , submitText: 'Take me to my dashboard!'
+  , submitButtonId: '6-take-me-home'
 }
 
 export const providerSlides = [
