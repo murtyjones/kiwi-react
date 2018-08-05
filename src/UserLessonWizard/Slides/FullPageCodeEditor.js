@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
-import template from 'es6-template-strings'
 import withRouter from 'react-router-dom/withRouter'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { connect } from 'react-redux'
@@ -9,7 +8,7 @@ import find from 'lodash/find'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
 import SpeechBubble from '../SpeechBubble'
-import { titleStyle, slideContentFlexibleHeight, example as exampleStyle } from './commonSlideStyles'
+import kiwiHtmlTemplate from '../../utils/kiwiHtmlTemplate'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 import { postUserVariable, putUserVariable } from '../../actions'
 
@@ -193,8 +192,8 @@ class FullPageCodeEditor extends PureComponent {
     const { isHintActive } = this.state
 
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
-    const prompt = template(slideData.prompt, variableValues)
-    const hint = template(slideData.hint, variableValues)
+    const prompt = kiwiHtmlTemplate(slideData.prompt, variableValues)
+    const hint = kiwiHtmlTemplate(slideData.hint, variableValues)
     const { promptPictureUrl, promptLabel, dabblewopperId } = slideData
 
     const variablesToComplete = slideData.variablesToComplete || []

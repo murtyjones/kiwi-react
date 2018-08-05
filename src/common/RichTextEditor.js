@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.core.css'
 import './RichTextOverrides.css'
+import kiwiHtmlTemplate from "../utils/kiwiHtmlTemplate";
 
 function insertVariable (template) {
   const cursorPosition = this.quill.getSelection().index
@@ -69,18 +70,19 @@ class RichTextEditor extends Component {
   render() {
     const { input, style, label } = this.props
 
-
+    const v = (input.value || '').replace(/ /g, "&nbsp;").replace(/\t/g, "  ").replace(/\n/g, "<br>");
+    console.log(v)
     return  (
       <div className='text-editor'>
         { label && <label key='label'>{ label }</label> }
         { this.CustomToolbar() }
         <ReactQuill
           theme={null}
-          value={input.value}
+          value={v}
           modules={RichTextEditor.modules}
           formats={RichTextEditor.formats}
           style={style}
-          onChange={input.onChange}
+          onChange={ v => { console.log(v); input.onChange(v)}}
         />
       </div>
     )
