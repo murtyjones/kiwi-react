@@ -190,14 +190,15 @@ let Terms = ({ classes }) =>
       <h2>Contact Us</h2>
 
       <p>
-        If you have any questions about these Terms, please contact us at:
-
-        Email:
-        support@kiwicompute.com
-        Address:
-        Kiwi Compute
-        4000 Ave A #309
-        Austin, TX
+        If you have any questions about these Terms, please contact us at:<br />
+        <br />
+        Email:<br />
+        support@kiwicompute.com<br />
+        <br />
+        Address:<br />
+        Kiwi Compute<br />
+        4000 Ave A #309<br />
+        Austin, TX<br />
 
       </p>
 
