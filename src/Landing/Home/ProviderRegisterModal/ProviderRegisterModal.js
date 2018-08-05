@@ -77,7 +77,8 @@ class ProviderRegisterModal extends Component {
 
   // register provider
   slide1Submit = async v => {
-    const result = await this.props.register({ email: v.email, password: v.password })
+    const { email, password, termsAccepted } = v
+    const result = await this.props.register({ email, password, termsAccepted })
     this.setState({
       providerProfileObject: result,
       providerPassword: v.password

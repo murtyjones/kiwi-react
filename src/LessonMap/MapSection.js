@@ -6,7 +6,7 @@ import findIndex from 'lodash/findIndex'
 import posed from 'react-pose'
 
 import { lessonBubbleDisplayDataBySection, lessonMapNavigationDataBySection, lessonMapImagesBySection, NAV_OPTIONS } from './LESSON_CONSTANTS'
-import { preload } from './imageUtils'
+import { preload } from '../utils/imageUtils'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 import MapBubbles from './MapBubbles'
 

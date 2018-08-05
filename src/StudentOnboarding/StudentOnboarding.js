@@ -5,6 +5,7 @@ import withRouter from 'react-router-dom/withRouter'
 import { SubmissionError } from 'redux-form'
 
 import slides from './slides'
+import './slides/slideImages' // preloads
 import { closeModal, login, putProfile, getProfileDetails, changePassword } from '../actions'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
