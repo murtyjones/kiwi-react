@@ -1,5 +1,3 @@
-import { preload } from '../../utils/imageUtils'
-
 const slideImages = [
   'https://res.cloudinary.com/kiwi-prod/image/upload/v1533484164/Onboarding%20Final/Slide_1.svg',
   'https://res.cloudinary.com/kiwi-prod/image/upload/v1533484164/Onboarding%20Final/Slide_2.svg',
@@ -16,4 +14,4 @@ const slideImages = [
   'https://res.cloudinary.com/kiwi-prod/image/upload/v1533483979/Onboarding%20Final/Slide_13.svg'
 ]
 
-export default preload(slideImages)
+export default slideImages

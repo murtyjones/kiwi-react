@@ -11,7 +11,7 @@ const styles = theme => ({
     position: 'absolute',
     height: '100%',
     width: '100%',
-    background: `url(${slideImages[10].src})`,
+    background: `url(${slideImages[10]})`,
     backgroundSize: '100%',
     backgroundPositionY: 'center'
   }
