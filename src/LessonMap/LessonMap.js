@@ -8,6 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 
 
 import { getLessonOrder, getManyLessons, getManyUserLessons } from '../actions'
+import { preloadMultipleAsync } from '../utils/imageUtils'
 import withTopBarTitle from '../hocs/withTopBarTitle'
 import * as lessonUtils from './lessonUtils'
 import { darkerGrey } from '../colors'
@@ -16,7 +17,7 @@ import MapNavigationControls from './MapNavigationControls'
 import MapViewport from './MapViewport'
 import MapSection from './MapSection'
 import AllCompletedCard from './AllCompletedCard'
-import {getIsLastLessonInSectionCompleted} from "./lessonUtils";
+import { lessonMapImagesBySection } from './LESSON_CONSTANTS'
 
 const styles = theme => ({
   root: {
@@ -30,11 +31,21 @@ const styles = theme => ({
   }
 })
 
+const LoadingIcon = () =>
+  <div style={ {
+    position: 'absolute',
+    top: '50%',
+    left: '50%'
+  } }>
+    <div className='kiwi-spinner' />
+  </div>
+
 
 class LessonMap extends Component {
   constructor(props) {
     super()
     this.state = {
+      loading: true,
       lessonJustCompletedId: get(props, 'location.state.lessonJustCompletedId', ''),
       activeSectionIndex: props.defaultActiveSectionIndex
     }
@@ -53,12 +64,20 @@ class LessonMap extends Component {
     , defaultActiveSectionIndex: T.number.isRequired
   }
 
-  componentDidMount() {
+  setStateAsync = newState => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
+
+  async UNSAFE_componentWillMount() {
     const { userId } = this.props
+    await preloadMultipleAsync(lessonMapImagesBySection)
     // retrieve lesson data
-    this.props.getManyLessons()
-    this.props.getManyUserLessons({ userId })
-    this.props.getLessonOrder()
+    await Promise.all([
+      this.props.getManyLessons(),
+      this.props.getManyUserLessons({ userId }),
+      this.props.getLessonOrder()
+    ])
+    await this.setStateAsync({ loading: false })
   }
 
   componentDidUpdate(prevProps) {
@@ -73,11 +92,17 @@ class LessonMap extends Component {
 
   render() {
     const { classes, activeLessonId, orderedCombinedLessonData } = this.props
-    const { lessonJustCompletedId, activeSectionIndex } = this.state
+    const { loading, lessonJustCompletedId, activeSectionIndex } = this.state
 
     const isNextSectionOrSectionsUnlocked = lessonUtils.isNextSectionOrSectionsUnlocked(activeSectionIndex, orderedCombinedLessonData)
     const isLastLessonInSectionComplete = lessonUtils.getIsLastLessonInSectionCompleted(activeSectionIndex, orderedCombinedLessonData)
     const isFinalSection = lessonUtils.getIsFinalSection(activeSectionIndex)
+
+    if (loading) {
+      return (
+        <LoadingIcon />
+      )
+    }
 
     return (
       <div className={ classes.root }>

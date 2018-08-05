@@ -116,6 +116,10 @@ class CodeEditor extends Component {
     this.inputText = c
   }
 
+  focusOnInputRef = () => {
+    this.inputText.focus()
+  }
+
   updateInput = (v) => {
     const { onChange } = this.props
     this.setEditorInput(v)
@@ -313,6 +317,7 @@ class CodeEditor extends Component {
             value={ rawInputValue }
             inputDisabled={ !codeIsRunning }
             setInputRef={ this.getChildRef }
+            focusOnInputRef={ this.focusOnInputRef }
             variablesToComplete={ variablesToComplete }
           />
           { showTools &&

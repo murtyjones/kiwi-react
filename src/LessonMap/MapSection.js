@@ -6,7 +6,6 @@ import findIndex from 'lodash/findIndex'
 import posed from 'react-pose'
 
 import { lessonBubbleDisplayDataBySection, lessonMapNavigationDataBySection, lessonMapImagesBySection, NAV_OPTIONS } from './LESSON_CONSTANTS'
-import { preload } from '../utils/imageUtils'
 import setTimeoutAsync from '../utils/setTimeoutAsync'
 import MapBubbles from './MapBubbles'
 
@@ -78,7 +77,7 @@ class MapSection extends Component {
     // make it work well with all the various sections needed
     this.state = {
       thingOneActive: props.activeSectionIndex === 0,
-      imagesBySection: preload(lessonMapImagesBySection),
+      imagesBySection: lessonMapImagesBySection,
       pose: props.activeSectionIndex === 0 ? CENTERED : NAV_OPTIONS.DOWN
     }
   }

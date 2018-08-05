@@ -218,7 +218,7 @@ class Subscriptions extends Component {
 
         <div className={ classes.updateResult }>
           { isUpdatingSubscription &&
-          <div className='spinner' />
+            <div className='spinner' />
           }
           <ResultMessage
             submitSucceeded={ updateSucceeded }

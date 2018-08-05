@@ -13,7 +13,7 @@ import CardField from '../../common/form/payment/CardField'
 
 import states from '../../utils/statesArray'
 import { cardValid, required } from '../../utils/validationUtils'
-import SubmitButton from "../../common/form/SubmitButton";
+import SubmitButton from '../../common/form/SubmitButton'
 
 export const formName = 'providerDashboard-billing'
 

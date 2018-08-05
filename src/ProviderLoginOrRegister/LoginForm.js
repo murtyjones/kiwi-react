@@ -4,13 +4,10 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import cns from 'classnames'
 import KiwiTextField from '../common/form/KiwiTextField'
 import SubmitButton from '../common/form/SubmitButton'
-import SecondaryButton from '../common/form/SecondaryButton'
 import MailOutline from '@material-ui/icons/MailOutline'
-import LockOutline from 'material-ui-icons/LockOutline'
+import LockOutline from '@material-ui/icons/LockOutline'
 
-import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from 'material-ui/RaisedButton'
-import ResultMessage from "../common/form/ResultMessage";
+import ResultMessage from '../common/form/ResultMessage'
 
 // http://localhost:3000/provider/login?email=marty%40kiwicompute.com&success=true&message=You%20can%20now%20login%20to%20the%20application%20with%20the%20new%20password.
 
