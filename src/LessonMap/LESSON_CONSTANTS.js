@@ -1,13 +1,13 @@
 export const lessonBubbleDisplayDataBySection = [
   [ // sectionIndex 0
-    { x: 19, y: 36, left: undefined },  // lessonIndex 0
-    { x: 19, y: 48, left: undefined },
-    { x: 18, y: 63, left: undefined },
+    { x: 19, y: 36, left: true      },  // lessonIndex 0
+    { x: 19, y: 48, left: true      },
+    { x: 18, y: 63, left: true      },
     { x: 21, y: 74, left: true      },
     { x: 32, y: 75, left: true      },
-    { x: 43, y: 74, left: undefined },
-    { x: 43, y: 59, left: undefined },
-    { x: 38, y: 45, left: undefined },
+    { x: 43, y: 74, left: true      },
+    { x: 43, y: 59, left: true      },
+    { x: 38, y: 45, left: true      },
     { x: 41, y: 25, left: true      },
     { x: 47, y: 19, left: true      },
     { x: 54, y: 14, left: undefined },

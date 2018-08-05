@@ -1,11 +1,9 @@
 import React from 'react'
 import * as T from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
-import config from 'config'
 
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
-import Link from 'react-router-dom/Link'
 
 const styles = () => ({
   root: {
@@ -207,7 +205,6 @@ let Terms = ({ classes }) =>
 
     </div>
 
-    <Link className={ classes.link } to='/'>Got it. Take me home.</Link>
   </div>
 
 Terms.propTypes = {

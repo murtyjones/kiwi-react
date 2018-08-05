@@ -13,8 +13,11 @@ import { notCombined } from '../../../../src/reducers/index'
 import UserLessonWizard from '../../../../src/UserLessonWizard/UserLessonWizard'
 import { setupIntegrationTest } from '../../../integrationSetup'
 
+jest.mock('../../../../src/utils/ApiFetch')
 import ApiFetch from '../../../../src/utils/ApiFetch'
-import setTimeoutAsync from '../../../../src/utils/setTimeoutAsync'
+jest.mock('../../../../src/utils/imageUtils')
+import { preloadMultipleAsync } from '../../../../src/utils/imageUtils'
+preloadMultipleAsync.mockImplementationOnce(() => Promise.resolve())
 import '../../../__mocks__/codeMirrorDom'
 
 export function flushAllPromises() {
