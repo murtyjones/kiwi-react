@@ -25,9 +25,9 @@ class GoogleTagManager extends React.Component {
 
     return (
       <div>
-        <div>{gtm.noScriptAsReact()}</div>
-        <div id={this.props.scriptId || 'react-google-tag-manager-gtm'}>
-          {gtm.scriptAsReact()}
+        <div>{ gtm.noScriptAsReact() }</div>
+        <div id={ this.props.scriptId || 'react-google-tag-manager-gtm' }>
+          { gtm.scriptAsReact() }
         </div>
       </div>
     )

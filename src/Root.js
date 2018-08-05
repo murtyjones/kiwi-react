@@ -104,7 +104,9 @@ class Root extends Component {
 
     return (
       <Fragment>
-        <GoogleTagManager gtmId='GTM-TJPSGHC' additionalEvents={ additionalEvents } />
+        { process.env.NODE_ENV === 'production' &&
+          <GoogleTagManager gtmId='GTM-TJPSGHC' additionalEvents={ additionalEvents }/>
+        }
         <div>
           { process.env.NODE_ENV !== 'production' &&
             <EnvironmentReminder className={ classes.environmentReminder } />
