@@ -8,7 +8,6 @@ import ChangePassword from './slides/ChangePassword'
 import Slide1 from './slides/1'
 import Slide2 from './slides/2'
 import Slide3 from './slides/3'
-import Slide4 from './slides/4'
 import Slide5 from './slides/5'
 import Slide6 from './slides/6'
 import Slide7 from './slides/7'
@@ -40,7 +39,6 @@ export const changePassword = {
 export const first = { Component: Slide1, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: false }
 export const second = { Component: Slide2, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
 export const third = { Component: Slide3, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
-export const fourth = { Component: Slide4, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
 export const fifth = { Component: Slide5, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
 export const sixth = { Component: Slide6, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
 export const seventh = { Component: Slide7, FieldComponent: Field, name: 'blah', submitText: 'Next', canGoBack: true }
@@ -59,7 +57,7 @@ export default [
   first,
   second,
   third,
-  fourth,
+  // no fourth anymore
   fifth,
   sixth,
   seventh,

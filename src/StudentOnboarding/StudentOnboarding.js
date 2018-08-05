@@ -5,7 +5,9 @@ import withRouter from 'react-router-dom/withRouter'
 import { SubmissionError } from 'redux-form'
 
 import slides from './slides'
+import slideImages from './slides/slideImages'
 import { closeModal, login, putProfile, getProfileDetails, changePassword } from '../actions'
+import { preload } from '../utils/imageUtils'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
 import StudentOnboardingForm from './StudentOnboardingForm'
@@ -13,6 +15,7 @@ import StudentOnboardingForm from './StudentOnboardingForm'
 class StudentOnboarding extends Component {
   constructor(props) {
     super(props)
+    preload(slideImages)
     this.state = {
       activeSlideIndex: 0
       , submittedLogin: false

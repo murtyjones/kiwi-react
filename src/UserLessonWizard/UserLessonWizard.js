@@ -18,6 +18,7 @@ import { GLOBAL_COLORS } from '../constants'
 import UserLessonWizardForm from './UserLessonWizardForm'
 import withTopBarTitle from '../hocs/withTopBarTitle'
 import withTopBarBreadCrumb from '../hocs/withTopBarBreadCrumb'
+import { preload } from '../utils/imageUtils'
 
 const getLatestCompletedSlide = (lesson = {}, userLesson = {}) => {
   const slides = lesson.slides || []
@@ -31,9 +32,15 @@ const getLatestCompletedSlide = (lesson = {}, userLesson = {}) => {
   return 0 // if all done, take to first slide
 }
 
+const preloadLessonImages = lesson => {
+  const { slides = [] } = lesson
+  preload(slides.map(slide => slide.backgroundImageUrl))
+}
+
 class UserLessonWizard extends Component {
   constructor(props) {
     super(props)
+    preloadLessonImages(props.lesson)
     this.state = {
       activeSlideIndex: 0
       , hasLoaded: false
