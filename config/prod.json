@@ -15,6 +15,6 @@
   "shortHost": "kiwicompute.com",
   "stripePublishableKey": "pk_live_kbt7cFNZIK9jijAf4SxAfTEL",
   "features": {
-    "allowSignInRegister": false
+
   }
 }

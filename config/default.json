@@ -15,6 +15,6 @@
   "shortHost": "localhost:3000",
   "stripePublishableKey": "pk_test_vnQAXQKpdv7q6DGTfhAMcT5X",
   "features": {
-    "allowSignInRegister": true
+
   }
 }

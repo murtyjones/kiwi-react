@@ -1,17 +1,10 @@
 .loginModalFormContainer,
-.providerRegisterModalFormContainer,
-.subscribeModalFormContainer {
+.providerRegisterModalFormContainer {
+    font-family: Arial sans-serif;
     width: 90%;
     margin: 0 auto;
-    font-family: Arial;
     color: #2E2860;
     position: relative;
-    text-align: center;
-    text-align: -webkit-center;
-}
-
-h2.subscribeHeader, h4.subscribeHeader {
-    font-family: Arvo;
     text-align: center;
     text-align: -webkit-center;
 }
