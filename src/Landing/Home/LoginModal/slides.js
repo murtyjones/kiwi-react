@@ -46,7 +46,7 @@ export const providerForgotPasswordSlide = {
   , headerText: 'Reset your password'
   , submitText: 'Send Reset Password Email'
   , progress: false
-  , successMessage: 'Check your email for a link to reset your password!'
+  , successMessage: "Check your email for a link to reset your password! If you don't see an e-mail from us, check your spam folder."
 }
 
 export const studentSignUpSlide = {
