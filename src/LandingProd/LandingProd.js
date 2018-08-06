@@ -31,8 +31,7 @@ class LandingProd extends Component {
   }
 
   static propTypes = {
-    signout: T.func,
-    location: T.object
+    signout: T.func
   }
 
   scrollTo = to => scroll.scrollTo(to)

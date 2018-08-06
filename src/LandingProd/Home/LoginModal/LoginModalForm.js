@@ -41,6 +41,11 @@ class LoginModalForm extends Component {
     goToPrevSlide: T.func.isRequired
     , goToNextSlide: T.func.isRequired
     , goToSlide: T.func.isRequired
+    , reset: T.func.isRequired
+  }
+
+  componentWillUnmount() {
+    this.props.reset()
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
