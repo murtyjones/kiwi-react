@@ -14,6 +14,21 @@ function insertVariable (template) {
 class RichTextEditor extends Component {
   constructor (props) {
     super(props)
+    this.quillRef = null;      // Quill instance
+    this.reactQuillRef = null; // ReactQuill component
+  }
+
+  componentDidMount() {
+    this.attachQuillRefs()
+  }
+
+  componentDidUpdate() {
+    this.attachQuillRefs()
+  }
+
+  attachQuillRefs = () => {
+    if (typeof this.reactQuillRef.getEditor !== 'function') return;
+    this.quillRef = this.reactQuillRef.getEditor()
   }
 
   CustomToolbar = () => {
@@ -70,19 +85,31 @@ class RichTextEditor extends Component {
   render() {
     const { input, style, label } = this.props
 
-    const v = (input.value || '').replace(/ /g, "&nbsp;").replace(/\t/g, "  ").replace(/\n/g, "<br>");
-    console.log(v)
+    // replace tabs with four spaces
+    const v = (input.value || '').replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
+
     return  (
       <div className='text-editor'>
         { label && <label key='label'>{ label }</label> }
         { this.CustomToolbar() }
         <ReactQuill
-          theme={null}
-          value={v}
-          modules={RichTextEditor.modules}
-          formats={RichTextEditor.formats}
-          style={style}
-          onChange={ v => { console.log(v); input.onChange(v)}}
+          ref={ node => { this.reactQuillRef = node } }
+          theme={ null }
+          value={ v }
+          modules={ RichTextEditor.modules }
+          formats={ RichTextEditor.formats }
+          style={ style }
+          onChange={ input.onChange }
+          onKeyDown={ e => {
+            // if the tab button is pressed, we must
+            // automatically move the cursor over by 3 because
+            // we are replacing the tab with four spaces,
+            // but quill only moves the cursor forward by one index
+            if (e.which === 9) {
+              const { index } = this.quillRef.getSelection()
+              this.quillRef.setSelection(index + 3, 0)
+            }
+          } }
         />
       </div>
     )
