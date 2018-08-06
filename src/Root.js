@@ -59,6 +59,7 @@ const styles = () => ({
     }
   },
   '@global': {
+    overflow: '-moz-scrollbars-none',
     'button': {
       WebkitTouchCallout: 'none', /* iOS Safari */
       WebkitUserSelect: 'none', /* Safari */
@@ -121,11 +122,13 @@ class Root extends Component {
             className={ cns('kiwi-modal', modal.className) }
             overlayClassName={ modal.overlayClassName ? modal.overlayClassName : 'ModalOverlay' }
           >
-            <div
-              className='x-sm x-black'
-              style={ { position: 'absolute', top: 20, right: 20 } }
-              onClick={ this.props.closeModal }
-            />
+            { modal.hasCloseButton &&
+              <div
+                className='x-sm x-black'
+                style={ { position: 'absolute', top: 20, right: 20 } }
+                onClick={ this.props.closeModal }
+              />
+            }
             { modal.children }
           </Modal>
           <TopBar
