@@ -59,7 +59,6 @@ const styles = () => ({
     }
   },
   '@global': {
-    overflow: '-moz-scrollbars-none',
     'button': {
       WebkitTouchCallout: 'none', /* iOS Safari */
       WebkitUserSelect: 'none', /* Safari */
