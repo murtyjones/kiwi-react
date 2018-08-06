@@ -109,9 +109,9 @@ class Root extends Component {
           <GoogleTagManager gtmId='GTM-TJPSGHC' additionalEvents={ additionalEvents }/>
         }
         <div>
-          { process.env.NODE_ENV !== 'production' &&
-            <EnvironmentReminder className={ classes.environmentReminder } />
-          }
+          {/*{ process.env.NODE_ENV !== 'production' &&*/}
+            {/*<EnvironmentReminder className={ classes.environmentReminder } />*/}
+          {/*}*/}
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
