@@ -6,6 +6,7 @@ const initialState = {
   , overlayClassName: ''
   , children: ''
   , callback: null
+  , hasCloseButton: true
 }
 
 function modal(state = initialState, action) {

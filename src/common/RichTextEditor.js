@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.core.css'
 import './RichTextOverrides.css'
-import kiwiHtmlTemplate from "../utils/kiwiHtmlTemplate";
 
 function insertVariable (template) {
   const cursorPosition = this.quill.getSelection().index
@@ -85,9 +84,6 @@ class RichTextEditor extends Component {
   render() {
     const { input, style, label } = this.props
 
-    // replace tabs with four spaces
-    const v = (input.value || '').replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
-
     return  (
       <div className='text-editor'>
         { label && <label key='label'>{ label }</label> }
@@ -95,21 +91,11 @@ class RichTextEditor extends Component {
         <ReactQuill
           ref={ node => { this.reactQuillRef = node } }
           theme={ null }
-          value={ v }
+          value={ input.value }
           modules={ RichTextEditor.modules }
           formats={ RichTextEditor.formats }
           style={ style }
           onChange={ input.onChange }
-          onKeyDown={ e => {
-            // if the tab button is pressed, we must
-            // automatically move the cursor over by 3 because
-            // we are replacing the tab with four spaces,
-            // but quill only moves the cursor forward by one index
-            if (e.which === 9) {
-              const { index } = this.quillRef.getSelection()
-              this.quillRef.setSelection(index + 3, 0)
-            }
-          } }
         />
       </div>
     )
