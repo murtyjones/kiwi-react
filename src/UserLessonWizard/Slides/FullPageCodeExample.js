@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import template from 'es6-template-strings'
 
-import { slideContentFlexibleHeight, titleStyle, example as exampleStyle } from './commonSlideStyles'
+import kiwiHtmlTemplate from '../../utils/kiwiHtmlTemplate'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 import SpeechBubble from '../SpeechBubble'
 
@@ -49,12 +48,13 @@ class FullPageCodeExample extends PureComponent {
   static propTypes = {
     slideData: T.object
     , className: T.string
+    , variablesWithUserValues: T.array
   }
 
   render() {
     const { slideData, className, variablesWithUserValues, globalColors } = this.props
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
-    const example = template(slideData.example, variableValues)
+    let example = kiwiHtmlTemplate(slideData.example, variableValues)
 
     const { characterUrl, explanation } = slideData
 

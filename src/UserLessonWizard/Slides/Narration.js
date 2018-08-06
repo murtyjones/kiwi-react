@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import template from 'es6-template-strings'
 import withStyles from '@material-ui/core/styles/withStyles'
+import kiwiHtmlTemplate from '../../utils/kiwiHtmlTemplate'
 
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     width: 800
     , height: 600
@@ -48,7 +48,7 @@ class Narration extends PureComponent {
     const { classes, slideData, variablesWithUserValues, globalColors } = this.props
 
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
-    const instructions = template(slideData.instructions, variableValues)
+    const instructions = kiwiHtmlTemplate(slideData.instructions, variableValues)
 
     return (
       <div className={ classes.root }>

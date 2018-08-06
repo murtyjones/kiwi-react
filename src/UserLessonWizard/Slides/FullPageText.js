@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
-import template from 'es6-template-strings'
 
+import kiwiHtmlTemplate from '../../utils/kiwiHtmlTemplate'
 import { createVariableNameValuePair } from '../../utils/templateUtils'
 import withStyles from '@material-ui/core/styles/withStyles'
 import SpeechBubble from '../SpeechBubble'
@@ -33,7 +33,7 @@ class FullPageText extends PureComponent {
     const { slideData, classes, variablesWithUserValues, globalColors } = this.props
     const { instructionsLabel, characterUrl } = slideData
     const variableValues = createVariableNameValuePair(variablesWithUserValues)
-    const instructions = template(slideData.instructions, variableValues)
+    const instructions = kiwiHtmlTemplate(slideData.instructions, variableValues)
 
     return (
       <div className={ classes.container }>
