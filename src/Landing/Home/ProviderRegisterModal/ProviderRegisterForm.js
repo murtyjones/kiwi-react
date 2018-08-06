@@ -5,6 +5,7 @@ import { SubmissionError, reduxForm, getFormValues, unregisterField } from 'redu
 import { Elements, injectStripe } from 'react-stripe-elements'
 import Paper from '@material-ui/core/Paper'
 
+import { generateTempPassword } from '../../../utils/psuedoRandomUtils'
 import SubmitButton from '../../../common/form/SubmitButton'
 import ProgressBar from '../../../common/ProgressBar/ProgressBar'
 import ResultMessage from '../../../common/form/ResultMessage'
@@ -32,6 +33,9 @@ const styles = theme => ({
   },
   form: {
     height: '100%'
+  },
+  loadingText: {
+    marginTop: 7
   }
 })
 
@@ -47,7 +51,11 @@ class ProviderRegisterForm extends Component {
     goToPrevSlide: T.func.isRequired
     , goToNextSlide: T.func.isRequired
     , reset: T.func.isRequired
+    , change: T.func.isRequired
     , completionPercentage: T.number.isRequired
+    , stripe: T.object.isRequired
+    , formValues: T.object.isRequired
+    , submitting: T.bool.isRequired
   }
 
   componentWillUnmount() {
@@ -70,16 +78,25 @@ class ProviderRegisterForm extends Component {
     }
   }
 
+  createLatestProvideeTemporaryPassword = () => {
+    const { formValues: { providees } } = this.props
+    const i = providees.length - 1
+    const temporaryPassword = generateTempPassword()
+    this.props.change(`providees[${i}].temporaryPassword`, temporaryPassword)
+  }
+
   localHandleSubmit = async v => {
-    const { onSubmit, slide } = this.props
-    const { shouldCreateToken } = slide
+    const { onSubmit, slide, formValues } = this.props
+    const { shouldCreateToken, shouldCreateTemporaryPassword } = slide
     try {
-      const params = { ...v }
+      if (shouldCreateTemporaryPassword) {
+        this.createLatestProvideeTemporaryPassword()
+      }
       if (shouldCreateToken) {
         const result = await this.createToken(v)
-        params.stripeCreditCardToken = result.token.id
+        formValues.stripeCreditCardToken = result.token.id
       }
-      return onSubmit(params)
+      return onSubmit(formValues)
     } catch(err) {
       console.log(err)
       if (err.message.toLocaleLowerCase().includes('undefined')) {
@@ -91,11 +108,11 @@ class ProviderRegisterForm extends Component {
 
   render() {
     const {
-      providees, classes, onSubmit, handleSubmit, slide, formValues, activeSlideIndex, completionPercentage, useCompletionPercentage, switchModals
+      createdProvidees, classes, onSubmit, handleSubmit, slide, formValues,
+      activeSlideIndex, completionPercentage, useCompletionPercentage, switchModals
     } = this.props
-    const { submitText, submitButtonId, Component, FieldComponent, names, name } = slide
+    const { submitText, submitButtonId, Component, FieldComponent, names, name, loadingText } = slide
     const derivedHandleSubmit = handleSubmit(this.localHandleSubmit)
-
     const nameOrNames = {}
     if (names) nameOrNames.names = names
     else nameOrNames.name = name
@@ -129,7 +146,7 @@ class ProviderRegisterForm extends Component {
               onSubmit={ onSubmit }
               isLogin={ false }
               switchModals={ switchModals }
-              providees={ providees }
+              createdProvidees={ createdProvidees }
             />
             { submitText &&
               <SubmitButton
@@ -138,6 +155,9 @@ class ProviderRegisterForm extends Component {
                 { ...this.props }
                 onClick={ derivedHandleSubmit }
               />
+            }
+            { this.props.submitting && loadingText &&
+              <div className={ classes.loadingText }>{ loadingText }</div>
             }
             <ResultMessage
               { ...this.props }

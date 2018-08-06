@@ -39,7 +39,7 @@ const CardField = props => {
   const errorText = touched && error ? error : ''
   const hasError = !!errorText
   const classes = { error: hasError }
-  console.log(props)
+
   return (
     <div className='KiwiField CardField-container' style={ props.containerStyle } >
       <InputLabel

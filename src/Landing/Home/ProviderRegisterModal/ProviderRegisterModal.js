@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
-import update from 'immutability-helper'
-import * as Promise from 'bluebird'
+import BluebirdPromise from 'bluebird' // setStateAsync doesn't play nicely with bluebird so keep import as BluebirdPromise
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
 import Grid from '@material-ui/core/Grid'
@@ -18,7 +17,6 @@ import { SUBSCRIPTION_STATUSES } from '../../../constants'
 import { choosePathSlide, providerSlides, studentSlides } from './slides'
 
 import '../../../../assets/css/close.css'
-import { generateTempPassword } from '../../../utils/psuedoRandomUtils'
 
 const styles = theme => ({
   root: {
@@ -41,7 +39,7 @@ class ProviderRegisterModal extends Component {
     this.state = {
       activeSlideIndex: 0
       , providerProfileObject: {}
-      , providees: []
+      , createdProvidees: []
       , subscriptions: []
       , providerPassword: ''
       , isStudentSignUp: true
@@ -55,11 +53,17 @@ class ProviderRegisterModal extends Component {
     , putSubscription: T.func.isRequired
     , putProfile: T.func.isRequired
     , closeModal: T.func.isRequired
+    , switchModals: T.func.isRequired
     , signout: T.func.isRequired
     , fromLogin: T.bool
     , wasStudentSignIn: T.bool
     , history: T.object.isRequired
+    , classes: T.object.isRequired
   }
+
+  setStateAsync = newState => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
 
   UNSAFE_componentWillMount() {
     if (this.props.fromLogin) {
@@ -75,88 +79,69 @@ class ProviderRegisterModal extends Component {
     this.setState({ isStudentSignUp })
   }
 
-  // register provider
-  slide1Submit = async v => {
-    const { email, password, termsAccepted } = v
-    const result = await this.props.register({ email, password, termsAccepted })
-    this.setState({
-      providerProfileObject: result,
-      providerPassword: v.password
-    })
-  }
+  // do EVERYTHING
+  slide5Submit = async formValues => {
+    const { email, password, termsAccepted, providees, stripeCreditCardToken } = formValues
 
-  // register most recently created providee
-  slide2Submit = async v => {
-    const { providees, providerProfileObject, providerPassword } = this.state
-    const last = v.providees.length - 1
-    const providee = v.providees[last]
-    providee.password = generateTempPassword()
-    const promises = [
+    // register provider
+    const providerProfileObject = await this.props.register({
+      email, password, termsAccepted
+    })
+
+
+    // register providees
+    const provideePromises = providees.map(each =>
       this.props.register({
-        firstName: providee.firstName,
-        lastName: providee.lastName,
-        temporaryPassword: providee.password
-      }),
-      this.props.login({
-        email: providerProfileObject.email,
-        password: providerPassword
+        firstName: each.firstName,
+        temporaryPassword: each.temporaryPassword
       })
-    ]
-    const [ registerResult, loginResult ] = await Promise.all(promises)
-    this.setState({
-      providees: update(providees, {
-        $splice: [[providees.length, 0, {
-          _id: registerResult._id,
-          firstName: providee.firstName,
-          username: registerResult.username,
-          password: providee.password
-        }]]
-      })
-    })
-  }
+    )
 
-  // make subscriptions
-  slide4Submit = async v => {
-    const { providerProfileObject, providees } = this.state
-    const promises = [
-      this.props.putProfile({
-        _id: providerProfileObject._id,
-        updateBilling: true,
-        stripeCreditCardToken: v.stripeCreditCardToken,
-        v: providerProfileObject.v
-      })
-    ]
-    providees.forEach(providee => {
-      promises.push(
-        this.props.postSubscription({
-          providerId: providerProfileObject._id,
-          provideeId: providee._id,
-          status: SUBSCRIPTION_STATUSES.INACTIVE
-        })
-      )
-    })
-    const [ billingResult, ...rest ] = await Promise.all(promises)
-    this.setState({ subscriptions: rest })
-  }
+    const createdProvidees = await BluebirdPromise.all(provideePromises)
 
-  // activate subscriptions
-  slide5Submit = async v => {
-    const { subscriptions } = this.state
-    const promises = subscriptions.map(subscription =>
+    await this.setStateAsync({ createdProvidees })
+
+    // login provider
+    await this.props.login({
+      email: providerProfileObject.email,
+      password: password
+    })
+
+
+    // update billing info
+    await this.props.putProfile({
+      _id: providerProfileObject._id,
+      updateBilling: true,
+      stripeCreditCardToken: stripeCreditCardToken,
+      v: providerProfileObject.v
+    })
+
+
+    // make subscriptions
+    const makeSubscriptionPromises = createdProvidees.map(each =>
+      this.props.postSubscription({
+        providerId: providerProfileObject._id,
+        provideeId: each._id,
+        status: SUBSCRIPTION_STATUSES.INACTIVE
+      })
+    )
+    const subscriptions = await BluebirdPromise.all(makeSubscriptionPromises)
+
+
+    // activate subscriptions
+    const activateSubcriptionPromises = subscriptions.map(subscription =>
       this.props.putSubscription({
         id: subscription._id,
         status: SUBSCRIPTION_STATUSES.ACTIVE,
         v: subscription.v,
       })
     )
-    await Promise.all(promises)
+
+    await BluebirdPromise.all(activateSubcriptionPromises)
   }
 
-  slide6Submit = async v => {
-    const { isProvider } = this.props
-    if (!isProvider) {
-      this.props.signout()
-    }
+  // redirect to dashboard
+  slide6Submit = async () => {
     this.props.history.push(`/provider/subscriptions`)
     this.props.closeModal()
   }
@@ -166,7 +151,7 @@ class ProviderRegisterModal extends Component {
     const actionName = `slide${activeSlideIndex}Submit`
     try {
       if (this[actionName]) {
-        const result = await this[actionName](v)
+        await this[actionName](v)
       }
       this.goToNextSlide()
     } catch(err) {
@@ -184,7 +169,7 @@ class ProviderRegisterModal extends Component {
 
   render() {
     const { classes, switchModals } = this.props
-    const { isStudentSignUp, activeSlideIndex, providees } = this.state
+    const { isStudentSignUp, activeSlideIndex, createdProvidees } = this.state
     const useCompletionPercentage = !isStudentSignUp && activeSlideIndex > 0
     const completionPercentage = (activeSlideIndex + 1) / providerSlides.length * 100
 
@@ -222,7 +207,7 @@ class ProviderRegisterModal extends Component {
             useCompletionPercentage={ useCompletionPercentage }
             completionPercentage={ completionPercentage }
             switchModals={ switchModals }
-            providees={ providees }
+            createdProvidees={ createdProvidees }
           />
         </Grid>
       </Grid>

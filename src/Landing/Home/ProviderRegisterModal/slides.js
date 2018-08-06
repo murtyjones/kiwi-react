@@ -48,6 +48,7 @@ export const provideesSignupSlide = {
   , headerText: `Tell us a bit about your student.`
   , submitText: `Make My Student's Account!`
   , submitButtonId: '2-sign-student-up'
+  , shouldCreateTemporaryPassword: true
 }
 
 export const provideesSignupSuccessSlide = {
@@ -92,6 +93,7 @@ export const confirmationSlide = {
   , headerText: 'Confirm your subscription!'
   , submitText: 'Confirm'
   , submitButtonId: '5-confirm-subscription'
+  , loadingText: 'This may take a moment.'
 }
 
 export const successSlide = {

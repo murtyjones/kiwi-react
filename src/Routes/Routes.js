@@ -55,8 +55,8 @@ class Routes extends Component {
     , isProvider: T.bool.isRequired
     , setGlobalColors: T.func.isRequired
     , globalColors: T.object.isRequired
-    , subscription: T.object.isRequired
-    , temporaryPassword: T.string.isRequired
+    , subscription: T.object
+    , temporaryPassword: T.string
   }
 
   render() {

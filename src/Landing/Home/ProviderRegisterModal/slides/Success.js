@@ -54,10 +54,10 @@ class Success extends Component {
   }
 
   render() {
-    const { providees, classes } = this.props
+    const { createdProvidees, classes } = this.props
 
     const monthlySubscription = 30
-    const numberOfStudents = providees.length
+    const numberOfStudents = createdProvidees.length
     const accountOrAccounts = numberOfStudents > 1 ? 'accounts' : 'account'
     const areOrIs = numberOfStudents > 1 ? 'are' : 'is'
     const studentOrStudents = numberOfStudents > 1 ? 'students' : 'student'
@@ -80,10 +80,10 @@ class Success extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              { providees.map((student, i) =>
+              { createdProvidees.map((student, i) =>
                 <TableRow key={ i }>
                   <TableCell>{ student.username }</TableCell>
-                  <TableCell>{ student.password }</TableCell>
+                  <TableCell>{ student.temporaryPassword }</TableCell>
                 </TableRow>
               ) }
             </TableBody>
