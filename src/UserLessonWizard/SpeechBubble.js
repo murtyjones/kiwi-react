@@ -26,26 +26,34 @@ const styles = theme => ({
     border: '3px solid #330000'
     , borderRadius: '10px'
     , padding: '15px'
-    , backgroundColor: '#FFF'
+    , backgroundColor: '#FFF',
+    '&$isCodeExample': {
+      fontFamily: 'monospace',
+      fontSize: '16pt',
+    },
   },
   bubbleContent: {
     maxWidth: 'calc(100% - 110px)',
     display: 'inline-block',
     verticalAlign: 'top',
     marginLeft: 10,
+    '&$isCodeExample': {
+      fontFamily: 'monospace',
+      marginLeft: 0
+    },
     '& p, strong, b, i, u, span': {
       margin: 0
     }
   },
   isCodeExample: {
-    fontFamily: 'monospace'
-    , fontSize: '16pt'
+
   },
   cornerImage: {
     width: 100,
     borderRadius: 5
   },
   explanation: {
+    fontSize: '14pt',
     fontFamily: 'Arial'
   },
   exampleLabel: {
@@ -90,7 +98,7 @@ const SpeechBubble = ({ classes, className, explanation, label, htmlContent, isC
         }
         <div
           id='bubbleContent'
-          className={ classes.bubbleContent }
+          className={ cns(classes.bubbleContent, { [classes.isCodeExample]: isCodeExample }) }
           dangerouslySetInnerHTML={ { __html: htmlContent } }
         />
       </div>
