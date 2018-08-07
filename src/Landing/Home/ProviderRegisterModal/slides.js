@@ -6,6 +6,7 @@ import ProvideesSignup from './slides/ProvideesSignup'
 import ProvideesSignupSuccess from './slides/ProvideesSignupSuccess'
 import BillingInfo from './slides/BillingInfo'
 import Confirmation from './slides/Confirmation'
+import FreeTrialInfo from './slides/FreeTrialInfo'
 import Success from './slides/Success'
 import SalesBox from './SalesBox'
 import StudentSideBox from './StudentSideBox'
@@ -36,8 +37,8 @@ export const providerSignupSlide = {
   , FieldComponent: Fields
   , names: [ 'email', 'password', 'confirmPassword', 'termsAccepted' ]
   , headerText: `First, let's make your account.`
-  , submitText: 'Sign Me Up!'
-  , submitButtonId: '1-sign-up'
+  , submitText: 'Next'
+  , submitButtonId: 'sign-up'
 }
 
 export const provideesSignupSlide = {
@@ -46,8 +47,8 @@ export const provideesSignupSlide = {
   , FieldComponent: FieldArray
   , name: 'providees'
   , headerText: `Tell us a bit about your student.`
-  , submitText: `Make My Student's Account!`
-  , submitButtonId: '2-sign-student-up'
+  , submitText: `Next`
+  , submitButtonId: 'sign-student-up'
   , shouldCreateTemporaryPassword: true
 }
 
@@ -63,8 +64,18 @@ export const provideesSignupSuccessSlide = {
       : 'Your student is'
     return  `${prefix} almost ready to start coding!`
   }
+  , submitText: 'Next'
+  , submitButtonId: 'sign-student-up-success'
+}
+
+export const freeTrialInfoSlide = {
+  Component: FreeTrialInfo
+  , SideComponent: SalesBox
+  , FieldComponent: Field
+  , name: 'freeTrialInfo'
+  , headerText: `Great! Here's how your free trial works.`
   , submitText: 'On to the Last Step'
-  , submitButtonId: '3-sign-student-up-success'
+  , submitButtonId: 'free-trial-info'
 }
 
 export const billingInfoSlide = {
@@ -81,7 +92,7 @@ export const billingInfoSlide = {
   ]
   , headerText: 'Enter your payment information'
   , submitText: 'See my subscription details'
-  , submitButtonId: '4-payment-information'
+  , submitButtonId: 'payment-information'
   , shouldCreateToken: true
 }
 
@@ -92,7 +103,7 @@ export const confirmationSlide = {
   , name: 'confirmation'
   , headerText: 'Confirm your subscription!'
   , submitText: 'Confirm'
-  , submitButtonId: '5-confirm-subscription'
+  , submitButtonId: 'confirm-subscription'
   , loadingText: 'This may take a moment.'
 }
 
@@ -103,7 +114,7 @@ export const successSlide = {
   , name: 'success'
   , headerText: `You're all set!`
   , submitText: 'Take me to my dashboard!'
-  , submitButtonId: '6-take-me-home'
+  , submitButtonId: 'take-me-home'
 }
 
 export const providerSlides = [
@@ -111,6 +122,7 @@ export const providerSlides = [
   providerSignupSlide,
   provideesSignupSlide,
   provideesSignupSuccessSlide,
+  freeTrialInfoSlide,
   billingInfoSlide,
   confirmationSlide,
   successSlide

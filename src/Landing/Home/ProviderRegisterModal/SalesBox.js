@@ -12,14 +12,10 @@ const styles = theme => ({
     textAlign: 'center',
     color: purple
   },
-  cost: {
-    color: darkGrey,
-    fontWeight: 'bold',
+  bottomText: {
     textAlign: 'center',
-    marginTop: 10
-  },
-  usd: {
-    color: oceanBlue
+    color: purple,
+    marginTop: 30,
   },
   '@global': {
     ul: {
@@ -34,18 +30,15 @@ const styles = theme => ({
 
 const SalesBox = ({ classes }) =>
   <div className={ classes.container }>
-    <h2 className={ classes.header }>Join Kiwi To:</h2>
+    <h3 className={ classes.header }>Start your 1-week free trial to:</h3>
     <ul>
       <li>Help your child engage digitally in a fun and healthy way</li>
       <li>Use a trusted curriculum for coding education</li>
       <li>Give your student the digital support needed to become a coder</li>
     </ul>
-    <h3 className={ classes.header } style={ { marginBottom: 0 } }>
+    <h4 className={ classes.bottomText } style={ { marginBottom: 0 } }>
       Give your student the skills to be digitally creative
-    </h3>
-    <div className={ classes.cost }>
-      <span className={ classes.usd }>30 USD</span> / month
-    </div>
+    </h4>
   </div>
 
 export default withStyles(styles, { withTheme: true })(SalesBox)
