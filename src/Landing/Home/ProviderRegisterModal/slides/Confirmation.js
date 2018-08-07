@@ -6,7 +6,10 @@ import ProspectiveSubscriptionTable from './ProspectiveSubscriptionTable'
 import SlideInOut from '../../../../common/animations/SlideInOut'
 
 const styles = () => ({
-
+  root: {
+    width: '90%',
+    margin: '0 auto'
+  }
 })
 
 class Confirmation extends Component {
@@ -22,7 +25,7 @@ class Confirmation extends Component {
   }
 
   render() {
-    const { formValues: { providees } } = this.props
+    const { classes, formValues: { providees } } = this.props
     const monthlySubscription = 30
     const numberOfStudents = providees.length
     const totalSubscription = numberOfStudents * monthlySubscription
@@ -33,13 +36,17 @@ class Confirmation extends Component {
     return (
       <SlideInOut>
         <div className='providerRegisterForm-slide'>
-          <h5>
-            Thanks for subscribing! Please review and confirm your { subscriptionOrSubs } below.
-          </h5>
-          <ProspectiveSubscriptionTable
-            providees={ providees }
-          />
-          <h3>{ totalSubscription } USD /month </h3>
+          <div className={ classes.root }>
+            <h5>
+              Thanks for subscribing! Please review and confirm your { subscriptionOrSubs } below.<br />
+              <br />
+              Remember, you won't be charged until your free trial ends.
+            </h5>
+            <ProspectiveSubscriptionTable
+              providees={ providees }
+            />
+            <h3>{ totalSubscription } USD /month </h3>
+          </div>
         </div>
       </SlideInOut>
     )

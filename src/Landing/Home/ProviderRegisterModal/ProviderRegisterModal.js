@@ -75,12 +75,12 @@ class ProviderRegisterModal extends Component {
   }
 
   // choose type
-  slide0Submit = async isStudentSignUp => {
+  onSelectPathSubmit = async isStudentSignUp => {
     this.setState({ isStudentSignUp })
   }
 
   // do EVERYTHING
-  slide5Submit = async formValues => {
+  onConfirmSubmit = async formValues => {
     const { email, password, termsAccepted, providees, stripeCreditCardToken } = formValues
 
     // register provider
@@ -141,17 +141,23 @@ class ProviderRegisterModal extends Component {
   }
 
   // redirect to dashboard
-  slide6Submit = async () => {
+  onFinalSubmit = async () => {
     this.props.history.push(`/provider/subscriptions`)
     this.props.closeModal()
   }
 
   handleSubmit = async v => {
     const { activeSlideIndex } = this.state
-    const actionName = `slide${activeSlideIndex}Submit`
+
+    if (activeSlideIndex === 0) {
+      await this.onSelectPathSubmit(v)
+      return this.goToNextSlide()
+    }
+
+    const submitFunction = providerSlides[activeSlideIndex].submitFunction
     try {
-      if (this[actionName]) {
-        await this[actionName](v)
+      if (this[submitFunction]) {
+        await this[submitFunction](v)
       }
       this.goToNextSlide()
     } catch(err) {

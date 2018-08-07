@@ -78,6 +78,8 @@ class ProvideeProfileForm extends Component {
         <h3 className={ classes.preConfirmHeader }>Thanks for signing up a new student!</h3>
         <br />
         Please review your new subscription details and confirm by entering your password.<br />
+        <br />
+        If you are still in your free trial period, you will not be charged until your free trial ends.
         <ProspectiveSubscriptionTable
           providees={ [
             { firstName }

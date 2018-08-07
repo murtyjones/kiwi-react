@@ -105,6 +105,7 @@ export const confirmationSlide = {
   , submitText: 'Confirm'
   , submitButtonId: 'confirm-subscription'
   , loadingText: 'This may take a moment.'
+  , submitFunction: 'onConfirmSubmit'
 }
 
 export const successSlide = {
@@ -115,6 +116,7 @@ export const successSlide = {
   , headerText: `You're all set!`
   , submitText: 'Take me to my dashboard!'
   , submitButtonId: 'take-me-home'
+  , submitFunction: 'onFinalSubmit'
 }
 
 export const providerSlides = [
