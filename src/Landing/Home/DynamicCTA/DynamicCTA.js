@@ -96,10 +96,10 @@ class DynamicHeader extends PureComponent {
         background: 'transparent',
         position: 'fixed',
         top: '25px',
-        right: 'calc(35px + 50px)', // accounts for transform below
-        transform: 'translateX(50px)',
+        right: 'calc(25px + 0px)', // right hand side must match transform one line below here
+        transform: 'translateX(0px)',
         color: 'white',
-        padding: '5px 25px',
+        padding: '5px 15px',
         borderRadius: '15px',
         fontSize: '10pt',
         border: '2px solid #FFFFFF',
