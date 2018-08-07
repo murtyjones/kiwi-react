@@ -74,7 +74,7 @@ export const freeTrialInfoSlide = {
   , FieldComponent: Field
   , name: 'freeTrialInfo'
   , headerText: `Great! Here's how your free trial works.`
-  , submitText: 'On to the Last Step'
+  , submitText: 'Add Your Payment Details'
   , submitButtonId: 'free-trial-info'
 }
 

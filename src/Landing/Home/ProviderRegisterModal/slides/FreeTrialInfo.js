@@ -4,7 +4,6 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import moment from 'moment'
 import cns from 'classnames'
 
-import ProspectiveSubscriptionTable from './ProspectiveSubscriptionTable'
 import SlideInOut from '../../../../common/animations/SlideInOut'
 
 const styles = () => ({
