@@ -66,8 +66,8 @@ class ProvideeProfileForm extends Component {
     }
   }
 
-  confirmPasswordCallback = v => {
-    this.setState({ passwordConfirmed: v })
+  confirmPasswordCallback = passwordConfirmed => {
+    this.setState({ passwordConfirmed })
   }
 
   renderPreConfirmMessage = () => {

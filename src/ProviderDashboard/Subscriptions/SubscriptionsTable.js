@@ -16,6 +16,13 @@ import { SUBSCRIPTION_STATUSES } from '../../constants'
 import AuthService from '../../utils/AuthService'
 import { oceanBlue } from '../../colors'
 
+export const getIsInTrialPeriod = subscription => {
+  return subscription.trial_end
+    ? moment.unix(subscription.trial_end).isAfter() /* is after now */
+    : null
+}
+
+
 const styles = theme => ({
   root: {
     '& td': {
@@ -71,7 +78,6 @@ const styles = theme => ({
 const SubscriptionsTable = ({
   classes, sortedSubscriptions, profilesById, isUpdatingSubscription, handleSubscriptionClick, toggleSubscriptionStatus
 }) => {
-
   if (isEmpty(sortedSubscriptions)) {
     return 'No subscriptions yet...'
   }
@@ -80,6 +86,7 @@ const SubscriptionsTable = ({
     <Table className={ classes.root }>
       <TableBody>
         { sortedSubscriptions.map((subscription, i) => {
+          const isInTrialPeriod = getIsInTrialPeriod(subscription)
           const providee = profilesById[subscription.provideeId] || {}
           const current_period_end = moment.unix(subscription.current_period_end)
           const provideeDisplayName = AuthService.isPlaceholderUsernameFromUsername(providee.username || '')
@@ -113,9 +120,9 @@ const SubscriptionsTable = ({
                 >
                   { subscription.cancel_at_period_end
                     ? current_period_end.isAfter() // isAfter now
-                      ? 'Expires '
-                      : 'Expired '
-                    : 'Renews on ' }
+                      ? 'Expires ' : 'Expired '
+                      : isInTrialPeriod ? 'Trial ends on ' : 'Renews on '
+                    }
                   { current_period_end.format('MMMM Do') }
                 </span>
               </TableCell>
@@ -132,10 +139,10 @@ const SubscriptionsTable = ({
                 <Button
                   variant='flat'
                   disabled={ isUpdatingSubscription }
-                  onClick= { () => toggleSubscriptionStatus(subscription) }>
+                  onClick= { () => toggleSubscriptionStatus(subscription._id, isInTrialPeriod) }>
                   { subscription.status === SUBSCRIPTION_STATUSES.INACTIVE
-                    ? 'Restart Subscription'
-                    : 'Cancel Subscription'
+                    ? isInTrialPeriod ? 'Restart Free Trial' : 'Restart Subscription'
+                    : isInTrialPeriod ? 'Pause Free Trial' : 'Cancel Subscription'
                   }
                 </Button>
               </TableCell>

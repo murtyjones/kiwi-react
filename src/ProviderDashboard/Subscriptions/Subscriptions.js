@@ -14,14 +14,21 @@ import Section from '../../common/Section'
 
 import './overrides.css'
 
-import { register, putProfile, postSubscription, putSubscription, changePassword } from '../../actions'
+import { register, putProfile, postSubscription, putSubscription, changePassword, openModal, closeModal } from '../../actions'
 import { SUBSCRIPTION_STATUSES } from '../../constants'
 import ResultMessage from '../../common/form/ResultMessage'
 import NewProvideeProfileForm from './NewProvideeProfileForm'
 import EditProvideeProfileForm from './EditProvideeProfileForm'
 import SubscriptionsTable from './SubscriptionsTable'
-import CopyLink from '../../common/CopyLink/CopyLink'
-import config from 'config'
+import ConfirmPasswordModal from '../../common/modals/ConfirmPasswordModal/ConfirmPasswordModal'
+import { generateTempPassword } from '../../utils/psuedoRandomUtils'
+import ProspectiveSubscriptionTable from '../../Landing/Home/ProviderRegisterModal/slides/ProspectiveSubscriptionTable'
+import { purple } from '../../colors'
+
+const getNewSubscriptionStatus = subscription =>
+  subscription.status === SUBSCRIPTION_STATUSES.ACTIVE
+    ? SUBSCRIPTION_STATUSES.INACTIVE
+    : SUBSCRIPTION_STATUSES.ACTIVE
 
 const styles = theme => ({
   addStudent: {
@@ -33,6 +40,9 @@ const styles = theme => ({
   topSuccessMessage: {
     marginBottom: 17,
     fontWeight: 'bold'
+  },
+  preConfirmHeader: {
+    color: purple
   }
 })
 
@@ -46,6 +56,8 @@ class Subscriptions extends Component {
       , successMessage: ''
       , topSuccessMessage: ''
       , linkCopied: false
+      , passwordConfirmed: false
+      , subscriptionId: ''
     }
   }
 
@@ -56,6 +68,8 @@ class Subscriptions extends Component {
     , postSubscription: T.func.isRequired
     , putSubscription: T.func.isRequired
     , changePassword: T.func.isRequired
+    , openModal: T.func.isRequired
+    , closeModal: T.func.isRequired
     , userId: T.string.isRequired
     , profilesById: T.object.isRequired
     , subscriptionsById: T.object.isRequired
@@ -64,22 +78,24 @@ class Subscriptions extends Component {
     , classes: T.object.isRequired
   }
 
+  resetUpdateMessage = async () => {
+    await this.setStateAsync({
+      updateSucceeded: false
+      , errorMessage: ''
+      , successMessage: ''
+      , topSuccessMessage: ''
+    })
+  }
+
+  setStateAsync = newState => new Promise((resolve) => {
+    this.setState(newState, resolve)
+  })
+
   handleSubscriptionClick = (event, subcriptionId) => {
     this.props.history.push(`/provider/subscriptions/${subcriptionId}`)
   }
 
   handleCopyLinkClick = () => this.setState({ linkCopied: true })
-
-  renderSuccessMessage = () => {
-    return (
-      <CopyLink
-        text={ config.host }
-        style={ { color: '#000' } }
-        onCopy={ this.handleCopyLinkClick }
-        linkCopied={ this.state.linkCopied }
-      />
-    )
-  }
 
   handlePostSubmit = async v => {
     const { register, postSubscription, putSubscription, userId } = this.props
@@ -129,18 +145,16 @@ class Subscriptions extends Component {
     }
   }
 
-  toggleSubscriptionStatus = async subscription => {
-    const { putSubscription } = this.props
-
+  _toggleSubscriptionStatus = async subscriptionId => {
+    const { putSubscription, subscriptionsById } = this.props
+    const subscription = subscriptionsById[subscriptionId]
     try {
       this.setState({
         isUpdatingSubscription: true
         , updateSucceeded: false
         , errorMessage: false
       })
-      const newStatus = subscription.status === SUBSCRIPTION_STATUSES.ACTIVE
-        ? SUBSCRIPTION_STATUSES.INACTIVE
-        : SUBSCRIPTION_STATUSES.ACTIVE
+      const newStatus = getNewSubscriptionStatus(subscription)
       const requiresPayment = newStatus === SUBSCRIPTION_STATUSES.ACTIVE
       await putSubscription({
         id: subscription._id,
@@ -157,6 +171,53 @@ class Subscriptions extends Component {
         , updateSucceeded: false
       })
     }
+  }
+
+  async UNSAFE_componentWillUpdate(nextProps, nextState) {
+    if (nextState.passwordConfirmed && !this.state.passwordConfirmed) {
+      await this.setStateAsync({ loading: true })
+      this.props.closeModal()
+      await this._toggleSubscriptionStatus(nextState.subscriptionId)
+      await this.setStateAsync({ loading: false, passwordConfirmed: false })
+    }
+  }
+
+  confirmPasswordCallback = passwordConfirmed => {
+    this.setState({ passwordConfirmed })
+  }
+
+  renderPreConfirmMessage = subscriptionId => {
+    const { classes, subscriptionsById, profilesById } = this.props
+    const provideeUserId = subscriptionsById[subscriptionId].provideeId
+    const username = profilesById[provideeUserId].username
+
+    return (
+      <div>
+        <h3 className={ classes.preConfirmHeader }>Thanks for restarting your subscription!</h3>
+        <br />
+        Please review your new subscription details and confirm by entering your password.<br />
+        <ProspectiveSubscriptionTable providees={ [ { username } ] } />
+      </div>
+    )
+  }
+
+  toggleSubscriptionStatus = async (subscriptionId, isInTrialPeriod) => {
+    await this.resetUpdateMessage()
+    const { subscriptionsById } = this.props
+    const isDeactivating = getNewSubscriptionStatus(subscriptionsById[subscriptionId]) === SUBSCRIPTION_STATUSES.INACTIVE
+    if (/*<-- get rid of bang*/isInTrialPeriod || isDeactivating) {
+      return this._toggleSubscriptionStatus(subscriptionId)
+    }
+    await this.setStateAsync({ subscriptionId })
+    this.props.openModal({
+      className: 'confirmPasswordModal',
+      children: (
+        <ConfirmPasswordModal
+          preConfirmMessage={ this.renderPreConfirmMessage(subscriptionId) }
+          callback={ this.confirmPasswordCallback }
+        />
+      ),
+    })
   }
 
   renderProvideeProfileForm = () => {
@@ -256,6 +317,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     register: params => dispatch(register(params)),
     putProfile: params => dispatch(putProfile(params)),
+    openModal: params => dispatch(openModal(params)),
+    closeModal: params => dispatch(closeModal(params)),
     postSubscription: params => dispatch(postSubscription(params)),
     putSubscription: params => dispatch(putSubscription(params)),
     changePassword: params => dispatch(changePassword(params))
