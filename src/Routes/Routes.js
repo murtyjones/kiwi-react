@@ -163,19 +163,19 @@ class Routes extends Component {
         {/* ----------------- */}
         {/* Provider routes */}
         {/* ----------------- */}
-        <AuthorizedRoute exact
+        <AuthorizedRoute exact redirectIfMobile
           path='/provider/account' component={ ProviderDashboard } { ...routeProps }
         />
-        <AuthorizedRoute exact
+        <AuthorizedRoute exact redirectIfMobile
           path='/provider/subscriptions/new' component={ ProviderDashboard } { ...routeProps }
         />
-        <AuthorizedRoute exact
+        <AuthorizedRoute exact redirectIfMobile
           path='/provider/subscriptions/:id' component={ ProviderDashboard } { ...routeProps }
         />
-        <AuthorizedRoute exact
+        <AuthorizedRoute exact redirectIfMobile
           path='/provider/:section/:id' component={ ProviderDashboard } { ...routeProps }
         />
-        <AuthorizedRoute
+        <AuthorizedRoute redirectIfMobile
           path='/provider/:section' component={ ProviderDashboard } { ...routeProps }
         />
       </Switch>
