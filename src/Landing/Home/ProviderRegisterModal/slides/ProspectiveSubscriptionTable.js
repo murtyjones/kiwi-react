@@ -38,7 +38,7 @@ const ProspectiveSubscriptionTable = ({ classes, providees, monthlySubscription 
           return (
             <TableRow key={ i }>
               <TableCell>{ displayName }</TableCell>
-              <TableCell>({monthlySubscription} USD /mo)</TableCell>
+              <TableCell>{monthlySubscription} USD</TableCell>
             </TableRow>
           )
         }

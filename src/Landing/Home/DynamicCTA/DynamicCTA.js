@@ -77,7 +77,7 @@ class DynamicHeader extends PureComponent {
       top: `calc(${topSlogan}vh + 15vh)`,
       left: '50%',
       // width: '120px',
-      marginLeft: -120,
+      marginLeft: -87,
       backgroundColor: '#624F8F',
       color: '#FFFFFF',
       padding: '10px 30px',
@@ -128,7 +128,7 @@ class DynamicHeader extends PureComponent {
           style={ buttonStyle }
           onClick={ this.props.onClick }
         >
-          Get Started For Free
+          Start for Free
         </button>
 
       </Fragment>

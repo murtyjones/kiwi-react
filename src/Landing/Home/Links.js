@@ -8,7 +8,7 @@ const styles = () => ({
   root: {
     position: 'absolute'
     , top: 20
-    , right: 50
+    , right: 25
     , zIndex: 52 // just in front of dynamicHeader
     , color: '#FFF'
     , padding: '10px 30px'

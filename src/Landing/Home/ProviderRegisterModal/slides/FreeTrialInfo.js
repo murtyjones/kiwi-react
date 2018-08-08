@@ -42,11 +42,11 @@ class FreeTrialInfo extends Component {
           <div className={ classes.root }>
             Enjoy Kiwi on us for your first seven days.<br />
             <br />
-            After that, you'll be charged { monthlySubscription } USD per student, per month.<br />
+            After that, you'll be charged ${ monthlySubscription } per student, per month.<br />
             <br />
             Change your mind? Cancel before { whenToCancel } to avoid being charged.<br />
-            <h3 className={ cns(classes.sellingPoint, classes.first) }>No commitments</h3>
-            <h3 className={ classes.sellingPoint }>Cancel at any time</h3>
+            <h4 className={ cns(classes.sellingPoint, classes.first) }>No commitments.</h4>
+            <h4 className={ classes.sellingPoint }>Cancel at any time.</h4>
           </div>
         </div>
       </SlideInOut>

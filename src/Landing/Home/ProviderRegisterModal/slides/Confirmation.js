@@ -4,11 +4,19 @@ import withStyles from '@material-ui/core/styles/withStyles'
 
 import ProspectiveSubscriptionTable from './ProspectiveSubscriptionTable'
 import SlideInOut from '../../../../common/animations/SlideInOut'
+import moment from 'moment'
 
 const styles = () => ({
   root: {
     width: '90%',
     margin: '0 auto'
+  },
+  h3: {
+    marginBottom: 2
+  },
+  beginsAfter: {
+    fontSize: 11,
+    fontStyle: 'italic'
   }
 })
 
@@ -29,6 +37,7 @@ class Confirmation extends Component {
     const monthlySubscription = 30
     const numberOfStudents = providees.length
     const totalSubscription = numberOfStudents * monthlySubscription
+    const whenToCancel = moment().add(7, 'days').format('MMMM Do')
     const subscriptionOrSubs = numberOfStudents > 1
       ? 'subscriptions'
       : 'subscription'
@@ -45,7 +54,8 @@ class Confirmation extends Component {
             <ProspectiveSubscriptionTable
               providees={ providees }
             />
-            <h3>{ totalSubscription } USD /month </h3>
+            <h3 className={ classes.h3 }>{ totalSubscription } USD /month </h3>
+            <span className={ classes.beginsAfter }>(After { whenToCancel })</span>
           </div>
         </div>
       </SlideInOut>
