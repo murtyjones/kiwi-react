@@ -1,9 +1,33 @@
 import React, { PureComponent, Fragment } from 'react'
+import * as T from 'prop-types'
+import ReactPlayer from 'react-player'
 import cns from 'classnames'
 
-import './overrides.css'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 const sections = [
+  {
+    className: 'videoSection',
+    headerText: 'Take a Tour of The Kiwi Platform',
+    bodyHtml: (
+      <div style={ {
+        position: 'relative',
+        width: '100%',
+        paddingTop: '56.25%' /* Player ratio: 100 / (1280 / 720) */
+      } }>
+        <ReactPlayer
+          width='100%'
+          height='100%'
+          style={ {
+            position: 'absolute',
+            top: 0,
+            left: 0
+          } }
+          url='https://youtu.be/WKWCoybQThM'
+        />
+      </div>
+    )
+  },
   {
     headerText: 'Use your coding skills to survive on Tech Island',
     bodyText:`
@@ -52,39 +76,125 @@ const sections = [
   },
 ]
 
-const StripedSection = props =>
-  <div className='stripedSectionContainer' style={ props.style || {} }>
-    <div className='stripedSection'>
-      <div className='stripedSectionText' style={ props.textStyle || {} }>
-        <h1 className='stripedHeader'>
-          { props.headerText }
-        </h1>
-        <p>
-          { props.bodyText }
-        </p>
-      </div>
-      <img
-        className={ cns('stripedSectionImage', {
-          right: props.right,
-          left: !props.right
-        }) }
-        src={ props.imageUrl }
-        style={ props.imageStyle || {} }
-      />
-    </div>
-  </div>
+const styles = theme => ({
+  root: {
+    color: '#666666',
+    '& $stripedSectionContainer:nth-child(even)': {
+      backgroundColor: '#FFFFFF',
+      textAlign: 'right',
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'left',
+      }
+    },
+    '& $stripedSectionContainer:nth-child(odd)':  { backgroundColor: '#F1F1F1', textAlign: 'left' },
+    '& $stripedSectionContainer:nth-child(even) $stripedSectionText': { paddingLeft: 40, boxSizing: 'border-box' },
+    '& $stripedSectionContainer:nth-child(odd)  $stripedSectionText': { paddingRight: 40, boxSizing: 'border-box' },
+    [theme.breakpoints.down('sm')]: {
+      '& $stripedSectionContainer:nth-child(even) $stripedSectionText': { paddingLeft: 0 },
+      '& $stripedSectionContainer:nth-child(odd) $stripedSectionText': { paddingRight: 0 }
+    }
+  },
+  stripedSectionContainer: {
+    padding: 30,
+    boxSizing: 'border-box',
+    minHeight: 250
+  },
+  videoSection: {
+    textAlign: 'center !important'
+  },
+  stripedSection: {
+    maxWidth: 980,
+    margin: '0 auto',
+    position: 'relative'
+  },
+  stripedSectionText: {
+    display: 'inline-block',
+    maxWidth: 600,
+    '& p': {
+      fontFamily: 'sans-serif',
+      lineHeight: '28px',
+      color: '#999999'
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+      maxWidth: '100%'
+    }
+  },
+  stripedHeader: { fontSize: 24, display: 'inline-block' },
+  stripedSectionImage: {
+    display: 'inline-block',
+    width: 300,
+    maxWidth: '100%',
+    position: 'absolute',
+    [theme.breakpoints.down('sm')]: {
+      display: 'inline-block',
+      width: 300,
+      position: 'relative',
+      left: '50% !important',
+      marginLeft: -150
+    }
+  },
+  left: { left: 0 },
+  right: { right: 0 },
+})
 
-export default class StripedSections extends PureComponent {
+const StripedSection = ({ classes, ...rest }) => {
+  console.log(rest.bodyHtml)
+  return (
+    <div className={ cns(classes.stripedSectionContainer, classes[rest.className]) } style={ rest.style || {} }>
+      <div className={ classes.stripedSection }>
+
+      { rest.bodyHtml
+        ?
+        <Fragment>
+          <h1 className={ classes.stripedHeader }>
+            { rest.headerText }
+          </h1>
+          { rest.bodyHtml }
+        </Fragment>
+        :
+        <Fragment>
+          <div className={ classes.stripedSectionText } style={ rest.textStyle || {} }>
+            <h1 className={ classes.stripedHeader }>
+              { rest.headerText }
+            </h1>
+            <p>
+              { rest.bodyText }
+            </p>
+          </div>
+          <img
+            className={ cns(classes.stripedSectionImage, {
+              [classes.right]: rest.right,
+              [classes.left]: !rest.right
+            }) }
+            src={ rest.imageUrl }
+            style={ rest.imageStyle || {} }
+          />
+        </Fragment>
+      }
+
+      </div>
+    </div>
+  )
+}
+
+class StripedSections extends PureComponent {
   constructor(props) {
     super(props)
   }
 
+  static propTypes = {
+    classes: T.object
+  }
+
   render() {
+    const { classes } = this.props
     return (
-      <div className='stripedContainer'>
+      <div className={ classes.root }>
         { sections.map((props, idx) =>
           <StripedSection
             key={ idx }
+            classes={ classes }
             right={ idx % 2 === 0 }
             { ...props }
           />
@@ -93,3 +203,8 @@ export default class StripedSections extends PureComponent {
     )
   }
 }
+
+
+StripedSections = withStyles(styles, { withTheme: true })(StripedSections)
+
+export default StripedSections
