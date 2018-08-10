@@ -5,28 +5,33 @@ import cns from 'classnames'
 
 import withStyles from '@material-ui/core/styles/withStyles'
 
-const sections = [
+const makeSections = classes => ([
   {
-    className: 'videoSection',
     headerText: 'Take a Tour of The Kiwi Platform',
-    bodyHtml: (
-      <div style={ {
-        position: 'relative',
-        width: '100%',
-        paddingTop: '56.25%' /* Player ratio: 100 / (1280 / 720) */
-      } }>
-        <ReactPlayer
-          width='100%'
-          height='100%'
-          style={ {
-            position: 'absolute',
-            top: 0,
-            left: 0
-          } }
-          url='https://youtu.be/WKWCoybQThM'
-        />
-      </div>
-    )
+    videoStyle: {
+      top: 0,
+      width: 350,
+      height: 350 * 340 / 640
+    },
+    video: (
+      <ReactPlayer
+        controls={ true }
+        width='100%'
+        height='100%'
+        style={ {
+          position: 'absolute',
+          top: 0,
+          left: 0
+        } }
+        url='https://youtu.be/WKWCoybQThM'
+      />
+    ),
+    bodyText:`
+      See how our platform turns curious students interested in
+      code into the self-taught programmers of the future.
+      Want to learn more about how we do it? Take our tour
+      and sign up for a free trial today. 
+    `,
   },
   {
     headerText: 'Use your coding skills to survive on Tech Island',
@@ -74,7 +79,7 @@ const sections = [
     imageUrl: '../../../../assets/images/kids.svg',
     imageStyle: { width: '400px' }
   },
-]
+])
 
 const styles = theme => ({
   root: {
@@ -87,20 +92,25 @@ const styles = theme => ({
       }
     },
     '& $stripedSectionContainer:nth-child(odd)':  { backgroundColor: '#F1F1F1', textAlign: 'left' },
-    '& $stripedSectionContainer:nth-child(even) $stripedSectionText': { paddingLeft: 40, boxSizing: 'border-box' },
-    '& $stripedSectionContainer:nth-child(odd)  $stripedSectionText': { paddingRight: 40, boxSizing: 'border-box' },
-    [theme.breakpoints.down('sm')]: {
-      '& $stripedSectionContainer:nth-child(even) $stripedSectionText': { paddingLeft: 0 },
-      '& $stripedSectionContainer:nth-child(odd) $stripedSectionText': { paddingRight: 0 }
+    '& $stripedSectionContainer:nth-child(even) $stripedSectionText': {
+      paddingLeft: 40,
+      boxSizing: 'border-box',
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: 0
+      }
+    },
+    '& $stripedSectionContainer:nth-child(odd)  $stripedSectionText': {
+      paddingRight: 40,
+      boxSizing: 'border-box',
+      [theme.breakpoints.down('sm')]: {
+        paddingRight: 0
+      }
     }
   },
   stripedSectionContainer: {
     padding: 30,
     boxSizing: 'border-box',
     minHeight: 250
-  },
-  videoSection: {
-    textAlign: 'center !important'
   },
   stripedSection: {
     maxWidth: 980,
@@ -131,7 +141,7 @@ const styles = theme => ({
       width: 300,
       position: 'relative',
       left: '50% !important',
-      marginLeft: -150
+      marginLeft: -157
     }
   },
   left: { left: 0 },
@@ -139,29 +149,29 @@ const styles = theme => ({
 })
 
 const StripedSection = ({ classes, ...rest }) => {
-  console.log(rest.bodyHtml)
   return (
-    <div className={ cns(classes.stripedSectionContainer, classes[rest.className]) } style={ rest.style || {} }>
+    <div className={ classes.stripedSectionContainer } style={ rest.style || {} }>
       <div className={ classes.stripedSection }>
-
-      { rest.bodyHtml
-        ?
-        <Fragment>
+        <div className={ classes.stripedSectionText } style={ rest.textStyle || {} }>
           <h1 className={ classes.stripedHeader }>
             { rest.headerText }
           </h1>
-          { rest.bodyHtml }
-        </Fragment>
-        :
-        <Fragment>
-          <div className={ classes.stripedSectionText } style={ rest.textStyle || {} }>
-            <h1 className={ classes.stripedHeader }>
-              { rest.headerText }
-            </h1>
-            <p>
-              { rest.bodyText }
-            </p>
+          <p>
+            { rest.bodyText }
+          </p>
+        </div>
+        { rest.video
+          ?
+          <div
+            className={ cns(classes.stripedSectionImage, {
+              [classes.right]: rest.right,
+              [classes.left]: !rest.right
+            }) }
+            style={ rest.videoStyle }
+          >
+            { rest.video }
           </div>
+          :
           <img
             className={ cns(classes.stripedSectionImage, {
               [classes.right]: rest.right,
@@ -170,9 +180,7 @@ const StripedSection = ({ classes, ...rest }) => {
             src={ rest.imageUrl }
             style={ rest.imageStyle || {} }
           />
-        </Fragment>
-      }
-
+        }
       </div>
     </div>
   )
@@ -189,6 +197,7 @@ class StripedSections extends PureComponent {
 
   render() {
     const { classes } = this.props
+    const sections = makeSections(classes)
     return (
       <div className={ classes.root }>
         { sections.map((props, idx) =>
