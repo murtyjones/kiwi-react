@@ -3,7 +3,6 @@ import cns from 'classnames'
 
 import './overrides.css'
 
-
 export default class LetsGoSection extends PureComponent {
   constructor(props) {
     super(props)

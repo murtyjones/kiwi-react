@@ -72,7 +72,7 @@ class Home extends Component {
         <DynamicHeader />
         <WelcomeSection openModal={ this.openRegisterModal } />
         <StripedSections />
-        <Footer openModal={ this.openRegisterModal } /> {/* Dont forget about the Footer on the about page*/}
+        <Footer openModal={ this.openRegisterModal } /> /* Dont forget about the Footer on the about page*/
       </div>
     )
   }

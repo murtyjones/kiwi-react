@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 import moment from 'moment'
 import Link from 'react-router-dom/Link'
+import { isMobile } from 'react-device-detect'
+
 import LetsGoSection from '../../Landing/Home/LetsGoSection/LetsGoSection'
 
 const styles = () => ({
@@ -73,24 +75,26 @@ let Footer = ({ classes, openModal, isAboutPage = false }) =>
 
     <LetsGoSection openModal={ openModal } />
 
-    <div className={ classes.sitemap }>
-      { isAboutPage
-        ? <Link to='/'>Home</Link>
-        : <Link to='/about'>About</Link>
-      }
-      <span className={ classes.divider }>|</span>
-      <a
-        rel='noopener noreferrer'
-        href='https://medium.com/@kiwicompute'
-        target='_blank'
-      >
-        Kiwi Blog
-      </a>
-      <span className={ classes.divider }>|</span>
-      <Link to='/terms'>Terms of Service</Link>
-      <span className={ classes.divider }>|</span>
-      <Link to='/privacy'>Privacy Policy</Link>
-    </div>
+    { !isMobile &&
+      <div className={ classes.sitemap }>
+        { isAboutPage
+          ? <Link to='/'>Home</Link>
+          : <Link to='/about'>About</Link>
+        }
+        <span className={ classes.divider }>|</span>
+        <a
+          rel='noopener noreferrer'
+          href='https://medium.com/@kiwicompute'
+          target='_blank'
+        >
+          Kiwi Blog
+        </a>
+        <span className={ classes.divider }>|</span>
+        <Link to='/terms'>Terms of Service</Link>
+        <span className={ classes.divider }>|</span>
+        <Link to='/privacy'>Privacy Policy</Link>
+      </div>
+    }
 
     <div className={ classes.socialContainer }>
       <SocialLink
@@ -117,9 +121,12 @@ let Footer = ({ classes, openModal, isAboutPage = false }) =>
     <div className={ classes.copyright }>
       Copyright &copy; { moment().year() } – Kiwi Compute, LLC
     </div>
-    <h3 className={ classes.emailus }>
-      Need help? E-mail us at <a href='mailto:support@kiwicompute.com'>support@kiwicompute.com</a>
-    </h3>
+
+    { !isMobile &&
+      <h3 className={ classes.emailus }>
+        Need help? E-mail us at <a href='mailto:support@kiwicompute.com'>support@kiwicompute.com</a>
+      </h3>
+    }
   </div>
 
 Footer = withStyles(styles, { withTheme: true })(Footer)
