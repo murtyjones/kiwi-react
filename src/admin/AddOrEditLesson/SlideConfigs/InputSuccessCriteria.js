@@ -13,6 +13,8 @@ import KiwiSelectField from '../../../common/form/Select/KiwiSelectField'
 const inputCriteriaOptions = [
   { label: 'I/O', value: '', disabled: true }
   , { label: 'print', value: CODE_CONCEPTS.PRINT }
+  , { label: 'String Concatenation', value: CODE_CONCEPTS.STRING_CONCATENATION }
+  , { label: 'String Interpolation', value: CODE_CONCEPTS.STRING_INTERPOLATION }
   , { label: 'multi-line quote block', value: CODE_CONCEPTS.MULTI_LINE_QUOTE }
   , { label: 'input', value: CODE_CONCEPTS.INPUT }
   , { label: 'variable', value: CODE_CONCEPTS.VARIABLE }
