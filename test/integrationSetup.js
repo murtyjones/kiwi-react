@@ -39,3 +39,7 @@ export function setupIntegrationTest(reducers, initialRouterState = {}) {
 
   return { store, dispatchSpy }
 }
+
+export function flushAllPromises() {
+  return new Promise(resolve => setImmediate(resolve));
+}

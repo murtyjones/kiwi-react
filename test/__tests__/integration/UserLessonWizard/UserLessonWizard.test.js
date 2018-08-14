@@ -5,7 +5,6 @@ import { mount } from 'enzyme'
 import config from 'config'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import Route from 'react-router-dom/Route'
-import Link from 'react-router-dom/Link'
 import MemoryRouter from 'react-router-dom/MemoryRouter'
 
 import { ACTIONS, LESSON_SLIDE_TYPES } from '../../../../src/constants'

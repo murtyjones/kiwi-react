@@ -8,7 +8,6 @@ import Link from 'react-router-dom/Link'
 import MemoryRouter from 'react-router-dom/MemoryRouter'
 
 import { notCombined } from '../../../../src/reducers/index'
-// make sure to import your connected component
 import LoginOrRegister from '../../../../src/LoginOrRegister/LoginOrRegister'
 
 import { setupIntegrationTest } from '../../../integrationSetup'

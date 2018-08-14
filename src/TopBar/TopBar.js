@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import * as T from 'prop-types'
 import Link from 'react-router-dom/Link'
 import AppBar from '@material-ui/core/AppBar'
@@ -13,7 +13,7 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft'
 
 import { white } from '../colors'
 import { setTopBarTitle } from '../actions'
-import connect from 'react-redux/es/connect/connect'
+import { connect } from 'react-redux'
 
 const styles = () => ({
   root: {
@@ -181,6 +181,9 @@ class TopBar extends PureComponent {
     const { anchorEl } = this.state
 
 
+    console.log(isAdmin)
+    console.log(isOpen)
+
     if (!isOpen)
       return null
 
@@ -242,7 +245,7 @@ class TopBar extends PureComponent {
                 </button>
               }
               { (isAdmin || isProvider) &&
-                <button onClick={ () => this.props.history.push('/provider/dashboard') }>
+                <button id='go-to-dashboard' onClick={ () => this.props.history.push('/provider/dashboard') }>
                   Parent Dashboard
                 </button>
               }
@@ -278,8 +281,6 @@ const mapStateToProps = (state) => {
     globalColors,
   } = state
 
-
-
   return {
     isAdmin: isAdmin,
     isProvider: isProvider,
@@ -302,8 +303,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-TopBar = withStyles(styles)(TopBar)
 
 TopBar = withRouter(connect(mapStateToProps, mapDispatchToProps)(TopBar))
+
+TopBar = withStyles(styles)(TopBar)
 
 export default TopBar

@@ -10,7 +10,7 @@ import ProviderRegisterModal from '../Home/ProviderRegisterModal/ProviderRegiste
 import LoginModal from '../Home/LoginModal/LoginModal'
 import { openModal } from '../../actions'
 import withRouter from 'react-router-dom/withRouter'
-import connect from 'react-redux/es/connect/connect'
+import { connect } from 'react-redux'
 
 import '../../../assets/css/close.css'
 
