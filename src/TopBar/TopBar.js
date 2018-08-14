@@ -12,6 +12,8 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 
 import { white } from '../colors'
+import { setTopBarTitle } from '../actions'
+import connect from 'react-redux/es/connect/connect'
 
 const styles = () => ({
   root: {
@@ -124,7 +126,7 @@ class TopBar extends PureComponent {
     , textColor: T.string
     , titleDisabled: T.bool.isRequired
     , isFocused: T.bool.isRequired
-    , handleTitleChange: T.func
+    , setTopBarTitle: T.func
     , setTopBarMiddleSectionIsVisible: T.func
     , backgroundColor: T.string
     , classes: T.object
@@ -155,7 +157,7 @@ class TopBar extends PureComponent {
   }
 
   handleTitleChange = (e) => {
-    this.props.handleTitleChange(e.target.value)
+    this.props.setTopBarTitle(e.target.value)
   }
 
   handleClick = event => {
@@ -269,4 +271,39 @@ class TopBar extends PureComponent {
   }
 }
 
-export default withRouter(withStyles(styles)(TopBar))
+const mapStateToProps = (state) => {
+  const {
+    auth: { isAdmin, isProvider },
+    topBar,
+    globalColors,
+  } = state
+
+
+
+  return {
+    isAdmin: isAdmin,
+    isProvider: isProvider,
+    showMiddleSection: topBar.showMiddleSection,
+    showLogo: topBar.showLogo,
+    breadcrumbLink: topBar.breadcrumbLink,
+    breadcrumbText: topBar.breadcrumbText,
+    isOpen: topBar.isTopBarOpen,
+    backgroundColor: globalColors.primaryColor,
+    textColor: globalColors.textColor,
+    isFocused: topBar.topBarFocused,
+    title: topBar.topBarTitle,
+    titleDisabled: topBar.topBarTitleDisabled,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
+  }
+}
+
+TopBar = withStyles(styles)(TopBar)
+
+TopBar = withRouter(connect(mapStateToProps, mapDispatchToProps)(TopBar))
+
+export default TopBar

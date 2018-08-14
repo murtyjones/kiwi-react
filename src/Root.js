@@ -12,7 +12,7 @@ import './utils/getNewToken'
 
 import GoogleTagManager from './analytics/GoogleTagManager'
 import Routes from './Routes/Routes'
-import { closeModal, setTopBarTitle, signout } from './actions'
+import { closeModal, signout } from './actions'
 
 Modal.setAppElement(document.getElementById('app'))
 
@@ -82,21 +82,16 @@ class Root extends Component {
   }
 
   static propTypes = {
-    isLoggedIn: T.bool.isRequired
-    , isAdmin: T.bool.isRequired
-    , isProvider: T.bool.isRequired
-    , topBar: T.object.isRequired
-    , setTopBarTitle: T.func.isRequired
+    topBar: T.object.isRequired
     , closeModal: T.func.isRequired
     , modal: T.object.isRequired
-    , globalColors: T.object.isRequired
     , classes: T.object.isRequired
     , userId: T.string.isRequired
   }
 
   render() {
     const {
-      classes, userId, modal, isLoggedIn, isAdmin, isProvider, topBar, setTopBarTitle, globalColors
+      classes, userId, modal, topBar
     } = this.props
 
     const topBarWidthString = `${topBar.topBarHeight}px`
@@ -109,9 +104,9 @@ class Root extends Component {
           <GoogleTagManager gtmId='GTM-TJPSGHC' additionalEvents={ additionalEvents }/>
         }
         <div>
-          {/*{ process.env.NODE_ENV !== 'production' &&*/}
-            {/*<EnvironmentReminder className={ classes.environmentReminder } />*/}
-          {/*}*/}
+          { process.env.NODE_ENV !== 'production' &&
+            <EnvironmentReminder className={ classes.environmentReminder } />
+          }
           <Helmet>
             <title>Kiwi Compute</title>
           </Helmet>
@@ -130,21 +125,7 @@ class Root extends Component {
             }
             { modal.children }
           </Modal>
-          <TopBar
-            isAdmin={ isAdmin }
-            isProvider={ isProvider }
-            showMiddleSection={ topBar.showMiddleSection }
-            showLogo={ topBar.showLogo }
-            breadcrumbLink={ topBar.breadcrumbLink }
-            breadcrumbText={ topBar.breadcrumbText }
-            isOpen={ topBar.isTopBarOpen }
-            backgroundColor={ globalColors.primaryColor }
-            textColor={ globalColors.textColor }
-            isFocused={ topBar.topBarFocused }
-            title={ topBar.topBarTitle }
-            titleDisabled={ topBar.topBarTitleDisabled }
-            handleTitleChange={ setTopBarTitle }
-          />
+          <TopBar />
           <div className={ classes.root } style={ { top: topBarWidthString } }>
             <Routes />
           </div>
@@ -158,19 +139,14 @@ export const RootComponent = Root
 
 const mapStateToProps = (state) => {
   const {
-    auth: { userId, isLoggedIn, isAdmin, isProvider, subscription },
+    auth: { userId, subscription },
     topBar,
-    globalColors,
     modal
   } = state
 
   return {
-    isLoggedIn
-    , subscription
-    , isAdmin
-    , isProvider
+    subscription
     , topBar
-    , globalColors
     , modal
     , userId
   }
@@ -179,7 +155,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signout: () => dispatch(signout())
-    , setTopBarTitle: (title) => dispatch(setTopBarTitle(title))
     , closeModal: params => dispatch(closeModal(params))
   }
 }
