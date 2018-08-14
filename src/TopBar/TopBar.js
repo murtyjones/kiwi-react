@@ -106,7 +106,7 @@ const styles = () => ({
 })
 
 const Signout = ({ className }) =>
-  <Link to='/signout'><button className={ className }>Sign Out</button></Link>
+  <Link to='/signout'><button id='signout' className={ className }>Sign Out</button></Link>
 Signout.propTypes = { className: T.string.isRequired }
 
 class TopBar extends PureComponent {
@@ -180,10 +180,6 @@ class TopBar extends PureComponent {
     } = this.props
     const { anchorEl } = this.state
 
-
-    console.log(isAdmin)
-    console.log(isOpen)
-
     if (!isOpen)
       return null
 
@@ -249,18 +245,20 @@ class TopBar extends PureComponent {
                   Parent Dashboard
                 </button>
               }
-              <Menu
-                id='admin-menu'
-                anchorEl={ anchorEl }
-                open={ Boolean(anchorEl) }
-                onClose={ this.handleClose }
-              >
-                <MenuItem onClick={ () => this.goTo('/lessons') }>Student Map</MenuItem>
-                <MenuItem onClick={ () => this.goTo('/admin/lessons') }>Edit Lessons</MenuItem>
-                <MenuItem onClick={ () => this.goTo('/admin/variables') }>Global User Variables</MenuItem>
-                <MenuItem onClick={ () => this.goTo('/admin/subscriptions') }>Subscriptions</MenuItem>
-                <MenuItem onClick={ () => this.goTo('/admin/signups') }>Signups</MenuItem>
-              </Menu>
+              { isAdmin &&
+                <Menu
+                  id='admin-menu'
+                  anchorEl={ anchorEl }
+                  open={ Boolean(anchorEl) }
+                  onClose={ this.handleClose }
+                >
+                  <MenuItem onClick={ () => this.goTo('/lessons') }>Student Map</MenuItem>
+                  <MenuItem onClick={ () => this.goTo('/admin/lessons') }>Edit Lessons</MenuItem>
+                  <MenuItem onClick={ () => this.goTo('/admin/variables') }>Global User Variables</MenuItem>
+                  <MenuItem onClick={ () => this.goTo('/admin/subscriptions') }>Subscriptions</MenuItem>
+                  <MenuItem onClick={ () => this.goTo('/admin/signups') }>Signups</MenuItem>
+                </Menu>
+              }
             </Grid>
           }
 
