@@ -195,7 +195,7 @@ class TopBar extends PureComponent {
 
             { !!breadcrumbLink &&
               <Link to={ breadcrumbLink ? breadcrumbLink : '/' }>
-                <button className={ classes.breadcrumb }>
+                <button id='breadcrumb' className={ classes.breadcrumb }>
                   <ChevronLeft
                     viewBox='7 3 16 20'
                     className={ classes.breadcrumbIcon }

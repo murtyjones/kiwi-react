@@ -49,9 +49,28 @@ describe('integration tests', () => {
     }
   })
 
-  describe('No Logo', () => {
+  describe('With breadcrumb', () => {
+    beforeEach(async () => {
+      store.dispatch({ type: ACTIONS.SET_TOP_BAR_BREADCRUMB, payload: {
+        breadcrumbLink: '/fakeBreadCrumbLink',
+        breadcrumbText: 'fakeBreadCrumbText',
+      } })
+      component = mounter()
+      component.update()
+    })
+
+    it('should not render logo', () => {
+      expect(component.find('Link[to="/fakeBreadCrumbLink"]').length).toEqual(1)
+      expect(component.find('ChevronLeft').length).toEqual(1)
+      expect(component.find('button[id="breadcrumb"]').length).toEqual(1)
+      expect(component.find('button[id="breadcrumb"]').text().includes('fakeBreadCrumbText')).toEqual(true)
+    })
+  })
+
+  describe('Without Logo, With Title', () => {
     beforeEach(async () => {
       store.dispatch({ type: ACTIONS.SET_TOP_BAR_LOGO_IS_VISIBLE, payload: false })
+      store.dispatch({ type: ACTIONS.SET_TOP_BAR_TITLE, payload: 'fakeTitle' })
       component = mounter()
       component.update()
     })
@@ -62,6 +81,7 @@ describe('integration tests', () => {
 
     it('should render title instead', () => {
       expect(component.find('input[id="top-bar-title"]').length).toEqual(1)
+      expect(component.find('input[value="fakeTitle"]').length).toEqual(1)
     })
   })
 
