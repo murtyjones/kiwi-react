@@ -49,11 +49,52 @@ describe('integration tests', () => {
     }
   })
 
+  describe('No Logo', () => {
+    beforeEach(async () => {
+      store.dispatch({ type: ACTIONS.SET_TOP_BAR_LOGO_IS_VISIBLE, payload: false })
+      component = mounter()
+      component.update()
+    })
+
+    it('should not render logo', () => {
+      expect(component.find('Link[id="logo-link"]').length).toEqual(0)
+    })
+
+    it('should render title instead', () => {
+      expect(component.find('input[id="top-bar-title"]').length).toEqual(1)
+    })
+  })
+
+  describe('Closed TopBar', () => {
+    beforeEach(async () => {
+      store.dispatch({ type: ACTIONS.CLOSE_TOP_BAR })
+      component = mounter()
+      component.update()
+    })
+
+    it('should not render', () => {
+      expect(component.find('AppBar[id="top-bar"]').length).toEqual(0)
+    })
+  })
+
   describe('isProvider', () => {
     beforeEach(async () => {
       store.dispatch({ payload: { idToken: chesterProviderIdToken }, type: ACTIONS.LOGIN_SUCCESS })
       component = mounter()
       component.update()
+    })
+
+    it('should render', () => {
+      expect(component.find('AppBar[id="top-bar"]').length).toEqual(1)
+    })
+
+    it('should render logo', () => {
+      expect(component.find('Link[id="logo-link"]').length).toEqual(1)
+      expect(component.find('Link[to="/provider/dashboard"]').length).toEqual(1)
+    })
+
+    it('should not render title', () => {
+      expect(component.find('input[id="top-bar-title"]').length).toEqual(0)
     })
 
     it('should have parent dashboard button', () => {
@@ -77,6 +118,19 @@ describe('integration tests', () => {
       component.update()
     })
 
+    it('should render', () => {
+      expect(component.find('AppBar[id="top-bar"]').length).toEqual(1)
+    })
+
+    it('should render logo', () => {
+      expect(component.find('Link[id="logo-link"]').length).toEqual(1)
+      expect(component.find('Link[to="/lessons"]').length).toEqual(1)
+    })
+
+    it('should not render title', () => {
+      expect(component.find('input[id="top-bar-title"]').length).toEqual(0)
+    })
+
     it('should have parent dashboard button', () => {
       expect(component.find('button[id="go-to-dashboard"]').length).toEqual(1)
     })
@@ -88,6 +142,22 @@ describe('integration tests', () => {
     it('should have signout link', () => {
       expect(component.find('Link[to="/signout"]').length).toEqual(1)
       expect(component.find('button[id="signout"]').length).toEqual(1)
+    })
+
+    describe('hidden middle section', () => {
+      beforeEach(async () => {
+        store.dispatch({ type: ACTIONS.SET_TOP_BAR_MIDDLE_IS_VISIBLE, payload: false })
+        component = mounter()
+        component.update()
+      })
+
+      it('should not have parent dashboard button', () => {
+        expect(component.find('button[id="go-to-dashboard"]').length).toEqual(0)
+      })
+
+      it('should not have admin menu', () => {
+        expect(component.find('Menu[id="admin-menu"]').length).toEqual(0)
+      })
     })
   })
 

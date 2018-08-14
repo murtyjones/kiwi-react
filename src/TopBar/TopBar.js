@@ -185,6 +185,7 @@ class TopBar extends PureComponent {
 
     return (
       <AppBar
+        id='top-bar'
         className={ classes.root }
         style={ { backgroundColor } }
       >
@@ -205,7 +206,7 @@ class TopBar extends PureComponent {
             }
 
             { showLogo &&
-              <Link to={ isProvider ? '/provider/dashboard' : '/lessons' }>
+              <Link id='logo-link' to={ isProvider ? '/provider/dashboard' : '/lessons' }>
                 <img
                   height='100%'
                   src='../../assets/images/landing-logo.svg'
@@ -215,6 +216,7 @@ class TopBar extends PureComponent {
 
             { !showLogo && // if logo, no title
               <input
+                id='top-bar-title'
                 ref={ c => this.input = c }
                 className={ cns(classes.title, {
                   'disabled': titleDisabled,
