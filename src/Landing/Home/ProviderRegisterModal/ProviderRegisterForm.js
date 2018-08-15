@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
 import * as T from 'prop-types'
 import { SubmissionError, reduxForm, getFormValues, unregisterField } from 'redux-form'
@@ -11,6 +11,7 @@ import ProgressBar from '../../../common/ProgressBar/ProgressBar'
 import ResultMessage from '../../../common/form/ResultMessage'
 import { passwordsMatch } from '../../../utils/validationUtils'
 import Stripe from '../../../common/form/payment/Stripe'
+import { providerSlides } from './slides'
 
 
 import './overrides.css'
@@ -36,6 +37,9 @@ const styles = theme => ({
   },
   loadingText: {
     marginTop: 7
+  },
+  stepNumber: {
+    margin: '0 0 9px 0'
   }
 })
 
@@ -129,9 +133,14 @@ class ProviderRegisterForm extends Component {
         >
           <div className={ classes.row1 }>
             { useCompletionPercentage &&
-              <ProgressBar
-                completionPercentage={ completionPercentage }
-              />
+              <Fragment>
+                <h3 className={ classes.stepNumber }>
+                  Step { activeSlideIndex } of { providerSlides.length - 1 }
+                </h3>
+                <ProgressBar
+                  completionPercentage={ completionPercentage }
+                />
+              </Fragment>
             }
             <SlideHeader
               { ...headerProps }
