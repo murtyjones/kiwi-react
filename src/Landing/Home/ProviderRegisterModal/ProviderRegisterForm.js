@@ -37,9 +37,6 @@ const styles = theme => ({
   },
   loadingText: {
     marginTop: 7
-  },
-  stepNumber: {
-    margin: '0 0 9px 0'
   }
 })
 
@@ -133,14 +130,9 @@ class ProviderRegisterForm extends Component {
         >
           <div className={ classes.row1 }>
             { useCompletionPercentage &&
-              <Fragment>
-                <h3 className={ classes.stepNumber }>
-                  Step { activeSlideIndex } of { providerSlides.length - 1 }
-                </h3>
-                <ProgressBar
-                  completionPercentage={ completionPercentage }
-                />
-              </Fragment>
+              <ProgressBar
+                completionPercentage={ completionPercentage }
+              />
             }
             <SlideHeader
               { ...headerProps }

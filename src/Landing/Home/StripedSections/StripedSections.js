@@ -9,9 +9,9 @@ const makeSections = classes => ([
   {
     headerText: 'Take a Tour of The Kiwi Platform',
     videoStyle: {
-      top: 0,
-      width: 350,
-      height: 350 * 340 / 640
+      position: 'relative',
+      width: '100%',
+      paddingTop: '56.5%'
     },
     video: (
       <ReactPlayer
@@ -25,13 +25,7 @@ const makeSections = classes => ([
         } }
         url='https://youtu.be/WKWCoybQThM'
       />
-    ),
-    bodyText:`
-      See how our platform turns curious students interested in
-      code into the self-taught programmers of the future.
-      Want to learn more about how we do it? Take our tour
-      and sign up for a free trial today. 
-    `,
+    )
   },
   {
     headerText: 'Use your coding skills to survive on Tech Island',
@@ -117,6 +111,10 @@ const styles = theme => ({
     margin: '0 auto',
     position: 'relative'
   },
+  videoHeader: {
+    display: 'block !important',
+    textAlign: 'center'
+  },
   stripedSectionText: {
     display: 'inline-block',
     maxWidth: 600,
@@ -141,7 +139,7 @@ const styles = theme => ({
       width: 300,
       position: 'relative',
       left: '50% !important',
-      marginLeft: -157
+      marginLeft: -129
     }
   },
   left: { left: 0 },
@@ -152,25 +150,34 @@ const StripedSection = ({ classes, ...rest }) => {
   return (
     <div className={ classes.stripedSectionContainer } style={ rest.style || {} }>
       <div className={ classes.stripedSection }>
-        <div className={ classes.stripedSectionText } style={ rest.textStyle || {} }>
-          <h1 className={ classes.stripedHeader }>
-            { rest.headerText }
-          </h1>
-          <p>
-            { rest.bodyText }
-          </p>
-        </div>
+
+
+        { !rest.video &&
+          <div
+            className={ classes.stripedSectionText }
+            style={ rest.textStyle || {} }
+          >
+            <h1 className={ classes.stripedHeader }>
+              { rest.headerText }
+            </h1>
+            { !rest.video &&
+              <p>{ rest.bodyText }</p>
+            }
+          </div>
+        }
+
         { rest.video
           ?
-          <div
-            className={ cns(classes.stripedSectionImage, {
-              [classes.right]: rest.right,
-              [classes.left]: !rest.right
-            }) }
-            style={ rest.videoStyle }
-          >
-            { rest.video }
-          </div>
+          <Fragment>
+            <h1 className={ cns(classes.stripedHeader, {
+              [classes.videoHeader]: !!rest.video
+            }) }>
+              { rest.headerText }
+            </h1>
+            <div style={ rest.videoStyle }>
+              { rest.video }
+            </div>
+          </Fragment>
           :
           <img
             className={ cns(classes.stripedSectionImage, {
