@@ -5,6 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import { purple } from '../../../colors'
 import WhyKiwi from './WhyKiwi'
 import FourPhases from './FourPhases'
+import WhatKidsSay from './WhatKidsSay'
 
 const styles = theme => ({
   root: {
@@ -41,6 +42,7 @@ class Body extends Component {
       <div className={ classes.root }>
         <WhyKiwi />
         <FourPhases />
+        <WhatKidsSay />
       </div>
     )
   }
