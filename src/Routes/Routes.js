@@ -14,7 +14,6 @@ import AuthorizedRoute from './AuthorizedRoute'
 import PlainRoute from './PlainRoute'
 
 import Loading from '../Loading/Loading'
-// import Landing from '../Landing/Landing'
 import Landing from '../Landing/Landing'
 import StudentOnboarding from '../StudentOnboarding/StudentOnboarding'
 import UserProjects from '../UserProjects/UserProjects'
