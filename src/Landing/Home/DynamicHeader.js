@@ -30,8 +30,8 @@ export default class DynamicHeader extends PureComponent {
     const { showBackground } = this.state
 
     const logoUrl = showBackground
-      ? 'https://res.cloudinary.com/kiwi-prod/image/upload/v1535126323/Logos/kiwi_logo_white_v2.svg'
-      : 'https://res.cloudinary.com/kiwi-prod/image/upload/v1535126290/Logos/kiwi_logo_purple_v2.svg'
+      ? 'https://res.cloudinary.com/kiwi-prod/image/upload/v1535129642/Logos/kiwi_logo_white_v2.svg'
+      : 'https://res.cloudinary.com/kiwi-prod/image/upload/v1535129758/Logos/kiwi_logo_purple_v2.svg'
 
     return (
       <div

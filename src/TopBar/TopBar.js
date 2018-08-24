@@ -209,7 +209,7 @@ class TopBar extends PureComponent {
               <Link id='logo-link' to={ isProvider ? '/provider/dashboard' : '/lessons' }>
                 <img
                   height='100%'
-                  src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535126323/Logos/kiwi_logo_white_v2.svg'
+                  src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535129642/Logos/kiwi_logo_white_v2.svg'
                 />
               </Link>
             }
