@@ -96,7 +96,7 @@ class WhyKiwi extends Component {
         <Hidden smDown>
           <div
             style={ {
-              backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1535068323/Landing%20Page/Version%202/timeline.svg)',
+              backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1535079356/Landing%20Page/Version%202/timelinev5.svg)',
               backgroundRepeat: 'no-repeat',
               width: '100%',
               padding: '14%'
