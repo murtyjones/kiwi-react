@@ -9,7 +9,7 @@ import './overrides.css'
 import { LoginLink } from './Links'
 import DynamicHeader from './DynamicHeader'
 import WelcomeSection from './WelcomeSection'
-import StripedSections from './StripedSections/StripedSections'
+import Body from './Body/Body'
 import Footer from '../../common/Footer/Footer'
 import ProviderRegisterModal from './ProviderRegisterModal/ProviderRegisterModal'
 import LoginModal from './LoginModal/LoginModal'
@@ -71,7 +71,7 @@ class Home extends Component {
         <LoginLink onClick={ this.openLoginModal } />
         <DynamicHeader />
         <WelcomeSection openModal={ this.openRegisterModal } />
-        <StripedSections />
+        <Body />
         <Footer openModal={ this.openRegisterModal } /> /* Dont forget about the Footer on the about page*/
       </div>
     )

@@ -1,4 +1,5 @@
 export const white = '#FFFFFF'
+export const almostWhite = '#FDFDFD'
 export const offWhite = '#f5f0f9'
 export const eggshellWhite = '#edecec'
 
