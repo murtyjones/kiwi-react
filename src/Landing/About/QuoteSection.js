@@ -24,6 +24,7 @@ const styles = {
     , width: '70vw'
     , paddingBottom: '50px'
     , boxSizing: 'border-box'
+    , margin: '0 auto'
   },
   quote: {
     fontSize: 'calc(13px + 1.8vw)'

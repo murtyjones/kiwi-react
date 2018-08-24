@@ -7,7 +7,7 @@ const styles = {
     , position: 'relative'
     , overflow: 'auto'
     , color: '#624F8F'
-    , textAlign: 'left'
+    , textAlign: 'center'
   },
   teamSectionH1: {
     fontSize: 'calc(15px + 2.3vw)'
@@ -69,12 +69,6 @@ const TeamSection = () =>
       position='Chief Technical Officer'
       imageUrl='https://res.cloudinary.com/kiwi-stage/image/upload/v1522032620/murty_jyfotu.jpg'
       description='Marty leads the Kiwi Development Team. After working at Goldman Sachs, he moved into Software Development as a self-taught programmer. Marty is an advocate for independent learning and wants to share that with kids. He loves hiking, traveling and teaching himself new programming concepts.'
-    />
-    <TeamMember
-      name='Ben Poppel'
-      position='Chief Product Officer'
-      imageUrl='https://res.cloudinary.com/kiwi-stage/image/upload/v1522032621/ben_znisgj.jpg'
-      description='Ben oversees Kiwi’s product strategy, product growth and user experience. After graduating from Harvard, he worked with numerous startups as a Product Owner. He is passionate about data, user experience and startups. In his free time, he loves exploring Austin and urban gardening.'
     />
   </div>
 
