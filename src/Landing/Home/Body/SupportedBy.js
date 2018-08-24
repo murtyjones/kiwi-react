@@ -9,12 +9,18 @@ import Hidden from '@material-ui/core/Hidden'
 
 const styles = theme => ({
   root: {
-    padding: '8%',
+    width: '100%',
+    maxWidth: '900px',
+    [theme.breakpoints.up('sm')]: {
+      margin: '0 auto',
+      width: '80%',
+    },
+    padding: '4% 20px',
     boxSizing: 'border-box'
   },
   img: {
     verticalAlign: 'middle',
-    margin: '0 5px',
+    margin: '0 8px',
     [theme.breakpoints.down('sm')]: {
       margin: '15px auto',
       display: 'block'
@@ -34,7 +40,7 @@ class WhatKidsSay extends Component {
   render() {
     const { classes } = this.props
     return(
-      <Grid container className={ classes.root } spacing={ 24 }>
+      <Grid container className={ classes.root } spacing={ 0 }>
 
         <h1>Kiwi is Supported By...</h1>
 
@@ -57,7 +63,7 @@ class WhatKidsSay extends Component {
           <img
             className={ classes.img }
             style={ { height: 50, width: 'auto' } }
-            src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535124451/usignite_bd48nz.png'
+            src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535126017/Landing%20Page/Version%202/usignite.svg'
           />
           <img
             className={ classes.img }

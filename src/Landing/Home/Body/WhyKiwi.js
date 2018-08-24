@@ -9,7 +9,13 @@ import Hidden from '@material-ui/core/Hidden'
 
 const styles = theme => ({
   root: {
-    padding: '8%',
+    width: '100%',
+    maxWidth: '900px',
+    [theme.breakpoints.up('sm')]: {
+      margin: '0 auto',
+      width: '80%',
+    },
+    padding: '4% 20px',
     boxSizing: 'border-box',
     '& img': {
       width: '100%'
@@ -57,13 +63,8 @@ class WhyKiwi extends Component {
   render() {
     const { classes } = this.props
     return(
-      <Grid container className={ classes.root } spacing={ 24 }>
-        <Hidden smDown>
-          <Grid item xs={ 5 }>
-            <img src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535053612/marty.png' />
-          </Grid>
-        </Hidden>
-        <Grid item sm={ 12 } md={ 7 }>
+      <Grid container className={ classes.root }>
+        <Grid item xs={ 12 }>
           <h1>Why Choose Kiwi?</h1>
           <Grid container>
             <div className={ classes.learningNotEnough }>
@@ -71,7 +72,10 @@ class WhyKiwi extends Component {
               <br />
               Kiwi teaches middle schoolers the hard parts of coding and helps them become self-taught developers.
               <Hidden xsDown>
-                <div style={ { marginTop: 22 } }>
+                <div style={ {
+                  maxWidth: 600,
+                  margin: '30px auto 0 auto'
+                } }>
                   <Bubble
                     src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535066990/Landing%20Page/Version%202/message_bubble.svg'
                     className={ cns(classes.sellingPoint, classes.sellingPointInLine) }

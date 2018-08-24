@@ -10,7 +10,13 @@ import ReactPlayer from "react-player";
 
 const styles = theme => ({
   root: {
-    padding: '8%',
+    width: '100%',
+    maxWidth: '900px',
+    [theme.breakpoints.up('sm')]: {
+      margin: '0 auto',
+      width: '80%',
+    },
+    padding: '4% 20px',
     boxSizing: 'border-box',
     '& img': {
       width: '100%'
@@ -19,7 +25,7 @@ const styles = theme => ({
   playerContainer: {
     position: 'relative',
     width: '50%',
-    paddingTop: '27%',
+    paddingTop: '30%',
     [theme.breakpoints.down('sm')]: {
       marginBottom: 20,
       paddingTop: '56.5%',
@@ -31,6 +37,7 @@ const styles = theme => ({
     top: 0,
     left: 0,
     right: 5,
+    bottom: 10,
     [theme.breakpoints.down('sm')]: {
       right: 0,
       left: 0,
@@ -41,6 +48,7 @@ const styles = theme => ({
     top: 0,
     left: 5,
     right: 0,
+    bottom: 10,
     [theme.breakpoints.down('sm')]: {
       right: 0,
       left: 0,
@@ -60,7 +68,7 @@ class SeeKiwiInAction extends Component {
   render() {
     const { classes } = this.props
     return(
-      <Grid container className={ classes.root } spacing={ 24 }>
+      <Grid container className={ classes.root } spacing={ 0 }>
 
         <h1>See Kiwi in Action</h1>
 
@@ -69,15 +77,15 @@ class SeeKiwiInAction extends Component {
             className={ classes.playerLeft }
             controls={ true }
             width='100%'
-            height='100%'
-            // style={ {
-            //   position: 'absolute',
-            //   top: 0,
-            //   left: 0,
-            //   right: 5
-            // } }
+            height='calc(100% - 45px)'
             url='https://youtu.be/WKWCoybQThM'
           />
+          <div style={ {
+            textAlign: 'center',
+            fontSize: '14pt'
+          } }>
+            Take a tour of Kiwi and learn why kids love us!
+          </div>
         </div>
 
         <div className={ classes.playerContainer }>
@@ -85,14 +93,15 @@ class SeeKiwiInAction extends Component {
             className={ classes.playerRight }
             controls={ true }
             width='100%'
-            height='100%'
-            // style={ {
-            //   position: 'absolute',
-            //   top: 0,
-            //   left: 5
-            // } }
+            height='calc(100% - 45px)'
             url='https://www.youtube.com/watch?v=3RX-aL_uR5I'
           />
+          <div style={ {
+            textAlign: 'center',
+            fontSize: '14pt'
+          } }>
+            See why The NSF funded Kiwi.
+          </div>
         </div>
 
       </Grid>

@@ -13,12 +13,7 @@ const styles = theme => ({
   root: {
     fontFamily: 'Roboto',
     color: purple,
-    width: '100%',
-    maxWidth: '980px',
-    [theme.breakpoints.up('sm')]: {
-      margin: '0 auto',
-      width: '80%',
-    },
+
     '& h1': {
       width: '100%',
       fontFamily: 'Arvo',

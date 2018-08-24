@@ -103,7 +103,7 @@ class ProviderLoginOrRegister extends PureComponent {
       <div className={ classes.root }>
         <div className={ classes.formContainer }>
           <img
-            src='../../assets/images/landing-logo-dark.svg'
+            src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535126290/Logos/kiwi_logo_purple_v2.svg'
             className={ classes.logo }
           />
           <h1 className={ classes.header }>
