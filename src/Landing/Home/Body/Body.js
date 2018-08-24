@@ -5,14 +5,16 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import { purple } from '../../../colors'
 import WhyKiwi from './WhyKiwi'
 import FourPhases from './FourPhases'
+import SeeKiwiInAction from './SeeKiwiInAction'
 import WhatKidsSay from './WhatKidsSay'
+import SupportedBy from './SupportedBy'
 
 const styles = theme => ({
   root: {
     fontFamily: 'Roboto',
     color: purple,
     width: '100%',
-    maxWidth: '900px',
+    maxWidth: '980px',
     [theme.breakpoints.up('sm')]: {
       margin: '0 auto',
       width: '80%',
@@ -42,7 +44,9 @@ class Body extends Component {
       <div className={ classes.root }>
         <WhyKiwi />
         <FourPhases />
+        <SeeKiwiInAction />
         <WhatKidsSay />
+        <SupportedBy />
       </div>
     )
   }

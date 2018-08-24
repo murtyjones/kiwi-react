@@ -9,7 +9,7 @@ import Hidden from '@material-ui/core/Hidden'
 
 const styles = theme => ({
   root: {
-    padding: '10%',
+    padding: '8%',
     boxSizing: 'border-box',
     '& img': {
       width: '100%'
