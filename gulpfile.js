@@ -101,15 +101,15 @@ gulp.task('lint', () => {
 
 
 // Production build
-gulp.task("build:production", ["copy-html", "copy-assets", "webpack:build:production"])
+gulp.task("build:production", ["copy-public", "copy-assets", "webpack:build:production"])
 
 // Dev build
-gulp.task("build:development", ["copy-html", "copy-assets", "webpack:build:development"])
+gulp.task("build:development", ["copy-public", "copy-assets", "webpack:build:development"])
 
 // Stage build
-gulp.task("build:stage", ["copy-html", "copy-assets", "webpack:build:stage"])
+gulp.task("build:stage", ["copy-public", "copy-assets", "webpack:build:stage"])
 
-gulp.task("copy-html", ["clean"], function() {
+gulp.task("copy-public", ["clean"], function() {
   return gulp
     .src(['./public/**'])
     .pipe(gulp.dest('build'))

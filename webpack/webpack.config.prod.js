@@ -31,14 +31,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel-loader',
-        options: Object.assign(
-          {
-            babelrc: false,
-            cacheDirectory: true
-          },
-          JSON.parse(fs.readFileSync(path.join(__dirname, '../.babelrc'), 'utf-8'))
-        ),
+        loader: 'babel-loader'
       }, {
         test: /\.json$/,
         loader: 'json-loader'
