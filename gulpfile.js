@@ -51,7 +51,7 @@ gulp.task('default', [], () => {
   const myWebpack = webpack(webpackLocalConfig)
   browserSync.init({
     server: {
-      baseDir: './',
+      baseDir: './public',
       middleware: [
         historyApiFallback(),
         webpackDevMiddleware(myWebpack, {

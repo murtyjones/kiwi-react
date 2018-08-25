@@ -23,7 +23,8 @@ class EmailVerification extends Component {
   }
 
   static propTypes = {
-    checkProfileEmailVerification: T.func.isRequired
+    checkProfileEmailVerification: T.func.isRequired,
+    location: T.object.isRequired,
   }
 
   componentDidMount() {

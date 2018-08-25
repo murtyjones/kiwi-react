@@ -11,12 +11,12 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
   },
-  context: path.join(__dirname, '../'),
+  context: path.join(__dirname, '../public'),
   entry: {
     main: [
       'react-hot-loader/patch'
       , 'webpack-hot-middleware/client'
-      , './src/Main.js'
+      , '../src/Main.js'
     ]
   },
   output: {
