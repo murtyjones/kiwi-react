@@ -53,7 +53,7 @@ class WhatKidsSay extends Component {
           <img
             className={ classes.img }
             style={ { height: 50, width: 'auto' } }
-            src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535122176/mozilla_fllusj.jpg'
+            src='https://res.cloudinary.com/kiwi-prod/image/upload/c_scale,w_94/v1535122176/mozilla_fllusj.jpg'
           />
           <img
             className={ classes.img }
@@ -68,7 +68,7 @@ class WhatKidsSay extends Component {
           <img
             className={ classes.img }
             style={ { height: 80, width: 'auto' } }
-            src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535124521/austin_im5cra.gif'
+            src='https://res.cloudinary.com/kiwi-prod/image/upload/c_scale,w_50/v1535124521/austin_im5cra.gif'
           />
         </div>
 
