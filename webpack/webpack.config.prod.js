@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const prodConfig = require('../config/prod.json')
+const fs = require('fs')
 
 module.exports = {
   mode: 'production',
@@ -31,25 +32,13 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
-        options: {
-          "presets": [
-            "react",
-            "es2015",
-            ["env", {
-              "targets": {
-                "chrome": 41,
-                "browsers": ["last 2 versions"]
-              }
-            }]
-          ],
-          "plugins": [
-            "transform-object-rest-spread"
-            , "transform-class-properties"
-            , "syntax-async-functions"
-            , "transform-regenerator"
-            , "dynamic-import-webpack"
-          ]
-        }
+        options: Object.assign(
+          {
+            babelrc: false,
+            cacheDirectory: true
+          },
+          JSON.parse(fs.readFileSync(path.join(__dirname, '../.babelrc'), 'utf-8'))
+        ),
       }, {
         test: /\.json$/,
         loader: 'json-loader'
