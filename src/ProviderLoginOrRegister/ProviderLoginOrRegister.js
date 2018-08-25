@@ -5,7 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import find from 'lodash/find'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
-import queryString from 'query-string'
+import queryString from 'querystring-browser'
 import Link from 'react-router-dom/Link'
 
 import { openTopBar, closeTopBar, login, resetPasswordRequest, register } from '../actions'

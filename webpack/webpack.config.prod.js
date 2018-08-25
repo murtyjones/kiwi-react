@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const prodConfig = require('../config/prod.json')
+const fs = require('fs')
 
 module.exports = {
   mode: 'production',
@@ -29,7 +30,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules\/(?!(random-words)\/).*/,
         loader: 'babel-loader'
       }, {
         test: /\.json$/,

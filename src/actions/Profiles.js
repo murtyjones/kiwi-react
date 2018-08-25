@@ -1,6 +1,6 @@
 import { ACTIONS } from '../constants'
 import config from 'config'
-import queryString from 'query-string'
+import queryString from 'querystring-browser'
 import ApiFetch from '../utils/ApiFetch'
 
 

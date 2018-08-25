@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
-import queryString from 'query-string'
+import queryString from 'querystring-browser'
 import get from 'lodash/get'
 
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
