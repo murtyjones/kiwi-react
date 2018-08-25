@@ -111,7 +111,7 @@ gulp.task("build:stage", ["copy-html", "copy-assets", "webpack:build:stage"])
 
 gulp.task("copy-html", ["clean"], function() {
   return gulp
-    .src(['./index.html', './maintenance.html'])
+    .src(['./public/**'])
     .pipe(gulp.dest('build'))
 })
 
