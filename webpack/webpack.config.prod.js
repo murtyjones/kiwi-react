@@ -32,7 +32,23 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         options: {
-          babelrc: path.join(process.cwd(), '../.babelrc')
+          "presets": [
+            "react",
+            "es2015",
+            ["env", {
+              "targets": {
+                "chrome": 41,
+                "browsers": ["last 2 versions"]
+              }
+            }]
+          ],
+          "plugins": [
+            "transform-object-rest-spread"
+            , "transform-class-properties"
+            , "syntax-async-functions"
+            , "transform-regenerator"
+            , "dynamic-import-webpack"
+          ]
         }
       }, {
         test: /\.json$/,
