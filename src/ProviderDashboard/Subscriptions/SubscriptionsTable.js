@@ -12,9 +12,9 @@ import moment from 'moment'
 import isEmpty from 'lodash/isEmpty'
 import withStyles from '@material-ui/core/styles/withStyles'
 
-import { SUBSCRIPTION_STATUSES } from '../../constants'
+import { COUPON_LANGUAGE, SUBSCRIPTION_STATUSES } from '../../constants'
 import AuthService from '../../utils/AuthService'
-import { oceanBlue } from '../../colors'
+import { oceanBlue, successGreen } from '../../colors'
 
 export const getIsInTrialPeriod = subscription => {
   return subscription.trial_end
@@ -52,7 +52,7 @@ const styles = theme => ({
     fontSize: '80%'
   },
   periodEnd: {
-    width: '35%',
+    width: '33%',
     padding: '0 !important'
   },
   cancelAtPeriodEnd: { color: 'darkred' },
@@ -66,12 +66,16 @@ const styles = theme => ({
     color: oceanBlue
   },
   monthlyPrice: {
-    width: 100,
+    width: 140,
     padding: 0
   },
   row: {
     borderTop: '1px solid #DDD',
     borderBottom: '1px solid #DDD'
+  },
+  discountMessage: {
+    fontSize: '8pt',
+    color: successGreen
   }
 })
 
@@ -81,11 +85,11 @@ const SubscriptionsTable = ({
   if (isEmpty(sortedSubscriptions)) {
     return 'No subscriptions yet...'
   }
-
   return (
     <Table className={ classes.root }>
       <TableBody>
         { sortedSubscriptions.map((subscription, i) => {
+          const discountMessage = COUPON_LANGUAGE[subscription.discountCode]
           const isInTrialPeriod = getIsInTrialPeriod(subscription)
           const providee = profilesById[subscription.provideeId] || {}
           const current_period_end = moment.unix(subscription.current_period_end)
@@ -127,7 +131,10 @@ const SubscriptionsTable = ({
                 </span>
               </TableCell>
               <TableCell className={ classes.monthlyPrice }>
-                30 USD / mo.
+                30 USD / mo.<br />
+                { isInTrialPeriod && !subscription.cancel_at_period_end && discountMessage &&
+                <span className={ classes.discountMessage }>{ discountMessage }</span>
+                }
               </TableCell>
               <TableCell
                 className={

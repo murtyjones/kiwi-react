@@ -21,7 +21,6 @@ import NewProvideeProfileForm from './NewProvideeProfileForm'
 import EditProvideeProfileForm from './EditProvideeProfileForm'
 import SubscriptionsTable from './SubscriptionsTable'
 import ConfirmPasswordModal from '../../common/modals/ConfirmPasswordModal/ConfirmPasswordModal'
-import { generateTempPassword } from '../../utils/psuedoRandomUtils'
 import ProspectiveSubscriptionTable from '../../Landing/Home/ProviderRegisterModal/slides/ProspectiveSubscriptionTable'
 import { purple } from '../../colors'
 
@@ -205,7 +204,7 @@ class Subscriptions extends Component {
     await this.resetUpdateMessage()
     const { subscriptionsById } = this.props
     const isDeactivating = getNewSubscriptionStatus(subscriptionsById[subscriptionId]) === SUBSCRIPTION_STATUSES.INACTIVE
-    if (/*<-- get rid of bang*/isInTrialPeriod || isDeactivating) {
+    if (isInTrialPeriod || isDeactivating) {
       return this._toggleSubscriptionStatus(subscriptionId)
     }
     await this.setStateAsync({ subscriptionId })

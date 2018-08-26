@@ -1,3 +1,5 @@
+// must match kiwi backend
+
 const COUPONS = {
   CODER: 'CODER',
   LETSCODE: 'LETSCODE',

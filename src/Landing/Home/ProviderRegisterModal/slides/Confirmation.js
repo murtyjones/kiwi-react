@@ -42,11 +42,11 @@ class Confirmation extends Component {
     providees: T.object.isRequired,
   }
 
-  getDiscountedPrice = (totalSubscription, discountValueDetails) => {
+  getDiscountedPrice = (totalSubscription, numberOfStudents, discountValueDetails) => {
     if (discountValueDetails.type === 'percent') {
       return totalSubscription * (100 - discountValueDetails.value) / 100
     } else if (discountValueDetails.type === 'dollars') {
-      return totalSubscription - discountValueDetails.value
+      return totalSubscription - (discountValueDetails.value * numberOfStudents)
     }
   }
 
@@ -81,7 +81,7 @@ class Confirmation extends Component {
               </h3>
               :
               <h3 className={ cns(classes.h3, classes.discounted) }>
-                { this.getDiscountedPrice(totalSubscription, discountValueDetails) } USD for the first month.<br />
+                { this.getDiscountedPrice(totalSubscription, numberOfStudents, discountValueDetails) } USD for the first month.<br />
                 <span className={ classes.thereafter }>{ totalSubscription } USD after the first month.</span>
               </h3>
             }

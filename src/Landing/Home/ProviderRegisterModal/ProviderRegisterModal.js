@@ -81,7 +81,7 @@ class ProviderRegisterModal extends Component {
 
   // do EVERYTHING
   onConfirmSubmit = async formValues => {
-    const { email, password, termsAccepted, providees, stripeCreditCardToken } = formValues
+    const { email, password, termsAccepted, providees, stripeCreditCardToken, discountCode } = formValues
 
     // register provider
     const providerProfileObject = await this.props.register({
@@ -122,7 +122,8 @@ class ProviderRegisterModal extends Component {
       this.props.postSubscription({
         providerId: providerProfileObject._id,
         provideeId: each._id,
-        status: SUBSCRIPTION_STATUSES.INACTIVE
+        status: SUBSCRIPTION_STATUSES.INACTIVE,
+        discountCode
       })
     )
     const subscriptions = await BluebirdPromise.all(makeSubscriptionPromises)

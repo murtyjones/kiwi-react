@@ -20,7 +20,6 @@ import {
 import DashboardHeader from './DashboardHeader/DashboardHeader'
 import Toolbar from './Navigation/Toolbar'
 import MobileDrawer from './Navigation/MobileDrawer'
-import Drawer from './Navigation/Drawer'
 import { MENU_ITEMS } from './Navigation/DrawerContents'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 import { AccountInfo, PaymentInfo, ExploreTechIsland } from './HotLinks/HotLinks'
