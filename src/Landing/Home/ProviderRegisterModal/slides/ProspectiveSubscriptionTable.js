@@ -21,13 +21,13 @@ const styles = () => ({
   }
 })
 
-const ProspectiveSubscriptionTable = ({ classes, providees, monthlySubscription = 30 }) => {
+const ProspectiveSubscriptionTable = ({ classes, providees, discountValueDetails, monthlySubscription = 30 }) => {
   return (
     <Table className={ classes.table }>
       <TableHead>
         <TableRow>
           <TableCell>Name</TableCell>
-          <TableCell>Monthly Price</TableCell>
+          <TableCell>Price</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -43,6 +43,12 @@ const ProspectiveSubscriptionTable = ({ classes, providees, monthlySubscription 
           )
         }
         ) }
+        { discountValueDetails &&
+          <TableRow>
+            <TableCell>Discount</TableCell>
+            <TableCell>{ discountValueDetails.text }</TableCell>
+          </TableRow>
+        }
       </TableBody>
     </Table>
   )
@@ -52,7 +58,8 @@ const ProspectiveSubscriptionTable = ({ classes, providees, monthlySubscription 
 ProspectiveSubscriptionTable.propTypes = {
   classes: T.object,
   providees: T.array,
-  monthlySubscription: T.number
+  monthlySubscription: T.number,
+  discountValueDetails: T.object,
 }
 
 

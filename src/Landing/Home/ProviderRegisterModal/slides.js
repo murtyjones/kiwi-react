@@ -88,7 +88,8 @@ export const billingInfoSlide = {
     'addressLine2',
     'addressCity',
     'addressState',
-    'creditCard'
+    'creditCard',
+    'discountCode'
   ]
   , headerText: 'Enter your payment information'
   , submitText: 'See my subscription details'

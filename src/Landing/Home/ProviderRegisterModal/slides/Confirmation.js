@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
+import moment from 'moment'
+import cns from 'classnames'
 
 import ProspectiveSubscriptionTable from './ProspectiveSubscriptionTable'
 import SlideInOut from '../../../../common/animations/SlideInOut'
-import moment from 'moment'
+import { COUPON_DETAILS } from '../../../../constants'
+import { darkPurple, successGreen } from '../../../../colors'
 
 const styles = () => ({
   root: {
@@ -17,6 +20,13 @@ const styles = () => ({
   beginsAfter: {
     fontSize: 11,
     fontStyle: 'italic'
+  },
+  discounted: {
+    color: successGreen
+  },
+  thereafter: {
+    color: '#2E2860',
+    fontSize: '10pt'
   }
 })
 
@@ -32,8 +42,16 @@ class Confirmation extends Component {
     providees: T.object.isRequired,
   }
 
+  getDiscountedPrice = (totalSubscription, discountValueDetails) => {
+    if (discountValueDetails.type === 'percent') {
+      return totalSubscription * (100 - discountValueDetails.value) / 100
+    } else if (discountValueDetails.type === 'dollars') {
+      return totalSubscription - discountValueDetails.value
+    }
+  }
+
   render() {
-    const { classes, formValues: { providees } } = this.props
+    const { classes, formValues: { providees, discountCode } } = this.props
     const monthlySubscription = 30
     const numberOfStudents = providees.length
     const totalSubscription = numberOfStudents * monthlySubscription
@@ -41,6 +59,8 @@ class Confirmation extends Component {
     const subscriptionOrSubs = numberOfStudents > 1
       ? 'subscriptions'
       : 'subscription'
+    const discountValueDetails = COUPON_DETAILS[discountCode]
+
 
     return (
       <SlideInOut>
@@ -53,9 +73,19 @@ class Confirmation extends Component {
             </h5>
             <ProspectiveSubscriptionTable
               providees={ providees }
+              discountValueDetails={ discountValueDetails }
             />
-            <h3 className={ classes.h3 }>{ totalSubscription } USD /month </h3>
-            <span className={ classes.beginsAfter }>(After { whenToCancel })</span>
+            { !discountValueDetails ?
+              <h3 className={ classes.h3 }>
+                { totalSubscription } USD /month
+              </h3>
+              :
+              <h3 className={ cns(classes.h3, classes.discounted) }>
+                { this.getDiscountedPrice(totalSubscription, discountValueDetails) } USD for the first month.<br />
+                <span className={ classes.thereafter }>{ totalSubscription } USD after the first month.</span>
+              </h3>
+            }
+            <span className={ classes.beginsAfter }>(Free trial ends { whenToCancel })</span>
           </div>
         </div>
       </SlideInOut>

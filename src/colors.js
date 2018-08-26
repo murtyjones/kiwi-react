@@ -23,3 +23,7 @@ export const babyBlue2 = '#8ca4f8'
 
 
 export const militaryGreen = '#4F8A10'
+export const successGreen = '#52cc4a'
+
+
+export const errorRed = '#FF5472'

@@ -1,4 +1,6 @@
-.CardField-container {}
+.CardField-container {
+    margin-bottom: 20px;
+}
 
 .CardField-input {
     border: 1px solid #AAA;

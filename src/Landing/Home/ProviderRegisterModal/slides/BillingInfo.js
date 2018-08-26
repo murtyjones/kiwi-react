@@ -9,7 +9,9 @@ import KiwiSelectField from '../../../../common/form/Select/KiwiSelectField'
 import CardField from '../../../../common/form/payment/CardField'
 import { billingInfoSlide } from '../slides'
 import states from '../../../../utils/statesArray'
-import { email, required, cardValid } from '../../../../utils/validationUtils'
+import { required, cardValid } from '../../../../utils/validationUtils'
+import { successGreen } from '../../../../colors'
+import { COUPON_LANGUAGE } from '../../../../constants'
 
 const styles = {
   row: {
@@ -29,6 +31,9 @@ const styles = {
     position: 'relative',
     top: -4
   },
+  discountCodeToBeApplied: {
+    color: successGreen
+  }
 }
 
 class ProvideesSignupSuccess extends Component {
@@ -42,8 +47,13 @@ class ProvideesSignupSuccess extends Component {
     classes: T.object.isRequired,
   }
 
+  getDiscountCodeLanguage = () => {
+    const { formValues: { discountCode } } = this.props
+    return COUPON_LANGUAGE[discountCode]
+  }
+
   render() {
-    const { classes, formValues } = this.props
+    const { classes } = this.props
 
     return (
       <SlideInOut>
@@ -89,6 +99,14 @@ class ProvideesSignupSuccess extends Component {
               name={ billingInfoSlide.names[5] }
               component={ CardField }
               validate={ [ required, cardValid ] }
+            />
+            <Field
+              name={ billingInfoSlide.names[6] }
+              component={ KiwiTextField }
+              label='(Optional) Discount Code'
+              normalize={ v => v.toUpperCase() }
+              addlInputLabelProps={ { shrink: true } }
+              successText={ this.getDiscountCodeLanguage() }
             />
           </div>
         </div>

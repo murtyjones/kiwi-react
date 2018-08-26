@@ -5,6 +5,7 @@ import SVG_PATHS from './SVG_PATHS'
 import GLOBAL_COLORS from './GLOBAL_COLORS'
 export * from './SUCCESS_CRITERIA'
 export * from './SUBSCRIPTION_STATUSES'
+export * from './COUPONS'
 
 
 export {

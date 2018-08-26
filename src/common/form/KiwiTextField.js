@@ -3,7 +3,7 @@ import cns from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { TextField as ReduxFormTextField } from 'redux-form-material-ui-next'
-import get from 'lodash/get'
+import * as T from 'prop-types'
 
 const styles = theme => ({
   field: {
@@ -62,14 +62,27 @@ class KiwiTextField extends PureComponent {
     }
   }
 
+  static propTypes = {
+    className: T.string,
+    disableUnderline: T.bool,
+    fullWidth: T.any,
+    classes: T.object.isRequired,
+    StartAdornmentIcon: T.any,
+    input: T.object.isRequired,
+    meta: T.object.isRequired,
+    successText: T.string,
+    addlInputLabelProps: T.object,
+  }
+
   render() {
     const {
-      classes, StartAdornmentIcon, input, meta, successText
+      classes, StartAdornmentIcon, input, meta, successText,
+      fullWidth, disableUnderline, addlInputLabelProps
     } = this.props
-    const { error, pristine, touched, asyncValidating, valid } = meta
+    const { error, visited, pristine, touched, asyncValidating, valid } = meta
     const { focused, color } = this.state
     const errorText = touched && error ? error : ''
-    const asyncValidated = touched && !pristine && !asyncValidating && valid
+    const asyncValidated = (touched || visited) && !pristine && !asyncValidating && valid
     const derivedSuccessText = asyncValidated ? successText : ''
     const hasError = !!errorText
     const stateClasses = { focused, error: hasError }
@@ -81,7 +94,7 @@ class KiwiTextField extends PureComponent {
         helperText={ errorText || derivedSuccessText }
         margin='normal'
         className={ cns(classes.field, this.props.className) }
-        fullWidth={ this.props.fullWidth ? this.props.fullWidth : true }
+        fullWidth={ fullWidth ? fullWidth : true }
         InputProps={{
           onChange: input ? input.onChange : null,
           onFocus: () => {
@@ -96,9 +109,7 @@ class KiwiTextField extends PureComponent {
             // checking out a KiwiTextField with type='number'
             input.onBlur()
           },
-          disableUnderline: this.props.disableUnderline
-            ? this.props.disableUnderline
-            : true,
+          disableUnderline: disableUnderline ? disableUnderline : true,
           classes: {
             input: cns(classes.input, stateClasses),
             formControl: cns(classes.formControl, stateClasses),
@@ -115,7 +126,7 @@ class KiwiTextField extends PureComponent {
             root: cns(classes.label, stateClasses),
             shrink: cns(classes.labelShrink, stateClasses)
           },
-          ...this.props.addlInputLabelProps
+          ...addlInputLabelProps
         }}
         FormHelperTextProps={{
           classes: {
