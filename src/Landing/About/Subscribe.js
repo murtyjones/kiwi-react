@@ -1,8 +1,8 @@
-import React, {Component, Fragment} from 'react'
+import React, { Component, Fragment } from 'react'
 import * as T from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Email from '@material-ui/icons/Email'
-import {Field, reduxForm, SubmissionError} from 'redux-form'
+import { Field, reduxForm, SubmissionError } from 'redux-form'
 
 import KiwiTextField from '../../common/form/KiwiTextField'
 import { email, required } from '../../utils/validationUtils'
