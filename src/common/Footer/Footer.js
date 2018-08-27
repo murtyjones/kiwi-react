@@ -100,22 +100,22 @@ let Footer = ({ classes, openModal, isAboutPage = false }) =>
       <SocialLink
         classes={ classes }
         url='https://www.facebook.com/kiwicompute/'
-        imageUrl='../../../assets/images/social/facebook.svg'
+        imageUrl='https://res.cloudinary.com/kiwi-prod/image/upload/v1535378410/Social/facebook_xq2id7.svg'
       />
       <SocialLink
         classes={ classes }
         url='https://instagram.com/kiwi_compute'
-        imageUrl='../../../assets/images/social/instagram.svg'
+        imageUrl='https://res.cloudinary.com/kiwi-prod/image/upload/v1535378410/Social/instagram_giimcu.svg'
       />
       <SocialLink
         classes={ classes }
         url='https://twitter.com/kiwi_compute'
-        imageUrl='../../../assets/images/social/twitter.svg'
+        imageUrl='https://res.cloudinary.com/kiwi-prod/image/upload/v1535378410/Social/twitter_uezqwj.svg'
       />
       <SocialLink
         classes={ classes }
         url='https://www.linkedin.com/company/kiwi-compute/'
-        imageUrl='../../../assets/images/social/linkedin.svg'
+        imageUrl='https://res.cloudinary.com/kiwi-prod/image/upload/v1535378410/Social/instagram_giimcu.svg'
       />
     </div>
     <div className={ classes.copyright }>
