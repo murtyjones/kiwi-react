@@ -218,7 +218,7 @@ const wordList = [
   'thou','though','thought','thousand','thread','three','threw','throat',
   'through','throughout','throw','thrown','thumb','thus','thy','tide',
   'tie','tight','tightly','till','time','tin','tiny','tip',
-  'tired','title','to','tobacco','today','together','told','tomorrow',
+  'tired','title','to','today','together','told','tomorrow',
   'tone','tongue','tonight','too','took','tool','top','topic',
   'torn','total','touch','toward','tower','town','toy','trace',
   'track','trade','traffic','trail','train','transportation','trap','travel',
