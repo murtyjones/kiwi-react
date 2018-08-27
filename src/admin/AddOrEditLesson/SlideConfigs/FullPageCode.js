@@ -8,7 +8,7 @@ import isEmpty from 'lodash/isEmpty'
 import KiwiTextField from '../../../common/form/KiwiTextField'
 import RichTextEditor from '../../../common/RichTextEditor'
 import CodeEditor from '../../../CodeEditor/CodeEditor'
-import {CODE_CONCEPTS, LESSON_SLIDE_TYPES} from '../../../constants'
+import { CODE_CONCEPTS } from '../../../constants'
 import { Toggle } from 'redux-form-material-ui'
 
 import InputSuccessCriteria from './InputSuccessCriteria'

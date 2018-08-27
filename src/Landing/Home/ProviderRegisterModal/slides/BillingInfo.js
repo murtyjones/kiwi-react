@@ -11,7 +11,7 @@ import { billingInfoSlide } from '../slides'
 import states from '../../../../utils/statesArray'
 import { required, cardValid } from '../../../../utils/validationUtils'
 import { successGreen } from '../../../../colors'
-import { COUPON_LANGUAGE } from '../../../../constants'
+import { COUPONS, COUPON_LANGUAGE } from '../../../../constants'
 
 const styles = {
   row: {
@@ -104,15 +104,26 @@ class ProvideesSignupSuccess extends Component {
               name={ billingInfoSlide.names[6] }
               component={ KiwiTextField }
               label='(Optional) Discount Code'
-              normalize={ v => v.toUpperCase() }
+              normalize={ normalizeDiscountCode }
               addlInputLabelProps={ { shrink: true } }
               successText={ this.getDiscountCodeLanguage() }
+              validate={ value =>
+                !value || Object.values(COUPONS).includes(value) ? undefined : 'Invalid coupon!'
+              }
             />
           </div>
         </div>
       </SlideInOut>
     )
   }
+}
+
+const normalizeDiscountCode = value => {
+  if (!value) {
+    return value
+  }
+
+  return value.toUpperCase()
 }
 
 

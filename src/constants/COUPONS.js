@@ -1,14 +1,12 @@
 // must match kiwi backend
 
-const COUPONS = {
+export const COUPONS = {
   CODER: 'CODER',
   LETSCODE: 'LETSCODE',
   LEARN: 'LEARN',
   CREATE: 'CREATE',
   KIWI: 'KIWI',
 }
-
-export default COUPONS
 
 export const COUPON_LANGUAGE = {
   [COUPONS.CODER]:    'Your first month is $10 off!',
