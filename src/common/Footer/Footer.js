@@ -9,7 +9,7 @@ import LetsGoSection from '../../Landing/Home/LetsGoSection/LetsGoSection'
 const styles = () => ({
   root: {
     fontFamily: 'Roboto',
-    height: '275px'
+    minHeight: '275px'
     , backgroundColor: '#624F8F'
     , position: 'relative'
     , overflow: 'auto'
@@ -20,13 +20,9 @@ const styles = () => ({
     }
   },
   socialContainer: {
-    position: 'absolute'
-    , width: '180px'
-    , marginLeft: -90
+    width: '180px'
     , height: '50px'
-    , marginBottom: '-25px'
-    , bottom: 90
-    , left: '50%'
+    , margin: '0 auto'
   },
   socialImage: {
     width: '25px'
@@ -34,27 +30,23 @@ const styles = () => ({
   },
   copyright: {
     fontFamily: 'Roboto',
-    position: 'absolute',
-    bottom: 10,
     width: '100%',
-    padding: 18,
     boxSizing: 'border-box',
-    fontSize: '9pt'
+    fontSize: '9pt',
+    margin: '0 auto 5px auto'
   },
   emailus: {
     fontFamily: 'Roboto',
-    position: 'absolute',
     bottom: 17,
     width: '100%',
-    padding: 18,
     boxSizing: 'border-box',
-    fontSize: '12pt'
+    fontSize: '12pt',
+    margin: '0 auto 5px auto'
   },
   sitemap: {
     fontFamily: 'Roboto',
-    position: 'absolute',
+    margin: '10px auto',
     width: '100%',
-    bottom: 120,
     '& a': {
       color: '#FFF'
     }
@@ -75,7 +67,7 @@ let Footer = ({ classes, openModal, isAboutPage = false }) =>
 
     <LetsGoSection openModal={ openModal } />
 
-    { !isMobile &&
+
       <div className={ classes.sitemap }>
         { isAboutPage
           ? <Link to='/'>Home</Link>
@@ -94,7 +86,7 @@ let Footer = ({ classes, openModal, isAboutPage = false }) =>
         <span className={ classes.divider }>|</span>
         <Link to='/privacy'>Privacy Policy</Link>
       </div>
-    }
+
 
     <div className={ classes.socialContainer }>
       <SocialLink
@@ -122,11 +114,11 @@ let Footer = ({ classes, openModal, isAboutPage = false }) =>
       Copyright &copy; { moment().year() } – Kiwi Compute, LLC
     </div>
 
-    { !isMobile &&
+
       <h3 className={ classes.emailus }>
         Need help? E-mail us at <a href='mailto:support@kiwicompute.com'>support@kiwicompute.com</a>
       </h3>
-    }
+
   </div>
 
 Footer = withStyles(styles, { withTheme: true })(Footer)

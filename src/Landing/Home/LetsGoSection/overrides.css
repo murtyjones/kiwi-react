@@ -1,7 +1,7 @@
 .letsGo {
     font-family: Arvo;
     max-width: 650px;
-    margin: 0 auto;
+    margin: 0 auto 15px auto;
     text-align: center;
     text-align: -webkit-center;
 }
