@@ -72,7 +72,6 @@
     "object.values": "^1.0.4",
     "prop-types": "^15.6.1",
     "querystring-browser": "^1.0.4",
-    "random-words": "^1.1.0",
     "react": "^16.4.0",
     "react-circular-progressbar": "^1.0.0",
     "react-codemirror2": "^5.0.4",
