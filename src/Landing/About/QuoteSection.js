@@ -8,7 +8,7 @@ const styles = {
     , color: '#624F8F'
   },
   quoteSectionH1: {
-    fontSize: 'calc(25px + 1.6vw)'
+    fontSize: 'calc(25px + 0.7vw)'
     , margin: '3vh 5vw'
   },
   quoteContainer: {

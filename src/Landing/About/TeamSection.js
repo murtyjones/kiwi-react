@@ -10,7 +10,7 @@ const styles = {
     , textAlign: 'center'
   },
   teamSectionH1: {
-    fontSize: 'calc(25px + 1.6vw)'
+    fontSize: 'calc(25px + 0.7vw)'
     , margin: '3vh 5vw'
     , color: '#624F8F'
     , textAlign: 'center'

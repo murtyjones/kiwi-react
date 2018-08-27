@@ -6,6 +6,7 @@ import LogoSection from './LogoSection'
 import MissionSection from './MissionSection'
 import QuoteSection from './QuoteSection'
 import TeamSection from './TeamSection'
+import Subscribe from './Subscribe'
 import Footer from '../../common/Footer/Footer'
 
 import ProviderRegisterModal from '../Home/ProviderRegisterModal/ProviderRegisterModal'
@@ -104,6 +105,7 @@ class About extends Component {
         <MissionSection />
         <QuoteSection />
         <TeamSection />
+        <Subscribe />
         <Footer isAboutPage openModal={ this.openProviderRegisterModal } />
       </div>
     )
