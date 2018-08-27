@@ -91,11 +91,16 @@ class RichTextEditor extends Component {
         <ReactQuill
           ref={ node => { this.reactQuillRef = node } }
           theme={ null }
-          value={ input.value }
+          defaultValue={ input.value }
           modules={ RichTextEditor.modules }
           formats={ RichTextEditor.formats }
           style={ style }
-          onChange={ input.onChange }
+          onChange={ v => {
+            // replace tabs with spaces
+            input.onChange(
+              v.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+            )
+          } }
         />
       </div>
     )
