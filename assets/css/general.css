@@ -38,8 +38,6 @@ input:-webkit-autofill:active {
 }
 
 body {
-    min-height: 500px; /* For fetch as google */
-    min-width: 500px; /* For fetch as google */
     background: #f0f8fb;
     font-family: Arial;
 }

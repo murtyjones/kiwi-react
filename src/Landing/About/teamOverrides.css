@@ -1,9 +1,9 @@
 .teamMember {
-    width: 33%;
+    width: 50%;
     position: relative;
     display: inline-block;
     overflow: hidden;
-    padding: 0 20px;
+    padding: 0;
     box-sizing: border-box;
     vertical-align: top;
 }

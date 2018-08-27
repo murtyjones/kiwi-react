@@ -11,8 +11,8 @@ const styles = {
     marginBottom: '5vh'
   },
   teamSectionH1: {
-    fontSize: 'calc(15px + 2.3vw)'
-    , margin: '5vh 5vw 5vh 5vw'
+    fontSize: 'calc(25px + 1.6vw)'
+    , margin: '3vh 5vw'
     , color: '#624F8F'
     , textAlign: 'center'
     , WebkitTextAlign: 'center'
@@ -21,8 +21,7 @@ const styles = {
   missionSectionH3: {
     fontSize: 'calc(18px + 0.5vw)'
     , fontFamily: 'Arvo'
-    , lineHeight: '36px'
-    , margin: '50px auto 0 auto'
+    , margin: '0 auto'
     , maxWidth: '700px'
     , width: '75%'
     , fontWeight: 'normal'

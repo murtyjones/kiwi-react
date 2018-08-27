@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Link from 'react-router-dom/Link'
 
 const styles = {
   container: {
@@ -6,9 +7,8 @@ const styles = {
     , backgroundColor: '#624F8F'
   },
   logoSection: {
-    height: '40vh'
-    , maxWidth: '50vw'
-    , margin: '0 auto'
+    width: '130px'
+    , margin: '10px auto'
     , position: 'relative'
     , overflow: 'hidden'
   }
@@ -16,11 +16,13 @@ const styles = {
 
 const LogoSection = () =>
   <div style={ styles.container }>
-    <img
-      key={ 1 }
-      src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535129642/Logos/kiwi_logo_white_v2.svg'
-      style={ styles.logoSection }
-    />
+    <Link to='/'>
+      <img
+        key={ 1 }
+        src='https://res.cloudinary.com/kiwi-prod/image/upload/v1535129642/Logos/kiwi_logo_white_v2.svg'
+        style={ styles.logoSection }
+      />
+    </Link>
   </div>
 
 
