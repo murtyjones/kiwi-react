@@ -35,13 +35,14 @@ const styles = () => ({
     fontSize: '9pt',
     margin: '0 auto 5px auto'
   },
-  emailus: {
+  emailUs: {
+    display: 'inline-block',
     fontFamily: 'Roboto',
     bottom: 17,
     width: '100%',
     boxSizing: 'border-box',
     fontSize: '12pt',
-    margin: '0 auto 5px auto'
+    margin: '0 auto 15px auto'
   },
   sitemap: {
     fontFamily: 'Roboto',
@@ -115,9 +116,9 @@ let Footer = ({ classes, openModal, isAboutPage = false }) =>
     </div>
 
 
-      <h3 className={ classes.emailus }>
+      <span className={ classes.emailUs }>
         Need help? E-mail us at <a href='mailto:support@kiwicompute.com'>support@kiwicompute.com</a>
-      </h3>
+      </span>
 
   </div>
 
