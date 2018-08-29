@@ -90,21 +90,21 @@ class DynamicHeader extends PureComponent {
     const topButtonMass = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass) + 10
 
     const sloganStyle = {
-      fontSize: `calc(12px + ${textMass / 1.4}vw)`
+      fontSize: `calc(11px + ${textMass / 1.4}vw)`
       , lineHeight: `calc(15px + ${textMass}vw)`
       , top: `${topSlogan}vh`
       , width: '100vw'
-      , padding: '0 50px'
+      , padding: '0 20px'
       , boxSizing: 'border-box'
       , color: '#624F8F'
     }
 
     const subtextStyle = {
-      fontSize: `calc(12px + ${textMass / 3.0}vw)`
+      fontSize: `calc(11px + ${textMass / 3.0}vw)`
       , lineHeight: `calc(15px + ${textMass}vw)`
       , top: `calc(${topSlogan}vh + 50px)`
       , width: '100vw'
-      , padding: '0 50px'
+      , padding: '0 20px'
       , boxSizing: 'border-box'
       , color: '#624F8F'
       , fontWeight: 'normal'
@@ -115,7 +115,7 @@ class DynamicHeader extends PureComponent {
       position: 'fixed',
       top: `calc(${topSlogan}vh + 15vh)`,
       marginLeft: -87,
-      width: 175,
+      width: 190,
       backgroundColor: '#624F8F',
       color: '#FFFFFF',
       padding: '10px 30px',
@@ -131,14 +131,16 @@ class DynamicHeader extends PureComponent {
     let learnMoreButtonStyle = cloneDeep(signupButtonStyle)
 
     signupButtonStyle.left = '15%'
-    learnMoreButtonStyle.left = 'calc(15% + 200px)'
+    learnMoreButtonStyle.left = 'calc(15% + 210px)'
     learnMoreButtonStyle.background = 'transparent'
     learnMoreButtonStyle.color = '#624F8F'
 
     if (window.screen.width < 960) {
-      signupButtonStyle.top = `calc(${topSlogan}vh + 15vh)`
+      sloganStyle.top = `${topSlogan - 13}vh`
+      subtextStyle.top = `calc(${topSlogan - 15}vh + 50px)`
+      signupButtonStyle.top = `calc(${topSlogan - 9}vh + 15vh)`
       signupButtonStyle.left = `50%`
-      learnMoreButtonStyle.top = `calc(${topSlogan}vh + 15vh + 60px)`
+      learnMoreButtonStyle.top = `calc(${topSlogan - 9}vh + 15vh + 60px)`
       learnMoreButtonStyle.left = `50%`
     }
 
