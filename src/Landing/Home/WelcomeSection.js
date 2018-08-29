@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
+import { animateScroll as scroll } from 'react-scroll'
 
-import NextArrow from './NextArrow'
+const scrollTo = to => scroll.scrollTo(to)
+
 import DynamicCTA from './DynamicCTA/DynamicCTA'
 
 const styles = theme => ({
@@ -10,10 +12,16 @@ const styles = theme => ({
     , width: '100%'
     , position: 'relative'
     , overflow: 'hidden'
-    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1533305498/Landing%20Page/Landing_Page_Final_v3.svg)'
-    , backgroundPosition: 'center bottom'
+    , backgroundColor: '#ebf3ed'
+    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1535579992/Green_Man_wwftpu.svg)'
+    , backgroundPosition: '80% bottom'
     , backgroundRepeat: 'no-repeat'
-    , backgroundSize: '100%'
+    , backgroundSize: '35%',
+    [theme.breakpoints.down('sm')]: {
+      backgroundPosition: 'center bottom'
+      , backgroundRepeat: 'no-repeat'
+      , backgroundSize: 'auto 35%',
+    }
   },
   titleContainer: {
     textAlign: 'center'
@@ -39,15 +47,11 @@ class WelcomeSection extends Component {
     return (
       <div key='homePageOne' className={ classes.homePageOne }>
         <DynamicCTA
-          text='start your coding adventure today.'
-          smallText='start coding today.'
+          text='Learn the Hard Parts of Coding.'
+          subtext='Prepare your middle schooler for the digital world.'
           fixPoint={ 2.32 }
-          onClick={ this.props.openModal }
-        />
-
-        <NextArrow
-          to={ window.innerHeight - 60 }
-          textColor='#FFFFFF'
+          onSignUpClick={ this.props.openModal }
+          onLearnMoreClick={ () => scrollTo(window.innerHeight - 60) }
         />
 
       </div>

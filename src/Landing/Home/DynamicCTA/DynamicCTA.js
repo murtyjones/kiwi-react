@@ -1,16 +1,21 @@
 import React, { PureComponent, Fragment } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 import cns from 'classnames'
+import cloneDeep from 'lodash/cloneDeep'
 
 const styles = theme => ({
   dynamicSlogan: {
     position: 'fixed',
-    WebkitTextAlign: 'center',
-    textAlign: 'center',
+    WebkitTextAlign: 'left',
+    textAlign: 'left',
     fontWeight: 'bold',
     paddingBottom: 2,
     transition: 'height 100s',
     zIndex: 51,
+    [theme.breakpoints.down('sm')]: {
+      WebkitTextAlign: 'center',
+      textAlign: 'center',
+    },
     '@media (max-width: 500px)': {
       '&.upTop': {
         display: 'none'
@@ -21,6 +26,29 @@ const styles = theme => ({
     '@media (max-width: 768px)': {
       height: 60,
       padding: 15
+    }
+  },
+  dynamicSubtext: {
+    position: 'fixed',
+    WebkitTextAlign: 'left',
+    textAlign: 'left',
+    fontWeight: 'bold',
+    paddingBottom: 2,
+    transition: 'height 100s',
+    zIndex: 51,
+    [theme.breakpoints.down('sm')]: {
+      WebkitTextAlign: 'center',
+      textAlign: 'center',
+    },
+    '@media (max-width: 500px)': {
+      '&.upTop': {
+        display: 'none'
+      }
+    }
+  },
+  dynamicLearnmoreButton: {
+    '@media (max-width: 768px)': {
+      top: 15
     }
   },
   dynamicCTAButton: {
@@ -53,7 +81,7 @@ class DynamicHeader extends PureComponent {
   }
 
   render() {
-    const { classes, text = '', smallText = '', fixPoint } = this.props
+    const { classes, text = '', subtext = '', fixPoint } = this.props
     const { mass } = this.state
     const minTopMass = 1.7
     const topMass = Math.max(mass, 0)
@@ -71,18 +99,28 @@ class DynamicHeader extends PureComponent {
       , color: '#624F8F'
     }
 
-    let buttonStyle = {
+    const subtextStyle = {
+      fontSize: `calc(12px + ${textMass / 3.0}vw)`
+      , lineHeight: `calc(15px + ${textMass}vw)`
+      , top: `calc(${topSlogan}vh + 50px)`
+      , width: '100vw'
+      , padding: '0 50px'
+      , boxSizing: 'border-box'
+      , color: '#624F8F'
+      , fontWeight: 'normal'
+    }
+
+    let signupButtonStyle = {
       fontFamily: 'Arvo',
       position: 'fixed',
       top: `calc(${topSlogan}vh + 15vh)`,
-      left: '50%',
-      // width: '120px',
       marginLeft: -87,
+      width: 175,
       backgroundColor: '#624F8F',
       color: '#FFFFFF',
       padding: '10px 30px',
       borderRadius: '25px',
-      fontSize: '13pt',
+      fontSize: '12pt',
       border: '2px solid #624F8F',
       fontWeight: 'bold',
       cursor: 'pointer',
@@ -90,8 +128,22 @@ class DynamicHeader extends PureComponent {
       textAlign: 'center'
     }
 
+    let learnMoreButtonStyle = cloneDeep(signupButtonStyle)
+
+    signupButtonStyle.left = '15%'
+    learnMoreButtonStyle.left = 'calc(15% + 200px)'
+    learnMoreButtonStyle.background = 'transparent'
+    learnMoreButtonStyle.color = '#624F8F'
+
+    if (window.screen.width < 960) {
+      signupButtonStyle.top = `calc(${topSlogan}vh + 15vh)`
+      signupButtonStyle.left = `50%`
+      learnMoreButtonStyle.top = `calc(${topSlogan}vh + 15vh + 60px)`
+      learnMoreButtonStyle.left = `50%`
+    }
+
     if (textMass <= fixPoint) {
-      buttonStyle = {
+      signupButtonStyle = {
         fontFamily: 'Arvo',
         background: 'transparent',
         position: 'fixed',
@@ -108,27 +160,49 @@ class DynamicHeader extends PureComponent {
         zIndex: 51
       }
 
+      learnMoreButtonStyle.visibility = 'hidden'
+      subtextStyle.visibility = 'hidden'
+
       sloganStyle.color = '#FFFFFF'
     }
+
+
 
     return (
       <Fragment>
 
         <span
-          className={ cns(classes.dynamicSlogan, { 'upTop': textMass <= fixPoint }) }
+          className={ cns(classes.dynamicSlogan, { upTop: textMass <= fixPoint }) }
           style={ sloganStyle }
         >
-          { textMass <= fixPoint ? smallText : text }
+          { textMass <= fixPoint ? '' : text }
+        </span>
+
+        <span
+          className={ classes.dynamicSubtext }
+          style={ subtextStyle }
+        >
+          { subtext }
         </span>
 
 
         <button
           id='sign-me-up-top'
+          style={ signupButtonStyle }
           className={ cns(classes.dynamicCTAButton, 'hvr-grow') }
-          style={ buttonStyle }
-          onClick={ this.props.onClick }
+          onClick={ this.props.onSignUpClick }
         >
           Start for Free
+        </button>
+
+
+        <button
+          id='learn-more'
+          style={ learnMoreButtonStyle }
+          className={ cns(classes.dynamicCTAButton, 'hvr-grow') }
+          onClick={ this.props.onLearnMoreClick }
+        >
+          Learn More
         </button>
 
       </Fragment>
