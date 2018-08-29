@@ -3,6 +3,7 @@ import * as T from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
+import config from "config";
 
 
 const styles = () => ({
@@ -101,7 +102,7 @@ let Terms = ({ classes }) =>
 
       <h2>Refunds</h2>
 
-      <p>You may cancel your membership at any time at https://stage.kiwicompute.com/provider/subscriptions, but your cancellation will not take effect until the end of your current commitment period (a one-month period). You will not be entitled to a refund for any membership fee already paid.</p>
+      <p>You may cancel your membership at any time at ${ config.shortHost }/provider/subscriptions, but your cancellation will not take effect until the end of your current commitment period (a one-month period). You will not be entitled to a refund for any membership fee already paid.</p>
 
 
       <h2>Content</h2>

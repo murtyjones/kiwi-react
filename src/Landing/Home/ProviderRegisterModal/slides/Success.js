@@ -56,7 +56,7 @@ class Success extends Component {
   render() {
     const { createdProvidees, classes } = this.props
 
-    const monthlySubscription = 30
+    const monthlySubscription = 9.99
     const numberOfStudents = createdProvidees.length
     const accountOrAccounts = numberOfStudents > 1 ? 'accounts' : 'account'
     const areOrIs = numberOfStudents > 1 ? 'are' : 'is'

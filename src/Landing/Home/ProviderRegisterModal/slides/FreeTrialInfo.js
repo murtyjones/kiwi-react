@@ -33,7 +33,7 @@ class FreeTrialInfo extends Component {
 
   render() {
     const { classes } = this.props
-    const monthlySubscription = 30
+    const monthlySubscription = 9.99
     const whenToCancel = moment().add(7, 'days').format('MMMM Do')
 
     return (

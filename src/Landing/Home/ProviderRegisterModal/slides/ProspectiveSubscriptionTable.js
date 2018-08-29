@@ -21,7 +21,7 @@ const styles = () => ({
   }
 })
 
-const ProspectiveSubscriptionTable = ({ classes, providees, discountValueDetails, monthlySubscription = 30 }) => {
+const ProspectiveSubscriptionTable = ({ classes, providees, discountValueDetails, monthlySubscription = 9.99 }) => {
   return (
     <Table className={ classes.table }>
       <TableHead>

@@ -131,7 +131,7 @@ const SubscriptionsTable = ({
                 </span>
               </TableCell>
               <TableCell className={ classes.monthlyPrice }>
-                30 USD / mo.<br />
+                9.99 USD / mo.<br />
                 { isInTrialPeriod && !subscription.cancel_at_period_end && discountMessage &&
                 <span className={ classes.discountMessage }>{ discountMessage }</span>
                 }

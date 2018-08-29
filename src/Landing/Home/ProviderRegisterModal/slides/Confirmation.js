@@ -52,7 +52,7 @@ class Confirmation extends Component {
 
   render() {
     const { classes, formValues: { providees, discountCode } } = this.props
-    const monthlySubscription = 30
+    const monthlySubscription = 9.99
     const numberOfStudents = providees.length
     const totalSubscription = numberOfStudents * monthlySubscription
     const whenToCancel = moment().add(7, 'days').format('MMMM Do')
