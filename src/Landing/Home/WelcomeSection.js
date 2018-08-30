@@ -12,7 +12,7 @@ const styles = theme => ({
     , width: '100%'
     , position: 'relative'
     , overflow: 'hidden'
-    , backgroundColor: '#F1F9F3'
+    , backgroundColor: '#F2F2F2'
     , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1535579992/Green_Man_wwftpu.svg)'
     , backgroundPosition: '80% bottom'
     , backgroundRepeat: 'no-repeat'
