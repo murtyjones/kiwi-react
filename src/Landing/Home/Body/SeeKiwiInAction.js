@@ -78,7 +78,7 @@ class SeeKiwiInAction extends Component {
             controls={ true }
             width='100%'
             height='calc(100% - 45px)'
-            url='https://youtu.be/WKWCoybQThM'
+            url='https://youtu.be/tdXjkE2VfBY'
           />
           <div style={ {
             textAlign: 'center',
