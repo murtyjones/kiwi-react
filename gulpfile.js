@@ -117,9 +117,9 @@ const writeVersion = () => {
     .pipe(modifyFile((content, path, file) => {
       const start = '(function (){\n'
       const end = '\n})()'
-
       return `${start}${content.replace('main.bundle.js', `main.${version}.bundle.js`)}${end}`
     }))
+    .pipe(gulp.dest('./build'))
   gulp.src('./build/build/js/main.bundle.js')
     .pipe(rename(`./build/build/js/main.${version}.bundle.js`))
     .pipe(gulp.dest('./'))
