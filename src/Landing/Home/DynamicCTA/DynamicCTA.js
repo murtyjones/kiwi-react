@@ -94,7 +94,7 @@ class DynamicHeader extends PureComponent {
       , lineHeight: `calc(15px + ${textMass}vw)`
       , top: `${topSlogan}vh`
       , width: '100vw'
-      , padding: '0 20px'
+      , padding: '0 50px'
       , boxSizing: 'border-box'
       , color: '#624F8F'
     }
@@ -104,7 +104,7 @@ class DynamicHeader extends PureComponent {
       , lineHeight: `calc(15px + ${textMass}vw)`
       , top: `calc(${topSlogan}vh + 50px)`
       , width: '100vw'
-      , padding: '0 20px'
+      , padding: '0 50px'
       , boxSizing: 'border-box'
       , color: '#624F8F'
       , fontWeight: 'normal'
@@ -136,6 +136,8 @@ class DynamicHeader extends PureComponent {
     learnMoreButtonStyle.color = '#624F8F'
 
     if (window.screen.width < 960) {
+      sloganStyle.padding = '0 20px'
+      subtextStyle.padding = '0 20px'
       sloganStyle.top = `${topSlogan - 13}vh`
       subtextStyle.top = `calc(${topSlogan - 15}vh + 50px)`
       signupButtonStyle.top = `calc(${topSlogan - 9}vh + 15vh)`
