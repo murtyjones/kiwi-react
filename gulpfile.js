@@ -11,6 +11,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const historyApiFallback = require('connect-history-api-fallback')
 const del = require('del')
+const rename = require('gulp-rename')
 
 
 const webpackLocalConfig = require('./webpack/webpack.config.local.js')
@@ -101,27 +102,61 @@ gulp.task('lint', () => {
 
 
 // Production build
-gulp.task('build:production', ['copy-public', 'copy-assets', 'webpack:build:production'])
+gulp.task('build:production', ['copy-public', 'copy-assets', 'write-version:production', 'webpack:build:production'])
 
 // Dev build
-gulp.task('build:development', ['copy-public', 'copy-assets', 'webpack:build:development'])
+gulp.task('build:development', ['copy-public', 'copy-assets', 'write-version:development', 'webpack:build:development'])
 
 // Stage build
-gulp.task('build:stage', ['copy-public', 'copy-assets', 'webpack:build:stage'])
+gulp.task('build:stage', ['copy-public', 'copy-assets', 'write-version:stage', 'webpack:build:stage'])
 
-gulp.task('copy-public', ['clean'], function() {
+const writeVersion = () => {
+  const modifyFile = require('gulp-modify-file')
+  const version = require('./version')
+  gulp.src('build/index.html')
+    .pipe(modifyFile((content, path, file) => {
+      const start = '(function (){\n'
+      const end = '\n})()'
+
+      return `${start}${content.replace('main.bundle.js', `main.${version}.bundle.js`)}${end}`
+    }))
+  gulp.src('./build/build/js/main.bundle.js')
+    .pipe(rename(`./build/build/js/main.${version}.bundle.js`))
+    .pipe(gulp.dest('./'))
+  gulp.src('./build/build/js/main.bundle.js.map')
+    .pipe(rename(`./build/build/js/main.${version}.bundle.js.map`))
+    .pipe(gulp.dest('./'))
+  return del([
+    './build/build/js/main.bundle.js*'
+  ])
+}
+
+gulp.task('write-version:production', ['copy-public', 'webpack:build:production'], function () {
+  writeVersion()
+})
+
+gulp.task('write-version:development', ['copy-public', 'webpack:build:development'], function () {
+  writeVersion()
+})
+
+gulp.task('write-version:stage', ['copy-public', 'webpack:build:stage'], function () {
+  writeVersion()
+})
+
+gulp.task('copy-public', ['clean'], function () {
   return gulp
     .src(['./public/**'])
     .pipe(gulp.dest('build'))
+
 })
 
-gulp.task('copy-assets', ['clean'], function() {
+gulp.task('copy-assets', ['clean'], function () {
   return gulp
     .src(['./assets/**'])
     .pipe(gulp.dest('build/assets'))
 })
 
-gulp.task('clean', function() {
+gulp.task('clean', function () {
   return del([
     './build/build/js/*'
     , './build/*html'
@@ -129,33 +164,33 @@ gulp.task('clean', function() {
   ])
 })
 
-gulp.task('webpack:build:production', function(callback) {
+gulp.task('webpack:build:production', function (callback) {
   // run webpack
-  return webpack(webpackProdConfig, function(err, stats) {
+  return webpack(webpackProdConfig, function (err, stats) {
     if (err) throw new gutil.PluginError('webpack:build:production', err)
     gutil.log('[webpack:build:production]', stats.toString({ colors: true }))
     callback()
   })
 })
 
-gulp.task('webpack:build:development', function(callback) {
+gulp.task('webpack:build:development', function (callback) {
   // run webpack
-  return webpack(webpackDevConfig, function(err, stats) {
+  return webpack(webpackDevConfig, function (err, stats) {
     if (err) throw new gutil.PluginError('webpack:build:development', err)
     gutil.log('[webpack:build:development]', stats.toString({ colors: true }))
     callback()
   })
 })
 
-gulp.task('webpack:build:stage', function(callback) {
+gulp.task('webpack:build:stage', function (callback) {
   // run webpack
-  return webpack(webpackStageConfig, function(err, stats) {
+  return webpack(webpackStageConfig, function (err, stats) {
     if (err) throw new gutil.PluginError('webpack:build:stage', err)
     gutil.log('[webpack:build:stage]', stats.toString({ colors: true }))
     callback()
   })
 })
 
-gulp.task('run-win', function(){
+gulp.task('run-win', function (){
   gulp.watch('/src/Main.js')
 })
