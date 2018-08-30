@@ -115,9 +115,7 @@ const writeVersion = () => {
   const version = require('./version')
   gulp.src('build/index.html')
     .pipe(modifyFile((content, path, file) => {
-      const start = '(function (){\n'
-      const end = '\n})()'
-      return `${start}${content.replace('main.bundle.js', `main.${version}.bundle.js`)}${end}`
+      return content.replace('main.bundle.js', `main.${version}.bundle.js`)
     }))
     .pipe(gulp.dest('./build'))
   gulp.src('./build/build/js/main.bundle.js')
