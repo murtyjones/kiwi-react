@@ -37,7 +37,7 @@ const styles = theme => ({
   }
 })
 
-class WelcomeSection extends Component {
+class WelcomeSection1 extends Component {
   constructor(props) {
     super(props)
   }
@@ -59,4 +59,4 @@ class WelcomeSection extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(WelcomeSection)
+export default withStyles(styles, { withTheme: true })(WelcomeSection1)

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
-import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import { animateScroll as scroll } from 'react-scroll'
 
@@ -14,24 +13,14 @@ import '../../assets/css/close.css'
 import './overrides.css'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 
-const styles = {
-  closeDrawerButton: {
-    marginTop: '10px'
-    , marginRight: '10px'
-  },
-  loginDrawer: {
-    backgroundColor: '#765C9F'
-  },
-  loginDrawerWidth: 400, // px
-}
-
 class Landing extends Component {
   constructor(props) {
     super(props)
   }
 
   static propTypes = {
-    signout: T.func
+    signout: T.func,
+    location: T.object,
   }
 
   scrollTo = to => scroll.scrollTo(to)
