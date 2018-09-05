@@ -231,7 +231,7 @@ class UserLessonWizardForm extends Component {
     // this method should be kept outside of
     // the render method! otherwise child
     // components will remount on each rendering!
-    const { activeSlideIndex, globalColors, variablesWithUserValues, formValues, classes } = this.props
+    const { activeSlideIndex, globalColors, variablesWithUserValues, formValues, lesson, classes } = this.props
       , { activeSlideObject, runCode } = this.state
       , slideTypeObject = availableSlideTypes(classes)[activeSlideObject.type]
       , ActiveSlideComponent = slideTypeObject.component
@@ -260,6 +260,8 @@ class UserLessonWizardForm extends Component {
             variablesWithUserValues={ variablesWithUserValues }
             slideAnswerData={ slideAnswerData }
             onRunCode={ includeRunButton ? () => this.setRunCode(true) : null }
+            formValues={ formValues }
+            lesson={ lesson }
           />
         ) : null
     )
