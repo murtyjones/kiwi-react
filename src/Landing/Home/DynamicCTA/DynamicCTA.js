@@ -1,61 +1,78 @@
 import React, { PureComponent, Fragment } from 'react'
+import * as T from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import cns from 'classnames'
-import cloneDeep from 'lodash/cloneDeep'
 
 const styles = theme => ({
-  dynamicSlogan: {
-    position: 'fixed',
-    WebkitTextAlign: 'left',
-    textAlign: 'left',
+  root: {
+    fontFamily: 'Arvo',
+    height: '100vh',
+    width: '100vw',
+    position: 'relative',
+    zIndex: 51
+  },
+  mainText: {
+    textAlign: 'right',
+    textAlignLast: 'center',
     fontWeight: 'bold',
-    paddingBottom: 2,
-    transition: 'height 100s',
-    zIndex: 51,
+    fontSize: 'calc(12pt + 1.5vw)',
+    color: '#624F8F',
+    marginTop: '50vh',
+    padding: '0 20px 0 51%',
+    boxSizing: 'border-box',
     [theme.breakpoints.down('sm')]: {
-      WebkitTextAlign: 'center',
-      textAlign: 'center',
-    },
-    '@media (max-width: 500px)': {
-      '&.upTop': {
-        display: 'none'
-      }
+      padding: 0,
+      textAlign: 'center'
     }
   },
-  dynamicHeader: {
-    '@media (max-width: 768px)': {
-      height: 60,
-      padding: 15
-    }
-  },
-  dynamicSubtext: {
-    position: 'fixed',
-    WebkitTextAlign: 'left',
-    textAlign: 'left',
+  subtext: {
+    textAlign: 'center',
     fontWeight: 'bold',
-    paddingBottom: 2,
-    transition: 'height 100s',
-    zIndex: 51,
+    fontSize: 'calc(7pt + 0.7vw)',
+    color: '#575757',
+    marginTop: '2vh',
+    padding: '0 20px 0 52%',
+    boxSizing: 'border-box',
     [theme.breakpoints.down('sm')]: {
-      WebkitTextAlign: 'center',
-      textAlign: 'center',
-    },
-    '@media (max-width: 500px)': {
-      '&.upTop': {
-        display: 'none'
-      }
+      padding: '0 25px',
+      textAlign: 'center'
     }
   },
-  dynamicLearnmoreButton: {
-    '@media (max-width: 768px)': {
-      top: 15
+  signupButton: {
+    marginRight: 10
+  },
+  learnButton: {
+    color: '#624F8F !important',
+    background: 'none !important'
+  },
+  buttons: {
+    marginTop: '2vh',
+    textAlign: 'center',
+    padding: '0 20px 0 55%',
+    boxSizing: 'border-box',
+    [theme.breakpoints.down('sm')]: {
+      padding: '0 25px',
+      textAlign: 'center'
     }
   },
-  dynamicCTAButton: {
-    '@media (max-width: 768px)': {
-      top: 15
+  button: {
+    fontFamily: 'Arvo',
+    width: 170,
+    backgroundColor: '#624F8F',
+    color: '#FFFFFF',
+    padding: '10px 25px',
+    borderRadius: '25px',
+    fontSize: '12pt',
+    border: '2px solid #624F8F',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    zIndex: 51,
+    textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+      margin: '25px auto 0 auto'
     }
-  },
+  }
 })
 
 const makeMass = () => 4 - window.scrollY / 200
@@ -66,6 +83,14 @@ class DynamicHeader extends PureComponent {
     this.state = {
       mass: makeMass()
     }
+  }
+
+  static propTypes = {
+    classes: T.object,
+    onSignUpClick: T.func,
+    onLearnMoreClick: T.func,
+    text: T.string.isRequired,
+    subtext: T.string.isRequired
   }
 
   componentDidMount() {
@@ -81,135 +106,40 @@ class DynamicHeader extends PureComponent {
   }
 
   render() {
-    const { classes, text = '', subtext = '', fixPoint } = this.props
-    const { mass } = this.state
-    const minTopMass = 1.7
-    const topMass = Math.max(mass, 0)
-    const textMass = Math.max(Math.pow(topMass, 1.6) / 3, fixPoint)
-    const topSlogan = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass)
-    const topButtonMass = Math.max(Math.pow(topMass, 3) + Math.pow(topMass, 2) + topMass - 50, minTopMass) + 10
-
-    const sloganStyle = {
-      fontSize: `calc(11px + ${textMass / 1.4}vw)`
-      , lineHeight: `calc(15px + ${textMass}vw)`
-      , top: `${topSlogan}vh`
-      , width: '100vw'
-      , padding: '0 50px'
-      , boxSizing: 'border-box'
-      , color: '#624F8F'
-    }
-
-    const subtextStyle = {
-      fontSize: `calc(11px + ${textMass / 3.0}vw)`
-      , lineHeight: `calc(15px + ${textMass}vw)`
-      , top: `calc(${topSlogan}vh + 50px)`
-      , width: '100vw'
-      , padding: '0 50px'
-      , boxSizing: 'border-box'
-      , color: '#624F8F'
-      , fontWeight: 'normal'
-    }
-
-    let signupButtonStyle = {
-      fontFamily: 'Arvo',
-      position: 'fixed',
-      top: `calc(${topSlogan}vh + 15vh)`,
-      marginLeft: -87,
-      width: 190,
-      backgroundColor: '#624F8F',
-      color: '#FFFFFF',
-      padding: '10px 30px',
-      borderRadius: '25px',
-      fontSize: '12pt',
-      border: '2px solid #624F8F',
-      fontWeight: 'bold',
-      cursor: 'pointer',
-      zIndex: 51,
-      textAlign: 'center'
-    }
-
-    let learnMoreButtonStyle = cloneDeep(signupButtonStyle)
-
-    signupButtonStyle.left = '15%'
-    learnMoreButtonStyle.left = 'calc(15% + 210px)'
-    learnMoreButtonStyle.background = 'transparent'
-    learnMoreButtonStyle.color = '#624F8F'
-
-    if (window.screen.width < 960) {
-      sloganStyle.padding = '0 20px'
-      subtextStyle.padding = '0 20px'
-      sloganStyle.top = `${topSlogan - 13}vh`
-      subtextStyle.top = `calc(${topSlogan - 15}vh + 50px)`
-      signupButtonStyle.top = `calc(${topSlogan - 9}vh + 15vh)`
-      signupButtonStyle.left = `50%`
-      learnMoreButtonStyle.top = `calc(${topSlogan - 9}vh + 15vh + 60px)`
-      learnMoreButtonStyle.left = `50%`
-    }
-
-    if (textMass <= fixPoint) {
-      signupButtonStyle = {
-        fontFamily: 'Arvo',
-        background: 'transparent',
-        position: 'fixed',
-        top: '25px',
-        right: 'calc(25px + 0px)', // right hand side must match transform one line below here
-        transform: 'translateX(0px)',
-        color: 'white',
-        padding: '5px 15px',
-        borderRadius: '15px',
-        fontSize: '10pt',
-        border: '2px solid #FFFFFF',
-        fontWeight: 'bold',
-        cursor: 'pointer',
-        zIndex: 51
-      }
-
-      learnMoreButtonStyle.visibility = 'hidden'
-      subtextStyle.visibility = 'hidden'
-
-      sloganStyle.color = '#FFFFFF'
-    }
-
-
+    const { classes, text = '', subtext = '' } = this.props
 
     return (
-      <Fragment>
+      <div className={ classes.root }>
 
-        <span
-          className={ cns(classes.dynamicSlogan, { upTop: textMass <= fixPoint }) }
-          style={ sloganStyle }
-        >
-          { textMass <= fixPoint ? '' : text }
-        </span>
+        <div className={ classes.mainText }>
+          { text }
+        </div>
 
-        <span
-          className={ classes.dynamicSubtext }
-          style={ subtextStyle }
-        >
+        <div className={ classes.subtext }>
           { subtext }
-        </span>
+        </div>
 
 
-        <button
-          id='sign-me-up-top'
-          style={ signupButtonStyle }
-          className={ cns(classes.dynamicCTAButton, 'hvr-grow') }
-          onClick={ this.props.onSignUpClick }
-        >
-          Start for Free
-        </button>
+        <div className={ classes.buttons }>
+          <button
+            id='sign-me-up-top'
+            className={ cns(classes.button, classes.signupButton, 'hvr-grow') }
+            onClick={ this.props.onSignUpClick }
+          >
+            Start for Free
+          </button>
 
 
-        <button
-          id='learn-more'
-          style={ learnMoreButtonStyle }
-          className={ cns(classes.dynamicCTAButton, 'hvr-grow') }
-          onClick={ this.props.onLearnMoreClick }
-        >
-          Learn More
-        </button>
+          <button
+            id='learn-more'
+            className={ cns(classes.button, classes.learnButton, 'hvr-grow') }
+            onClick={ this.props.onLearnMoreClick }
+          >
+            Learn More
+          </button>
+        </div>
 
-      </Fragment>
+      </div>
     )
   }
 }
