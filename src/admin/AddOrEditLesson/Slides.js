@@ -117,6 +117,8 @@ class Slides extends Component {
       <SlideConfigComponent
         slideRef={ slideRef }
         slideValues={ allSlideValues[i] }
+        allSlideValues={ allSlideValues }
+        currentSlideIndex={ i }
         { ...rest }
       />
     )

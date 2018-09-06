@@ -1,10 +1,12 @@
 import React, { PureComponent, Fragment } from 'react'
 import * as T from 'prop-types'
-import cns from 'classnames'
 import withRouter from 'react-router-dom/withRouter'
+import isEqual from 'lodash/isEqual'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { connect } from 'react-redux'
 import find from 'lodash/find'
+import findIndex from 'lodash/findIndex'
+import get from 'lodash/get'
 
 import CodeEditor from '../../CodeEditor/CodeEditor'
 import SpeechBubble from '../SpeechBubble'
@@ -152,8 +154,27 @@ const styles = theme => ({
 class FullPageCodeEditor extends PureComponent {
   constructor(props) {
     super(props)
+    this.updateInputfromPersist(props)
     this.state = {
       isHintActive: false
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!isEqual(this.props, prevProps)) {
+      this.updateInputfromPersist(this.props)
+    }
+  }
+
+  updateInputfromPersist = props => {
+    const { slideData = {}, lesson = {}, formValues } = props
+    const editorInput = get(props, 'input.value', '')
+    if (slideData.includesPersistence && slideData.persistIdToPopulate && !editorInput) {
+      const prevSlideIndex = findIndex(lesson.slides, { persistId: slideData.persistIdToPopulate })
+      const prevCodeInput = get(formValues, `answerData[${prevSlideIndex}]`, {}).answer
+      if (prevCodeInput) {
+        props.input.onChange(prevCodeInput)
+      }
     }
   }
 
@@ -171,6 +192,8 @@ class FullPageCodeEditor extends PureComponent {
     , runCode: T.bool.isRequired
     , variablesWithUserValues: T.array
     , userVariables: T.array
+    , lesson: T.object
+    , formValues: T.object
   }
 
   toggleIsExampleActive = () =>

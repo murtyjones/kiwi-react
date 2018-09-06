@@ -14,6 +14,7 @@ import { Toggle } from 'redux-form-material-ui'
 import InputSuccessCriteria from './InputSuccessCriteria'
 import OutputSuccessCriteria from './OutputSuccessCriteria'
 import ResultCard from '../../../common/ResultCard/ResultCard'
+import KiwiSelectField from '../../../common/form/Select/KiwiSelectField'
 
 
 const renderCodeEditor = ({ input, ...rest }) =>
@@ -77,7 +78,10 @@ class FullPageCode extends Component {
   static propTypes = {
     slideRef: T.string.isRequired
     , slideValues: T.object.isRequired
+    , allSlideValues: T.object.isRequired
     , variableOptions: T.array.isRequired
+    , postTestCheckAnswer: T.func.isRequired
+    , currentSlideIndex: T.number.isRequired
   }
 
   setStateAsync = newState => new Promise((resolve) => {
@@ -114,10 +118,21 @@ class FullPageCode extends Component {
     })
   }
 
+  getAllPersistIds = () => {
+    const { allSlideValues, currentSlideIndex } = this.props
+    return allSlideValues.reduce((acc, each, idx) => {
+      if (idx < currentSlideIndex) {
+        if (each && each.persistId) {
+          acc.push(each.persistId)
+        }
+      }
+      return acc
+    }, [])
+  }
+
   render() {
     const { slideRef, slideValues, variableOptions } = this.props
     const { showResultCard, isAnsweredCorrectly, hintToDisplay } = this.state
-
     const currentLessonSlide = {
       successHeadline: slideValues.successHeadline
       , successExplanation: slideValues.successExplanation
@@ -160,6 +175,7 @@ class FullPageCode extends Component {
           component={ RichTextEditor }
           variableOptions={ variableOptions }
         />
+
         <Field
           name={`${slideRef}.hasHint` }
           label='Include hint?'
@@ -176,6 +192,30 @@ class FullPageCode extends Component {
             />
           </Fragment>
         }
+
+        <Field
+          name={`${slideRef}.includesPersistence` }
+          label='Include Capability to Persist?'
+          component={ Toggle }
+          style={ { width: 'auto' } }
+        />
+        { slideValues.includesPersistence &&
+          <Fragment>
+            <Field
+              name={`${slideRef}.persistId`}
+              label='Internal Persist ID (Will become lowercase and use dashes instead of spaces)'
+              component={ KiwiTextField }
+              normalize={ normalizePersistenceId }
+            />
+            <Field
+              name={`${slideRef}.persistIdToPopulate`}
+              label='Slide to use for content'
+              component={ KiwiSelectField }
+              options={ this.getAllPersistIds() }
+            />
+          </Fragment>
+        }
+
         <Field
           name={`${slideRef}.shouldIncludeSuccessCriteria` }
           label="Include Success Criteria?"
@@ -211,19 +251,29 @@ class FullPageCode extends Component {
             />
           </Fragment>
         }
-        <Field
-          name={ `${slideRef}.editorInput` }
-          label={ 'Editor Input' }
-          component={ renderCodeEditor }
-          includeCheckAnswer={ slideValues.shouldIncludeSuccessCriteria }
-          onCheckAnswer={ this.handleCheckAnswer }
-          variableOptions={ variableOptions }
-          variablesToComplete={ variablesToComplete }
-          setFormGlobalVariable={ this.setFormGlobalVariable }
-        />
+        { (!slideValues.includesPersistence || !slideValues.persistIdToPopulate) &&
+          <Field
+            name={ `${slideRef}.editorInput` }
+            label='Editor Input'
+            component={ renderCodeEditor }
+            includeCheckAnswer={ slideValues.shouldIncludeSuccessCriteria }
+            onCheckAnswer={ this.handleCheckAnswer }
+            variableOptions={ variableOptions }
+            variablesToComplete={ variablesToComplete }
+            setFormGlobalVariable={ this.setFormGlobalVariable }
+          />
+        }
       </div>
     )
   }
+}
+
+const normalizePersistenceId = value => {
+  if (!value) {
+    return value
+  }
+
+  return value.toLowerCase().replace(/[ -.]/g, '-')
 }
 
 export default FullPageCode
