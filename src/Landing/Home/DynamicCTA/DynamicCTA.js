@@ -8,8 +8,8 @@ const styles = theme => ({
     fontFamily: 'Arvo',
     height: '100vh',
     width: '100vw',
-    position: 'relative',
-    zIndex: 51
+    zIndex: 51,
+    position: 'relative'
   },
   mainText: {
     textAlign: 'right',
@@ -38,13 +38,7 @@ const styles = theme => ({
       textAlign: 'center'
     }
   },
-  signupButton: {
-    marginRight: 10
-  },
-  learnButton: {
-    color: '#624F8F !important',
-    background: 'none !important'
-  },
+
   buttons: {
     marginTop: '2vh',
     textAlign: 'center',
@@ -70,19 +64,21 @@ const styles = theme => ({
     textAlign: 'center',
     [theme.breakpoints.down('sm')]: {
       display: 'block',
-      margin: '25px auto 0 auto'
+      margin: '25px auto 0 auto !important'
     }
-  }
+  },
+  signupButton: {
+    marginRight: 10
+  },
+  learnButton: {
+    color: '#624F8F',
+    background: 'none'
+  },
 })
 
-const makeMass = () => 4 - window.scrollY / 200
-
-class DynamicHeader extends PureComponent {
+class DynamicCTA extends PureComponent {
   constructor(props) {
-    super(props)
-    this.state = {
-      mass: makeMass()
-    }
+    super()
   }
 
   static propTypes = {
@@ -91,18 +87,6 @@ class DynamicHeader extends PureComponent {
     onLearnMoreClick: T.func,
     text: T.string.isRequired,
     subtext: T.string.isRequired
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
-  }
-
-  handleScroll = () => {
-    this.setState({ mass: makeMass() })
   }
 
   render() {
@@ -122,7 +106,7 @@ class DynamicHeader extends PureComponent {
 
         <div className={ classes.buttons }>
           <button
-            id='sign-me-up-top'
+            id='sign-me-up-top-fold'
             className={ cns(classes.button, classes.signupButton, 'hvr-grow') }
             onClick={ this.props.onSignUpClick }
           >
@@ -144,4 +128,4 @@ class DynamicHeader extends PureComponent {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(DynamicHeader)
+export default withStyles(styles, { withTheme: true })(DynamicCTA)

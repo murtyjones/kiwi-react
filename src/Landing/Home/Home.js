@@ -72,7 +72,7 @@ class Home extends Component {
     return (
       <div key='homeContent' style={ styles.homeContentContainer }>
         <LoginLink onClick={ this.openLoginModal } />
-        <DynamicHeader />
+        <DynamicHeader openModal={ this.openRegisterModal } />
         <Experiment
           userIdentifier={ window.sessionStorage.getItem('SESSION_ID') }
           name='welcome'
