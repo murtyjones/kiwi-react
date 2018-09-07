@@ -28,7 +28,7 @@ const styles = theme => ({
     [theme.breakpoints.down('sm')]: {
       width: '90%',
       padding: 0,
-      margin: '61vh auto 0 auto',
+      margin: '55vh auto 0 auto',
       textAlign: 'center'
     }
   },
