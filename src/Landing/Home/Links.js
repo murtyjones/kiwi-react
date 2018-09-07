@@ -9,7 +9,7 @@ const styles = () => ({
     position: 'absolute'
     , top: 20
     , right: 25
-    , zIndex: 52 // just in front of dynamicHeader
+    , zIndex: 54 // just in front of dynamicHeader
     , color: '#FFF'
     , padding: '10px 30px'
     , borderRadius: 25

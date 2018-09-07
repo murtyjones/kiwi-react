@@ -12,41 +12,58 @@ const styles = theme => ({
     position: 'relative'
   },
   mainText: {
-    textAlign: 'right',
+    textAlign: 'center',
+    WebkitTextAlign: 'center',
     textAlignLast: 'center',
+    WebkitTextAlignLast: 'center',
     fontWeight: 'bold',
     fontSize: 'calc(12pt + 1.5vw)',
     color: '#624F8F',
-    marginTop: '50vh',
-    padding: '0 20px 0 51%',
+    marginTop: '61vh',
+    padding: '0 40px',
+    width: '55vw',
+    marginLeft: '45vw',
     boxSizing: 'border-box',
+    orphans: 2,
     [theme.breakpoints.down('sm')]: {
+      width: '90%',
       padding: 0,
+      margin: '61vh auto 0 auto',
       textAlign: 'center'
     }
   },
   subtext: {
     textAlign: 'center',
+    WebkitTextAlign: 'center',
+    WebkitTextAlignLast: 'center',
     fontWeight: 'bold',
     fontSize: 'calc(7pt + 0.7vw)',
     color: '#575757',
     marginTop: '2vh',
-    padding: '0 20px 0 52%',
+    padding: '0 70px',
+    width: '55vw',
+    marginLeft: '45vw',
     boxSizing: 'border-box',
+    orphans: 2,
     [theme.breakpoints.down('sm')]: {
-      padding: '0 25px',
+      maxWidth: 500,
+      width: '90%',
+      padding: 0,
+      margin: '2vh auto 0 auto',
       textAlign: 'center'
     }
   },
 
   buttons: {
-    marginTop: '2vh',
+    marginTop: '4vh',
     textAlign: 'center',
-    padding: '0 20px 0 55%',
+    WebkitTextAlign: 'center',
+    width: '55vw',
+    marginLeft: '45vw',
     boxSizing: 'border-box',
     [theme.breakpoints.down('sm')]: {
-      padding: '0 25px',
-      textAlign: 'center'
+      width: '90%',
+      margin: '4vh auto 0 auto',
     }
   },
   button: {
@@ -62,6 +79,7 @@ const styles = theme => ({
     cursor: 'pointer',
     zIndex: 51,
     textAlign: 'center',
+    WebkitTextAlign: 'center',
     [theme.breakpoints.down('sm')]: {
       display: 'block',
       margin: '25px auto 0 auto !important'
@@ -95,14 +113,15 @@ class DynamicCTA extends PureComponent {
     return (
       <div className={ classes.root }>
 
-        <div className={ classes.mainText }>
-          { text }
-        </div>
+        <div
+          className={ classes.mainText }
+          dangerouslySetInnerHTML={ { __html: text } }
+        />
 
-        <div className={ classes.subtext }>
-          { subtext }
-        </div>
-
+        <div
+          className={ classes.subtext }
+          dangerouslySetInnerHTML={ { __html: subtext } }
+        />
 
         <div className={ classes.buttons }>
           <button

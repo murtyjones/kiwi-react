@@ -62,8 +62,10 @@ class WelcomeSection2 extends Component {
     return (
       <div key='homePageOne' className={ classes.homePageOne }>
         <DynamicCTA
-          text='Learn the Hard Parts of Coding.'
-          subtext='Master the basics of programming language through guided lessons and projects. Explore and create with Kiwi! Ages 10+'
+          text={ `Learn the Hard Parts <nobr>of Coding.</nobr>` }
+          subtext={
+            `Master the basics of programming language through guided lessons and projects. Explore and create with Kiwi! <nobr>Ages 10+</nobr>`
+          }
           onSignUpClick={ this.props.openModal }
           onLearnMoreClick={ () => scrollTo(window.innerHeight - 60) }
         />
