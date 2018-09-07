@@ -42,7 +42,7 @@ export const lessonMapNavigationDataBySection = [
     adjacentSectionIndices: {
       [NAV_OPTIONS.UP]: null,
       [NAV_OPTIONS.LEFT]: null,
-      [NAV_OPTIONS.DOWN]: { sectionIndex: 1, unlocksSection: false /* Not ready yet */, requiresLessonsCompletion: true },
+      [NAV_OPTIONS.DOWN]: { sectionIndex: 1, unlocksSection: true, requiresLessonsCompletion: true },
       [NAV_OPTIONS.RIGHT]: { sectionIndex: 3, unlocksSection: false },
     }
   },
