@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
+import { Experiment, Variant } from '@marvelapp/react-ab-test'
 
 import '../../../assets/css/close.css'
 import './overrides.css'
 
 import { LoginLink } from './Links'
 import DynamicHeader from './DynamicHeader'
-import WelcomeSection from './WelcomeSection'
+import WelcomeSection1 from './WelcomeSection1'
+import WelcomeSection2 from './WelcomeSection2'
 import Body from './Body/Body'
 import Footer from '../../common/Footer/Footer'
 import ProviderRegisterModal from './ProviderRegisterModal/ProviderRegisterModal'
@@ -35,6 +37,7 @@ class Home extends Component {
     , scrollTo: T.func
     , openModal: T.func.isRequired
     , closeModal: T.func.isRequired
+    , history: T.object.isRequired
   }
 
   openLoginModal = () => {
@@ -69,8 +72,19 @@ class Home extends Component {
     return (
       <div key='homeContent' style={ styles.homeContentContainer }>
         <LoginLink onClick={ this.openLoginModal } />
-        <DynamicHeader />
-        <WelcomeSection openModal={ this.openRegisterModal } />
+        <DynamicHeader openModal={ this.openRegisterModal } />
+        <Experiment
+          userIdentifier={ window.sessionStorage.getItem('SESSION_ID') }
+          name='welcome'
+        >
+          <Variant name='A'>
+            <WelcomeSection1 openModal={ this.openRegisterModal } />
+          </Variant>
+          <Variant name='B'>
+            <WelcomeSection2 openModal={ this.openRegisterModal } />
+          </Variant>
+        </Experiment>
+
         <Body />
         <Footer openModal={ this.openRegisterModal } /> {/* Dont forget about the Footer on the about page*/}
       </div>

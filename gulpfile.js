@@ -12,6 +12,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware')
 const historyApiFallback = require('connect-history-api-fallback')
 const del = require('del')
 const rename = require('gulp-rename')
+const { hashElement } = require('folder-hash')
 
 
 const webpackLocalConfig = require('./webpack/webpack.config.local.js')
@@ -110,35 +111,43 @@ gulp.task('build:development', ['copy-public', 'copy-assets', 'write-version:dev
 // Stage build
 gulp.task('build:stage', ['copy-public', 'copy-assets', 'write-version:stage', 'webpack:build:stage'])
 
-const writeVersion = () => {
+const writeVersion = async () => {
   const modifyFile = require('gulp-modify-file')
-  const version = require('./version')
+
+  const options = {
+    folders: { exclude: ['.*'/*dotfiles*/] },
+    files: { include: ['*.js', '*.json'] }
+  };
+
+  let r = await hashElement('./src', options)
+  r = r.hash.substring(0, 7)
+
   gulp.src('build/index.html')
     .pipe(modifyFile((content, path, file) => {
-      return content.replace('main.bundle.js', `main.${version}.bundle.js`)
+      return content.replace('main.bundle.js', `main.${r}.bundle.js`)
     }))
     .pipe(gulp.dest('./build'))
   gulp.src('./build/build/js/main.bundle.js')
-    .pipe(rename(`./build/build/js/main.${version}.bundle.js`))
+    .pipe(rename(`./build/build/js/main.${r}.bundle.js`))
     .pipe(gulp.dest('./'))
   gulp.src('./build/build/js/main.bundle.js.map')
-    .pipe(rename(`./build/build/js/main.${version}.bundle.js.map`))
+    .pipe(rename(`./build/build/js/main.${r}.bundle.js.map`))
     .pipe(gulp.dest('./'))
   return del([
     './build/build/js/main.bundle.js*'
   ])
 }
 
-gulp.task('write-version:production', ['copy-public', 'webpack:build:production'], function () {
-  writeVersion()
+gulp.task('write-version:production', ['copy-public', 'webpack:build:production'], async () => {
+  await writeVersion()
 })
 
-gulp.task('write-version:development', ['copy-public', 'webpack:build:development'], function () {
-  writeVersion()
+gulp.task('write-version:development', ['copy-public', 'webpack:build:development'], async () => {
+  await writeVersion()
 })
 
-gulp.task('write-version:stage', ['copy-public', 'webpack:build:stage'], function () {
-  writeVersion()
+gulp.task('write-version:stage', ['copy-public', 'webpack:build:stage'], async () => {
+  await writeVersion()
 })
 
 gulp.task('copy-public', ['clean'], function () {

@@ -99,6 +99,14 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@marvelapp/react-ab-test@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@marvelapp/react-ab-test/-/react-ab-test-2.1.1.tgz#26261b7026d14b6545ae2a87322cd465b45a2c7f"
+  dependencies:
+    fbemitter "^2.0.2"
+    fbjs "^0.8.0"
+    prop-types "^15.6.0"
+
 "@material-ui/core@^1.0.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-1.4.0.tgz#e535fef84576b096c46e1fb7d6c4c61895155fd3"
@@ -3394,7 +3402,13 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.1, fbjs@^0.8.16, fbjs@^0.8.9:
+fbemitter@^2.0.2:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/fbemitter/-/fbemitter-2.1.1.tgz#523e14fdaf5248805bb02f62efc33be703f51865"
+  dependencies:
+    fbjs "^0.8.4"
+
+fbjs@^0.8.0, fbjs@^0.8.1, fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -3539,6 +3553,14 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
+
+folder-hash@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/folder-hash/-/folder-hash-2.1.1.tgz#fab671f3c0addbda10ba05827935046f4368e189"
+  dependencies:
+    debug "^3.1.0"
+    graceful-fs "~4.1.11"
+    minimatch "~3.0.4"
 
 follow-redirects@^1.2.5:
   version "1.5.1"
@@ -3856,7 +3878,7 @@ graceful-fs@^3.0.0:
   dependencies:
     natives "^1.1.0"
 
-graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
+graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@~4.1.11:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -5870,7 +5892,7 @@ minimatch@1.0.x:
     lru-cache "2"
     sigmund "~1.0.0"
 
-"minimatch@2 || 3", minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4:
+"minimatch@2 || 3", minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4, minimatch@~3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   dependencies:

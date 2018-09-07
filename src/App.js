@@ -6,6 +6,7 @@ import WebFont from 'webfontloader'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import LegacyMuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import moment from 'moment'
 
 // hover.css library
 import '../assets/css/hover.css'
@@ -65,11 +66,12 @@ const theme = createMuiTheme({
 class App extends Component {
   constructor(props) {
     super(props)
+    window.sessionStorage.setItem('SESSION_ID', moment.utc().format())
   }
+
   static propTypes = {
     store: T.object.isRequired
   }
-
 
   render() {
     const { store } = this.props

@@ -1,12 +1,36 @@
 import React, { PureComponent } from 'react'
+import * as T from 'prop-types'
 import cns from 'classnames'
+import withStyles from '@material-ui/core/styles/withStyles'
 
-export default class DynamicHeader extends PureComponent {
+const styles = theme => ({
+  signupButtonHeader: {
+    padding: '5px 10px',
+    borderRadius: '25px',
+    position: 'absolute',
+    top: '50%',
+    right: 20,
+    zIndex: 53,
+    color: 'white',
+    border: '2px solid white',
+    background: 'none',
+    height: 29,
+    marginTop: -15,
+    cursor: 'pointer'
+  }
+})
+
+class DynamicHeader extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       showBackground: false
     }
+  }
+
+  static propTypes = {
+    classes: T.object,
+    openModal: T.func,
   }
 
   componentDidMount() {
@@ -27,6 +51,7 @@ export default class DynamicHeader extends PureComponent {
   }
 
   render() {
+    const { classes } = this.props
     const { showBackground } = this.state
 
     const logoUrl = showBackground
@@ -44,7 +69,18 @@ export default class DynamicHeader extends PureComponent {
           className='homeLogo'
           src={ logoUrl}
         />
+        { showBackground &&
+          <button
+            id='sign-me-up-header'
+            className={ cns(classes.signupButtonHeader,'hvr-grow') }
+            onClick={ this.props.openModal }
+          >
+            Start for Free
+          </button>
+        }
       </div>
     )
   }
 }
+
+export default withStyles(styles, { withTheme: true })(DynamicHeader)
