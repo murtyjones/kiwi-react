@@ -108,11 +108,10 @@ class ProviderRegisterModal extends Component {
     })
 
 
-    // update billing info
+    // creare customer in stripe
     await this.props.putProfile({
       _id: providerProfileObject._id,
       updateBilling: true,
-      stripeCreditCardToken: stripeCreditCardToken,
       v: providerProfileObject.v
     })
 
@@ -134,18 +133,18 @@ class ProviderRegisterModal extends Component {
       this.props.putSubscription({
         id: subscription._id,
         status: SUBSCRIPTION_STATUSES.ACTIVE,
+        requiresPayment: false,
         v: subscription.v,
       })
     )
 
     await BluebirdPromise.all(activateSubcriptionPromises)
-  }
-
-  // redirect to dashboard
-  onFinalSubmit = async () => {
     this.props.history.push(`/provider/subscriptions`)
     this.props.closeModal()
   }
+
+  // redirect to dashboard
+  onFinalSubmit = async () => {}
 
   handleSubmit = async v => {
     const { activeSlideIndex } = this.state

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import * as T from 'prop-types'
 import Link from 'react-router-dom/Link'
 import withStyles from '@material-ui/core/styles/withStyles'
-import { Field, reduxForm, SubmissionError } from 'redux-form'
-import Button from '@material-ui/core/Button'
+import { Field, getFormValues, reduxForm, SubmissionError } from 'redux-form'
+import { connect } from 'react-redux'
 import get from 'lodash/get'
 import { injectStripe } from 'react-stripe-elements'
 
@@ -14,6 +14,7 @@ import CardField from '../../common/form/payment/CardField'
 import states from '../../utils/statesArray'
 import { cardValid, required } from '../../utils/validationUtils'
 import SubmitButton from '../../common/form/SubmitButton'
+import { COUPON_LANGUAGE, COUPONS } from '../../constants'
 
 export const formName = 'providerDashboard-billing'
 
@@ -41,6 +42,7 @@ class BillingForm extends Component {
 
   static propTypes = {
     initialValues: T.object.isRequired
+    , formValues: T.object.isRequired
     , handleSubmit: T.func.isRequired
     , onVerificationEmailClick: T.func.isRequired
     , last4: T.string
@@ -63,6 +65,7 @@ class BillingForm extends Component {
     const { onSubmit, last4 } = this.props
     const { changingCard } = this.state
     try {
+      console.log(v)
       const params = {
         name: v.name,
         address_line1: v.addressLine1,
@@ -73,8 +76,13 @@ class BillingForm extends Component {
       }
       if (changingCard || !last4) {
         const result = await this.props.stripe.createToken(params)
-        return onSubmit({ ...params, stripeCreditCardToken: result.token.id })
+        params.discountCode = v.discountCode
+        return onSubmit({
+          ...params,
+          stripeCreditCardToken: result.token.id
+        })
       }
+      params.discountCode = v.discountCode
       return onSubmit(params)
     } catch(err) {
       console.log(err)
@@ -83,6 +91,11 @@ class BillingForm extends Component {
       }
       throw new SubmissionError({ _error: err.message })
     }
+  }
+
+  getDiscountCodeLanguage = () => {
+    const { formValues: { discountCode } } = this.props
+    return COUPON_LANGUAGE[discountCode]
   }
 
   render() {
@@ -132,6 +145,14 @@ class BillingForm extends Component {
           options={ states }
           validate={ [ required ] }
         />
+        <Field
+          name='discountCode'
+          component={ KiwiTextField }
+          label='(Optional) Discount Code'
+          normalize={ normalizeDiscountCode }
+          successText={ this.getDiscountCodeLanguage() }
+          validate={ [ validateCoupon ] }
+        />
         { !!last4 && !changingCard
           ?
           <div className='changeCardsContainer'>
@@ -179,6 +200,22 @@ class BillingForm extends Component {
     )
   }
 }
+
+const validateCoupon = value => (!value || Object.values(COUPONS).includes(value)) ? undefined : 'Invalid coupon'
+
+const normalizeDiscountCode = value => {
+  if (!value) {
+    return value
+  }
+
+  return value.toUpperCase()
+}
+
+BillingForm = connect(
+  state => ({
+    formValues: getFormValues(formName)(state)
+  })
+)(BillingForm)
 
 BillingForm = injectStripe(reduxForm({
   form: formName

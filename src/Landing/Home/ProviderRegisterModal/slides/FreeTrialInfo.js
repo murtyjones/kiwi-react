@@ -40,13 +40,12 @@ class FreeTrialInfo extends Component {
       <SlideInOut>
         <div className='providerRegisterForm-slide'>
           <div className={ classes.root }>
-            Enjoy Kiwi on us for your first seven days.<br />
+            Enjoy Kiwi for free for your first seven days.<br />
             <br />
-            After that, you'll be charged ${ monthlySubscription } per student, per month.<br />
-            <br />
-            Change your mind? Cancel before { whenToCancel } to avoid being charged.<br />
+            After that, you'll need to add your credit card information to continue using Kiwi.<br />
             <h4 className={ cns(classes.sellingPoint, classes.first) }>No commitments.</h4>
             <h4 className={ classes.sellingPoint }>Cancel at any time.</h4>
+            <h4 className={ classes.sellingPoint }>Just {monthlySubscription} USD / mo.</h4>
           </div>
         </div>
       </SlideInOut>
