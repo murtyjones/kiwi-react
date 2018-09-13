@@ -4,6 +4,8 @@ import BluebirdPromise from 'bluebird'
 import withRouter from 'react-router-dom/withRouter'
 import { connect } from 'react-redux'
 import has from 'lodash/has'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 
 import Link from 'react-router-dom/Link'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -24,6 +26,8 @@ import { MENU_ITEMS } from './Navigation/DrawerContents'
 import withoutMainNavigation from '../hocs/withoutMainNavigation'
 import { AccountInfo, PaymentInfo, ExploreTechIsland } from './HotLinks/HotLinks'
 import NeedHelp from './NeedHelp'
+import SlideOutCard from '../common/SlideOutCard'
+import { oceanBlue, blue } from '../colors'
 
 const errorColor = '#FF5472'
 const successColor = '#52cc4a'
@@ -58,6 +62,15 @@ const styles = () => ({
   sent: {
     color: successColor
   },
+  goToBillingLink: {
+    color: blue,
+    textDecoration: 'underline',
+    cursor: 'pointer',
+    '&:hover': {
+      color: blue,
+      textDecoration: 'none',
+    }
+  },
   '@global': {
     "div[role='menu']": {
       padding: '0 !important'
@@ -91,6 +104,7 @@ class ProviderDashboard extends PureComponent {
     , closeTopBar: T.func
     , history: T.any
     , location: T.any
+    , hasPaymentOnFile: T.bool.isRequired
     , getProfileDetails: T.func.isRequired
     , getManySubscriptions: T.func.isRequired
     , resendVerificationEmail: T.func.isRequired
@@ -138,11 +152,10 @@ class ProviderDashboard extends PureComponent {
   }
 
   render() {
-    const { classes, profile } = this.props
+    const { classes, profile, hasPaymentOnFile } = this.props
     const { activeIndex, mobileOpen, isEmailSent } = this.state
     const activeMenuItemObject = MENU_ITEMS[activeIndex]
     const ActiveMenuItemComponent = activeMenuItemObject.component
-
 
     return (
       <Fragment>
@@ -152,6 +165,16 @@ class ProviderDashboard extends PureComponent {
           handleDrawerToggle={ this.handleDrawerToggle }
         />
         <div className={ classes.container }>
+          <SlideOutCard
+            showCard={ !hasPaymentOnFile }
+            headerText='Enjoy your free trial!'
+            bodyNode={
+              <p>
+                Remember, if you want to have access to Kiwi after your trial is over,
+                just head <Link className={ classes.goToBillingLink } to='/provider/billing'>here</Link> to enter your payment information.<br />
+              </p>
+            }
+          />
           <DashboardHeader
             mainMessage={ profile.firstName ? `Hi ${profile.firstName}!` : 'Hello there!' }
             subMessage={ !profile.isEmailVerified
@@ -189,9 +212,11 @@ class ProviderDashboard extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const { auth: { userId }, profiles: { profilesById } } = state
   const profile = profilesById[userId] || {}
+  const hasPaymentOnFile = isEmpty(profile) || get(profile, 'billing.sources.data', []).length > 0
   return {
     profile,
-    userId
+    userId,
+    hasPaymentOnFile
   }
 }
 
