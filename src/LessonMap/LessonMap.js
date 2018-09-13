@@ -16,7 +16,7 @@ import { darkerGrey } from '../colors'
 import MapNavigationControls from './MapNavigationControls'
 import MapViewport from './MapViewport'
 import MapSection from './MapSection'
-import AllCompletedCard from './AllCompletedCard'
+import SlideOutCard from '../common/SlideOutCard'
 import { lessonMapImagesBySection } from './LESSON_CONSTANTS'
 
 const styles = theme => ({
@@ -121,8 +121,17 @@ class LessonMap extends Component {
             activeLessonId={ activeLessonId }
             activeSectionIndex={ activeSectionIndex }
           />
-          <AllCompletedCard
+          <SlideOutCard
             showCard={ !isNextSectionOrSectionsUnlocked && isLastLessonInSectionComplete && isFinalSection }
+            headerText='Carl is proud of you!'
+            bodyNode={
+              <p>
+                You're such a blazing fast coder that you've completed all of our open
+                map sections!<br />
+                <br />
+                Check back soon to continue your adventure!
+              </p>
+            }
           />
         </MapViewport>
       </div>

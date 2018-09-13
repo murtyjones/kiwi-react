@@ -3,7 +3,6 @@ import * as T from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import posed from 'react-pose'
 
-import setTimeoutAsync from '../utils/setTimeoutAsync'
 import { lightPurple, purple } from '../colors'
 
 const HIDDEN = 'HIDDEN'
@@ -32,12 +31,16 @@ const styles = () => ({
     cursor: 'pointer',
     color: '#FFF',
     position: 'absolute',
+    zIndex: 100,
     top: '15%',
     left: 0,
     width: cardWidth,
     height: cardHeight,
     backgroundColor: purple,
-    clipPath
+    clipPath,
+    '& p': {
+      margin: 0
+    }
   },
   inset1: {
     position: 'absolute',
@@ -87,7 +90,7 @@ const styles = () => ({
   }
 })
 
-let Card = ({ hostRef, classes, onClick }) =>
+let Card = ({ hostRef, classes, onClick, headerText, bodyNode }) =>
   <div ref={ hostRef } onClick={ onClick } className={ classes.root }>
     <div className={ classes.inset1 }>
       <div className={ classes.inset2 }>
@@ -95,12 +98,11 @@ let Card = ({ hostRef, classes, onClick }) =>
           src='https://res.cloudinary.com/kiwi-prod/image/upload/v1532807288/Carl%20Heads/Carl_happy_4.svg'
         />
         <div className={ classes.messageContainer }>
-          <h2 className={ classes.header }>Carl is proud of you!</h2>
-          <div className={ classes.message }>
-            You're such a blazing fast coder that you've completed all of our open
-            map sections!<br />
-            <br />
-            Check back soon to continue your adventure!
+          <h2 className={ classes.header }>{ headerText }</h2>
+          <div
+            className={ classes.message }
+          >
+            { bodyNode }
           </div>
           <span className={ classes.close }>CLOSE</span>
         </div>
@@ -123,7 +125,7 @@ Card = posed(Card)({
   },
 })
 
-class AllCompletedCard extends Component {
+class SlideOutCard extends Component {
   constructor(props) {
     super()
 
@@ -141,6 +143,8 @@ class AllCompletedCard extends Component {
   static propTypes = {
     showCard: T.bool.isRequired,
     classes: T.object.isRequired,
+    headerText: T.string.isRequired,
+    bodyNode: T.any.isRequired,
   }
 
   toggleTucking = () => {
@@ -149,19 +153,21 @@ class AllCompletedCard extends Component {
   }
 
   render () {
-    const { classes } = this.props
+    const { classes, headerText, bodyNode } = this.props
     const { pose } = this.state
 
     return (
       <Card
         pose={ pose }
-        classes={ classes}
+        classes={ classes }
         onClick={ this.toggleTucking }
+        headerText={ headerText }
+        bodyNode={ bodyNode }
       />
     )
   }
 }
 
-AllCompletedCard = withStyles(styles)(AllCompletedCard)
+SlideOutCard = withStyles(styles)(SlideOutCard)
 
-export default AllCompletedCard
+export default SlideOutCard
