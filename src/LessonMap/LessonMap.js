@@ -98,8 +98,6 @@ class LessonMap extends Component {
     const isLastLessonInSectionComplete = lessonUtils.getIsLastLessonInSectionCompleted(activeSectionIndex, orderedCombinedLessonData)
     const isFinalSection = lessonUtils.getIsFinalSection(activeSectionIndex)
 
-    console.log(!isNextSectionOrSectionsUnlocked, isLastLessonInSectionComplete, isFinalSection)
-
     if (loading) {
       return (
         <LoadingIcon />
