@@ -50,7 +50,7 @@ export const lessonMapNavigationDataBySection = [
     adjacentSectionIndices: {
       [NAV_OPTIONS.UP]: { sectionIndex: 0, unlocksSection: true, requiresLessonsCompletion: false },
       [NAV_OPTIONS.LEFT]: null,
-      [NAV_OPTIONS.DOWN]: { sectionIndex: 2, unlocksSection: true, requiresLessonsCompletion: true },
+      [NAV_OPTIONS.DOWN]: { sectionIndex: 2, unlocksSection: false/*true not ready yet*/, requiresLessonsCompletion: true },
       [NAV_OPTIONS.RIGHT]: { sectionIndex: 4, unlocksSection: false, requiresLessonsCompletion: true },
     }
   }
