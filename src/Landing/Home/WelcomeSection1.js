@@ -13,21 +13,23 @@ const styles = theme => ({
     , width: '100%'
     , position: 'relative'
     , overflow: 'hidden'
-    , backgroundColor: '#F2F2F2'
-    // }
+    , backgroundColor: '#F1F1F1'
   },
   background: {
     height: '100vh'
     , width: '100vw'
-    , opacity: 0.3
-    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1536266320/Landing%20Page/mom_and_son.png)'
-    , backgroundPosition: 'center'
+    , opacity: 1.0
+    , backgroundImage: 'url(https://res.cloudinary.com/kiwi-prod/image/upload/v1537386999/Landing%20Page/Man_Asset_1_jxl1wc.svg)'
+    , backgroundPosition: 'bottom right'
     , backgroundRepeat: 'no-repeat'
-    , backgroundSize: 'cover'
     , position: 'absolute'
     , top: 0
     , left: 0
     , zIndex: 50
+    , backgroundSize: '55%'
+    , [theme.breakpoints.down('sm')]: {
+      backgroundSize: 'auto 40%'
+    }
   },
   image: {
     minHeight: '100vh'

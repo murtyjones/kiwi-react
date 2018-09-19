@@ -19,16 +19,16 @@ const styles = theme => ({
     fontWeight: 'bold',
     fontSize: 'calc(12pt + 1.5vw)',
     color: '#624F8F',
-    marginTop: '61vh',
+    marginTop: '45vh',
     padding: '0 40px',
     width: '55vw',
-    marginLeft: '45vw',
+    marginRight: '45vw',
     boxSizing: 'border-box',
     orphans: 2,
     [theme.breakpoints.down('sm')]: {
       width: '90%',
       padding: 0,
-      margin: '55vh auto 0 auto',
+      margin: '25vh auto 0 auto',
       textAlign: 'center'
     }
   },
@@ -42,7 +42,7 @@ const styles = theme => ({
     marginTop: '2vh',
     padding: '0 70px',
     width: '55vw',
-    marginLeft: '45vw',
+    marginRight: '45vw',
     boxSizing: 'border-box',
     orphans: 2,
     [theme.breakpoints.down('sm')]: {
@@ -59,7 +59,7 @@ const styles = theme => ({
     textAlign: 'center',
     WebkitTextAlign: 'center',
     width: '55vw',
-    marginLeft: '45vw',
+    marginRight: '45vw',
     boxSizing: 'border-box',
     [theme.breakpoints.down('sm')]: {
       width: '90%',
@@ -90,7 +90,7 @@ const styles = theme => ({
   },
   learnButton: {
     color: '#624F8F',
-    background: 'none'
+    background: '#FFFFFF'
   },
 })
 
