@@ -90,7 +90,7 @@ const styles = theme => ({
   },
   learnButton: {
     color: '#624F8F',
-    background: 'none'
+    background: '#FFFFFF'
   },
 })
 
