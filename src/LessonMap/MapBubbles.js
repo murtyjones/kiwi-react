@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import * as T from 'prop-types'
 import cns from 'classnames'
-import find from 'lodash/find'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { lessonBubbleDisplayDataBySection } from './LESSON_CONSTANTS'
 import * as lessonUtils from './lessonUtils'
@@ -25,7 +24,6 @@ class MapBubbles extends Component {
 
   render() {
     const { classes, activeLessonId, sectionIndex, lessonJustCompletedId, orderedCombinedLessonData } = this.props
-
     const sectionLessonsBubbleDisplayData = lessonBubbleDisplayDataBySection[sectionIndex]
     const sectionStartingLessonIndex = lessonUtils.getSectionStartingLessonIndex(sectionIndex)
 

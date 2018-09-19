@@ -150,13 +150,13 @@ let MapBubble = props => {
 
   const order = i + 1
   const isLatestActive = activeLessonId === combinedLessonUserLesson.lesson._id
-  const isAvailable = activeLessonId && LESSON_STATUSES.AVAILABLE === getLessonStatus(orderedCombinedLessonData, _id, activeLessonId)
   const isNext = activeLessonId && get(orderedCombinedLessonData, `[${i - 1}].lesson._id`, '') === activeLessonId
   const completionPercentage = get(userLesson, 'trueCompletionPercentage', 0)
   const isJustCompleted = lessonJustCompletedId && lessonJustCompletedId === lesson._id
   const isLeftLabel = left !== undefined ? left : x > 50
-  const message = isAvailable ? lesson.title : 'Locked!'
   const hasBeenCompleted = get(userLesson, 'hasBeenCompleted', false)
+  const isAvailable = hasBeenCompleted || activeLessonId && LESSON_STATUSES.AVAILABLE === getLessonStatus(orderedCombinedLessonData, _id, activeLessonId)
+  const message = isAvailable ? lesson.title : 'Locked!'
 
   if (combinedLessonUserLesson.isPlaceholder)
     return null
