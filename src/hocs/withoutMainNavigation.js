@@ -39,11 +39,10 @@ export default function withoutMainNavigation(WrappedComponent, options = {}) {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      openTopBar: () => dispatch(openTopBar())
-      , closeTopBar: () => dispatch(closeTopBar())
+      openTopBar: () => dispatch(openTopBar()),
+      closeTopBar: () => dispatch(closeTopBar()),
     }
   }
 
   return withRouter(connect(mapStateToProps, mapDispatchToProps)(HOC))
 }
-
