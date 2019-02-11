@@ -1,22 +1,5 @@
 {
-  "hosting": {
-    "public": "build",
-    "ignore": [],
-    "redirects": [
-      {
-        "source": "/index.html",
-        "destination": "/maintenance.html",
-        "type": 307
-      }
-    ],
-    "headers": [
-      {
-        "source": "/maintenance.html",
-        "headers": [ {
-          "key": "status",
-          "value": "503"
-        } ]
-      }
-    ]
+  "projects": {
+
   }
 }
